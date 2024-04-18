@@ -32,22 +32,6 @@ jobs:
                   node-version: 18.x
                   cache: 'npm'
 
-            - name: 'Generate action link comment'
-              id: generate_action_url
-              uses: actions/github-script@ffc2c79a5b2490bd33e0a41c1de74b877714d736
-              with:
-                  github-token: ${{ github.token }}
-                  script: |
-                      const action_url = "${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}"
-                      const comment = [
-                          '| Name | Result |',
-                          '| :--- | :------ |',
-                          `| **Build status**  | Building 🔨 |`,
-                          `| **Action URL**  | [Visit Action](${action_url}) |`,
-                          ''
-                        ].join('\n')
-                      core.setOutput("comment", comment);
-
             - name: Post Cloudflare Pages Preview comment
               uses: marocchino/sticky-pull-request-comment@efaaab3fd41a9c3de579aba759d2552635e590fd
               with:

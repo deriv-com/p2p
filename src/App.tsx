@@ -1,4 +1,4 @@
 const App = () => {
-    return <div />;
+    return <div>Deriv P2P</div>;
 };
 export default App;
