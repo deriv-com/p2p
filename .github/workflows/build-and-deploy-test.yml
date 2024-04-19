@@ -89,7 +89,7 @@ jobs:
                   npm i -g wrangler
                   echo "Deploying build to Cloudflare Pages"
                   directory='public'
-                  projectName=${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+                  projectName=${{ vars.CLOUDFLARE_PROJECT_NAME }}
                   branch=$(echo "$HEAD_BRANCH" | head -c 20 | sed 's/[\/_\.]/-/g; s/[^a-zA-Z0-9]$/1/')
                   cf_preview_url=$(wrangler pages deploy $directory --project-name=$projectName --branch=$branch > log.txt 2>&1; echo $?)
                   echo "------"
