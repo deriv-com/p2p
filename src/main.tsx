@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { AppDataProvider } from '@deriv-com/api-hooks';
