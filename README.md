@@ -1,6 +1,6 @@
 # Create Deriv V2
 
-This template was generated using `create-deriv-v2`
+This template was generated using `create-deriv-v2`.
 
 ## Getting started
 
