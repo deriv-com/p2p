@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-namespace */
-import { p2p, useServerTime } from '@deriv/api-v2';
+import { useServerTime } from '@deriv/api-v2';
 
-import { useAdvertiserStats } from '@/hooks';
+import { api } from '@/hooks';
+import { useAdvertiserStats } from '@/hooks/custom-hooks';
 
 declare global {
     interface WindowEventMap {
@@ -54,53 +55,53 @@ export type TRoutes = `${typeof prefix}/cashier/p2p-v2` | `${typeof prefix}`;
 
 export namespace THooks {
     export namespace AdvertiserAdverts {
-        export type Get = NonNullable<ReturnType<typeof p2p.advertiserAdverts.useGet>['data']>;
+        export type Get = NonNullable<ReturnType<typeof api.advertiserAdverts.useGet>['data']>;
     }
     export namespace Advert {
-        export type Get = NonNullable<ReturnType<typeof p2p.advert.useGet>['data']>;
-        export type GetList = NonNullable<ReturnType<typeof p2p.advert.useGetList>['data']>;
-        export type Create = NonNullable<ReturnType<typeof p2p.advert.useCreate>['data']>;
-        export type Update = NonNullable<ReturnType<typeof p2p.advert.useUpdate>['data']>;
-        export type Delete = NonNullable<ReturnType<typeof p2p.advert.useDelete>['data']>;
+        export type Get = NonNullable<ReturnType<typeof api.advert.useGet>['data']>;
+        export type GetList = NonNullable<ReturnType<typeof api.advert.useGetList>['data']>;
+        export type Create = NonNullable<ReturnType<typeof api.advert.useCreate>['data']>;
+        export type Update = NonNullable<ReturnType<typeof api.advert.useUpdate>['data']>;
+        export type Delete = NonNullable<ReturnType<typeof api.advert.useDelete>['data']>;
     }
     export namespace Advertiser {
-        export type GetInfo = NonNullable<ReturnType<typeof p2p.advertiser.useGetInfo>['data']>;
-        export type GetList = NonNullable<ReturnType<typeof p2p.advertiser.useGetList>['data']>;
-        export type Create = NonNullable<ReturnType<typeof p2p.advertiser.useCreate>['data']>;
-        export type Update = NonNullable<ReturnType<typeof p2p.advertiser.useUpdate>['data']>;
+        export type GetInfo = NonNullable<ReturnType<typeof api.advertiser.useGetInfo>['data']>;
+        export type GetList = NonNullable<ReturnType<typeof api.advertiser.useGetList>['data']>;
+        export type Create = NonNullable<ReturnType<typeof api.advertiser.useCreate>['data']>;
+        export type Update = NonNullable<ReturnType<typeof api.advertiser.useUpdate>['data']>;
     }
     export namespace Counterparty {
-        export type Get = NonNullable<ReturnType<typeof p2p.counterparty.useGet>['data']>;
-        export type Block = NonNullable<ReturnType<typeof p2p.counterparty.useBlock>['data']>;
-        export type Unblock = NonNullable<ReturnType<typeof p2p.counterparty.useUnblock>['data']>;
+        export type Get = NonNullable<ReturnType<typeof api.counterparty.useGet>['data']>;
+        export type Block = NonNullable<ReturnType<typeof api.counterparty.useBlock>['data']>;
+        export type Unblock = NonNullable<ReturnType<typeof api.counterparty.useUnblock>['data']>;
     }
     export namespace OrderDispute {
-        export type Dispute = NonNullable<ReturnType<typeof p2p.orderDispute.useDispute>['data']>;
+        export type Dispute = NonNullable<ReturnType<typeof api.orderDispute.useDispute>['data']>;
     }
     export namespace Order {
-        export type Cancel = NonNullable<ReturnType<typeof p2p.order.useCancel>['data']>;
-        export type Confirm = NonNullable<ReturnType<typeof p2p.order.useConfirm>['data']>;
-        export type Create = NonNullable<ReturnType<typeof p2p.order.useCreate>['data']>;
-        export type Get = NonNullable<ReturnType<typeof p2p.order.useGet>['data']>;
-        export type GetList = NonNullable<ReturnType<typeof p2p.order.useGetList>['data']>;
+        export type Cancel = NonNullable<ReturnType<typeof api.order.useCancel>['data']>;
+        export type Confirm = NonNullable<ReturnType<typeof api.order.useConfirm>['data']>;
+        export type Create = NonNullable<ReturnType<typeof api.order.useCreate>['data']>;
+        export type Get = NonNullable<ReturnType<typeof api.order.useGet>['data']>;
+        export type GetList = NonNullable<ReturnType<typeof api.order.useGetList>['data']>;
     }
     export namespace PaymentMethods {
-        export type Get = NonNullable<ReturnType<typeof p2p.paymentMethods.useGet>['data']>;
+        export type Get = NonNullable<ReturnType<typeof api.paymentMethods.useGet>['data']>;
     }
     export namespace AdvertiserPaymentMethods {
-        export type Get = NonNullable<ReturnType<typeof p2p.advertiserPaymentMethods.useGet>['data']>;
-        export type Create = NonNullable<ReturnType<typeof p2p.advertiserPaymentMethods.useCreate>['data']>;
-        export type Update = NonNullable<ReturnType<typeof p2p.advertiserPaymentMethods.useUpdate>['data']>;
-        export type Delete = NonNullable<ReturnType<typeof p2p.advertiserPaymentMethods.useDelete>['data']>;
+        export type Get = NonNullable<ReturnType<typeof api.advertiserPaymentMethods.useGet>['data']>;
+        export type Create = NonNullable<ReturnType<typeof api.advertiserPaymentMethods.useCreate>['data']>;
+        export type Update = NonNullable<ReturnType<typeof api.advertiserPaymentMethods.useUpdate>['data']>;
+        export type Delete = NonNullable<ReturnType<typeof api.advertiserPaymentMethods.useDelete>['data']>;
     }
     export namespace Settings {
-        export type Get = NonNullable<ReturnType<typeof p2p.settings.useGetSettings>['data']>;
+        export type Get = NonNullable<ReturnType<typeof api.settings.useGetSettings>['data']>;
     }
     export namespace Country {
-        export type Get = NonNullable<ReturnType<typeof p2p.countryList.useGet>['data']>;
+        export type Get = NonNullable<ReturnType<typeof api.countryList.useGet>['data']>;
     }
 }
-export type TOrders = NonNullable<ReturnType<typeof p2p.order.useGetList>['data']>;
+export type TOrders = NonNullable<ReturnType<typeof api.order.useGetList>['data']>;
 
 export type TStep = {
     header: {
@@ -110,3 +111,19 @@ export type TStep = {
 };
 
 export type TCountryListItem = THooks.Country.Get;
+
+export type DeepPartial<T> = T extends string | number | bigint | boolean | null | undefined | symbol | Date
+    ? T | undefined
+    : T extends Array<infer ArrayType>
+      ? Array<DeepPartial<ArrayType>>
+      : T extends ReadonlyArray<infer ArrayType>
+        ? ReadonlyArray<ArrayType>
+        : T extends Set<infer SetType>
+          ? Set<DeepPartial<SetType>>
+          : T extends ReadonlySet<infer SetType>
+            ? ReadonlySet<SetType>
+            : T extends Map<infer KeyType, infer ValueType>
+              ? Map<DeepPartial<KeyType>, DeepPartial<ValueType>>
+              : T extends ReadonlyMap<infer KeyType, infer ValueType>
+                ? ReadonlyMap<DeepPartial<KeyType>, DeepPartial<ValueType>>
+                : { [K in keyof T]?: DeepPartial<T[K]> };
