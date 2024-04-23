@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
-
 import { RadioGroupFilterModal } from '@/components/Modals';
 import { ADVERT_TYPE, BUY_SELL, SORT_BY_LIST } from '@/constants';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { TSortByValues } from '@/utils';
-
 import { BuySellHeader } from '../BuySellHeader';
-
 import { BuySellTableRenderer } from './BuySellTableRenderer';
-
 import './BuySellTable.scss';
 
 const TABS = [ADVERT_TYPE.BUY, ADVERT_TYPE.SELL];
@@ -51,7 +47,7 @@ const BuySellTable = () => {
     }, [p2pSettingsData?.localCurrency]);
 
     return (
-        <div className='p2p-buy-sell-table h-full w-full relative flex flex-col'>
+        <div className='buy-sell-table h-full w-full relative flex flex-col'>
             <BuySellHeader
                 activeTab={activeTab}
                 selectedCurrency={selectedCurrency}

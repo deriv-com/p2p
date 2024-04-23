@@ -1,9 +1,9 @@
-.p2p-order-details-complain-modal-radio-group {
-    &:not(.p2p-radio-group__item) {
+.order-details-complain-modal-radio-group {
+    &:not(.radio-group__item) {
         display: inline;
     }
 
-    .p2p-radio-group__item {
+    .radio-group__item {
         border-bottom: 1px solid #f2f3f4;
         padding: 1.6rem 0;
 
@@ -12,7 +12,7 @@
             padding-right: 1.6rem;
         }
 
-        & .p2p-radio-group__circle {
+        & .radio-group__circle {
             align-self: unset;
             border-color: #999999;
 

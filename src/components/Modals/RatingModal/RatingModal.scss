@@ -1,4 +1,4 @@
-.p2p-rating-modal {
+.rating-modal {
     height: auto;
     width: 44rem;
     border-radius: 8px;
@@ -28,7 +28,7 @@
             display: flex;
             justify-content: center;
 
-            & .p2p-star-rating {
+            & .star-rating {
                 & svg {
                     margin-right: 0.7rem;
                 }

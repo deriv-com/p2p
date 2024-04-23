@@ -1,4 +1,4 @@
-.p2p-order-details-complain-modal {
+.order-details-complain-modal {
     width: 44rem;
     &__body {
         padding: 1.6rem;
@@ -25,7 +25,7 @@
         z-index: 1;
         height: calc(100vh - 8rem);
 
-        & .p2p-mobile-wrapper__body {
+        & .mobile-wrapper__body {
             padding: 0 1.6rem;
         }
 

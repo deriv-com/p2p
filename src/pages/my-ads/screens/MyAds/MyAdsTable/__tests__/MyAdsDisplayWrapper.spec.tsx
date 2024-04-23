@@ -1,6 +1,5 @@
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
-
 import MyAdsDisplayWrapper from '../MyAdsDisplayWrapper';
 
 const mockProps = {
@@ -35,6 +34,6 @@ describe('MyAdsDisplayWrapper', () => {
                 <div>children</div>
             </MyAdsDisplayWrapper>
         );
-        expect(screen.queryByTestId('dt_full_page_mobile_wrapper')).toBeInTheDocument();
+        expect(screen.getByTestId('dt_full_page_mobile_wrapper')).toBeInTheDocument();
     });
 });

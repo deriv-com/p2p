@@ -1,7 +1,6 @@
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import OrderTimeSelection from '../OrderTimeSelection';
 
 jest.mock('@deriv-com/ui', () => ({
@@ -13,7 +12,7 @@ const mockUseDevice = useDevice as jest.Mock;
 
 jest.mock('react-hook-form', () => ({
     ...jest.requireActual('react-hook-form'),
-    Controller: ({ control, defaultValue, name, render }) =>
+    Controller: ({ defaultValue, render }) =>
         render({
             field: { onChange: jest.fn(), value: defaultValue },
             fieldState: { error: null },

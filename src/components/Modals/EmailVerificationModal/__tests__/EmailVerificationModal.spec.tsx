@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import EmailVerificationModal from '../EmailVerificationModal';
 
 jest.mock('@deriv-com/ui', () => ({
@@ -19,12 +18,12 @@ describe('<EmailVerificationModal />', () => {
 
         expect(screen.getByText('Has the buyer paid you?')).toBeInTheDocument();
         expect(
-            screen.queryByText(
+            screen.getByText(
                 /Releasing funds before receiving payment may result in losses. Check your email and follow the instructions/
             )
         ).toBeInTheDocument();
-        expect(screen.queryByText('within 10 minutes', { selector: 'strong' })).toBeInTheDocument();
-        expect(screen.queryByText(/to release the funds./)).toBeInTheDocument();
+        expect(screen.getByText('within 10 minutes', { selector: 'strong' })).toBeInTheDocument();
+        expect(screen.getByText(/to release the funds./)).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'I didn’t receive the email' })).toBeInTheDocument();
     });
 

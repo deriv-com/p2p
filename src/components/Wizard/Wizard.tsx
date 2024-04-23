@@ -1,5 +1,5 @@
 //TODO: Below component to be removed once wizard fom deriv-com/ui is ready
-import React, {
+import {
     Children,
     cloneElement,
     isValidElement,
@@ -92,7 +92,7 @@ const Wizard = ({
     });
 
     return (
-        <div className={clsx('p2p-wizard', className)}>
+        <div className={clsx('wizard', className)}>
             {nav && isValidElement(nav) && cloneElement(nav, properties)}
             {childrenWithProps}
         </div>

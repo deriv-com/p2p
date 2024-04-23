@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import RatingModal, { TRatingModalProps } from '../RatingModal';
 
 let mockProps: TRatingModalProps = {
@@ -11,7 +10,7 @@ let mockProps: TRatingModalProps = {
     ratingValue: 0,
 };
 
-const disabledClassName = 'p2p-rating-modal__button--disabled';
+const disabledClassName = 'rating-modal__button--disabled';
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),

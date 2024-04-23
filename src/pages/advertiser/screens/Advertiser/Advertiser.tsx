@@ -1,14 +1,10 @@
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-
-import { LabelPairedEllipsisVerticalLgRegularIcon } from '@deriv/quill-icons';
-import { useDevice } from '@deriv-com/ui';
-
 import { PageReturn, ProfileContent } from '@/components';
 import { BUY_SELL_URL, MY_PROFILE_URL } from '@/constants';
 import { api } from '@/hooks';
-
+import { LabelPairedEllipsisVerticalLgRegularIcon } from '@deriv/quill-icons';
+import { useDevice } from '@deriv-com/ui';
 import { AdvertiserAdvertsTable } from '../AdvertiserAdvertsTable';
-
 import './Advertiser.scss';
 
 const Advertiser = () => {
@@ -23,7 +19,7 @@ const Advertiser = () => {
     const location = useLocation();
 
     return (
-        <div className='p2p-advertiser'>
+        <div className='advertiser'>
             <PageReturn
                 className='lg:mt-0'
                 hasBorder={isMobile}

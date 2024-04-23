@@ -1,6 +1,5 @@
-import { Text } from '@deriv-com/ui';
-
 import { getLastOnlineLabel } from '@/utils';
+import { Text } from '@deriv-com/ui';
 
 type TOnlineStatusLabelProps = {
     isOnline?: boolean;

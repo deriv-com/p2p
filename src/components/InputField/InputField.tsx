@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEventHandler, KeyboardEvent, MouseEvent, TouchEvent, useRef, useState } from 'react';
+import { ChangeEvent, FocusEventHandler, KeyboardEvent, MouseEvent, TouchEvent, useRef, useState } from 'react';
 import { LabelPairedMinusSmBoldIcon, LabelPairedPlusSmBoldIcon } from '@deriv/quill-icons';
 import { Button, Input, Text, useDevice } from '@deriv-com/ui';
 import './InputField.scss';
@@ -160,8 +160,8 @@ const InputField = ({ decimalPointChange, isError, name = '', onBlur, onChange, 
     };
 
     return (
-        <div className='p2p-input-field'>
-            <div className='p2p-input-field__prefix'>
+        <div className='input-field'>
+            <div className='input-field__prefix'>
                 <Text size={isMobile ? 'md' : 'sm'}>%</Text>
             </div>
             <Input

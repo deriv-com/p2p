@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-namespace */
-import { useServerTime } from '@deriv/api-v2';
-
 import { api } from '@/hooks';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
+import { useServerTime } from '@deriv/api-v2';
 
 declare global {
     interface WindowEventMap {
@@ -127,3 +126,18 @@ export type DeepPartial<T> = T extends string | number | bigint | boolean | null
               : T extends ReadonlyMap<infer KeyType, infer ValueType>
                 ? ReadonlyMap<DeepPartial<KeyType>, DeepPartial<ValueType>>
                 : { [K in keyof T]?: DeepPartial<T[K]> };
+
+export type TFormState = {
+    actionType?: 'ADD' | 'DELETE' | 'EDIT' | 'RESET';
+    isVisible?: boolean;
+    selectedPaymentMethod?: DeepPartial<NonNullable<TPaymentMethod>>;
+    title?: string;
+};
+
+export type TReducerAction = {
+    payload?: {
+        formState?: TFormState;
+        selectedPaymentMethod?: DeepPartial<TSelectedPaymentMethod>;
+    };
+    type: TFormState['actionType'];
+};

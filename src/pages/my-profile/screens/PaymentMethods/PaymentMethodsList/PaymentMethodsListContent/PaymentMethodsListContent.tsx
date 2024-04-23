@@ -1,17 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { THooks, TSelectedPaymentMethod } from 'types';
-
-import { Text } from '@deriv-com/ui';
-
 import { PaymentMethodCard } from '@/components';
 import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
 import { PAYMENT_METHOD_CATEGORIES } from '@/constants';
 import { api } from '@/hooks';
 import { TFormState } from '@/reducers/types';
 import { sortPaymentMethods } from '@/utils';
-
+import { Text } from '@deriv-com/ui';
 import AddNewButton from '../AddNewButton';
-
 import './PaymentMethodsListContent.scss';
 
 type TPaymentMethodsGroup = Record<
@@ -87,15 +83,15 @@ const PaymentMethodsListContent = ({
     }, [isDeleteSuccessful, onResetFormState]);
 
     return (
-        <div className='p2p-payment-methods-list-content'>
+        <div className='payment-methods-list-content'>
             {!isMobile && <AddNewButton isMobile={isMobile} onAdd={onAdd} />}
             {Object.keys(groupedPaymentMethods)?.map(key => {
                 return (
-                    <div className='p2p-payment-methods-list-content__group' key={key}>
+                    <div className='payment-methods-list-content__group' key={key}>
                         <Text size='sm' weight='bold'>
                             {groupedPaymentMethods[key].title}
                         </Text>
-                        <div className='p2p-payment-methods-list-content__group-body'>
+                        <div className='payment-methods-list-content__group-body'>
                             {groupedPaymentMethods[key].paymentMethods?.map(advertiserPaymentMethod => {
                                 return (
                                     <PaymentMethodCard

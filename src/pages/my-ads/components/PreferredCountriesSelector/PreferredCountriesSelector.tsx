@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { TCountryListItem } from 'types';
 import { PreferredCountriesModal } from '@/components/Modals';
@@ -10,7 +10,7 @@ import './PreferredCountriesSelector.scss';
 
 type TPreferredCountriesSelectorProps = {
     countryList: TCountryListItem;
-    type: typeof AD_CONDITION_TYPES[keyof typeof AD_CONDITION_TYPES];
+    type: (typeof AD_CONDITION_TYPES)[keyof typeof AD_CONDITION_TYPES];
 };
 
 const PreferredCountriesSelector = ({ countryList, type }: TPreferredCountriesSelectorProps) => {
@@ -34,11 +34,11 @@ const PreferredCountriesSelector = ({ countryList, type }: TPreferredCountriesSe
     };
 
     return (
-        <div className='p2p-preferred-countries-selector'>
+        <div className='preferred-countries-selector'>
             <AdConditionContentHeader type={type} />
-            <div className='p2p-preferred-countries-selector__field' onClick={() => setIsModalOpen(true)}>
+            <div className='preferred-countries-selector__field' onClick={() => setIsModalOpen(true)}>
                 <Text
-                    className='p2p-preferred-countries-selector__field__text'
+                    className='preferred-countries-selector__field__text'
                     color='less-prominent'
                     size={isMobile ? 'md' : 'sm'}
                 >

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { Input, Text, useDevice } from '@deriv-com/ui';
 import ChatFooterIcon from '../ChatFooterIcon/ChatFooterIcon';
 import { TextAreaWithIcon } from '../TextAreaWithIcon';

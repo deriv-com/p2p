@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import AdFormInput from '../AdFormInput';
 
 jest.mock('react-hook-form', () => ({

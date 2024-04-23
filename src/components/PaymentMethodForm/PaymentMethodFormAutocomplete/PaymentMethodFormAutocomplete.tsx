@@ -1,10 +1,7 @@
 import { THooks, TSelectedPaymentMethod } from 'types';
-
-import { Button, Input, Text } from '@deriv-com/ui';
-
 import { Dropdown } from '@/components';
 import { TFormState } from '@/reducers/types';
-
+import { Button, Input, Text } from '@deriv-com/ui';
 import CloseCircle from '../../../public/ic-close-circle.svg';
 
 type TPaymentMethodFormAutocompleteProps = {
@@ -34,7 +31,7 @@ const PaymentMethodFormAutocomplete = ({
                 rightPlaceholder={
                     actionType === 'EDIT' ? null : (
                         <CloseCircle
-                            className='p2p-payment-method-form__icon--close'
+                            className='payment-method-form__icon--close'
                             data-testid='dt_payment_methods_form_close_icon'
                             fill='#999999'
                             height={15.7}
@@ -75,7 +72,7 @@ const PaymentMethodFormAutocomplete = ({
                     Don’t see your payment method?
                 </Text>
                 <Button
-                    className='p2p-payment-method-form__button'
+                    className='payment-method-form__button'
                     color='primary'
                     onClick={e => {
                         e.preventDefault();

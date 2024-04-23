@@ -1,16 +1,12 @@
-import React, { useMemo, useState } from 'react';
-import { TAdvertiserStats } from 'types';
-
-import { useActiveAccount } from '@deriv/api-v2';
-import { LabelPairedCircleInfoMdRegularIcon } from '@deriv/quill-icons';
-import { Text } from '@deriv-com/ui';
-
+import { useMemo, useState } from 'react';
+import { DeepPartial, TAdvertiserStats } from 'types';
 import { AvailableP2PBalanceModal } from '@/components/Modals';
 import { useDevice } from '@/hooks/custom-hooks';
 import { numberToCurrencyText } from '@/utils';
-
+import { useActiveAccount } from '@deriv/api-v2';
+import { LabelPairedCircleInfoMdRegularIcon } from '@deriv/quill-icons';
+import { Text } from '@deriv-com/ui';
 import { ProfileDailyLimit } from '../ProfileDailyLimit';
-
 import './ProfileBalance.scss';
 
 const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
@@ -47,8 +43,8 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                 isModalOpen={shouldShowAvailableBalanceModal}
                 onRequestClose={() => setShouldShowAvailableBalanceModal(false)}
             />
-            <div className='p2p-profile-balance'>
-                <div className='p2p-profile-balance__amount' data-testid='dt_available_balance_amount'>
+            <div className='profile-balance'>
+                <div className='profile-balance__amount' data-testid='dt_available_balance_amount'>
                     <div>
                         <Text color='less-prominent' size={isDesktop ? 'sm' : 'xs'}>
                             Available Deriv P2P Balance
@@ -64,31 +60,29 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                     </Text>
                 </div>
                 <div className='flex flex-col gap-[1.6rem]'>
-                    <div className='p2p-profile-balance__items'>
+                    <div className='profile-balance__items'>
                         {dailyLimits.map(({ available, dailyLimit, type }) => (
-                            <div className='p2p-profile-balance__item' key={type}>
+                            <div className='profile-balance__item' key={type}>
                                 <Text size={isDesktop ? 'sm' : 'xs'}>{type}</Text>
-                                <div className='p2p-profile-balance__item-limits'>
+                                <div className='profile-balance__item-limits'>
                                     <div data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_limit`}>
                                         <Text color='less-prominent' size={isDesktop ? 'sm' : 'xs'}>
                                             Daily limit
                                         </Text>
                                         <Text
-                                            className='p2p-profile-balance__label'
+                                            className='profile-balance__label'
                                             size={isDesktop ? 'sm' : 'md'}
                                             weight='bold'
                                         >
                                             {dailyLimit}
                                         </Text>
                                     </div>
-                                    <div
-                                        data-testid={`dt_profile_balance_available_${type.toLowerCase()}_limit`}
-                                    >
+                                    <div data-testid={`dt_profile_balance_available_${type.toLowerCase()}_limit`}>
                                         <Text color='less-prominent' size={isDesktop ? 'sm' : 'xs'}>
                                             Available
                                         </Text>
                                         <Text
-                                            className='p2p-profile-balance__label'
+                                            className='profile-balance__label'
                                             size={isDesktop ? 'sm' : 'md'}
                                             weight='bold'
                                         >

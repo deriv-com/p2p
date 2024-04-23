@@ -1,6 +1,5 @@
 import { memo, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-
 import {
     AdErrorTooltipModal,
     AdRateSwitchModal,
@@ -12,9 +11,7 @@ import { AD_ACTION, MY_ADS_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useFloatingRate, useModalManager } from '@/hooks/custom-hooks';
 import { getVisibilityErrorCodes } from '@/utils';
-
 import { TMyAdsTableRowRendererProps } from '../MyAdsTable/MyAdsTable';
-
 import MyAdsTableRow from './MyAdsTableRow';
 
 const MyAdsTableRowView = ({

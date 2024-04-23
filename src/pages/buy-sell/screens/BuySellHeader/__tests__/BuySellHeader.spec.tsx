@@ -1,9 +1,7 @@
+import { TSortByValues } from '@/utils';
 import { useDevice } from '@deriv-com/ui';
 import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { TSortByValues } from '@/utils';
-
 import BuySellHeader from '../BuySellHeader';
 
 const mockProps = {

@@ -1,14 +1,10 @@
 import clsx from 'clsx';
-import { TAdvertiserStats } from 'types';
-
-import { Text, useDevice } from '@deriv-com/ui';
-
+import { DeepPartial, TAdvertiserStats } from 'types';
 import { OnlineStatusIcon, OnlineStatusLabel, StarRating } from '@/components';
 import { getCurrentRoute } from '@/utils';
-
+import { Text, useDevice } from '@deriv-com/ui';
 import ThumbUpIcon from '../../public/ic-thumb-up.svg';
 import BlockedUserOutlineIcon from '../../public/ic-user-blocked-outline.svg';
-
 import './AdvertiserNameStats.scss';
 
 /**
@@ -34,7 +30,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
 
     return (
         <div
-            className={clsx('p2p-advertiser-name-stats', {
+            className={clsx('advertiser-name-stats', {
                 'gap-2': !isMyProfile && isMobile,
             })}
             data-testid='dt_advertiser_name_stats'
@@ -63,7 +59,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
             {ratingAverage && (
                 <>
                     <div>
-                        <div className='p2p-advertiser-name-stats__rating'>
+                        <div className='advertiser-name-stats__rating'>
                             {isMobile && (
                                 <Text color='less-prominent' size='sm'>
                                     ({ratingAverage})

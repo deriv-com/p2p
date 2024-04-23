@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TCountryListItem, TStep } from 'types';
 import { FormProgress, Wizard } from '@/components';
 import { LabelPairedXmarkLgBoldIcon } from '@deriv/quill-icons';
@@ -24,7 +24,7 @@ const AdWizard = ({ countryList, onCancel, steps, ...rest }: TAdWizardNav) => {
 
     return (
         <Wizard
-            className='p2p-ad-wizard'
+            className='ad-wizard'
             initialStep={0}
             nav={
                 <div>

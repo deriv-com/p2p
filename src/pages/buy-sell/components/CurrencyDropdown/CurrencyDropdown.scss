@@ -1,4 +1,4 @@
-.p2p-currency-dropdown {
+.currency-dropdown {
     &__dropdown {
         display: inline-flex;
         align-items: center;
@@ -15,7 +15,7 @@
             padding: 3px 8px;
         }
 
-        &:hover:not(.p2p-currency-dropdown__dropdown--active) {
+        &:hover:not(.currency-dropdown__dropdown--active) {
             border-color: #999;
         }
 
@@ -51,7 +51,7 @@
         z-index: 1;
         height: calc(100vh - 12rem);
 
-        .p2p-search {
+        .search {
             position: fixed;
 
             .deriv-input {

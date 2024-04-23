@@ -1,10 +1,8 @@
+import { api } from '@/hooks';
+import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { api } from '@/hooks';
-import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
-
 import NicknameModal from '../NicknameModal';
 
 const wrapper = ({ children }: { children: JSX.Element }) => (

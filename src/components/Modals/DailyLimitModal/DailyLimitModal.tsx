@@ -1,13 +1,9 @@
 import { useEffect } from 'react';
 import Modal from 'react-modal';
-
-import { Button, Loader, Text } from '@deriv-com/ui';
-
 import { api } from '@/hooks';
 import { useDevice } from '@/hooks/custom-hooks';
-
+import { Button, Loader, Text } from '@deriv-com/ui';
 import { customStyles } from '../helpers';
-
 import './DailyLimitModal.scss';
 
 type TDailyLimitModalProps = {
@@ -34,10 +30,10 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
                     <Text color='prominent' weight='bold'>
                         Success!
                     </Text>
-                    <Text as='p' className='p2p-daily-limit-modal__text' color='prominent' size='sm'>
+                    <Text as='p' className='daily-limit-modal__text' color='prominent' size='sm'>
                         {`Your daily limits have been increased to ${daily_buy_limit} ${currency} (buy) and ${daily_sell_limit} ${currency} (sell).`}
                     </Text>
-                    <div className='p2p-daily-limit-modal__footer'>
+                    <div className='daily-limit-modal__footer'>
                         <Button onClick={onRequestClose} size='lg' textSize='sm'>
                             Ok
                         </Button>
@@ -50,10 +46,10 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
                     <Text color='prominent' weight='bold'>
                         An internal error occured
                     </Text>
-                    <Text as='p' className='p2p-daily-limit-modal__text' color='prominent' size='sm'>
+                    <Text as='p' className='daily-limit-modal__text' color='prominent' size='sm'>
                         {`Sorry, we're unable to increase your limits right now. Please try again in a few minutes.`}
                     </Text>
-                    <div className='p2p-daily-limit-modal__footer'>
+                    <div className='daily-limit-modal__footer'>
                         <Button onClick={onRequestClose} size='lg' textSize='sm'>
                             Ok
                         </Button>
@@ -66,10 +62,10 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
                 <Text color='prominent' weight='bold'>
                     Are you sure?
                 </Text>
-                <Text as='p' className='p2p-daily-limit-modal__text' color='prominent' size={isMobile ? 'md' : 'sm'}>
+                <Text as='p' className='daily-limit-modal__text' color='prominent' size={isMobile ? 'md' : 'sm'}>
                     You won’t be able to change your buy and sell limits again after this. Do you want to continue?
                 </Text>
-                <div className='p2p-daily-limit-modal__footer'>
+                <div className='daily-limit-modal__footer'>
                     <Button onClick={onRequestClose} size='lg' textSize='sm' variant='outlined'>
                         No
                     </Button>
@@ -84,7 +80,7 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
     return (
         // TODO: below modal will be rewritten to use @deriv/ui modal
         <Modal
-            className='p2p-daily-limit-modal'
+            className='daily-limit-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
             style={customStyles}

@@ -3,9 +3,6 @@ import { useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { TAdvertType, THooks } from 'types';
-
-import { InlineMessage, Text, TextArea, useDevice } from '@deriv-com/ui';
-
 import { BUY_SELL, ORDERS_URL, RATE_TYPE, VALID_SYMBOLS_PATTERN } from '@/constants';
 import { api } from '@/hooks';
 import {
@@ -15,14 +12,12 @@ import {
     roundOffDecimal,
     setDecimalPlaces,
 } from '@/utils';
-
+import { InlineMessage, Text, TextArea, useDevice } from '@deriv-com/ui';
 import { LightDivider } from '../LightDivider';
-
 import { BuySellAmount } from './BuySellAmount';
 import { BuySellData } from './BuySellData';
 import BuySellFormDisplayWrapper from './BuySellFormDisplayWrapper';
 import { BuySellPaymentSection } from './BuySellPaymentSection';
-
 import './BuySellForm.scss';
 
 type TPayload = Omit<Parameters<ReturnType<typeof api.order.useCreate>['mutate']>[0], 'payment_method_ids'> & {

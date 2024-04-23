@@ -1,11 +1,8 @@
-import { Button, Text } from '@deriv-com/ui';
-
 import { Dropdown, Search } from '@/components';
 import { COUNTERPARTIES_DROPDOWN_LIST } from '@/constants';
 import { useDevice } from '@/hooks/custom-hooks';
-
+import { Button, Text } from '@deriv-com/ui';
 import SortIcon from '../../../../../public/ic-cashier-sort.svg';
-
 import './MyProfileCounterpartiesHeader.scss';
 
 type MyProfileCounterpartiesHeaderProps = {
@@ -23,18 +20,18 @@ const MyProfileCounterpartiesHeader = ({
 }: MyProfileCounterpartiesHeaderProps) => {
     const { isMobile } = useDevice();
     return (
-        <div className='p2p-my-profile-counterparties__content-header'>
+        <div className='my-profile-counterparties__content-header'>
             <Text as='p' size='sm'>
                 When you block someone, you won’t see their ads, and they can’t see yours. Your ads will be hidden from
                 their search results, too.
             </Text>
-            <div className='p2p-my-profile-counterparties-header'>
+            <div className='my-profile-counterparties-header'>
                 {/* TODO: to be replaced by deriv-com/ui search component */}
                 <Search name='counterparties-search' onSearch={setSearchValue} placeholder='Search by nickname' />
                 {/* TODO: to be replaced by deriv-com/ui dropdown component */}
                 {isMobile ? (
                     <Button
-                        className='p2p-my-profile-counterparties-header__sort-icon'
+                        className='my-profile-counterparties-header__sort-icon'
                         color='black'
                         icon={<SortIcon />}
                         onClick={onClickFilter}

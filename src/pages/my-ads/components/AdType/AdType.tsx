@@ -1,5 +1,4 @@
 import { Text } from '@deriv-com/ui';
-
 import './AdType.scss';
 
 type TAdTypeProps = {
@@ -8,8 +7,8 @@ type TAdTypeProps = {
 };
 const AdType = ({ adPauseColor, floatRate }: TAdTypeProps) => {
     return (
-        <div className='p2p-ad-type'>
-            <Text as='span' className='p2p-ad-type__badge' color={adPauseColor} size='2xs'>
+        <div className='ad-type'>
+            <Text as='span' className='ad-type__badge' color={adPauseColor} size='2xs'>
                 Float
             </Text>
             <Text as='span' color={adPauseColor} size='2xs'>

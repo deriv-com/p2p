@@ -1,4 +1,4 @@
-.p2p-buy-sell-form {
+.buy-sell-form {
     width: 44rem;
     height: unset;
     border-radius: 8px;
@@ -32,7 +32,7 @@
         z-index: 1;
         height: calc(100vh - 8rem);
 
-        & .p2p-mobile-wrapper__body {
+        & .mobile-wrapper__body {
             overflow: auto;
         }
     }

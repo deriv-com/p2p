@@ -1,9 +1,7 @@
 import { TAdvertsTableRowRenderer } from 'types';
-
+import { AdvertsTableRow, Table } from '@/components';
 import { DerivLightIcNoDataIcon } from '@deriv/quill-icons';
 import { ActionScreen, Loader, Text } from '@deriv-com/ui';
-
-import { AdvertsTableRow, Table } from '@/components';
 
 const columns = [{ header: 'Limits' }, { header: 'Rate (1 USD)' }, { header: 'Payment methods' }];
 

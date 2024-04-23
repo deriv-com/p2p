@@ -1,9 +1,6 @@
-import React, { MouseEventHandler } from 'react';
-
-import { Button, useDevice } from '@deriv-com/ui';
-
+import { MouseEventHandler } from 'react';
 import { useQueryString } from '@/hooks/custom-hooks';
-
+import { Button, useDevice } from '@deriv-com/ui';
 import './AdFormController.scss';
 
 type TAdFormControllerProps = {
@@ -29,7 +26,7 @@ const AdFormController = ({
     const { advertId = '' } = queryString;
     const isEdit = !!advertId;
     return (
-        <div className='p2p-ad-form-controller'>
+        <div className='ad-form-controller'>
             <Button
                 className='border-2'
                 color='black'

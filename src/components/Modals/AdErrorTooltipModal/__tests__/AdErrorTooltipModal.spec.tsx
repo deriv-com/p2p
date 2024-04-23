@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import AdErrorTooltipModal from '../AdErrorTooltipModal';
 
 const mockProps = {

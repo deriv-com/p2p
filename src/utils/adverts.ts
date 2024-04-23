@@ -1,5 +1,4 @@
 import moment, { Duration } from 'moment';
-
 import { epochToMoment, toMoment } from './time';
 
 /**

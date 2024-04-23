@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FullPageMobileWrapper } from '@/components';
 import { MY_ADS_URL } from '@/constants';

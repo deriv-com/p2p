@@ -1,9 +1,7 @@
 import { HTMLAttributes, ReactNode, useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
-
 import FlyoutMenuList from './FlyoutMenuList';
 import FlyoutMenuToggle from './FlyoutMenuToggle';
-
 import './FlyoutMenu.scss';
 
 type TFlyoutMenuProps = HTMLAttributes<HTMLDivElement> & {

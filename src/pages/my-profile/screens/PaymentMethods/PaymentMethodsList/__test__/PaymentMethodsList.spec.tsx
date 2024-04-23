@@ -1,9 +1,7 @@
+import { useQueryString } from '@/hooks/custom-hooks';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { useQueryString } from '@/hooks/custom-hooks';
-
 import PaymentMethodsList from '../PaymentMethodsList';
 
 jest.mock('../PaymentMethodsListContent/PaymentMethodsListContent', () =>
@@ -87,7 +85,7 @@ describe('PaymentMethodsList', () => {
                 ]}
             />
         );
-        expect(screen.queryByText('PaymentMethodsListContent')).toBeInTheDocument();
+        expect(screen.getByText('PaymentMethodsListContent')).toBeInTheDocument();
     });
     it('should render the component when a list of payment methods is provided and isMobile is false', () => {
         mockUseDevice.mockReturnValueOnce({
@@ -116,7 +114,7 @@ describe('PaymentMethodsList', () => {
                 ]}
             />
         );
-        expect(screen.queryByText('PaymentMethodsListContent')).toBeInTheDocument();
+        expect(screen.getByText('PaymentMethodsListContent')).toBeInTheDocument();
     });
     it('should handle onclick for the back button for mobile', async () => {
         const { setQueryString: mockSetQueryString } = mockUseQueryString();
