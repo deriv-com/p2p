@@ -67,7 +67,7 @@ describe('<Advertiser />', () => {
         render(<Advertiser />, { wrapper });
         const backButton = screen.getByTestId('dt_page_return_btn');
         await userEvent.click(backButton);
-        expect(mockUseHistory.push).toHaveBeenCalledWith('/cashier/p2p-v2/buy-sell');
+        expect(mockUseHistory.push).toHaveBeenCalledWith('/buy-sell');
     });
 
     it('should call navigate back to my-profile page when the back button is clicked', async () => {
@@ -75,6 +75,6 @@ describe('<Advertiser />', () => {
         render(<Advertiser />, { wrapper });
         const backButton = screen.getByTestId('dt_page_return_btn');
         await userEvent.click(backButton);
-        expect(mockUseHistory.push).toHaveBeenCalledWith('/cashier/p2p-v2/my-profile?tab=My+counterparties');
+        expect(mockUseHistory.push).toHaveBeenCalledWith('/my-profile?tab=My+counterparties');
     });
 });

@@ -1,6 +1,6 @@
 import { FC, Suspense } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { BASE_URL, BUY_SELL_URL } from '@/constants';
+import { BUY_SELL_URL } from '@/constants';
 import { Loader } from '@deriv-com/ui';
 import { routes } from './routes-config';
 
@@ -41,8 +41,8 @@ const Router: FC = () => {
                     <RouteWithSubRoutes key={route.path} {...route} />
                 ))}
                 {/* TODO: Add 404 page here once ready */}
-                <Redirect exact from={`${BASE_URL}/*`} to={BUY_SELL_URL} />
-                <Redirect exact from={BASE_URL} to={BUY_SELL_URL} />
+                <Redirect exact from='/*' to={BUY_SELL_URL} />
+                <Redirect exact from='/' to={BUY_SELL_URL} />
             </Switch>
         </Suspense>
     );

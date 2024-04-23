@@ -79,6 +79,6 @@ describe('MyProfileCounterpartiesTableRow', () => {
         render(<MyProfileCounterpartiesTableRow {...mockProps} />);
         const nickname = screen.getByText('nickname');
         await userEvent.click(nickname);
-        expect(mockPush).toHaveBeenCalledWith('/cashier/p2p-v2/advertiser/id1', { from: 'MyProfile' });
+        expect(mockPush).toHaveBeenCalledWith('/advertiser/id1', { from: 'MyProfile' });
     });
 });

@@ -7,11 +7,6 @@ import { useServerTime } from '@deriv/api-v2';
 declare global {
     interface WindowEventMap {
         queryChange: CustomEvent;
-        switchTab: CustomEvent & {
-            detail: {
-                tab: 'buy-sell' | 'my-ads' | 'my-profile' | 'orders';
-            };
-        };
     }
 }
 
@@ -47,10 +42,6 @@ export type TCurrencyListItem = {
 };
 
 export type TServerTime = ReturnType<typeof useServerTime>['data'];
-
-const prefix = '/cashier/p2p-v2';
-
-export type TRoutes = `${typeof prefix}/cashier/p2p-v2` | `${typeof prefix}`;
 
 export namespace THooks {
     export namespace AdvertiserAdverts {
