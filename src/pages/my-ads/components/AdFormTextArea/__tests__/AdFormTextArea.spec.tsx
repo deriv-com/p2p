@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import AdFormTextArea from '../AdFormTextArea';
 
 jest.mock('react-hook-form', () => ({

@@ -1,4 +1,4 @@
-import React, { HtmlHTMLAttributes, useState } from 'react';
+import { ChangeEventHandler, HtmlHTMLAttributes, useState } from 'react';
 import clsx from 'clsx';
 import { Text } from '@deriv-com/ui';
 import './TextArea.scss';
@@ -8,7 +8,7 @@ type TTextAreaProps = HtmlHTMLAttributes<HTMLTextAreaElement> & {
     isInvalid?: boolean;
     label?: string;
     maxLength?: number;
-    onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
+    onChange: ChangeEventHandler<HTMLTextAreaElement>;
     placeholder?: string;
     shouldShowCounter?: boolean;
     testId?: string;
@@ -29,8 +29,8 @@ const TextArea = ({
 
     return (
         <div
-            className={clsx('p2p-textarea', {
-                'p2p-textarea--error': isInvalid,
+            className={clsx('textarea', {
+                'textarea--error': isInvalid,
             })}
             data-testid={testId}
         >
@@ -50,7 +50,7 @@ const TextArea = ({
                     </Text>
                 </label>
             )}
-            <div className='p2p-textarea__footer'>
+            <div className='textarea__footer'>
                 {hint && (
                     <Text as='p' color={isInvalid ? 'error' : 'less-prominent'} size='xs'>
                         {hint}

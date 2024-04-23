@@ -1,11 +1,8 @@
 import { PropsWithChildren } from 'react';
-
+import { api } from '@/hooks';
 import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { api } from '@/hooks';
-
 import PaymentMethodForm from '../PaymentMethodForm';
 
 const wrapper = ({ children }: PropsWithChildren<unknown>) => (

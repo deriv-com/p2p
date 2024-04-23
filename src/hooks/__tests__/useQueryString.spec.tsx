@@ -1,8 +1,6 @@
 import { createMemoryHistory } from 'history';
 import { useQueryParams } from 'use-query-params';
-
 import { renderHook } from '@testing-library/react-hooks';
-
 import useQueryString from '../custom-hooks/useQueryString';
 
 jest.mock('use-query-params', () => ({

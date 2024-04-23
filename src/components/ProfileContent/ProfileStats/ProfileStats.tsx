@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import clsx from 'clsx';
 import { TAdvertiserStats } from 'types';
 import { Text, useDevice } from '@deriv-com/ui';
@@ -39,11 +39,11 @@ const ProfileStats = ({ advertiserStats }: { advertiserStats: Partial<TAdvertise
     }, [advertiserStats]);
 
     return (
-        <div className='p2p-profile-stats'>
-            <div className='p2p-profile-stats__item'>
+        <div className='profile-stats'>
+            <div className='profile-stats__item'>
                 {advertiserStatsList.slice(0, 3).map(stat => (
                     <div
-                        className={clsx('flex flex-col lg:gap-1 p2p-profile-stats__item-stat', {
+                        className={clsx('flex flex-col lg:gap-1 profile-stats__item-stat', {
                             'border-r-[1px] border-solid border-r-[#ededed]': isMobile,
                         })}
                         key={stat.value + stat.text}
@@ -57,10 +57,10 @@ const ProfileStats = ({ advertiserStats }: { advertiserStats: Partial<TAdvertise
                     </div>
                 ))}
             </div>
-            <div className='p2p-profile-stats__item'>
+            <div className='profile-stats__item'>
                 {advertiserStatsList.slice(-3).map(stat => (
                     <div
-                        className={clsx('flex flex-col lg:gap-1 p2p-profile-stats__item-stat', {
+                        className={clsx('flex flex-col lg:gap-1 profile-stats__item-stat', {
                             'border-none': isMobile,
                         })}
                         key={stat.value + stat.text}

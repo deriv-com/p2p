@@ -1,9 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks';
-
 import APIProvider from '../../../APIProvider';
 import AuthProvider from '../../../AuthProvider';
 import useQuery from '../../../useQuery';
-import useCountryList from '../country/p2p-country-list/useCountryList';
+import useCountryList from '../country/country-list/useCountryList';
 
 jest.mock('../../../useQuery', () => jest.fn());
 

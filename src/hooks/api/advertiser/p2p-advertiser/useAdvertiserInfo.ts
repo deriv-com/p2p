@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
+import { DeepPartial } from 'react-hook-form';
 import { useLocalStorage } from 'usehooks-ts';
-
 import { TSocketRequestPayload, TSocketResponseData } from '../../../../../types';
 import useSubscription from '../../../../../useSubscription';
 

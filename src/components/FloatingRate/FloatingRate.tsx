@@ -1,14 +1,10 @@
 import { ChangeEvent, FocusEvent, useEffect } from 'react';
-
+import { api } from '@/hooks';
+import { mobileOSDetect, percentOf, removeTrailingZeros, roundOffDecimal, setDecimalPlaces } from '@/utils';
 import { useExchangeRateSubscription } from '@deriv/api-v2';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
-
-import { api } from '@/hooks';
-import { mobileOSDetect, percentOf, removeTrailingZeros, roundOffDecimal, setDecimalPlaces } from '@/utils';
-
 import InputField from '../InputField';
-
 import './FloatingRate.scss';
 
 type TFloatingRate = {
@@ -68,9 +64,9 @@ const FloatingRate = ({
     };
 
     return (
-        <div className='p2p-floating-rate'>
-            <div className='p2p-floating-rate__field'>
-                <Text as='div' className='p2p-floating-rate__field--prefix' size={isMobile ? 'lg' : 'md'}>
+        <div className='floating-rate'>
+            <div className='floating-rate__field'>
+                <Text as='div' className='floating-rate__field--prefix' size={isMobile ? 'lg' : 'md'}>
                     at
                 </Text>
                 <InputField
@@ -82,11 +78,11 @@ const FloatingRate = ({
                     type={isMobile && os !== 'iOS' ? 'tel' : 'number'}
                     value={value ?? ''}
                 />
-                <div className='p2p-floating-rate__mkt-rate'>
-                    <Text className='p2p-floating-rate__mkt-rate--label' size={textSize}>
+                <div className='floating-rate__mkt-rate'>
+                    <Text className='floating-rate__mkt-rate--label' size={textSize}>
                         of the market rate
                     </Text>
-                    <Text className='p2p-floating-rate__mkt-rate--msg' color='prominent' size={textSize}>
+                    <Text className='floating-rate__mkt-rate--msg' color='prominent' size={textSize}>
                         1 {fiatCurrency} ={' '}
                         {removeTrailingZeros(
                             FormatUtils.formatMoney(marketRate, {
@@ -98,11 +94,11 @@ const FloatingRate = ({
                 </div>
             </div>
             {errorMessages ? (
-                <Text as='div' className='p2p-floating-rate__error-message' color='red' size={textSize}>
+                <Text as='div' className='floating-rate__error-message' color='red' size={textSize}>
                     {errorMessages}
                 </Text>
             ) : (
-                <Text as='div' className='p2p-floating-rate__hint' color='blue' size={textSize}>
+                <Text as='div' className='floating-rate__hint' color='blue' size={textSize}>
                     Your rate is ={' '}
                     {removeTrailingZeros(
                         FormatUtils.formatMoney(Number(roundOffDecimal(marketFeed, decimalPlace)), {

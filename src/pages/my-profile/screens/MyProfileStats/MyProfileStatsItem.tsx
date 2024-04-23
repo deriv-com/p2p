@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-
+import { useState } from 'react';
 import { Text, useDevice } from '@deriv-com/ui';
-
 import './MyProfileStatsItem.scss';
 
 type TMyProfileStatsItemProps = {
@@ -33,13 +31,13 @@ const MyProfileStatsItem = ({
 
     // TODO: Replace the button components below with Button once you can remove hover effect from Button
     return (
-        <div className='p2p-my-profile-stats__item' data-testid={testId}>
+        <div className='my-profile-stats__item' data-testid={testId}>
             <div>
                 <Text color='less-prominent' size={textSize}>
                     {label}{' '}
                 </Text>
                 {shouldShowDuration && (
-                    <button className='p2p-my-profile-stats__item--inactive' onClick={() => onClickLabel(false)}>
+                    <button className='my-profile-stats__item--inactive' onClick={() => onClickLabel(false)}>
                         <Text
                             color={!hasClickedLifetime && shouldShowLifetime ? 'red' : 'less-prominent'}
                             size={textSize}
@@ -53,7 +51,7 @@ const MyProfileStatsItem = ({
                         <Text color='less-prominent' size={textSize}>
                             |{' '}
                         </Text>
-                        <button className='p2p-my-profile-stats__item--inactive' onClick={() => onClickLabel(true)}>
+                        <button className='my-profile-stats__item--inactive' onClick={() => onClickLabel(true)}>
                             <Text color={hasClickedLifetime ? 'red' : 'less-prominent'} size={textSize}>
                                 lifetime
                             </Text>

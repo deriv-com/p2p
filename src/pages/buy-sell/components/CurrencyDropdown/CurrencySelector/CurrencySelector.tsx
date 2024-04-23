@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import { TCurrencyListItem } from 'types';
-
-import { Text, useDevice } from '@deriv-com/ui';
-
 import { Search } from '@/components';
-
+import { Text, useDevice } from '@deriv-com/ui';
 import './CurrencySelector.scss';
 
 type TCurrencySelectorProps = {
@@ -40,14 +37,14 @@ const CurrencySelector = ({ localCurrencies, onSelectItem, selectedCurrency }: T
     };
 
     return (
-        <div className='p2p-currency-selector'>
+        <div className='currency-selector'>
             <Search
                 delayTimer={0}
                 name='search-currency'
                 onSearch={(value: string) => searchCurrencies(value)}
                 placeholder='Search'
             />
-            <div className='p2p-currency-selector__list'>
+            <div className='currency-selector__list'>
                 {searchedCurrencies.length > 0 ? (
                     searchedCurrencies.map(currency => {
                         const isSelectedCurrency = currency.value === selectedCurrency;

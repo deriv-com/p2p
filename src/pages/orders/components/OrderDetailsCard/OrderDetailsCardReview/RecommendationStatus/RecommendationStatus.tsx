@@ -1,7 +1,6 @@
+import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { StandaloneThumbsDownRegularIcon, StandaloneThumbsUpRegularIcon } from '@deriv/quill-icons';
 import { Text, useDevice } from '@deriv-com/ui';
-
-import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 
 const RecommendationStatus = () => {
     const { isMobile } = useDevice();

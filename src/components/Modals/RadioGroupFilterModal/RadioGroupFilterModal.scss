@@ -1,4 +1,4 @@
-.p2p-radio-group-filter-modal {
+.radio-group-filter-modal {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -19,8 +19,8 @@
         }
     }
 
-    .p2p-radio-group {
-        &.p2p-sort-radiogroup {
+    .radio-group {
+        &.sort-radiogroup {
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -28,8 +28,8 @@
             align-items: flex-start;
             margin: unset;
         }
-        .p2p-radio-group__item {
-            &.p2p-sort-radiogroup {
+        .radio-group__item {
+            &.sort-radiogroup {
                 display: flex;
                 flex-direction: row-reverse;
                 justify-content: space-between;

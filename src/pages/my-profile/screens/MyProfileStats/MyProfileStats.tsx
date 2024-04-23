@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
-
-import { useActiveAccount } from '@deriv/api-v2';
-import { Loader } from '@deriv-com/ui';
-
+import { useState } from 'react';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
 import { numberToCurrencyText } from '@/utils';
-
+import { useActiveAccount } from '@deriv/api-v2';
+import { Loader } from '@deriv-com/ui';
 import MyProfileStatsItem from './MyProfileStatsItem';
-
 import './MyProfileStats.scss';
 
 type TMyProfileStatsProps = {
@@ -39,7 +35,7 @@ const MyProfileStats = ({ advertiserId }: TMyProfileStatsProps) => {
     const getTimeValueText = (minutes: number) => `${minutes === 1 ? '< ' : ''}${minutes} min`;
 
     return (
-        <div className='p2p-my-profile-stats' data-testid='dt_profile_stats'>
+        <div className='my-profile-stats' data-testid='dt_profile_stats'>
             <MyProfileStatsItem
                 label='Buy completion'
                 testId='dt_profile_stats_buy_completion'

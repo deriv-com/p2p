@@ -1,12 +1,8 @@
 import { useEffect } from 'react';
-
-import { Loader, Table, Text } from '@deriv-com/ui';
-
 import { api } from '@/hooks';
-
+import { Loader, Table, Text } from '@deriv-com/ui';
 import { MyProfileCounterpartiesEmpty } from '../MyProfileCounterpartiesEmpty';
 import { MyProfileCounterpartiesTableRow } from '../MyProfileCounterpartiesTableRow';
-
 import './MyProfileCounterpartiesTable.scss';
 
 type TMyProfileCounterpartiesTableProps = {
@@ -53,7 +49,7 @@ const MyProfileCounterpartiesTable = ({
     }, [data, setShowHeader]);
 
     if (isLoading) {
-        return <Loader className='p2p-my-profile-counterparties-table__loader' isFullScreen={false} />;
+        return <Loader className='my-profile-counterparties-table__loader' isFullScreen={false} />;
     }
 
     if (!isFetching && data.length === 0) {
@@ -71,7 +67,7 @@ const MyProfileCounterpartiesTable = ({
                     {...(rowData as TMyProfileCounterpartiesTableRowRendererProps)}
                 />
             )}
-            tableClassname='p2p-my-profile-counterparties-table'
+            tableClassname='my-profile-counterparties-table'
         />
     );
 };

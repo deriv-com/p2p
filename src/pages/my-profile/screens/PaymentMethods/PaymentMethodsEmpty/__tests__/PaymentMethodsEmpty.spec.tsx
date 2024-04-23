@@ -1,9 +1,7 @@
+import { useQueryString } from '@/hooks/custom-hooks';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { useQueryString } from '@/hooks/custom-hooks';
-
 import PaymentMethodsEmpty from '../PaymentMethodsEmpty';
 
 jest.mock('@/hooks', () => ({

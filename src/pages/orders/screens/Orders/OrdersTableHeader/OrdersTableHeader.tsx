@@ -1,8 +1,6 @@
-import { Tab, Tabs, useDevice } from '@deriv-com/ui';
-
 import { ORDERS_STATUS } from '@/constants/orders';
 import { useQueryString } from '@/hooks/custom-hooks';
-
+import { Tab, Tabs, useDevice } from '@deriv-com/ui';
 import './OrdersTableHeader.scss';
 
 type TOrdersTableHeaderProps = {
@@ -14,7 +12,7 @@ const OrdersTableHeader = ({ activeTab }: TOrdersTableHeaderProps) => {
     const { setQueryString } = useQueryString();
 
     return (
-        <div className='p2p-orders-table-header' data-testid='dt_orders_table_header'>
+        <div className='orders-table-header' data-testid='dt_orders_table_header'>
             <Tabs
                 TitleFontSize={isMobile ? 'md' : 'sm'}
                 activeTab={activeTab}
@@ -24,7 +22,7 @@ const OrdersTableHeader = ({ activeTab }: TOrdersTableHeaderProps) => {
                     })
                 }
                 variant='primary'
-                wrapperClassName='p2p-orders-table-header__tabs'
+                wrapperClassName='orders-table-header__tabs'
             >
                 <Tab title={ORDERS_STATUS.ACTIVE_ORDERS} />
                 <Tab title={ORDERS_STATUS.PAST_ORDERS} />

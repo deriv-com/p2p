@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import NoSearchResults from '../NoSearchResults';
 
 jest.mock('@deriv-com/ui', () => ({

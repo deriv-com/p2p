@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PaymentMethodWithIcon } from '@/components';
 import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
 import { LabelPairedChevronRightSmRegularIcon } from '@deriv/quill-icons';
@@ -30,7 +30,7 @@ const PaymentMethodAccordion = ({
                 </Text>
                 {paymentMethodKeys.length > 0 && (
                     <Button
-                        className='p2p-payment-method-accordion__button'
+                        className='payment-method-accordion__button'
                         onClick={() => {
                             if (expandedIds.length !== paymentMethodKeys.length) setExpandedIds(paymentMethodKeys);
                             else setExpandedIds([]);

@@ -1,7 +1,5 @@
-import { render, screen, waitFor } from '@testing-library/react';
-
 import { api } from '@/hooks';
-
+import { render, screen, waitFor } from '@testing-library/react';
 import MyProfileCounterpartiesTable from '../MyProfileCounterpartiesTable';
 
 const mockProps = {

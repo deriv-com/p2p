@@ -1,4 +1,4 @@
-.p2p-chat-messages {
+.chat-messages {
     background-color: #ffffff;
     margin-top: auto;
     margin-right: 0.8rem;
@@ -56,7 +56,7 @@
         &__incoming {
             align-items: flex-start;
 
-            .p2p-chat-message-text {
+            .chat-message-text {
                 background-color: #d6dadb;
                 border-bottom-left-radius: 0;
             }
@@ -64,7 +64,7 @@
         &__outgoing {
             align-items: flex-end;
 
-            .p2p-chat-message-text {
+            .chat-message-text {
                 background-color: #85acb0;
                 border-bottom-right-radius: 0;
             }

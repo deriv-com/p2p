@@ -1,13 +1,10 @@
 import { ComponentProps } from 'react';
 import { THooks } from 'types';
-
+import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
+import { api } from '@/hooks';
 import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
-import { api } from '@/hooks';
-
 import { PaymentMethodsListContent } from '../PaymentMethodsListContent';
 
 const wrapper = ({ children }: { children: JSX.Element }) => (
@@ -287,7 +284,7 @@ describe('PaymentMethodsListContent', () => {
             />,
             { wrapper }
         );
-        expect(screen.queryByText('PaymentMethodErrorModal')).toBeInTheDocument();
+        expect(screen.getByText('PaymentMethodErrorModal')).toBeInTheDocument();
         await userEvent.click(screen.getByTestId('dt_payment_method_error_ok_button'));
         expect(screen.queryByText('PaymentMethodErrorModal')).not.toBeInTheDocument(); // modal should be hidden
     });

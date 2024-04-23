@@ -1,21 +1,16 @@
 import { memo, MouseEvent, useEffect, useRef } from 'react';
 import html2canvas from 'html2canvas';
-
-import { Button, Divider, Modal, Text, useDevice } from '@deriv-com/ui';
-
 import { Clipboard } from '@/components';
 import { ADVERTISER_URL, BUY_SELL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useCopyToClipboard } from '@/hooks/custom-hooks';
-
+import { Button, Divider, Modal, Text, useDevice } from '@deriv-com/ui';
 //TODO: replace below icons with the one from quill once available
 import CheckmarkCircle from '../../../public/ic-checkmark-circle.svg';
 import ShareIcon from '../../../public/ic-share.svg';
 import ShareLinkIcon from '../../../public/ic-share-link.svg';
-
 import ShareMyAdsCard from './ShareAdsCard';
 import ShareMyAdsSocials from './ShareAdsSocials';
-
 import './ShareAdsModal.scss';
 
 type TShareAdsModalProps = {
@@ -60,7 +55,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
 
     const handleGenerateImage = async () => {
         if (divRef.current) {
-            const p2pLogo = divRef.current.querySelector('.p2p-share-ads-card__qr-icon');
+            const p2pLogo = divRef.current.querySelector('.share-ads-card__qr-icon');
             if (p2pLogo) {
                 const canvas = await html2canvas(divRef.current, { allowTaint: true, useCORS: true });
                 const screenshot = canvas.toDataURL('image/png', 1.0);
@@ -92,7 +87,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
             {!isLoadingInfo && (
                 <Modal
                     ariaHideApp={false}
-                    className='p2p-share-ads-modal'
+                    className='share-ads-modal'
                     isOpen={isModalOpen}
                     onRequestClose={onRequestClose}
                     testId='dt_share_ads_modal'
@@ -102,8 +97,8 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                     </Modal.Header>
                     <Modal.Body>
                         {isDesktop && <Text>Promote your ad by sharing the QR code and link.</Text>}
-                        <div className='p2p-share-ads-modal__container'>
-                            <div className='p2p-share-ads-modal__container__card'>
+                        <div className='share-ads-modal__container'>
+                            <div className='share-ads-modal__container__card'>
                                 <ShareMyAdsCard advert={advertInfo} advertUrl={advertUrl} ref={divRef} />
                                 <Button
                                     className='border-[1px]'
@@ -118,7 +113,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                                 {isMobile && (
                                     <div className='flex w-full gap-4 justify-between mt-6'>
                                         <Button
-                                            className='p2p-share-ads-modal__container__card__button'
+                                            className='share-ads-modal__container__card__button'
                                             color='black'
                                             onClick={handleShareLink}
                                             textSize='md'
@@ -128,7 +123,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                                             Share link
                                         </Button>
                                         <Button
-                                            className='p2p-share-ads-modal__container__card__button'
+                                            className='share-ads-modal__container__card__button'
                                             color='black'
                                             onClick={onCopy}
                                             textSize='md'
@@ -146,16 +141,12 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                                     <ShareMyAdsSocials advertUrl={advertUrl} customMessage={customMessage} />
                                     <Divider margin='0 0 2.5rem 0' />
                                     <Text>Or copy this link</Text>
-                                    <div className='p2p-share-ads-modal__copy'>
-                                        <Text
-                                            className='p2p-share-ads-modal__copy-link'
-                                            color='less-prominent'
-                                            size='sm'
-                                        >
+                                    <div className='share-ads-modal__copy'>
+                                        <Text className='share-ads-modal__copy-link' color='less-prominent' size='sm'>
                                             {advertUrl}
                                         </Text>
                                         {/* TODO: clipboard to be replaced */}
-                                        <div className='p2p-share-ads-modal__copy-clipboard'>
+                                        <div className='share-ads-modal__copy-clipboard'>
                                             <Clipboard textCopy={advertUrl} />
                                         </div>
                                     </div>

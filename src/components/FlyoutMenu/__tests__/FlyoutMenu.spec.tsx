@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import FlyoutMenu from '../FlyoutMenu';
 
 const flyoutItems = ['item1', 'item2', 'item3'];
@@ -24,7 +23,7 @@ describe('FlyoutMenu', () => {
             </div>
         );
         await userEvent.click(screen.getByTestId('dt_flyout_toggle'));
-        expect(screen.queryByText(flyoutItems[0])).toBeInTheDocument();
+        expect(screen.getByText(flyoutItems[0])).toBeInTheDocument();
         await userEvent.click(screen.getByTestId('dt_flyout_parent'));
         expect(screen.queryByText(flyoutItems[0])).not.toBeInTheDocument();
     });

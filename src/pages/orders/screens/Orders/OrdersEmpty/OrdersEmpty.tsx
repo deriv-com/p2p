@@ -1,9 +1,7 @@
 import { useHistory } from 'react-router-dom';
-
+import { BUY_SELL_URL } from '@/constants';
 import { DerivLightOrderIcon } from '@deriv/quill-icons';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
-
-import { BUY_SELL_URL } from '@/constants';
 
 const OrdersEmpty = () => {
     const { isMobile } = useDevice();

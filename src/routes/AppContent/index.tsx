@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-
-import { useAuthorize } from '@deriv-com/api-hooks';
-import { Loader, Tab, Tabs } from '@deriv-com/ui';
-
 import { CloseHeader } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
-
+import { useAuthorize } from '@deriv-com/api-hooks';
+import { Loader, Tab, Tabs } from '@deriv-com/ui';
 import Router from '../Router';
 import { routes } from '../routes-config';
-
 import './index.scss';
 
 const tabRoutesConfiguration = routes.filter(route => route.name !== 'Advertiser');
@@ -72,10 +68,10 @@ const AppContent = () => {
             }}
         >
             <CloseHeader />
-            <div className='p2p-app-content'>
+            <div className='app-content'>
                 <Tabs
                     activeTab={activeTab}
-                    className='p2p-app-content__tabs'
+                    className='app-content__tabs'
                     onChange={index => {
                         setActiveTab(tabRoutesConfiguration[index].name);
                         history.push(tabRoutesConfiguration[index].path);

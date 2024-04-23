@@ -1,12 +1,9 @@
-import { LabelPairedTrashCaptionBoldIcon } from '@deriv/quill-icons';
-import { Button } from '@deriv-com/ui';
-
 import { PaymentMethodWithIcon } from '@/components';
 import { api } from '@/hooks';
 import { getPaymentMethodObjects } from '@/utils';
-
+import { LabelPairedTrashCaptionBoldIcon } from '@deriv/quill-icons';
+import { Button } from '@deriv-com/ui';
 import { BuyPaymentMethodsList } from '../BuyPaymentMethodsList';
-
 import './BuyAdPaymentSelection.scss';
 
 type TBuyAdPaymentSelectionProps = {
@@ -31,7 +28,7 @@ const BuyAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethods }
                 selectedPaymentMethods.map(method => {
                     const { display_name: name, type } = paymentMethodObjects[method] ?? {};
                     return (
-                        <div className='p2p-buy-ad-payment-selection' key={method}>
+                        <div className='buy-ad-payment-selection' key={method}>
                             <PaymentMethodWithIcon name={name} type={type} />
                             <Button
                                 color='white'

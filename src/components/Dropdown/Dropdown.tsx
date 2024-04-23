@@ -1,13 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { FC, ReactNode, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useCombobox } from 'downshift';
-
-import { LabelPairedChevronDownMdRegularIcon } from '@deriv/quill-icons';
-import { Text } from '@deriv-com/ui';
-
 import { TextField, TextFieldProps } from '@/components';
 import { reactNodeToString } from '@/utils';
-
+import { LabelPairedChevronDownMdRegularIcon } from '@deriv/quill-icons';
+import { Text } from '@deriv-com/ui';
 import './Dropdown.scss';
 
 type TGenericSizes = '2xl' | '2xs' | '3xl' | '3xs' | '4xl' | '5xl' | '6xl' | 'lg' | 'md' | 'sm' | 'xl' | 'xs';
@@ -15,11 +12,11 @@ type TGenericSizes = '2xl' | '2xs' | '3xl' | '3xs' | '4xl' | '5xl' | '6xl' | 'lg
 type TProps = {
     disabled?: boolean;
     errorMessage?: TextFieldProps['errorMessage'];
-    icon?: React.ReactNode;
+    icon?: ReactNode;
     isRequired?: boolean;
     label?: TextFieldProps['label'];
     list: {
-        text?: React.ReactNode;
+        text?: ReactNode;
         value?: string;
     }[];
     listHeight?: Extract<TGenericSizes, 'lg' | 'md' | 'sm'>;
@@ -30,7 +27,7 @@ type TProps = {
     variant?: 'comboBox' | 'prompt';
 };
 
-const Dropdown: React.FC<TProps> = ({
+const Dropdown: FC<TProps> = ({
     disabled = false,
     errorMessage = '',
     icon = false,
@@ -99,12 +96,12 @@ const Dropdown: React.FC<TProps> = ({
 
     return (
         <div
-            className={clsx('p2p-dropdown', {
-                'p2p-dropdown--disabled': disabled,
+            className={clsx('dropdown', {
+                'dropdown--disabled': disabled,
             })}
             {...getToggleButtonProps()}
         >
-            <div className='p2p-dropdown__content'>
+            <div className='dropdown__content'>
                 <TextField
                     disabled={disabled}
                     errorMessage={errorMessage}
@@ -119,8 +116,8 @@ const Dropdown: React.FC<TProps> = ({
                     renderLeftIcon={icon ? () => icon : undefined}
                     renderRightIcon={() => (
                         <button
-                            className={clsx('p2p-dropdown__button', {
-                                'p2p-dropdown__button--active': isOpen,
+                            className={clsx('dropdown__button', {
+                                'dropdown__button--active': isOpen,
                             })}
                         >
                             <LabelPairedChevronDownMdRegularIcon />
@@ -131,12 +128,12 @@ const Dropdown: React.FC<TProps> = ({
                     {...getInputProps()}
                 />
             </div>
-            <ul className={`p2p-dropdown__items p2p-dropdown__items--${listHeight}`} {...getMenuProps()}>
+            <ul className={`dropdown__items dropdown__items--${listHeight}`} {...getMenuProps()}>
                 {isOpen &&
                     items.map((item, index) => (
                         <li
-                            className={clsx('p2p-dropdown__item', {
-                                'p2p-dropdown__item--active': value === item.value,
+                            className={clsx('dropdown__item', {
+                                'dropdown__item--active': value === item.value,
                             })}
                             key={item.value}
                             onClick={clearFilter}

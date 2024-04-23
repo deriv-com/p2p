@@ -1,5 +1,4 @@
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
-
 import './PaymentMethodModal.scss';
 
 type TPaymentMethodModalProps = {
@@ -28,18 +27,18 @@ const PaymentMethodModal = ({
     return (
         <Modal
             ariaHideApp={false}
-            className='p2p-payment-method-modal'
+            className='payment-method-modal'
             contentLabel={title}
             isOpen={isModalOpen}
             shouldCloseOnOverlayClick={false}
         >
-            <Modal.Header className='p2p-payment-method-modal__header' hideBorder hideCloseIcon>
+            <Modal.Header className='payment-method-modal__header' hideBorder hideCloseIcon>
                 <Text weight='bold'>{title}</Text>
             </Modal.Header>
-            <Modal.Body className='p2p-payment-method-modal__body'>
+            <Modal.Body className='payment-method-modal__body'>
                 <Text size='sm'>{description}</Text>
             </Modal.Body>
-            <Modal.Footer className='p2p-payment-method-modal__footer' hideBorder>
+            <Modal.Footer className='payment-method-modal__footer' hideBorder>
                 <Button
                     className='border-2'
                     color='black'

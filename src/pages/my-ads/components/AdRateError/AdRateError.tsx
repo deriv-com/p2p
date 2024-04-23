@@ -1,7 +1,6 @@
-import { useAuthorize } from '@deriv/api-v2';
-
 import { RATE_TYPE } from '@/constants';
 import { useFloatingRate } from '@/hooks/custom-hooks';
+import { useAuthorize } from '@deriv/api-v2';
 
 const AdRateError = () => {
     const { data } = useAuthorize();

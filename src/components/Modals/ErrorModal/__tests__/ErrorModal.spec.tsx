@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import ErrorModal from '../ErrorModal';
 
 jest.mock('@deriv-com/ui', () => ({

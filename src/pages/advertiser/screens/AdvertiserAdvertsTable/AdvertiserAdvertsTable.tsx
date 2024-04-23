@@ -1,11 +1,8 @@
-import { Tab, Tabs } from '@deriv-com/ui';
-
 import { ADVERT_TYPE, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
-
+import { Tab, Tabs } from '@deriv-com/ui';
 import { AdvertsTableRenderer } from './AdvertsTableRenderer';
-
 import './AdvertiserAdvertsTable.scss';
 
 type TAdvertiserAdvertsTableProps = {
@@ -26,7 +23,7 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
     const setActiveTab = (index: number) => setQueryString({ tab: TABS[index] });
 
     return (
-        <div className='p2p-advertiser-adverts-table'>
+        <div className='advertiser-adverts-table'>
             <Tabs activeTab={activeTab} className='lg:w-80 lg:mt-10' onChange={setActiveTab} variant='secondary'>
                 <Tab className='text-xs' title='Buy' />
                 <Tab title='Sell' />

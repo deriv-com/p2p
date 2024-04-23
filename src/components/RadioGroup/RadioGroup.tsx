@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ComponentProps, HTMLAttributes, PropsWithChildren, useEffect, useState } from 'react';
+import { ChangeEvent, ComponentProps, HTMLAttributes, PropsWithChildren, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Text } from '@deriv-com/ui';
 import './RadioGroup.scss';
@@ -25,7 +25,7 @@ type TRadioGroup = TItemWrapper & {
 
 const ItemWrapper = ({ children, shouldWrapItems }: PropsWithChildren<TItemWrapper>) => {
     if (shouldWrapItems) {
-        return <div className='p2p-radio-group__item-wrapper'>{children}</div>;
+        return <div className='radio-group__item-wrapper'>{children}</div>;
     }
 
     return <>{children}</>;
@@ -53,20 +53,20 @@ const RadioGroup = ({
     };
 
     return (
-        <div className={clsx('p2p-radio-group', className)}>
+        <div className={clsx('radio-group', className)}>
             {Array.isArray(children) &&
                 children
                     .filter(item => !item.props.hidden)
                     .map(item => (
                         <ItemWrapper key={item.props.value} shouldWrapItems={shouldWrapItems}>
                             <label
-                                className={clsx('p2p-radio-group__item', className, {
-                                    'p2p-radio-group__item--selected': selectedOption === item.props.value,
+                                className={clsx('radio-group__item', className, {
+                                    'radio-group__item--selected': selectedOption === item.props.value,
                                 })}
                             >
                                 <input
                                     checked={selectedOption === item.props.value}
-                                    className='p2p-radio-group__input'
+                                    className='radio-group__input'
                                     disabled={item.props.disabled}
                                     id={item.props.id}
                                     name={name}
@@ -76,16 +76,16 @@ const RadioGroup = ({
                                     value={item.props.value}
                                 />
                                 <span
-                                    className={clsx('p2p-radio-group__circle', {
-                                        'p2p-radio-group__circle--selected': selectedOption === item.props.value,
-                                        'p2p-radio-group__circle--disabled': item.props.disabled,
-                                        'p2p-radio-group__circle--error': item.props.hasError,
+                                    className={clsx('radio-group__circle', {
+                                        'radio-group__circle--selected': selectedOption === item.props.value,
+                                        'radio-group__circle--disabled': item.props.disabled,
+                                        'radio-group__circle--error': item.props.hasError,
                                     })}
                                 />
                                 <Text
-                                    className={clsx('p2p-radio-group__label', {
-                                        'p2p-radio-group__label--disabled': item.props.disabled,
-                                        'p2p-radio-group__label--error': item.props.hasError,
+                                    className={clsx('radio-group__label', {
+                                        'radio-group__label--disabled': item.props.disabled,
+                                        'radio-group__label--error': item.props.hasError,
                                     })}
                                     size={textSize}
                                 >

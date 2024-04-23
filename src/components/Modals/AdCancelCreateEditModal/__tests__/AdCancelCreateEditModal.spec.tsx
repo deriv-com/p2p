@@ -1,9 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-
 import { MY_ADS_URL } from '@/constants';
 import { useQueryString } from '@/hooks/custom-hooks';
-
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import AdCancelCreateEditModal from '../AdCancelCreateEditModal';
 
 jest.mock('@deriv-com/ui', () => ({

@@ -1,4 +1,4 @@
-import React, { ComponentType, SVGAttributes } from 'react';
+import { ComponentType, SVGAttributes } from 'react';
 import { THooks } from 'types';
 import { FlyoutMenu } from '@/components';
 import { LabelPairedEllipsisVerticalXlRegularIcon } from '@deriv/quill-icons';
@@ -50,9 +50,9 @@ const PaymentMethodCardHeader = ({
         </Button>,
     ];
     return (
-        <div className='p2p-payment-method-card__header' data-testid='dt_payment_method_card_header'>
+        <div className='payment-method-card__header' data-testid='dt_payment_method_card_header'>
             <Icon
-                className='p2p-payment-method-card__icon'
+                className='payment-method-card__icon'
                 data-testid='dt_payment_method_card_header_icon'
                 height={medium || small ? 16 : 24}
                 width={medium || small ? 16 : 24}

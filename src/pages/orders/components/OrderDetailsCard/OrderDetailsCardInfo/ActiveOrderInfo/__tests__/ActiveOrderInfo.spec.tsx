@@ -1,8 +1,6 @@
+import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { useOrderDetails } from '@/providers/OrderDetailsProvider';
-
 import ActiveOrderInfo from '../ActiveOrderInfo';
 
 jest.mock('@deriv-com/ui', () => ({

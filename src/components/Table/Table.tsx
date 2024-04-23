@@ -1,4 +1,4 @@
-import React, { memo, useLayoutEffect, useRef, useState } from 'react';
+import { memo, useLayoutEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useDevice, useFetchMore } from '@/hooks/custom-hooks';
 import { Text } from '@deriv-com/ui';
@@ -55,23 +55,23 @@ const Table = <T,>({
     return (
         <div className='w-full'>
             {isDesktop && columns.length > 0 && (
-                <div className='p2p-table__header' ref={headerRef}>
+                <div className='table__header' ref={headerRef}>
                     {table.getFlatHeaders().map(header => (
-                        <Text className='p2p-table__header-items' key={header.id} size='sm' weight='bold'>
+                        <Text className='table__header-items' key={header.id} size='sm' weight='bold'>
                             {renderHeader(header.column.columnDef.header as string)}
                         </Text>
                     ))}
                 </div>
             )}
             <div
-                className={clsx('p2p-table__content', tableClassname)}
+                className={clsx('table__content', tableClassname)}
                 onScroll={e => fetchMoreOnBottomReached(e.target as HTMLDivElement)}
                 ref={tableContainerRef}
                 style={{ height: isDesktop && columns.length > 0 ? `calc(${height}px - 3.6rem)` : '100%' }}
             >
                 {data && data.length > 0 ? (
                     table.getRowModel().rows.map(row => (
-                        <div className='p2p-table__content-row' key={row.id}>
+                        <div className='table__content-row' key={row.id}>
                             {rowRender(row.original)}
                         </div>
                     ))
