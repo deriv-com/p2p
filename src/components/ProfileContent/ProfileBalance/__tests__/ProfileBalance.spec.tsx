@@ -1,16 +1,6 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ProfileBalance from '../ProfileBalance';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>
-            <div id='v2_modal_root' />
-            {children}
-        </AuthProvider>
-    </APIProvider>
-);
 
 let mockAdvertiserStatsProp = {
     advertiserStats: {
@@ -39,7 +29,7 @@ jest.mock('@deriv/api-v2', () => ({
 
 describe('ProfileBalance', () => {
     it('should render the correct balance', async () => {
-        render(<ProfileBalance {...mockAdvertiserStatsProp} />, { wrapper });
+        render(<ProfileBalance {...mockAdvertiserStatsProp} />);
         const availableBalanceNode = screen.getByTestId('dt_available_balance_amount');
         expect(within(availableBalanceNode).getByText('50,000.00 USD')).toBeInTheDocument();
 
@@ -63,7 +53,7 @@ describe('ProfileBalance', () => {
                 dailyAvailableSellLimit: 600,
             },
         };
-        render(<ProfileBalance {...mockAdvertiserStatsProp} />, { wrapper });
+        render(<ProfileBalance {...mockAdvertiserStatsProp} />);
         const dailyBuyLimitNode = screen.getByTestId('dt_profile_balance_daily_buy_limit');
         expect(within(dailyBuyLimitNode).getByText('500 USD')).toBeInTheDocument();
         const availableBuyLimitNode = screen.getByTestId('dt_profile_balance_available_buy_limit');
@@ -81,7 +71,7 @@ describe('ProfileBalance', () => {
                 isEligibleForLimitUpgrade: true,
             },
         };
-        render(<ProfileBalance {...mockAdvertiserStatsProp} />, { wrapper });
+        render(<ProfileBalance {...mockAdvertiserStatsProp} />);
         expect(screen.getByTestId('dt_profile_daily_limit')).toBeInTheDocument();
 
         const openDailyLimitModalBtn = screen.getByRole('button', {
@@ -100,7 +90,7 @@ describe('ProfileBalance', () => {
             advertiserStats: {},
             isLoading: false,
         };
-        render(<ProfileBalance {...mockAdvertiserStatsProp} />, { wrapper });
+        render(<ProfileBalance {...mockAdvertiserStatsProp} />);
         const availableBalanceNode = screen.getByTestId('dt_available_balance_amount');
         expect(within(availableBalanceNode).getByText('0.00 USD')).toBeInTheDocument();
         const dailyBuyLimitNode = screen.getByTestId('dt_profile_balance_daily_buy_limit');

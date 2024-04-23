@@ -1,10 +1,8 @@
 import { useCallback, useMemo } from 'react';
-import useInvalidateQuery from '../../../../../useInvalidateQuery';
-import useMutation from '../../../../../useMutation';
+import { useP2pAdvertCreate } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TPayload = NonNullable<
-    Parameters<ReturnType<typeof useMutation<'p2p_advertiser_update'>>['mutate']>[0]
->['payload'];
+type TPayload = NonNullable<Parameters<ReturnType<typeof useP2pAdvertCreate>['mutate']>[0]>['payload'];
 
 /** A custom hook that updates the information of the P2P advertiser for the current account. Can only be used by an approved P2P advertiser
  *
@@ -22,7 +20,7 @@ const useAdvertiserUpdate = () => {
         data,
         mutate: _mutate,
         ...rest
-    } = useMutation('p2p_advertiser_update', {
+    } = useP2pAdvertCreate({
         onSuccess: () => {
             invalidate('p2p_advertiser_info');
         },

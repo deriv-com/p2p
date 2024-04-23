@@ -52,7 +52,7 @@ const AppContent = () => {
         setActiveTab(getActiveTab(location.pathname));
     }, [location]);
 
-    if (isLoadingActiveAccount || !activeAccountData) return <Loader color='#85acb0' />;
+    if (isLoadingActiveAccount || !activeAccountData) return <Loader />;
 
     // NOTE: Replace this with P2PBlocked component later and a custom hook useIsP2PEnabled, P2P is only available for USD accounts
     if (activeAccountData?.currency !== 'USD') return <h1>P2P is only available for USD accounts.</h1>;

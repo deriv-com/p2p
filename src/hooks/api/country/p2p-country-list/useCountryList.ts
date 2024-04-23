@@ -1,6 +1,3 @@
-import useQuery from '../../../../../useQuery';
-import useAuthorize from '../../../../useAuthorize';
-
 /**
  * A custom hook that returns an object containing the list of countries available for P2P trading.
  *
@@ -9,11 +6,11 @@ import useAuthorize from '../../../../useAuthorize';
  *
  */
 
-const useCountryList = (payload?: NonNullable<Parameters<typeof useQuery<'p2p_country_list'>>[1]>['payload']) => {
-    const { isSuccess } = useAuthorize();
-    const { data, ...rest } = useQuery('p2p_country_list', {
-        payload,
-        options: { enabled: isSuccess, refetchOnWindowFocus: false },
+import { useP2PCountryList } from '@deriv-com/api-hooks';
+
+const useCountryList = () => {
+    const { data, ...rest } = useP2PCountryList({
+        options: { refetchOnWindowFocus: false },
     });
 
     return {

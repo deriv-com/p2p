@@ -1,6 +1,5 @@
-import { THooks, TSelectedPaymentMethod } from 'types';
+import { TFormState, THooks, TSelectedPaymentMethod } from 'types';
 import { Dropdown } from '@/components';
-import { TFormState } from '@/reducers/types';
 import { Button, Input, Text } from '@deriv-com/ui';
 import CloseCircle from '../../../public/ic-close-circle.svg';
 

@@ -1,16 +1,6 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BlockUnblockUserModal from '../BlockUnblockUserModal';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>
-            <div id='v2_modal_root' />
-            {children}
-        </AuthProvider>
-    </APIProvider>
-);
 
 const mockOnRequestClose = jest.fn();
 const mockUseBlockMutate = jest.fn();
@@ -39,10 +29,7 @@ describe('BlockUnblockUserModal', () => {
                 isBlocked={false}
                 isModalOpen={true}
                 onRequestClose={mockOnRequestClose}
-            />,
-            {
-                wrapper,
-            }
+            />
         );
 
         expect(
@@ -66,10 +53,7 @@ describe('BlockUnblockUserModal', () => {
                 isBlocked={true}
                 isModalOpen={true}
                 onRequestClose={mockOnRequestClose}
-            />,
-            {
-                wrapper,
-            }
+            />
         );
 
         expect(
@@ -93,10 +77,7 @@ describe('BlockUnblockUserModal', () => {
                 isBlocked={true}
                 isModalOpen={true}
                 onRequestClose={mockOnRequestClose}
-            />,
-            {
-                wrapper,
-            }
+            />
         );
 
         const cancelBtn = screen.getByRole('button', {

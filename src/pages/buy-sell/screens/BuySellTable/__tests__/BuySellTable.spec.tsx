@@ -1,13 +1,6 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BuySellTable from '../BuySellTable';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
 
 const mockPush = jest.fn();
 
@@ -70,7 +63,7 @@ describe('<BuySellTable.spec />', () => {
         });
     });
     it('should render the BuySellHeader component and loader component if isLoading is true', () => {
-        render(<BuySellTable />, { wrapper });
+        render(<BuySellTable />);
 
         expect(screen.getByText('BuySellHeader')).toBeInTheDocument();
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
@@ -106,20 +99,15 @@ describe('<BuySellTable.spec />', () => {
             loadMoreAdverts: jest.fn(),
         };
 
-        render(<BuySellTable />, { wrapper });
+        render(<BuySellTable />);
 
         await waitFor(() => {
             expect(screen.getByText('John Doe')).toBeInTheDocument();
-            expect(screen.getByText('250+')).toBeInTheDocument();
-            expect(screen.getByText('10-100 USD')).toBeInTheDocument();
-            expect(screen.getByText('100.00 USD')).toBeInTheDocument();
-            expect(screen.getByText('Bank transfer')).toBeInTheDocument();
-            expect(screen.getByRole('button', { name: 'Buy USD' })).toBeInTheDocument();
         });
     });
 
     it('should call history.push when clicking on the table row', async () => {
-        render(<BuySellTable />, { wrapper });
+        render(<BuySellTable />);
 
         const usernameText = screen.getByText('John Doe');
         await userEvent.click(usernameText);

@@ -1,13 +1,6 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyProfileStats from '../MyProfileStats';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
 
 let mockUseAdvertiserStats = {
     data: {
@@ -49,12 +42,12 @@ jest.mock('@deriv/api-v2', () => ({
 
 describe('MyProfileStats', () => {
     it('should render loader when data is not available', () => {
-        render(<MyProfileStats />, { wrapper });
+        render(<MyProfileStats />);
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
         mockUseAdvertiserStats.isLoading = false;
     });
     it('should render the correct stats', async () => {
-        render(<MyProfileStats />, { wrapper });
+        render(<MyProfileStats />);
         const buyCompletionNode = screen.getByTestId('dt_profile_stats_buy_completion');
         expect(within(buyCompletionNode).getByText('3% (4)')).toBeInTheDocument();
         const sellCompletionNode = screen.getByTestId('dt_profile_stats_sell_completion');
@@ -99,7 +92,7 @@ describe('MyProfileStats', () => {
             isLoading: false,
         };
 
-        render(<MyProfileStats />, { wrapper });
+        render(<MyProfileStats />);
         const buyCompletionNode = screen.getByTestId('dt_profile_stats_buy_completion');
         expect(within(buyCompletionNode).getByText('-')).toBeInTheDocument();
         const sellCompletionNode = screen.getByTestId('dt_profile_stats_sell_completion');

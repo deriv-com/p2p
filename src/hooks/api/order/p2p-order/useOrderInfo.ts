@@ -1,15 +1,16 @@
 import { useCallback, useMemo } from 'react';
-import useSubscription from '../../../../../useSubscription';
+import { WithRequiredProperty } from 'types';
+import { useP2POrderInfo } from '@deriv-com/api-hooks';
 
 type TPayload = WithRequiredProperty<
-    NonNullable<Parameters<ReturnType<typeof useSubscription<'p2p_order_info'>>['subscribe']>>[0]['payload'],
+    NonNullable<Parameters<ReturnType<typeof useP2POrderInfo>['subscribe']>>[0]['payload'],
     'id'
 >;
 
 // TODO: Convert this to use useSubscribe as it is a subscribable endpoint
 /** This custom hook that returns information about the given order ID */
 const useOrderInfo = () => {
-    const { data, subscribe: subscribeOrderInfo, ...rest } = useSubscription('p2p_order_info');
+    const { data, subscribe: subscribeOrderInfo, ...rest } = useP2POrderInfo();
 
     const subscribe = useCallback(
         (payload: TPayload) => {
@@ -20,7 +21,7 @@ const useOrderInfo = () => {
 
     // modify the data to add additional information
     const modified_data = useMemo(() => {
-        if (!data?.p2p_order_info) return undefined;
+        if (!data) return undefined;
 
         const {
             advert_details,
@@ -31,10 +32,10 @@ const useOrderInfo = () => {
             is_seen,
             review_details,
             verification_pending,
-        } = data.p2p_order_info;
+        } = data;
 
         return {
-            ...data.p2p_order_info,
+            ...data,
             advert_details: {
                 ...advert_details,
                 /** Indicates if this is block trade advert or not. */
@@ -76,7 +77,7 @@ const useOrderInfo = () => {
             /** Indicates that the seller in the process of confirming the order. */
             is_verification_pending: Boolean(verification_pending),
         };
-    }, [data?.p2p_order_info]);
+    }, [data]);
 
     return {
         /** The 'p2p_order_info' response. */

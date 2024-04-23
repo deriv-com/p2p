@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useGetAccountStatus } from '@deriv/api-v2';
+import { useGetAccountStatus } from '@deriv-com/api-hooks';
 
 /** A custom hook that returns the POA, POI status and if POA is required for P2P */
 const usePoiPoaStatus = () => {

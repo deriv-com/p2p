@@ -1,4 +1,3 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Advertiser from '../Advertiser';
@@ -11,12 +10,6 @@ const mockUseHistory = {
 const mockUseLocation = {
     state: { from: '' },
 };
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
@@ -56,7 +49,7 @@ jest.mock('../../AdvertiserAdvertsTable', () => ({
 
 describe('<Advertiser />', () => {
     it('should render the Advertiser page component', () => {
-        render(<Advertiser />, { wrapper });
+        render(<Advertiser />);
 
         expect(screen.getByText('Advertiser’s page')).toBeInTheDocument();
         expect(screen.getByText('ProfileContent')).toBeInTheDocument();
@@ -64,7 +57,7 @@ describe('<Advertiser />', () => {
     });
 
     it('should call navigate back to buy-sell page when the back button is clicked', async () => {
-        render(<Advertiser />, { wrapper });
+        render(<Advertiser />);
         const backButton = screen.getByTestId('dt_page_return_btn');
         await userEvent.click(backButton);
         expect(mockUseHistory.push).toHaveBeenCalledWith('/buy-sell');
@@ -72,7 +65,7 @@ describe('<Advertiser />', () => {
 
     it('should call navigate back to my-profile page when the back button is clicked', async () => {
         mockUseLocation.state.from = 'MyProfile';
-        render(<Advertiser />, { wrapper });
+        render(<Advertiser />);
         const backButton = screen.getByTestId('dt_page_return_btn');
         await userEvent.click(backButton);
         expect(mockUseHistory.push).toHaveBeenCalledWith('/my-profile?tab=My+counterparties');

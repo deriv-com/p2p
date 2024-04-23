@@ -1,38 +1,19 @@
-import useInfiniteQuery from '../../../../../useInfiniteQuery';
-import useAuthorize from '../../../../useAuthorize';
+import { useMemo } from 'react';
+import { useP2PAdvertList } from '@deriv-com/api-hooks';
 
 /**
  * This custom hook returns available adverts for use with 'p2p_order_create' by calling 'p2p_advert_list' endpoint
  */
-const useAdvertList = (
-    payload?: NonNullable<Parameters<typeof useInfiniteQuery<'p2p_advert_list'>>[1]>['payload'],
-    config?: NonNullable<Parameters<typeof useInfiniteQuery<'p2p_advert_list'>>[1]>['options']
-) => {
-    const { isSuccess } = useAuthorize();
-    const { data, fetchNextPage, ...rest } = useInfiniteQuery('p2p_advert_list', {
+const useAdvertList = (payload?: NonNullable<Parameters<typeof useP2PAdvertList>[1]>['payload']) => {
+    const { data, loadMoreAdverts, ...rest } = useP2PAdvertList({
         payload: { ...payload, offset: payload?.offset, limit: payload?.limit },
-        options: {
-            getNextPageParam: (lastPage, pages) => {
-                if (lastPage?.p2p_advert_list?.list.length === 0 || !lastPage?.p2p_advert_list?.list) return;
-
-                return pages.length;
-            },
-            enabled: isSuccess && (config?.enabled === undefined || config.enabled),
-        },
     });
 
-    // Flatten the data array.
-    const flatten_data = React.useMemo(() => {
-        if (!data?.pages?.length) return;
-
-        return data?.pages?.flatMap(page => page?.p2p_advert_list?.list);
-    }, [data?.pages]);
-
     // Add additional information to the 'p2p_advert_list' data
-    const modified_data = React.useMemo(() => {
-        if (!flatten_data?.length) return undefined;
+    const modified_data = useMemo(() => {
+        if (!data?.length) return undefined;
 
-        return flatten_data.map(advert => ({
+        return data.map(advert => ({
             ...advert,
             /** Determine if the rate is floating or fixed */
             is_floating: advert?.rate_type === 'float',
@@ -54,12 +35,12 @@ const useAdvertList = (
                 has_not_been_recommended: advert?.advertiser_details.is_recommended === null,
             },
         }));
-    }, [flatten_data]);
+    }, [data]);
 
     return {
         /** The 'p2p_advert_list' response. */
         data: modified_data,
-        loadMoreAdverts: fetchNextPage,
+        loadMoreAdverts,
         ...rest,
     };
 };

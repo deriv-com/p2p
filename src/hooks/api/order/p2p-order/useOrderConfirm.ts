@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
-import useInvalidateQuery from '../../../../../useInvalidateQuery';
-import useMutation from '../../../../../useMutation';
+import { useP2pOrderConfirm } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 
-type Tpayload = NonNullable<Parameters<ReturnType<typeof useMutation<'p2p_order_confirm'>>['mutate']>>[0]['payload'];
+type Tpayload = NonNullable<Parameters<ReturnType<typeof useP2pOrderConfirm>['mutate']>>[0]['payload'];
 
 /**
  * A custom hook for handling P2P order confirmation
@@ -26,14 +26,14 @@ const useOrderConfirm = () => {
         data,
         mutate: _mutate,
         ...rest
-    } = useMutation('p2p_order_confirm', {
+    } = useP2pOrderConfirm({
         onSuccess: () => {
             invalidate('p2p_order_info');
         },
     });
 
     const modified_data = useMemo(() => {
-        const p2p_order_confirm = data?.p2p_order_confirm;
+        const p2p_order_confirm = data;
 
         if (!p2p_order_confirm) return undefined;
 
@@ -42,7 +42,7 @@ const useOrderConfirm = () => {
             /** Indicates whether a dry run was successful or not (for dry run confirmations) **/
             is_dry_run_successful: Boolean(p2p_order_confirm.dry_run),
         };
-    }, [data?.p2p_order_confirm]);
+    }, [data]);
 
     const mutate = useCallback((payload: Tpayload) => _mutate({ payload }), [_mutate]);
 

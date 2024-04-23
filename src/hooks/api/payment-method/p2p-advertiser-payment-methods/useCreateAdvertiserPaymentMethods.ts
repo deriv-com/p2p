@@ -1,16 +1,16 @@
 import { useCallback } from 'react';
-import useInvalidateQuery from '../../../../../useInvalidateQuery';
-import useMutation from '../../../../../useMutation';
+import { useP2pAdvertiserPaymentMethods } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 
 type TPayloads = NonNullable<
-    NonNullable<Parameters<ReturnType<typeof useMutation<'p2p_advertiser_payment_methods'>>['mutate']>[0]>['payload']
+    NonNullable<Parameters<ReturnType<typeof useP2pAdvertiserPaymentMethods>['mutate']>[0]>['payload']
 >;
 type TCreatePayload = NonNullable<TPayloads['create']>[0];
 
 /** A custom hook that sends a request to create a new p2p advertiser payment method. */
 const useCreateAdvertiserPaymentMethods = () => {
     const invalidate = useInvalidateQuery();
-    const { data, mutate, ...rest } = useMutation('p2p_advertiser_payment_methods', {
+    const { data, mutate, ...rest } = useP2pAdvertiserPaymentMethods({
         onSuccess: () => invalidate('p2p_advertiser_payment_methods'),
     });
 

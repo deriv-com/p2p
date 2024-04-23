@@ -104,9 +104,9 @@ describe('<CurrencyDropdown />', () => {
 
         const searchInput = screen.getByRole('searchbox');
 
-        act(async () => {
+        async () => {
             await userEvent.type(searchInput, 'BOB');
-        });
+        };
 
         act(() => {
             jest.runAllTimers();
@@ -124,9 +124,9 @@ describe('<CurrencyDropdown />', () => {
 
         const searchInput = screen.getByRole('searchbox');
 
-        act(async () => {
+        async () => {
             await userEvent.type(searchInput, 'JPY');
-        });
+        };
 
         act(() => {
             jest.runAllTimers();
@@ -134,9 +134,9 @@ describe('<CurrencyDropdown />', () => {
 
         expect(screen.getByText(/No results for "JPY"./s)).toBeInTheDocument();
 
-        act(async () => {
+        async () => {
             await userEvent.clear(searchInput);
-        });
+        };
 
         act(() => {
             jest.runAllTimers();

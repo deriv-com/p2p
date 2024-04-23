@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
 import { AD_ACTION, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
+import { useExchangeRateSubscription } from '@/hooks/api/account';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { percentOf, roundOffDecimal, setDecimalPlaces } from '@/utils';
-import { useExchangeRateSubscription } from '@deriv/api-v2';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 
@@ -30,7 +29,7 @@ const AdSummary = ({
     const { queryString } = useQueryString();
     const adOption = queryString.formAction;
     const { data: p2pSettings } = api.settings.useSettings();
-    const { data: exchangeRateValue, subscribe } = useExchangeRateSubscription();
+    const { subscribeRates } = useExchangeRateSubscription();
     const overrideExchangeRate = p2pSettings?.override_exchange_rate;
 
     const marketRateType = adOption === AD_ACTION.CREATE ? rateType : adRateType;
@@ -40,13 +39,7 @@ const AdSummary = ({
 
     let displayPriceRate: number | string = '';
     let displayTotal = '';
-
-    useEffect(() => {
-        subscribe({
-            base_currency: 'USD',
-            target_currency: localCurrency,
-        });
-    }, [localCurrency, subscribe]);
+    const exchangeRateValue = subscribeRates({ base_currency: 'USD', target_currencies: [localCurrency] });
 
     const exchangeRate = exchangeRateValue?.rates?.[localCurrency];
     const marketRate = overrideExchangeRate ? Number(overrideExchangeRate) : exchangeRate;
