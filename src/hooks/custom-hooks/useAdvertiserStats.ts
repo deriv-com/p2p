@@ -1,7 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { daysSince, isEmptyObject } from '@/utils';
-import { useAuthentication, useAuthorize, useSettings } from '@deriv/api-v2';
+import { useAuthentication, useAuthorize } from '@deriv/api-v2';
+import { useGetSettings } from '@deriv-com/api-hooks';
 import { api } from '..';
 
 /**
@@ -24,7 +25,7 @@ const toAdvertiserMinutes = (duration?: number | null) => {
 const useAdvertiserStats = (advertiserId?: string) => {
     const { isSuccess } = useAuthorize();
     const { data, subscribe, unsubscribe } = api.advertiser.useGetInfo(advertiserId);
-    const { data: settings, isSuccess: isSuccessSettings } = useSettings();
+    const { data: settings, isSuccess: isSuccessSettings } = useGetSettings();
     const { data: authenticationStatus, isSuccess: isSuccessAuthenticationStatus } = useAuthentication();
     const { error, isIdle, isLoading, isSubscribed } = useAdvertiserInfoState();
 

@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react';
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { AvailableP2PBalanceModal } from '@/components/Modals';
+import { api } from '@/hooks';
 import { useDevice } from '@/hooks/custom-hooks';
 import { numberToCurrencyText } from '@/utils';
-import { useActiveAccount } from '@deriv/api-v2';
 import { LabelPairedCircleInfoMdRegularIcon } from '@deriv/quill-icons';
 import { Text } from '@deriv-com/ui';
 import { ProfileDailyLimit } from '../ProfileDailyLimit';
 import './ProfileBalance.scss';
 
 const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
-    const { data: activeAccount } = useActiveAccount();
+    const { data: activeAccount } = api.account.useActiveAccount();
     const { isDesktop } = useDevice();
     const [shouldShowAvailableBalanceModal, setShouldShowAvailableBalanceModal] = useState(false);
 

@@ -29,7 +29,7 @@ const FloatingRate = ({
     const { data: exchangeRateValue, subscribe } = useExchangeRateSubscription();
     const { isMobile } = useDevice();
 
-    const { data: p2pSettings } = api.settings.useGetSettings();
+    const { data: p2pSettings } = api.settings.useSettings();
     const overrideExchangeRate = p2pSettings?.override_exchange_rate;
     const marketRate = overrideExchangeRate
         ? Number(overrideExchangeRate)

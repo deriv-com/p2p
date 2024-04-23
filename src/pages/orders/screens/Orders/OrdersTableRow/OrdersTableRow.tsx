@@ -2,10 +2,10 @@ import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { THooks } from 'types';
 import { ORDERS_STATUS, ORDERS_URL } from '@/constants';
+import { api } from '@/hooks';
 import { useExtendedOrderDetails, useQueryString } from '@/hooks/custom-hooks';
 import { OrderRatingButton, OrderStatusTag, OrderTimer } from '@/pages/orders/components';
 import { getDistanceToServerTime } from '@/utils';
-import { useActiveAccount, useServerTime } from '@deriv/api-v2';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import ChatIcon from '../../../../../public/ic-chat.svg';
 import './OrdersTableRow.scss';
@@ -15,8 +15,8 @@ const OrdersTableRow = ({ ...props }: THooks.Order.GetList[number]) => {
     const { queryString } = useQueryString();
     const history = useHistory();
     const isPast = queryString.tab === ORDERS_STATUS.PAST_ORDERS;
-    const { data: activeAccount } = useActiveAccount();
-    const { data: serverTime } = useServerTime();
+    const { data: activeAccount } = api.account.useActiveAccount();
+    const { data: serverTime } = api.account.useServerTime();
     const { data: orderDetails } = useExtendedOrderDetails({
         loginId: activeAccount?.loginid,
         orderDetails: props,
