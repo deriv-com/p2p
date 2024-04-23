@@ -1,6 +1,6 @@
+import { api } from '@/hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { getDistanceToServerTime } from '@/utils';
-import { useServerTime } from '@deriv/api-v2';
 import { Text, useDevice } from '@deriv-com/ui';
 import { OrderTimer } from '../../OrderTimer';
 
@@ -24,7 +24,7 @@ const OrderDetailsCardHeader = () => {
 
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'sm' : 'xs';
-    const { data: serverTime } = useServerTime();
+    const { data: serverTime } = api.account.useServerTime();
     const distance = getDistanceToServerTime(orderExpiryMilliseconds, serverTime?.server_time_moment);
     const getStatusColor = () => {
         if (shouldHighlightAlert) return 'warning';

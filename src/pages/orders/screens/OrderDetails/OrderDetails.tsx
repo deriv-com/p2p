@@ -4,7 +4,7 @@ import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { api } from '@/hooks';
 import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
-import { useActiveAccount, useAuthorize, useServerTime } from '@deriv/api-v2';
+import { useAuthData } from '@deriv-com/api-hooks';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
 import ChatIcon from '../../../../public/ic-chat.svg';
 import { OrderDetailsCard } from '../../components/OrderDetailsCard';
@@ -19,10 +19,10 @@ const OrderDetails = () => {
     const [showChat, setShowChat] = useState(!!showChatParam);
 
     const { orderId } = useParams<{ orderId: string }>();
-    const { isSuccess } = useAuthorize();
+    const { isAuthorized: isSuccess } = useAuthData();
     const { data: orderInfo, error, isLoading, subscribe, unsubscribe } = api.order.useGet();
-    const { data: activeAccount } = useActiveAccount();
-    const { data: serverTime } = useServerTime();
+    const { data: activeAccount } = api.account.useActiveAccount();
+    const { data: serverTime } = api.account.useServerTime();
     const { data: orderDetails } = useExtendedOrderDetails({
         loginId: activeAccount?.loginid,
         orderDetails: orderInfo,

@@ -14,7 +14,7 @@ type TCurrencyDropdownProps = {
 };
 
 const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDropdownProps) => {
-    const { data } = api.settings.useGetSettings();
+    const { data } = api.settings.useSettings();
     const { isMobile } = useDevice();
     const [showCurrencySelector, setShowCurrencySelector] = useState<boolean>(false);
 

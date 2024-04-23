@@ -1,8 +1,6 @@
-/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-namespace */
 import { api } from '@/hooks';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
-import { useServerTime } from '@deriv/api-v2';
 
 declare global {
     interface WindowEventMap {
@@ -46,7 +44,7 @@ export type TCurrencyListItem = {
     value: string;
 };
 
-export type TServerTime = ReturnType<typeof useServerTime>['data'];
+export type TServerTime = ReturnType<typeof api.account.useServerTime>['data'];
 
 const prefix = '/cashier/p2p-v2';
 
@@ -94,7 +92,7 @@ export namespace THooks {
         export type Delete = NonNullable<ReturnType<typeof api.advertiserPaymentMethods.useDelete>['data']>;
     }
     export namespace Settings {
-        export type Get = NonNullable<ReturnType<typeof api.settings.useGetSettings>['data']>;
+        export type Get = NonNullable<ReturnType<typeof api.settings.useSettings>['data']>;
     }
     export namespace Country {
         export type Get = NonNullable<ReturnType<typeof api.countryList.useGet>['data']>;
@@ -140,4 +138,37 @@ export type TReducerAction = {
         selectedPaymentMethod?: DeepPartial<TSelectedPaymentMethod>;
     };
     type: TFormState['actionType'];
+};
+
+//TODO: add the type accordingly and remove this once imported from api-hooks
+export type TSocketError<T> = {
+    /**
+     * Echo of the request made.
+     */
+    echo_req: {
+        [k: string]: unknown;
+    };
+    /**
+     * Error object.
+     */
+    error: {
+        code: string;
+        message: string;
+    };
+    /**
+     * Action name of the request made.
+     */
+    msg_type: T;
+    /**
+     * [Optional] Used to map request to response.
+     */
+    req_id?: number;
+    /**
+     * Error message from useSubscription response
+     */
+    message?: string;
+};
+
+export type WithRequiredProperty<T, Key extends keyof T> = T & {
+    [K in Key]-?: T[K];
 };

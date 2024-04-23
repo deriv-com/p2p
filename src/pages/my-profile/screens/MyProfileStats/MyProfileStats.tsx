@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { api } from '@/hooks';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
 import { numberToCurrencyText } from '@/utils';
-import { useActiveAccount } from '@deriv/api-v2';
 import { Loader } from '@deriv-com/ui';
 import MyProfileStatsItem from './MyProfileStatsItem';
 import './MyProfileStats.scss';
@@ -14,7 +14,7 @@ const MyProfileStats = ({ advertiserId }: TMyProfileStatsProps) => {
     const [shouldShowTradeVolumeLifetime, setShouldShowTradeVolumeLifetime] = useState(false);
     const [shouldShowTotalOrdersLifetime, setShouldShowTotalOrdersLifetime] = useState(false);
     const { data, isLoading } = useAdvertiserStats(advertiserId);
-    const { data: activeAccount } = useActiveAccount();
+    const { data: activeAccount } = api.account.useActiveAccount();
 
     if (isLoading || !data) return <Loader className='relative mt-16' />;
 
