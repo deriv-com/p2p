@@ -11,6 +11,7 @@ export * from './FloatingRate';
 export * from './FlyoutMenu';
 export * from './FormProgress';
 export * from './FullPageMobileWrapper';
+export * from './Header';
 export * from './Input';
 export * from './LightDivider';
 export * from './MobileTabs';
