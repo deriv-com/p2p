@@ -1,7 +1,5 @@
 import clsx from 'clsx';
-
 import { Text, useDevice } from '@deriv-com/ui';
-
 import './AdConditionBlockElement.scss';
 
 type TAdConditionBlockElementProps = {
@@ -15,8 +13,8 @@ const AdConditionBlockElement = ({ isSelected, label, onClick, value }: TAdCondi
     const { isMobile } = useDevice();
     return (
         <div
-            className={clsx('p2p-ad-condition-block-element', {
-                'p2p-ad-condition-block-element--selected': isSelected,
+            className={clsx('ad-condition-block-element', {
+                'ad-condition-block-element--selected': isSelected,
             })}
             onClick={() => onClick(value)}
         >

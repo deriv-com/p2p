@@ -1,6 +1,5 @@
 import { APIProvider, AuthProvider, useGetAccountStatus } from '@deriv/api-v2';
 import { renderHook } from '@testing-library/react-hooks';
-
 import usePoiPoaStatus from '../custom-hooks/usePoiPoaStatus';
 
 const mockUseGetAccountStatus = useGetAccountStatus as jest.MockedFunction<typeof useGetAccountStatus>;

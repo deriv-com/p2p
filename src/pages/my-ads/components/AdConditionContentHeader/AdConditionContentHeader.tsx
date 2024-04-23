@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-
-import { LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
-import { Button, Text, useDevice } from '@deriv-com/ui';
-
+import { useState } from 'react';
 import { AdConditionsModal } from '@/components/Modals';
 import { AD_CONDITION_CONTENT, AD_CONDITION_TYPES } from '@/constants';
+import { LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
+import { Button, Text, useDevice } from '@deriv-com/ui';
 
 type TAdConditionContentHeaderProps = {
     type: (typeof AD_CONDITION_TYPES)[keyof typeof AD_CONDITION_TYPES];

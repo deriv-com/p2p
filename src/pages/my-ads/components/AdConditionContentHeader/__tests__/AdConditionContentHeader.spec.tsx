@@ -1,7 +1,6 @@
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import AdConditionContentHeader from '../AdConditionContentHeader';
 
 jest.mock('@deriv-com/ui', () => ({

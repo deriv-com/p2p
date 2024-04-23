@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
-
-import { useExchangeRateSubscription } from '@deriv/api-v2';
-import { Text, useDevice } from '@deriv-com/ui';
-import { FormatUtils } from '@deriv-com/utils';
-
 import { AD_ACTION, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { percentOf, roundOffDecimal, setDecimalPlaces } from '@/utils';
+import { useExchangeRateSubscription } from '@deriv/api-v2';
+import { Text, useDevice } from '@deriv-com/ui';
+import { FormatUtils } from '@deriv-com/utils';
 
 type TAdSummaryProps = {
     adRateType?: string; // ratetype for the ad when action is edit

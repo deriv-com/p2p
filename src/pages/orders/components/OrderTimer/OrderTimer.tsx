@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useCountdown } from 'usehooks-ts';
-
-import { Text, useDevice } from '@deriv-com/ui';
-
 import { millisecondsToTimer } from '@/utils';
-
+import { Text, useDevice } from '@deriv-com/ui';
 import './OrderTimer.scss';
 
 type TOrderTimer = {
@@ -24,7 +21,7 @@ const OrderTimer = ({ distance }: TOrderTimer) => {
     }, [distance, startCountdown]);
 
     return (
-        <Text className='p2p-order-timer' size={isMobile ? 'sm' : 'xs'}>
+        <Text className='order-timer' size={isMobile ? 'sm' : 'xs'}>
             {timeLeft > 0 ? millisecondsToTimer(timeLeft * 1000) : 'expired'}
         </Text>
     );

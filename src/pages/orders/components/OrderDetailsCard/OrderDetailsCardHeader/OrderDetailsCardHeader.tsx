@@ -1,9 +1,7 @@
-import { useServerTime } from '@deriv/api-v2';
-import { Text, useDevice } from '@deriv-com/ui';
-
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { getDistanceToServerTime } from '@/utils';
-
+import { useServerTime } from '@deriv/api-v2';
+import { Text, useDevice } from '@deriv-com/ui';
 import { OrderTimer } from '../../OrderTimer';
 
 const OrderDetailsCardHeader = () => {

@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import UserAvatar from '../UserAvatar';
 
 describe('UserAvatar', () => {

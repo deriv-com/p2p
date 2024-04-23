@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { TAdvertsTableRowRenderer } from 'types';
 import { AdvertsTableRow, Table } from '@/components';
 import { DerivLightIcCashierNoAdsIcon } from '@deriv/quill-icons';

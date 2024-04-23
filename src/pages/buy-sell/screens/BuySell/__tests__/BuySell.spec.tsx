@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import BuySell from '../BuySell';
 
 jest.mock('../../BuySellTable/BuySellTable', () => jest.fn(() => <div>BuySellTable</div>));

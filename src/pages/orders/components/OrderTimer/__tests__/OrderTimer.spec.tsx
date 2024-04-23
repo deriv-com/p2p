@@ -1,7 +1,5 @@
 import { useCountdown } from 'usehooks-ts';
-
 import { render, screen } from '@testing-library/react';
-
 import OrderTimer from '../OrderTimer';
 
 const mockFn = jest.fn();

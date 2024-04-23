@@ -1,5 +1,5 @@
 //TODO: Below component will be removed once deriv-com/ui form-progress is ready
-import React, { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { TStep } from 'types';
 import { Text, useDevice } from '@deriv-com/ui';
@@ -21,7 +21,7 @@ const FormProgress = ({ currentStep, steps = [], subSectionIndex = 0 }: TFormPro
 
     const animateCompleteBar = () => {
         const subStepsCount = steps[currentStep]?.subStepCount || null;
-        const elFirstIdentifier = (document.querySelector('.p2p-identifier') as HTMLSpanElement) || {
+        const elFirstIdentifier = (document.querySelector('.identifier') as HTMLSpanElement) || {
             clientWidth: 1,
             offsetLeft: 0,
         };
@@ -40,11 +40,11 @@ const FormProgress = ({ currentStep, steps = [], subSectionIndex = 0 }: TFormPro
     return (
         <>
             {isDesktop ? (
-                <div className='p2p-form-progress'>
-                    <div className='p2p-form-progress__header'>
-                        <div className='p2p-form-progress__steps'>
+                <div className='form-progress'>
+                    <div className='form-progress__header'>
+                        <div className='form-progress__steps'>
                             <div
-                                className='p2p-form-progress__steps--before'
+                                className='form-progress__steps--before'
                                 style={{
                                     width: `calc(100% * ${steps.length - 1} / ${steps.length})`,
                                 }}
@@ -52,11 +52,11 @@ const FormProgress = ({ currentStep, steps = [], subSectionIndex = 0 }: TFormPro
                             {steps.map((item, idx) => (
                                 <div key={item.header.title}>
                                     {(active = idx === currentStep)}
-                                    <div className='p2p-form-progress__step'>
+                                    <div className='form-progress__step'>
                                         <Text
                                             align='center'
-                                            className={clsx('p2p-identifier', {
-                                                'p2p-identifier--active': idx <= currentStep,
+                                            className={clsx('identifier', {
+                                                'identifier--active': idx <= currentStep,
                                             })}
                                             color='white'
                                             size='xs'
@@ -76,14 +76,14 @@ const FormProgress = ({ currentStep, steps = [], subSectionIndex = 0 }: TFormPro
                                     </div>
                                 </div>
                             ))}
-                            <div className='p2p-form-progress__steps--after' ref={elCompletedBar} />
+                            <div className='form-progress__steps--after' ref={elCompletedBar} />
                         </div>
                     </div>
                 </div>
             ) : (
                 <div>
-                    <div className='p2p-form-progress__steps--after' ref={elCompletedBar} />
-                    <div className='p2p-form-progress--initial' />
+                    <div className='form-progress__steps--after' ref={elCompletedBar} />
+                    <div className='form-progress--initial' />
                 </div>
             )}
         </>

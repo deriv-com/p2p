@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
-
-import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
-
 import { FullPageMobileWrapper } from '@/components/FullPageMobileWrapper';
 import { api } from '@/hooks';
-
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import { OrderDetailsComplainModalRadioGroup } from './OrderDetailsComplainModalRadioGroup';
-
 import './OrderDetailsComplainModal.scss';
 
 type TOrderDetailsComplainModal = {
@@ -26,7 +22,7 @@ const ComplainExplanation = () => {
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'sm' : 'xs';
     return (
-        <div className='p2p-order-details-complain-modal__explanation'>
+        <div className='order-details-complain-modal__explanation'>
             <Text size={textSize}>If your complaint isn’t listed here, please contact our </Text>{' '}
             <Text color='red' size={textSize} weight='bold'>
                 Customer Support
@@ -40,7 +36,7 @@ const ComplainFooter = ({ disputeOrderRequest, disputeReason, onRequestClose }: 
     const { isMobile } = useDevice();
     const buttonTextSize = isMobile ? 'md' : 'sm';
     return (
-        <div className='p2p-order-details-complain-modal__complain-footer'>
+        <div className='order-details-complain-modal__complain-footer'>
             <Button
                 className='border-2'
                 color='black'
@@ -87,7 +83,7 @@ const OrderDetailsComplainModal = ({
     if (isMobile)
         return (
             <FullPageMobileWrapper
-                className='p2p-order-details-complain-modal'
+                className='order-details-complain-modal'
                 onBack={onRequestClose}
                 renderFooter={() => (
                     <ComplainFooter
@@ -113,14 +109,14 @@ const OrderDetailsComplainModal = ({
     return (
         <Modal
             ariaHideApp={false}
-            className='p2p-order-details-complain-modal'
+            className='order-details-complain-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
         >
             <Modal.Header onRequestClose={onRequestClose}>
                 <Text weight='bold'>What’s your complaint?</Text>
             </Modal.Header>
-            <Modal.Body className='p2p-order-details-complain-modal__body'>
+            <Modal.Body className='order-details-complain-modal__body'>
                 <OrderDetailsComplainModalRadioGroup
                     disputeReason={disputeReason}
                     isBuyOrderForUser={isBuyOrderForUser}

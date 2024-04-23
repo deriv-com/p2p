@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
-
-import { LabelPairedChevronRightLgRegularIcon } from '@deriv/quill-icons';
-import { Modal, Text, ToggleSwitch, useDevice } from '@deriv-com/ui';
-
 import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { api } from '@/hooks';
-
+import { LabelPairedChevronRightLgRegularIcon } from '@deriv/quill-icons';
+import { Modal, Text, ToggleSwitch, useDevice } from '@deriv-com/ui';
 import { FilterModalContent } from './FilterModalContent';
 import { FilterModalFooter } from './FilterModalFooter';
-
 import './FilterModal.scss';
 
 type TFilterModalProps = {
@@ -88,7 +84,7 @@ const FilterModal = ({
     if (isMobile && isModalOpen) {
         return (
             <FullPageMobileWrapper
-                className='p2p-filter-modal'
+                className='filter-modal'
                 onBack={showPaymentMethods ? () => setShowPaymentMethods(false) : onRequestClose}
                 renderFooter={() => (
                     <FilterModalFooter
@@ -117,7 +113,7 @@ const FilterModal = ({
     }
 
     return (
-        <Modal ariaHideApp={false} className='p2p-filter-modal' isOpen={isModalOpen} onRequestClose={onRequestClose}>
+        <Modal ariaHideApp={false} className='filter-modal' isOpen={isModalOpen} onRequestClose={onRequestClose}>
             <Modal.Header className='border-2' onRequestClose={onRequestClose}>
                 <PageReturn
                     onClick={() => setShowPaymentMethods(false)}

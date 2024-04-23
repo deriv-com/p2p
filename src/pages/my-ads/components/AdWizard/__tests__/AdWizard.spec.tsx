@@ -1,6 +1,5 @@
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
-
 import AdWizard from '../AdWizard';
 
 jest.mock('@deriv-com/ui', () => ({

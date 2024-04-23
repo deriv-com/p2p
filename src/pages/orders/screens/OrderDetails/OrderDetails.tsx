@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-
-import { useActiveAccount, useAuthorize, useServerTime } from '@deriv/api-v2';
-import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
-
 import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { api } from '@/hooks';
 import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
-
+import { useActiveAccount, useAuthorize, useServerTime } from '@deriv/api-v2';
+import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
 import ChatIcon from '../../../../public/ic-chat.svg';
 import { OrderDetailsCard } from '../../components/OrderDetailsCard';
 import { OrderDetailsCardFooter } from '../../components/OrderDetailsCard/OrderDetailsCardFooter';
 import { OrdersChatSection } from '../OrdersChatSection';
-
 import './OrderDetails.scss';
 
 const OrderDetails = () => {
@@ -73,7 +69,7 @@ const OrderDetails = () => {
                     />
                 ) : (
                     <FullPageMobileWrapper
-                        className='p2p-order-details'
+                        className='order-details'
                         onBack={onReturn}
                         renderFooter={() => <OrderDetailsCardFooter />}
                         renderHeader={() => (
@@ -111,7 +107,7 @@ const OrderDetails = () => {
         <OrderDetailsProvider value={{ isErrorOrderInfo: !!error, orderDetails }}>
             <div className='w-full'>
                 <PageReturn onClick={onReturn} pageTitle={headerText} weight='bold' />
-                <div className='p2p-order-details'>
+                <div className='order-details'>
                     {shouldShowLostFundsBanner && (
                         <InlineMessage className='w-fit mb-6' variant='warning'>
                             <Text size='2xs'>{warningMessage}</Text>

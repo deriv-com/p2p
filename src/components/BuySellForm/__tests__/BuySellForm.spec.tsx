@@ -1,11 +1,8 @@
 import Modal from 'react-modal';
-
+import { floatingPointValidator } from '@/utils';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { floatingPointValidator } from '@/utils';
-
 import BuySellForm from '../BuySellForm';
 
 const mockMutateFn = jest.fn();

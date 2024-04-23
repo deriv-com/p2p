@@ -1,6 +1,5 @@
 import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
-
 import AdvertiserNameBadges from '../AdvertiserNameBadges';
 
 const wrapper = ({ children }: { children: JSX.Element }) => (

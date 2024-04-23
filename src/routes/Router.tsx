@@ -1,10 +1,7 @@
-import React, { Suspense } from 'react';
+import { FC, Suspense } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-
-import { Loader } from '@deriv-com/ui';
-
 import { BASE_URL, BUY_SELL_URL } from '@/constants';
-
+import { Loader } from '@deriv-com/ui';
 import { routes } from './routes-config';
 
 type TState = { from: string };
@@ -20,7 +17,7 @@ declare module 'react-router-dom' {
 }
 
 type TRoutesWithSubRoutes = {
-    component: React.FC<RouteComponentProps>;
+    component: FC<RouteComponentProps>;
     path: string;
     routes?: TRoutesWithSubRoutes[];
 };
@@ -36,7 +33,7 @@ const RouteWithSubRoutes = (route: TRoutesWithSubRoutes) => {
     );
 };
 
-const Router: React.FC = () => {
+const Router: FC = () => {
     return (
         <Suspense fallback={<Loader isFullScreen />}>
             <Switch>

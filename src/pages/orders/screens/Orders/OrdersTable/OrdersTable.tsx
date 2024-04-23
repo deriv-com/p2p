@@ -1,12 +1,9 @@
 import { memo } from 'react';
 import clsx from 'clsx';
 import { THooks } from 'types';
-
 import { Loader, Table, useDevice } from '@deriv-com/ui';
-
 import { OrdersEmpty } from '../OrdersEmpty';
 import { OrdersTableRow } from '../OrdersTableRow';
-
 import './OrdersTable.scss';
 
 type TOrdersTableRowRendererProps = THooks.Order.GetList[number];
@@ -80,7 +77,7 @@ const OrdersTable = ({ data, isActive, isFetching, isLoading, loadMoreOrders }: 
 
     const columns = isActive ? columnsActive : columnsPast;
     return (
-        <div className={clsx('p2p-orders-table', { 'p2p-orders-table--inactive': !isActive })}>
+        <div className={clsx('orders-table', { 'orders-table--inactive': !isActive })}>
             {isLoading ? (
                 <Loader />
             ) : (

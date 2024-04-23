@@ -1,12 +1,9 @@
 import { ComponentProps, useReducer } from 'react';
-
+import { PaymentMethodForm } from '@/components';
+import { api } from '@/hooks';
 import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { PaymentMethodForm } from '@/components';
-import { api } from '@/hooks';
-
 import PaymentMethods from '../PaymentMethods';
 import { PaymentMethodsList } from '../PaymentMethodsList';
 

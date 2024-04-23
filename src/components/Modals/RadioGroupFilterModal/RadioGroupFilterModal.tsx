@@ -1,9 +1,6 @@
 import Modal from 'react-modal';
-
 import { RadioGroup } from '@/components';
-
 import { customStyles } from '../helpers';
-
 import './RadioGroupFilterModal.scss';
 
 type TRadioGroupFilterModalProps = {
@@ -23,13 +20,13 @@ const RadioGroupFilterModal = ({
 }: TRadioGroupFilterModalProps) => {
     return (
         <Modal
-            className='p2p-radio-group-filter-modal'
+            className='radio-group-filter-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
             style={customStyles}
         >
             <RadioGroup
-                className='p2p-sort-radiogroup'
+                className='sort-radiogroup'
                 name='block-user-filter-modal'
                 onToggle={event => onToggle(event.target.value)}
                 required

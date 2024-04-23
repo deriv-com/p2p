@@ -1,6 +1,5 @@
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
-
 import PreferredCountriesModal from '../PreferredCountriesModal';
 
 jest.mock('@deriv-com/ui', () => ({

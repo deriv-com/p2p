@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import OrdersTableHeader from '../OrdersTableHeader';
 
 jest.mock('@deriv-com/ui', () => ({

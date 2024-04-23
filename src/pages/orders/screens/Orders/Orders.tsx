@@ -1,9 +1,7 @@
-import { Divider, useDevice } from '@deriv-com/ui';
-
 import { ORDERS_STATUS } from '@/constants';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
-
+import { Divider, useDevice } from '@deriv-com/ui';
 import { OrdersTable } from './OrdersTable';
 import { OrdersTableHeader } from './OrdersTableHeader';
 

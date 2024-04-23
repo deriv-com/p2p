@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import clsx from 'clsx';
 import { TPaymentMethod } from 'types';
 import { LabelPairedPlusLgBoldIcon } from '@deriv/quill-icons';
@@ -41,10 +41,10 @@ const PaymentMethodCard = ({
 
     return (
         <div
-            className={clsx('p2p-payment-method-card', {
-                'p2p-payment-method-card--dashed': !toAdd,
-                'p2p-payment-method-card--medium': medium,
-                'p2p-payment-method-card--selected': isSelected,
+            className={clsx('payment-method-card', {
+                'payment-method-card--dashed': !toAdd,
+                'payment-method-card--medium': medium,
+                'payment-method-card--selected': isSelected,
             })}
         >
             {!toAdd ? (

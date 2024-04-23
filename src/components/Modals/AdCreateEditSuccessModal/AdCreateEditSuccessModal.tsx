@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { MY_ADS_URL } from '@/constants';
 import { Button, Checkbox, Modal, Text, useDevice } from '@deriv-com/ui';
@@ -31,14 +31,14 @@ const AdCreateEditSuccessModal = ({
     return (
         <Modal
             ariaHideApp={false}
-            className='p2p-ad-create-edit-success-modal'
+            className='ad-create-edit-success-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
         >
             <Modal.Header hideBorder hideCloseIcon>
                 <Text weight='bold'>You’ve created an ad</Text>
             </Modal.Header>
-            <Modal.Body className='p2p-ad-create-edit-success-modal__body'>
+            <Modal.Body className='ad-create-edit-success-modal__body'>
                 <Text color='prominent' size={textSize}>
                     {`If the ad doesn't receive an order for ${advertsArchivePeriod} days, it will be deactivated.`}
                 </Text>

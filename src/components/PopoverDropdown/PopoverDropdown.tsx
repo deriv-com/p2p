@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
 import { LabelPairedEllipsisVerticalMdRegularIcon } from '@deriv/quill-icons';
 import { Button, Text, Tooltip, useDevice } from '@deriv-com/ui';
@@ -22,19 +22,19 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
     const { isMobile } = useDevice();
 
     return (
-        <div className='p2p-popover-dropdown' ref={ref}>
+        <div className='popover-dropdown' ref={ref}>
             <Tooltip message={tooltipMessage} position='bottom' triggerAction='hover'>
                 <LabelPairedEllipsisVerticalMdRegularIcon
-                    className='p2p-popover-dropdown__icon'
+                    className='popover-dropdown__icon'
                     data-testid='dt_popover_dropdown_icon'
                     onClick={() => setVisible(prevState => !prevState)}
                 />
             </Tooltip>
             {visible && (
-                <div className='p2p-popover-dropdown__list'>
+                <div className='popover-dropdown__list'>
                     {dropdownList.map(item => (
                         <Button
-                            className='p2p-popover-dropdown__list-item'
+                            className='popover-dropdown__list-item'
                             color='black'
                             key={item.value}
                             onClick={() => {
@@ -44,7 +44,7 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
                             variant='ghost'
                         >
                             <Text
-                                className='p2p-popover-dropdown__list-item__label'
+                                className='popover-dropdown__list-item__label'
                                 key={item.value}
                                 size={isMobile ? 'md' : 'sm'}
                             >

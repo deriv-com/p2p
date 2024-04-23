@@ -1,14 +1,10 @@
 import { useCallback, useRef } from 'react';
-import Dropzone, { DropzoneRef } from 'react-dropzone';
 import classNames from 'classnames';
-
-import { Text } from '@deriv-com/ui';
-
+import Dropzone, { DropzoneRef } from 'react-dropzone';
 import { TFileDropzone, truncateFileName } from '@/utils';
-
+import { Text } from '@deriv-com/ui';
 import { FadeInMessage } from './FadeInMessage';
 import { PreviewSingle } from './PreviewSingle';
-
 import './FileDropzone.scss';
 
 const DROPZONE_TIMEOUT = 150;
@@ -66,16 +62,16 @@ const FileDropzone = ({ className, noClick = false, ...props }: TFileDropzone) =
             {({ getInputProps, getRootProps, isDragAccept, isDragActive, isDragReject, open }) => (
                 <div
                     {...getRootProps()}
-                    className={classNames('p2p-file-dropzone', className, {
-                        'p2p-file-dropzone--has-error': (isDragReject || !!validationErrorMessage) && !isDragAccept,
-                        'p2p-file-dropzone--has-file': isDragActive || value.length > 0,
-                        'p2p-file-dropzone--is-active': isDragActive,
-                        'p2p-file-dropzone--is-noclick': noClick,
+                    className={classNames('file-dropzone', className, {
+                        'file-dropzone--has-error': (isDragReject || !!validationErrorMessage) && !isDragAccept,
+                        'file-dropzone--has-file': isDragActive || value.length > 0,
+                        'file-dropzone--is-active': isDragActive,
+                        'file-dropzone--is-noclick': noClick,
                     })}
                     ref={dropzoneRef}
                 >
                     <input {...getInputProps()} data-testid='dt_file_upload_input' />
-                    <div className='p2p-file-dropzone__content'>
+                    <div className='file-dropzone__content'>
                         <FadeInMessage
                             // default message when not on hover or onDrag
                             isVisible={!isDragActive && !!message && value.length < 1 && !validationErrorMessage}
@@ -96,7 +92,7 @@ const FileDropzone = ({ className, noClick = false, ...props }: TFileDropzone) =
                             ? value.map(file => (
                                   <Text
                                       align='center'
-                                      className='p2p-file-dropzone__filename'
+                                      className='file-dropzone__filename'
                                       key={file.name}
                                       size='2xs'
                                       weight='bold'

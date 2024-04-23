@@ -1,12 +1,9 @@
-import { useDevice } from '@deriv-com/ui';
-
 import { AdvertiserName, AdvertiserNameToggle } from '@/components';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
 import { getCurrentRoute } from '@/utils';
-
+import { useDevice } from '@deriv-com/ui';
 import { ProfileBalance } from './ProfileBalance';
 import { ProfileStats } from './ProfileStats';
-
 import './ProfileContent.scss';
 
 type TProfileContentProps = {
@@ -20,7 +17,7 @@ const ProfileContent = ({ id }: TProfileContentProps) => {
 
     return (
         <>
-            <div className='p2p-profile-content'>
+            <div className='profile-content'>
                 <AdvertiserName advertiserStats={data} />
                 {isMyProfile ? <ProfileBalance advertiserStats={data} /> : <ProfileStats advertiserStats={data} />}
             </div>

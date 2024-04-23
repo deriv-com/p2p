@@ -1,4 +1,4 @@
-import React, { ChangeEvent, PropsWithChildren, useEffect, useState } from 'react';
+import { ChangeEvent, PropsWithChildren, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Text } from '@deriv-com/ui';
 import './RadioGroup.scss';
@@ -38,24 +38,18 @@ const Radio = ({
 
     return (
         <label
-            className={clsx('p2p-radio-group__item', className, {
-                'p2p-radio-group__item--active': checked,
+            className={clsx('radio-group__item', className, {
+                'radio-group__item--active': checked,
             })}
             htmlFor={id}
         >
-            <input
-                className='p2p-radio-group__input'
-                id={id}
-                onChange={onInputChange}
-                type='radio'
-                {...otherProps}
-            />
+            <input className='radio-group__input' id={id} onChange={onInputChange} type='radio' {...otherProps} />
             <span
-                className={clsx('p2p-radio-group__circle', {
-                    'p2p-radio-group__circle--selected': checked,
+                className={clsx('radio-group__circle', {
+                    'radio-group__circle--selected': checked,
                 })}
             />
-            <Text className={clsx('p2p-radio-group__label', classNameLabel)} size='xs'>
+            <Text className={clsx('radio-group__label', classNameLabel)} size='xs'>
                 {children}
             </Text>
         </label>

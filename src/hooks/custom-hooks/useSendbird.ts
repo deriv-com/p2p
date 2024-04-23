@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-
+import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { useChatCreate, useSendbirdServiceToken, useServerTime } from '@deriv/api-v2';
 import SendbirdChat, { BaseChannel, User } from '@sendbird/chat';
 import { GroupChannel, GroupChannelHandler, GroupChannelModule } from '@sendbird/chat/groupChannel';
 import { BaseMessage, MessageType, MessageTypeFilter } from '@sendbird/chat/message';
-
-import { useOrderDetails } from '@/providers/OrderDetailsProvider';
-
 import { api } from '..';
 
 /**

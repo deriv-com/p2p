@@ -1,7 +1,5 @@
-import { render, screen } from '@testing-library/react';
-
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
-
+import { render, screen } from '@testing-library/react';
 import OrderDetailsCardReview from '../OrderDetailsCardReview';
 
 jest.mock('@deriv-com/ui', () => ({

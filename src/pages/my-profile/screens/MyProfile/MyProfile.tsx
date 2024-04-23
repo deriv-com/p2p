@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
-
-import { Loader, Tab, Tabs, useDevice } from '@deriv-com/ui';
-
+import { useEffect, useState } from 'react';
 import { ProfileContent, Verification } from '@/components';
 import { NicknameModal } from '@/components/Modals';
 import { useAdvertiserStats, useIsAdvertiser, usePoiPoaStatus, useQueryString } from '@/hooks/custom-hooks';
-
+import { Loader, Tab, Tabs, useDevice } from '@deriv-com/ui';
 import { MyProfileAdDetails } from '../MyProfileAdDetails';
 import { MyProfileCounterparties } from '../MyProfileCounterparties';
 import { MyProfileStats } from '../MyProfileStats';
 import { PaymentMethods } from '../PaymentMethods';
-
 import MyProfileMobile from './MyProfileMobile';
-
 import './MyProfile.scss';
 
 const TABS = ['Stats', 'Payment methods', 'Ad details', 'My counterparties'];
@@ -50,7 +45,7 @@ const MyProfile = () => {
 
     if (isMobile) {
         return (
-            <div className='p2p-my-profile'>
+            <div className='my-profile'>
                 <MyProfileMobile />
                 <NicknameModal isModalOpen={isNicknameModalOpen} setIsModalOpen={setIsNicknameModalOpen} />
             </div>
@@ -58,11 +53,11 @@ const MyProfile = () => {
     }
 
     return (
-        <div className='p2p-my-profile'>
+        <div className='my-profile'>
             <ProfileContent />
             <Tabs
                 activeTab={(currentTab !== 'default' && currentTab) || 'Stats'}
-                className='p2p-my-profile__tabs'
+                className='my-profile__tabs'
                 onChange={index => {
                     setQueryString({
                         tab: TABS[index],
@@ -71,7 +66,7 @@ const MyProfile = () => {
                 variant='primary'
             >
                 {tabs.map(tab => (
-                    <Tab className='p2p-my-profile__tabs-tab' key={tab.title} title={tab.title}>
+                    <Tab className='my-profile__tabs-tab' key={tab.title} title={tab.title}>
                         {tab.component}
                     </Tab>
                 ))}

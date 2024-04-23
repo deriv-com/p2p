@@ -1,7 +1,5 @@
-import { TAdvertiserStats } from 'types';
-
+import { DeepPartial, TAdvertiserStats } from 'types';
 import { Badge } from '@/components';
-
 import './AdvertiserNameBadges.scss';
 
 /**
@@ -14,7 +12,7 @@ const AdvertiserNameBadges = ({ advertiserStats }: { advertiserStats: DeepPartia
     const { isAddressVerified, isIdentityVerified, totalOrders } = advertiserStats || {};
 
     return (
-        <div className='p2p-advertiser-name-badges' data-testid='dt_advertiser_name_badges'>
+        <div className='advertiser-name-badges' data-testid='dt_advertiser_name_badges'>
             {(totalOrders || 0) >= 100 && <Badge label='100+' status='trades' variant='warning' />}
             <Badge
                 label='ID'

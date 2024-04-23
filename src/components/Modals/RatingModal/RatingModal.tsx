@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { StarRating } from '@/components';
 import { StandaloneThumbsDownRegularIcon, StandaloneThumbsUpRegularIcon } from '@deriv/quill-icons';
@@ -52,14 +52,14 @@ const RatingModal = ({
     }, []);
 
     return (
-        <Modal ariaHideApp={false} className='p2p-rating-modal' isOpen={isModalOpen} onRequestClose={onRequestClose}>
+        <Modal ariaHideApp={false} className='rating-modal' isOpen={isModalOpen} onRequestClose={onRequestClose}>
             <Modal.Header hideBorder onRequestClose={onRequestClose}>
                 <Text size='md' weight='bold'>
                     How would you rate this transaction?
                 </Text>
             </Modal.Header>
             <Modal.Body className='px-0 py-4 lg:px-[2.4rem]'>
-                <div className='p2p-rating-modal__stars' data-testid='dt_rating_modal_stars'>
+                <div className='rating-modal__stars' data-testid='dt_rating_modal_stars'>
                     <StarRating allowHover onClick={setRating} ratingValue={rating} starsScale={1.6} />
                 </div>
                 {rating > 0 && (
@@ -67,8 +67,8 @@ const RatingModal = ({
                         <Text size='sm'>Would you recommend this {`${isBuyOrder ? 'buyer' : 'seller'}`}?</Text>
                         <div className='mt-6 flex gap-3'>
                             <Button
-                                className={clsx('p2p-rating-modal__button', {
-                                    'p2p-rating-modal__button--disabled': !isYesSelected,
+                                className={clsx('rating-modal__button', {
+                                    'rating-modal__button--disabled': !isYesSelected,
                                 })}
                                 color='black'
                                 icon={
@@ -84,8 +84,8 @@ const RatingModal = ({
                                 <Text size={buttonTextSize}>Yes</Text>
                             </Button>
                             <Button
-                                className={clsx('p2p-rating-modal__button', {
-                                    'p2p-rating-modal__button--disabled': !isNoSelected,
+                                className={clsx('rating-modal__button', {
+                                    'rating-modal__button--disabled': !isNoSelected,
                                 })}
                                 color='black'
                                 icon={

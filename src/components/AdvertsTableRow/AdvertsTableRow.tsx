@@ -1,19 +1,16 @@
 /* eslint-disable camelcase */
 import { Fragment, memo, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
+import { useHistory } from 'react-router-dom';
 import { TAdvertsTableRowRenderer } from 'types';
-
-import { useExchangeRateSubscription } from '@deriv/api-v2';
-import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
-import { Button, Text, useDevice } from '@deriv-com/ui';
-
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, getCurrentRoute } from '@/utils';
-
+import { useExchangeRateSubscription } from '@deriv/api-v2';
+import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
+import { Button, Text, useDevice } from '@deriv-com/ui';
 import './AdvertsTableRow.scss';
 
 const BASE_CURRENCY = 'USD';
@@ -75,8 +72,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
 
     return (
         <div
-            className={clsx('p2p-adverts-table-row', {
-                'p2p-adverts-table-row--advertiser': !isBuySellPage,
+            className={clsx('adverts-table-row', {
+                'adverts-table-row--advertiser': !isBuySellPage,
             })}
         >
             <Container>

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import { MouseEventHandler } from 'react';
 import { ORDER_TIME_INFO_MESSAGE } from '@/constants';
 import { Button, Modal, Text } from '@deriv-com/ui';
 

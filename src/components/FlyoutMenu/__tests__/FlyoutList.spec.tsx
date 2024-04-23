@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import FlyoutMenuList from '../FlyoutMenuList';
 
 jest.mock('react', () => ({

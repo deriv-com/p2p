@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
-
-import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
-import { Button, Tab, Tabs, useDevice } from '@deriv-com/ui';
-
+import { useState } from 'react';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
 import { SORT_BY_LIST } from '@/constants';
 import { TSortByValues } from '@/utils';
-
+import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
+import { Button, Tab, Tabs, useDevice } from '@deriv-com/ui';
 import { CurrencyDropdown, SortDropdown } from '../../components';
-
 import './BuySellHeader.scss';
 
 type TBuySellHeaderProps = {
@@ -45,21 +41,21 @@ const BuySellHeader = ({
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
-        <div className='p2p-buy-sell-header' data-testid='dt_buy_sell_header'>
+        <div className='buy-sell-header' data-testid='dt_buy_sell_header'>
             <Tabs
                 TitleFontSize='sm'
                 activeTab={activeTab}
                 onChange={setActiveTab}
                 variant='primary'
-                wrapperClassName='p2p-buy-sell-header__tabs'
+                wrapperClassName='buy-sell-header__tabs'
             >
                 <Tab title='Buy' />
                 <Tab title='Sell' />
             </Tabs>
-            <div className='p2p-buy-sell-header__row'>
+            <div className='buy-sell-header__row'>
                 <div className='flex flex-row-reverse lg:flex-row gap-4'>
                     <CurrencyDropdown selectedCurrency={selectedCurrency} setSelectedCurrency={setSelectedCurrency} />
-                    <div className='p2p-buy-sell-header__row-search'>
+                    <div className='buy-sell-header__row-search'>
                         <Search
                             name='search-nickname'
                             onSearch={setSearchValue}

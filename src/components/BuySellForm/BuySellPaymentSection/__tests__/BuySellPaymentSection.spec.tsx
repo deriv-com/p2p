@@ -1,8 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { PaymentMethodCard } from '@/components/PaymentMethodCard';
-
 import BuySellPaymentSection from '../BuySellPaymentSection';
 
 const mockProps = {
@@ -38,8 +35,6 @@ jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),
 }));
-
-const mockPaymentMethodCard = PaymentMethodCard as jest.MockedFunction<typeof PaymentMethodCard>;
 
 describe('BuySellPaymentSection', () => {
     it('should render the component as expected', () => {

@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
-
-import { StandaloneStarFillIcon } from '@deriv/quill-icons';
-import { Button, Text, useDevice } from '@deriv-com/ui';
-
 import { StarRating } from '@/components';
 import { api } from '@/hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { getDateAfterHours } from '@/utils';
-
+import { StandaloneStarFillIcon } from '@deriv/quill-icons';
+import { Button, Text, useDevice } from '@deriv-com/ui';
 import { RecommendationStatus } from './RecommendationStatus';
 
 const OrderDetailsCardReview = () => {

@@ -1,6 +1,5 @@
 import { MobileTabs, ProfileContent } from '@/components';
 import { useQueryString } from '@/hooks/custom-hooks';
-
 import { MyProfileAdDetails } from '../MyProfileAdDetails';
 import { MyProfileCounterparties } from '../MyProfileCounterparties';
 import MyProfileStatsMobile from '../MyProfileStats/MyProfileStatsMobile';

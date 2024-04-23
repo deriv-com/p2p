@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import ProfileStats from '../ProfileStats';
 
 jest.mock('@deriv-com/ui', () => ({

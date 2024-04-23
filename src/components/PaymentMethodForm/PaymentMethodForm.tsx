@@ -1,16 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TSelectedPaymentMethod } from 'types';
-
-import { useDevice } from '@deriv-com/ui';
-
 import { PageReturn, PaymentMethodField, PaymentMethodsFormFooter } from '@/components';
 import { api } from '@/hooks';
 import { TFormState } from '@/reducers/types';
-
+import { useDevice } from '@deriv-com/ui';
 import { PaymentMethodFormAutocomplete } from './PaymentMethodFormAutocomplete';
 import { PaymentMethodFormModalRenderer } from './PaymentMethodFormModalRenderer';
-
 import './PaymentMethodForm.scss';
 
 type TPaymentMethodFormProps = {
@@ -68,7 +64,7 @@ const PaymentMethodForm = ({ onAdd, onResetFormState, ...rest }: TPaymentMethodF
     };
 
     return (
-        <div className='p2p-payment-method-form'>
+        <div className='payment-method-form'>
             <PageReturn
                 className='border-2 py-[1.4rem] mb-0'
                 hasBorder={isMobile}
@@ -78,7 +74,7 @@ const PaymentMethodForm = ({ onAdd, onResetFormState, ...rest }: TPaymentMethodF
                 weight='bold'
             />
             <form
-                className='p2p-payment-method-form__form'
+                className='payment-method-form__form'
                 onSubmit={handleSubmit(data => {
                     const hasData = Object.keys(data).length > 0;
                     if (actionType === 'ADD' && hasData) {
@@ -91,8 +87,8 @@ const PaymentMethodForm = ({ onAdd, onResetFormState, ...rest }: TPaymentMethodF
                     }
                 })}
             >
-                <div className='p2p-payment-method-form__fields'>
-                    <div className='p2p-payment-method-form__field-wrapper'>
+                <div className='payment-method-form__fields'>
+                    <div className='payment-method-form__field-wrapper'>
                         <PaymentMethodFormAutocomplete
                             actionType={actionType}
                             availablePaymentMethods={availablePaymentMethods}

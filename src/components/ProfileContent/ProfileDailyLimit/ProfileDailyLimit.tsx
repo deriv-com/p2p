@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
-
-import { useActiveAccount } from '@deriv/api-v2';
-import { Button, Text } from '@deriv-com/ui';
-
+import { useState } from 'react';
 import { DailyLimitModal } from '@/components/Modals';
 import { useAdvertiserStats, useDevice } from '@/hooks/custom-hooks';
-
+import { useActiveAccount } from '@deriv/api-v2';
+import { Button, Text } from '@deriv-com/ui';
 import './ProfileDailyLimit.scss';
 
 const ProfileDailyLimit = () => {
@@ -16,7 +13,7 @@ const ProfileDailyLimit = () => {
 
     return (
         <>
-            <div className='p2p-profile-daily-limit' data-testid='dt_profile_daily_limit'>
+            <div className='profile-daily-limit' data-testid='dt_profile_daily_limit'>
                 <Text color='less-prominent' lineHeight='sm' size='xs'>
                     Want to increase your daily limits to{' '}
                     <Text color='less-prominent' lineHeight='sm' size='xs' weight='bold'>
