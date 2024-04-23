@@ -6,7 +6,6 @@ import { AdCancelCreateEditModal, AdCreateEditErrorModal, AdCreateEditSuccessMod
 import { MY_ADS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useFloatingRate, useModalManager, useQueryString } from '@/hooks/custom-hooks';
-import { useActiveAccount } from '@deriv/api-v2';
 import { Loader } from '@deriv-com/ui';
 import { AdWizard } from '../../components';
 
@@ -48,8 +47,8 @@ const CreateEditAd = () => {
     const { data: countryList = {} } = api.countryList.useGet();
     const { data: paymentMethodList = [] } = api.paymentMethods.useGet();
     const { floatRateOffsetLimitString, rateType } = useFloatingRate();
-    const { data: activeAccount } = useActiveAccount();
-    const { data: p2pSettings } = api.settings.useGetSettings();
+    const { data: activeAccount } = api.account.useActiveAccount();
+    const { data: p2pSettings } = api.settings.useSettings();
     const { order_payment_period: orderPaymentPeriod } = p2pSettings ?? {};
     const { error, isError, isSuccess, mutate } = api.advert.useCreate();
     const {

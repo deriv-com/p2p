@@ -1,3 +1,4 @@
+export * as account from './account';
 export * from './advert';
 export * from './advertiser';
 export * from './counterparty';

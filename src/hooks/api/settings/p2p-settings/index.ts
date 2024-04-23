@@ -1,1 +1,1 @@
-export { default as useGetSettings } from './useSettings';
+export { default as useSettings } from './useSettings';

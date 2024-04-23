@@ -1,12 +1,11 @@
 import { RATE_TYPE } from '@/constants';
+import { api } from '@/hooks';
 import { useFloatingRate } from '@/hooks/custom-hooks';
-import { useAuthorize } from '@deriv/api-v2';
 
 const AdRateError = () => {
-    const { data } = useAuthorize();
+    const { data } = api.settings.useSettings();
+    const localCurrency = data?.localCurrency || 'USD';
     const { fixedRateAdvertsEndDate, rateType, reachedTargetDate } = useFloatingRate();
-
-    const localCurrency = data.local_currencies?.[0];
 
     if (rateType === RATE_TYPE.FLOAT) {
         return reachedTargetDate || !fixedRateAdvertsEndDate

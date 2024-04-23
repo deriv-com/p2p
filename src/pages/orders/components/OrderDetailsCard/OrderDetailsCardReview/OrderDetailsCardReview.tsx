@@ -16,7 +16,7 @@ const OrderDetailsCardReview = () => {
         isCompletedOrder,
         review_details: reviewDetails,
     } = orderDetails;
-    const { data: p2pSettingsData } = api.settings.useGetSettings();
+    const { data: p2pSettingsData } = api.settings.useSettings();
     const [remainingReviewTime, setRemainingReviewTime] = useState<string | null>(null);
     const ratingAverageDecimals = reviewDetails ? Number(Number(reviewDetails.rating).toFixed(1)) : 0;
     const { isMobile } = useDevice();

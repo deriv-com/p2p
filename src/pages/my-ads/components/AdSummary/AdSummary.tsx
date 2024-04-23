@@ -29,7 +29,7 @@ const AdSummary = ({
     const { isMobile } = useDevice();
     const { queryString } = useQueryString();
     const adOption = queryString.formAction;
-    const { data: p2pSettings } = api.settings.useGetSettings();
+    const { data: p2pSettings } = api.settings.useSettings();
     const { data: exchangeRateValue, subscribe } = useExchangeRateSubscription();
     const overrideExchangeRate = p2pSettings?.override_exchange_rate;
 
