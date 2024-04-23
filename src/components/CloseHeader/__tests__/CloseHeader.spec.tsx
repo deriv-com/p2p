@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import CloseHeader from '../CloseHeader';
 
 const mockUseDevice = {
@@ -23,11 +22,11 @@ describe('CloseHeader', () => {
     });
     it('should render the correct header title on desktop', () => {
         render(<CloseHeader />);
-        expect(screen.queryByText('Cashier')).toBeInTheDocument();
+        expect(screen.getByText('Cashier')).toBeInTheDocument();
     });
     it('should render the correct header title on mobile', () => {
         mockUseDevice.isMobile = true;
         render(<CloseHeader />);
-        expect(screen.queryByText('Deriv P2P')).toBeInTheDocument();
+        expect(screen.getByText('Deriv P2P')).toBeInTheDocument();
     });
 });

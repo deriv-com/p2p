@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { BUY_SELL } from '@/constants';
 import { AdFormController } from '../AdFormController';

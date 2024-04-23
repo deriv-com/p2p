@@ -1,4 +1,4 @@
-import React, { Fragment, SyntheticEvent, useEffect, useRef } from 'react';
+import { Fragment, SyntheticEvent, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { CHAT_FILE_TYPE, CHAT_MESSAGE_TYPE } from '@/constants';
 import { useSendbird } from '@/hooks/custom-hooks';
@@ -17,7 +17,7 @@ type TChatMessagesProps = {
 };
 
 const AdminMessage = () => (
-    <div className='p2p-chat-messages__item p2p-chat-messages__item__admin'>
+    <div className='chat-messages__item chat-messages__item__admin'>
         <ChatMessageText color='general' type='admin'>
             Hello! This is where you can chat with the counterparty to confirm the order details.
             <br />
@@ -43,19 +43,14 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId }: TChatMessagesP
         switch (fileType) {
             case CHAT_FILE_TYPE.IMAGE:
                 return (
-                    <a
-                        className='p2p-chat-messages__item__image'
-                        href={url}
-                        rel='noopener noreferrer'
-                        target='_blank'
-                    >
+                    <a className='chat-messages__item__image' href={url} rel='noopener noreferrer' target='_blank'>
                         <img alt={name} onLoad={onImageLoad} src={url} />
                     </a>
                 );
             case CHAT_FILE_TYPE.PDF:
                 return (
                     <ChatMessageText color={messageColor}>
-                        <div className='p2p-chat-messages__item__pdf'>
+                        <div className='chat-messages__item__pdf'>
                             <PDFIcon />
                             <a href={url} rel='noopener noreferrer' target='_blank'>
                                 {name}
@@ -68,12 +63,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId }: TChatMessagesP
             default:
                 return (
                     <ChatMessageText color={messageColor}>
-                        <a
-                            className='p2p-chat-messages__item__file'
-                            href={url}
-                            rel='noopener noreferrer'
-                            target='_blank'
-                        >
+                        <a className='chat-messages__item__file' href={url} rel='noopener noreferrer' target='_blank'>
                             {name}
                         </a>
                     </ChatMessageText>
@@ -92,7 +82,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId }: TChatMessagesP
     };
 
     return (
-        <div className='p2p-chat-messages' ref={scrollRef}>
+        <div className='chat-messages' ref={scrollRef}>
             <AdminMessage />
             {chatMessages.map(chatMessage => {
                 const isMyMessage = chatMessage.senderUserId === userId;
@@ -104,7 +94,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId }: TChatMessagesP
                 return (
                     <Fragment key={chatMessage.id}>
                         {shouldRenderDate && (
-                            <div className='p2p-chat-messages__date'>
+                            <div className='chat-messages__date'>
                                 <Text align='center' color='less-prominent' size={isMobile ? 'md' : 'sm'} weight='bold'>
                                     {messageDate}
                                 </Text>
@@ -112,8 +102,8 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId }: TChatMessagesP
                         )}
                         <div
                             className={clsx(
-                                'p2p-chat-messages__item',
-                                `p2p-chat-messages__item__${isMyMessage ? 'outgoing' : 'incoming'}`
+                                'chat-messages__item',
+                                `chat-messages__item__${isMyMessage ? 'outgoing' : 'incoming'}`
                             )}
                         >
                             {messageType === CHAT_MESSAGE_TYPE.USER && (
@@ -122,7 +112,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId }: TChatMessagesP
                                 </ChatMessageText>
                             )}
                             {messageType === CHAT_MESSAGE_TYPE.FILE && getMessageFormat(chatMessage, messageColor)}
-                            <div className='p2p-chat-messages__item__timestamp'>
+                            <div className='chat-messages__item__timestamp'>
                                 <Text color='less-prominent' size={isMobile ? 'xs' : '2xs'}>
                                     {formatMilliseconds(chatMessage.createdAt, 'HH:mm', true)}
                                 </Text>

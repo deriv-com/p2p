@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import ProgressIndicator from '../ProgressIndicator';
 
 const mockProps = {

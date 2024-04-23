@@ -1,9 +1,7 @@
+import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { useOrderDetails } from '@/providers/OrderDetailsProvider';
-
 import OrderDetailsCardFooter from '../OrderDetailsCardFooter';
 
 const mockUseDispute = {

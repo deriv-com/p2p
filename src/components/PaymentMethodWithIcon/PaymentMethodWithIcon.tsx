@@ -1,4 +1,4 @@
-import React, { ComponentType, SVGAttributes } from 'react';
+import { ComponentType, SVGAttributes } from 'react';
 import clsx from 'clsx';
 import { THooks } from 'types';
 import { TGenericSizes } from '@/utils';

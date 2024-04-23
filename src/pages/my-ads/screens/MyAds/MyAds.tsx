@@ -1,7 +1,5 @@
 import clsx from 'clsx';
-
 import { useDevice } from '@deriv-com/ui';
-
 import { MyAdsTable } from './MyAdsTable';
 
 const MyAds = () => {

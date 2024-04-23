@@ -1,5 +1,4 @@
 import { createContext, PropsWithChildren, useContext } from 'react';
-
 import { TSocketError } from '@deriv/api-v2/types';
 
 type TContextValue = {

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import useMutation from '../../../../../useMutation';
 import useInvalidateQuery from '../../../../../useInvalidateQuery';
+import useMutation from '../../../../../useMutation';
 
 type TPayload = NonNullable<Parameters<ReturnType<typeof useMutation<'p2p_chat_create'>>['mutate']>>[0]['payload'];
 

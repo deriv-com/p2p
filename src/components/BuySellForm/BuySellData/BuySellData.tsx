@@ -1,10 +1,7 @@
 import { THooks } from 'types';
-
-import { Text, useDevice } from '@deriv-com/ui';
-
 import { PaymentMethodWithIcon } from '@/components';
 import { formatTime } from '@/utils';
-
+import { Text, useDevice } from '@deriv-com/ui';
 import './BuySellData.scss';
 
 type TBuySellDataProps = {
@@ -43,7 +40,7 @@ const BuySellData = ({
 
     return (
         <div className='p-[2.4rem]'>
-            <div className='p2p-buy-sell-data__details'>
+            <div className='buy-sell-data__details'>
                 <div className='flex flex-col'>
                     <Text color='less-prominent' size={labelSize}>
                         {isBuy ? 'Buyer' : 'Seller'}

@@ -1,5 +1,4 @@
 import { Text, useDevice } from '@deriv-com/ui';
-
 import { BuyAdPaymentSelection } from '../BuyAdPaymentSelection';
 import { SellAdPaymentSelection } from '../SellAdPaymentSelection';
 

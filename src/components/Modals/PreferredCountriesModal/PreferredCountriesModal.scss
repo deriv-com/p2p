@@ -1,4 +1,4 @@
-.p2p-preferred-countries-modal {
+.preferred-countries-modal {
     &__dialog {
         width: 44rem;
         border-radius: 4px;
@@ -13,7 +13,7 @@
         z-index: 1;
         height: calc(100vh - 8rem);
 
-        & .p2p-mobile-wrapper__header {
+        & .mobile-wrapper__header {
             padding: 1.4rem 1.6rem;
         }
     }

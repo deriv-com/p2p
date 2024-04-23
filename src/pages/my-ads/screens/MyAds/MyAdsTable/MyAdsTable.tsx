@@ -1,17 +1,12 @@
 import { memo } from 'react';
 import { THooks } from 'types';
-
-import { Loader } from '@deriv-com/ui';
-
 import { Table } from '@/components';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
-
+import { Loader } from '@deriv-com/ui';
 import { MyAdsEmpty } from '../../MyAdsEmpty';
 import MyAdsTableRowView from '../MyAdsTableRow/MyAdsTableRowView';
-
 import MyAdsDisplayWrapper from './MyAdsDisplayWrapper';
-
 import './MyAdsTable.scss';
 
 export type TMyAdsTableRowRendererProps = Required<THooks.AdvertiserAdverts.Get>[0] & {
@@ -76,7 +71,7 @@ const MyAdsTable = () => {
 
     return (
         <MyAdsDisplayWrapper isPaused={!!blockedUntil || !isListed} onClickToggle={onClickToggle}>
-            <div className='p2p-my-ads-table__list'>
+            <div className='my-ads-table__list'>
                 <Table
                     columns={columns}
                     data={data}

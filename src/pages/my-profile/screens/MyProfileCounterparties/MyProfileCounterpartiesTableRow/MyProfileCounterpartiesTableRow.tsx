@@ -1,13 +1,10 @@
-import React, { memo, useState } from 'react';
+import { memo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-
-import { Button, Text } from '@deriv-com/ui';
-
 import { UserAvatar } from '@/components';
 import { BlockUnblockUserModal } from '@/components/Modals';
 import { ADVERTISER_URL } from '@/constants';
 import { useDevice } from '@/hooks/custom-hooks';
-
+import { Button, Text } from '@deriv-com/ui';
 import './MyProfileCounterpartiesTableRow.scss';
 
 type TMyProfileCounterpartiesTableRowProps = {
@@ -23,9 +20,9 @@ const MyProfileCounterpartiesTableRow = ({ id, isBlocked, nickname }: TMyProfile
 
     return (
         <>
-            <div className='p2p-my-profile-counterparties-table-row'>
+            <div className='my-profile-counterparties-table-row'>
                 <div
-                    className='p2p-my-profile-counterparties-table-row__nickname-wrapper'
+                    className='my-profile-counterparties-table-row__nickname-wrapper'
                     onClick={() => history.push(`${ADVERTISER_URL}/${id}`, { from: 'MyProfile' })}
                 >
                     <UserAvatar className='h-[3rem] w-[3rem]' nickname={nickname} size={65} textSize='sm' />

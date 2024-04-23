@@ -1,15 +1,11 @@
 import { useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useOnClickOutside } from 'usehooks-ts';
-
-import { LabelPairedChevronDownMdRegularIcon } from '@deriv/quill-icons';
-import { Text, useDevice } from '@deriv-com/ui';
-
 import { FullPageMobileWrapper } from '@/components';
 import { api } from '@/hooks';
-
+import { LabelPairedChevronDownMdRegularIcon } from '@deriv/quill-icons';
+import { Text, useDevice } from '@deriv-com/ui';
 import { CurrencySelector } from './CurrencySelector';
-
 import './CurrencyDropdown.scss';
 
 type TCurrencyDropdownProps = {
@@ -47,7 +43,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
     if (showCurrencySelector && isMobile)
         return (
             <FullPageMobileWrapper
-                className='p2p-currency-dropdown__full-page-modal'
+                className='currency-dropdown__full-page-modal'
                 onBack={() => {
                     setShowCurrencySelector(false);
                 }}
@@ -66,15 +62,15 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
         );
 
     return (
-        <div className='p2p-currency-dropdown' ref={currencySelectorRef}>
+        <div className='currency-dropdown' ref={currencySelectorRef}>
             <div
-                className={clsx('p2p-currency-dropdown__dropdown', {
-                    'p2p-currency-dropdown__dropdown--active': showCurrencySelector,
+                className={clsx('currency-dropdown__dropdown', {
+                    'currency-dropdown__dropdown--active': showCurrencySelector,
                 })}
                 onClick={() => setShowCurrencySelector(prev => !prev)}
             >
                 <Text
-                    className='p2p-currency-dropdown__dropdown-text'
+                    className='currency-dropdown__dropdown-text'
                     color='less-prominent'
                     size={isMobile ? 'xs' : '2xs'}
                 >
@@ -82,8 +78,8 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
                 </Text>
                 <Text size='sm'>{selectedCurrency}</Text>
                 <LabelPairedChevronDownMdRegularIcon
-                    className={clsx('p2p-currency-dropdown__dropdown-icon', {
-                        'p2p-currency-dropdown__dropdown-icon--active': showCurrencySelector,
+                    className={clsx('currency-dropdown__dropdown-icon', {
+                        'currency-dropdown__dropdown-icon--active': showCurrencySelector,
                     })}
                 />
             </div>

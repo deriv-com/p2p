@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react';
+import { ComponentProps } from 'react';
 import { LabelPairedCirclePlusCaptionRegularIcon } from '@deriv/quill-icons';
 import { Dropdown } from '@deriv-com/ui';
 import './BuyPaymentMethodsList.scss';
@@ -10,9 +10,9 @@ type TBuyPaymentMethodsList = {
 
 const BuyPaymentMethodsList = ({ list, onSelectPaymentMethod }: TBuyPaymentMethodsList) => {
     return (
-        <div className='p2p-buy-payment-methods-list'>
+        <div className='buy-payment-methods-list'>
             <Dropdown
-                className='p2p-buy-payment-methods-list__dropdown'
+                className='buy-payment-methods-list__dropdown'
                 icon={<LabelPairedCirclePlusCaptionRegularIcon />}
                 isFullWidth
                 list={list}

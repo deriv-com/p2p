@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PaymentMethodModal from '../PaymentMethodModal';
@@ -27,7 +27,7 @@ describe('PaymentMethodModal', () => {
         expect(screen.getByText('Payment Method Modal')).toBeInTheDocument();
         expect(screen.getByText('Payment Method Modal Description')).toBeInTheDocument();
     });
-    it('should handle onclick when the yes, remove button is clicked', () => {
+    it('should handle onclick when the yes, remove button is clicked', async () => {
         const onConfirm = jest.fn();
         render(
             <PaymentMethodModal
@@ -42,10 +42,10 @@ describe('PaymentMethodModal', () => {
             { wrapper }
         );
         const confirmButton = screen.getByText('Yes, remove');
-        userEvent.click(confirmButton);
+        await userEvent.click(confirmButton);
         expect(onConfirm).toHaveBeenCalled();
     });
-    it('should handle onclick when the yes button is clicked', () => {
+    it('should handle onclick when the yes button is clicked', async () => {
         const onReject = jest.fn();
         render(
             <PaymentMethodModal
@@ -60,7 +60,7 @@ describe('PaymentMethodModal', () => {
             { wrapper }
         );
         const rejectButton = screen.getByText('Yes');
-        userEvent.click(rejectButton);
+        await userEvent.click(rejectButton);
         expect(onReject).toHaveBeenCalled();
     });
 });

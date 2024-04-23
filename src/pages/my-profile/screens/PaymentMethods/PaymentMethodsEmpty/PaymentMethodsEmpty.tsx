@@ -1,9 +1,7 @@
-import { DerivLightIcPaymentMethodsWalletIcon } from '@deriv/quill-icons';
-import { Button, Text, useDevice } from '@deriv-com/ui';
-
 import { FullPageMobileWrapper } from '@/components';
 import { useQueryString } from '@/hooks/custom-hooks';
-
+import { DerivLightIcPaymentMethodsWalletIcon } from '@deriv/quill-icons';
+import { Button, Text, useDevice } from '@deriv-com/ui';
 import './PaymentMethodsEmpty.scss';
 
 type TPaymentMethodsEmptyProps = {
@@ -35,15 +33,15 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                     </Text>
                 )}
             >
-                <div className='p2p-payment-methods-empty'>
+                <div className='payment-methods-empty'>
                     <DerivLightIcPaymentMethodsWalletIcon height='16rem' />
                     {/* TODO: Remember to localize the text below */}
-                    <Text className='p2p-payment-methods-empty__heading' size='lg' weight='bold'>
+                    <Text className='payment-methods-empty__heading' size='lg' weight='bold'>
                         You haven’t added any payment methods yet
                     </Text>
                     <Text size='lg'>Hit the button below to add payment methods.</Text>
                     <Button
-                        className='p2p-payment-methods-empty__button'
+                        className='payment-methods-empty__button'
                         onClick={() => {
                             onAddPaymentMethod();
                         }}
@@ -56,15 +54,15 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
     }
 
     return (
-        <div className='p2p-payment-methods-empty'>
+        <div className='payment-methods-empty'>
             <DerivLightIcPaymentMethodsWalletIcon height='16rem' />
             {/* TODO: Remember to localize the text below */}
-            <Text className='p2p-payment-methods-empty__heading' weight='bold'>
+            <Text className='payment-methods-empty__heading' weight='bold'>
                 You haven’t added any payment methods yet
             </Text>
             <Text>Hit the button below to add payment methods.</Text>
             <Button
-                className='p2p-payment-methods-empty__button'
+                className='payment-methods-empty__button'
                 onClick={() => {
                     onAddPaymentMethod();
                 }}

@@ -1,7 +1,6 @@
-import { TSocketError } from '@deriv/api-v2/types';
-
 import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
 import { TFormState } from '@/reducers/types';
+import { TSocketError } from '@deriv/api-v2/types';
 
 type TPaymentMethodFormModalRendererProps = {
     actionType: TFormState['actionType'];

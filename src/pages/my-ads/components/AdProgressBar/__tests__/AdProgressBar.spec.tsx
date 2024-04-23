@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import AdProgressBar from '../AdProgressBar';
 
 const STEPS = [{ header: { title: 'step 1' } }, { header: { title: 'step 2' } }, { header: { title: 'step 3' } }];

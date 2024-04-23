@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import ChatMessageText from '../ChatMessageText';
 
 jest.mock('@deriv-com/ui', () => ({

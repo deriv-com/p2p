@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import OrderStatusTag from '../OrderStatusTag';
 
 const mockProps = {

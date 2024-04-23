@@ -1,10 +1,7 @@
+import { TSortByValues } from '@/utils';
 import { LabelPairedChevronDownMdRegularIcon } from '@deriv/quill-icons';
 import { Button, Dropdown, useDevice } from '@deriv-com/ui';
-
-import { TSortByValues } from '@/utils';
-
 import SortIcon from '../../../../public/ic-cashier-sort.svg';
-
 import './SortDropdown.scss';
 
 type TSortDropdownProps = {
@@ -30,7 +27,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
     }
 
     return (
-        <div className='p2p-sort-dropdown'>
+        <div className='sort-dropdown'>
             <Dropdown
                 dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
                 label='Sort by'

@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import PreferredCountriesSelector from '../PreferredCountriesSelector';
 
 jest.mock('@deriv-com/ui', () => ({

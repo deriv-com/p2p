@@ -1,9 +1,6 @@
 import { Controller, useForm } from 'react-hook-form';
-
-import { Input } from '@deriv-com/ui';
-
 import { VALID_SYMBOLS_PATTERN } from '@/constants';
-
+import { Input } from '@deriv-com/ui';
 import { TextArea } from '..';
 
 type TPaymentMethodField = {
@@ -27,7 +24,7 @@ type TPaymentMethodField = {
  * **/
 const PaymentMethodField = ({ control, defaultValue, displayName, field, required }: TPaymentMethodField) => {
     return (
-        <div className='p2p-payment-method-form__field-wrapper'>
+        <div className='payment-method-form__field-wrapper'>
             <Controller
                 control={control}
                 defaultValue={defaultValue}

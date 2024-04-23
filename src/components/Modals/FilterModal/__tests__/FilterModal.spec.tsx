@@ -1,7 +1,6 @@
 import { useDevice } from '@deriv-com/ui';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import FilterModal from '../FilterModal';
 
 const mockProps = {

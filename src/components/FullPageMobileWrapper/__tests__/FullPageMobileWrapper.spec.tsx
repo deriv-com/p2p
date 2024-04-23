@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import FullPageMobileWrapper from '../FullPageMobileWrapper';
 
 const Header = () => <h1>Header</h1>;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     DerivLightIcEmailSentIcon,
     DerivLightIcFirewallEmailPasskeyIcon,
@@ -42,7 +42,7 @@ const EmailVerificationModal = ({ isModalOpen, onRequestClose }: TEmailVerificat
     return (
         <Modal
             ariaHideApp={false}
-            className='p2p-email-verification-modal'
+            className='email-verification-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
         >
@@ -57,7 +57,7 @@ const EmailVerificationModal = ({ isModalOpen, onRequestClose }: TEmailVerificat
                     instructions <strong>within 10 minutes</strong> to release the funds.
                 </Text>
                 <Button
-                    className='p2p-email-verification-modal__button'
+                    className='email-verification-modal__button'
                     onClick={() => setShouldShowReasons(true)}
                     variant='ghost'
                 >

@@ -1,7 +1,5 @@
-import { Text, useDevice } from '@deriv-com/ui';
-
 import { OnlineStatusLabel, UserAvatar } from '@/components';
-
+import { Text, useDevice } from '@deriv-com/ui';
 import './ChatHeader.scss';
 
 type TChatHeaderProps = {
@@ -12,7 +10,7 @@ type TChatHeaderProps = {
 const ChatHeader = ({ isOnline, lastOnlineTime, nickname }: TChatHeaderProps) => {
     const { isMobile } = useDevice();
     return (
-        <div className='p2p-chat-header flex gap-[1.6rem] w-full'>
+        <div className='chat-header flex gap-[1.6rem] w-full'>
             <UserAvatar isOnline={isOnline} nickname={nickname ?? ''} showOnlineStatus size={40} />
             <div className='flex flex-col'>
                 <Text size={isMobile ? 'lg' : 'md'} weight='bold'>

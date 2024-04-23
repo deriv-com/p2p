@@ -1,7 +1,5 @@
-import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
-
 import { AD_CONDITION_CONTENT } from '@/constants';
-
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdConditionsModal.scss';
 
 type TAdConditionsModalProps = {
@@ -13,12 +11,7 @@ type TAdConditionsModalProps = {
 const AdConditionsModal = ({ isModalOpen, onRequestClose, type }: TAdConditionsModalProps) => {
     const { isMobile } = useDevice();
     return (
-        <Modal
-            ariaHideApp={false}
-            className='p2p-ad-conditions-modal'
-            isOpen={isModalOpen}
-            onRequestClose={onRequestClose}
-        >
+        <Modal ariaHideApp={false} className='ad-conditions-modal' isOpen={isModalOpen} onRequestClose={onRequestClose}>
             <Modal.Header className='px-[1.6rem]' hideBorder hideCloseIcon onRequestClose={onRequestClose}>
                 <Text weight='bold'>{AD_CONDITION_CONTENT[type].title}</Text>
             </Modal.Header>

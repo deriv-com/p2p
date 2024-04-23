@@ -1,4 +1,4 @@
-import React, { ComponentType, SVGAttributes } from 'react';
+import { ComponentType, SVGAttributes } from 'react';
 import { CHAT_MESSAGE_STATUS } from '@/constants';
 import { useSendbird } from '@/hooks/custom-hooks';
 import MessageDeliveredIcon from '../../../../public/ic-message-delivered.svg';

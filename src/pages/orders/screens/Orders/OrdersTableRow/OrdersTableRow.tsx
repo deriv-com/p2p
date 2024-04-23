@@ -1,17 +1,13 @@
-import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
+import { useHistory } from 'react-router-dom';
 import { THooks } from 'types';
-
-import { useActiveAccount, useServerTime } from '@deriv/api-v2';
-import { Button, Text, useDevice } from '@deriv-com/ui';
-
 import { ORDERS_STATUS, ORDERS_URL } from '@/constants';
 import { useExtendedOrderDetails, useQueryString } from '@/hooks/custom-hooks';
 import { OrderRatingButton, OrderStatusTag, OrderTimer } from '@/pages/orders/components';
 import { getDistanceToServerTime } from '@/utils';
-
+import { useActiveAccount, useServerTime } from '@deriv/api-v2';
+import { Button, Text, useDevice } from '@deriv-com/ui';
 import ChatIcon from '../../../../../public/ic-chat.svg';
-
 import './OrdersTableRow.scss';
 
 const OrdersTableRow = ({ ...props }: THooks.Order.GetList[number]) => {
@@ -93,10 +89,7 @@ const OrdersTableRow = ({ ...props }: THooks.Order.GetList[number]) => {
     }
 
     return (
-        <div
-            className={clsx('p2p-orders-table-row', { 'p2p-orders-table-row--inactive': isPast })}
-            onClick={showOrderDetails}
-        >
+        <div className={clsx('orders-table-row', { 'orders-table-row--inactive': isPast })} onClick={showOrderDetails}>
             {isPast && <Text size='sm'>{purchaseTime}</Text>}
             <Text size='sm'>{isBuyOrderForUser ? 'Buy' : 'Sell'}</Text>
             <Text size='sm'>{id}</Text>

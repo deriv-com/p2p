@@ -1,4 +1,4 @@
-.p2p-textfield {
+.textfield {
     min-width: 12rem;
     width: 100%;
     position: relative;
@@ -7,31 +7,31 @@
     gap: 0.2rem;
 
     &--error {
-        .p2p-textfield__box,
-        .p2p-textfield__box:hover {
+        .textfield__box,
+        .textfield__box:hover {
             border: 1px solid var(--status-light-danger, #ec3f3f);
         }
 
-        .p2p-textfield__box:has(.p2p-textfield__field:focus) {
+        .textfield__box:has(.textfield__field:focus) {
             border: 1px solid var(--brand-blue, #ec3f3f);
         }
 
-        .p2p-textfield__box:has(.p2p-textfield__field:valid) {
+        .textfield__box:has(.textfield__field:valid) {
             border: 1px solid var(--brand-blue, #ec3f3f);
         }
 
-        .p2p-textfield__label {
+        .textfield__label {
             color: #ec3f3f;
         }
 
-        .p2p-textfield__field:focus ~ .p2p-textfield__label {
+        .textfield__field:focus ~ .textfield__label {
             color: #ec3f3f;
         }
     }
 
     &--disabled {
-        & .p2p-textfield__box,
-        .p2p-textfield__box:hover {
+        & .textfield__box,
+        .textfield__box:hover {
             border: 1px solid var(--system-light-5-active-background, #eaeced);
 
             & input {
@@ -39,10 +39,10 @@
                 background: transparent;
             }
         }
-        & .p2p-textfield__box:has(.p2p-textfield__field:focus) {
+        & .textfield__box:has(.textfield__field:focus) {
             border: 1px solid var(--system-light-5-active-background, #eaeced);
         }
-        & .p2p-textfield__field {
+        & .textfield__field {
             background: inherit;
         }
     }

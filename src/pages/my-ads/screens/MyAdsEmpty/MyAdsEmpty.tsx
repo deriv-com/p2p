@@ -1,9 +1,7 @@
 import { useHistory } from 'react-router-dom';
-
+import { MY_ADS_URL } from '@/constants';
 import { DerivLightIcCashierNoAdsIcon } from '@deriv/quill-icons';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
-
-import { MY_ADS_URL } from '@/constants';
 
 const MyAdsEmpty = () => {
     const { isMobile } = useDevice();

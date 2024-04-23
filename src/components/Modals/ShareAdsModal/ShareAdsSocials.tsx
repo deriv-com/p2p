@@ -1,14 +1,11 @@
 import { FacebookShareButton, TelegramShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
-
 import {
     LabelPairedXTwitterLgIcon,
     SocialFacebookBrandIcon,
     SocialGoogleBrandIcon,
     SocialTelegramBrandIcon,
 } from '@deriv/quill-icons';
-
 import WhatsappIcon from '../../../public/ic-whatsapp-filled.svg';
-
 import './ShareAdsSocials.scss';
 
 type TShareMyAdsSocialsProps = {
@@ -52,7 +49,7 @@ const getShareButtons = (advertUrl: string) => [
     },
 ];
 const ShareMyAdsSocials = ({ advertUrl, customMessage }: TShareMyAdsSocialsProps) => (
-    <div className='p2p-share-ads-socials'>
+    <div className='share-ads-socials'>
         {getShareButtons(advertUrl).map(({ ShareButton, href, icon, messagePropName, rel, target, text }) => (
             <ShareButton
                 className='flex flex-col items-center'
@@ -63,7 +60,7 @@ const ShareMyAdsSocials = ({ advertUrl, customMessage }: TShareMyAdsSocialsProps
                 {...(target && { target: '_blank' })}
                 {...(rel && { rel: 'noreferrer' })}
             >
-                <div className='p2p-share-ads-socials__circle'>{icon}</div>
+                <div className='share-ads-socials__circle'>{icon}</div>
             </ShareButton>
         ))}
     </div>

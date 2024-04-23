@@ -1,7 +1,6 @@
 import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import MyProfileStats from '../MyProfileStats';
 
 const wrapper = ({ children }: { children: JSX.Element }) => (

@@ -1,10 +1,7 @@
-import { Loader, useDevice } from '@deriv-com/ui';
-
 import { FullPageMobileWrapper, LightDivider } from '@/components';
 import { useExtendedOrderDetails, useSendbird } from '@/hooks/custom-hooks';
-
+import { Loader, useDevice } from '@deriv-com/ui';
 import { ChatError, ChatFooter, ChatHeader, ChatMessages } from '../../components';
-
 import './OrdersChatSection.scss';
 
 type TOrdersChatSectionProps = {
@@ -23,7 +20,7 @@ const OrdersChatSection = ({ id, isInactive, onReturn, otherUserDetails }: TOrde
 
     if (isError) {
         return (
-            <div className='p2p-orders-chat-section flex flex-col justify-center items-center h-[70vh]'>
+            <div className='orders-chat-section flex flex-col justify-center items-center h-[70vh]'>
                 <ChatError onClickRetry={refreshChat} />
             </div>
         );
@@ -32,7 +29,7 @@ const OrdersChatSection = ({ id, isInactive, onReturn, otherUserDetails }: TOrde
     if (isMobile) {
         return (
             <FullPageMobileWrapper
-                className='p2p-orders-chat-section__full-page'
+                className='orders-chat-section__full-page'
                 //TODO: handle goback based on route
                 onBack={onReturn}
                 renderFooter={() => (
@@ -49,7 +46,7 @@ const OrdersChatSection = ({ id, isInactive, onReturn, otherUserDetails }: TOrde
         );
     }
     return (
-        <div className='p2p-orders-chat-section flex flex-col justify-center items-center h-[70vh]'>
+        <div className='orders-chat-section flex flex-col justify-center items-center h-[70vh]'>
             {isChatLoading ? (
                 <Loader isFullScreen={false} />
             ) : (

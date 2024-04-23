@@ -1,4 +1,4 @@
-import React, { ComponentProps, InputHTMLAttributes, memo } from 'react';
+import { ComponentProps, FC, InputHTMLAttributes, memo } from 'react';
 import { Text } from '@deriv-com/ui';
 
 export type HelperMessageProps = {
@@ -9,7 +9,7 @@ export type HelperMessageProps = {
     messageVariant?: 'error' | 'general' | 'warning';
 };
 
-const HelperMessage: React.FC<HelperMessageProps> = memo(
+const HelperMessage: FC<HelperMessageProps> = memo(
     ({ inputValue, isError, maxLength, message, messageVariant = 'general' }) => {
         const HelperMessageColors: Record<string, ComponentProps<typeof Text>['color']> = {
             error: 'error',
@@ -18,9 +18,9 @@ const HelperMessage: React.FC<HelperMessageProps> = memo(
         };
 
         return (
-            <React.Fragment>
+            <>
                 {message && (
-                    <div className='p2p-textfield__message-container--msg'>
+                    <div className='textfield__message-container--msg'>
                         <Text
                             color={isError ? HelperMessageColors.error : HelperMessageColors[messageVariant]}
                             size='xs'
@@ -30,13 +30,13 @@ const HelperMessage: React.FC<HelperMessageProps> = memo(
                     </div>
                 )}
                 {maxLength && (
-                    <div className='p2p-textfield__message-container--maxchar'>
+                    <div className='textfield__message-container--maxchar'>
                         <Text align='right' color='less-prominent' size='xs'>
                             {inputValue?.toString().length || 0} / {maxLength}
                         </Text>
                     </div>
                 )}
-            </React.Fragment>
+            </>
         );
     }
 );

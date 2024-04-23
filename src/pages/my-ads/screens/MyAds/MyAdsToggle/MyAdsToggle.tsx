@@ -1,8 +1,6 @@
 import clsx from 'clsx';
-
-import { Text, ToggleSwitch } from '@deriv-com/ui';
-
 import { useDevice } from '@/hooks/custom-hooks';
+import { Text, ToggleSwitch } from '@deriv-com/ui';
 
 type TMyAdsToggleProps = {
     isPaused: boolean;

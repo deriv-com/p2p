@@ -1,9 +1,7 @@
-import * as React from 'react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { useDevice } from '@deriv-com/ui';
-import { act } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import useModalManager from '../custom-hooks/useModalManager';
 import useQueryString from '../custom-hooks/useQueryString';
 

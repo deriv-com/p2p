@@ -1,4 +1,4 @@
-.p2p-order-details {
+.order-details {
     overflow-y: scroll;
     overflow-x: hidden;
     height: calc(100vh - 28rem);
@@ -8,7 +8,7 @@
         top: 4rem;
         height: calc(100vh - 7.4rem);
 
-        & .p2p-mobile-wrapper {
+        & .mobile-wrapper {
             &__header {
                 background: #fff;
             }

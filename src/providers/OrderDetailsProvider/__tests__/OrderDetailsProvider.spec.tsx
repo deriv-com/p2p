@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react-hooks';
-
 import { OrderDetailsProvider, useOrderDetails } from '../OrderDetailsProvider';
 
 describe('useOrderDetails', () => {

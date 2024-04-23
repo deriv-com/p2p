@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import clsx from 'clsx';
 import { LabelPairedSearchMdRegularIcon } from '@deriv/quill-icons';
 import { Input } from '@deriv-com/ui';
@@ -26,7 +26,7 @@ const Search = ({ delayTimer = 500, hideBorder = false, name, onSearch, placehol
 
     return (
         <form
-            className='p2p-search'
+            className='search'
             onChange={event => debouncedOnSearch((event.target as HTMLInputElement).value)}
             role='search'
         >

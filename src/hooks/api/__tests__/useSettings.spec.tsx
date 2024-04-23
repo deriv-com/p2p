@@ -1,8 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
-
 import APIProvider from '../../../APIProvider';
 import AuthProvider from '../../../AuthProvider';
-import useP2PSettings from '../settings/p2p-settings/useSettings';
+import useP2PSettings from '../settings/settings/useSettings';
 
 const wrapper = ({ children }: { children: JSX.Element }) => (
     <APIProvider standalone>

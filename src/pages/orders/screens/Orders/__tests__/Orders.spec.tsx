@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import Orders from '../Orders';
 
 let mockSearch = '?order=1';

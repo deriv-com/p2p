@@ -1,12 +1,9 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { THooks } from 'types';
-
-import { Button, Loader } from '@deriv-com/ui';
-
 import { FullPageMobileWrapper, TextArea } from '@/components';
 import { api } from '@/hooks';
 import { useDevice, useQueryString } from '@/hooks/custom-hooks';
-
+import { Button, Loader } from '@deriv-com/ui';
 import './MyProfileAdDetails.scss';
 
 type TMYProfileAdDetailsTextAreaProps = {
@@ -71,7 +68,7 @@ const MyProfileAdDetails = () => {
     if (isMobile) {
         return (
             <FullPageMobileWrapper
-                className='p2p-my-profile-ad-details__mobile-wrapper'
+                className='my-profile-ad-details__mobile-wrapper'
                 onBack={() =>
                     setQueryString({
                         tab: 'default',
@@ -82,9 +79,9 @@ const MyProfileAdDetails = () => {
                         Save
                     </Button>
                 )}
-                renderHeader={() => <h1 className='p2p-my-profile-ad-details__header'>Ad Details</h1>}
+                renderHeader={() => <h1 className='my-profile-ad-details__header'>Ad Details</h1>}
             >
-                <div className='p2p-my-profile-ad-details'>
+                <div className='my-profile-ad-details'>
                     <MyProfileAdDetailsTextArea
                         advertiserInfo={advertiserInfo}
                         setAdvertDescription={setAdvertDescription}
@@ -95,13 +92,13 @@ const MyProfileAdDetails = () => {
         );
     }
     return (
-        <div className='p2p-my-profile-ad-details'>
+        <div className='my-profile-ad-details'>
             <MyProfileAdDetailsTextArea
                 advertiserInfo={advertiserInfo}
                 setAdvertDescription={setAdvertDescription}
                 setContactInfo={setContactInfo}
             />
-            <div className='p2p-my-profile-ad-details__border' />
+            <div className='my-profile-ad-details__border' />
             <Button disabled={!hasUpdated} onClick={submitAdDetails} size='lg' textSize='sm'>
                 Save
             </Button>
