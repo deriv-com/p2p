@@ -1,0 +1,16 @@
+.header {
+    height: 4rem;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    font-size: 1.6rem;
+    font-weight: 800;
+    border-bottom: 2px solid #f2f3f4;
+    padding: 2.4rem;
+    margin-bottom: 2.4rem;
+
+    @include mobile {
+        padding: 0.8rem 2.4rem;
+        margin-bottom: 0;
+    }
+}
