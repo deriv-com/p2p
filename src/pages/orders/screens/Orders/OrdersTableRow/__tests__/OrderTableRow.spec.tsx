@@ -105,7 +105,7 @@ describe('OrdersTableRow', () => {
         );
         const advertiserName = screen.getByText('client CR90000299');
         await userEvent.click(advertiserName);
-        expect(mockPush).toHaveBeenCalledWith('/cashier/p2p-v2/orders/8');
+        expect(mockPush).toHaveBeenCalledWith('/orders/8');
     });
 
     it('should call history.push when clicking chat icon on mobile view', async () => {
@@ -124,6 +124,6 @@ describe('OrdersTableRow', () => {
         const chatIcon = screen.getByTestId('dt_orders_table_row_chat_button');
         await userEvent.click(chatIcon);
 
-        expect(mockPush).toHaveBeenCalledWith('/cashier/p2p-v2/orders/8?showChat=true');
+        expect(mockPush).toHaveBeenCalledWith('/orders/8?showChat=true');
     });
 });
