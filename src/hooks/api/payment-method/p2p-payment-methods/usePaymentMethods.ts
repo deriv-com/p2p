@@ -1,16 +1,15 @@
 import { useMemo } from 'react';
-import useQuery from '../../../../../useQuery';
-import useAuthorize from '../../../../useAuthorize';
+import { useAuthData, usePaymentMethods as useAvailablePaymentMethods } from '@deriv-com/api-hooks';
 
 /** A custom hook that returns a list of P2P available payment methods **/
 const usePaymentMethods = (enabled = true) => {
-    const { isSuccess } = useAuthorize();
-    const { data, ...rest } = useQuery('p2p_payment_methods', {
+    const { isAuthorized: isSuccess } = useAuthData();
+    const { data, ...rest } = useAvailablePaymentMethods({
         options: { enabled: isSuccess && enabled, refetchOnWindowFocus: false },
     });
     // Modify the data to add additional information.
     const modified_data = useMemo(() => {
-        const p2p_payment_methods = data?.p2p_payment_methods;
+        const p2p_payment_methods = data;
 
         if (!p2p_payment_methods) return undefined;
 

@@ -1,17 +1,15 @@
 import { useMemo } from 'react';
-import useQuery from '../../../../../useQuery';
-import useAuthorize from '../../../../useAuthorize';
+import { useP2pAdvertiserPaymentMethods } from '@deriv-com/api-hooks';
 
 /** A custom hook that returns the list of P2P Advertiser Payment Methods */
 const useAdvertiserPaymentMethods = (is_enabled = true) => {
-    const { isSuccess } = useAuthorize();
-    const { data, ...rest } = useQuery('p2p_advertiser_payment_methods', {
-        options: { enabled: isSuccess && is_enabled },
+    const { data, ...rest } = useP2pAdvertiserPaymentMethods({
+        options: { enabled: is_enabled },
     });
 
     // Modify the response to add additional information
     const modified_data = useMemo(() => {
-        const payment_methods = data?.p2p_advertiser_payment_methods;
+        const payment_methods = data;
 
         if (!payment_methods) return undefined;
 
@@ -24,7 +22,7 @@ const useAdvertiserPaymentMethods = (is_enabled = true) => {
                 id: key,
             };
         });
-    }, [data?.p2p_advertiser_payment_methods]);
+    }, [data]);
 
     return {
         /** The list of P2P Advertiser Payment Methods */

@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import { DeepPartial } from 'react-hook-form';
 import { useLocalStorage } from 'usehooks-ts';
-import { TSocketResponseData } from '../../../../../types';
-import useSubscription from '../../../../../useSubscription';
+import { useP2PSettings } from '@deriv-com/api-hooks';
 
 type TP2PSettings =
-    | (TSocketResponseData<'p2p_settings'>['p2p_settings'] & {
+    | (ReturnType<typeof useP2PSettings> & {
           currency_list: {
               display_name: string;
               has_adverts: 0 | 1;
@@ -32,12 +31,12 @@ type TCurrencyListItem = {
 };
 
 const useSettings = () => {
-    const { data, ...rest } = useSubscription('p2p_settings');
+    const { data, ...rest } = useP2PSettings();
     const [p2pSettings, setP2PSettings] = useLocalStorage<DeepPartial<TP2PSettings>>('p2p_v2_p2p_settings', {});
 
     useEffect(() => {
         if (data) {
-            const p2p_settings_data = data.p2p_settings;
+            const p2p_settings_data = data;
 
             if (!p2p_settings_data) return undefined;
 

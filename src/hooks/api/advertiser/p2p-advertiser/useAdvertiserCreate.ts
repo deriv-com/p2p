@@ -1,9 +1,9 @@
 import { useCallback, useMemo } from 'react';
-import useInvalidateQuery from '../../../../../useInvalidateQuery';
-import useMutation from '../../../../../useMutation';
+import { useP2PAdvertiserCreate } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 
 type TCreateAdvertisePayload = NonNullable<
-    Parameters<ReturnType<typeof useMutation<'p2p_advertiser_create'>>['mutate']>
+    Parameters<ReturnType<typeof useP2PAdvertiserCreate>['mutate']>
 >[0]['payload'];
 
 /** A custom hook that creates a P2P advertiser. This can only be used when the user is authorized.
@@ -23,7 +23,7 @@ const useAdvertiserCreate = () => {
         data,
         mutate: _mutate,
         ...rest
-    } = useMutation('p2p_advertiser_create', {
+    } = useP2PAdvertiserCreate({
         onSuccess: () => {
             invalidate('p2p_advertiser_info');
         },
@@ -37,14 +37,14 @@ const useAdvertiserCreate = () => {
     );
 
     const modified_data = useMemo(() => {
-        const advertiser = data?.p2p_advertiser_create;
+        const advertiser = data;
 
         if (!advertiser) return undefined;
 
         const { basic_verification, full_verification, is_approved, is_listed, is_online, show_name } = advertiser;
 
         return {
-            ...data?.p2p_advertiser_create,
+            ...data,
             /** Indicating whether the advertiser's identify has been verified. */
             has_basic_verification: Boolean(basic_verification),
             /** Indicating whether the advertiser's address has been verified. */

@@ -1,4 +1,3 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -83,26 +82,14 @@ const mockProps = {
 };
 describe('OrdersTableRow', () => {
     it('should render the component', () => {
-        render(
-            <APIProvider>
-                <AuthProvider>
-                    <OrdersTableRow {...mockProps} />
-                </AuthProvider>
-            </APIProvider>
-        );
+        render(<OrdersTableRow {...mockProps} />);
         expect(screen.getByText('client CR90000299')).toBeInTheDocument();
         expect(screen.getByText('Completed')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Rate' })).toBeInTheDocument();
     });
 
     it('should call history.push when clicking on the order id', async () => {
-        render(
-            <APIProvider>
-                <AuthProvider>
-                    <OrdersTableRow {...mockProps} />
-                </AuthProvider>
-            </APIProvider>
-        );
+        render(<OrdersTableRow {...mockProps} />);
         const advertiserName = screen.getByText('client CR90000299');
         await userEvent.click(advertiserName);
         expect(mockPush).toHaveBeenCalledWith('/orders/8');
@@ -113,13 +100,7 @@ describe('OrdersTableRow', () => {
             isMobile: true,
         });
 
-        render(
-            <APIProvider>
-                <AuthProvider>
-                    <OrdersTableRow {...mockProps} />
-                </AuthProvider>
-            </APIProvider>
-        );
+        render(<OrdersTableRow {...mockProps} />);
 
         const chatIcon = screen.getByTestId('dt_orders_table_row_chat_button');
         await userEvent.click(chatIcon);

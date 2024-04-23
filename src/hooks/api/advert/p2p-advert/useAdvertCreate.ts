@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
-import useInvalidateQuery from '../../../../../useInvalidateQuery';
-import useMutation from '../../../../../useMutation';
+import { useP2pAdvertCreate } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TPayload = Parameters<ReturnType<typeof useMutation<'p2p_advert_create'>>['mutate']>[0]['payload'];
+type TPayload = Parameters<ReturnType<typeof useP2pAdvertCreate>['mutate']>[0]['payload'];
 
 /** A custom hook that creates a P2P advert. This can only be used by an approved P2P advertiser.
  * 
@@ -25,7 +25,7 @@ const useAdvertCreate = () => {
         data,
         mutate: _mutate,
         ...rest
-    } = useMutation('p2p_advert_create', {
+    } = useP2pAdvertCreate({
         onSuccess: () => {
             invalidate('p2p_advert_list');
         },
@@ -34,22 +34,20 @@ const useAdvertCreate = () => {
     const mutate = useCallback((payload: TPayload) => _mutate({ payload }), [_mutate]);
 
     const modified_data = useMemo(() => {
-        if (!data?.p2p_advert_create) return undefined;
+        if (!data) return undefined;
 
         return {
-            ...data?.p2p_advert_create,
+            ...data,
             /** Indicates if this is block trade advert or not. */
-            block_trade: Boolean(data?.p2p_advert_create?.block_trade),
+            block_trade: Boolean(data?.block_trade),
             /** The advert creation time in epoch. */
-            created_time: data?.p2p_advert_create?.created_time
-                ? new Date(data?.p2p_advert_create?.created_time)
-                : undefined,
+            created_time: data?.created_time ? new Date(data?.created_time) : undefined,
             /** The activation status of the advert. */
-            is_active: Boolean(data?.p2p_advert_create?.is_active),
+            is_active: Boolean(data?.is_active),
             /** Indicates that this advert will appear on the main advert list. */
-            is_visible: Boolean(data?.p2p_advert_create?.is_visible),
+            is_visible: Boolean(data?.is_visible),
         };
-    }, [data?.p2p_advert_create]);
+    }, [data]);
 
     return {
         data: modified_data,

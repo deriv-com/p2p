@@ -1,10 +1,8 @@
 import { useCallback, useMemo } from 'react';
-import useInvalidateQuery from '../../../../../useInvalidateQuery';
-import useMutation from '../../../../../useMutation';
+import { useP2pOrderDispute } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TOrderDisputePayload = NonNullable<
-    Parameters<ReturnType<typeof useMutation<'p2p_order_dispute'>>['mutate']>
->[0]['payload'];
+type TOrderDisputePayload = NonNullable<Parameters<ReturnType<typeof useP2pOrderDispute>['mutate']>>[0]['payload'];
 
 /** A custom hook that disputes a P2P order.
  *
@@ -22,7 +20,7 @@ const useOrderDispute = () => {
         data,
         mutate: _mutate,
         ...rest
-    } = useMutation('p2p_order_dispute', {
+    } = useP2pOrderDispute({
         onSuccess: () => {
             invalidate('p2p_order_info');
         },

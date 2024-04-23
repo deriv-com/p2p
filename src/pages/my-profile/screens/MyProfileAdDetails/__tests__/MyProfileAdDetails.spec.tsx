@@ -1,16 +1,6 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyProfileAdDetails from '../MyProfileAdDetails';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>
-            <div id='v2_modal_root' />
-            {children}
-        </AuthProvider>
-    </APIProvider>
-);
 
 const mockUseAdvertiserInfo = {
     data: {},
@@ -54,13 +44,13 @@ jest.mock('@deriv/api-v2', () => ({
 
 describe('MyProfileBalance', () => {
     it('should render the loader when initial data is fetching', () => {
-        render(<MyProfileAdDetails />, { wrapper });
+        render(<MyProfileAdDetails />);
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
         mockUseAdvertiserInfo.isLoading = false;
     });
     it('should render initial default details when user has not updated their details yet', () => {
         mockUseAdvertiserInfo.data = {};
-        render(<MyProfileAdDetails />, { wrapper });
+        render(<MyProfileAdDetails />);
         const contactTextAreaNode = screen.getByTestId('dt_profile_ad_details_contact');
         expect(within(contactTextAreaNode).getByRole('textbox')).toHaveValue('');
         const descriptionTextAreaNode = screen.getByTestId('dt_profile_ad_details_description');
@@ -71,7 +61,7 @@ describe('MyProfileBalance', () => {
             contact_info: '',
             default_advert_description: '',
         };
-        render(<MyProfileAdDetails />, { wrapper });
+        render(<MyProfileAdDetails />);
         const contactTextAreaNode = screen.getByTestId('dt_profile_ad_details_contact');
         expect(within(contactTextAreaNode).getByRole('textbox')).toHaveValue('');
         const descriptionTextAreaNode = screen.getByTestId('dt_profile_ad_details_description');
@@ -82,7 +72,7 @@ describe('MyProfileBalance', () => {
             contact_info: '0123456789',
             default_advert_description: 'mock description',
         };
-        render(<MyProfileAdDetails />, { wrapper });
+        render(<MyProfileAdDetails />);
         const contactTextAreaNode = screen.getByTestId('dt_profile_ad_details_contact');
         expect(within(contactTextAreaNode).getByRole('textbox')).toHaveValue('0123456789');
         const descriptionTextAreaNode = screen.getByTestId('dt_profile_ad_details_description');
@@ -93,7 +83,7 @@ describe('MyProfileBalance', () => {
             contact_info: '0123456789',
             default_advert_description: 'mock description',
         };
-        render(<MyProfileAdDetails />, { wrapper });
+        render(<MyProfileAdDetails />);
         const contactTextBoxNode = within(screen.getByTestId('dt_profile_ad_details_contact')).getByRole('textbox');
         const descriptionTextBoxNode = within(screen.getByTestId('dt_profile_ad_details_description')).getByRole(
             'textbox'
@@ -115,7 +105,7 @@ describe('MyProfileBalance', () => {
     });
     it('should render mobile screen', async () => {
         mockUseDevice.isMobile = true;
-        render(<MyProfileAdDetails />, { wrapper });
+        render(<MyProfileAdDetails />);
         const contactTextBoxNode = within(screen.getByTestId('dt_profile_ad_details_contact')).getByRole('textbox');
         const descriptionTextBoxNode = within(screen.getByTestId('dt_profile_ad_details_description')).getByRole(
             'textbox'

@@ -1,20 +1,19 @@
 import { useMemo } from 'react';
-import useQuery from '../../../../../useQuery';
-
+import { useP2PAdvertInfo } from '@deriv-com/api-hooks';
 /**
  * This custom hook returns the advert information about the given advert ID.
  */
 const useAdvertInfo = (
-    payload: NonNullable<Parameters<typeof useQuery<'p2p_advert_info'>>[1]>['payload'],
-    options?: NonNullable<Parameters<typeof useQuery<'p2p_advert_info'>>[1]>['options']
+    payload: NonNullable<Parameters<typeof useP2PAdvertInfo>[1]>['payload'],
+    options?: NonNullable<Parameters<typeof useP2PAdvertInfo>[1]>['options']
 ) => {
-    const { data, ...rest } = useQuery('p2p_advert_info', {
+    const { data, ...rest } = useP2PAdvertInfo({
         payload,
         options,
     });
 
     const modified_data = useMemo(() => {
-        const p2p_advert_info = data?.p2p_advert_info;
+        const p2p_advert_info = data;
 
         if (!p2p_advert_info) return undefined;
 
@@ -34,7 +33,7 @@ const useAdvertInfo = (
              * **/
             payment_method: p2p_advert_info.payment_method,
         };
-    }, [data?.p2p_advert_info]);
+    }, [data]);
 
     return {
         data: modified_data,

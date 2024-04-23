@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
-import useInvalidateQuery from '../../../../../useInvalidateQuery';
-import useMutation from '../../../../../useMutation';
+import { useP2pOrderCancel } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TOrderCancelPayload = NonNullable<
-    Parameters<ReturnType<typeof useMutation<'p2p_order_cancel'>>['mutate']>
->[0]['payload'];
+type TOrderCancelPayload = NonNullable<Parameters<ReturnType<typeof useP2pOrderCancel>['mutate']>>[0]['payload'];
 
 /** A custom hook that cancels a P2P order.
  *
@@ -21,7 +19,7 @@ const useOrderCancel = () => {
         data,
         mutate: _mutate,
         ...rest
-    } = useMutation('p2p_order_cancel', {
+    } = useP2pOrderCancel({
         onSuccess: () => {
             invalidate('p2p_order_info');
         },
@@ -31,7 +29,7 @@ const useOrderCancel = () => {
 
     return {
         /** An object that contains the id and status of the order */
-        data: data?.p2p_order_cancel,
+        data,
         /** A function that cancels a specific order */
         mutate,
         ...rest,

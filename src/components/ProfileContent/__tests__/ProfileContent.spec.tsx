@@ -1,4 +1,3 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import ProfileContent from '../ProfileContent';
@@ -24,12 +23,6 @@ jest.mock('@deriv-com/ui', () => ({
 
 const mockUseDevice = useDevice as jest.Mock;
 
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
-
 describe('ProfileContent', () => {
     it('should render the advertiser name and profile balance if location is my-profile', () => {
         Object.defineProperty(window, 'location', {
@@ -38,7 +31,7 @@ describe('ProfileContent', () => {
             },
             writable: true,
         });
-        render(<ProfileContent />, { wrapper });
+        render(<ProfileContent />);
         expect(screen.getByText('AdvertiserName')).toBeInTheDocument();
         expect(screen.getByText('ProfileBalance')).toBeInTheDocument();
     });
@@ -50,7 +43,7 @@ describe('ProfileContent', () => {
             },
             writable: true,
         });
-        render(<ProfileContent />, { wrapper });
+        render(<ProfileContent />);
         expect(screen.getByText('AdvertiserName')).toBeInTheDocument();
         expect(screen.getByText('ProfileStats')).toBeInTheDocument();
     });
@@ -66,7 +59,7 @@ describe('ProfileContent', () => {
         mockUseDevice.mockReturnValue({
             isMobile: true,
         });
-        render(<ProfileContent />, { wrapper });
+        render(<ProfileContent />);
         expect(screen.getByText('AdvertiserNameToggle')).toBeInTheDocument();
     });
 });

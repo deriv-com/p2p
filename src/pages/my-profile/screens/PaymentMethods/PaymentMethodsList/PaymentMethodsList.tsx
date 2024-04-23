@@ -1,7 +1,6 @@
-import { THooks, TSelectedPaymentMethod } from 'types';
+import { TFormState, THooks, TSelectedPaymentMethod } from 'types';
 import { FullPageMobileWrapper } from '@/components';
 import { useQueryString } from '@/hooks/custom-hooks';
-import { TFormState } from '@/reducers/types';
 import { Text, useDevice } from '@deriv-com/ui';
 import AddNewButton from './AddNewButton';
 import { PaymentMethodsListContent } from './PaymentMethodsListContent';

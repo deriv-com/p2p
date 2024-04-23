@@ -1,5 +1,4 @@
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import OrderDetailsCardHeader from '../OrderDetailsCardHeader';
 
@@ -33,15 +32,9 @@ jest.mock('../../../OrderTimer', () => ({
 
 const mockUseOrderDetails = useOrderDetails as jest.Mock;
 
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
-
 describe('<OrderDetailsCardHeader />', () => {
     it('should show status with error class, the order ID and time left', () => {
-        render(<OrderDetailsCardHeader />, { wrapper });
+        render(<OrderDetailsCardHeader />);
 
         const statusText = screen.getByText('Pay now');
 
@@ -62,7 +55,7 @@ describe('<OrderDetailsCardHeader />', () => {
             },
         });
 
-        render(<OrderDetailsCardHeader />, { wrapper });
+        render(<OrderDetailsCardHeader />);
 
         const statusText = screen.getByText('Completed');
 
@@ -80,7 +73,7 @@ describe('<OrderDetailsCardHeader />', () => {
             },
         });
 
-        render(<OrderDetailsCardHeader />, { wrapper });
+        render(<OrderDetailsCardHeader />);
 
         const statusText = screen.getByText('Waiting for seller to confirm');
 
@@ -98,7 +91,7 @@ describe('<OrderDetailsCardHeader />', () => {
             },
         });
 
-        render(<OrderDetailsCardHeader />, { wrapper });
+        render(<OrderDetailsCardHeader />);
 
         const statusText = screen.getByText('Expired');
 

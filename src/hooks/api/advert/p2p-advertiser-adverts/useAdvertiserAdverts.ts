@@ -1,36 +1,16 @@
 import { useMemo } from 'react';
-import useInfiniteQuery from '../../../../../useInfiniteQuery';
-import useAuthorize from '../../../../useAuthorize';
+import { useP2PAdvertiserAdverts } from '@deriv-com/api-hooks';
 
 /** This custom hook returns a list of adverts under the current active client. */
-const useAdvertiserAdverts = (
-    payload?: NonNullable<Parameters<typeof useInfiniteQuery<'p2p_advertiser_adverts'>>[1]>['payload'],
-    config?: NonNullable<Parameters<typeof useInfiniteQuery<'p2p_advertiser_adverts'>>[1]>['options']
-) => {
-    const { isSuccess } = useAuthorize();
-    const { data, fetchNextPage, ...rest } = useInfiniteQuery('p2p_advertiser_adverts', {
+const useAdvertiserAdverts = (payload?: NonNullable<Parameters<typeof useP2PAdvertiserAdverts>[0]>['payload']) => {
+    const { data, loadMoreAdverts, ...rest } = useP2PAdvertiserAdverts({
         payload: { ...payload, offset: payload?.offset, limit: payload?.limit },
-        options: {
-            ...config,
-            getNextPageParam: (lastPage, pages) => {
-                if (!lastPage?.p2p_advertiser_adverts?.list?.length) return;
-
-                return pages.length;
-            },
-            enabled: isSuccess && (config?.enabled === undefined || config.enabled),
-        },
     });
 
-    const flatten_data = useMemo(() => {
-        if (!data?.pages?.length) return;
-
-        return data?.pages?.flatMap(page => page?.p2p_advertiser_adverts?.list);
-    }, [data?.pages]);
-
     const modified_data = useMemo(() => {
-        if (!flatten_data?.length) return undefined;
+        if (!data?.length) return undefined;
 
-        return flatten_data.map(advert => ({
+        return data.map(advert => ({
             ...advert,
             /** Determine if the rate is floating or fixed */
             is_floating: advert?.rate_type === 'float',
@@ -56,13 +36,13 @@ const useAdvertiserAdverts = (
             /** Indicates if this is block trade advert or not. */
             block_trade: Boolean(advert?.block_trade),
         }));
-    }, [flatten_data]);
+    }, [data]);
 
     return {
         /** The 'p2p_advertiser_adverts' response. */
         data: modified_data,
         /** Function to fetch the next batch of adverts */
-        loadMoreAdverts: fetchNextPage,
+        loadMoreAdverts,
         ...rest,
     };
 };

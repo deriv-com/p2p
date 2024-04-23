@@ -2,9 +2,9 @@ import { memo, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { PaymentMethodLabel, PopoverDropdown } from '@/components';
 import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
+import { useExchangeRateSubscription } from '@/hooks/api/account';
 import { useFloatingRate } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, shouldShowTooltipIcon } from '@/utils';
-import { useExchangeRateSubscription } from '@deriv/api-v2';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import { AdStatus, AdType, AlertComponent, ProgressIndicator } from '../../../components';
@@ -32,7 +32,7 @@ type TMyAdsTableProps = Omit<TMyAdsTableRowRendererProps, 'balanceAvailable' | '
 
 const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps) => {
     const { isMobile } = useDevice();
-    const { data: exchangeRateValue, subscribe } = useExchangeRateSubscription();
+    const { subscribeRates } = useExchangeRateSubscription();
 
     const {
         account_currency: accountCurrency,
@@ -59,14 +59,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
 
     const isFloatingRate = rateType === RATE_TYPE.FLOAT;
 
-    useEffect(() => {
-        if (localCurrency) {
-            subscribe({
-                base_currency: BASE_CURRENCY,
-                target_currency: localCurrency,
-            });
-        }
-    }, [localCurrency, subscribe]);
+    const exchangeRateValue = subscribeRates({ base_currency: BASE_CURRENCY, target_currencies: [localCurrency] });
 
     const [showAlertIcon, setShowAlertIcon] = useState(false);
     const isAdvertListed = isListed && !isBarred;

@@ -8,7 +8,8 @@
     }
     &__item {
         display: flex;
-        @include typeface(--paragraph-left-normal-prominent);
+        //TODO: fix this
+        // @include typeface(--paragraph-left-normal-prominent);
 
         cursor: pointer;
         color: var(--text-general);

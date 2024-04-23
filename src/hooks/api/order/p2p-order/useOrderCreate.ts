@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
-import useInvalidateQuery from '../../../../../useInvalidateQuery';
-import useMutation from '../../../../../useMutation';
+import { useP2POrderCreate } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TOrderCreatePayload = Parameters<ReturnType<typeof useMutation<'p2p_order_create'>>['mutate']>[0]['payload'];
+type TOrderCreatePayload = Parameters<ReturnType<typeof useP2POrderCreate>['mutate']>[0]['payload'];
 
 /** A custom hook that creates a P2P order. 
  * 
@@ -22,7 +22,7 @@ const useOrderCreate = () => {
         data,
         mutate: _mutate,
         ...rest
-    } = useMutation('p2p_order_create', {
+    } = useP2POrderCreate({
         onSuccess: () => {
             invalidate('p2p_order_list');
         },
@@ -31,13 +31,12 @@ const useOrderCreate = () => {
     const mutate = useCallback((payload: TOrderCreatePayload) => _mutate({ payload }), [_mutate]);
 
     const modified_data = useMemo(() => {
-        if (!data?.p2p_order_create) return undefined;
+        if (!data) return undefined;
 
-        const { advert_details, advertiser_details, client_details, is_incoming, is_reviewable, is_seen } =
-            data.p2p_order_create;
+        const { advert_details, advertiser_details, client_details, is_incoming, is_reviewable, is_seen } = data;
 
         return {
-            ...data.p2p_order_create,
+            ...data,
             advert_details: {
                 ...advert_details,
                 /** Indicates if this is block trade advert or not. */
@@ -60,7 +59,7 @@ const useOrderCreate = () => {
             /** Indicates if the latest order changes have been seen by the current client. */
             is_seen: Boolean(is_seen),
         };
-    }, [data?.p2p_order_create]);
+    }, [data]);
 
     return {
         /** The 'p2p_order_create' response. */

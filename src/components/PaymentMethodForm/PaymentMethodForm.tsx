@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { TSelectedPaymentMethod } from 'types';
+import { TFormState, TSelectedPaymentMethod } from 'types';
 import { PageReturn, PaymentMethodField, PaymentMethodsFormFooter } from '@/components';
 import { api } from '@/hooks';
-import { TFormState } from '@/reducers/types';
 import { useDevice } from '@deriv-com/ui';
 import { PaymentMethodFormAutocomplete } from './PaymentMethodFormAutocomplete';
 import { PaymentMethodFormModalRenderer } from './PaymentMethodFormModalRenderer';

@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
 import { TFileDropzone, truncateFileName } from '@/utils';
 import { Text } from '@deriv-com/ui';
@@ -62,7 +62,7 @@ const FileDropzone = ({ className, noClick = false, ...props }: TFileDropzone) =
             {({ getInputProps, getRootProps, isDragAccept, isDragActive, isDragReject, open }) => (
                 <div
                     {...getRootProps()}
-                    className={classNames('file-dropzone', className, {
+                    className={clsx('file-dropzone', className, {
                         'file-dropzone--has-error': (isDragReject || !!validationErrorMessage) && !isDragAccept,
                         'file-dropzone--has-file': isDragActive || value.length > 0,
                         'file-dropzone--is-active': isDragActive,
