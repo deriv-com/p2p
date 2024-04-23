@@ -2,7 +2,6 @@ import { useAuthData } from '@deriv-com/api-hooks';
 import { URLUtils } from '@deriv-com/utils';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import Header from '../Header';
 
 const mockUseAuthData = useAuthData as jest.Mock;

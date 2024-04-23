@@ -2,18 +2,9 @@ import { ComponentProps } from 'react';
 import { THooks } from 'types';
 import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
 import { api } from '@/hooks';
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PaymentMethodsListContent } from '../PaymentMethodsListContent';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>
-            <div id='v2_modal_root'>{children}</div>
-        </AuthProvider>
-    </APIProvider>
-);
 
 jest.mock('@deriv/api-v2', () => ({
     ...jest.requireActual('@deriv/api-v2'),
@@ -122,8 +113,7 @@ describe('PaymentMethodsListContent', () => {
                 onEdit={jest.fn()}
                 onResetFormState={jest.fn()}
                 p2pAdvertiserPaymentMethods={[]}
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByText('Add new')).toBeInTheDocument();
     });
@@ -138,8 +128,7 @@ describe('PaymentMethodsListContent', () => {
                 onEdit={jest.fn()}
                 onResetFormState={jest.fn()}
                 p2pAdvertiserPaymentMethods={mockPaymentMethodsData}
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByText('Others')).toBeInTheDocument();
         expect(screen.getByText('Account 1')).toBeInTheDocument();
@@ -157,8 +146,7 @@ describe('PaymentMethodsListContent', () => {
                 onEdit={onEdit}
                 onResetFormState={jest.fn()}
                 p2pAdvertiserPaymentMethods={[mockPaymentMethodsData[0]]}
-            />,
-            { wrapper }
+            />
         );
         await userEvent.click(screen.getByTestId('dt_flyout_toggle'));
         const editMenuItem = screen.getByText('Edit');
@@ -178,8 +166,7 @@ describe('PaymentMethodsListContent', () => {
                 onEdit={jest.fn()}
                 onResetFormState={jest.fn()}
                 p2pAdvertiserPaymentMethods={[mockPaymentMethodsData[0]]}
-            />,
-            { wrapper }
+            />
         );
         await userEvent.click(screen.getByTestId('dt_flyout_toggle'));
         const deleteMenuItem = screen.getByText('Delete');
@@ -222,8 +209,7 @@ describe('PaymentMethodsListContent', () => {
                         used_by_orders: null,
                     },
                 ]}
-            />,
-            { wrapper }
+            />
         );
         await userEvent.click(screen.getByTestId('dt_flyout_toggle'));
         const deleteMenuItem = screen.getByText('Delete');
@@ -243,8 +229,7 @@ describe('PaymentMethodsListContent', () => {
                 onEdit={jest.fn()}
                 onResetFormState={jest.fn()}
                 p2pAdvertiserPaymentMethods={[mockPaymentMethodsData[0]]}
-            />,
-            { wrapper }
+            />
         );
         await userEvent.click(screen.getByTestId('dt_flyout_toggle'));
         const deleteMenuItem = screen.getByText('Delete');
@@ -281,8 +266,7 @@ describe('PaymentMethodsListContent', () => {
                 onEdit={jest.fn()}
                 onResetFormState={jest.fn()}
                 p2pAdvertiserPaymentMethods={[mockPaymentMethodsData[0]]}
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByText('PaymentMethodErrorModal')).toBeInTheDocument();
         await userEvent.click(screen.getByTestId('dt_payment_method_error_ok_button'));

@@ -1,5 +1,4 @@
 import { api } from '@/hooks';
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AdvertiserAdvertsTable from '../AdvertiserAdvertsTable';
@@ -40,15 +39,9 @@ jest.mock('@deriv/api-v2', () => ({
 
 const mockUseGetList = api.advert.useGetList as jest.Mock;
 
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
-
 describe('<AdvertiserAdvertsTable />', () => {
     it('should show the Loader component if isLoading is true', () => {
-        render(<AdvertiserAdvertsTable advertiserId='123' />, { wrapper });
+        render(<AdvertiserAdvertsTable advertiserId='123' />);
 
         expect(screen.getByRole('button', { name: 'Buy' })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Sell' })).toBeInTheDocument();
@@ -62,7 +55,7 @@ describe('<AdvertiserAdvertsTable />', () => {
         };
         mockUseGetList.mockReturnValue(mockApiValues);
 
-        render(<AdvertiserAdvertsTable advertiserId='123' />, { wrapper });
+        render(<AdvertiserAdvertsTable advertiserId='123' />);
 
         expect(screen.getByText('There are no ads yet')).toBeInTheDocument();
     });
@@ -85,7 +78,7 @@ describe('<AdvertiserAdvertsTable />', () => {
         };
         mockUseGetList.mockReturnValue(mockApiValues);
 
-        render(<AdvertiserAdvertsTable advertiserId='123' />, { wrapper });
+        render(<AdvertiserAdvertsTable advertiserId='123' />);
 
         expect(screen.getByText('Limits')).toBeInTheDocument();
         expect(screen.getByText(/10.00-100.00 USD/)).toBeInTheDocument();
@@ -118,7 +111,7 @@ describe('<AdvertiserAdvertsTable />', () => {
         };
         mockUseGetList.mockReturnValue(mockApiValues);
 
-        render(<AdvertiserAdvertsTable advertiserId='123' />, { wrapper });
+        render(<AdvertiserAdvertsTable advertiserId='123' />);
 
         await userEvent.click(screen.getByRole('button', { name: 'Sell' }));
 

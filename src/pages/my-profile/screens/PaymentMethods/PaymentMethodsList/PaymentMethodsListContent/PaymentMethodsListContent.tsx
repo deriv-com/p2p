@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { THooks, TSelectedPaymentMethod } from 'types';
+import { TFormState, THooks, TSelectedPaymentMethod } from 'types';
 import { PaymentMethodCard } from '@/components';
 import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
 import { PAYMENT_METHOD_CATEGORIES } from '@/constants';
 import { api } from '@/hooks';
-import { TFormState } from '@/reducers/types';
 import { sortPaymentMethods } from '@/utils';
 import { Text } from '@deriv-com/ui';
 import AddNewButton from '../AddNewButton';

@@ -1,7 +1,6 @@
 import { ComponentProps, useReducer } from 'react';
 import { PaymentMethodForm } from '@/components';
 import { api } from '@/hooks';
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PaymentMethods from '../PaymentMethods';
@@ -111,20 +110,12 @@ const mockUseGet = api.advertiserPaymentMethods.useGet as jest.MockedFunction<
 >;
 const mockUseReducer = useReducer as jest.MockedFunction<typeof useReducer>;
 
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>
-            <div id='v2_modal_root'>{children}</div>
-        </AuthProvider>
-    </APIProvider>
-);
-
 describe('PaymentMethods', () => {
     it('should call dispatch with the type add', async () => {
         const mockDispatch = jest.fn();
         mockUseReducer.mockReturnValue([{ isVisible: false }, mockDispatch]);
         mockUseGet.mockReturnValue({ ...mockUseGetResponse, data });
-        render(<PaymentMethods />, { wrapper });
+        render(<PaymentMethods />);
         await userEvent.click(screen.getByText('Add'));
         expect(mockDispatch).toHaveBeenCalledWith({
             payload: {
@@ -137,7 +128,7 @@ describe('PaymentMethods', () => {
         const mockDispatch = jest.fn();
         mockUseReducer.mockReturnValue([{ isVisible: false }, mockDispatch]);
         mockUseGet.mockReturnValue({ ...mockUseGetResponse, data });
-        render(<PaymentMethods />, { wrapper });
+        render(<PaymentMethods />);
         await userEvent.click(screen.getByText('Edit'));
         expect(mockDispatch).toHaveBeenCalledWith({ payload: { selectedPaymentMethod: data[0] }, type: 'EDIT' });
     });
@@ -145,31 +136,31 @@ describe('PaymentMethods', () => {
         const mockDispatch = jest.fn();
         mockUseReducer.mockReturnValue([{ isVisible: false }, mockDispatch]);
         mockUseGet.mockReturnValue({ ...mockUseGetResponse, data });
-        render(<PaymentMethods />, { wrapper });
+        render(<PaymentMethods />);
         await userEvent.click(screen.getByText('Delete'));
         expect(mockDispatch).toHaveBeenCalledWith({ payload: { selectedPaymentMethod: data[0] }, type: 'DELETE' });
     });
     it('should call dispatch with type reset', async () => {
         const mockDispatch = jest.fn();
         mockUseReducer.mockReturnValue([{ isVisible: true }, mockDispatch]);
-        render(<PaymentMethods />, { wrapper });
+        render(<PaymentMethods />);
         await userEvent.click(screen.getByTestId('dt_cancel_button'));
         expect(mockDispatch).toHaveBeenCalledWith({ type: 'RESET' });
     });
     it('should show the loader when isloading is true', () => {
         mockUseGet.mockReturnValue({ ...mockUseGetResponse, isLoading: true, isSuccess: false, status: 'loading' });
-        render(<PaymentMethods />, { wrapper });
+        render(<PaymentMethods />);
         expect(screen.getByText('Loader')).toBeInTheDocument();
     });
     it('should render the payment methods empty component when data undefined and formstate.isvisible is false', () => {
         mockUseReducer.mockReturnValue([{ isVisible: false }, jest.fn()]);
         mockUseGet.mockReturnValue({ ...mockUseGetResponse, data: undefined });
-        render(<PaymentMethods />, { wrapper });
+        render(<PaymentMethods />);
         expect(screen.getByText('PaymentMethodsEmpty')).toBeInTheDocument();
     });
     it('should render the payment method form when the formstate. isvisible is true', () => {
         mockUseReducer.mockReturnValue([{ isVisible: true }, jest.fn()]);
-        render(<PaymentMethods />, { wrapper });
+        render(<PaymentMethods />);
         expect(screen.getByText('PaymentMethodForm')).toBeInTheDocument();
     });
     it('should render payment methods list when data is defined and formstate.isvisible is false', () => {
@@ -196,7 +187,7 @@ describe('PaymentMethods', () => {
                 },
             ],
         });
-        render(<PaymentMethods />, { wrapper });
+        render(<PaymentMethods />);
         expect(screen.getByText('PaymentMethodsList')).toBeInTheDocument();
     });
 });

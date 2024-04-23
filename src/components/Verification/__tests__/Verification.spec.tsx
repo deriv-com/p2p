@@ -1,13 +1,6 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Verification from '../Verification';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
 
 let mockUsePoiPoaStatusData = {
     data: {
@@ -38,7 +31,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('<Verification />', () => {
     it('should show Loader if isLoading is true', () => {
-        render(<Verification />, { wrapper });
+        render(<Verification />);
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });
 
@@ -48,7 +41,7 @@ describe('<Verification />', () => {
             isLoading: false,
         };
 
-        render(<Verification />, { wrapper });
+        render(<Verification />);
 
         expect(screen.getByText('Verify your P2P account')).toBeInTheDocument();
         expect(screen.getByText('Verify your identity and address to use Deriv P2P.')).toBeInTheDocument();
@@ -62,7 +55,7 @@ describe('<Verification />', () => {
             isLoading: false,
         };
 
-        render(<Verification />, { wrapper });
+        render(<Verification />);
 
         const poiButton = screen.getByTestId('dt_verification_poi_arrow_button');
         expect(poiButton).toBeInTheDocument();
@@ -78,7 +71,7 @@ describe('<Verification />', () => {
             isLoading: false,
         };
 
-        render(<Verification />, { wrapper });
+        render(<Verification />);
 
         const poaButton = screen.getByTestId('dt_verification_poa_arrow_button');
         expect(poaButton).toBeInTheDocument();
@@ -102,7 +95,7 @@ describe('<Verification />', () => {
             writable: true,
         });
 
-        render(<Verification />, { wrapper });
+        render(<Verification />);
 
         const poiButton = screen.getByTestId('dt_verification_poi_arrow_button');
         expect(poiButton).toBeInTheDocument();
@@ -125,7 +118,7 @@ describe('<Verification />', () => {
             isLoading: false,
         };
 
-        render(<Verification />, { wrapper });
+        render(<Verification />);
 
         const poaButton = screen.getAllByRole('button')[0];
         const poiButton = screen.getAllByRole('button')[1];
@@ -147,7 +140,7 @@ describe('<Verification />', () => {
             isLoading: false,
         };
 
-        render(<Verification />, { wrapper });
+        render(<Verification />);
 
         expect(screen.getByText('Identity verification failed. Please try again.')).toBeInTheDocument();
         expect(screen.getByText('Address verification failed. Please try again.')).toBeInTheDocument();
@@ -164,7 +157,7 @@ describe('<Verification />', () => {
             isLoading: false,
         };
 
-        render(<Verification />, { wrapper });
+        render(<Verification />);
 
         expect(screen.getByText('Identity verification complete.')).toBeInTheDocument();
         expect(screen.getByText('Address verification complete.')).toBeInTheDocument();

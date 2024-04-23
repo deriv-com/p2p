@@ -66,9 +66,9 @@ describe('PreferredCountriesDropdown', () => {
     it('should display no search results message when there are no search results', () => {
         render(<PreferredCountriesDropdown {...mockProps} />);
         const searchInput = screen.getByPlaceholderText('Search countries');
-        act(async () => {
+        async () => {
             await userEvent.type(searchInput, 'India');
-        });
+        };
         act(() => {
             jest.runAllTimers();
         });
@@ -77,15 +77,15 @@ describe('PreferredCountriesDropdown', () => {
     it('should display full list on search clear', () => {
         render(<PreferredCountriesDropdown {...mockProps} />);
         const searchInput = screen.getByPlaceholderText('Search countries');
-        act(async () => {
+        async () => {
             await userEvent.type(searchInput, 'India');
-        });
+        };
         act(() => {
             jest.runAllTimers();
         });
-        act(async () => {
+        async () => {
             await userEvent.clear(searchInput);
-        });
+        };
         act(() => {
             jest.runAllTimers();
         });

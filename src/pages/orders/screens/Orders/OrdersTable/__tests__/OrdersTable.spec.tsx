@@ -1,4 +1,3 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import OrdersTable from '../OrdersTable';
@@ -79,12 +78,6 @@ const mockData = [
     },
 ];
 
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
-
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),
@@ -102,14 +95,14 @@ describe('OrdersTable', () => {
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });
     it('should render the table when there is data', () => {
-        render(<OrdersTable {...mockProps} data={mockData} />, { wrapper });
+        render(<OrdersTable {...mockProps} data={mockData} />);
         expect(screen.getByText('Order')).toBeInTheDocument();
         expect(screen.getByText('Order ID')).toBeInTheDocument();
         expect(screen.getByText('test123')).toBeInTheDocument();
     });
     it('should not render the table header when in mobile view', () => {
         mockUseDevice.mockReturnValue({ isMobile: true });
-        render(<OrdersTable {...mockProps} data={mockData} />, { wrapper });
+        render(<OrdersTable {...mockProps} data={mockData} />);
         expect(screen.queryByText('Order')).not.toBeInTheDocument();
     });
 });

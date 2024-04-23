@@ -1,12 +1,6 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import AdvertiserNameBadges from '../AdvertiserNameBadges';
 
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
 const mockUseAdvertiserStats = {
     data: {
         isAddressVerified: false,
@@ -31,7 +25,7 @@ const mockProps = {
 
 describe('AdvertiserNameBadges', () => {
     it('should render not verified badges', () => {
-        render(<AdvertiserNameBadges {...mockProps} />, { wrapper });
+        render(<AdvertiserNameBadges {...mockProps} />);
         expect(screen.queryAllByText('not verified')).toHaveLength(2);
     });
     it('should render verified badges', () => {
@@ -40,7 +34,7 @@ describe('AdvertiserNameBadges', () => {
             isIdentityVerified: true,
             totalOrders: 20,
         };
-        render(<AdvertiserNameBadges {...mockProps} />, { wrapper });
+        render(<AdvertiserNameBadges {...mockProps} />);
         expect(screen.queryAllByText('verified')).toHaveLength(2);
     });
     it('should render verified/not verified badges', () => {
@@ -49,7 +43,7 @@ describe('AdvertiserNameBadges', () => {
             isIdentityVerified: false,
             totalOrders: 20,
         };
-        render(<AdvertiserNameBadges {...mockProps} />, { wrapper });
+        render(<AdvertiserNameBadges {...mockProps} />);
         expect(screen.getByText('verified')).toBeInTheDocument();
         expect(screen.getByText('not verified')).toBeInTheDocument();
     });
@@ -59,7 +53,7 @@ describe('AdvertiserNameBadges', () => {
             isIdentityVerified: true,
             totalOrders: 100,
         };
-        render(<AdvertiserNameBadges {...mockProps} />, { wrapper });
+        render(<AdvertiserNameBadges {...mockProps} />);
         expect(screen.getByText('100+')).toBeInTheDocument();
     });
 });

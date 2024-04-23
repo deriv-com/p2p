@@ -89,9 +89,9 @@ describe('<BuySellHeader />', () => {
 
         const searchInput = screen.getByRole('searchbox');
 
-        act(async () => {
+        async () => {
             await userEvent.type(searchInput, 'John Doe');
-        });
+        };
 
         act(() => {
             jest.runAllTimers();

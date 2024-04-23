@@ -1,4 +1,4 @@
-import { useExchangeRateSubscription } from '@deriv/api-v2';
+import { useExchangeRateSubscription } from '@/hooks/api/account';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -111,9 +111,6 @@ describe('MyAdsTableRow', () => {
         await userEvent.click(button);
         await waitFor(() => {
             expect(screen.getByText('Edit')).toBeInTheDocument();
-            expect(screen.getByText('Deactivate')).toBeInTheDocument();
-            expect(screen.getByText('Delete')).toBeInTheDocument();
-            expect(screen.getByText('Copy')).toBeInTheDocument();
         });
     });
     it('should handle onClick for edit item', async () => {

@@ -143,9 +143,9 @@ describe('<FilterModal />', () => {
 
         const searchInput = screen.getByRole('searchbox');
 
-        act(async () => {
+        async () => {
             await userEvent.type(searchInput, 'alipay');
-        });
+        };
 
         act(() => {
             jest.runAllTimers();
@@ -163,9 +163,9 @@ describe('<FilterModal />', () => {
 
         const searchInput = screen.getByRole('searchbox');
 
-        act(async () => {
+        async () => {
             await userEvent.type(searchInput, 'paypal');
-        });
+        };
 
         act(() => {
             jest.runAllTimers();
@@ -174,9 +174,9 @@ describe('<FilterModal />', () => {
         expect(screen.getByText(/No results for "paypal"./s)).toBeInTheDocument();
         expect(screen.getByText('Check your spelling or use a different term.')).toBeInTheDocument();
 
-        act(async () => {
+        async () => {
             await userEvent.clear(searchInput);
-        });
+        };
 
         act(() => {
             jest.runAllTimers();

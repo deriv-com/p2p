@@ -1,13 +1,9 @@
-import { APIProvider, AuthProvider, useGetAccountStatus } from '@deriv/api-v2';
-import { renderHook } from '@testing-library/react-hooks';
+import { useGetAccountStatus } from '@deriv-com/api-hooks';
+import { renderHook } from '@testing-library/react';
 import usePoiPoaStatus from '../custom-hooks/usePoiPoaStatus';
 
 const mockUseGetAccountStatus = useGetAccountStatus as jest.MockedFunction<typeof useGetAccountStatus>;
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
+
 jest.mock('@deriv/api-v2', () => ({
     ...jest.requireActual('@deriv/api-v2'),
     useGetAccountStatus: jest.fn().mockReturnValue({
@@ -27,7 +23,7 @@ jest.mock('@deriv/api-v2', () => ({
 
 describe('usePoiPoaStatus', () => {
     it('should return the correct pending verification statuses', () => {
-        const { result } = renderHook(() => usePoiPoaStatus(), { wrapper });
+        const { result } = renderHook(() => usePoiPoaStatus());
 
         expect(result.current.data).toStrictEqual({
             isP2PPoaRequired: true,
@@ -53,7 +49,7 @@ describe('usePoiPoaStatus', () => {
                 p2p_poa_required: false,
             },
         });
-        const { result } = renderHook(() => usePoiPoaStatus(), { wrapper });
+        const { result } = renderHook(() => usePoiPoaStatus());
 
         expect(result.current.data).toStrictEqual({
             isP2PPoaRequired: false,
@@ -69,7 +65,7 @@ describe('usePoiPoaStatus', () => {
         mockUseGetAccountStatus.mockReturnValueOnce({
             data: undefined,
         });
-        const { result } = renderHook(() => usePoiPoaStatus(), { wrapper });
+        const { result } = renderHook(() => usePoiPoaStatus());
 
         expect(result.current.data).toBeUndefined();
     });

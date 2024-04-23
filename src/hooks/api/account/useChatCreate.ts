@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useP2pChatCreate } from '@deriv-com/api-hooks';
-import useInvalidateQuery from '../../useInvalidateQuery';
+import useInvalidateQuery from '../useInvalidateQuery';
 
-type TPayload = NonNullable<Parameters<ReturnType<typeof useP2pChatCreate>['mutate']>>[0]['payload'];
+type TPayload = NonNullable<Parameters<ReturnType<typeof useMutation<'p2p_chat_create'>>['mutate']>>[0]['payload'];
 
 /**
  * A custom hook to create a p2p chat for the specified order.

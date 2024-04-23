@@ -1,12 +1,5 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import AdvertiserName from '../AdvertiserName';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
 
 const mockProps = {
     advertiserStats: {
@@ -23,7 +16,7 @@ jest.mock('@deriv-com/ui', () => ({
 
 describe('AdvertiserName', () => {
     it('should render full name', () => {
-        render(<AdvertiserName {...mockProps} />, { wrapper });
+        render(<AdvertiserName {...mockProps} />);
         expect(screen.getByText(/Jane Doe/)).toBeInTheDocument();
     });
 });

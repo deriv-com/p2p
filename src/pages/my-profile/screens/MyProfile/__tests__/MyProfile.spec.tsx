@@ -1,16 +1,8 @@
 import { useAdvertiserStats, useIsAdvertiser, usePoiPoaStatus } from '@/hooks/custom-hooks';
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyProfile from '../MyProfile';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <div id='v2_modal_root' />
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
 
 jest.mock('use-query-params', () => ({
     ...jest.requireActual('use-query-params'),
@@ -92,7 +84,7 @@ describe('MyProfile', () => {
         (mockUseAdvertiserStats as jest.Mock).mockReturnValueOnce({
             isLoading: true,
         });
-        render(<MyProfile />, { wrapper });
+        render(<MyProfile />);
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });
     it('should render the verification component if user has not completed POI ', () => {
@@ -101,7 +93,7 @@ describe('MyProfile', () => {
             isLoading: false,
         });
 
-        render(<MyProfile />, { wrapper });
+        render(<MyProfile />);
         expect(screen.getByText('Verification')).toBeInTheDocument();
     });
     it('should render the verification component if user has not completed  POA', () => {
@@ -110,7 +102,7 @@ describe('MyProfile', () => {
             isLoading: false,
         });
 
-        render(<MyProfile />, { wrapper });
+        render(<MyProfile />);
         expect(screen.getByText('Verification')).toBeInTheDocument();
     });
     it('should show the nickname modal if user has completed POI or POA for the first time', () => {
@@ -129,11 +121,11 @@ describe('MyProfile', () => {
             isLoading: false,
         });
 
-        render(<MyProfile />, { wrapper });
+        render(<MyProfile />);
         expect(screen.getByText('NicknameModal')).toBeInTheDocument();
     });
     it('should render the tabs and correct screens', async () => {
-        render(<MyProfile />, { wrapper });
+        render(<MyProfile />);
         expect(screen.getByText('MyProfileStatsScreen')).toBeInTheDocument();
 
         const paymentMethodsBtn = screen.getByRole('button', {
@@ -147,7 +139,7 @@ describe('MyProfile', () => {
             isMobile: true,
         });
 
-        render(<MyProfile />, { wrapper });
+        render(<MyProfile />);
         expect(screen.getByText('MyProfileMobile')).toBeInTheDocument();
     });
 });

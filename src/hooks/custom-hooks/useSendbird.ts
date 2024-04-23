@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
-import { useChatCreate, useSendbirdServiceToken } from '@deriv/api-v2';
 import SendbirdChat, { BaseChannel, User } from '@sendbird/chat';
 import { GroupChannel, GroupChannelHandler, GroupChannelModule } from '@sendbird/chat/groupChannel';
 import { BaseMessage, MessageType, MessageTypeFilter } from '@sendbird/chat/message';
@@ -87,7 +86,7 @@ const useSendbird = (orderId: string) => {
         data: sendbirdServiceToken,
         isError: isErrorSendbirdServiceToken,
         isSuccess: isSuccessSendbirdServiceToken,
-    } = useSendbirdServiceToken();
+    } = api.account.useSendbirdServiceToken();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
     //TODO: p2p_chat_create endpoint to be removed once chat_channel_url is created from p2p_order_create
     const { isError: isErrorChatCreate, mutate: createChat } = useChatCreate();

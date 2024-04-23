@@ -1,21 +1,17 @@
-import useInvalidateQuery from '../../../../../useInvalidateQuery';
-import useMutation from '../../../../../useMutation';
-import useQuery from '../../../../../useQuery';
-import useAuthorize from '../../../../useAuthorize';
+import { useP2pAdvertiserRelations } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 
 /** This hook returns favourite and blocked advertisers and the mutation function to update the block list of the current user. */
 const useAdvertiserRelations = () => {
-    const { isSuccess } = useAuthorize();
     const invalidate = useInvalidateQuery();
-    const { data, ...rest } = useQuery('p2p_advertiser_relations', { options: { enabled: isSuccess } });
-    const { mutate, ...mutate_rest } = useMutation('p2p_advertiser_relations', {
+    const { data, mutate, ...mutate_rest } = useP2pAdvertiserRelations({
         onSuccess: () => {
             invalidate('p2p_advertiser_relations');
             invalidate('p2p_advertiser_list');
         },
     });
 
-    const advertiser_relations = data?.p2p_advertiser_relations;
+    const advertiser_relations = data;
 
     return {
         /** P2P advertiser relations information. */
@@ -29,7 +25,6 @@ const useAdvertiserRelations = () => {
         mutate,
         /** The mutation related information. */
         mutation: mutate_rest,
-        ...rest,
     };
 };
 

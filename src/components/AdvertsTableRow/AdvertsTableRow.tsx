@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-import { Fragment, memo, useEffect, useState } from 'react';
+import { Fragment, memo, useState } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { TAdvertsTableRowRenderer } from 'types';
@@ -8,7 +7,6 @@ import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, getCurrentRoute } from '@/utils';
-import { useExchangeRateSubscription } from '@deriv/api-v2';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './AdvertsTableRow.scss';
@@ -17,7 +15,7 @@ const BASE_CURRENCY = 'USD';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { data: exchangeRateValue, subscribe } = useExchangeRateSubscription();
+    const { subscribeRates } = api.account.useExchangeRateSubscription();
     const { isDesktop, isMobile } = useDevice();
     const history = useHistory();
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
@@ -42,22 +40,14 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         rate_type,
     } = props;
 
-    useEffect(() => {
-        if (local_currency) {
-            subscribe({
-                base_currency: BASE_CURRENCY,
-                target_currency: local_currency,
-            });
-        }
-    }, [local_currency, subscribe]);
+    const exchangeRate = subscribeRates({ base_currency: BASE_CURRENCY, target_currencies: [local_currency] });
 
-    const exchangeRate = exchangeRateValue?.rates?.[local_currency ?? ''];
     const Container = isMobile ? 'div' : Fragment;
 
     const { completed_orders_count, id, is_online, name, rating_average, rating_count } = advertiser_details || {};
 
     const { displayEffectiveRate, effectiveRate } = generateEffectiveRate({
-        exchangeRate,
+        exchangeRate: exchangeRate?.rates?.[local_currency],
         localCurrency: local_currency,
         marketRate: Number(effective_rate),
         price: Number(price_display),

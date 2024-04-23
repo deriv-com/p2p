@@ -1,4 +1,4 @@
-import { TFormState } from '@/reducers/types';
+import { TFormState } from 'types';
 import { Button, useDevice } from '@deriv-com/ui';
 import './PaymentMethodsFormFooter.scss';
 

@@ -1,13 +1,7 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AdvertiserNameToggle from '../AdvertiserNameToggle';
 
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
 const mockProps = {
     advertiserInfo: {
         fullName: 'Jane Doe',
@@ -30,11 +24,11 @@ jest.mock('@deriv/api-v2', () => ({
 
 describe('AdvertiserNameToggle', () => {
     it('should render full name in toggle', () => {
-        render(<AdvertiserNameToggle {...mockProps} />, { wrapper });
+        render(<AdvertiserNameToggle {...mockProps} />);
         expect(screen.getByText('Jane Doe')).toBeInTheDocument();
     });
     it('should switch full name settings', async () => {
-        render(<AdvertiserNameToggle {...mockProps} />, { wrapper });
+        render(<AdvertiserNameToggle {...mockProps} />);
         const labelBtn = screen.getByRole('checkbox');
         await userEvent.click(labelBtn);
 

@@ -1,11 +1,10 @@
 import { useCallback } from 'react';
-import useInvalidateQuery from '../../../../../useInvalidateQuery';
-import useMutation from '../../../../../useMutation';
-
+import { useP2pAdvertiserPaymentMethods } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 /** A custom hook that sends a request to delete an existing p2p advertiser payment method. */
 const useDeleteAdvertiserPaymentMethods = () => {
     const invalidate = useInvalidateQuery();
-    const { data, mutate, ...rest } = useMutation('p2p_advertiser_payment_methods', {
+    const { data, mutate, ...rest } = useP2pAdvertiserPaymentMethods({
         onSuccess: () => invalidate('p2p_advertiser_payment_methods'),
     });
 

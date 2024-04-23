@@ -1,18 +1,8 @@
 import { api } from '@/hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NicknameModal from '../NicknameModal';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider standalone>
-        <AuthProvider>
-            <div id='v2_modal_root' />
-            {children}
-        </AuthProvider>
-    </APIProvider>
-);
 
 const mockedMutate = jest.fn();
 const mockedReset = jest.fn();
@@ -62,12 +52,12 @@ jest.mock('@/providers/AdvertiserInfoStateProvider', () => ({
 
 describe('NicknameModal', () => {
     it('should render title and description correctly', () => {
-        render(<NicknameModal isModalOpen setIsModalOpen={jest.fn()} />, { wrapper });
+        render(<NicknameModal isModalOpen setIsModalOpen={jest.fn()} />);
         expect(screen.getByText('What’s your nickname?')).toBeVisible();
         expect(screen.getByText('Others will see this on your profile, ads and charts.')).toBeVisible();
     });
     it('should allow users to type and submit nickname', async () => {
-        render(<NicknameModal isModalOpen setIsModalOpen={jest.fn()} />, { wrapper });
+        render(<NicknameModal isModalOpen setIsModalOpen={jest.fn()} />);
 
         const nicknameInput = screen.getByTestId('dt_nickname_modal_input');
 
@@ -94,8 +84,8 @@ describe('NicknameModal', () => {
             reset: mockedReset,
         }));
 
-        await act(() => {
-            render(<NicknameModal isModalOpen setIsModalOpen={jest.fn()} />, { wrapper });
+        await (() => {
+            render(<NicknameModal isModalOpen setIsModalOpen={jest.fn()} />);
         });
 
         expect(mockedReset).toBeCalled();
@@ -109,7 +99,7 @@ describe('NicknameModal', () => {
             reset: mockedReset,
         }));
         const mockIsModalOpen = jest.fn();
-        render(<NicknameModal isModalOpen setIsModalOpen={mockIsModalOpen} />, { wrapper });
+        render(<NicknameModal isModalOpen setIsModalOpen={mockIsModalOpen} />);
 
         const cancelBtn = screen.getByRole('button', {
             name: 'Cancel',

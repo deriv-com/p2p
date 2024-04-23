@@ -1,16 +1,6 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ProfileDailyLimit from '../ProfileDailyLimit';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>
-            <div id='v2_modal_root' />
-            {children}
-        </AuthProvider>
-    </APIProvider>
-);
 
 const mockUseAdvertiserStats = {
     data: {
@@ -40,7 +30,7 @@ jest.mock('@deriv/api-v2', () => ({
 
 describe('ProfileDailyLimit', () => {
     it('should render the correct limits message', () => {
-        render(<ProfileDailyLimit />, { wrapper });
+        render(<ProfileDailyLimit />);
         const tokens = ['Want to increase your daily limits to (buy) and (sell)?', '100 USD ', '200 USD '];
 
         expect(
@@ -50,7 +40,7 @@ describe('ProfileDailyLimit', () => {
         ).toBeInTheDocument();
     });
     it('should render limits modal when requested to increase limits', async () => {
-        render(<ProfileDailyLimit />, { wrapper });
+        render(<ProfileDailyLimit />);
         const increaseLimitsBtn = screen.getByRole('button', {
             name: 'Increase my limits',
         });

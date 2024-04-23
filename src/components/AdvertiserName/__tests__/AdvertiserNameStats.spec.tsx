@@ -1,12 +1,5 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import AdvertiserNameStats from '../AdvertiserNameStats';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>{children}</AuthProvider>
-    </APIProvider>
-);
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
@@ -24,7 +17,7 @@ describe('AdvertiserNameStats', () => {
                 recommended_average: 3.3,
             },
         };
-        render(<AdvertiserNameStats {...mockUseAdvertiserStats} />, { wrapper });
+        render(<AdvertiserNameStats {...mockUseAdvertiserStats} />);
         expect(screen.getByText('Joined 22d')).toBeInTheDocument();
         expect(screen.getByText('(29 ratings)')).toBeInTheDocument();
     });
@@ -36,7 +29,7 @@ describe('AdvertiserNameStats', () => {
                 rating_count: 29,
             },
         };
-        render(<AdvertiserNameStats {...mockUseAdvertiserStats} />, { wrapper });
+        render(<AdvertiserNameStats {...mockUseAdvertiserStats} />);
         expect(screen.getByText('Not rated yet')).toBeInTheDocument();
     });
 });

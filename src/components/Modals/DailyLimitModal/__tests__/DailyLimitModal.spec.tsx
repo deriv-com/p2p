@@ -1,16 +1,6 @@
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DailyLimitModal from '../DailyLimitModal';
-
-const wrapper = ({ children }: { children: JSX.Element }) => (
-    <APIProvider>
-        <AuthProvider>
-            <div id='v2_modal_root' />
-            {children}
-        </AuthProvider>
-    </APIProvider>
-);
 
 const mockUseAdvertiserUpdateMutate = jest.fn();
 const mockOnRequestClose = jest.fn();
@@ -36,7 +26,7 @@ jest.mock('@deriv/api-v2', () => ({
 
 describe('DailyLimitModal', () => {
     it('should render loader when data is not ready', () => {
-        render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />, { wrapper });
+        render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />);
 
         expect(screen.getByTestId('dt_derivs-loader')).toBeVisible();
     });
@@ -46,7 +36,7 @@ describe('DailyLimitModal', () => {
             isLoading: false,
             isSuccess: false,
         };
-        render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />, { wrapper });
+        render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />);
 
         expect(
             screen.getByText(
@@ -68,7 +58,7 @@ describe('DailyLimitModal', () => {
             isLoading: false,
             isSuccess: true,
         };
-        render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />, { wrapper });
+        render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />);
 
         expect(
             screen.getByText(`Your daily limits have been increased to 100 USD (buy) and 200 USD (sell).`)
@@ -88,7 +78,7 @@ describe('DailyLimitModal', () => {
             isLoading: false,
             isSuccess: false,
         };
-        render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />, { wrapper });
+        render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />);
 
         expect(
             screen.getByText(

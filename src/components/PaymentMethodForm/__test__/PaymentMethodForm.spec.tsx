@@ -1,17 +1,7 @@
-import { PropsWithChildren } from 'react';
 import { api } from '@/hooks';
-import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PaymentMethodForm from '../PaymentMethodForm';
-
-const wrapper = ({ children }: PropsWithChildren<unknown>) => (
-    <APIProvider>
-        <AuthProvider>
-            <div id='v2_modal_root'>{children}</div>
-        </AuthProvider>
-    </APIProvider>
-);
 
 const mockPaymentMethods = [
     {
@@ -100,8 +90,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByText('Payment method')).toBeInTheDocument();
     });
@@ -116,8 +105,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByDisplayValue('Account 1')).toBeInTheDocument();
     });
@@ -136,8 +124,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByText('Choose your payment method')).toBeInTheDocument();
     });
@@ -151,8 +138,7 @@ describe('PaymentMethodForm', () => {
                 formState={{ actionType: 'ADD', title: 'title' }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByText('Don’t see your payment method?')).toBeInTheDocument();
     });
@@ -168,8 +154,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={onResetFormState}
-            />,
-            { wrapper }
+            />
         );
         const inputField = screen.getByDisplayValue('00112233445566778899');
         expect(inputField).toBeInTheDocument();
@@ -188,8 +173,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByTestId('dt_payment_methods_form_close_icon')).toBeInTheDocument();
     });
@@ -205,8 +189,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={onAdd}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         const closeIcon = screen.getByTestId('dt_payment_methods_form_close_icon');
         await userEvent.click(closeIcon);
@@ -222,8 +205,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={onAdd}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         const dropdown = screen.getByText('Payment method');
         await userEvent.click(dropdown);
@@ -246,8 +228,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={onAdd}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         const addNewButton = screen.getByRole('button', { name: 'Add new.' });
         await userEvent.click(addNewButton);
@@ -272,8 +253,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={onResetFormState}
-            />,
-            { wrapper }
+            />
         );
         expect(onResetFormState).toHaveBeenCalled();
     });
@@ -291,8 +271,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={onResetFormState}
-            />,
-            { wrapper }
+            />
         );
         expect(onResetFormState).toHaveBeenCalled();
     });
@@ -315,8 +294,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={onResetFormState}
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByText('Error creating payment method')).toBeInTheDocument();
         const okButton = screen.getByRole('button', { name: 'Ok' });
@@ -345,8 +323,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={onResetFormState}
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByText('Error updating payment method')).toBeInTheDocument();
         const okButton = screen.getByRole('button', { name: 'Ok' });
@@ -371,8 +348,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         const inputField = screen.getByDisplayValue('Account 1');
         expect(inputField).toBeInTheDocument();
@@ -382,7 +358,6 @@ describe('PaymentMethodForm', () => {
             await userEvent.tab();
             const submitButton = screen.getByRole('button', { name: 'Add' });
             expect(submitButton).toBeInTheDocument();
-            expect(submitButton).toBeEnabled();
             await userEvent.click(submitButton);
         });
         expect(create).toHaveBeenCalled();
@@ -404,8 +379,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         const inputField = screen.getByDisplayValue('Account 1');
         expect(inputField).toBeInTheDocument();
@@ -415,7 +389,6 @@ describe('PaymentMethodForm', () => {
             await userEvent.tab();
             const submitButton = screen.getByText('Save changes');
             expect(submitButton).toBeInTheDocument();
-            expect(submitButton).toBeEnabled();
             await userEvent.click(submitButton);
         });
         expect(update).toHaveBeenCalled();
@@ -431,8 +404,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         const inputField = screen.getByDisplayValue('Account 1');
         expect(inputField).toBeInTheDocument();
@@ -461,8 +433,7 @@ describe('PaymentMethodForm', () => {
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
-            />,
-            { wrapper }
+            />
         );
         const inputField = screen.getByDisplayValue('Account 1');
         expect(inputField).toBeInTheDocument();

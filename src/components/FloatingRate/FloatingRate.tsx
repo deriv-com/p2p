@@ -1,7 +1,6 @@
-import { ChangeEvent, FocusEvent, useEffect } from 'react';
+import { ChangeEvent, FocusEvent } from 'react';
 import { api } from '@/hooks';
 import { mobileOSDetect, percentOf, removeTrailingZeros, roundOffDecimal, setDecimalPlaces } from '@/utils';
-import { useExchangeRateSubscription } from '@deriv/api-v2';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import InputField from '../InputField';
@@ -26,8 +25,10 @@ const FloatingRate = ({
     onChange,
     value,
 }: TFloatingRate) => {
-    const { data: exchangeRateValue, subscribe } = useExchangeRateSubscription();
+    const { subscribeRates } = api.account.useExchangeRateSubscription();
     const { isMobile } = useDevice();
+
+    const exchangeRateValue = subscribeRates({ base_currency: 'USD', target_currencies: [localCurrency] });
 
     const { data: p2pSettings } = api.settings.useSettings();
     const overrideExchangeRate = p2pSettings?.override_exchange_rate;
@@ -38,15 +39,6 @@ const FloatingRate = ({
     const marketFeed = value ? percentOf(marketRate, Number(value)) : marketRate;
     const decimalPlace = setDecimalPlaces(marketFeed, 6);
     const textSize = isMobile ? 'sm' : 'xs';
-
-    useEffect(() => {
-        if (localCurrency) {
-            subscribe({
-                base_currency: 'USD',
-                target_currency: localCurrency,
-            });
-        }
-    }, [localCurrency, subscribe]);
 
     // Input mask for formatting value on blur of floating rate field
     const onBlurHandler = (event: FocusEvent<HTMLInputElement>) => {
