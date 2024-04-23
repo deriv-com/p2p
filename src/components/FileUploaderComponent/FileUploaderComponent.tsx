@@ -1,10 +1,7 @@
 import { memo, useCallback } from 'react';
-
 import { DerivLightIcCloudUploadIcon, StandaloneCircleXmarkBoldIcon } from '@deriv/quill-icons';
 import { Text } from '@deriv-com/ui';
-
 import { FileDropzone } from '../FileDropzone';
-
 import './FileUploaderComponent.scss';
 
 type TFileUploaderComponentProps = {
@@ -44,7 +41,7 @@ const FileUploaderComponent = ({
     }, [uploadedMessage]);
 
     return (
-        <div className='p2p-file-uploader-component'>
+        <div className='file-uploader-component'>
             <FileDropzone
                 accept={accept}
                 errorMessage='Please upload supported file type.'
@@ -60,7 +57,7 @@ const FileUploaderComponent = ({
             />
             {(value.length > 0 || !!validationErrorMessage) && (
                 <StandaloneCircleXmarkBoldIcon
-                    className='p2p-file-uploader-component__close-icon'
+                    className='file-uploader-component__close-icon'
                     data-testid='dt_remove_file_icon'
                     fill='#999'
                     onClick={onClickClose}

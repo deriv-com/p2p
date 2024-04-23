@@ -1,6 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import OrderDetailsConfirmModal from '../OrderDetailsConfirmModal';
 
 jest.mock('@deriv-com/ui', () => ({

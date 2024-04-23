@@ -1,5 +1,4 @@
 import { RATE_TYPE } from '@/constants';
-
 import { api } from '..';
 
 type TReturnType = {

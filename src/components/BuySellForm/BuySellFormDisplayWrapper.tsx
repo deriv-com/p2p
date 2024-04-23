@@ -1,10 +1,7 @@
 import { PropsWithChildren } from 'react';
 import clsx from 'clsx';
-
 import { Modal, useDevice } from '@deriv-com/ui';
-
 import { FullPageMobileWrapper } from '../FullPageMobileWrapper';
-
 import { BuySellFormFooter } from './BuySellFormFooter';
 import { BuySellFormHeader } from './BuySellFormHeader';
 
@@ -29,7 +26,7 @@ const BuySellFormDisplayWrapper = ({
     if (isMobile) {
         return (
             <FullPageMobileWrapper
-                className='p2p-buy-sell-form__full-page-modal'
+                className='buy-sell-form__full-page-modal'
                 onBack={onRequestClose}
                 renderFooter={() => <BuySellFormFooter isDisabled={!isValid} onClickCancel={onRequestClose} />}
                 renderHeader={() => <BuySellFormHeader currency={accountCurrency} isBuy={isBuy} />}
@@ -42,7 +39,7 @@ const BuySellFormDisplayWrapper = ({
     return (
         <Modal
             ariaHideApp={false}
-            className={clsx('p2p-buy-sell-form', { 'p2p-buy-sell-form--is-buy': isBuy })}
+            className={clsx('buy-sell-form', { 'buy-sell-form--is-buy': isBuy })}
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
             shouldCloseOnOverlayClick={false}

@@ -1,8 +1,6 @@
+import { MY_ADS_URL } from '@/constants';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { MY_ADS_URL } from '@/constants';
-
 import MyAdsEmpty from '../MyAdsEmpty';
 
 jest.mock('@deriv-com/ui', () => ({

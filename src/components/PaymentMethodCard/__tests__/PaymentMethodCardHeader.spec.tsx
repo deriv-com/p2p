@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import { PaymentMethodCardHeader } from '../PaymentMethodCardHeader';
 
 jest.mock('../../../public/ic-cashier-ewallet.svg', () => 'span');

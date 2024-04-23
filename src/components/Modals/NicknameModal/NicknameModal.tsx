@@ -1,15 +1,12 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
+import { debounce } from 'lodash';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { debounce } from 'lodash';
-
-import { DerivLightIcCashierUserIcon } from '@deriv/quill-icons';
-import { Button, Input, Modal, Text, useDevice } from '@deriv-com/ui';
-
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
-
+import { DerivLightIcCashierUserIcon } from '@deriv/quill-icons';
+import { Button, Input, Modal, Text, useDevice } from '@deriv-com/ui';
 import './NicknameModal.scss';
 
 type TNicknameModalProps = {
@@ -51,11 +48,11 @@ const NicknameModal = ({ isModalOpen, setIsModalOpen }: TNicknameModalProps) => 
     }, [isError, isSuccess, setHasCreatedAdvertiser]);
 
     return (
-        <Modal ariaHideApp={false} className='p2p-nickname-modal' isOpen={!!isModalOpen}>
+        <Modal ariaHideApp={false} className='nickname-modal' isOpen={!!isModalOpen}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Modal.Body className='p2p-nickname-modal__body'>
+                <Modal.Body className='nickname-modal__body'>
                     <DerivLightIcCashierUserIcon height='12.8rem' width='12.8rem' />
-                    <Text className='p2p-nickname-modal__body-title' weight='bold'>
+                    <Text className='nickname-modal__body-title' weight='bold'>
                         What’s your nickname?
                     </Text>
                     <Text align='center' className='mt-4 mb-6' size={textSize}>

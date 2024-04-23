@@ -1,15 +1,11 @@
-import React, { PropsWithChildren, useState } from 'react';
-
-import { Text } from '@deriv-com/ui';
-
+import { PropsWithChildren, useState } from 'react';
 import { FullPageMobileWrapper } from '@/components';
 import { RadioGroupFilterModal } from '@/components/Modals';
 import { COUNTERPARTIES_DROPDOWN_LIST } from '@/constants';
 import { useDevice, useQueryString } from '@/hooks/custom-hooks';
-
+import { Text } from '@deriv-com/ui';
 import { MyProfileCounterpartiesHeader } from './MyProfileCounterpartiesHeader';
 import { MyProfileCounterpartiesTable } from './MyProfileCounterpartiesTable';
-
 import './MyProfileCounterparties.scss';
 
 const MyProfileCounterpartiesDisplayWrapper = ({ children }: PropsWithChildren<unknown>) => {
@@ -26,7 +22,7 @@ const MyProfileCounterpartiesDisplayWrapper = ({ children }: PropsWithChildren<u
                     })
                 }
                 renderHeader={() => (
-                    <Text className='p2p-my-profile-counterparties__header' size='md' weight='bold'>
+                    <Text className='my-profile-counterparties__header' size='md' weight='bold'>
                         My counterparties
                     </Text>
                 )}
@@ -55,7 +51,7 @@ const MyProfileCounterparties = () => {
 
     return (
         <MyProfileCounterpartiesDisplayWrapper>
-            <div className='p2p-my-profile-counterparties'>
+            <div className='my-profile-counterparties'>
                 {showHeader && (
                     <MyProfileCounterpartiesHeader
                         dropdownValue={dropdownValue}
@@ -64,7 +60,7 @@ const MyProfileCounterparties = () => {
                         setSearchValue={setSearchValue}
                     />
                 )}
-                <div className='p2p-my-profile-counterparties__content'>
+                <div className='my-profile-counterparties__content'>
                     <MyProfileCounterpartiesTable
                         dropdownValue={dropdownValue}
                         searchValue={searchValue}

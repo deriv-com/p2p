@@ -1,7 +1,5 @@
-import { render, screen } from '@testing-library/react';
-
 import { useDevice } from '@/hooks/custom-hooks';
-
+import { render, screen } from '@testing-library/react';
 import MyProfileCounterparties from '../MyProfileCounterparties';
 
 jest.mock('../../MyProfileCounterparties/MyProfileCounterpartiesHeader', () => ({

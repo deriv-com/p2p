@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import OrderDetailsCardInfo from '../OrderDetailsCardInfo';
 
 jest.mock('@deriv-com/ui', () => ({

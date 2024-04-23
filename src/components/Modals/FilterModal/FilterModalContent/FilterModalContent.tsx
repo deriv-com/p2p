@@ -1,7 +1,5 @@
 import clsx from 'clsx';
-
 import { Text } from '@deriv-com/ui';
-
 import { FilterModalPaymentMethods } from '../FilterModalPaymentMethods';
 
 type TFilterModalContentProps = {

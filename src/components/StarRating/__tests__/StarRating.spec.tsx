@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import StarRating from '../StarRating';
 
 describe('StarRating', () => {

@@ -1,7 +1,5 @@
-import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
-
 import { RATE_TYPE } from '@/constants';
-
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdRateSwitchModal.scss';
 
 type TAdRateSwitchModalProps = {
@@ -24,14 +22,14 @@ const AdRateSwitchModal = ({
     return (
         <Modal
             ariaHideApp={false}
-            className='p2p-ad-rate-switch-modal'
+            className='ad-rate-switch-modal'
             isOpen={isModalOpen}
             shouldCloseOnOverlayClick={false}
         >
-            <Modal.Body className='p2p-ad-rate-switch-modal__body'>
+            <Modal.Body className='ad-rate-switch-modal__body'>
                 <Text size='sm'>{isFloat ? 'Set a floating rate for your ad.' : 'Set a fixed rate for your ad.'}</Text>
             </Modal.Body>
-            <Modal.Footer className='p2p-ad-rate-switch-modal__footer' hideBorder>
+            <Modal.Footer className='ad-rate-switch-modal__footer' hideBorder>
                 <Button
                     className='border-2'
                     color='black'

@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { PaymentMethodLabel, PopoverDropdown } from '@/components';
 import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
@@ -107,18 +107,18 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
     if (isMobile) {
         return (
             <div
-                className={clsx('p2p-my-ads-table-row__line', {
-                    'p2p-my-ads-table-row__line-disabled': isRowDisabled,
+                className={clsx('my-ads-table-row__line', {
+                    'my-ads-table-row__line-disabled': isRowDisabled,
                 })}
             >
                 <Text color='less-prominent' size='sm'>
                     {`Ad ID ${id} `}
                 </Text>
-                <div className='p2p-my-ads-table-row__line__type-and-status'>
+                <div className='my-ads-table-row__line__type-and-status'>
                     <Text color={adPauseColor} size='lg' weight='bold'>
                         {advertType} {accountCurrency}
                     </Text>
-                    <div className='p2p-my-ads-table-row__line__type-and-status__wrapper'>
+                    <div className='my-ads-table-row__line__type-and-status__wrapper'>
                         <AdStatus isActive={isAdActive} />
                         {showAlertIcon && <AlertComponent onClick={() => showModal('AdErrorTooltipModal')} />}
                         <PopoverDropdown
@@ -128,7 +128,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                         />
                     </div>
                 </div>
-                <div className='p2p-my-ads-table-row__line-details'>
+                <div className='my-ads-table-row__line-details'>
                     <Text color='success' size='sm'>
                         {`${FormatUtils.formatMoney(amountDealt, { currency: accountCurrency })}`} {accountCurrency}
                         &nbsp;
@@ -139,11 +139,11 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                     </Text>
                 </div>
                 <ProgressIndicator
-                    className={'p2p-my-ads-table-row__available-progress'}
+                    className={'my-ads-table-row__available-progress'}
                     total={amount}
                     value={amountDealt}
                 />
-                <div className='p2p-my-ads-table-row__line-details'>
+                <div className='my-ads-table-row__line-details'>
                     <Text color='less-prominent' size='sm'>
                         Limits
                     </Text>
@@ -151,7 +151,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                         {`Rate (1 ${accountCurrency})`}
                     </Text>
                 </div>
-                <div className='p2p-my-ads-table-row__line-details'>
+                <div className='my-ads-table-row__line-details'>
                     <Text color={adPauseColor} size='sm'>
                         {minOrderAmountDisplay} - {maxOrderAmountDisplay} {accountCurrency}
                     </Text>
@@ -162,7 +162,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                         </div>
                     </Text>
                 </div>
-                <div className='gap-2 p2p-my-ads-table-row__line-methods'>
+                <div className='gap-2 my-ads-table-row__line-methods'>
                     {paymentMethodNames?.map(paymentMethod => (
                         <PaymentMethodLabel
                             color={adPauseColor}
@@ -178,8 +178,8 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
 
     return (
         <div
-            className={clsx('p2p-my-ads-table-row__line', {
-                'p2p-my-ads-table-row__line-disabled': isRowDisabled,
+            className={clsx('my-ads-table-row__line', {
+                'my-ads-table-row__line-disabled': isRowDisabled,
             })}
         >
             <Text size='sm'>
@@ -188,13 +188,13 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
             <Text size='sm'>
                 {minOrderAmountDisplay} - {maxOrderAmountDisplay} {accountCurrency}
             </Text>
-            <Text className='p2p-my-ads-table-row__rate' size='sm'>
+            <Text className='my-ads-table-row__rate' size='sm'>
                 {displayEffectiveRate} {localCurrency}
                 {isFloatingRate && <AdType adPauseColor={adPauseColor} floatRate={rateDisplay} />}
             </Text>
-            <Text className='p2p-my-ads-table-row__available' size='sm'>
+            <Text className='my-ads-table-row__available' size='sm'>
                 <ProgressIndicator
-                    className={'p2p-my-ads-table-row__available-progress'}
+                    className={'my-ads-table-row__available-progress'}
                     total={amount}
                     value={remainingAmount}
                 />
@@ -210,7 +210,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                     />
                 ))}
             </div>
-            <div className='p2p-my-ads-table-row__actions'>
+            <div className='my-ads-table-row__actions'>
                 <AdStatus isActive={isAdActive} />
                 <PopoverDropdown dropdownList={getList(isAdActive)} onClick={handleClick} tooltipMessage='Manage ad' />
                 {showAlertIcon && <AlertComponent onClick={() => showModal('AdErrorTooltipModal')} />}

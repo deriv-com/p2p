@@ -1,4 +1,4 @@
-import { TFormState, TReducerAction } from './types';
+import { TFormState, TReducerAction } from 'types';
 
 /**
  * @name advertiserPaymentMethodsReducer

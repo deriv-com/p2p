@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import MyAds from '../MyAds';
 
 jest.mock('@deriv-com/ui', () => ({

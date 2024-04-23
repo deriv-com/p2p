@@ -1,6 +1,6 @@
 @import '../FileDropzone.scss';
 
-.p2p-fade-in-message {
+.fade-in-message {
     @include file-dropzone-message;
 
     &--enter-done {

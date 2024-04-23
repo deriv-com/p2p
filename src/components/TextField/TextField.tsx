@@ -1,5 +1,5 @@
-import React, { ChangeEvent, ComponentProps, forwardRef, Ref, useState } from 'react';
-import classNames from 'classnames';
+import { ChangeEvent, ComponentProps, forwardRef, Ref, useState } from 'react';
+import clsx from 'clsx';
 import HelperMessage, { HelperMessageProps } from './HelperMessage';
 import './TextField.scss';
 
@@ -46,17 +46,17 @@ const TextField = forwardRef(
 
         return (
             <div
-                className={classNames('p2p-textfield', {
-                    'p2p-textfield--disabled': disabled,
-                    'p2p-textfield--error': isInvalid,
+                className={clsx('textfield', {
+                    'textfield--disabled': disabled,
+                    'textfield--error': isInvalid,
                 })}
             >
-                <div className='p2p-textfield__box'>
+                <div className='textfield__box'>
                     {typeof renderLeftIcon === 'function' && (
-                        <div className='p2p-textfield__icon-left'>{renderLeftIcon()}</div>
+                        <div className='textfield__icon-left'>{renderLeftIcon()}</div>
                     )}
                     <input
-                        className='p2p-textfield__field'
+                        className='textfield__field'
                         disabled={disabled}
                         id={name}
                         maxLength={maxLength}
@@ -67,15 +67,15 @@ const TextField = forwardRef(
                         {...rest}
                     />
                     {label && (
-                        <label className='p2p-textfield__label' htmlFor={name}>
+                        <label className='textfield__label' htmlFor={name}>
                             {label}
                         </label>
                     )}
                     {typeof renderRightIcon === 'function' && (
-                        <div className='p2p-textfield__icon-right'>{renderRightIcon()}</div>
+                        <div className='textfield__icon-right'>{renderRightIcon()}</div>
                     )}
                 </div>
-                <div className='p2p-textfield__message-container'>
+                <div className='textfield__message-container'>
                     {showMessage && !isInvalid && (
                         <HelperMessage
                             inputValue={value}

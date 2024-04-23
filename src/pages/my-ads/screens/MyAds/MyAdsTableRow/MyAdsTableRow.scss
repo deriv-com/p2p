@@ -15,7 +15,7 @@
     }
 }
 
-.p2p-my-ads-table-row {
+.my-ads-table-row {
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -29,12 +29,12 @@
         grid-template-columns: repeat(3, 1.6fr) 1.9fr 3fr 1.7fr;
 
         &-disabled {
-            span:not(.p2p-my-ads-table-row__actions span) {
-                &:not(.p2p-popover-dropdown__list-item span) {
+            span:not(.my-ads-table-row__actions span) {
+                &:not(.popover-dropdown__list-item span) {
                     color: #999;
                 }
             }
-            .p2p-progress-indicator {
+            .progress-indicator {
                 &__container {
                     background-color: #999;
                 }

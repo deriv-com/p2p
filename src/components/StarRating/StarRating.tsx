@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { Rating } from 'react-simple-star-rating';
 import { LabelPairedStarLgFillIcon, LabelPairedStarLgRegularIcon } from '@deriv/quill-icons';
 import './StarRating.scss';
@@ -30,7 +30,7 @@ const StarRating = ({
         <Rating
             allowHalfIcon={allowHalfIcon}
             allowHover={allowHover}
-            className='p2p-star-rating'
+            className='star-rating'
             emptyIcon={<LabelPairedStarLgRegularIcon data-testid='dt_star_rating_empty_star' fill='#FFAD3A' />}
             fullIcon={<LabelPairedStarLgFillIcon data-testid='dt_star_rating_full_star' fill='#FFAD3A' />}
             iconsCount={5}

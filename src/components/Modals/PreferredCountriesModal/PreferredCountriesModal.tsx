@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FullPageMobileWrapper } from '@/components/FullPageMobileWrapper';
 import { Modal, Text, useDevice } from '@deriv-com/ui';
 import { PreferredCountriesDropdown } from './PreferredCountriesDropdown';
@@ -28,7 +28,7 @@ const PreferredCountriesModal = ({
     if (isMobile) {
         return (
             <FullPageMobileWrapper
-                className='p2p-preferred-countries-modal__full-page-modal'
+                className='preferred-countries-modal__full-page-modal'
                 onBack={onRequestClose}
                 renderFooter={
                     shouldDisplayFooter
@@ -55,7 +55,7 @@ const PreferredCountriesModal = ({
     return (
         <Modal
             ariaHideApp={false}
-            className='p2p-preferred-countries-modal__dialog'
+            className='preferred-countries-modal__dialog'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
             shouldCloseOnOverlayClick={false}

@@ -1,6 +1,5 @@
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
-
 import OrderDetailsCard from '../OrderDetailsCard';
 
 jest.mock('@deriv-com/ui', () => ({

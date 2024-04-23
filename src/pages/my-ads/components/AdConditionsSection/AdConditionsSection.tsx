@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import { MouseEventHandler } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { TCountryListItem } from 'types';
 import { AD_CONDITION_TYPES } from '@/constants';

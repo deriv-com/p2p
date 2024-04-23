@@ -1,10 +1,8 @@
+import { api } from '@/hooks';
+import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { api } from '@/hooks';
-import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
-
 import OrderDetails from '../OrderDetails';
 
 const mockHistoryPush = jest.fn();

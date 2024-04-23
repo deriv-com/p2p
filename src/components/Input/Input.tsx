@@ -1,10 +1,7 @@
-import React, { forwardRef, ReactElement } from 'react';
+import { forwardRef, ReactElement } from 'react';
 import clsx from 'clsx';
-
-import { Text } from '@deriv-com/ui';
-
 import { useDevice } from '@/hooks/custom-hooks';
-
+import { Text } from '@deriv-com/ui';
 import './Input.scss';
 
 type TInputProps = {
@@ -19,15 +16,15 @@ type TInputProps = {
 };
 
 const Input = forwardRef<HTMLInputElement, TInputProps>(
-    ({ errorMessage, hasError, leadingIcon, name, onBlur, onChange, placeholder, value, ...props }, ref) => {
+    ({ errorMessage, hasError, leadingIcon, onBlur, onChange, placeholder, value, ...props }, ref) => {
         const { isMobile } = useDevice();
 
         return (
-            <div className='p2p-input'>
-                {leadingIcon && <div className='p2p-input__leading-icon'>{leadingIcon}</div>}
+            <div className='input'>
+                {leadingIcon && <div className='input__leading-icon'>{leadingIcon}</div>}
                 <input
-                    className={clsx('p2p-input__field', {
-                        'p2p-input__field--error': hasError,
+                    className={clsx('input__field', {
+                        'input__field--error': hasError,
                     })}
                     onBlur={onBlur}
                     onChange={onChange}
@@ -37,7 +34,7 @@ const Input = forwardRef<HTMLInputElement, TInputProps>(
                     {...props}
                 />
                 {hasError && (
-                    <Text className='p2p-input__error' color='error' size={isMobile ? 'sm' : 'xs'}>
+                    <Text className='input__error' color='error' size={isMobile ? 'sm' : 'xs'}>
                         {errorMessage}
                     </Text>
                 )}

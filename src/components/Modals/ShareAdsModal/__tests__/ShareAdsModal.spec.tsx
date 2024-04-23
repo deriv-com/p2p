@@ -1,9 +1,7 @@
 import html2canvas from 'html2canvas';
-
 import { useDevice } from '@deriv-com/ui';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import ShareAdsModal from '../ShareAdsModal';
 
 const mockProps = {

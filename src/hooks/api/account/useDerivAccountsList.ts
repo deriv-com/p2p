@@ -1,8 +1,6 @@
 import { useMemo } from 'react';
-
 import useQuery from '../useQuery';
 import { displayMoney } from '../utils';
-
 import useAuthorize from './useAuthorize';
 import useBalance from './useBalance';
 import useCurrencyConfig from './useCurrencyConfig';

@@ -1,10 +1,8 @@
-import { LabelPairedPlusLgBoldIcon } from '@deriv/quill-icons';
-import { Button, Text } from '@deriv-com/ui';
-
 import { PaymentMethodCard } from '@/components';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
-
+import { LabelPairedPlusLgBoldIcon } from '@deriv/quill-icons';
+import { Button, Text } from '@deriv-com/ui';
 import './SellAdPaymentSelection.scss';
 
 type TSellAdPaymentSelectionProps = {
@@ -16,7 +14,7 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
     const { data: advertiserPaymentMethods } = api.advertiserPaymentMethods.useGet(isAdvertiser);
 
     return (
-        <div className='p2p-sell-ad-payment-selection__card'>
+        <div className='sell-ad-payment-selection__card'>
             {advertiserPaymentMethods?.map(paymentMethod => {
                 const isDisabled =
                     selectedPaymentMethodIds.length >= 3 &&
@@ -32,7 +30,7 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
                     />
                 );
             })}
-            <div className='p2p-sell-ad-payment-selection__button'>
+            <div className='sell-ad-payment-selection__button'>
                 <Button
                     className='flex items-center justify-center w-[3.2rem] h-[3.2rem] mb-[0.8rem] rounded-full bg-[#ff444f]'
                     onClick={() => undefined} //TODO: show add payment method modal

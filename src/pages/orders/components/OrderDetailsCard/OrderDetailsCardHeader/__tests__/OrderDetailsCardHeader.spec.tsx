@@ -1,8 +1,6 @@
+import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
-
-import { useOrderDetails } from '@/providers/OrderDetailsProvider';
-
 import OrderDetailsCardHeader from '../OrderDetailsCardHeader';
 
 jest.mock('@deriv-com/ui', () => ({

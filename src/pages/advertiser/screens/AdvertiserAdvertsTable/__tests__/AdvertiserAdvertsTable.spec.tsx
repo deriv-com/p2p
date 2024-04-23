@@ -1,9 +1,7 @@
+import { api } from '@/hooks';
 import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { api } from '@/hooks';
-
 import AdvertiserAdvertsTable from '../AdvertiserAdvertsTable';
 
 let mockApiValues = {

@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import ChatMessages from '../ChatMessages';
 
 const mockProps = {

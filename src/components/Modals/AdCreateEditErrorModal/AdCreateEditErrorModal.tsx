@@ -1,7 +1,5 @@
-import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
-
 import { ERROR_CODES } from '@/constants';
-
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdCreateEditErrorModal.scss';
 
 type TAdCreateEditErrorModalProps = {
@@ -44,17 +42,17 @@ const AdCreateEditErrorModal = ({
     return (
         <Modal
             ariaHideApp={false}
-            className='p2p-ad-create-edit-error-modal'
+            className='ad-create-edit-error-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
         >
-            <Modal.Header className='p2p-ad-create-edit-error-modal__header' hideBorder hideCloseIcon>
+            <Modal.Header className='ad-create-edit-error-modal__header' hideBorder hideCloseIcon>
                 <Text weight='bold'>{(errorCode && errorContent?.[errorCode]?.title) ?? 'Something’s not right'}</Text>
             </Modal.Header>
-            <Modal.Body className='p2p-ad-create-edit-error-modal__body'>
+            <Modal.Body className='ad-create-edit-error-modal__body'>
                 <Text size={textSize}>{(errorCode && errorContent?.[errorCode]?.description) ?? errorMessage}</Text>
             </Modal.Body>
-            <Modal.Footer className='p2p-ad-create-edit-error-modal__footer' hideBorder>
+            <Modal.Footer className='ad-create-edit-error-modal__footer' hideBorder>
                 <Button onClick={onRequestClose} size='lg' textSize={textSize}>
                     {errorCode && errorContent?.[errorCode]?.title ? 'Update ad' : 'Ok'}
                 </Button>

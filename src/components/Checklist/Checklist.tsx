@@ -1,8 +1,6 @@
+import { useDevice } from '@/hooks/custom-hooks';
 import { LabelPairedArrowRightLgBoldIcon, LabelPairedCheckMdBoldIcon } from '@deriv/quill-icons';
 import { Button, Text } from '@deriv-com/ui';
-
-import { useDevice } from '@/hooks/custom-hooks';
-
 import './Checklist.scss';
 
 type TChecklistItem = {
@@ -16,23 +14,23 @@ type TChecklistItem = {
 const Checklist = ({ items }: { items: TChecklistItem[] }) => {
     const { isMobile } = useDevice();
     return (
-        <div className='p2p-checklist'>
+        <div className='checklist'>
             {items.map(item => (
-                <div className='p2p-checklist__item' key={item.text}>
+                <div className='checklist__item' key={item.text}>
                     <Text color={item.isDisabled ? 'less-prominent' : 'general'} size={isMobile ? 'md' : 'sm'}>
                         {item.text}
                     </Text>
                     {item.status === 'done' ? (
-                        <div className='p2p-checklist__item-checkmark'>
-                            <LabelPairedCheckMdBoldIcon className='p2p-checklist__item-checkmark-icon' />
+                        <div className='checklist__item-checkmark'>
+                            <LabelPairedCheckMdBoldIcon className='checklist__item-checkmark-icon' />
                         </div>
                     ) : (
                         <Button
-                            className='p2p-checklist__item-button'
+                            className='checklist__item-button'
                             disabled={item.isDisabled}
                             icon={
                                 <LabelPairedArrowRightLgBoldIcon
-                                    className='p2p-checklist__item-button-icon'
+                                    className='checklist__item-button-icon'
                                     {...(item.testId && { 'data-testid': item.testId })}
                                 />
                             }

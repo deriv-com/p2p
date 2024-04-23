@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import clsx from 'clsx';
 import { getShortNickname, TGenericSizes } from '@/utils';
 import { Text } from '@deriv-com/ui';
@@ -24,8 +24,8 @@ const UserAvatar = memo(
         textSize = 'md',
     }: TUserAvatarProps) => {
         return (
-            <div className={clsx('p2p-user-avatar', className)} data-testid='dt_user_avatar'>
-                <Text align='center' className='p2p-user-avatar__short-nickname' color='white' size={textSize}>
+            <div className={clsx('user-avatar', className)} data-testid='dt_user_avatar'>
+                <Text align='center' className='user-avatar__short-nickname' color='white' size={textSize}>
                     {getShortNickname(nickname)}
                 </Text>
                 {showOnlineStatus && <OnlineStatusIcon isOnline={isOnline} size='26%' />}

@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import OnlineStatusIcon from '../OnlineStatusIcon';
 
 describe('<OnlineStatusIcon/>', () => {
@@ -7,13 +6,13 @@ describe('<OnlineStatusIcon/>', () => {
         render(<OnlineStatusIcon isOnline={false} />);
 
         const icon = screen.getByTestId('dt_online_status_icon');
-        expect(icon).toHaveClass('p2p-online-status__icon--offline');
+        expect(icon).toHaveClass('online-status__icon--offline');
     });
 
     it('should render online state when user is online', () => {
         render(<OnlineStatusIcon isOnline />);
 
         const icon = screen.getByTestId('dt_online_status_icon');
-        expect(icon).toHaveClass('p2p-online-status__icon--online');
+        expect(icon).toHaveClass('online-status__icon--online');
     });
 });

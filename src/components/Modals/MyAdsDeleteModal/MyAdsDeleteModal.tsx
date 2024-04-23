@@ -1,10 +1,7 @@
 import { memo } from 'react';
-
-import { Button, Modal, Text } from '@deriv-com/ui';
-
 import { api } from '@/hooks';
 import { useDevice } from '@/hooks/custom-hooks';
-
+import { Button, Modal, Text } from '@deriv-com/ui';
 import './MyAdsDeleteModal.scss';
 
 type TMyAdsDeleteModalProps = {
@@ -63,26 +60,26 @@ const MyAdsDeleteModal = ({ error, id, isModalOpen, onClickDelete, onRequestClos
             {!isLoadingInfo && (
                 <Modal
                     ariaHideApp={false}
-                    className='p2p-my-ads-delete-modal'
+                    className='my-ads-delete-modal'
                     isOpen={isModalOpen}
                     onRequestClose={onRequestClose}
                     shouldCloseOnOverlayClick={false}
                     testId='dt_ads_delete_modal'
                 >
                     <Modal.Header
-                        className='p2p-my-ads-delete-modal__header'
+                        className='my-ads-delete-modal__header'
                         hideBorder
                         hideCloseIcon
                         onRequestClose={onRequestClose}
                     >
                         <Text weight='bold'>Do you want to delete this ad?</Text>
                     </Modal.Header>
-                    <Modal.Body className='p2p-my-ads-delete-modal__body'>
+                    <Modal.Body className='my-ads-delete-modal__body'>
                         <Text color='prominent' size='sm'>
                             {getModalText()}
                         </Text>
                     </Modal.Body>
-                    <Modal.Footer className='p2p-my-ads-delete-modal__footer' hideBorder>
+                    <Modal.Footer className='my-ads-delete-modal__footer' hideBorder>
                         {getModalFooter()}
                     </Modal.Footer>
                 </Modal>

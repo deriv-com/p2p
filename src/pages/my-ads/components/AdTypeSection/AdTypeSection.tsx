@@ -1,17 +1,13 @@
-import React, { MouseEventHandler } from 'react';
+import { MouseEventHandler } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-
-import { Text, useDevice } from '@deriv-com/ui';
-
 import { FloatingRate, RadioGroup } from '@/components';
 import { BUY_SELL, RATE_TYPE } from '@/constants';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { getValidationRules, restrictDecimalPlace } from '@/utils';
-
+import { Text, useDevice } from '@deriv-com/ui';
 import { AdFormController } from '../AdFormController';
 import { AdFormInput } from '../AdFormInput';
 import { AdFormTextArea } from '../AdFormTextArea';
-
 import './AdTypeSection.scss';
 
 type TAdTypeSectionProps = {
@@ -66,7 +62,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
     };
 
     return (
-        <div className='p2p-ad-type-section'>
+        <div className='ad-type-section'>
             {!isEdit && (
                 <Controller
                     control={control}

@@ -1,7 +1,37 @@
 module.exports = {
     extends: ['@deriv-com/eslint-config-deriv'],
+    plugins: ['simple-import-sort'], 
     rules: {
         'global-require': 'off',
+        'import/newline-after-import': 'error',
+        'simple-import-sort/imports': [
+            'error',
+            {
+                groups: [
+                    [
+                        'public-path',
+                        // `react` first, then packages starting with a character
+                        '^react$',
+                        '^[a-z]',
+                        // Packages starting with `@`
+                        '^@',
+                        // Imports starting with `../`
+                        '^\\.\\.(?!/?$)',
+                        '^\\.\\./?$',
+                        // Imports starting with `./`
+                        '^\\./(?=.*/)(?!/?$)',
+                        '^\\.(?!/?$)',
+                        '^\\./?$',
+                        // Style imports
+                        '^.+\\.s?css$',
+                        // Side effect imports
+                        '^\\u0000',
+                        // Delete the empty line copied as the next line of the last import
+                        '\\s*',
+                    ],
+                ],
+            },
+        ],
     },
     overrides: [
         {
@@ -55,8 +85,7 @@ module.exports = {
                 },
                 'import/resolver': {
                     typescript: {
-                        // use an array
-                        project: 'packages/**/tsconfig.json',
+                       
                     },
                     node: {
                         extensions: ['.ts', '.tsx'],

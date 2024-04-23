@@ -1,7 +1,5 @@
-import { Button, useDevice } from '@deriv-com/ui';
-
 import { TFormState } from '@/reducers/types';
-
+import { Button, useDevice } from '@deriv-com/ui';
 import './PaymentMethodsFormFooter.scss';
 
 type TPaymentMethodsFormFooterProps = {
@@ -33,7 +31,7 @@ const PaymentMethodsFormFooter = ({
     const textSize = isMobile ? 'lg' : 'sm';
 
     return (
-        <div className='p2p-payment-methods-form-footer' role='payment-methods-form-footer'>
+        <div className='payment-methods-form-footer' role='payment-methods-form-footer'>
             <Button
                 className='border-2'
                 color='black'

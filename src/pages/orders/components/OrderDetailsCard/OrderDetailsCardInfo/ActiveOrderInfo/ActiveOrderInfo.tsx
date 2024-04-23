@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { LightDivider } from '@/components';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { Text, useDevice } from '@deriv-com/ui';

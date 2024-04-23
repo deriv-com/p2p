@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Modal from 'react-modal';
 import { Button, Text } from '@deriv-com/ui';
 import { customStyles } from '../helpers';
@@ -16,7 +16,7 @@ const AvailableP2PBalanceModal = ({ isModalOpen, onRequestClose }: TAvailableP2P
 
     return (
         <Modal
-            className='p2p-available-p2p-balance-modal'
+            className='available-balance-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
             shouldCloseOnOverlayClick={false}
@@ -26,14 +26,14 @@ const AvailableP2PBalanceModal = ({ isModalOpen, onRequestClose }: TAvailableP2P
             <Text as='p' weight='bold'>
                 Available Deriv P2P Balance
             </Text>
-            <Text as='p' className='p2p-block-unblock-user-modal__text' size='sm'>
+            <Text as='p' className='block-unblock-user-modal__text' size='sm'>
                 Your Deriv P2P balance only includes deposits that can’t be reversed.
             </Text>
-            <Text as='p' className='p2p-block-unblock-user-modal__text' size='sm'>
+            <Text as='p' className='block-unblock-user-modal__text' size='sm'>
                 Deposits via cards and the following payment methods aren’t included: Maestro, Diners Club, ZingPay,
                 Skrill, Neteller, Ozow, and UPI QR.
             </Text>
-            <div className='p2p-block-unblock-user-modal__footer'>
+            <div className='block-unblock-user-modal__footer'>
                 <Button onClick={onRequestClose} size='lg' textSize='sm'>
                     Ok
                 </Button>
