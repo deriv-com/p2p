@@ -79,20 +79,6 @@ module.exports = {
                     ],
                 },
             },
-            settings: {
-                react: {
-                    version: 'detect',
-                },
-                'import/resolver': {
-                    typescript: {
-                       
-                    },
-                    node: {
-                        extensions: ['.ts', '.tsx'],
-                        moduleDirectory: ['src', 'node_modules'],
-                    },
-                },
-            },
         },
     ],
 };

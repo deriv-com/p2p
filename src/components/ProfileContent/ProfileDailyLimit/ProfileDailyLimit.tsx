@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { DailyLimitModal } from '@/components/Modals';
+import { api } from '@/hooks';
 import { useAdvertiserStats, useDevice } from '@/hooks/custom-hooks';
-import { useActiveAccount } from '@deriv/api-v2';
 import { Button, Text } from '@deriv-com/ui';
 import './ProfileDailyLimit.scss';
 
@@ -9,7 +9,7 @@ const ProfileDailyLimit = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { isMobile } = useDevice();
     const { data: advertiserStats } = useAdvertiserStats();
-    const { data: activeAccount } = useActiveAccount();
+    const { data: activeAccount } = api.account.useActiveAccount();
 
     return (
         <>

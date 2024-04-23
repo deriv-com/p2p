@@ -1,8 +1,8 @@
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { UserAvatar } from '@/components';
 import { getCurrentRoute } from '@/utils';
-import { useSettings } from '@deriv/api-v2';
 import { LabelPairedEllipsisVerticalLgRegularIcon } from '@deriv/quill-icons';
+import { useGetSettings } from '@deriv-com/api-hooks';
 import { Text, useDevice } from '@deriv-com/ui';
 import AdvertiserNameBadges from './AdvertiserNameBadges';
 import AdvertiserNameStats from './AdvertiserNameStats';
@@ -10,13 +10,11 @@ import AdvertiserNameToggle from './AdvertiserNameToggle';
 import './AdvertiserName.scss';
 
 const AdvertiserName = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
-    const {
-        data: { email },
-    } = useSettings();
+    const { data } = useGetSettings();
     const { isDesktop } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
-    const name = advertiserStats?.name || email;
+    const name = advertiserStats?.name || data?.email;
 
     return (
         <div className='advertiser-name' data-testid='dt_advertiser_name'>

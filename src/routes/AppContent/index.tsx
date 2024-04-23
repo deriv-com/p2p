@@ -15,7 +15,7 @@ const tabRoutesConfiguration = routes.filter(route => route.name !== 'Advertiser
 const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
-    const { data: activeAccountData, isLoading: isLoadingActiveAccount } = useActiveAccount();
+    const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
     const { isSuccess } = useAuthorize();
 
     const getActiveTab = (pathname: string) => {
@@ -25,7 +25,7 @@ const AppContent = () => {
 
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
-    const { subscribe: subscribeP2PSettings } = api.settings.useGetSettings();
+    const { subscribe: subscribeP2PSettings } = api.settings.useSettings();
     const { error, isIdle, isLoading, isSubscribed, subscribe: subscribeAdvertiserInfo } = api.advertiser.useGetInfo();
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useContext } from 'react';
-import { TSocketError } from '@deriv/api-v2/types';
+import { TSocketError } from 'types';
 
 type TContextValue = {
     error: TSocketError<'p2p_advertiser_info'> | undefined;

@@ -11,7 +11,7 @@ import './BuySellTable.scss';
 const TABS = [ADVERT_TYPE.BUY, ADVERT_TYPE.SELL];
 
 const BuySellTable = () => {
-    const { data: p2pSettingsData } = api.settings.useGetSettings();
+    const { data: p2pSettingsData } = api.settings.useSettings();
     const { queryString, setQueryString } = useQueryString();
     const activeTab = queryString.tab || ADVERT_TYPE.BUY;
 
