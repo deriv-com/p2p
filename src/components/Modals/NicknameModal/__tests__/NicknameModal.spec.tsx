@@ -116,7 +116,7 @@ describe('NicknameModal', () => {
         });
         await userEvent.click(cancelBtn);
 
-        expect(mockPush).toBeCalledWith('/cashier/p2p-v2/buy-sell');
+        expect(mockPush).toBeCalledWith('/buy-sell');
         expect(mockIsModalOpen).toBeCalledWith(false);
     });
 });

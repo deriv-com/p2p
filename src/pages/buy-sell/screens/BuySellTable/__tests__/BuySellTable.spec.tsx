@@ -124,6 +124,6 @@ describe('<BuySellTable.spec />', () => {
         const usernameText = screen.getByText('John Doe');
         await userEvent.click(usernameText);
 
-        expect(mockPush).toHaveBeenCalledWith('/cashier/p2p-v2/advertiser/1');
+        expect(mockPush).toHaveBeenCalledWith('/advertiser/1');
     });
 });
