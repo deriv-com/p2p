@@ -1,12 +1,9 @@
 //TODO: to be replaced with derivcom component
 import { useEffect, useRef, useState } from 'react';
 import { useCopyToClipboard } from 'usehooks-ts';
-
 import { Tooltip } from '@deriv-com/ui';
-
 import CheckmarkCircle from '../../public/ic-checkmark-circle.svg';
 import CopyIcon from '../../public/ic-clipboard.svg';
-
 import './Clipboard.scss';
 
 type TClipboardProps = {
@@ -37,7 +34,7 @@ const Clipboard = ({ textCopy }: TClipboardProps) => {
 
     return (
         <Tooltip message={isCopied ? 'Copied!' : 'Copy'} position='top'>
-            <button className='p2p-clipboard' onClick={onClick}>
+            <button className='clipboard' onClick={onClick}>
                 {isCopied ? <CheckmarkCircle /> : <CopyIcon />}
             </button>
         </Tooltip>

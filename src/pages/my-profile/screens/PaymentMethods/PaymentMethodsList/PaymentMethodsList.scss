@@ -1,9 +1,9 @@
-.p2p-payment-methods-list {
+.payment-methods-list {
     &__mobile-wrapper {
         position: absolute;
         top: 4rem;
 
-        & .p2p-mobile-wrapper {
+        & .mobile-wrapper {
             &__body {
                 height: calc(100vh - 22rem);
                 overflow-y: scroll;

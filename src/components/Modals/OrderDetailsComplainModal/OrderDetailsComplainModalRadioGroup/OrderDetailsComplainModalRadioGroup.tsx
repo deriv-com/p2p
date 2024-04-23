@@ -1,7 +1,5 @@
-import { useDevice } from '@deriv-com/ui';
-
 import { RadioGroup } from '@/components';
-
+import { useDevice } from '@deriv-com/ui';
 import './OrderDetailsComplainModalRadioGroup.scss';
 
 type TOrderDetailsComplainModalRadioGroupProps = {
@@ -48,7 +46,7 @@ const OrderDetailsComplainModalRadioGroup = ({
 
     return (
         <RadioGroup
-            className='p2p-order-details-complain-modal-radio-group'
+            className='order-details-complain-modal-radio-group'
             name='reason'
             onToggle={event => onCheckboxChange(event.target.value)}
             required

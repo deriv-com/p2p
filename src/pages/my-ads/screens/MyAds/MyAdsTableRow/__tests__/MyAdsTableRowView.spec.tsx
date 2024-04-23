@@ -1,10 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-
 import { MY_ADS_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useModalManager } from '@/hooks/custom-hooks';
-
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import MyAdsTableRowView from '../MyAdsTableRowView';
 
 const mockProps = {

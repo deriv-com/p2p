@@ -1,6 +1,5 @@
-import { FormatUtils } from '@deriv-com/utils';
-
 import { RATE_TYPE } from '@/constants';
+import { FormatUtils } from '@deriv-com/utils';
 
 /**
  * Rounds off the number to the specified decimal place.

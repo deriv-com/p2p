@@ -1,10 +1,7 @@
 import { TPaymentMethod } from 'types';
-
-import { Text, useDevice } from '@deriv-com/ui';
-
 import { LightDivider } from '@/components';
 import { sortPaymentMethodsWithAvailability } from '@/utils';
-
+import { Text, useDevice } from '@deriv-com/ui';
 import { PaymentMethodCard } from '../../PaymentMethodCard';
 
 type TBuySellPaymentSectionProps = {

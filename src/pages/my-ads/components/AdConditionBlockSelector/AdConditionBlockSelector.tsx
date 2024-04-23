@@ -1,5 +1,4 @@
 import { AD_CONDITION_CONTENT, AD_CONDITION_TYPES } from '@/constants';
-
 import { AdConditionBlockElement } from '../AdConditionBlockElement';
 import { AdConditionContentHeader } from '../AdConditionContentHeader';
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyProfileStatsItem from '../MyProfileStatsItem';
@@ -33,7 +33,7 @@ describe('MyProfileStatsItem', () => {
         expect(screen.getByText('20 USD')).toBeInTheDocument();
         expect(screen.getByText('Trade volume')).toBeInTheDocument();
     });
-    it('should render with duration and lifetime', () => {
+    it('should render with duration and lifetime', async () => {
         render(<MockApp />);
 
         const daysBtn = screen.getByRole('button', {
@@ -45,9 +45,9 @@ describe('MyProfileStatsItem', () => {
         });
         expect(lifetimeBtn).toBeInTheDocument();
 
-        userEvent.click(lifetimeBtn);
+        await userEvent.click(lifetimeBtn);
         expect(screen.getByText('150 USD')).toBeInTheDocument();
-        userEvent.click(daysBtn);
+        await userEvent.click(daysBtn);
         expect(screen.getByText('20 USD')).toBeInTheDocument();
     });
 });

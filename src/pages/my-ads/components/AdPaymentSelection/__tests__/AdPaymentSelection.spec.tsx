@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import AdPaymentSelection from '../AdPaymentSelection';
 
 const mockProps = {

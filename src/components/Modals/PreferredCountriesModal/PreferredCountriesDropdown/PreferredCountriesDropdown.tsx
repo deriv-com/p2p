@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import { Search } from '@/components';
 import { Checkbox, Divider } from '@deriv-com/ui';
@@ -41,7 +41,7 @@ const PreferredCountriesDropdown = ({
     };
 
     return (
-        <div className='p2p-preferred-countries-dropdown'>
+        <div className='preferred-countries-dropdown'>
             <div className='px-[1.6rem] py-[0.8rem]'>
                 <Search
                     hideBorder
@@ -54,8 +54,8 @@ const PreferredCountriesDropdown = ({
             <div>
                 {searchResults?.length > 0 ? (
                     <div
-                        className={clsx('p2p-preferred-countries-dropdown__content', {
-                            'p2p-preferred-countries-dropdown__content--no-footer': searchValue?.length > 0,
+                        className={clsx('preferred-countries-dropdown__content', {
+                            'preferred-countries-dropdown__content--no-footer': searchValue?.length > 0,
                         })}
                     >
                         {searchResults?.length === list?.length && (

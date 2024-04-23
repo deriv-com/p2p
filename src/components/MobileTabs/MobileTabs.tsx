@@ -1,6 +1,5 @@
 import { LabelPairedChevronRightSmRegularIcon } from '@deriv/quill-icons';
 import { Button, Text } from '@deriv-com/ui';
-
 import './MobileTabs.scss';
 
 type TMobileTabsProps<T extends string[]> = {
@@ -10,10 +9,10 @@ type TMobileTabsProps<T extends string[]> = {
 
 function MobileTabs<T extends string[]>({ onChangeTab, tabs }: TMobileTabsProps<T>) {
     return (
-        <div className='p2p-mobile-tabs'>
+        <div className='mobile-tabs'>
             {tabs.map((tab, i) => (
                 <Button
-                    className='p2p-mobile-tabs__tab'
+                    className='mobile-tabs__tab'
                     color='white'
                     icon={<LabelPairedChevronRightSmRegularIcon />}
                     key={`${tab}-${i}`}

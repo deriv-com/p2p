@@ -1,10 +1,7 @@
 import { useEffect, useMemo } from 'react';
-
-import { useAuthentication, useAuthorize, useSettings } from '@deriv/api-v2';
-
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { daysSince, isEmptyObject } from '@/utils';
-
+import { useAuthentication, useAuthorize, useSettings } from '@deriv/api-v2';
 import { api } from '..';
 
 /**

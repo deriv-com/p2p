@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react';
-
 import useIsAdvertiser from '../custom-hooks/useIsAdvertiser';
 import { api } from '..';
 

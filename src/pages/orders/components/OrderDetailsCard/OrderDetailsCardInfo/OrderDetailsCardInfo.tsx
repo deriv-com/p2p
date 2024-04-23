@@ -1,7 +1,5 @@
-import { Text, useDevice } from '@deriv-com/ui';
-
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
-
+import { Text, useDevice } from '@deriv-com/ui';
 import { ActiveOrderInfo } from './ActiveOrderInfo';
 
 const OrderDetailsCardInfo = () => {

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AvailableP2PBalanceModal from '../AvailableP2PBalanceModal';
@@ -19,12 +18,12 @@ describe('AvailableP2PBalanceModal', () => {
         render(<MockApp />);
         expect(screen.getByTestId('dt_available_p2p_balance_modal')).toBeInTheDocument();
     });
-    it('should perform callback to onRequestClose when Ok button is clicked', () => {
+    it('should perform callback to onRequestClose when Ok button is clicked', async () => {
         render(<MockApp />);
         const okBtn = screen.getByRole('button', {
             name: 'Ok',
         });
-        userEvent.click(okBtn);
+        await userEvent.click(okBtn);
         expect(mockOnRequestClose).toBeCalled();
     });
 });

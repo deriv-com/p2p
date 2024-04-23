@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { ADVERT_TYPE, ERROR_CODES } from '@/constants';
 import { AdRateError } from '@/pages/my-ads/components';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
@@ -74,12 +74,12 @@ const AdErrorTooltipModal = ({
     return (
         <Modal
             ariaHideApp={false}
-            className='p2p-ad-error-tooltip-modal'
+            className='ad-error-tooltip-modal'
             isOpen={isModalOpen}
             shouldCloseOnOverlayClick={false}
         >
             <Modal.Body>
-                <div className='p2p-ad-error-tooltip-modal__content'>
+                <div className='ad-error-tooltip-modal__content'>
                     <Text size={textSize}>
                         {visibilityStatus.length === 1 ? (
                             getAdErrorMessage(

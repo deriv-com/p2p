@@ -1,6 +1,5 @@
 import { APIProvider, AuthProvider } from '@deriv/api-v2';
 import { render, screen } from '@testing-library/react';
-
 import AdvertiserNameStats from '../AdvertiserNameStats';
 
 const wrapper = ({ children }: { children: JSX.Element }) => (
@@ -26,8 +25,8 @@ describe('AdvertiserNameStats', () => {
             },
         };
         render(<AdvertiserNameStats {...mockUseAdvertiserStats} />, { wrapper });
-        expect(screen.queryByText('Joined 22d')).toBeInTheDocument();
-        expect(screen.queryByText('(29 ratings)')).toBeInTheDocument();
+        expect(screen.getByText('Joined 22d')).toBeInTheDocument();
+        expect(screen.getByText('(29 ratings)')).toBeInTheDocument();
     });
     it('should render correct advertiser stats based on availability', () => {
         const mockUseAdvertiserStats = {
@@ -38,6 +37,6 @@ describe('AdvertiserNameStats', () => {
             },
         };
         render(<AdvertiserNameStats {...mockUseAdvertiserStats} />, { wrapper });
-        expect(screen.queryByText('Not rated yet')).toBeInTheDocument();
+        expect(screen.getByText('Not rated yet')).toBeInTheDocument();
     });
 });

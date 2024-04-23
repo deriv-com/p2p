@@ -1,10 +1,7 @@
 import clsx from 'clsx';
-
+import { TGenericSizes } from '@/utils';
 import { LabelPairedArrowLeftLgBoldIcon } from '@deriv/quill-icons';
 import { Text } from '@deriv-com/ui';
-
-import { TGenericSizes } from '@/utils';
-
 import './PageReturn.scss';
 
 type TPageReturnProps = {
@@ -29,10 +26,10 @@ const PageReturn = ({
     weight = 'normal',
 }: TPageReturnProps) => {
     return (
-        <div className={clsx('p2p-page-return', className, { 'p2p-page-return--border': hasBorder })}>
+        <div className={clsx('page-return', className, { 'page-return--border': hasBorder })}>
             <div className='flex items-center'>
                 <LabelPairedArrowLeftLgBoldIcon
-                    className={clsx('p2p-page-return__button', { hidden: shouldHideBackButton })}
+                    className={clsx('page-return__button', { hidden: shouldHideBackButton })}
                     data-testid='dt_page_return_btn'
                     onClick={onClick}
                 />

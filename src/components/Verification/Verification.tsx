@@ -1,11 +1,8 @@
 import { useHistory } from 'react-router-dom';
-
-import { DerivLightIcCashierSendEmailIcon } from '@deriv/quill-icons';
-import { Loader, Text } from '@deriv-com/ui';
-
 import { Checklist } from '@/components';
 import { useDevice, usePoiPoaStatus } from '@/hooks/custom-hooks';
-
+import { DerivLightIcCashierSendEmailIcon } from '@deriv/quill-icons';
+import { Loader, Text } from '@deriv-com/ui';
 import './Verification.scss';
 
 const getPoiAction = (status: string | undefined) => {
@@ -82,12 +79,12 @@ const Verification = () => {
     if (isLoading) return <Loader />;
 
     return (
-        <div className='p2p-verification'>
-            <DerivLightIcCashierSendEmailIcon className='p2p-verification__icon' height={128} width={128} />
-            <Text className='p2p-verification__text' size={isMobile ? 'lg' : 'md'} weight='bold'>
+        <div className='verification'>
+            <DerivLightIcCashierSendEmailIcon className='verification__icon' height={128} width={128} />
+            <Text className='verification__text' size={isMobile ? 'lg' : 'md'} weight='bold'>
                 Verify your P2P account
             </Text>
-            <Text align='center' className='p2p-verification__text' size={isMobile ? 'lg' : 'md'}>
+            <Text align='center' className='verification__text' size={isMobile ? 'lg' : 'md'}>
                 Verify your identity and address to use Deriv P2P.
             </Text>
             <Checklist items={checklistItems} />

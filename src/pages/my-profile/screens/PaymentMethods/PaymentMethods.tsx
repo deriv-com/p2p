@@ -1,13 +1,10 @@
 import { useCallback, useReducer } from 'react';
 import { TSelectedPaymentMethod } from 'types';
-
-import { Loader } from '@deriv-com/ui';
-
 import { PaymentMethodForm } from '@/components';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
 import { advertiserPaymentMethodsReducer } from '@/reducers';
-
+import { Loader } from '@deriv-com/ui';
 import { PaymentMethodsEmpty } from './PaymentMethodsEmpty';
 import { PaymentMethodsList } from './PaymentMethodsList';
 

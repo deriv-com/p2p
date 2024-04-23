@@ -1,7 +1,5 @@
-import { render, screen } from '@testing-library/react';
-
 import { getLastOnlineLabel } from '@/utils';
-
+import { render, screen } from '@testing-library/react';
 import OnlineStatusLabel from '../OnlineStatusLabel';
 
 jest.mock('@deriv-com/ui', () => ({

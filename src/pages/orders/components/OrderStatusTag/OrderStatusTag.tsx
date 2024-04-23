@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-
 import './OrderStatusTag.scss';
 
 type TOrderStatusTagProps = {
@@ -19,11 +18,11 @@ const OrderStatusTag = ({
 }: TOrderStatusTagProps) => {
     return (
         <div
-            className={clsx('p2p-order-status-tag', {
-                'p2p-order-status-tag--alert': shouldHighlightAlert,
-                'p2p-order-status-tag--danger': shouldHighlightDanger,
-                'p2p-order-status-tag--disabled': shouldHighlightDisabled,
-                'p2p-order-status-tag--success': shouldHighlightSuccess,
+            className={clsx('order-status-tag', {
+                'order-status-tag--alert': shouldHighlightAlert,
+                'order-status-tag--danger': shouldHighlightDanger,
+                'order-status-tag--disabled': shouldHighlightDisabled,
+                'order-status-tag--success': shouldHighlightSuccess,
             })}
         >
             {status}

@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
-
 import { render, screen } from '@testing-library/react';
-
 import PaymentMethodField from '../PaymentMethodField';
 
 jest.mock('react-hook-form', () => ({

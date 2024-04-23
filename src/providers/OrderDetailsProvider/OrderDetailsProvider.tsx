@@ -1,5 +1,4 @@
 import { createContext, PropsWithChildren, useContext } from 'react';
-
 import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
 
 type TOrderDetails = ReturnType<typeof useExtendedOrderDetails>['data'];

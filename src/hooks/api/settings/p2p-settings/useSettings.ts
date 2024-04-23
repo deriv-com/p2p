@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
+import { DeepPartial } from 'react-hook-form';
 import { useLocalStorage } from 'usehooks-ts';
-
 import { TSocketResponseData } from '../../../../../types';
 import useSubscription from '../../../../../useSubscription';
 
@@ -79,7 +79,7 @@ const useSettings = () => {
                 /** Indicates the maximum rate offset for floating rate adverts. */
                 float_rate_offset_limit_string:
                     p2p_settings_data?.float_rate_offset_limit?.toString().split('.')?.[1]?.length > 2
-                        ? (p2p_settings_data?.float_rate_offset_limit - 0.005).toFixed(2)
+                        ? ((p2p_settings_data?.float_rate_offset_limit ?? 0) - 0.005).toFixed(2)
                         : p2p_settings_data?.float_rate_offset_limit.toFixed(2),
                 /** Indicates if the cross border ads feature is enabled. */
                 is_cross_border_ads_enabled: Boolean(p2p_settings_data?.cross_border_ads_enabled),

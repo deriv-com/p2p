@@ -2,15 +2,12 @@ import { useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { THooks } from 'types';
-
-import { useActiveAccount } from '@deriv/api-v2';
-import { Loader } from '@deriv-com/ui';
-
 import { AdCancelCreateEditModal, AdCreateEditErrorModal, AdCreateEditSuccessModal } from '@/components/Modals';
 import { MY_ADS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useFloatingRate, useModalManager, useQueryString } from '@/hooks/custom-hooks';
-
+import { useActiveAccount } from '@deriv/api-v2';
+import { Loader } from '@deriv-com/ui';
 import { AdWizard } from '../../components';
 
 const getSteps = (isEdit = false) => {

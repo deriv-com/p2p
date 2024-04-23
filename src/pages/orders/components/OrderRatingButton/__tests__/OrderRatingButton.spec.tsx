@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-
 import OrderRatingButton from '../OrderRatingButton';
 
 const mockProps = {

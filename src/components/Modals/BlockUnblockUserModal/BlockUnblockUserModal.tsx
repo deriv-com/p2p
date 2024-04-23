@@ -1,12 +1,8 @@
 import { useEffect } from 'react';
 import Modal from 'react-modal';
-
-import { Button, Text } from '@deriv-com/ui';
-
 import { api } from '@/hooks';
-
+import { Button, Text } from '@deriv-com/ui';
 import { customStyles } from '../helpers';
-
 import './BlockUnblockUserModal.scss';
 
 type TBlockUnblockUserModalProps = {
@@ -50,7 +46,7 @@ const BlockUnblockUserModal = ({
 
     return (
         <Modal
-            className='p2p-block-unblock-user-modal'
+            className='block-unblock-user-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
             shouldCloseOnOverlayClick={false}
@@ -59,10 +55,10 @@ const BlockUnblockUserModal = ({
             <Text as='p' weight='bold'>
                 {getModalTitle()}
             </Text>
-            <Text as='p' className='p2p-block-unblock-user-modal__text' size='sm'>
+            <Text as='p' className='block-unblock-user-modal__text' size='sm'>
                 {getModalContent()}
             </Text>
-            <div className='p2p-block-unblock-user-modal__footer'>
+            <div className='block-unblock-user-modal__footer'>
                 <Button
                     className='border-2'
                     color='black'

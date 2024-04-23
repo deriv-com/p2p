@@ -1,9 +1,7 @@
-import { Button, useDevice } from '@deriv-com/ui';
-
 import { OrderDetailsComplainModal } from '@/components/Modals';
 import { useModalManager } from '@/hooks/custom-hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
-
+import { Button, useDevice } from '@deriv-com/ui';
 import './OrderDetailsCardFooter.scss';
 
 // TODO: Implement functionality for each button when integrating with the API and disable buttons while chat is loading
@@ -31,7 +29,7 @@ const OrderDetailsCardFooter = () => {
     }
 
     return (
-        <div className='p2p-order-details-card-footer'>
+        <div className='order-details-card-footer'>
             {shouldShowCancelAndPaidButton && (
                 <div className='flex gap-3 ml-auto'>
                     <Button className='border-2' color='black' size='lg' textSize={textSize} variant='outlined'>

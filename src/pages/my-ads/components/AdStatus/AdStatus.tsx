@@ -1,9 +1,6 @@
 import clsx from 'clsx';
-
-import { Text } from '@deriv-com/ui';
-
 import { useDevice } from '@/hooks/custom-hooks';
-
+import { Text } from '@deriv-com/ui';
 import './AdStatus.scss';
 
 type TAdStatusProps = {
@@ -16,8 +13,8 @@ const AdStatus = ({ isActive = false }: TAdStatusProps) => {
         <Text
             align='center'
             className={clsx({
-                'p2p-ad-status--active': isActive,
-                'p2p-ad-status--inactive': !isActive,
+                'ad-status--active': isActive,
+                'ad-status--inactive': !isActive,
             })}
             color={isActive ? 'success' : 'error'}
             size={isMobile ? 'md' : 'sm'}

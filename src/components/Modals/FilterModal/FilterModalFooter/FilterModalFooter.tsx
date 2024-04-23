@@ -1,5 +1,4 @@
 import { Button, useDevice } from '@deriv-com/ui';
-
 import './FilterModalFooter.scss';
 
 type TFilterModalFooterProps = {
@@ -22,7 +21,7 @@ const FilterModalFooter = ({
     const { isMobile } = useDevice();
 
     return (
-        <div className='p2p-filter-modal-footer'>
+        <div className='filter-modal-footer'>
             <Button
                 className='mr-[0.8rem] border-2 !border-[#999]'
                 color='black'

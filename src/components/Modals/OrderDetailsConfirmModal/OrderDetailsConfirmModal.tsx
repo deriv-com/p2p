@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FileUploaderComponent } from '@/components/FileUploaderComponent';
 import { getErrorMessage, maxPotFileSize, TFile } from '@/utils';
 import { Button, InlineMessage, Modal, Text, useDevice } from '@deriv-com/ui';
@@ -41,7 +41,7 @@ const OrderDetailsConfirmModal = ({ isModalOpen, onRequestClose }: TOrderDetails
     return (
         <Modal
             ariaHideApp={false}
-            className='p2p-order-details-confirm-modal'
+            className='order-details-confirm-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
         >

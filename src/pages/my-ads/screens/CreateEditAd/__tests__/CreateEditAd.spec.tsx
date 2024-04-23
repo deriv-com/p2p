@@ -1,10 +1,7 @@
+import { MY_ADS_URL } from '@/constants';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { MY_ADS_URL } from '@/constants';
-
 import CreateEditAd from '../CreateEditAd';
-
 import '../../../components/AdFormInput';
 
 const mockOnChange = jest.fn();

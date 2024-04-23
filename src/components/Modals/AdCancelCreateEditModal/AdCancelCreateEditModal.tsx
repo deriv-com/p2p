@@ -1,10 +1,7 @@
 import { useHistory } from 'react-router-dom';
-
-import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
-
 import { MY_ADS_URL } from '@/constants';
 import { useQueryString } from '@/hooks/custom-hooks';
-
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdCancelCreateEditModal.scss';
 
 type TAdCancelCreateEditModalProps = {
@@ -22,21 +19,21 @@ const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose }: TAdCancelCreat
     return (
         <Modal
             ariaHideApp={false}
-            className='p2p-ad-cancel-create-edit-modal'
+            className='ad-cancel-create-edit-modal'
             isOpen={isModalOpen}
             shouldCloseOnOverlayClick={false}
         >
-            <Modal.Header className='p2p-ad-cancel-create-edit-modal__header' hideBorder hideCloseIcon>
+            <Modal.Header className='ad-cancel-create-edit-modal__header' hideBorder hideCloseIcon>
                 <Text weight='bold'>{isEdit ? 'Cancel your edits?' : 'Cancel ad creation?'}</Text>
             </Modal.Header>
-            <Modal.Body className='p2p-ad-cancel-create-edit-modal__body'>
+            <Modal.Body className='ad-cancel-create-edit-modal__body'>
                 <Text size='sm'>
                     {isEdit
                         ? `If you choose to cancel, the edited details will be lost.`
                         : `If you choose to cancel, the details you've entered will be lost.`}
                 </Text>
             </Modal.Body>
-            <Modal.Footer className='p2p-ad-cancel-create-edit-modal__footer' hideBorder>
+            <Modal.Footer className='ad-cancel-create-edit-modal__footer' hideBorder>
                 <Button
                     className='border-2'
                     color='black'

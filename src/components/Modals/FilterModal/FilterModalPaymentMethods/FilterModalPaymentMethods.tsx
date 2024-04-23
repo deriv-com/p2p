@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import { THooks } from 'types';
-
-import { Checkbox, Text } from '@deriv-com/ui';
-
 import { Search } from '@/components/Search';
 import { api } from '@/hooks';
-
+import { Checkbox, Text } from '@deriv-com/ui';
 import './FilterModalPaymentMethods.scss';
 
 type TFilterModalPaymentMethodsProps = {
@@ -39,7 +36,7 @@ const FilterModalPaymentMethods = ({
     }, [data]);
 
     return (
-        <div className='p2p-filter-modal-payment-methods'>
+        <div className='filter-modal-payment-methods'>
             <Search
                 delayTimer={0}
                 name='search-payment-method'

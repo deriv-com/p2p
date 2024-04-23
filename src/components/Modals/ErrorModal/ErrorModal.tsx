@@ -1,5 +1,4 @@
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
-
 import './ErrorModal.scss';
 
 type TErrorModalProps = {
@@ -12,11 +11,11 @@ const ErrorModal = ({ isModalOpen, message, onRequestClose }: TErrorModalProps) 
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'lg' : 'md';
     return (
-        <Modal ariaHideApp={false} className='p2p-error-modal' isOpen={isModalOpen} shouldCloseOnOverlayClick={false}>
+        <Modal ariaHideApp={false} className='error-modal' isOpen={isModalOpen} shouldCloseOnOverlayClick={false}>
             <Modal.Header hideBorder>
                 <Text size={textSize} weight='bold'>{`Something's not right`}</Text>
             </Modal.Header>
-            <Modal.Body className='p2p-error-modal__body'>
+            <Modal.Body className='error-modal__body'>
                 <Text size={textSize}>{message ?? `Something's not right`}</Text>
             </Modal.Body>
             <Modal.Footer hideBorder>

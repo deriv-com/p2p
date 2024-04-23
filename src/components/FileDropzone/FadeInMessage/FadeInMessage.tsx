@@ -1,10 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { CSSTransition } from 'react-transition-group';
-
-import { Text, useDevice } from '@deriv-com/ui';
-
 import { TTextColors } from '@/utils';
-
+import { Text, useDevice } from '@deriv-com/ui';
 import './FadeInMessage.scss';
 
 type TFadeInMessage = {
@@ -22,12 +19,12 @@ const FadeInMessage = ({ children, color, isVisible, key, noText, timeout }: Pro
         <CSSTransition
             appear
             classNames={{
-                appear: 'p2p-fade-in-message--enter',
-                enter: 'p2p-fade-in-message--enter',
-                enterActive: 'p2p-fade-in-message--enter-active',
-                enterDone: 'p2p-fade-in-message--enter-done',
-                exit: 'p2p-fade-in-message--exit',
-                exitActive: 'p2p-fade-in-message--exit-active',
+                appear: 'fade-in-message--enter',
+                enter: 'fade-in-message--enter',
+                enterActive: 'fade-in-message--enter-active',
+                enterDone: 'fade-in-message--enter-done',
+                exit: 'fade-in-message--exit',
+                exitActive: 'fade-in-message--exit-active',
             }}
             in={isVisible}
             key={key}
@@ -35,11 +32,11 @@ const FadeInMessage = ({ children, color, isVisible, key, noText, timeout }: Pro
             unmountOnExit
         >
             {noText ? (
-                <div className='p2p-fade-in-message'>{children}</div>
+                <div className='fade-in-message'>{children}</div>
             ) : (
                 <Text
                     align='center'
-                    className='p2p-fade-in-message'
+                    className='fade-in-message'
                     color={color || 'general'}
                     size={isMobile ? 'sm' : 'xs'}
                 >

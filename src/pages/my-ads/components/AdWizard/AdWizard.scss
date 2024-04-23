@@ -1,4 +1,4 @@
-.p2p-ad-wizard {
+.ad-wizard {
     @include desktop {
         width: 67.2rem;
     }
@@ -23,7 +23,7 @@
         }
     }
 
-    .p2p-wizard__main-step {
+    .wizard__main-step {
         padding-top: 1rem;
         @include desktop {
             max-height: calc(100vh - 35rem);
@@ -31,7 +31,7 @@
         }
     }
 
-    .p2p-form-progress {
+    .form-progress {
         background-color: #f2f3f4;
         margin-top: 2rem;
 

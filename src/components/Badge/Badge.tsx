@@ -1,8 +1,6 @@
 import { memo } from 'react';
 import clsx from 'clsx';
-
 import { Text } from '@deriv-com/ui';
-
 import './Badge.scss';
 
 type TBadgeProps = {
@@ -18,12 +16,12 @@ const Badge = ({ label, status, tradeCount, variant }: TBadgeProps) => {
     if (tradeCount) {
         return (
             <div
-                className={clsx('p2p-badge', {
-                    'p2p-badge--gold': tradeCount >= 100 && tradeCount < 250,
-                    'p2p-badge--green': tradeCount >= 250,
+                className={clsx('badge', {
+                    'badge--gold': tradeCount >= 100 && tradeCount < 250,
+                    'badge--green': tradeCount >= 250,
                 })}
             >
-                <Text className='p2p-badge__label' color='white' weight='bold'>
+                <Text className='badge__label' color='white' weight='bold'>
                     {`${tradeCount >= 250 ? '250+' : '100+'}`}
                 </Text>
             </div>
@@ -31,16 +29,16 @@ const Badge = ({ label, status, tradeCount, variant }: TBadgeProps) => {
     }
     return (
         <div
-            className={clsx('p2p-badge', {
-                'p2p-badge--general': variant === 'general',
-                'p2p-badge--success': variant === 'success',
-                'p2p-badge--warning': variant === 'warning',
+            className={clsx('badge', {
+                'badge--general': variant === 'general',
+                'badge--success': variant === 'success',
+                'badge--warning': variant === 'warning',
             })}
         >
-            <Text className='p2p-badge__label' color={textColor} weight='bold'>
+            <Text className='badge__label' color={textColor} weight='bold'>
                 {label}
             </Text>
-            <Text className='p2p-badge__status' color={textColor}>
+            <Text className='badge__status' color={textColor}>
                 {status}
             </Text>
         </div>

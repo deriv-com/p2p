@@ -1,8 +1,6 @@
-import { Text } from '@deriv-com/ui';
-
 import { FullPageMobileWrapper } from '@/components';
 import { useQueryString } from '@/hooks/custom-hooks';
-
+import { Text } from '@deriv-com/ui';
 import MyProfileStats from './MyProfileStats';
 
 const MyProfileStatsMobile = () => {
