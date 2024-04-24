@@ -10,7 +10,7 @@ import { useP2PCountryList } from '@deriv-com/api-hooks';
 
 const useCountryList = () => {
     const { data, ...rest } = useP2PCountryList({
-        options: { refetchOnWindowFocus: false },
+        refetchOnWindowFocus: false,
     });
 
     return {

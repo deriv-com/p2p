@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { THooks } from 'types';
+import { NonUndefinedValues, THooks } from 'types';
 import { AdCancelCreateEditModal, AdCreateEditErrorModal, AdCreateEditSuccessModal } from '@/components/Modals';
 import { MY_ADS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
@@ -38,10 +38,7 @@ type FormValues = {
 const CreateEditAd = () => {
     const { queryString } = useQueryString();
     const { advertId = '' } = queryString;
-    const { data: advertInfo, isLoading } = api.advert.useGet(
-        { id: advertId },
-        { enabled: !!advertId, refetchOnWindowFocus: false }
-    );
+    const { data: advertInfo, isLoading } = api.advert.useGet({ id: advertId ?? undefined }, !!advertId, false);
     const isEdit = !!advertId;
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { data: countryList = {} } = api.countryList.useGet();
@@ -153,14 +150,14 @@ const CreateEditAd = () => {
     };
 
     const setFormValues = useCallback(
-        (advertInfo: THooks.Advert.Get) => {
+        (advertInfo: NonUndefinedValues<THooks.Advert.Get>) => {
             setValue('ad-type', advertInfo.type);
-            setValue('amount', advertInfo.amount);
+            setValue('amount', advertInfo.amount.toString());
             setValue('instructions', advertInfo.description);
-            setValue('max-order', advertInfo.max_order_amount);
-            setValue('min-completion-rate', advertInfo.min_completion_rate);
-            setValue('min-join-days', advertInfo.min_join_days);
-            setValue('min-order', advertInfo.min_order_amount);
+            setValue('max-order', advertInfo.max_order_amount.toString());
+            setValue('min-completion-rate', advertInfo.min_completion_rate.toString());
+            setValue('min-join-days', advertInfo.min_join_days.toString());
+            setValue('min-order', advertInfo.min_order_amount.toString());
             setValue('rate-value', setInitialAdRate() as string);
             setValue('preferred-countries', advertInfo.eligible_countries ?? Object.keys(countryList));
             setValue('order-completion-time', `${advertInfo.order_expiry_period}`);

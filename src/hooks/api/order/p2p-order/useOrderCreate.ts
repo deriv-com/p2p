@@ -1,8 +1,6 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useP2POrderCreate } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
-
-type TOrderCreatePayload = Parameters<ReturnType<typeof useP2POrderCreate>['mutate']>[0]['payload'];
 
 /** A custom hook that creates a P2P order. 
  * 
@@ -18,17 +16,11 @@ type TOrderCreatePayload = Parameters<ReturnType<typeof useP2POrderCreate>['muta
 */
 const useOrderCreate = () => {
     const invalidate = useInvalidateQuery();
-    const {
-        data,
-        mutate: _mutate,
-        ...rest
-    } = useP2POrderCreate({
+    const { data, ...rest } = useP2POrderCreate({
         onSuccess: () => {
             invalidate('p2p_order_list');
         },
     });
-
-    const mutate = useCallback((payload: TOrderCreatePayload) => _mutate({ payload }), [_mutate]);
 
     const modified_data = useMemo(() => {
         if (!data) return undefined;
@@ -64,8 +56,6 @@ const useOrderCreate = () => {
     return {
         /** The 'p2p_order_create' response. */
         data: modified_data,
-        /** Sends a request to create a P2P order. */
-        mutate,
         ...rest,
     };
 };

@@ -1,23 +1,10 @@
-import { useCallback, useMemo } from 'react';
-import { WithRequiredProperty } from 'types';
+import { useMemo } from 'react';
 import { useP2POrderInfo } from '@deriv-com/api-hooks';
-
-type TPayload = WithRequiredProperty<
-    NonNullable<Parameters<ReturnType<typeof useP2POrderInfo>['subscribe']>>[0]['payload'],
-    'id'
->;
 
 // TODO: Convert this to use useSubscribe as it is a subscribable endpoint
 /** This custom hook that returns information about the given order ID */
 const useOrderInfo = () => {
-    const { data, subscribe: subscribeOrderInfo, ...rest } = useP2POrderInfo();
-
-    const subscribe = useCallback(
-        (payload: TPayload) => {
-            subscribeOrderInfo({ payload });
-        },
-        [subscribeOrderInfo]
-    );
+    const { data, ...rest } = useP2POrderInfo();
 
     // modify the data to add additional information
     const modified_data = useMemo(() => {
@@ -82,7 +69,6 @@ const useOrderInfo = () => {
     return {
         /** The 'p2p_order_info' response. */
         data: modified_data,
-        subscribe,
         ...rest,
     };
 };
