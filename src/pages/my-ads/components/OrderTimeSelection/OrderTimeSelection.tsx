@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { MutableOption } from 'types';
 import { OrderTimeTooltipModal } from '@/components/Modals';
 import { ORDER_COMPLETION_TIME_LIST, ORDER_TIME_INFO_MESSAGE } from '@/constants';
 import { LabelPairedChevronDownMdRegularIcon, LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
@@ -40,7 +41,7 @@ const OrderTimeSelection = () => {
                     <Dropdown
                         className='items-center h-16'
                         dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
-                        list={ORDER_COMPLETION_TIME_LIST}
+                        list={ORDER_COMPLETION_TIME_LIST as unknown as MutableOption[]}
                         name='order-completion-time'
                         onSelect={onChange}
                         value={value}

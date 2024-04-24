@@ -1,7 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ProfileContent, Verification } from '@/components';
 import { NicknameModal } from '@/components/Modals';
-import { useAdvertiserStats, useIsAdvertiser, usePoiPoaStatus, useQueryString } from '@/hooks/custom-hooks';
+import {
+    useAdvertiserStats,
+    useIsAdvertiser,
+    useModalManager,
+    usePoiPoaStatus,
+    useQueryString,
+} from '@/hooks/custom-hooks';
 import { Loader, Tab, Tabs, useDevice } from '@deriv-com/ui';
 import { MyProfileAdDetails } from '../MyProfileAdDetails';
 import { MyProfileCounterparties } from '../MyProfileCounterparties';
@@ -19,7 +25,7 @@ const MyProfile = () => {
     const { data: advertiserStats, isLoading } = useAdvertiserStats();
     const { isP2PPoaRequired, isPoaVerified, isPoiVerified } = data || {};
     const isAdvertiser = useIsAdvertiser();
-    const [isNicknameModalOpen, setIsNicknameModalOpen] = useState<boolean | undefined>(false);
+    const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
 
     const currentTab = queryString.tab;
 
@@ -32,7 +38,7 @@ const MyProfile = () => {
 
     useEffect(() => {
         const isPoaPoiVerified = (!isP2PPoaRequired || isPoaVerified) && isPoiVerified;
-        if (isPoaPoiVerified && !isAdvertiser) setIsNicknameModalOpen(true);
+        if (isPoaPoiVerified && !isAdvertiser) showModal('NicknameModal');
     }, [isAdvertiser, isP2PPoaRequired, isPoaVerified, isPoiVerified]);
 
     if (isLoading && !advertiserStats) {
@@ -47,7 +53,7 @@ const MyProfile = () => {
         return (
             <div className='my-profile'>
                 <MyProfileMobile />
-                <NicknameModal isModalOpen={isNicknameModalOpen} setIsModalOpen={setIsNicknameModalOpen} />
+                <NicknameModal isModalOpen={!!isModalOpenFor('NicknameModal')} onRequestClose={hideModal} />
             </div>
         );
     }
@@ -71,7 +77,7 @@ const MyProfile = () => {
                     </Tab>
                 ))}
             </Tabs>
-            <NicknameModal isModalOpen={isNicknameModalOpen} setIsModalOpen={setIsNicknameModalOpen} />
+            <NicknameModal isModalOpen={!!isModalOpenFor('NicknameModal')} onRequestClose={hideModal} />
         </div>
     );
 };

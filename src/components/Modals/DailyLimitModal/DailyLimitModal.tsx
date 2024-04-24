@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Modal from 'react-modal';
 import { api } from '@/hooks';
 import { useDevice } from '@/hooks/custom-hooks';
@@ -16,9 +15,6 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
     const { data, error, isLoading, isSuccess, mutate } = api.advertiser.useUpdate();
     const { daily_buy_limit, daily_sell_limit } = data ?? {};
     const { isMobile } = useDevice();
-    useEffect(() => {
-        Modal.setAppElement('#v2_modal_root');
-    }, []);
 
     const getModalContent = () => {
         //TODO: modal header title to be moved out if needed according to implementation, can be moved to a separate getheader, getcontent, getfooter functions

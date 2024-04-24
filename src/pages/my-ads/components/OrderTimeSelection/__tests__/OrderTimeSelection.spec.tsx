@@ -12,7 +12,7 @@ const mockUseDevice = useDevice as jest.Mock;
 
 jest.mock('react-hook-form', () => ({
     ...jest.requireActual('react-hook-form'),
-    Controller: ({ defaultValue, render }) =>
+    Controller: ({ defaultValue, render }: { defaultValue: object; render: (param: object) => void }) =>
         render({
             field: { onChange: jest.fn(), value: defaultValue },
             fieldState: { error: null },

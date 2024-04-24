@@ -1,6 +1,8 @@
-import { ChangeEvent, FocusEvent } from 'react';
+import { ChangeEvent, FocusEvent, useEffect, useRef } from 'react';
+import { TCurrency, TExchangeRate } from 'types';
 import { api } from '@/hooks';
 import { mobileOSDetect, percentOf, removeTrailingZeros, roundOffDecimal, setDecimalPlaces } from '@/utils';
+import { useExchangeRates } from '@deriv-com/api-hooks';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import InputField from '../InputField';
@@ -10,7 +12,7 @@ type TFloatingRate = {
     changeHandler?: (event: ChangeEvent<HTMLInputElement>) => void;
     errorMessages: string;
     fiatCurrency: string;
-    localCurrency: string;
+    localCurrency: TCurrency;
     name?: string;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     value?: string;
@@ -25,16 +27,25 @@ const FloatingRate = ({
     onChange,
     value,
 }: TFloatingRate) => {
-    const { subscribeRates } = api.account.useExchangeRateSubscription();
+    const { subscribeRates } = useExchangeRates();
     const { isMobile } = useDevice();
-
-    const exchangeRateValue = subscribeRates({ base_currency: 'USD', target_currencies: [localCurrency] });
 
     const { data: p2pSettings } = api.settings.useSettings();
     const overrideExchangeRate = p2pSettings?.override_exchange_rate;
+    const exchangeRateRef = useRef<TExchangeRate | null>(null);
+
+    useEffect(() => {
+        if (localCurrency) {
+            exchangeRateRef.current = subscribeRates({
+                base_currency: 'USD',
+                target_currencies: [localCurrency],
+            });
+        }
+    }, [localCurrency]);
+
     const marketRate = overrideExchangeRate
         ? Number(overrideExchangeRate)
-        : exchangeRateValue?.rates?.[localCurrency] ?? 1;
+        : exchangeRateRef.current?.rates?.[localCurrency] ?? 1;
     const os = mobileOSDetect();
     const marketFeed = value ? percentOf(marketRate, Number(value)) : marketRate;
     const decimalPlace = setDecimalPlaces(marketFeed, 6);

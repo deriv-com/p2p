@@ -1,13 +1,14 @@
-import { Fragment, memo, useState } from 'react';
+import { Fragment, memo, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
-import { TAdvertsTableRowRenderer } from 'types';
+import { TAdvertsTableRowRenderer, TCurrency, TExchangeRate } from 'types';
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, getCurrentRoute } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
+import { useExchangeRates } from '@deriv-com/api-hooks';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './AdvertsTableRow.scss';
 
@@ -15,7 +16,7 @@ const BASE_CURRENCY = 'USD';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { subscribeRates } = api.account.useExchangeRateSubscription();
+    const { subscribeRates } = useExchangeRates();
     const { isDesktop, isMobile } = useDevice();
     const history = useHistory();
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
@@ -26,12 +27,14 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { data } = api.advertiser.useGetInfo() || {};
     const { daily_buy = 0, daily_buy_limit = 0, daily_sell = 0, daily_sell_limit = 0 } = data || {};
 
+    const exchangeRateRef = useRef<TExchangeRate | null>(null);
+
     const {
         account_currency,
         advertiser_details,
         counterparty_type,
         effective_rate,
-        local_currency,
+        local_currency = '',
         max_order_amount_limit_display,
         min_order_amount_limit_display,
         payment_method_names,
@@ -40,15 +43,22 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         rate_type,
     } = props;
 
-    const exchangeRate = subscribeRates({ base_currency: BASE_CURRENCY, target_currencies: [local_currency] });
+    useEffect(() => {
+        if (local_currency) {
+            exchangeRateRef.current = subscribeRates({
+                base_currency: BASE_CURRENCY,
+                target_currencies: [local_currency],
+            });
+        }
+    }, [local_currency]);
 
     const Container = isMobile ? 'div' : Fragment;
 
     const { completed_orders_count, id, is_online, name, rating_average, rating_count } = advertiser_details || {};
 
     const { displayEffectiveRate, effectiveRate } = generateEffectiveRate({
-        exchangeRate: exchangeRate?.rates?.[local_currency],
-        localCurrency: local_currency,
+        exchangeRate: exchangeRateRef.current?.rates?.[local_currency],
+        localCurrency: local_currency as TCurrency,
         marketRate: Number(effective_rate),
         price: Number(price_display),
         rate,

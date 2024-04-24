@@ -1,4 +1,4 @@
-import { useExchangeRateSubscription } from '@/hooks/api/account';
+import { useExchangeRates } from '@deriv-com/api-hooks';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -70,8 +70,8 @@ const mockProps = {
     visibility_status: [],
 };
 
-jest.mock('@deriv/api-v2', () => ({
-    useExchangeRateSubscription: jest.fn(),
+jest.mock('@deriv-com/api-hooks', () => ({
+    useExchangeRates: jest.fn(),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -79,7 +79,7 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn().mockReturnValue({ isMobile: false }),
 }));
 
-const mockUseExchangeRate = useExchangeRateSubscription as jest.Mock;
+const mockUseExchangeRate = useExchangeRates as jest.Mock;
 
 describe('MyAdsTableRow', () => {
     beforeEach(() => {
