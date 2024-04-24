@@ -163,7 +163,7 @@ export const restrictDecimalPlace = (
     e: ChangeEvent<HTMLInputElement>,
     handleChangeCallback: (e: ChangeEvent<HTMLInputElement>) => void
 ): void => {
-    const pattern = new RegExp(/^[+-]?\d{0,4}(\.\d{0,2})?$/);
+    const pattern = /^[+-]?\d{0,4}(\.\d{0,2})?$/;
     if ((e.target as HTMLInputElement).value.length > 8) {
         (e.target as HTMLInputElement).value = (e.target as HTMLInputElement).value.slice(0, 8);
         return;

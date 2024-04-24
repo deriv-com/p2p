@@ -4,7 +4,7 @@ import { OnlineStatusIcon, OnlineStatusLabel, StarRating } from '@/components';
 import { getCurrentRoute } from '@/utils';
 import { Text, useDevice } from '@deriv-com/ui';
 import ThumbUpIcon from '../../public/ic-thumb-up.svg';
-import BlockedUserOutlineIcon from '../../public/ic-user-blocked-outline.svg';
+import BlockedUserOutlineIcon from '../../public/ic-user-blocked-outline.svg?react';
 import './AdvertiserNameStats.scss';
 
 /**

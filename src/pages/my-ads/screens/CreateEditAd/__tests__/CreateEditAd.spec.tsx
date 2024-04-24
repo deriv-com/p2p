@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { MY_ADS_URL } from '@/constants';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -7,8 +8,18 @@ import '../../../components/AdFormInput';
 const mockOnChange = jest.fn();
 jest.mock('react-hook-form', () => ({
     ...jest.requireActual('react-hook-form'),
-    FormProvider: ({ children }) => <div>{children}</div>,
-    Controller: ({ control, defaultValue, name, render }) =>
+    FormProvider: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+    Controller: ({
+        control,
+        defaultValue,
+        name,
+        render,
+    }: {
+        control: string;
+        defaultValue: object;
+        name: string;
+        render: (param: object) => void;
+    }) =>
         render({
             field: { control, name, onBlur: jest.fn(), onChange: mockOnChange, value: defaultValue },
             fieldState: { error: null },

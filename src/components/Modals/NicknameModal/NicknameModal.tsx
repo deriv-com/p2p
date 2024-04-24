@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 import { debounce } from 'lodash';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -11,10 +11,10 @@ import './NicknameModal.scss';
 
 type TNicknameModalProps = {
     isModalOpen: boolean | undefined;
-    setIsModalOpen: Dispatch<SetStateAction<boolean | undefined>>;
+    onRequestClose: () => void;
 };
 
-const NicknameModal = ({ isModalOpen, setIsModalOpen }: TNicknameModalProps) => {
+const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => {
     const {
         control,
         formState: { isDirty, isValid },
@@ -40,7 +40,7 @@ const NicknameModal = ({ isModalOpen, setIsModalOpen }: TNicknameModalProps) => 
 
     useEffect(() => {
         if (isSuccess) {
-            setIsModalOpen(false);
+            onRequestClose;
             setHasCreatedAdvertiser(true);
         } else if (isError) {
             debouncedReset();
@@ -90,7 +90,7 @@ const NicknameModal = ({ isModalOpen, setIsModalOpen }: TNicknameModalProps) => 
                         color='black'
                         onClick={() => {
                             history.push(BUY_SELL_URL);
-                            setIsModalOpen(false);
+                            onRequestClose;
                         }}
                         size='lg'
                         textSize={textSize}

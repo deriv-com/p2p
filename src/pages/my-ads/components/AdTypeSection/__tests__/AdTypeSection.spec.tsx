@@ -10,7 +10,17 @@ const mockSetFieldValue = jest.fn();
 const mockTriggerFunction = jest.fn();
 jest.mock('react-hook-form', () => ({
     ...jest.requireActual('react-hook-form'),
-    Controller: ({ control, defaultValue, name, render }) =>
+    Controller: ({
+        control,
+        defaultValue,
+        name,
+        render,
+    }: {
+        control: string;
+        defaultValue: object;
+        name: string;
+        render: (param: object) => void;
+    }) =>
         render({
             field: { control, name, onBlur: jest.fn(), onChange: jest.fn(), value: defaultValue },
             fieldState: { error: null },
