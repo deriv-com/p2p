@@ -1,4 +1,4 @@
-import { memo, MouseEvent, useEffect, useRef } from 'react';
+import { MouseEvent, useEffect, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import { Clipboard } from '@/components';
 import { ADVERTISER_URL, BUY_SELL, RATE_TYPE } from '@/constants';
@@ -160,4 +160,4 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
     );
 };
 
-export default memo(ShareAdsModal);
+export default ShareAdsModal;
