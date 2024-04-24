@@ -4,7 +4,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import { useP2PSettings } from '@deriv-com/api-hooks';
 
 type TP2PSettings =
-    | (ReturnType<typeof useP2PSettings> & {
+    | (ReturnType<typeof useP2PSettings>['data'] & {
           currency_list: {
               display_name: string;
               has_adverts: 0 | 1;
