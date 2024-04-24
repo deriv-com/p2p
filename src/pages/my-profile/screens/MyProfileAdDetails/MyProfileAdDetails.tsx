@@ -20,14 +20,14 @@ const MyProfileAdDetailsTextArea = ({
     return (
         <>
             <TextArea
-                onChange={e => setContactInfo(e.target.value)}
+                onChange={e => setContactInfo((e.target as HTMLInputElement).value)}
                 placeholder='My contact details'
                 testId='dt_profile_ad_details_contact'
                 value={advertiserInfo?.contact_info || ''}
             />
             <TextArea
                 label='This information will be visible to everyone.'
-                onChange={e => setAdvertDescription(e.target.value)}
+                onChange={e => setAdvertDescription((e.target as HTMLInputElement).value)}
                 placeholder='Instructions'
                 testId='dt_profile_ad_details_description'
                 value={advertiserInfo?.default_advert_description || ''}

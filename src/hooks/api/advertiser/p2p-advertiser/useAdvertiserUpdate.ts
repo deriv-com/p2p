@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { useP2pAdvertCreate } from '@deriv-com/api-hooks';
+import { useP2pAdvertCreate, useP2pAdvertiserUpdate } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
 type TPayload = NonNullable<Parameters<ReturnType<typeof useP2pAdvertCreate>['mutate']>[0]>['payload'];
@@ -20,7 +20,7 @@ const useAdvertiserUpdate = () => {
         data,
         mutate: _mutate,
         ...rest
-    } = useP2pAdvertCreate({
+    } = useP2pAdvertiserUpdate({
         onSuccess: () => {
             invalidate('p2p_advertiser_info');
         },
@@ -29,7 +29,7 @@ const useAdvertiserUpdate = () => {
     const mutate = useCallback((payload: TPayload) => _mutate({ payload }), [_mutate]);
 
     const modified_data = useMemo(() => {
-        const p2p_advertiser_update = data?.p2p_advertiser_update;
+        const p2p_advertiser_update = data;
         if (!p2p_advertiser_update) return undefined;
 
         const { basic_verification, full_verification, is_approved, is_listed, is_online, show_name } =
@@ -50,7 +50,7 @@ const useAdvertiserUpdate = () => {
             /** When true, the advertiser's real name will be displayed on to other users on adverts and orders. */
             should_show_name: Boolean(show_name),
         };
-    }, [data?.p2p_advertiser_update]);
+    }, [data]);
 
     return {
         /** Returns latest information of the advertiser from p2p_advertiser endpoint */

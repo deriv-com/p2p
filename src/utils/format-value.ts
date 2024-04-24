@@ -1,3 +1,4 @@
+import { TCurrency } from 'types';
 import { RATE_TYPE } from '@/constants';
 import { FormatUtils } from '@deriv-com/utils';
 
@@ -30,7 +31,7 @@ export const percentOf = (number: number, percent: number): number => number + n
 
 type TGenerateEffectiveRate = {
     exchangeRate: number;
-    localCurrency: string;
+    localCurrency: TCurrency;
     marketRate: number;
     price: number;
     rate: number;
@@ -55,7 +56,7 @@ type TReturnGenerateEffectiveRate = {
  */
 export const generateEffectiveRate = ({
     exchangeRate = 0,
-    localCurrency = '',
+    localCurrency = '' as TCurrency,
     marketRate = 0,
     price = 0,
     rate = 0,

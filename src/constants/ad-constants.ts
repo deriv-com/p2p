@@ -1,12 +1,12 @@
-export const COUNTERPARTIES_DROPDOWN_LIST = Object.freeze([
+export const COUNTERPARTIES_DROPDOWN_LIST = [
     { text: 'All', value: 'all' },
     { text: 'Blocked', value: 'blocked' },
-]);
+] as const;
 
-export const RATE_TYPE = Object.freeze({
+export const RATE_TYPE = {
     FIXED: 'fixed',
     FLOAT: 'float',
-});
+} as const;
 
 export const AD_ACTION = {
     ACTIVATE: 'activate',

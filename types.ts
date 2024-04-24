@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { api } from '@/hooks';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
+import { useExchangeRates } from '@deriv-com/api-hooks';
+import { CurrencyConstants } from '@deriv-com/utils';
 
 declare global {
     interface WindowEventMap {
@@ -163,3 +165,9 @@ export type TSocketError<T> = {
 export type WithRequiredProperty<T, Key extends keyof T> = T & {
     [K in Key]-?: T[K];
 };
+
+export type TCurrency = CurrencyConstants.Currency;
+
+export type TExchangeRate = ReturnType<typeof useExchangeRates>['exchangeRates'];
+
+export type MutableOption = { text?: React.ReactNode; value?: string | undefined };

@@ -1,3 +1,4 @@
+import { MutableOption } from 'types';
 import { Dropdown, Search } from '@/components';
 import { COUNTERPARTIES_DROPDOWN_LIST } from '@/constants';
 import { useDevice } from '@/hooks/custom-hooks';
@@ -40,7 +41,7 @@ const MyProfileCounterpartiesHeader = ({
                 ) : (
                     <Dropdown
                         label='Filter by'
-                        list={COUNTERPARTIES_DROPDOWN_LIST}
+                        list={COUNTERPARTIES_DROPDOWN_LIST as unknown as MutableOption[]}
                         listHeight='sm'
                         name='counterparty-filter'
                         onSelect={setDropdownValue}
