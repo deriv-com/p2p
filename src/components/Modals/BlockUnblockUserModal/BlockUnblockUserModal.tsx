@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Modal from 'react-modal';
 import { api } from '@/hooks';
 import { Button, Text } from '@deriv-com/ui';
@@ -22,10 +21,6 @@ const BlockUnblockUserModal = ({
 }: TBlockUnblockUserModalProps) => {
     const { mutate: blockAdvertiser } = api.counterparty.useBlock();
     const { mutate: unblockAdvertiser } = api.counterparty.useUnblock();
-
-    useEffect(() => {
-        Modal.setAppElement('#v2_modal_root');
-    }, []);
 
     const getModalTitle = () => (isBlocked ? `Unblock ${advertiserName}?` : `Block ${advertiserName}?`);
 

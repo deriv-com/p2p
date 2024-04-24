@@ -2,7 +2,7 @@ import { ComponentProps, forwardRef, ReactNode } from 'react';
 import { TextArea } from '@deriv-com/ui';
 import './TextAreaWithIcon.scss';
 
-type TTextAreaWithIconProps = ComponentProps<typeof TextArea> & {
+type TTextAreaWithIconProps = Omit<ComponentProps<typeof TextArea>, 'textSize'> & {
     icon: ReactNode;
 };
 

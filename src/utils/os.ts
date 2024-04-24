@@ -1,5 +1,5 @@
 export const mobileOSDetect = () => {
-    const userAgent = navigator.userAgent ?? window.opera ?? '';
+    const userAgent = navigator.userAgent;
 
     // huawei devices regex from: https://gist.github.com/megaacheyounes/e1c7eec5c790e577db602381b8c50bfa
     const huaweiDevicesRegex =
@@ -19,7 +19,7 @@ export const mobileOSDetect = () => {
     }
 
     // iOS detection from: http://stackoverflow.com/a/9039885/177710
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    if (/iPad|iPhone|iPod/.test(userAgent)) {
         return 'iOS';
     }
 

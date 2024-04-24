@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Modal from 'react-modal';
 import { Button, Text } from '@deriv-com/ui';
 import { customStyles } from '../helpers';
@@ -10,10 +9,6 @@ type TAvailableP2PBalanceModalProps = {
 };
 
 const AvailableP2PBalanceModal = ({ isModalOpen, onRequestClose }: TAvailableP2PBalanceModalProps) => {
-    useEffect(() => {
-        Modal.setAppElement('#v2_modal_root');
-    }, []);
-
     return (
         <Modal
             className='available-balance-modal'
