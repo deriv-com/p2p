@@ -45,14 +45,7 @@ const columns = [
 
 const MyAdsTable = () => {
     const isAdvertiser = useIsAdvertiser();
-    const {
-        data = [],
-        isFetching,
-        isLoading,
-        loadMoreAdverts,
-    } = api.advertiserAdverts.useGet(undefined, {
-        enabled: isAdvertiser,
-    });
+    const { data = [], isFetching, isLoading, loadMoreAdverts } = api.advertiserAdverts.useGet(undefined, isAdvertiser);
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
     const {
         balance_available: balanceAvailable,

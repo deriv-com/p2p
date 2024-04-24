@@ -2,9 +2,13 @@ import { useMemo } from 'react';
 import { useP2PAdvertiserAdverts } from '@deriv-com/api-hooks';
 
 /** This custom hook returns a list of adverts under the current active client. */
-const useAdvertiserAdverts = (payload?: NonNullable<Parameters<typeof useP2PAdvertiserAdverts>[0]>['payload']) => {
+const useAdvertiserAdverts = (
+    payload?: NonNullable<Parameters<typeof useP2PAdvertiserAdverts>[0]>['payload'],
+    isEnabled = true
+) => {
     const { data, loadMoreAdverts, ...rest } = useP2PAdvertiserAdverts({
         payload: { ...payload, offset: payload?.offset, limit: payload?.limit },
+        enabled: isEnabled,
     });
 
     const modified_data = useMemo(() => {

@@ -29,13 +29,13 @@ const AppContent = () => {
 
     useEffect(() => {
         if (activeAccountData) {
-            subscribeP2PSettings();
+            subscribeP2PSettings({});
         }
     }, [activeAccountData, subscribeP2PSettings]);
 
     useEffect(() => {
         if (isSuccess) {
-            subscribeAdvertiserInfo();
+            subscribeAdvertiserInfo({});
         }
     }, [isSuccess, subscribeAdvertiserInfo]);
 
@@ -43,7 +43,7 @@ const AppContent = () => {
     // setHasCreatedAdvertiser is triggered inside of NicknameModal.
     useEffect(() => {
         if (isSuccess && hasCreatedAdvertiser) {
-            subscribeAdvertiserInfo();
+            subscribeAdvertiserInfo({});
         }
     }, [hasCreatedAdvertiser, isSuccess, subscribeAdvertiserInfo]);
 

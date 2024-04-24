@@ -1,9 +1,9 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { DeepPartial } from 'react-hook-form';
 import { useLocalStorage } from 'usehooks-ts';
 import { useP2PAdvertiserInfo } from '@deriv-com/api-hooks';
 
-type TP2PAdvertiserInfo = ReturnType<typeof useP2PAdvertiserInfo> & {
+type TP2PAdvertiserInfo = ReturnType<typeof useP2PAdvertiserInfo>['data'] & {
     has_basic_verification: boolean;
     has_full_verification: boolean;
     is_approved_boolean: boolean;
@@ -14,11 +14,9 @@ type TP2PAdvertiserInfo = ReturnType<typeof useP2PAdvertiserInfo> & {
     should_show_name: boolean;
 };
 
-type TPayload = NonNullable<ReturnType<typeof useP2PAdvertiserInfo>> & { id?: string };
-
 /** This custom hook returns information about the given advertiser ID */
 const useAdvertiserInfo = (id?: string) => {
-    const { data, error, subscribe: subscribeAdvertiserInfo, ...rest } = useP2PAdvertiserInfo();
+    const { data, error, ...rest } = useP2PAdvertiserInfo();
 
     /**
      * Use different local storage key for each advertiser, one to keep the current user's info, the other to keep the advertiser's info
@@ -30,13 +28,6 @@ const useAdvertiserInfo = (id?: string) => {
     const [p2p_advertiser_info, setP2PAdvertiserInfo] = useLocalStorage<DeepPartial<TP2PAdvertiserInfo>>(
         local_storage_key,
         {}
-    );
-
-    const subscribe = useCallback(
-        (payload?: TPayload) => {
-            subscribeAdvertiserInfo({ payload });
-        },
-        [subscribeAdvertiserInfo]
     );
 
     // Add additional information to the p2p_advertiser_info data
@@ -85,7 +76,6 @@ const useAdvertiserInfo = (id?: string) => {
         /** P2P advertiser information */
         data: p2p_advertiser_info,
         error,
-        subscribe,
         ...rest,
     };
 };

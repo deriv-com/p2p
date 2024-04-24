@@ -3,19 +3,13 @@ import { useInfiniteQuery, useP2POrderList } from '@deriv-com/api-hooks';
 
 /** This custom hook returns a list of orders under the current client. */
 const useOrderList = (
-    payload?: NonNullable<Parameters<typeof useInfiniteQuery<'p2p_order_list'>>[1]>['payload'],
-    config?: NonNullable<Parameters<typeof useInfiniteQuery<'p2p_order_list'>>[1]>['options']
+    payload?: NonNullable<Parameters<typeof useInfiniteQuery<'p2p_order_list'>>[0]>['payload'],
+    isEnabled = true
 ) => {
     // Fetch the order list data which handles pagination
-    const { data, subscriptionData, ...rest } = useP2POrderList({
+    const { data, ...rest } = useP2POrderList({
         payload: { ...payload, offset: payload?.offset, limit: payload?.limit },
-        options: {
-            getNextPageParam: (lastPage, pages) => {
-                if (lastPage?.p2p_order_list?.list?.length === 0) return;
-                return pages.length;
-            },
-            enabled: subscriptionData && (config?.enabled === undefined || config.enabled),
-        },
+        enabled: isEnabled,
     });
 
     // Additional p2p_order_list data
