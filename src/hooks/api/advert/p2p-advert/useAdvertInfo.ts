@@ -4,12 +4,14 @@ import { useP2PAdvertInfo } from '@deriv-com/api-hooks';
  * This custom hook returns the advert information about the given advert ID.
  */
 const useAdvertInfo = (
-    payload: NonNullable<Parameters<typeof useP2PAdvertInfo>[1]>['payload'],
-    options?: NonNullable<Parameters<typeof useP2PAdvertInfo>[1]>['options']
+    payload: NonNullable<Parameters<typeof useP2PAdvertInfo>[0]>['payload'],
+    isEnabled = true,
+    refetchOnWindowFocus = true
 ) => {
     const { data, ...rest } = useP2PAdvertInfo({
         payload,
-        options,
+        enabled: isEnabled,
+        refetchOnWindowFocus,
     });
 
     const modified_data = useMemo(() => {
