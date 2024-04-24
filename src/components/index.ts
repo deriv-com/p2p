@@ -4,7 +4,6 @@ export * from './Badge';
 export * from './BuySellForm';
 export * from './Checklist';
 export * from './Clipboard';
-export * from './CloseHeader';
 export * from './Dropdown';
 export * from './FileDropzone';
 export * from './FloatingRate';
