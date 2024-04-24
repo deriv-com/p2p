@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { CloseHeader } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
@@ -67,7 +66,6 @@ const AppContent = () => {
                 setHasCreatedAdvertiser,
             }}
         >
-            <CloseHeader />
             <div className='app-content'>
                 <Tabs
                     activeTab={activeTab}
