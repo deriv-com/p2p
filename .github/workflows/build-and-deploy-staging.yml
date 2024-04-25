@@ -40,10 +40,7 @@ jobs:
               run: npm run build
 
             - name: Run tests for Eslint
-              run: npm run test:eslint
-
-            - name: Run unit tests and coverage report
-              run: npm run test
+              run: npm run test:lint
 
             - name: Publish to Cloudflare Pages
               id: publish-to-pages

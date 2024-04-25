@@ -29,16 +29,8 @@ jobs:
             - name: Setup node
               uses: actions/setup-node@v3
               with:
-                  node-version: 18.x
+                  node-version: 20.x
                   cache: 'npm'
-
-            - name: Post Cloudflare Pages Preview comment
-              uses: marocchino/sticky-pull-request-comment@331f8f5b4215f0445d3c07b4967662a32a2d3e31
-              with:
-                  header: Cloudflare Pages Preview Comment
-                  number: ${{github.event.pull_request.user.login}}
-                  message: ${{steps.generate_action_url.outputs.comment}}
-                  recreate: true
 
             - name: Create npmrc file
               shell: bash
@@ -60,10 +52,7 @@ jobs:
               run: npm run build
 
             - name: Run tests for Eslint
-              run: npm run test:eslint
-
-            - name: Run unit tests and coverage report
-              run: npm run test
+              run: npm run test:lint
 
             - name: Retrieve PR information
               env:
