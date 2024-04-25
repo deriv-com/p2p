@@ -64,7 +64,7 @@ const PaymentMethodCardHeader = ({
                 />
             )}
             {isSelectable && (
-                <div data-testid='p2p_v2_payment_method_card_header_checkbox'>
+                <div data-testid='dt_payment_method_card_header_checkbox'>
                     <Checkbox
                         checked={isSelected}
                         disabled={isDisabled}
