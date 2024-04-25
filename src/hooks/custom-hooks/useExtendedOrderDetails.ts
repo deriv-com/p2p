@@ -1,4 +1,4 @@
-import { THooks, TServerTime } from 'types';
+import { TCurrency, THooks, TServerTime } from 'types';
 import { BUY_SELL, ORDERS_STATUS } from '@/constants'; // Update your import path
 import {
     convertToMillis,
@@ -15,7 +15,7 @@ type TOrder = THooks.Order.Get;
 type TUserDetails = TOrder['advertiser_details'] | TOrder['client_details'];
 
 type TObject = Record<string, string>;
-interface ExtendedOrderDetails extends TOrder {
+export interface ExtendedOrderDetails extends TOrder {
     counterpartyAdStatusString: TObject;
     displayPaymentAmount: string;
     hasReviewDetails: boolean;
@@ -93,7 +93,7 @@ const useExtendedOrderDetails = ({
             return removeTrailingZeros(
                 FormatUtils.formatMoney(
                     Number(this.amount_display) * Number(roundOffDecimal(this.rate, setDecimalPlaces(this.rate, 6))),
-                    { currency: this.local_currency }
+                    { currency: this.local_currency as TCurrency }
                 )
             );
         },
@@ -203,7 +203,7 @@ const useExtendedOrderDetails = ({
         get rateAmount() {
             return removeTrailingZeros(
                 FormatUtils.formatMoney(this.rate, {
-                    currency: this.local_currency,
+                    currency: this.local_currency as TCurrency,
                     decimalPlaces: setDecimalPlaces(this.rate, 6),
                 })
             );

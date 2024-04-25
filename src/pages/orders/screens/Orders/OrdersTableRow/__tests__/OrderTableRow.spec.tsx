@@ -1,3 +1,4 @@
+import { THooks } from 'types';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -32,16 +33,18 @@ const mockUseDevice = useDevice as jest.Mock;
 const mockProps = {
     account_currency: 'USD',
     advert_details: {
-        block_trade: 0,
+        is_block_trade: false,
+        block_trade: 0 as THooks.Order.GetList[number]['advert_details']['block_trade'],
         description: 'Created by script. Please call me 02203400',
         id: '116',
         payment_method: 'bank_transfer',
-        type: 'sell',
+        type: 'sell' as 'buy' | 'sell',
     },
     advertiser_details: {
         first_name: 'QA script',
         id: '59',
-        is_online: 1,
+        is_online: true,
+        is_recommended: undefined,
         last_name: 'userPlOta',
         last_online_time: 1709818078,
         loginid: 'CR90000299',
@@ -78,7 +81,10 @@ const mockProps = {
     rate: 13500,
     rate_display: '13500.00',
     status: 'completed',
-    type: 'buy',
+    type: 'buy' as 'buy' | 'sell',
+    is_seen: false,
+    review_details: undefined,
+    is_verification_pending: false,
 };
 describe('OrdersTableRow', () => {
     it('should render the component', () => {
