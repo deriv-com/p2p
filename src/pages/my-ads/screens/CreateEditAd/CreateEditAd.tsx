@@ -68,7 +68,7 @@ const CreateEditAd = () => {
             'min-order': '',
             'order-completion-time': `${orderPaymentPeriod ? (orderPaymentPeriod * 60).toString() : '3600'}`,
             'payment-method': [],
-            'preferred-countries': Object.keys(countryList),
+            'preferred-countries': Object.keys(countryList as object),
             'rate-type-string': rateType,
             'rate-value': rateType === RATE_TYPE.FLOAT ? '-0.01' : '',
         },
@@ -82,15 +82,30 @@ const CreateEditAd = () => {
         setValue,
     } = methods;
     useEffect(() => {
-        if (Object.keys(countryList).length > 0 && getValues('preferred-countries').length === 0) {
-            setValue('preferred-countries', Object.keys(countryList));
+        if (Object.keys(countryList as object).length > 0 && getValues('preferred-countries').length === 0) {
+            setValue('preferred-countries', Object.keys(countryList as object));
         }
     }, [countryList, getValues, setValue]);
 
     const shouldNotShowArchiveMessageAgain = localStorage.getItem('should_not_show_auto_archive_message_again');
 
     const onSubmit = () => {
-        const payload = {
+        type TPayload = {
+            amount?: number;
+            eligible_countries: string[];
+            max_order_amount: number;
+            min_order_amount: number;
+            rate: number;
+            rate_type: string;
+            type?: 'buy' | 'sell';
+            payment_method_names?: number[] | string[];
+            contact_info?: string;
+            payment_method_ids?: number[] | string[];
+            description?: string;
+            min_completion_rate?: number;
+            min_join_days?: number;
+        };
+        const payload: TPayload = {
             amount: Number(getValues('amount')),
             eligible_countries: getValues('preferred-countries'),
             max_order_amount: Number(getValues('max-order')),
@@ -159,7 +174,7 @@ const CreateEditAd = () => {
             setValue('min-join-days', advertInfo.min_join_days.toString());
             setValue('min-order', advertInfo.min_order_amount.toString());
             setValue('rate-value', setInitialAdRate() as string);
-            setValue('preferred-countries', advertInfo.eligible_countries ?? Object.keys(countryList));
+            setValue('preferred-countries', advertInfo.eligible_countries ?? Object.keys(countryList as object));
             setValue('order-completion-time', `${advertInfo.order_expiry_period}`);
             if (advertInfo.type === 'sell') {
                 setValue('contact-details', advertInfo.contact_info);
@@ -177,7 +192,7 @@ const CreateEditAd = () => {
 
     useEffect(() => {
         if (advertInfo && isEdit) {
-            setFormValues(advertInfo);
+            setFormValues(advertInfo as NonUndefinedValues<THooks.Advert.Get>);
         }
     }, [advertInfo, isEdit, setFormValues]);
 
@@ -195,7 +210,7 @@ const CreateEditAd = () => {
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <AdWizard
-                        countryList={countryList}
+                        countryList={countryList as object}
                         currency={activeAccount?.currency ?? 'USD'}
                         localCurrency={p2pSettings?.localCurrency}
                         onCancel={onClickCancel}

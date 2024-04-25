@@ -50,14 +50,19 @@ jest.mock('@/providers/AdvertiserInfoStateProvider', () => ({
     }),
 }));
 
+const mockProps = {
+    isModalOpen: true,
+    onRequestClose: jest.fn(),
+};
+
 describe('NicknameModal', () => {
     it('should render title and description correctly', () => {
-        render(<NicknameModal isModalOpen setIsModalOpen={jest.fn()} />);
+        render(<NicknameModal {...mockProps} />);
         expect(screen.getByText('What’s your nickname?')).toBeVisible();
         expect(screen.getByText('Others will see this on your profile, ads and charts.')).toBeVisible();
     });
     it('should allow users to type and submit nickname', async () => {
-        render(<NicknameModal isModalOpen setIsModalOpen={jest.fn()} />);
+        render(<NicknameModal {...mockProps} />);
 
         const nicknameInput = screen.getByTestId('dt_nickname_modal_input');
 
@@ -85,7 +90,7 @@ describe('NicknameModal', () => {
         }));
 
         await (() => {
-            render(<NicknameModal isModalOpen setIsModalOpen={jest.fn()} />);
+            render(<NicknameModal {...mockProps} />);
         });
 
         expect(mockedReset).toBeCalled();
@@ -98,8 +103,8 @@ describe('NicknameModal', () => {
             mutate: mockedMutate,
             reset: mockedReset,
         }));
-        const mockIsModalOpen = jest.fn();
-        render(<NicknameModal isModalOpen setIsModalOpen={mockIsModalOpen} />);
+
+        render(<NicknameModal {...mockProps} />);
 
         const cancelBtn = screen.getByRole('button', {
             name: 'Cancel',
@@ -107,6 +112,6 @@ describe('NicknameModal', () => {
         await userEvent.click(cancelBtn);
 
         expect(mockPush).toBeCalledWith('/buy-sell');
-        expect(mockIsModalOpen).toBeCalledWith(false);
+        expect(mockProps.onRequestClose).toBeCalledWith(false);
     });
 });

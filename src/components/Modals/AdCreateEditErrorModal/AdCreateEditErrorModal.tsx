@@ -9,7 +9,7 @@ type TAdCreateEditErrorModalProps = {
     onRequestClose: () => void;
 };
 
-type ErrorCodes = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
+export type ErrorCodes = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
 
 type ErrorContent = {
     [key in ErrorCodes]?: {

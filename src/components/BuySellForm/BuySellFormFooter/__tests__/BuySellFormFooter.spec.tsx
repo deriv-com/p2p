@@ -27,7 +27,7 @@ describe('BuySellFormFooter', () => {
         expect(mockProps.onClickCancel).toHaveBeenCalled();
     });
     it('should handle onclick for confirm button', () => {
-        const newProps = { mockProps, onSubmit: jest.fn() };
+        const newProps = { ...mockProps, onSubmit: jest.fn() };
         render(<BuySellFormFooter {...newProps} />);
         const confirmButton = screen.getByRole('button', { name: 'Confirm' });
         confirmButton.click();

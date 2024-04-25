@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { TCurrency, TExchangeRate } from 'types';
+import { NonUndefinedValues, TCurrency, TExchangeRate } from 'types';
 import { PaymentMethodLabel, PopoverDropdown } from '@/components';
 import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
 import { useFloatingRate } from '@/hooks/custom-hooks';
@@ -31,7 +31,7 @@ type TProps = {
 type TMyAdsTableProps = Omit<TMyAdsTableRowRendererProps, 'balanceAvailable' | 'dailyBuyLimit' | 'dailySellLimit'> &
     TProps;
 
-const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps) => {
+const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: NonUndefinedValues<TMyAdsTableProps>) => {
     const { isMobile } = useDevice();
     const { subscribeRates } = useExchangeRates();
 
@@ -133,7 +133,8 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                 </div>
                 <div className='my-ads-table-row__line-details'>
                     <Text color='success' size='sm'>
-                        {`${FormatUtils.formatMoney(amountDealt, { currency: accountCurrency })}`} {accountCurrency}
+                        {`${FormatUtils.formatMoney(amountDealt, { currency: accountCurrency as TCurrency })}`}{' '}
+                        {accountCurrency}
                         &nbsp;
                         {advertType === 'Buy' ? 'Bought' : 'Sold'}
                     </Text>

@@ -12,7 +12,7 @@ const mockProps = {
     setSelectedPaymentMethods: jest.fn(),
 };
 
-let mockData = [
+let mockData: { display_name: string; id: string }[] | undefined = [
     {
         display_name: 'Alipay',
         id: 'alipay',
