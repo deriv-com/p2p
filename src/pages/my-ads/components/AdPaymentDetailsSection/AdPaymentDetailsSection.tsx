@@ -1,5 +1,6 @@
 import { MouseEventHandler, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { TCurrency } from 'types';
 import { BUY_SELL } from '@/constants';
 import { AdFormController } from '../AdFormController';
 import { AdPaymentSelection } from '../AdPaymentSelection';
@@ -7,12 +8,12 @@ import { AdSummary } from '../AdSummary';
 import { OrderTimeSelection } from '../OrderTimeSelection';
 
 type TAdPaymentDetailsSection = {
-    currency: string;
+    currency: TCurrency;
     getCurrentStep: () => number;
     getTotalSteps: () => number;
     goToNextStep: MouseEventHandler<HTMLButtonElement>;
-    goToPreviousStep: MouseEventHandler<HTMLButtonElement>;
-    localCurrency?: string;
+    goToPreviousStep: () => void;
+    localCurrency?: TCurrency;
     rateType: string;
 };
 

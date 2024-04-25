@@ -3,12 +3,12 @@ import clsx from 'clsx';
 import { THooks } from 'types';
 import { TGenericSizes } from '@/utils';
 import { Text } from '@deriv-com/ui';
-import IcCashierBankTransfer from '../../public/ic-cashier-bank-transfer.svg';
-import IcCashierEwallet from '../../public/ic-cashier-ewallet.svg';
-import IcCashierOther from '../../public/ic-cashier-other.svg';
+import IcCashierBankTransfer from '../../public/ic-cashier-bank-transfer.svg?react';
+import IcCashierEwallet from '../../public/ic-cashier-ewallet.svg?react';
+import IcCashierOther from '../../public/ic-cashier-other.svg?react';
 
 type TPaymentMethodWithIconProps = {
-    className: string;
+    className?: string;
     name: string;
     textSize?: TGenericSizes;
     type: THooks.AdvertiserPaymentMethods.Get[number]['type'];

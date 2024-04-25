@@ -3,7 +3,7 @@ import { DeepPartial, TAdvertiserStats } from 'types';
 import { OnlineStatusIcon, OnlineStatusLabel, StarRating } from '@/components';
 import { getCurrentRoute } from '@/utils';
 import { Text, useDevice } from '@deriv-com/ui';
-import ThumbUpIcon from '../../public/ic-thumb-up.svg';
+import ThumbUpIcon from '../../public/ic-thumb-up.svg?react';
 import BlockedUserOutlineIcon from '../../public/ic-user-blocked-outline.svg?react';
 import './AdvertiserNameStats.scss';
 
