@@ -8,7 +8,7 @@ import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetai
 import { OrderRatingButton, OrderStatusTag, OrderTimer } from '@/pages/orders/components';
 import { getDistanceToServerTime } from '@/utils';
 import { Button, Text, useDevice } from '@deriv-com/ui';
-import ChatIcon from '../../../../../public/ic-chat.svg';
+import ChatIcon from '../../../../../public/ic-chat.svg?react';
 import './OrdersTableRow.scss';
 
 const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>) => {

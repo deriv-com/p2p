@@ -4,7 +4,7 @@ import MyProfileCounterpartiesTableRow from '../MyProfileCounterpartiesTableRow'
 
 const mockProps = {
     id: 'id1',
-    is_blocked: false,
+    isBlocked: false,
     nickname: 'nickname',
 };
 
@@ -39,16 +39,7 @@ jest.mock('@deriv/api-v2', () => ({
     },
 }));
 
-const elModal = document.createElement('div');
 describe('MyProfileCounterpartiesTableRow', () => {
-    beforeAll(() => {
-        elModal.setAttribute('id', 'v2_modal_root');
-        document.body.appendChild(elModal);
-    });
-
-    afterAll(() => {
-        document.body.removeChild(elModal);
-    });
     it('should render the component as expected', () => {
         render(<MyProfileCounterpartiesTableRow {...mockProps} />);
         expect(screen.getByText('nickname')).toBeInTheDocument();

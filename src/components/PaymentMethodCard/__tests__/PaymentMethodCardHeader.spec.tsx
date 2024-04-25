@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { PaymentMethodCardHeader } from '../PaymentMethodCardHeader';
 
-jest.mock('../../../public/ic-cashier-ewallet.svg', () => 'span');
+jest.mock('../../../public/ic-cashier-ewallet.svg?react', () => 'span');
 
 describe('PaymentMethodCardHeader', () => {
     it('should render the component correctly', () => {
@@ -46,7 +46,7 @@ describe('PaymentMethodCardHeader', () => {
                 type='bank'
             />
         );
-        expect(screen.getByTestId('p2p_v2_payment_method_card_header_checkbox')).toBeInTheDocument();
+        expect(screen.getByTestId('dt_payment_method_card_header_checkbox')).toBeInTheDocument();
     });
     it('should render the correct icon when type is ewallet', () => {
         render(

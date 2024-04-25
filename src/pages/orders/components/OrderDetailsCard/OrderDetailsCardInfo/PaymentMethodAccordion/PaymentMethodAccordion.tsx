@@ -62,7 +62,7 @@ const PaymentMethodAccordion = ({
                                         }}
                                     >
                                         <PaymentMethodWithIcon
-                                            name={paymentMethodDetails[key].display_name}
+                                            name={paymentMethodDetails[key].display_name ?? ''}
                                             textSize={bigTextSize}
                                             type={paymentMethodType}
                                         />

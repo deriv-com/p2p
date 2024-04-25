@@ -1,4 +1,3 @@
-import Modal from 'react-modal';
 import { floatingPointValidator } from '@/utils';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
@@ -99,17 +98,8 @@ const mockProps = {
         },
     ],
 };
-let element: HTMLElement;
+
 describe('BuySellForm', () => {
-    beforeAll(() => {
-        element = document.createElement('div');
-        element.setAttribute('id', 'v2_modal_root');
-        document.body.appendChild(element);
-        Modal.setAppElement('#v2_modal_root');
-    });
-    afterAll(() => {
-        document.body.removeChild(element);
-    });
     it('should render the form as expected', () => {
         render(<BuySellForm {...mockProps} />);
         expect(screen.getByText('Buy USD')).toBeInTheDocument();

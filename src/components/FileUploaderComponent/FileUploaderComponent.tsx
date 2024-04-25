@@ -1,4 +1,5 @@
 import { memo, useCallback } from 'react';
+import { TFile } from '@/utils';
 import { DerivLightIcCloudUploadIcon, StandaloneCircleXmarkBoldIcon } from '@deriv/quill-icons';
 import { Text } from '@deriv-com/ui';
 import { FileDropzone } from '../FileDropzone';
@@ -10,8 +11,8 @@ type TFileUploaderComponentProps = {
     maxSize: number;
     multiple?: boolean;
     onClickClose: () => void;
-    onDropAccepted: (files: File[]) => void;
-    onDropRejected: (files: File[]) => void;
+    onDropAccepted: (files: TFile[]) => void;
+    onDropRejected: (files: TFile[]) => void;
     uploadedMessage: string;
     validationErrorMessage: string | null;
     value: (File & { file: Blob })[];

@@ -1,18 +1,17 @@
+import { TErrorCodes } from 'types';
 import { ERROR_CODES } from '@/constants';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdCreateEditErrorModal.scss';
 
 type TAdCreateEditErrorModalProps = {
-    errorCode?: ErrorCodes;
+    errorCode?: TErrorCodes;
     errorMessage?: string;
     isModalOpen: boolean;
     onRequestClose: () => void;
 };
 
-export type ErrorCodes = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
-
 type ErrorContent = {
-    [key in ErrorCodes]?: {
+    [key in TErrorCodes]?: {
         description: string;
         title: string;
     };

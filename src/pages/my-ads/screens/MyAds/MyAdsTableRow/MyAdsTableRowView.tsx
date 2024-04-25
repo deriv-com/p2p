@@ -28,11 +28,11 @@ const MyAdsTableRowView = ({
     const history = useHistory();
 
     const {
-        account_currency: accountCurrency,
+        account_currency: accountCurrency = '',
         id = '',
         rate_type: rateType,
-        remaining_amount: remainingAmount,
-        type,
+        remaining_amount: remainingAmount = 0,
+        type = '',
         visibility_status: visibilityStatus = [],
     } = rest;
 

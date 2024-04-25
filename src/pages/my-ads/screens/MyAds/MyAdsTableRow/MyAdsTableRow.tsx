@@ -36,8 +36,8 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: NonUndefinedValu
     const { subscribeRates } = useExchangeRates();
 
     const {
-        account_currency: accountCurrency,
-        amount,
+        account_currency: accountCurrency = '',
+        amount = 0,
         amount_display: amountDisplay,
         effective_rate: effectiveRate,
         id,
@@ -50,9 +50,9 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: NonUndefinedValu
         onClickIcon,
         payment_method_names: paymentMethodNames,
         price_display: priceDisplay,
-        rate_display: rateDisplay,
+        rate_display: rateDisplay = '',
         rate_type: rateType,
-        remaining_amount: remainingAmount,
+        remaining_amount: remainingAmount = 0,
         remaining_amount_display: remainingAmountDisplay,
         type,
         visibility_status: visibilityStatus = [],

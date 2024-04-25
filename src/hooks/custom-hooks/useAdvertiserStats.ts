@@ -34,7 +34,7 @@ const useAdvertiserStats = (advertiserId?: string) => {
         }
 
         return () => {
-            localStorage.removeItem(`p2p_v2_p2p_advertiser_info_${advertiserId}`);
+            localStorage.removeItem(`p2p_advertiser_info_${advertiserId}`);
             unsubscribe();
         };
     }, [advertiserId, isSuccess, subscribe, unsubscribe]);
