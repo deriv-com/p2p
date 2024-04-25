@@ -40,7 +40,7 @@ const FilterModal = ({
         },
         {
             component: <ToggleSwitch onChange={event => setIsMatching(event.target.checked)} value={isMatching} />,
-            subtext: 'Ads that match your Deriv P2P balance and limit.',
+            subtext: 'Ads that match your DerivP2P balance and limit.',
             text: 'Matching ads',
         },
     ];
