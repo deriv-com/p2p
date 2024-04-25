@@ -5,7 +5,7 @@ import BuySellPaymentSection from '../BuySellPaymentSection';
 const mockProps = {
     availablePaymentMethods: [],
     onSelectPaymentMethodCard: jest.fn(),
-    selectedPaymentMethodIds: ['123'],
+    selectedPaymentMethodIds: [123],
 };
 
 const mockAvailablePaymentMethods = {

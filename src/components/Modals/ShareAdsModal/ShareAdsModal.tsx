@@ -6,9 +6,9 @@ import { api } from '@/hooks';
 import { useCopyToClipboard } from '@/hooks/custom-hooks';
 import { Button, Divider, Modal, Text, useDevice } from '@deriv-com/ui';
 //TODO: replace below icons with the one from quill once available
-import CheckmarkCircle from '../../../public/ic-checkmark-circle.svg';
-import ShareIcon from '../../../public/ic-share.svg';
-import ShareLinkIcon from '../../../public/ic-share-link.svg';
+import CheckmarkCircle from '../../../public/ic-checkmark-circle.svg?react';
+import ShareIcon from '../../../public/ic-share.svg?react';
+import ShareLinkIcon from '../../../public/ic-share-link.svg?react';
 import ShareMyAdsCard from './ShareAdsCard';
 import ShareMyAdsSocials from './ShareAdsSocials';
 import './ShareAdsModal.scss';

@@ -1,9 +1,10 @@
 import { memo, PropsWithChildren } from 'react';
+import { TTextColors } from 'types';
 import { Text, useDevice } from '@deriv-com/ui';
 import './ChatMessageText.scss';
 
 type TChatMessageTextProps = {
-    color: string;
+    color: TTextColors;
     type?: string;
 };
 

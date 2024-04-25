@@ -39,6 +39,7 @@ const mockProps = {
     eligible_countries: ['ID'],
     id: '138',
     is_active: true,
+    is_floating: false,
     is_visible: true,
     isBarred: false,
     isListed: true,
@@ -56,6 +57,10 @@ const mockProps = {
     min_rating: 4,
     order_expiry_period: 900,
     payment_info: '',
+    is_floating: false,
+    balanceAvailable: 0,
+    dailyBuyLimit: '',
+    dailySellLimit: '',
 };
 const mockHistory = {
     push: jest.fn(),

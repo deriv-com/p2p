@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { TAdvertType, THooks } from 'types';
+import { TAdvertType, TCurrency, THooks } from 'types';
 import { BUY_SELL, ORDERS_URL, RATE_TYPE, VALID_SYMBOLS_PATTERN } from '@/constants';
 import { api } from '@/hooks';
 import {
@@ -21,7 +21,7 @@ import { BuySellPaymentSection } from './BuySellPaymentSection';
 import './BuySellForm.scss';
 
 type TPayload = Omit<Parameters<ReturnType<typeof api.order.useCreate>['mutate']>[0], 'payment_method_ids'> & {
-    payment_method_ids?: number[];
+    payment_method_ids?: Parameters<THooks.Order.Create>[0]['payment_method_ids'];
 };
 
 type TBuySellFormProps = {
@@ -79,14 +79,14 @@ const BuySellForm = ({
         type,
     } = advert;
 
-    const avertiserPaymentMethodObjects = getPaymentMethodObjects(advertiserPaymentMethods);
+    const advertiserPaymentMethodObjects = getPaymentMethodObjects(advertiserPaymentMethods);
 
     const paymentMethodObjects = getPaymentMethodObjects(paymentMethods);
 
     const availablePaymentMethods = payment_method_names?.map(paymentMethod => {
         const isAvailable = advertiserPaymentMethods?.some(method => method.display_name === paymentMethod);
         return {
-            ...(isAvailable ? avertiserPaymentMethodObjects[paymentMethod] : paymentMethodObjects[paymentMethod]),
+            ...(isAvailable ? advertiserPaymentMethodObjects[paymentMethod] : paymentMethodObjects[paymentMethod]),
             isAvailable,
         };
     });
@@ -126,7 +126,8 @@ const BuySellForm = ({
         }
 
         if (isBuy && selectedPaymentMethods.length) {
-            payload.payment_method_ids = selectedPaymentMethods;
+            payload.payment_method_ids =
+                selectedPaymentMethods as Parameters<THooks.Order.Create>[0]['payment_method_ids'];
         }
 
         if (isBuy && !selectedPaymentMethods.length) {
@@ -197,10 +198,10 @@ const BuySellForm = ({
                     accountCurrency={account_currency}
                     amount={initialAmount}
                     calculatedRate={calculatedRate}
-                    control={control as unknown as Control<FieldValues, unknown, FieldValues>}
+                    control={control as unknown as Control<FieldValues>}
                     isBuy={isBuy}
                     isDisabled={shouldDisableField}
-                    localCurrency={local_currency}
+                    localCurrency={local_currency as TCurrency}
                     maxLimit={getAdvertiserMaxLimit(
                         isBuy,
                         advertiserBuyLimit,

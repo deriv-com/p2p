@@ -14,7 +14,7 @@ const useCountryList = () => {
     });
 
     return {
-        data: data?.p2p_country_list,
+        data,
         ...rest,
     };
 };

@@ -1,3 +1,4 @@
+import { TCurrency } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import FloatingRate from '../FloatingRate';
@@ -33,9 +34,9 @@ const mockProps = {
     changeHandler: jest.fn(),
     errorMessages: '',
     fiatCurrency: 'USD',
-    localCurrency: 'IDR',
+    localCurrency: 'IDR' as TCurrency,
     onChange: jest.fn(),
-    value: 1.1,
+    value: '1.1',
 };
 
 describe('FloatingRate', () => {

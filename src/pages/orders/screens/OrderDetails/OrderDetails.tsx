@@ -3,10 +3,11 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { api } from '@/hooks';
 import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
+import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
-import ChatIcon from '../../../../public/ic-chat.svg';
+import ChatIcon from '../../../../public/ic-chat.svg?react';
 import { OrderDetailsCard } from '../../components/OrderDetailsCard';
 import { OrderDetailsCardFooter } from '../../components/OrderDetailsCard/OrderDetailsCardFooter';
 import { OrdersChatSection } from '../OrdersChatSection';
@@ -25,7 +26,7 @@ const OrderDetails = () => {
     const { data: serverTime } = api.account.useServerTime();
     const { data: orderDetails } = useExtendedOrderDetails({
         loginId: activeAccount?.loginid,
-        orderDetails: orderInfo,
+        orderDetails: orderInfo as ExtendedOrderDetails,
         serverTime,
     });
     const { isBuyOrderForUser, shouldShowLostFundsBanner } = orderDetails;

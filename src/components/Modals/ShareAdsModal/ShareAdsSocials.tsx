@@ -5,7 +5,7 @@ import {
     SocialGoogleBrandIcon,
     SocialTelegramBrandIcon,
 } from '@deriv/quill-icons';
-import WhatsappIcon from '../../../public/ic-whatsapp-filled.svg';
+import WhatsappIcon from '../../../public/ic-whatsapp-filled.svg?react';
 import './ShareAdsSocials.scss';
 
 type TShareMyAdsSocialsProps = {

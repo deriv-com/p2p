@@ -16,7 +16,11 @@ type TP2PAdvertiserInfo = ReturnType<typeof useP2PAdvertiserInfo>['data'] & {
 
 /** This custom hook returns information about the given advertiser ID */
 const useAdvertiserInfo = (id?: string) => {
-    const { data, error, ...rest } = useP2PAdvertiserInfo();
+    const { data, subscribe, error, ...rest } = useP2PAdvertiserInfo() ?? {};
+
+    useEffect(() => {
+        subscribe({});
+    }, [subscribe]);
 
     /**
      * Use different local storage key for each advertiser, one to keep the current user's info, the other to keep the advertiser's info
@@ -24,7 +28,7 @@ const useAdvertiserInfo = (id?: string) => {
      *
      * Key removal is handled in useAdvertiserStats hook's useEffect.
      * */
-    const local_storage_key = id ? `p2p_v2_p2p_advertiser_info_${id}` : 'p2p_v2_p2p_advertiser_info';
+    const local_storage_key = id ? `p2p_advertiser_info_${id}` : 'p2p_advertiser_info';
     const [p2p_advertiser_info, setP2PAdvertiserInfo] = useLocalStorage<DeepPartial<TP2PAdvertiserInfo>>(
         local_storage_key,
         {}
@@ -76,6 +80,7 @@ const useAdvertiserInfo = (id?: string) => {
         /** P2P advertiser information */
         data: p2p_advertiser_info,
         error,
+        subscribe,
         ...rest,
     };
 };

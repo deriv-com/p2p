@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { NonUndefinedValues, THooks } from 'types';
+import { NonUndefinedValues, TCountryListItem, TCurrency, TErrorCodes, THooks } from 'types';
 import { AdCancelCreateEditModal, AdCreateEditErrorModal, AdCreateEditSuccessModal } from '@/components/Modals';
 import { MY_ADS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
@@ -35,13 +35,15 @@ type FormValues = {
     'rate-value': string;
 };
 
+type TMutatePayload = Parameters<THooks.Advert.Create>[0];
+
 const CreateEditAd = () => {
     const { queryString } = useQueryString();
     const { advertId = '' } = queryString;
     const { data: advertInfo, isLoading } = api.advert.useGet({ id: advertId ?? undefined }, !!advertId, false);
     const isEdit = !!advertId;
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
-    const { data: countryList = {} } = api.countryList.useGet();
+    const { data: countryList = {} as TCountryListItem } = api.countryList.useGet();
     const { data: paymentMethodList = [] } = api.paymentMethods.useGet();
     const { floatRateOffsetLimitString, rateType } = useFloatingRate();
     const { data: activeAccount } = api.account.useActiveAccount();
@@ -68,7 +70,7 @@ const CreateEditAd = () => {
             'min-order': '',
             'order-completion-time': `${orderPaymentPeriod ? (orderPaymentPeriod * 60).toString() : '3600'}`,
             'payment-method': [],
-            'preferred-countries': Object.keys(countryList),
+            'preferred-countries': Object.keys(countryList as object),
             'rate-type-string': rateType,
             'rate-value': rateType === RATE_TYPE.FLOAT ? '-0.01' : '',
         },
@@ -82,15 +84,30 @@ const CreateEditAd = () => {
         setValue,
     } = methods;
     useEffect(() => {
-        if (Object.keys(countryList).length > 0 && getValues('preferred-countries').length === 0) {
-            setValue('preferred-countries', Object.keys(countryList));
+        if (Object.keys(countryList as object).length > 0 && getValues('preferred-countries').length === 0) {
+            setValue('preferred-countries', Object.keys(countryList as object));
         }
     }, [countryList, getValues, setValue]);
 
     const shouldNotShowArchiveMessageAgain = localStorage.getItem('should_not_show_auto_archive_message_again');
 
     const onSubmit = () => {
-        const payload = {
+        type TPayload = {
+            amount?: number;
+            eligible_countries: string[];
+            max_order_amount: number;
+            min_order_amount: number;
+            rate: number;
+            rate_type: string;
+            type?: 'buy' | 'sell';
+            payment_method_names?: number[] | string[];
+            contact_info?: string;
+            payment_method_ids?: number[] | string[];
+            description?: string;
+            min_completion_rate?: number;
+            min_join_days?: number;
+        };
+        const payload: TPayload = {
             amount: Number(getValues('amount')),
             eligible_countries: getValues('preferred-countries'),
             max_order_amount: Number(getValues('max-order')),
@@ -119,10 +136,10 @@ const CreateEditAd = () => {
         if (isEdit) {
             delete payload.amount;
             delete payload.type;
-            updateMutate({ id: advertId, ...payload });
+            updateMutate({ id: advertId, ...payload } as TMutatePayload);
             return;
         }
-        mutate(payload);
+        mutate(payload as TMutatePayload);
     };
 
     useEffect(() => {
@@ -159,7 +176,7 @@ const CreateEditAd = () => {
             setValue('min-join-days', advertInfo.min_join_days.toString());
             setValue('min-order', advertInfo.min_order_amount.toString());
             setValue('rate-value', setInitialAdRate() as string);
-            setValue('preferred-countries', advertInfo.eligible_countries ?? Object.keys(countryList));
+            setValue('preferred-countries', advertInfo.eligible_countries ?? Object.keys(countryList as object));
             setValue('order-completion-time', `${advertInfo.order_expiry_period}`);
             if (advertInfo.type === 'sell') {
                 setValue('contact-details', advertInfo.contact_info);
@@ -177,7 +194,7 @@ const CreateEditAd = () => {
 
     useEffect(() => {
         if (advertInfo && isEdit) {
-            setFormValues(advertInfo);
+            setFormValues(advertInfo as NonUndefinedValues<THooks.Advert.Get>);
         }
     }, [advertInfo, isEdit, setFormValues]);
 
@@ -195,9 +212,9 @@ const CreateEditAd = () => {
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <AdWizard
-                        countryList={countryList}
-                        currency={activeAccount?.currency ?? 'USD'}
-                        localCurrency={p2pSettings?.localCurrency}
+                        countryList={countryList as object}
+                        currency={activeAccount?.currency as TCurrency}
+                        localCurrency={p2pSettings?.localCurrency as TCurrency}
                         onCancel={onClickCancel}
                         rateType={rateType}
                         steps={getSteps(isEdit)}
@@ -205,7 +222,7 @@ const CreateEditAd = () => {
                 </form>
             </FormProvider>
             <AdCreateEditErrorModal
-                errorCode={error?.error?.code || updateError?.error?.code}
+                errorCode={(error?.error?.code || updateError?.error?.code) as TErrorCodes}
                 errorMessage={(error?.error?.message || updateError?.error?.message) ?? 'Something’s not right'}
                 isModalOpen={!!isModalOpenFor('AdCreateEditErrorModal')}
                 onRequestClose={hideModal}

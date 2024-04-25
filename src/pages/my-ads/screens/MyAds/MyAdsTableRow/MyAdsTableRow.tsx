@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { TCurrency, TExchangeRate } from 'types';
+import { NonUndefinedValues, TCurrency, TExchangeRate } from 'types';
 import { PaymentMethodLabel, PopoverDropdown } from '@/components';
 import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
 import { useFloatingRate } from '@/hooks/custom-hooks';
@@ -31,13 +31,13 @@ type TProps = {
 type TMyAdsTableProps = Omit<TMyAdsTableRowRendererProps, 'balanceAvailable' | 'dailyBuyLimit' | 'dailySellLimit'> &
     TProps;
 
-const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps) => {
+const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: NonUndefinedValues<TMyAdsTableProps>) => {
     const { isMobile } = useDevice();
     const { subscribeRates } = useExchangeRates();
 
     const {
-        account_currency: accountCurrency,
-        amount,
+        account_currency: accountCurrency = '',
+        amount = 0,
         amount_display: amountDisplay,
         effective_rate: effectiveRate,
         id,
@@ -50,9 +50,9 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
         onClickIcon,
         payment_method_names: paymentMethodNames,
         price_display: priceDisplay,
-        rate_display: rateDisplay,
+        rate_display: rateDisplay = '',
         rate_type: rateType,
-        remaining_amount: remainingAmount,
+        remaining_amount: remainingAmount = 0,
         remaining_amount_display: remainingAmountDisplay,
         type,
         visibility_status: visibilityStatus = [],
@@ -133,7 +133,8 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                 </div>
                 <div className='my-ads-table-row__line-details'>
                     <Text color='success' size='sm'>
-                        {`${FormatUtils.formatMoney(amountDealt, { currency: accountCurrency })}`} {accountCurrency}
+                        {`${FormatUtils.formatMoney(amountDealt, { currency: accountCurrency as TCurrency })}`}{' '}
+                        {accountCurrency}
                         &nbsp;
                         {advertType === 'Buy' ? 'Bought' : 'Sold'}
                     </Text>

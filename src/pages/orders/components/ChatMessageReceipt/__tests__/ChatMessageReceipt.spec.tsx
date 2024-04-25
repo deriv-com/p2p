@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import ChatMessageReceipt from '../ChatMessageReceipt';
+import ChatMessageReceipt, { TChatMessageReceiptProps } from '../ChatMessageReceipt';
 
 const mockProps = {
     chatChannel: {
@@ -12,7 +12,7 @@ const mockProps = {
         status: 2,
     },
     userId: '123',
-};
+} as TChatMessageReceiptProps;
 
 describe('ChatMessageReceipt', () => {
     it('should render the component as expected with the passed props', () => {

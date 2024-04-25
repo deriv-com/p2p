@@ -1,10 +1,11 @@
 import { Fragment, SyntheticEvent, useEffect, useRef } from 'react';
 import clsx from 'clsx';
+import { TTextColors } from 'types';
 import { CHAT_FILE_TYPE, CHAT_MESSAGE_TYPE } from '@/constants';
 import { useSendbird } from '@/hooks/custom-hooks';
 import { convertToMB, formatMilliseconds } from '@/utils';
 import { Text, useDevice } from '@deriv-com/ui';
-import PDFIcon from '../../../../public/ic-pdf.svg';
+import PDFIcon from '../../../../public/ic-pdf.svg?react';
 import { ChatMessageReceipt } from '../ChatMessageReceipt';
 import { ChatMessageText } from '../ChatMessageText';
 import './ChatMessages.scss';
@@ -26,7 +27,7 @@ const AdminMessage = () => (
     </div>
 );
 
-const ChatMessages = ({ chatChannel, chatMessages = [], userId }: TChatMessagesProps) => {
+const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMessagesProps) => {
     const { isMobile } = useDevice();
     let currentDate = '';
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -38,7 +39,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId }: TChatMessagesP
         }
     }, [chatMessages.length]);
 
-    const getMessageFormat = (chatMessage: TChatMessages[number], messageColor: string) => {
+    const getMessageFormat = (chatMessage: TChatMessages[number], messageColor: TTextColors) => {
         const { fileType = '', name, size = 0, url } = chatMessage ?? {};
         switch (fileType) {
             case CHAT_FILE_TYPE.IMAGE:

@@ -45,8 +45,9 @@ describe('usePoiPoaStatus', () => {
                     identity: {
                         status: 'verified',
                     },
+                    needs_verification: false,
                 },
-                p2p_poa_required: false,
+                p2p_poa_required: 0,
             },
         });
         const { result } = renderHook(() => usePoiPoaStatus());

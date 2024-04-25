@@ -12,7 +12,7 @@ const mockProps = {
     setSelectedPaymentMethods: jest.fn(),
 };
 
-let mockData = [
+let mockData: { display_name: string; id: string }[] | undefined = [
     {
         display_name: 'Alipay',
         id: 'alipay',
@@ -261,7 +261,7 @@ describe('<FilterModal />', () => {
     });
 
     it('should populate the payment methods list with the data from the API', async () => {
-        mockData = undefined;
+        mockData = [];
         const { rerender } = render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');

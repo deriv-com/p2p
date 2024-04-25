@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import { useP2PAdvertList } from '@deriv-com/api-hooks';
 
+type TPayload = NonNullable<Parameters<typeof useP2PAdvertList>[0]>['payload'];
 /**
  * This custom hook returns available adverts for use with 'p2p_order_create' by calling 'p2p_advert_list' endpoint
  */
-const useAdvertList = (payload?: NonNullable<Parameters<typeof useP2PAdvertList>[1]>['payload']) => {
+const useAdvertList = (payload?: TPayload) => {
     const { data, loadMoreAdverts, ...rest } = useP2PAdvertList({
         payload: { ...payload, offset: payload?.offset, limit: payload?.limit },
     });

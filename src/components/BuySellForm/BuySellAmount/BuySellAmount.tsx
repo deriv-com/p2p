@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { TCurrency } from 'types';
 import { LightDivider } from '@/components';
 import { floatingPointValidator } from '@/utils';
 import { Input, Text, useDevice } from '@deriv-com/ui';
@@ -13,7 +14,7 @@ type TBuySellAmountProps = {
     control: ReturnType<typeof useForm>['control'];
     isBuy: boolean;
     isDisabled: boolean;
-    localCurrency: string;
+    localCurrency: TCurrency;
     maxLimit: string;
     minLimit: string;
 };

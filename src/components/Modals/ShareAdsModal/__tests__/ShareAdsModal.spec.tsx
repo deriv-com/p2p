@@ -10,8 +10,6 @@ const mockProps = {
     onRequestClose: jest.fn(),
 };
 
-let element: HTMLElement;
-
 const mockUseGet = {
     data: {
         account_currency: 'USD',
@@ -60,14 +58,6 @@ jest.mock('@/hooks', () => ({
 const mockUseDevice = useDevice as jest.Mock;
 
 describe('ShareAdsModal', () => {
-    beforeAll(() => {
-        element = document.createElement('div');
-        element.setAttribute('id', 'v2_modal_root');
-        document.body.appendChild(element);
-    });
-    afterAll(() => {
-        document.body.removeChild(element);
-    });
     it('should render the modal as expected', () => {
         render(<ShareAdsModal {...mockProps} />);
         expect(screen.getByText('Share this ad')).toBeInTheDocument();
@@ -79,7 +69,7 @@ describe('ShareAdsModal', () => {
             isMobile: true,
         });
         const mockShare = jest.fn().mockResolvedValue(true);
-        global.navigator.share = mockShare;
+        globalThis.navigator.share = mockShare;
         render(<ShareAdsModal {...mockProps} />);
         const shareLinkButton = screen.getByRole('button', { name: 'Share link' });
         await userEvent.click(shareLinkButton);

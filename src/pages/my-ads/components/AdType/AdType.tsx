@@ -1,8 +1,9 @@
+import { TTextColors } from 'types';
 import { Text } from '@deriv-com/ui';
 import './AdType.scss';
 
 type TAdTypeProps = {
-    adPauseColor: string;
+    adPauseColor: TTextColors;
     floatRate: string;
 };
 const AdType = ({ adPauseColor, floatRate }: TAdTypeProps) => {
