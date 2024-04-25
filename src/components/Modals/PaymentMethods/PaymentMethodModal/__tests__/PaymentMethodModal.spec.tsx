@@ -2,8 +2,6 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PaymentMethodModal from '../PaymentMethodModal';
 
-const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => <div id='v2_modal_root'>{children}</div>;
-
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),
@@ -20,8 +18,7 @@ describe('PaymentMethodModal', () => {
                 primaryButtonLabel='Yes'
                 secondaryButtonLabel='Yes, remove'
                 title='Payment Method Modal'
-            />,
-            { wrapper }
+            />
         );
         expect(screen.getByText('Payment Method Modal')).toBeInTheDocument();
         expect(screen.getByText('Payment Method Modal Description')).toBeInTheDocument();
@@ -37,8 +34,7 @@ describe('PaymentMethodModal', () => {
                 primaryButtonLabel='Yes'
                 secondaryButtonLabel='Yes, remove'
                 title='Payment Method Modal'
-            />,
-            { wrapper }
+            />
         );
         const confirmButton = screen.getByText('Yes, remove');
         await userEvent.click(confirmButton);
@@ -55,8 +51,7 @@ describe('PaymentMethodModal', () => {
                 primaryButtonLabel='Yes'
                 secondaryButtonLabel='Yes, remove'
                 title='Payment Method Modal'
-            />,
-            { wrapper }
+            />
         );
         const rejectButton = screen.getByText('Yes');
         await userEvent.click(rejectButton);

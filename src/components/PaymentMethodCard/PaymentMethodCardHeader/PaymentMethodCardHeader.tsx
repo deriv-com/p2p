@@ -1,4 +1,3 @@
-import { ComponentType, SVGAttributes } from 'react';
 import { THooks } from 'types';
 import { FlyoutMenu } from '@/components';
 import { LabelPairedEllipsisVerticalXlRegularIcon } from '@deriv/quill-icons';
@@ -33,7 +32,7 @@ const PaymentMethodCardHeader = ({
     small = false,
     type,
 }: TPaymentMethodCardHeaderProps) => {
-    let Icon: ComponentType<SVGAttributes<SVGElement>> = IcCashierOther;
+    let Icon = IcCashierOther;
     if (type === 'bank') {
         Icon = IcCashierBankTransfer;
     } else if (type === 'ewallet') {
@@ -41,11 +40,11 @@ const PaymentMethodCardHeader = ({
     }
     // TODO: Remember to translate these
     const flyoutMenuItems = [
-        <Button color='black' key={0} onClick={() => onEditPaymentMethod?.()} size='xs' textSize='xs' variant='ghost'>
+        <Button color='black' key={0} onClick={() => onEditPaymentMethod?.()} size='sm' textSize='xs' variant='ghost'>
             Edit
         </Button>,
 
-        <Button color='black' key={1} onClick={() => onDeletePaymentMethod?.()} size='xs' textSize='xs' variant='ghost'>
+        <Button color='black' key={1} onClick={() => onDeletePaymentMethod?.()} size='sm' textSize='xs' variant='ghost'>
             Delete
         </Button>,
     ];
@@ -64,7 +63,7 @@ const PaymentMethodCardHeader = ({
                 />
             )}
             {isSelectable && (
-                <div data-testid='p2p_v2_payment_method_card_header_checkbox'>
+                <div data-testid='dt_payment_method_card_header_checkbox'>
                     <Checkbox
                         checked={isSelected}
                         disabled={isDisabled}

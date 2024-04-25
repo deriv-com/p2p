@@ -1,16 +1,17 @@
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
-import { THooks } from 'types';
+import { DeepPartial, THooks } from 'types';
 import { ORDERS_STATUS, ORDERS_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useExtendedOrderDetails, useQueryString } from '@/hooks/custom-hooks';
+import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderRatingButton, OrderStatusTag, OrderTimer } from '@/pages/orders/components';
 import { getDistanceToServerTime } from '@/utils';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import ChatIcon from '../../../../../public/ic-chat.svg?react';
 import './OrdersTableRow.scss';
 
-const OrdersTableRow = ({ ...props }: THooks.Order.GetList[number]) => {
+const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>) => {
     const { isMobile } = useDevice();
     const { queryString } = useQueryString();
     const history = useHistory();
@@ -19,7 +20,7 @@ const OrdersTableRow = ({ ...props }: THooks.Order.GetList[number]) => {
     const { data: serverTime } = api.account.useServerTime();
     const { data: orderDetails } = useExtendedOrderDetails({
         loginId: activeAccount?.loginid,
-        orderDetails: props,
+        orderDetails: props as ExtendedOrderDetails,
         serverTime,
     });
 
