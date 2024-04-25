@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { URLUtils } from '@deriv-com/utils';
 import { render, screen } from '@testing-library/react';
@@ -11,7 +12,7 @@ jest.mock('@deriv-com/api-hooks', () => ({
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    Button: ({ children, onClick }: { children: React.ReactNode; onClick: () => void }) => (
+    Button: ({ children, onClick }: { children: ReactNode; onClick: () => void }) => (
         <button onClick={onClick}>{children}</button>
     ),
 }));

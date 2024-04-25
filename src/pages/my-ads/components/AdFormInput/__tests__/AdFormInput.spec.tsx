@@ -29,6 +29,7 @@ const mockProps = {
     currency: 'usd',
     label: 'label',
     name: 'name',
+    rightPlaceholder: '',
     triggerValidationFunction: jest.fn(),
 };
 

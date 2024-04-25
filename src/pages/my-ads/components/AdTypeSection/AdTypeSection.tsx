@@ -15,7 +15,7 @@ type TAdTypeSectionProps = {
     getCurrentStep: () => number;
     getTotalSteps: () => number;
     goToNextStep: MouseEventHandler<HTMLButtonElement>;
-    goToPreviousStep: MouseEventHandler<HTMLButtonElement>;
+    goToPreviousStep: () => void;
     localCurrency?: string;
     onCancel: () => void;
     rateType: string;

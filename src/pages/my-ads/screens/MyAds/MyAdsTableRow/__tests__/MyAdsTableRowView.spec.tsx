@@ -39,6 +39,7 @@ const mockProps = {
     eligible_countries: ['ID'],
     id: '138',
     is_active: true,
+    is_floating: false,
     is_visible: true,
     isBarred: false,
     isListed: true,

@@ -12,4 +12,5 @@ export type TTextColors =
     | 'prominent'
     | 'red'
     | 'success'
-    | 'warning';
+    | 'warning'
+    | 'white';
