@@ -3,14 +3,14 @@ import { LabelPairedMinusSmBoldIcon, LabelPairedPlusSmBoldIcon } from '@deriv/qu
 import { Button, Input, Text, useDevice } from '@deriv-com/ui';
 import './InputField.scss';
 
-export type TChangeEvent = ChangeEvent<HTMLInputElement>;
+export type TChangeEvent = (e: ChangeEvent<HTMLInputElement>) => void;
 
 type TInputField = {
     decimalPointChange?: number;
     isError?: boolean;
     name?: string;
     onBlur?: FocusEventHandler<HTMLInputElement>;
-    onChange?: (e: TChangeEvent) => void;
+    onChange?: TChangeEvent;
     type?: string;
     value: number | string;
 };
@@ -132,13 +132,13 @@ const InputField = ({ decimalPointChange, isError, name = '', onBlur, onChange, 
         if (/^\d+/.test(formattedValue) && +formattedValue > 0) {
             formattedValue = `+${formattedValue}`;
         }
-        onChange?.({ target: { value: formattedValue, name } });
+        onChange?.({ target: { value: formattedValue, name } } as ChangeEvent<HTMLInputElement>);
     };
 
     const onLongPressEnd = () => {
         const newValue = localValue;
         const formattedValue = newValue;
-        onChange?.({ target: { value: formattedValue || '', name } });
+        onChange?.({ target: { value: formattedValue || '', name } } as ChangeEvent<HTMLInputElement>);
 
         setLocalValue('');
     };

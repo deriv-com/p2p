@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+import { ComponentProps } from 'react';
 import { ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
+import { useSendbirdServiceToken } from '@/hooks/api/account';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
 import { useExchangeRates } from '@deriv-com/api-hooks';
+import { Text } from '@deriv-com/ui';
 import { CurrencyConstants } from '@deriv-com/utils';
 
 declare global {
@@ -51,7 +54,7 @@ export namespace THooks {
     export namespace Advert {
         export type Get = NonNullable<ReturnType<typeof api.advert.useGet>['data']>;
         export type GetList = NonNullable<ReturnType<typeof api.advert.useGetList>['data']>;
-        export type Create = NonNullable<ReturnType<typeof api.advert.useCreate>['data']>;
+        export type Create = NonNullable<ReturnType<typeof api.advert.useCreate>['mutate']>;
         export type Update = NonNullable<ReturnType<typeof api.advert.useUpdate>['data']>;
         export type Delete = NonNullable<ReturnType<typeof api.advert.useDelete>['data']>;
     }
@@ -72,7 +75,7 @@ export namespace THooks {
     export namespace Order {
         export type Cancel = NonNullable<ReturnType<typeof api.order.useCancel>['data']>;
         export type Confirm = NonNullable<ReturnType<typeof api.order.useConfirm>['data']>;
-        export type Create = NonNullable<ReturnType<typeof api.order.useCreate>['data']>;
+        export type Create = NonNullable<ReturnType<typeof api.order.useCreate>['mutate']>;
         export type Get = NonNullable<ReturnType<typeof api.order.useGet>['data']>;
         export type GetList = NonNullable<ReturnType<typeof api.order.useGetList>['data']>;
     }
@@ -101,7 +104,19 @@ export type TStep = {
     subStepCount?: number;
 };
 
-export type TCountryListItem = THooks.Country.Get;
+export type TCountryListItem = {
+    [key: string]: {
+        country_name: string;
+        cross_border_ads_enabled: 0 | 1;
+        fixed_rate_adverts: 'enabled' | 'disabled';
+        float_rate_adverts: 'enabled' | 'disabled';
+        float_rate_offset_limit: number;
+        local_currency: TCurrency;
+        payment_methods: {
+            [key: string]: TPaymentMethod;
+        };
+    };
+};
 
 export type DeepPartial<T> = T extends string | number | bigint | boolean | null | undefined | symbol | Date
     ? T | undefined
@@ -174,3 +189,9 @@ export type TExchangeRate = ReturnType<typeof useExchangeRates>['exchangeRates']
 export type MutableOption = { text?: React.ReactNode; value?: string | undefined };
 
 export type TErrorCodes = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
+
+export type TTextColors = ComponentProps<typeof Text>[`color`];
+
+export type TFileType = 'image' | 'pdf' | 'file';
+
+export type TSendBirdServiceToken = ReturnType<typeof useSendbirdServiceToken>['data'];

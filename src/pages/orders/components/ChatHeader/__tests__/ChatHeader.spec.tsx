@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import ChatHeader from '../ChatHeader';
 
 const mockProps = {
-    isOnline: 1 as 0 | 1,
+    isOnline: true,
     lastOnlineTime: 1709810646,
     nickname: 'client CR90000313',
 };

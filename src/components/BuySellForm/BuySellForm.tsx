@@ -21,7 +21,7 @@ import { BuySellPaymentSection } from './BuySellPaymentSection';
 import './BuySellForm.scss';
 
 type TPayload = Omit<Parameters<ReturnType<typeof api.order.useCreate>['mutate']>[0], 'payment_method_ids'> & {
-    payment_method_ids?: number[];
+    payment_method_ids?: Parameters<THooks.Order.Create>[0]['payment_method_ids'];
 };
 
 type TBuySellFormProps = {
@@ -126,7 +126,8 @@ const BuySellForm = ({
         }
 
         if (isBuy && selectedPaymentMethods.length) {
-            payload.payment_method_ids = selectedPaymentMethods;
+            payload.payment_method_ids =
+                selectedPaymentMethods as Parameters<THooks.Order.Create>[0]['payment_method_ids'];
         }
 
         if (isBuy && !selectedPaymentMethods.length) {

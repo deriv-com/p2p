@@ -69,7 +69,7 @@ describe('ShareAdsModal', () => {
             isMobile: true,
         });
         const mockShare = jest.fn().mockResolvedValue(true);
-        global.navigator.share = mockShare;
+        globalThis.navigator.share = mockShare;
         render(<ShareAdsModal {...mockProps} />);
         const shareLinkButton = screen.getByRole('button', { name: 'Share link' });
         await userEvent.click(shareLinkButton);

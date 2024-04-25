@@ -152,7 +152,7 @@ export const getFilteredCountryList = (countryList: TCountryListItem, paymentMet
                 const paymentMethodsKeys = Object.keys(countryList[key]?.payment_methods || {});
                 return paymentMethods.some(method => paymentMethodsKeys.includes(method));
             })
-            .reduce((obj, key) => {
+            .reduce((obj: TCountryListItem, key) => {
                 obj[key] = countryList[key];
                 return obj;
             }, {})

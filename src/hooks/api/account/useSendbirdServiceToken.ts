@@ -9,17 +9,13 @@ const useSendbirdServiceToken = () => {
         payload: {
             service: 'sendbird',
         },
-        options: {
-            enabled: isSuccess,
-            staleTime: SEVEN_DAYS_MILLISECONDS, // Sendbird tokens expire 7 days by default
-        },
+        enabled: isSuccess,
+        staleTime: SEVEN_DAYS_MILLISECONDS, // Sendbird tokens expire 7 days by default
     });
 
     return {
         /** return the sendbird service token */
-        data: {
-            ...data?.sendbird,
-        },
+        data: data?.sendbird,
         ...rest,
     };
 };

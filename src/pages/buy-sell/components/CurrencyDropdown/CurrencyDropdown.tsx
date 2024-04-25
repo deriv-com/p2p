@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
+import { TCurrencyListItem } from 'types';
 import { useOnClickOutside } from 'usehooks-ts';
 import { FullPageMobileWrapper } from '@/components';
 import { api } from '@/hooks';
@@ -23,17 +24,18 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
         setShowCurrencySelector(false);
     });
 
-    const localCurrencies = useMemo(() => {
-        return data?.currency_list
-            ? data.currency_list
-                  .sort((a, b) => (a?.value ?? '').localeCompare(b?.value ?? ''))
-                  .sort((a, b) => {
-                      if (a?.value === selectedCurrency) return -1;
-                      if (b?.value === selectedCurrency) return 1;
-                      return 0;
-                  })
-            : [];
-    }, [data?.currency_list, selectedCurrency]);
+    const localCurrencies =
+        useMemo(() => {
+            return data?.currency_list
+                ? data.currency_list
+                      .sort((a, b) => (a?.value ?? '').localeCompare(b?.value ?? ''))
+                      .sort((a, b) => {
+                          if (a?.value === selectedCurrency) return -1;
+                          if (b?.value === selectedCurrency) return 1;
+                          return 0;
+                      })
+                : [];
+        }, [data?.currency_list, selectedCurrency]) ?? [];
 
     const onSelectItem = (currency: string) => {
         setShowCurrencySelector(false);
@@ -54,7 +56,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
                 )}
             >
                 <CurrencySelector
-                    localCurrencies={localCurrencies}
+                    localCurrencies={localCurrencies as TCurrencyListItem[]}
                     onSelectItem={onSelectItem}
                     selectedCurrency={selectedCurrency}
                 />
@@ -85,7 +87,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
             </div>
             {showCurrencySelector && (
                 <CurrencySelector
-                    localCurrencies={localCurrencies}
+                    localCurrencies={localCurrencies as TCurrencyListItem[]}
                     onSelectItem={onSelectItem}
                     selectedCurrency={selectedCurrency}
                 />

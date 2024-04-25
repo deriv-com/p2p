@@ -16,7 +16,7 @@ type TP2PAdvertiserInfo = ReturnType<typeof useP2PAdvertiserInfo>['data'] & {
 
 /** This custom hook returns information about the given advertiser ID */
 const useAdvertiserInfo = (id?: string) => {
-    const { data, subscribe, error, ...rest } = useP2PAdvertiserInfo();
+    const { data, subscribe, error, ...rest } = useP2PAdvertiserInfo() ?? {};
 
     useEffect(() => {
         subscribe({});
@@ -80,6 +80,7 @@ const useAdvertiserInfo = (id?: string) => {
         /** P2P advertiser information */
         data: p2p_advertiser_info,
         error,
+        subscribe,
         ...rest,
     };
 };

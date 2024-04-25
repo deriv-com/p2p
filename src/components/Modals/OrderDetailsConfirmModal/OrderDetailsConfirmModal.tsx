@@ -67,7 +67,10 @@ const OrderDetailsConfirmModal = ({ isModalOpen, onRequestClose }: TOrderDetails
                     </Text>
                 </InlineMessage>
                 <FileUploaderComponent
-                    accept='image/png, image/jpeg, image/jpg, application/pdf'
+                    accept={{
+                        'application/*': ['.pdf'],
+                        'image/*': ['.jpg', '.jpeg', './png'],
+                    }}
                     hoverMessage='Upload receipt here'
                     maxSize={maxPotFileSize}
                     onClickClose={removeFile}

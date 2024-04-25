@@ -12,7 +12,7 @@ type TDailyLimitModalProps = {
 };
 
 const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitModalProps) => {
-    const { data, error, isLoading, isSuccess, mutate } = api.advertiser.useUpdate();
+    const { data, error, isPending: isLoading, isSuccess, mutate } = api.advertiser.useUpdate();
     const { daily_buy_limit, daily_sell_limit } = data ?? {};
     const { isMobile } = useDevice();
 
