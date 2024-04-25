@@ -1,7 +1,7 @@
 import { MouseEventHandler } from 'react';
 import { Button } from '@deriv-com/ui';
-import AttachmentIcon from '../../../../public/ic-attachment.svg';
-import SendMessageIcon from '../../../../public/ic-send-message.svg';
+import AttachmentIcon from '../../../../public/ic-attachment.svg?react';
+import SendMessageIcon from '../../../../public/ic-send-message.svg?react';
 
 type TChatFooterIconProps = {
     length: number;

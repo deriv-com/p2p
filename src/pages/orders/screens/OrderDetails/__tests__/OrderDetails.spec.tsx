@@ -98,7 +98,7 @@ describe('<OrderDetails />', () => {
             isLoading: false,
         });
 
-        render(<OrderDetails orderId='1' />);
+        render(<OrderDetails />);
 
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });

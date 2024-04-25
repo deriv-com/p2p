@@ -45,7 +45,7 @@ describe('useModalManager', () => {
     it('should render and show the correct modal states when showModal is called', async () => {
         const history = createMemoryHistory();
         const originalLocation = window.location;
-        const wrapper = ({ children }: { children: JSX.Element }) => {
+        const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
             return <Router history={history}>{children}</Router>;
         };
 
@@ -113,7 +113,7 @@ describe('useModalManager', () => {
     });
     it('should hide the modals and show previous modal when current modal hidden', () => {
         const history = createMemoryHistory();
-        const wrapper = ({ children }: { children: JSX.Element }) => {
+        const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
             return <Router history={history}>{children}</Router>;
         };
 
@@ -193,7 +193,7 @@ describe('useModalManager', () => {
     });
     it('should show the modals when URL is initialized with default modal states', () => {
         const history = createMemoryHistory();
-        const wrapper = ({ children }: { children: JSX.Element }) => {
+        const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
             return <Router history={history}>{children}</Router>;
         };
 
@@ -223,7 +223,7 @@ describe('useModalManager', () => {
     });
     it('should should not show the modals on navigated back when shouldReinitializeModals is set to false', () => {
         const history = createMemoryHistory();
-        const wrapper = ({ children }: { children: JSX.Element }) => {
+        const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
             return <Router history={history}>{children}</Router>;
         };
 
@@ -255,7 +255,7 @@ describe('useModalManager', () => {
     });
     it('should should show the modals on navigated back when shouldReinitializeModals is set to true', () => {
         const history = createMemoryHistory();
-        const wrapper = ({ children }: { children: JSX.Element }) => {
+        const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
             return <Router history={history}>{children}</Router>;
         };
 
@@ -291,7 +291,7 @@ describe('useModalManager', () => {
     });
     it('should should stack the modals in mobile', () => {
         const history = createMemoryHistory();
-        const wrapper = ({ children }: { children: JSX.Element }) => {
+        const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
             return <Router history={history}>{children}</Router>;
         };
 
@@ -302,7 +302,9 @@ describe('useModalManager', () => {
             search: '?modal=ModalA,ModalB,ModalC',
         }));
         mockedUseDevice.mockImplementation(() => ({
+            isDesktop: false,
             isMobile: true,
+            isTablet: false,
         }));
         mockedUseQueryString.mockImplementationOnce(() => ({
             queryString: {

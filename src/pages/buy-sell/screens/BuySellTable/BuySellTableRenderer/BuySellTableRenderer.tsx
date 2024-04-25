@@ -22,7 +22,7 @@ type TBuySellTableRowRendererProps = {
 };
 
 const BuySellTableRenderer = ({
-    data,
+    data = [],
     isFetching,
     isLoading,
     loadMoreAdverts,

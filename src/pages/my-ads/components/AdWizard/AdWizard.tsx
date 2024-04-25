@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TCountryListItem, TStep } from 'types';
+import { TCountryListItem, TCurrency, TStep } from 'types';
 import { FormProgress, Wizard } from '@/components';
 import { LabelPairedXmarkLgBoldIcon } from '@deriv/quill-icons';
 import { Button, Text, useDevice } from '@deriv-com/ui';
@@ -11,8 +11,8 @@ import './AdWizard.scss';
 
 type TAdWizardNav = {
     countryList: TCountryListItem;
-    currency: string;
-    localCurrency?: string;
+    currency: TCurrency;
+    localCurrency?: TCurrency;
     onCancel: () => void;
     rateType: string;
     steps: TStep[];
