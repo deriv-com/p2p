@@ -1,8 +1,9 @@
+import { TCurrency } from 'types';
 import { render, screen } from '@testing-library/react';
 import AdSummary from '../AdSummary';
 
 const mockProps = {
-    currency: 'USD',
+    currency: 'USD' as TCurrency,
     localCurrency: 'IDR',
     offerAmount: '',
     priceRate: 0,

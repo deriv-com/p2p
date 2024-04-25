@@ -1,4 +1,4 @@
-import { TTextColors } from '@/utils';
+import { TTextColors } from 'types';
 import { Text } from '@deriv-com/ui';
 import './AdType.scss';
 

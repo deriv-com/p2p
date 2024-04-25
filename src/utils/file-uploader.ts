@@ -43,7 +43,7 @@ const isFileTooLarge = (files: TFile[]): boolean => files?.length > 0 && files[0
  * @param {TFile[]} files
  * @returns {boolean} true if file is supported, false otherwise
  */
-const isFileSupported = (files: TFile[]): boolean =>
+const isFileSupported = (files: (File & { file: File })[]): boolean =>
     files.filter(eachFile => getPotSupportedFiles(eachFile.file.name))?.length > 0;
 
 /**
@@ -51,7 +51,7 @@ const isFileSupported = (files: TFile[]): boolean =>
  * @param {TFile[]} files
  * @returns {string} error message
  */
-export const getErrorMessage = (files: TFile[]): string =>
+export const getErrorMessage = (files: (File & { file: File })[]): string =>
     isFileTooLarge(files) && isFileSupported(files)
         ? 'Cannot upload a file over 5MB'
         : 'The file you uploaded is not supported. Upload another.';
@@ -82,9 +82,8 @@ const getFileExtension = (file: TFile): string | null => {
  * @param {TFile} file
  * @returns {Blob}
  */
-export const renameFile = (file: TFile): Blob => {
-    const newFile = new Blob([file], { type: file.type });
+export const renameFile = (file: TFile): File => {
     // eslint-disable-next-line no-control-regex
-    newFile.name = file.name.replace(/[^\x00-\x7F]+/g, '');
-    return newFile;
+    const renamedFile = new File([file], file.name.replace(/[^\x00-\x7F]+/g, ''), { type: file.type });
+    return renamedFile;
 };

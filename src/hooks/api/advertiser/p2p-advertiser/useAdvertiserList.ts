@@ -1,45 +1,30 @@
 import { useMemo } from 'react';
-import { useAuthorize, useInfiniteQuery } from '@deriv-com/api-hooks';
+import { useP2pAdvertiserList } from '@deriv-com/api-hooks';
 
+type THookPayload = Parameters<typeof useP2pAdvertiserList>[number];
+
+//TODO: fix the types when updated from api-hooks
+type ExtendedPayload = THookPayload & {
+    is_blocked?: boolean;
+    advertiser_name?: string;
+};
 /**
  * This custom hook returns the available advertisers who have had or currently have trades with the current advertiser.
  */
-const useAdvertiserList = (
-    payload?: NonNullable<Parameters<typeof useInfiniteQuery<'p2p_advertiser_list'>>[0]>['payload']
-) => {
-    const { isSuccess } = useAuthorize();
+const useAdvertiserList = (payload?: ExtendedPayload) => {
     if (!payload?.is_blocked) {
         delete payload?.is_blocked;
     }
     if (!payload?.advertiser_name) {
         delete payload?.advertiser_name;
     }
-    const { data, fetchNextPage, ...rest } = useInfiniteQuery({
-        name: 'p2p_advertiser_list',
-        payload: { ...payload, offset: payload?.offset, limit: payload?.limit },
-        options: {
-            getNextPageParam: (lastPage, pages) => {
-                if (!lastPage?.p2p_advertiser_list?.list?.length) return;
-
-                return pages.length;
-            },
-            enabled: isSuccess,
-            refetchOnWindowFocus: false,
-        },
-    });
-
-    // Flatten the data array.
-    const flatten_data = useMemo(() => {
-        if (!data?.pages?.length) return;
-
-        return data?.pages?.flatMap(page => page?.p2p_advertiser_list?.list);
-    }, [data?.pages]);
+    const { data, ...rest } = useP2pAdvertiserList({ ...payload, refetchOnWindowFocus: false });
 
     // Add additional information to the 'p2p_advertiser_list' data
     const modified_data = useMemo(() => {
-        if (!flatten_data?.length) return undefined;
+        if (!data?.length) return undefined;
 
-        return flatten_data.map(advertiser => ({
+        return data.map(advertiser => ({
             ...advertiser,
             /** Indicating whether the advertiser's identity has been verified. */
             is_basic_verified: Boolean(advertiser?.basic_verification),
@@ -58,12 +43,11 @@ const useAdvertiserList = (
             /** Indicates that the advertiser was recommended in the most recent review by the current user. */
             is_recommended: Boolean(advertiser?.is_recommended),
         }));
-    }, [flatten_data]);
+    }, [data]);
 
     return {
         /** P2P advertiser list */
         data: modified_data,
-        loadMoreAdvertisers: fetchNextPage,
         ...rest,
     };
 };

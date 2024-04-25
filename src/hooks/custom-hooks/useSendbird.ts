@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { TFileType } from 'types';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import SendbirdChat, { BaseChannel, User } from '@sendbird/chat';
 import { GroupChannel, GroupChannelHandler, GroupChannelModule } from '@sendbird/chat/groupChannel';
@@ -27,7 +28,7 @@ type ChatMessage = {
     channelUrl: string;
     createdAt: number;
     customType?: string;
-    fileType?: 'file' | 'image' | 'pdf';
+    fileType?: TFileType;
     id: string;
     message?: string;
     messageType: string;
@@ -175,7 +176,7 @@ const useSendbird = (orderId: string) => {
             .onSucceeded(sentMessage => {
                 const idx = messages?.findIndex(msg => msg.id === messageToSendId);
                 if (sentMessage.isUserMessage()) {
-                    setMessages(previousMessages => previousMessages.toSpliced(idx, 1, createChatMessage(sentMessage)));
+                    setMessages(previousMessages => previousMessages.splice(idx, 1, createChatMessage(sentMessage)));
                 }
             })
             .onFailed(() => {
@@ -184,7 +185,7 @@ const useSendbird = (orderId: string) => {
                     ...messageToSend,
                     status: ChatMessageStatus.ERRORED,
                 };
-                setMessages(previousMessages => previousMessages.toSpliced(idx, 1, errorMessage));
+                setMessages(previousMessages => previousMessages.splice(idx, 1, errorMessage));
             });
     };
 
