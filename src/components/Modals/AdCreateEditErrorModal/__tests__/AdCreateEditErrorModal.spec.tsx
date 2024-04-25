@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import AdCreateEditErrorModal from '../AdCreateEditErrorModal';
+import AdCreateEditErrorModal, { ErrorCodes } from '../AdCreateEditErrorModal';
 
 const mockProps = {
-    errorCode: 'AdvertSameLimits',
+    errorCode: 'AdvertSameLimits' as ErrorCodes,
     isModalOpen: true,
     onRequestClose: jest.fn(),
 };

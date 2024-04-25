@@ -1,7 +1,7 @@
 import { createContext, PropsWithChildren, useContext } from 'react';
 import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
 
-type TOrderDetails = ReturnType<typeof useExtendedOrderDetails>['data'];
+export type TOrderDetails = ReturnType<typeof useExtendedOrderDetails>['data'];
 
 type TContextValue = {
     isErrorOrderInfo: boolean;
