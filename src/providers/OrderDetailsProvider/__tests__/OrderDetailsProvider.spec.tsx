@@ -1,6 +1,5 @@
-import { ReactNode } from 'react';
-import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { FC, PropsWithChildren } from 'react';
+import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { renderHook } from '@testing-library/react';
 import { OrderDetailsProvider, useOrderDetails } from '../OrderDetailsProvider';
 

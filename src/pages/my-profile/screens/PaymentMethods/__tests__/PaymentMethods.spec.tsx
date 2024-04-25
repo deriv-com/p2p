@@ -43,15 +43,14 @@ const mockUseGetResponse: ReturnType<typeof mockUseGet> = {
     isLoading: false,
     isLoadingError: false,
     isPaused: false,
+    isPending: true,
     isPlaceholderData: false,
-    isPreviousData: false,
     isRefetchError: false,
     isRefetching: false,
     isStale: false,
-    isSuccess: true,
+    isSuccess: false,
     refetch: () => new Promise(() => {}),
-    remove: () => undefined,
-    status: 'success',
+    status: 'pending',
 };
 
 jest.mock('react', () => ({
@@ -148,7 +147,7 @@ describe('PaymentMethods', () => {
         expect(mockDispatch).toHaveBeenCalledWith({ type: 'RESET' });
     });
     it('should show the loader when isloading is true', () => {
-        mockUseGet.mockReturnValue({ ...mockUseGetResponse, isLoading: true, isSuccess: false, status: 'loading' });
+        mockUseGet.mockReturnValue({ ...mockUseGetResponse, isLoading: true, isSuccess: false, status: 'pending' });
         render(<PaymentMethods />);
         expect(screen.getByText('Loader')).toBeInTheDocument();
     });

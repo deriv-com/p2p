@@ -30,7 +30,7 @@ const useAdvertiserStats = (advertiserId?: string) => {
 
     useEffect(() => {
         if (isSuccess && advertiserId) {
-            subscribe();
+            subscribe({});
         }
 
         return () => {

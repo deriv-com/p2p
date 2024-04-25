@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useP2pChatCreate } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TPayload = NonNullable<Parameters<ReturnType<typeof useP2pChatCreate>['mutate']>>[0]['payload'];
+type TPayload = Parameters<ReturnType<typeof useP2pChatCreate>['mutate']>[number];
 
 /**
  * A custom hook to create a p2p chat for the specified order.
@@ -22,7 +22,7 @@ const useChatCreate = () => {
             invalidate('p2p_order_info');
         },
     });
-    const mutate = useCallback((payload: TPayload) => _mutate({ payload }), [_mutate]);
+    const mutate = useCallback((payload: TPayload) => _mutate(payload), [_mutate]);
 
     return {
         /** An object containing the chat channel_url and order_id **/

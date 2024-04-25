@@ -6,7 +6,7 @@ import MessageErroredIcon from '../../../../public/ic-message-errored.svg?react'
 import MessagePendingIcon from '../../../../public/ic-message-pending.svg?react';
 import MessageSeenIcon from '../../../../public/ic-message-seen.svg?react';
 
-type TChatMessageReceiptProps = {
+export type TChatMessageReceiptProps = {
     chatChannel: NonNullable<ReturnType<typeof useSendbird>['activeChatChannel']>;
     message: ReturnType<typeof useSendbird>['messages'][number];
     userId: string;

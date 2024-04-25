@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { TTextColors } from '@/utils';
+import { TTextColors } from 'types';
 import { Text, useDevice } from '@deriv-com/ui';
 import './FadeInMessage.scss';
 

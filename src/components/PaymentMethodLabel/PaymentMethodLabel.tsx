@@ -1,4 +1,5 @@
-import { TGenericSizes, TTextColors } from '@/utils';
+import { TTextColors } from 'types';
+import { TGenericSizes } from '@/utils';
 import { Text } from '@deriv-com/ui';
 
 type TPaymentMethodLabelProps = {
