@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import clsx from 'clsx';
 import { Search } from '@/components';
 import { Checkbox, Divider } from '@deriv-com/ui';
@@ -64,7 +64,7 @@ const PreferredCountriesDropdown = ({
                                     checked={selectedCountries?.length === list?.length}
                                     label='All countries'
                                     name='all-countries'
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
                                         if (event.target.checked) {
                                             setSelectedCountries(list.map(item => item.value));
                                         } else {
@@ -82,7 +82,7 @@ const PreferredCountriesDropdown = ({
                                     checked={selectedCountries?.includes(item.value)}
                                     label={item.text}
                                     name={item.value}
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
                                         if (event.target.checked) {
                                             setSelectedCountries([...selectedCountries, item.value]);
                                         } else {
