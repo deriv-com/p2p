@@ -1,4 +1,6 @@
+import { TFileType } from 'types';
 import { render, screen } from '@testing-library/react';
+import { TChatMessageReceiptProps } from '../../ChatMessageReceipt/ChatMessageReceipt';
 import ChatMessages from '../ChatMessages';
 
 const mockProps = {
@@ -6,13 +8,12 @@ const mockProps = {
         cachedUnreadMemberState: {
             '123': 123,
         },
-    },
+    } as TChatMessageReceiptProps['chatChannel'],
     chatMessages: [
         {
             channelUrl: 'url123',
             createdAt: 12345677,
             customType: '',
-            fileType: '',
             id: 'id1',
             message: 'this is the message',
             messageType: 'user',
@@ -50,7 +51,7 @@ describe('ChatMessages', () => {
             chatMessages: [
                 {
                     ...mockProps.chatMessages[0],
-                    fileType: 'image.png',
+                    fileType: 'image' as TFileType,
                     messageType: 'file',
                     name: 'sample image',
                     url: 'url',
@@ -66,7 +67,7 @@ describe('ChatMessages', () => {
             chatMessages: [
                 {
                     ...mockProps.chatMessages[0],
-                    fileType: 'sample.pdf',
+                    fileType: 'pdf' as TFileType,
                     messageType: 'file',
                     name: 'sample.pdf',
                     size: 1024,

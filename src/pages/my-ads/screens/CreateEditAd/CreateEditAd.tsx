@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { NonUndefinedValues, THooks } from 'types';
+import { NonUndefinedValues, TCountryListItem, TCurrency, TErrorCodes, THooks } from 'types';
 import { AdCancelCreateEditModal, AdCreateEditErrorModal, AdCreateEditSuccessModal } from '@/components/Modals';
 import { MY_ADS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
@@ -35,13 +35,15 @@ type FormValues = {
     'rate-value': string;
 };
 
+type TMutatePayload = Parameters<THooks.Advert.Create>[0];
+
 const CreateEditAd = () => {
     const { queryString } = useQueryString();
     const { advertId = '' } = queryString;
     const { data: advertInfo, isLoading } = api.advert.useGet({ id: advertId ?? undefined }, !!advertId, false);
     const isEdit = !!advertId;
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
-    const { data: countryList = {} } = api.countryList.useGet();
+    const { data: countryList = {} as TCountryListItem } = api.countryList.useGet();
     const { data: paymentMethodList = [] } = api.paymentMethods.useGet();
     const { floatRateOffsetLimitString, rateType } = useFloatingRate();
     const { data: activeAccount } = api.account.useActiveAccount();
@@ -134,10 +136,10 @@ const CreateEditAd = () => {
         if (isEdit) {
             delete payload.amount;
             delete payload.type;
-            updateMutate({ id: advertId, ...payload });
+            updateMutate({ id: advertId, ...payload } as TMutatePayload);
             return;
         }
-        mutate(payload);
+        mutate(payload as TMutatePayload);
     };
 
     useEffect(() => {
@@ -211,8 +213,8 @@ const CreateEditAd = () => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <AdWizard
                         countryList={countryList as object}
-                        currency={activeAccount?.currency ?? 'USD'}
-                        localCurrency={p2pSettings?.localCurrency}
+                        currency={activeAccount?.currency as TCurrency}
+                        localCurrency={p2pSettings?.localCurrency as TCurrency}
                         onCancel={onClickCancel}
                         rateType={rateType}
                         steps={getSteps(isEdit)}
@@ -220,7 +222,7 @@ const CreateEditAd = () => {
                 </form>
             </FormProvider>
             <AdCreateEditErrorModal
-                errorCode={error?.error?.code || updateError?.error?.code}
+                errorCode={(error?.error?.code || updateError?.error?.code) as TErrorCodes}
                 errorMessage={(error?.error?.message || updateError?.error?.message) ?? 'Something’s not right'}
                 isModalOpen={!!isModalOpenFor('AdCreateEditErrorModal')}
                 onRequestClose={hideModal}

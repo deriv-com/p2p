@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useP2pAdvertCreate } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TPayload = Parameters<ReturnType<typeof useP2pAdvertCreate>['mutate']>[0]['payload'];
+type TPayload = Parameters<ReturnType<typeof useP2pAdvertCreate>['mutate']>[number];
 
 /** A custom hook that creates a P2P advert. This can only be used by an approved P2P advertiser.
  * 
@@ -31,7 +31,7 @@ const useAdvertCreate = () => {
         },
     });
 
-    const mutate = useCallback((payload: TPayload) => _mutate({ payload }), [_mutate]);
+    const mutate = useCallback((payload: TPayload) => _mutate(payload), [_mutate]);
 
     const modified_data = useMemo(() => {
         if (!data) return undefined;

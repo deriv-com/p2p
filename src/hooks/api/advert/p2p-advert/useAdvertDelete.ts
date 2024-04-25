@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
-import { useP2pAdvertCreate } from '@deriv-com/api-hooks';
+import { useP2pAdvertUpdate } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TPayload = Parameters<ReturnType<typeof useP2pAdvertCreate>['mutate']>[0]['payload'];
+type TPayload = Parameters<ReturnType<typeof useP2pAdvertUpdate>['mutate']>[number];
 
 /** A custom hook that deletes a P2P advert. This can only be used by an approved P2P advertiser.
  * 
@@ -20,7 +20,7 @@ const useAdvertDelete = () => {
         data,
         mutate: _mutate,
         ...rest
-    } = useP2pAdvertCreate({
+    } = useP2pAdvertUpdate({
         onSuccess: () => {
             invalidate('p2p_advert_list');
             invalidate('p2p_advertiser_adverts');
@@ -28,12 +28,10 @@ const useAdvertDelete = () => {
     });
 
     const mutate = useCallback(
-        (payload: Omit<TPayload, 'delete'>) =>
+        (payload: TPayload) =>
             _mutate({
-                payload: {
-                    ...payload,
-                    delete: 1,
-                },
+                ...payload,
+                delete: 1,
             }),
         [_mutate]
     );
