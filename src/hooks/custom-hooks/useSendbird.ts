@@ -89,7 +89,7 @@ const useSendbird = (orderId: string) => {
     } = api.account.useSendbirdServiceToken();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
     //TODO: p2p_chat_create endpoint to be removed once chat_channel_url is created from p2p_order_create
-    const { isError: isErrorChatCreate, mutate: createChat } = useChatCreate();
+    const { isError: isErrorChatCreate, mutate: createChat } = api.chat.useCreate();
     const { isErrorOrderInfo, orderDetails } = useOrderDetails();
     const { data: serverTime, isError: isErrorServerTime } = api.account.useServerTime();
 

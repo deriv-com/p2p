@@ -1,6 +1,7 @@
 export * as account from './account';
 export * from './advert';
 export * from './advertiser';
+export * from './chat';
 export * from './counterparty';
 export * from './country';
 export * from './order-dispute';
