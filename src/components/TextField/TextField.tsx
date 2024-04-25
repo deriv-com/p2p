@@ -1,4 +1,4 @@
-import { ChangeEvent, ComponentProps, forwardRef, Ref, useState } from 'react';
+import { ChangeEvent, ComponentProps, forwardRef, ReactNode, Ref, useState } from 'react';
 import clsx from 'clsx';
 import HelperMessage, { HelperMessageProps } from './HelperMessage';
 import './TextField.scss';
@@ -9,8 +9,8 @@ export interface TextFieldProps extends ComponentProps<'input'>, HelperMessagePr
     errorMessage?: string[] | string;
     isInvalid?: boolean;
     label?: string;
-    renderLeftIcon?: () => React.ReactNode;
-    renderRightIcon?: () => React.ReactNode;
+    renderLeftIcon?: () => ReactNode;
+    renderRightIcon?: () => ReactNode;
     shouldShowWarningMessage?: boolean;
     showMessage?: boolean;
 }
