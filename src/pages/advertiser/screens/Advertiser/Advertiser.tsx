@@ -25,7 +25,9 @@ const Advertiser = () => {
                 hasBorder={isMobile}
                 onClick={() =>
                     history.push(
-                        location.state?.from === 'MyProfile' ? `${MY_PROFILE_URL}?tab=My+counterparties` : BUY_SELL_URL
+                        (location.state as { from: string })?.from === 'MyProfile'
+                            ? `${MY_PROFILE_URL}?tab=My+counterparties`
+                            : BUY_SELL_URL
                     )
                 }
                 pageTitle='Advertiser’s page'

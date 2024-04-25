@@ -1,7 +1,7 @@
 import { TFormState, THooks, TSelectedPaymentMethod } from 'types';
 import { Dropdown } from '@/components';
 import { Button, Input, Text } from '@deriv-com/ui';
-import CloseCircle from '../../../public/ic-close-circle.svg';
+import CloseCircle from '../../../public/ic-close-circle.svg?react';
 
 type TPaymentMethodFormAutocompleteProps = {
     actionType: TFormState['actionType'];

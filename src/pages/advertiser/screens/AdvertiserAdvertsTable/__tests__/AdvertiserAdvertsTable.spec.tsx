@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import AdvertiserAdvertsTable from '../AdvertiserAdvertsTable';
 
 let mockApiValues = {
+    data: [{}],
     isFetching: false,
     isLoading: true,
     loadMoreAdverts: jest.fn(),
