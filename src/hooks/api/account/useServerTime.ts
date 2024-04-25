@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import { toMoment } from '@/utils';
 import { useTime } from '@deriv-com/api-hooks';
 /**
@@ -7,7 +7,7 @@ import { useTime } from '@deriv-com/api-hooks';
 const useServerTime = () => {
     const { data, ...rest } = useTime();
 
-    const modified_data = React.useMemo(() => {
+    const modified_data = useMemo(() => {
         if (!data) return;
 
         const server_time_moment = toMoment(data);

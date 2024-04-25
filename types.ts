@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+import { ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
 import { useExchangeRates } from '@deriv-com/api-hooks';
@@ -171,3 +172,5 @@ export type TCurrency = CurrencyConstants.Currency;
 export type TExchangeRate = ReturnType<typeof useExchangeRates>['exchangeRates'];
 
 export type MutableOption = { text?: React.ReactNode; value?: string | undefined };
+
+export type TErrorCodes = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];

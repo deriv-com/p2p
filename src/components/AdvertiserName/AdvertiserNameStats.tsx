@@ -65,7 +65,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                                     ({ratingAverage})
                                 </Text>
                             )}
-                            <StarRating allowHalfIcon isReadonly ratingValue={ratingAverage} />
+                            <StarRating allowFraction isReadonly ratingValue={ratingAverage} />
                             <Text color='less-prominent' size='sm'>
                                 ({ratingCount} ratings)
                             </Text>

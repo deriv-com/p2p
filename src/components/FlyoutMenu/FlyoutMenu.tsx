@@ -6,7 +6,7 @@ import './FlyoutMenu.scss';
 
 type TFlyoutMenuProps = HTMLAttributes<HTMLDivElement> & {
     listItems?: ReactNode[];
-    renderIcon?: () => React.ReactNode;
+    renderIcon?: () => ReactNode;
 };
 
 const FlyoutMenu = ({ listItems, renderIcon, ...props }: TFlyoutMenuProps) => {

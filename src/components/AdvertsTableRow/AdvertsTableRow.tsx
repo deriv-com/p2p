@@ -107,7 +107,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                             {ratingAverageDecimal}
                                         </Text>
                                         <StarRating
-                                            allowHalfIcon
+                                            allowFraction
                                             isReadonly
                                             ratingValue={Number(ratingAverageDecimal)}
                                             starsScale={isMobile ? 0.7 : 0.9}

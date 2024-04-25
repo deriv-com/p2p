@@ -7,7 +7,6 @@ const mockOnRequestClose = jest.fn();
 const MockApp = () => {
     return (
         <>
-            <div id='v2_modal_root' />
             <AvailableP2PBalanceModal isModalOpen={true} onRequestClose={mockOnRequestClose} />
         </>
     );

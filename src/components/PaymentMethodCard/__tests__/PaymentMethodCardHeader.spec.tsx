@@ -46,7 +46,7 @@ describe('PaymentMethodCardHeader', () => {
                 type='bank'
             />
         );
-        expect(screen.getByTestId('p2p_v2_payment_method_card_header_checkbox')).toBeInTheDocument();
+        expect(screen.getByTestId('dt_payment_method_card_header_checkbox')).toBeInTheDocument();
     });
     it('should render the correct icon when type is ewallet', () => {
         render(
