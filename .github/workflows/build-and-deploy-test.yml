@@ -117,15 +117,6 @@ jobs:
                       ].join('\n')
                       core.setOutput("comment", comment);
 
-            - name: Post Cloudflare Pages Preview comment
-              if: success() || failure()
-              uses: marocchino/sticky-pull-request-comment@331f8f5b4215f0445d3c07b4967662a32a2d3e31
-              with:
-                  header: Cloudflare Pages Preview Comment
-                  number: ${{github.event.number}}
-                  message: ${{steps.generate_preview_url.outputs.comment || steps.generate_failure_comment.outputs.comment }}
-                  recreate: true
-
             - name: Upload PR information to artifact
               uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
               with:
