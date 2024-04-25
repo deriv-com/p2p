@@ -28,7 +28,7 @@ const PaymentMethodForm = ({ onAdd, onResetFormState, ...rest }: TPaymentMethodF
         reset,
     } = useForm({ mode: 'all' });
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { actionType, selectedPaymentMethod, title } = rest.formState;
+    const { actionType, selectedPaymentMethod, title = '' } = rest.formState;
     const { data: availablePaymentMethods } = api.paymentMethods.useGet();
     const { create, error: createError, isSuccess: isCreateSuccessful } = api.advertiserPaymentMethods.useCreate();
     const { error: updateError, isSuccess: isUpdateSuccessful, update } = api.advertiserPaymentMethods.useUpdate();

@@ -4,6 +4,7 @@ import AdConditionsSection from '../AdConditionsSection';
 
 const mockProps = {
     currency: 'USD',
+    countryList: [],
     getCurrentStep: jest.fn(),
     getTotalSteps: jest.fn(),
     goToNextStep: jest.fn(),

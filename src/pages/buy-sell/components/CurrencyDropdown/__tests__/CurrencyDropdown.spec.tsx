@@ -2,7 +2,7 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CurrencyDropdown from '../CurrencyDropdown';
 
-const wrapper = ({ children }: { children: JSX.Element }) => (
+const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
     <div>
         <div>Click me</div>
         {children}

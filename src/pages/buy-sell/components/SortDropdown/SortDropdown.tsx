@@ -1,7 +1,7 @@
 import { TSortByValues } from '@/utils';
 import { LabelPairedChevronDownMdRegularIcon } from '@deriv/quill-icons';
 import { Button, Dropdown, useDevice } from '@deriv-com/ui';
-import SortIcon from '../../../../public/ic-cashier-sort.svg';
+import SortIcon from '../../../../public/ic-cashier-sort.svg?react';
 import './SortDropdown.scss';
 
 type TSortDropdownProps = {

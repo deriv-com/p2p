@@ -26,10 +26,10 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
     const localCurrencies = useMemo(() => {
         return data?.currency_list
             ? data.currency_list
-                  .sort((a, b) => a.value.localeCompare(b.value))
+                  .sort((a, b) => (a?.value ?? '').localeCompare(b?.value ?? ''))
                   .sort((a, b) => {
-                      if (a.value === selectedCurrency) return -1;
-                      if (b.value === selectedCurrency) return 1;
+                      if (a?.value === selectedCurrency) return -1;
+                      if (b?.value === selectedCurrency) return 1;
                       return 0;
                   })
             : [];

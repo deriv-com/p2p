@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { TExchangeRate } from 'types';
+import { TCurrency, TExchangeRate } from 'types';
 import { AD_ACTION, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
@@ -10,8 +10,8 @@ import { FormatUtils } from '@deriv-com/utils';
 
 type TAdSummaryProps = {
     adRateType?: string; // ratetype for the ad when action is edit
-    currency: string;
-    localCurrency?: string;
+    currency: TCurrency;
+    localCurrency: TCurrency;
     offerAmount: string;
     priceRate: number;
     rateType: string;
@@ -21,7 +21,7 @@ type TAdSummaryProps = {
 const AdSummary = ({
     adRateType = '',
     currency,
-    localCurrency = '',
+    localCurrency,
     offerAmount,
     priceRate,
     rateType,

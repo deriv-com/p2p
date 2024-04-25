@@ -68,7 +68,7 @@ const CreateEditAd = () => {
             'min-order': '',
             'order-completion-time': `${orderPaymentPeriod ? (orderPaymentPeriod * 60).toString() : '3600'}`,
             'payment-method': [],
-            'preferred-countries': Object.keys(countryList),
+            'preferred-countries': Object.keys(countryList as object),
             'rate-type-string': rateType,
             'rate-value': rateType === RATE_TYPE.FLOAT ? '-0.01' : '',
         },
@@ -82,8 +82,8 @@ const CreateEditAd = () => {
         setValue,
     } = methods;
     useEffect(() => {
-        if (Object.keys(countryList).length > 0 && getValues('preferred-countries').length === 0) {
-            setValue('preferred-countries', Object.keys(countryList));
+        if (Object.keys(countryList as object).length > 0 && getValues('preferred-countries').length === 0) {
+            setValue('preferred-countries', Object.keys(countryList as object));
         }
     }, [countryList, getValues, setValue]);
 

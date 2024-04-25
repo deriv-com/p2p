@@ -5,7 +5,7 @@ describe('useOrderDetails', () => {
     it('should return the orderDetails from context', () => {
         const mockValues = { isErrorOrderInfo: false, orderDetails: 'mockOrderDetails' };
 
-        const wrapper = ({ children }: { children: JSX.Element }) => (
+        const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
             <OrderDetailsProvider value={mockValues}>{children}</OrderDetailsProvider>
         );
 

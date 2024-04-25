@@ -14,7 +14,7 @@ jest.mock('react-hook-form', () => ({
     ...jest.requireActual('react-hook-form'),
     useFormContext: () => ({
         formState: { errors: {}, isValid: true },
-        getValues: name => mockGetValues[name],
+        getValues: (name: string) => mockGetValues[name],
         setValue: mockFn,
     }),
 }));
