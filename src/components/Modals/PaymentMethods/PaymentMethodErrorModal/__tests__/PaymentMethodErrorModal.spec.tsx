@@ -1,8 +1,5 @@
-import { FC, PropsWithChildren } from 'react';
 import { render, screen } from '@testing-library/react';
 import PaymentMethodErrorModal from '../PaymentMethodErrorModal';
-
-const wrapper: FC<PropsWithChildren> = ({ children }) => <div id='v2_modal_root'>{children}</div>;
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
@@ -17,7 +14,7 @@ describe('PaymentMethodErrorModal', () => {
             onConfirm: jest.fn(),
             title: 'title',
         };
-        render(<PaymentMethodErrorModal {...props} />, { wrapper });
+        render(<PaymentMethodErrorModal {...props} />);
         expect(screen.getByText('title')).toBeInTheDocument();
         expect(screen.getByText('error message')).toBeInTheDocument();
     });

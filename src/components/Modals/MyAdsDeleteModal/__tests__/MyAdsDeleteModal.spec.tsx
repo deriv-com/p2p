@@ -1,4 +1,3 @@
-import Modal from 'react-modal';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyAdsDeleteModal from '../MyAdsDeleteModal';
@@ -11,7 +10,6 @@ const mockProps = {
     onRequestClose: jest.fn(),
 };
 
-let element: HTMLElement;
 const mockUseGet = {
     data: {
         active_orders: 0,
@@ -33,15 +31,6 @@ jest.mock('@deriv/api-v2', () => ({
 }));
 
 describe('MyAdsDeleteModal', () => {
-    beforeAll(() => {
-        element = document.createElement('div');
-        element.setAttribute('id', 'v2_modal_root');
-        document.body.appendChild(element);
-        Modal.setAppElement('#v2_modal_root');
-    });
-    afterAll(() => {
-        document.body.removeChild(element);
-    });
     it('should render the component as expected', () => {
         render(<MyAdsDeleteModal {...mockProps} />);
         expect(screen.getByText('Do you want to delete this ad?')).toBeInTheDocument();
