@@ -49,7 +49,7 @@ const mockUseGetResponse: ReturnType<typeof mockUseGet> = {
     isRefetching: false,
     isStale: false,
     isSuccess: true,
-    refetch: () => new Promise(() => undefined),
+    refetch: () => new Promise(() => {}),
     remove: () => undefined,
     status: 'success',
 };

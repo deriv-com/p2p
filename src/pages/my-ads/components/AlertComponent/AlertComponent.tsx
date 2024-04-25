@@ -1,5 +1,5 @@
 import { Button, Tooltip } from '@deriv-com/ui';
-import AlertIcon from '../../../../public/ic-alert-warning.svg';
+import AlertIcon from '../../../../public/ic-alert-warning.svg?react';
 import './AlertComponent.scss';
 
 type TAlertComponentProps = {

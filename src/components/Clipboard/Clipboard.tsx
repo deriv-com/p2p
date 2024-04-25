@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useCopyToClipboard } from 'usehooks-ts';
 import { Tooltip } from '@deriv-com/ui';
-import CheckmarkCircle from '../../public/ic-checkmark-circle.svg';
-import CopyIcon from '../../public/ic-clipboard.svg';
+import CheckmarkCircle from '../../public/ic-checkmark-circle.svg?react';
+import CopyIcon from '../../public/ic-clipboard.svg?react';
 import './Clipboard.scss';
 
 type TClipboardProps = {

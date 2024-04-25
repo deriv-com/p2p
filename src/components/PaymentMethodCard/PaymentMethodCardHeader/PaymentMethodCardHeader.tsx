@@ -2,9 +2,9 @@ import { THooks } from 'types';
 import { FlyoutMenu } from '@/components';
 import { LabelPairedEllipsisVerticalXlRegularIcon } from '@deriv/quill-icons';
 import { Button, Checkbox } from '@deriv-com/ui';
-import IcCashierBankTransfer from '../../../public/ic-cashier-bank-transfer.svg';
-import IcCashierEwallet from '../../../public/ic-cashier-ewallet.svg';
-import IcCashierOther from '../../../public/ic-cashier-other.svg';
+import IcCashierBankTransfer from '../../../public/ic-cashier-bank-transfer.svg?react';
+import IcCashierEwallet from '../../../public/ic-cashier-ewallet.svg?react';
+import IcCashierOther from '../../../public/ic-cashier-other.svg?react';
 import './PaymentMethodCardHeader.scss';
 
 type TPaymentMethodCardHeaderProps = {
@@ -63,7 +63,7 @@ const PaymentMethodCardHeader = ({
                 />
             )}
             {isSelectable && (
-                <div data-testid='p2p_v2_payment_method_card_header_checkbox'>
+                <div data-testid='dt_payment_method_card_header_checkbox'>
                     <Checkbox
                         checked={isSelected}
                         disabled={isDisabled}

@@ -7,7 +7,7 @@ import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetai
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
-import ChatIcon from '../../../../public/ic-chat.svg';
+import ChatIcon from '../../../../public/ic-chat.svg?react';
 import { OrderDetailsCard } from '../../components/OrderDetailsCard';
 import { OrderDetailsCardFooter } from '../../components/OrderDetailsCard/OrderDetailsCardFooter';
 import { OrdersChatSection } from '../OrdersChatSection';

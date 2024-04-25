@@ -1,9 +1,10 @@
+import { TErrorCodes } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AdCreateEditErrorModal, { ErrorCodes } from '../AdCreateEditErrorModal';
 
-const mockProps = {
-    errorCode: 'AdvertSameLimits' as ErrorCodes,
+const mockProps = 
+    errorCode: 'AdvertSameLimits' as TErrorCodes,
     isModalOpen: true,
     onRequestClose: jest.fn(),
 };
