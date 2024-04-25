@@ -261,7 +261,7 @@ describe('<FilterModal />', () => {
     });
 
     it('should populate the payment methods list with the data from the API', async () => {
-        mockData = undefined;
+        mockData = [];
         const { rerender } = render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');

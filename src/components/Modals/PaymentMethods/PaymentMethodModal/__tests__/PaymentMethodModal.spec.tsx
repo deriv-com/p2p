@@ -1,9 +1,9 @@
-import { PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PaymentMethodModal from '../PaymentMethodModal';
 
-const wrapper = ({ children }: PropsWithChildren<unknown>) => <div id='v2_modal_root'>{children}</div>;
+const wrapper: FC<PropsWithChildren> = ({ children }) => <div id='v2_modal_root'>{children}</div>;
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),

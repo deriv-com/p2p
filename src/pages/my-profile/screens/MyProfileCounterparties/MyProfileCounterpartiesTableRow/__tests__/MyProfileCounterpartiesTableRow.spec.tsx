@@ -4,7 +4,7 @@ import MyProfileCounterpartiesTableRow from '../MyProfileCounterpartiesTableRow'
 
 const mockProps = {
     id: 'id1',
-    is_blocked: false,
+    isBlocked: false,
     nickname: 'nickname',
 };
 

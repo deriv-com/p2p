@@ -3,7 +3,7 @@ import { Dropdown, Search } from '@/components';
 import { COUNTERPARTIES_DROPDOWN_LIST } from '@/constants';
 import { useDevice } from '@/hooks/custom-hooks';
 import { Button, Text } from '@deriv-com/ui';
-import SortIcon from '../../../../../public/ic-cashier-sort.svg';
+import SortIcon from '../../../../../public/ic-cashier-sort.svg?react';
 import './MyProfileCounterpartiesHeader.scss';
 
 type MyProfileCounterpartiesHeaderProps = {
