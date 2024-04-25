@@ -79,14 +79,14 @@ const BuySellForm = ({
         type,
     } = advert;
 
-    const avertiserPaymentMethodObjects = getPaymentMethodObjects(advertiserPaymentMethods);
+    const advertiserPaymentMethodObjects = getPaymentMethodObjects(advertiserPaymentMethods);
 
     const paymentMethodObjects = getPaymentMethodObjects(paymentMethods);
 
     const availablePaymentMethods = payment_method_names?.map(paymentMethod => {
         const isAvailable = advertiserPaymentMethods?.some(method => method.display_name === paymentMethod);
         return {
-            ...(isAvailable ? avertiserPaymentMethodObjects[paymentMethod] : paymentMethodObjects[paymentMethod]),
+            ...(isAvailable ? advertiserPaymentMethodObjects[paymentMethod] : paymentMethodObjects[paymentMethod]),
             isAvailable,
         };
     });
