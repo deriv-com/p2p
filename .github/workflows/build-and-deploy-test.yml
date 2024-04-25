@@ -37,7 +37,7 @@ jobs:
               with:
                   header: Cloudflare Pages Preview Comment
                   number: ${{github.event.pull_request.user.login}}
-                  message: ${{steps.generate_action_url.outputs.comment}}
+                  message: echo "test"
                   recreate: true
 
             - name: Create npmrc file
