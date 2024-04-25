@@ -1,4 +1,4 @@
-export const isEmptyObject = (obj: any) => {
+export const isEmptyObject = (obj: object) => {
     let is_empty = true;
     if (obj && obj instanceof Object) {
         Object.keys(obj).forEach(key => {
