@@ -25,6 +25,6 @@ describe('OrdersEmpty', () => {
         render(<OrdersEmpty />);
         const button = screen.getByRole('button', { name: 'Buy/Sell' });
         await userEvent.click(button);
-        expect(mockFn).toHaveBeenCalledWith('/cashier/p2p-v2/buy-sell');
+        expect(mockFn).toHaveBeenCalledWith('/buy-sell');
     });
 });
