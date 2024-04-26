@@ -12,6 +12,7 @@ const CreateEditAd = lazy(() =>
 );
 const MyProfile = lazy(() => import('@/pages/my-profile').then(module => ({ default: module.MyProfile })));
 const Advertiser = lazy(() => import('@/pages/advertiser').then(module => ({ default: module.Advertiser })));
+const Endpoint = lazy(() => import('@/pages/endpoint').then(module => ({ default: module.Endpoint })));
 
 export const routes = [
     {
@@ -50,5 +51,10 @@ export const routes = [
         component: Advertiser,
         name: 'Advertiser',
         path: `${ADVERTISER_URL}/:advertiserId`,
+    },
+    {
+        component: Endpoint,
+        name: 'Endpoint',
+        path: '/endpoint',
     },
 ];

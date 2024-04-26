@@ -4,6 +4,7 @@ import { Button } from '@deriv-com/ui';
 import { LocalStorageConstants, LocalStorageUtils, URLUtils } from '@deriv-com/utils';
 import './Header.scss';
 
+// TODO: handle local storage values not updating after changing local storage values
 const Header = () => {
     const { activeLoginid, logout } = useAuthData();
     const appId = LocalStorageUtils.getValue(LocalStorageConstants.configAppId);
