@@ -25,7 +25,7 @@ type TPayload = Omit<Parameters<ReturnType<typeof api.order.useCreate>['mutate']
 };
 
 type TBuySellFormProps = {
-    advert: TAdvertType;
+    advert: Partial<TAdvertType>;
     advertiserBuyLimit: number;
     advertiserPaymentMethods: THooks.AdvertiserPaymentMethods.Get;
     advertiserSellLimit: number;

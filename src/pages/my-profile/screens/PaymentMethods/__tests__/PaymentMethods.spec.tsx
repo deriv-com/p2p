@@ -28,29 +28,21 @@ const data: ReturnType<typeof api.advertiserPaymentMethods.useGet>['data'] = [
 
 const mockUseGetResponse: ReturnType<typeof mockUseGet> = {
     data: undefined,
-    dataUpdatedAt: 0,
     error: null,
-    errorUpdateCount: 0,
-    errorUpdatedAt: 0,
     failureCount: 0,
     failureReason: null,
-    fetchStatus: 'idle',
     isError: false,
-    isFetched: false,
-    isFetchedAfterMount: false,
-    isFetching: false,
-    isInitialLoading: false,
-    isLoading: false,
-    isLoadingError: false,
     isPaused: false,
     isPending: true,
-    isPlaceholderData: false,
-    isRefetchError: false,
-    isRefetching: false,
-    isStale: false,
     isSuccess: false,
-    refetch: () => new Promise(() => {}),
     status: 'pending',
+    variables: {},
+    isIdle: false,
+    mutate: jest.fn(),
+    mutateAsync: jest.fn(),
+    context: null,
+    submittedAt: 123,
+    reset: () => undefined,
 };
 
 jest.mock('react', () => ({
@@ -147,7 +139,7 @@ describe('PaymentMethods', () => {
         expect(mockDispatch).toHaveBeenCalledWith({ type: 'RESET' });
     });
     it('should show the loader when isloading is true', () => {
-        mockUseGet.mockReturnValue({ ...mockUseGetResponse, isLoading: true, isSuccess: false, status: 'pending' });
+        mockUseGet.mockReturnValue({ ...mockUseGetResponse, isPending: true, isSuccess: false, status: 'pending' });
         render(<PaymentMethods />);
         expect(screen.getByText('Loader')).toBeInTheDocument();
     });
