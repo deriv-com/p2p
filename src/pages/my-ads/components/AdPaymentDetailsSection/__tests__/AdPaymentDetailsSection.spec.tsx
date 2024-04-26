@@ -1,3 +1,4 @@
+import { TCurrency } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AdPaymentDetailsSection from '../AdPaymentDetailsSection';
@@ -14,7 +15,7 @@ jest.mock('react-hook-form', () => ({
     ...jest.requireActual('react-hook-form'),
     useFormContext: () => ({
         formState: { errors: {}, isValid: true },
-        getValues: (name: string) => mockGetValues[name],
+        getValues: (name: keyof typeof mockGetValues) => mockGetValues[name],
         setValue: mockFn,
     }),
 }));
@@ -66,12 +67,12 @@ jest.mock('../../OrderTimeSelection', () => ({
     OrderTimeSelection: () => <div>OrderTimeSelection</div>,
 }));
 const mockProps = {
-    currency: 'USD',
+    currency: 'USD' as TCurrency,
     getCurrentStep: () => jest.fn(),
     getTotalSteps: () => jest.fn(),
     goToNextStep: jest.fn(),
     goToPreviousStep: jest.fn(),
-    localCurrency: 'IDR',
+    localCurrency: 'IDR' as TCurrency,
     rateType: 'fixed',
 };
 

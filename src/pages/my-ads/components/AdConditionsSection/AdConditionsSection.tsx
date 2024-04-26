@@ -1,6 +1,6 @@
 import { MouseEventHandler } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { TCountryListItem } from 'types';
+import { TCountryListItem, TCurrency } from 'types';
 import { AD_CONDITION_TYPES } from '@/constants';
 import { Text, useDevice } from '@deriv-com/ui';
 import { AdConditionBlockSelector } from '../AdConditionBlockSelector';
@@ -10,12 +10,12 @@ import { PreferredCountriesSelector } from '../PreferredCountriesSelector';
 
 type TAdConditionsSection = {
     countryList: TCountryListItem;
-    currency: string;
+    currency: TCurrency;
     getCurrentStep: () => number;
     getTotalSteps: () => number;
     goToNextStep: MouseEventHandler<HTMLButtonElement>;
     goToPreviousStep: MouseEventHandler<HTMLButtonElement>;
-    localCurrency?: string;
+    localCurrency?: TCurrency;
     rateType: string;
 };
 
@@ -43,7 +43,7 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
         <div className='flex flex-col p-[1.6rem] w-full lg:p-0'>
             <AdSummary
                 currency={currency}
-                localCurrency={localCurrency}
+                localCurrency={localCurrency as TCurrency}
                 offerAmount={errors.amount ? '' : getValues('amount')}
                 priceRate={getValues('rate-value')}
                 rateType={rateType}

@@ -4,7 +4,7 @@ import AdSummary from '../AdSummary';
 
 const mockProps = {
     currency: 'USD' as TCurrency,
-    localCurrency: 'IDR',
+    localCurrency: 'IDR' as TCurrency,
     offerAmount: '',
     priceRate: 0,
     rateType: 'fixed',

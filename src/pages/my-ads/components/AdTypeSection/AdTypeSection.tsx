@@ -1,5 +1,6 @@
 import { MouseEventHandler } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { TCurrency } from 'types';
 import { FloatingRate, RadioGroup } from '@/components';
 import { BUY_SELL, RATE_TYPE } from '@/constants';
 import { useQueryString } from '@/hooks/custom-hooks';
@@ -113,7 +114,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                                     changeHandler={e => restrictDecimalPlace(e, onChange)}
                                     errorMessages={error?.message ?? ''}
                                     fiatCurrency={currency}
-                                    localCurrency={localCurrency ?? ''}
+                                    localCurrency={localCurrency as TCurrency}
                                     onChange={onChange}
                                     value={value}
                                 />
