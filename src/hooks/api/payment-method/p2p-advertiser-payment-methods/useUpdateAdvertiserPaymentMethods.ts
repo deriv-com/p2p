@@ -3,7 +3,7 @@ import { useP2PAdvertiserPaymentMethods } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
 type TPayloads = Parameters<ReturnType<typeof useP2PAdvertiserPaymentMethods>['mutate']>;
-type TUpdatePayload = TPayloads[number]['update'];
+type TUpdatePayload = NonNullable<TPayloads[number]['update']>[number];
 
 /** A custom hook that sends a request to update an existing p2p advertiser payment method. */
 const useUpdateAdvertiserPaymentMethods = () => {
