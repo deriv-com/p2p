@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { TFormState, THooks, TSelectedPaymentMethod } from 'types';
+import { TBankName, TFormState, THooks, TName, TSelectedPaymentMethod } from 'types';
 import { PaymentMethodCard } from '@/components';
 import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
 import { PAYMENT_METHOD_CATEGORIES } from '@/constants';
@@ -24,7 +24,7 @@ type TPaymentMethodsListContentProps = {
     onDelete: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
     onEdit: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
     onResetFormState: () => void;
-    p2pAdvertiserPaymentMethods: THooks.AdvertiserPaymentMethods.Get;
+    p2pAdvertiserPaymentMethods?: THooks.AdvertiserPaymentMethods.Get;
 };
 
 /**
@@ -54,7 +54,7 @@ const PaymentMethodsListContent = ({
     const { actionType, selectedPaymentMethod } = formState;
     const groupedPaymentMethods = useMemo(() => {
         const groups: TPaymentMethodsGroup = {};
-        const sortedPaymentMethods = sortPaymentMethods(p2pAdvertiserPaymentMethods);
+        const sortedPaymentMethods = sortPaymentMethods(p2pAdvertiserPaymentMethods ?? []);
         sortedPaymentMethods?.forEach(advertiserPaymentMethod => {
             if (groups[advertiserPaymentMethod.type]) {
                 groups[advertiserPaymentMethod.type]?.paymentMethods?.push(advertiserPaymentMethod);
@@ -141,8 +141,8 @@ const PaymentMethodsListContent = ({
                     primaryButtonLabel='No'
                     secondaryButtonLabel='Yes, remove'
                     title={`Delete ${
-                        selectedPaymentMethod?.fields?.bank_name?.value ??
-                        selectedPaymentMethod?.fields?.name?.value ??
+                        (selectedPaymentMethod?.fields?.bank_name as TBankName)?.value ??
+                        (selectedPaymentMethod?.fields?.name as TName)?.value ??
                         selectedPaymentMethod?.display_name
                     }?`}
                 />

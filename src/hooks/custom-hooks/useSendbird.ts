@@ -119,7 +119,7 @@ const useSendbird = (orderId: string) => {
             sendbirdApiRef.current.groupChannel.addGroupChannelHandler(
                 'P2P_SENDBIRD_GROUP_CHANNEL_HANDLER',
                 new GroupChannelHandler({
-                    onMessageReceived: (messageReceivedChannel: BaseChannel, _receivedMessage: BaseMessage) =>
+                    onMessageReceived: (_messageReceivedChannel: BaseChannel, _receivedMessage: BaseMessage) =>
                         setReceivedMessage(_receivedMessage),
                 })
             );

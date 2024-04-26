@@ -1,3 +1,4 @@
+import { TCurrency } from 'types';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import AdWizard from '../AdWizard';
@@ -25,10 +26,12 @@ jest.mock('../../AdProgressBar', () => ({
 }));
 
 const mockProps = {
-    currency: 'usd',
-    localCurrency: 'usd',
+    currency: 'usd' as TCurrency,
+    localCurrency: 'usd' as TCurrency,
     rateType: 'float',
     steps: [{ header: { title: 'step 1' } }, { header: { title: 'step 2' } }, { header: { title: 'step 3' } }],
+    onCancel: jest.fn(),
+    countryList: {},
 };
 
 describe('AdWizard', () => {
