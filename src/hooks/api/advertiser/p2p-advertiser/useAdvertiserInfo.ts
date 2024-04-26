@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { DeepPartial } from 'react-hook-form';
 import { useLocalStorage } from 'usehooks-ts';
 import { useP2PAdvertiserInfo } from '@deriv-com/api-hooks';
@@ -18,9 +18,13 @@ type TP2PAdvertiserInfo = ReturnType<typeof useP2PAdvertiserInfo>['data'] & {
 const useAdvertiserInfo = (id?: string) => {
     const { data, subscribe, error, ...rest } = useP2PAdvertiserInfo() ?? {};
 
-    useEffect(() => {
+    const callback = useCallback(() => {
         subscribe({});
     }, [subscribe]);
+
+    useEffect(() => {
+        callback();
+    }, [callback]);
 
     /**
      * Use different local storage key for each advertiser, one to keep the current user's info, the other to keep the advertiser's info

@@ -1,4 +1,4 @@
-import { TAdvertType } from 'types';
+import { mockAdvertValues } from '@/__mocks__/mock-data';
 import { floatingPointValidator } from '@/utils';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
@@ -58,100 +58,6 @@ jest.mock('@/utils', () => ({
 const mockFloatingPointValidator = floatingPointValidator as jest.Mock;
 
 type TNumber = 0 | 1;
-
-const mockAdvertValues = {
-    account_currency: 'USD',
-    advertiser_details: {
-        completed_orders_count: 0,
-        id: '96',
-        is_blocked: 0 as TNumber,
-        is_favourite: 0 as TNumber,
-        is_online: 1 as TNumber,
-        is_recommended: 0 as TNumber,
-        last_online_time: 1714031576,
-        loginid: 'CR90000533',
-        name: 'client CR90000533',
-        rating_average: null,
-        rating_count: 0,
-        recommended_average: null,
-        recommended_count: null,
-        total_completion_rate: null,
-        has_not_been_recommended: true,
-    },
-    block_trade: 0 as TNumber,
-    counterparty_type: 'buy' as 'buy' | 'sell',
-    country: 'id',
-    created_time: 1714017654,
-    description: 'Created by script. Please call me 02203400',
-    effective_rate: 16183.8,
-    effective_rate_display: '16183.80',
-    eligibility_status: ['join_date' as 'join_date' | 'country' | 'completion_rate' | 'rating_average'],
-    eligible_countries: ['af', 'al'],
-    id: '236',
-    is_active: true,
-    is_buy: true,
-    is_sell: false,
-    is_block_trade: false,
-    is_deleted: false,
-    active_orders: 2,
-    amount: 10,
-    amount_display: '10',
-    contact_info: '02203400',
-    days_until_archive: 4,
-    is_eligible: 0 as TNumber,
-    is_visible: true,
-    local_currency: 'IDR',
-    max_order_amount_limit: 50,
-    max_order_amount_limit_display: '50.00',
-    min_join_days: 15,
-    min_order_amount_limit: 1,
-    min_order_amount_limit_display: '1.00',
-    order_expiry_period: 3600,
-    payment_method: '',
-    payment_method_names: ['Alipay'],
-    price: 16183.8,
-    price_display: '16183.80',
-    rate: -0.1,
-    rate_display: '-0.10',
-    rate_type: 'float' as 'float' | 'fixed',
-    type: 'sell' as 'sell' | 'buy',
-    is_floating: true,
-    deleted: 1 as const,
-    max_order_amount: 50,
-    max_order_amount_display: '50.00',
-    min_completion_rate: 0,
-    min_order_amount: 5,
-    min_order_amount_display: '5.00',
-    min_rating: 0,
-    payment_info: 'Your bank details',
-    payment_method_details: {
-        '1': {
-            display_name: 'Alipay',
-            fields: {
-                account: {
-                    display_name: 'Alipay ID',
-                    required: 1,
-                    type: 'text' as 'text' | 'memo',
-                    value: '12345',
-                },
-                instructions: {
-                    display_name: 'Instructions',
-                    required: 0,
-                    type: 'memo' as 'text' | 'memo',
-                    value: 'Alipay instructions',
-                },
-            },
-            is_enabled: 1 as TNumber,
-            method: 'alipay',
-            type: 'ewallet' as 'ewallet' | 'other' | 'bank',
-            used_by_adverts: ['1'],
-            used_by_orders: ['1'],
-        },
-    },
-    remaining_amount: 10,
-    remaining_amount_display: '10',
-    visibility_status: ['advertiser_temp_ban'] as TAdvertType['visibility_status'],
-};
 
 const mockProps = {
     advert: mockAdvertValues,

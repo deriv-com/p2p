@@ -199,3 +199,7 @@ export type TSendBirdServiceToken = ReturnType<typeof useSendbirdServiceToken>['
 export type TAdConditionTypes = (typeof AD_CONDITION_TYPES)[keyof typeof AD_CONDITION_TYPES];
 
 export type TWalletType = 'other' | 'bank' | 'ewallet';
+
+export type TPaymentFieldType = 'text' | 'memo';
+
+export type TType01 = 0 | 1;

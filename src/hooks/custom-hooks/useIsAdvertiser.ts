@@ -12,7 +12,7 @@ const useIsAdvertiser = (): boolean => {
     const [isAdvertiser, setIsAdvertiser] = useState(!error && !isEmptyObject(data));
 
     useEffect(() => {
-        if (error && error.code === ERROR_CODES.ADVERTISER_NOT_FOUND) {
+        if (error && error?.error.code === ERROR_CODES.ADVERTISER_NOT_FOUND) {
             setIsAdvertiser(false);
         } else if (!error && !isEmptyObject(data)) {
             setIsAdvertiser(true);
