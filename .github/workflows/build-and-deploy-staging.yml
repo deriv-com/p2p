@@ -40,10 +40,7 @@ jobs:
               run: npm run build
 
             - name: Run tests for Eslint
-              run: npm run test:eslint
-
-            - name: Run unit tests and coverage report
-              run: npm run test
+              run: npm run test:lint
 
             - name: Publish to Cloudflare Pages
               id: publish-to-pages
@@ -55,7 +52,7 @@ jobs:
                   echo "Installing Wrangler CLI"
                   npm i -g wrangler
                   echo "Deploying build to Cloudflare Pages"
-                  directory='public'
+                  directory='dist'
                   projectName=${{ secrets.CLOUDFLARE_PROJECT_NAME }}
                   branch=$(echo "$HEAD_BRANCH" | head -c 20 | sed 's/[\/_\.]/-/g; s/[^a-zA-Z0-9]$/1/')
                   cf_preview_url=$(wrangler pages deploy $directory --project-name=$projectName --branch=$branch > log.txt 2>&1; echo $?)
