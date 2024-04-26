@@ -10,16 +10,12 @@ jest.mock('@deriv-com/ui', () => ({
     }),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    p2p: {
-        settings: {
-            useGetSettings: () => ({
-                data: {
-                    override_exchange_rate: 1,
-                },
-            }),
+jest.mock('@deriv-com/api-hooks', () => ({
+    useP2PSettings: () => ({
+        data: {
+            override_exchange_rate: 1,
         },
-    },
+    }),
     useExchangeRateSubscription: () => ({
         data: {
             rates: {
