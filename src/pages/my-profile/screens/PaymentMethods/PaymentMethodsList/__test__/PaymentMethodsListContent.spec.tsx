@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react';
-import { THooks } from 'types';
+import { THooks, TSocketError } from 'types';
 import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
 import { api } from '@/hooks';
 import { render, screen } from '@testing-library/react';
@@ -64,7 +64,7 @@ const mockUseDeleteResponse: ReturnType<typeof api.advertiserPaymentMethods.useD
     isLoading: false,
     isPaused: false,
     isSuccess: true,
-    mutateAsync: () => Promise.resolve({}),
+    mutateAsync: () => Promise.resolve({} as TSocketError<'p2p_advertiser_payment_methods'>),
     reset: () => undefined,
     status: 'success',
     variables: undefined,

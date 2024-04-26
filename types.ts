@@ -18,7 +18,7 @@ export type TAccumulatedPaymentMethods = Record<
     string,
     (THooks.AdvertiserPaymentMethods.Get | THooks.PaymentMethods.Get)[number]
 >;
-export type TPaymentMethod = THooks.AdvertiserPaymentMethods.Get[number] | THooks.PaymentMethods.Get[number];
+export type TPaymentMethod = THooks.PaymentMethods.Get[number];
 
 export type TAdvertiserStats = ReturnType<typeof useAdvertiserStats>['data'];
 
@@ -29,13 +29,13 @@ export type TSelectedPaymentMethod = Partial<{
     method: THooks.AdvertiserPaymentMethods.Get[number]['method'];
 }>;
 
-export type TAdvertsTableRowRenderer = Partial<THooks.Advert.GetList[number]>;
+export type TAdvertsTableRowRenderer = THooks.Advert.GetList[number];
 
 export type NonUndefinedValues<T> = {
     [K in keyof T]-?: Exclude<T[K], undefined>;
 };
 
-export type TAdvertType = NonUndefinedValues<THooks.Advert.Get>;
+export type TAdvertType = THooks.Advert.Get;
 
 export type TCurrencyListItem = {
     display_name: string;
@@ -137,7 +137,7 @@ export type DeepPartial<T> = T extends string | number | bigint | boolean | null
 export type TFormState = {
     actionType?: 'ADD' | 'DELETE' | 'EDIT' | 'RESET';
     isVisible?: boolean;
-    selectedPaymentMethod?: DeepPartial<NonNullable<TPaymentMethod>>;
+    selectedPaymentMethod?: DeepPartial<NonNullable<TPaymentMethod | TAdvertiserPaymentMethod>>;
     title?: string;
 };
 
@@ -203,3 +203,11 @@ export type TWalletType = 'other' | 'bank' | 'ewallet';
 export type TPaymentFieldType = 'text' | 'memo';
 
 export type TType01 = 0 | 1;
+
+export type TOrderStatus = THooks.Order.Get['status'];
+
+export type TAdvertiserPaymentMethod = THooks.AdvertiserPaymentMethods.Get[number];
+
+export type TBankName = THooks.AdvertiserPaymentMethods.Get[number]['fields']['bank_name'];
+export type TName = THooks.AdvertiserPaymentMethods.Get[number]['fields']['name'];
+export type TAccount = THooks.AdvertiserPaymentMethods.Get[number]['fields']['account'];

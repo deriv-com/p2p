@@ -1,4 +1,4 @@
-import { TFormState, THooks, TSelectedPaymentMethod } from 'types';
+import { TFormState, THooks, TPaymentMethod, TSelectedPaymentMethod } from 'types';
 import { Dropdown } from '@/components';
 import { Button, Input, Text } from '@deriv-com/ui';
 import CloseCircle from '../../../public/ic-close-circle.svg?react';
@@ -45,6 +45,13 @@ const PaymentMethodFormAutocomplete = ({
             />
         );
     }
+
+    const getValue = () => {
+        if (selectedPaymentMethod) {
+            return (selectedPaymentMethod as TPaymentMethod)?.display_name;
+        }
+        return '';
+    };
     return (
         <>
             <Dropdown
@@ -62,7 +69,7 @@ const PaymentMethodFormAutocomplete = ({
                     }
                 }}
                 // TODO: Remember to translate this
-                value={selectedPaymentMethod?.display_name ?? ''}
+                value={getValue()}
                 variant='comboBox'
             />
             <div className='mt-[0.2rem] ml-[1.6rem]'>

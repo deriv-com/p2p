@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react';
 import clsx from 'clsx';
-import { TPaymentMethod } from 'types';
+import { TAdvertiserPaymentMethod, TPaymentMethod } from 'types';
 import { LabelPairedPlusLgBoldIcon } from '@deriv/quill-icons';
 import { Button, Text } from '@deriv-com/ui';
 import { PaymentMethodCardBody } from './PaymentMethodCardBody';
@@ -15,7 +15,7 @@ type TPaymentMethodCardProps = HTMLAttributes<HTMLDivElement> & {
     onDeletePaymentMethod?: () => void;
     onEditPaymentMethod?: () => void;
     onSelectPaymentMethodCard?: (paymentMethodId: number) => void;
-    paymentMethod: TPaymentMethod & { isAvailable?: boolean };
+    paymentMethod: (TAdvertiserPaymentMethod | TPaymentMethod) & { isAvailable?: boolean };
     selectedPaymentMethodIds?: number[];
     shouldShowPaymentMethodDisplayName?: boolean;
 };

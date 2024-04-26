@@ -12,12 +12,12 @@ import { AdFormTextArea } from '../AdFormTextArea';
 import './AdTypeSection.scss';
 
 type TAdTypeSectionProps = {
-    currency: string;
+    currency: TCurrency;
     getCurrentStep: () => number;
     getTotalSteps: () => number;
     goToNextStep: MouseEventHandler<HTMLButtonElement>;
     goToPreviousStep: () => void;
-    localCurrency?: string;
+    localCurrency?: TCurrency;
     onCancel: () => void;
     rateType: string;
 };
