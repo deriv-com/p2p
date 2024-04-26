@@ -15,12 +15,8 @@ const mockApiValues = {
     loadMoreAdvertisers: jest.fn(),
 };
 
-jest.mock('@deriv/api-v2', () => ({
-    p2p: {
-        advertiser: {
-            useGetList: jest.fn(() => mockApiValues),
-        },
-    },
+jest.mock('@deriv-com/api-hooks', () => ({
+    useGetList: jest.fn(() => mockApiValues),
 }));
 
 jest.mock('@/components/Modals/BlockUnblockUserModal', () => ({

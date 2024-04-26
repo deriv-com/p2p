@@ -32,7 +32,7 @@ type TCurrencyListItem = {
 
 const useSettings = () => {
     const { data, ...rest } = useP2PSettings();
-    const [p2pSettings, setP2PSettings] = useLocalStorage<DeepPartial<TP2PSettings>>('p2p_v2_p2p_settings', {});
+    const [p2pSettings, setP2PSettings] = useLocalStorage<DeepPartial<TP2PSettings>>('p2p_settings', {});
 
     useEffect(() => {
         if (data) {

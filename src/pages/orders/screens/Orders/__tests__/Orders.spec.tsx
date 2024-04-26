@@ -10,17 +10,13 @@ jest.mock('react-router-dom', () => ({
     }),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    p2p: {
-        order: {
-            useGetList: () => ({
-                data: [],
-                isFetching: false,
-                isLoading: false,
-                loadMoreOrders: () => undefined,
-            }),
-        },
-    },
+jest.mock('@deriv-com/api-hooks', () => ({
+    useP2POrderList: () => ({
+        data: [],
+        isFetching: false,
+        isLoading: false,
+        loadMoreOrders: () => undefined,
+    }),
 }));
 
 jest.mock('@/hooks', () => ({
