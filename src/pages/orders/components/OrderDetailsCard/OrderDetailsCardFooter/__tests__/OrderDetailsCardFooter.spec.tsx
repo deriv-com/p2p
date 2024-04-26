@@ -9,13 +9,8 @@ const mockUseDispute = {
     mutate: jest.fn(),
 };
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
-        orderDispute: {
-            useDispute: () => mockUseDispute,
-        },
-    },
+jest.mock('@deriv-com/api-hooks', () => ({
+    useP2pOrderDispute: () => mockUseDispute,
 }));
 
 jest.mock('@deriv-com/ui', () => ({
