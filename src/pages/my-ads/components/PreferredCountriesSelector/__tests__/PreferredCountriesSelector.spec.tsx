@@ -1,7 +1,9 @@
-import { TAdConditionTypes, TCurrency } from 'types';
+import { TAdConditionTypes, TCurrency, TWalletType } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PreferredCountriesSelector from '../PreferredCountriesSelector';
+
+type TType = 'text' | 'memo';
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
@@ -31,20 +33,21 @@ const mockProps = {
             local_currency: 'CA' as TCurrency,
             payment_methods: {
                 alipay: {
+                    id: '2',
                     display_name: 'Alipay',
                     fields: {
                         account: {
                             display_name: 'Alipay ID',
                             required: 1,
-                            type: 'text',
+                            type: 'text' as TType,
                         },
                         instructions: {
                             display_name: 'Instructions',
                             required: 0,
-                            type: 'memo',
+                            type: 'memo' as TType,
                         },
                     },
-                    type: 'ewallet',
+                    type: 'ewallet' as TWalletType,
                 },
             },
         },
@@ -57,20 +60,21 @@ const mockProps = {
             local_currency: 'CA' as TCurrency,
             payment_methods: {
                 alipay: {
+                    id: '2',
                     display_name: 'Alipay',
                     fields: {
                         account: {
                             display_name: 'Alipay ID',
                             required: 1,
-                            type: 'text',
+                            type: 'text' as TType,
                         },
                         instructions: {
                             display_name: 'Instructions',
                             required: 0,
-                            type: 'memo',
+                            type: 'memo' as TType,
                         },
                     },
-                    type: 'ewallet',
+                    type: 'ewallet' as TWalletType,
                 },
             },
         },
