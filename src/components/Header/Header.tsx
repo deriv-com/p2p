@@ -1,3 +1,4 @@
+import { DerivProductDerivP2pBrandLightLogoWordmarkHorizontalIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { Button } from '@deriv-com/ui';
 import { LocalStorageConstants, LocalStorageUtils, URLUtils } from '@deriv-com/utils';
@@ -14,6 +15,7 @@ const Header = () => {
 
     return (
         <div className='header'>
+            <DerivProductDerivP2pBrandLightLogoWordmarkHorizontalIcon width='100' />
             {activeLoginid ? (
                 <Button onClick={logout}>Logout</Button>
             ) : (
