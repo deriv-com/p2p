@@ -1,15 +1,16 @@
+import { TCurrency } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AdConditionsSection from '../AdConditionsSection';
 
 const mockProps = {
-    currency: 'USD',
-    countryList: [],
+    currency: 'USD' as TCurrency,
+    countryList: {},
     getCurrentStep: jest.fn(),
     getTotalSteps: jest.fn(),
     goToNextStep: jest.fn(),
     goToPreviousStep: jest.fn(),
-    localCurrency: 'USD',
+    localCurrency: 'USD' as TCurrency,
     rateType: 'fixed',
 };
 
