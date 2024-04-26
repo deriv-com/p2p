@@ -1,3 +1,4 @@
+import { TCurrency } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AdTypeSection from '../AdTypeSection';
@@ -50,12 +51,12 @@ jest.mock('@/hooks', () => ({
 }));
 
 const mockProps = {
-    currency: 'usd',
+    currency: 'usd' as TCurrency,
     getCurrentStep: jest.fn(() => 1),
     getTotalSteps: jest.fn(),
     goToNextStep: jest.fn(),
     goToPreviousStep: jest.fn(),
-    localCurrency: 'usd',
+    localCurrency: 'usd' as TCurrency,
     onCancel: jest.fn(),
     rateType: 'float',
 };

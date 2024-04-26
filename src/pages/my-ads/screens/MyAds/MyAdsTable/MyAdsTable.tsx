@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { NonUndefined } from 'react-hook-form';
 import { THooks } from 'types';
 import { Table } from '@/components';
 import { api } from '@/hooks';
@@ -9,7 +10,7 @@ import MyAdsTableRowView from '../MyAdsTableRow/MyAdsTableRowView';
 import MyAdsDisplayWrapper from './MyAdsDisplayWrapper';
 import './MyAdsTable.scss';
 
-export type TMyAdsTableRowRendererProps = Required<THooks.AdvertiserAdverts.Get>[0] & {
+export type TMyAdsTableRowRendererProps = NonUndefined<THooks.AdvertiserAdverts.Get>[0] & {
     balanceAvailable: number;
     dailyBuyLimit: string;
     dailySellLimit: string;

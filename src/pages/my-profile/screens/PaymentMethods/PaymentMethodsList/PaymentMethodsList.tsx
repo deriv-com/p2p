@@ -12,7 +12,7 @@ type TPaymentMethodsListProps = {
     onDelete: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
     onEdit: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
     onResetFormState: () => void;
-    p2pAdvertiserPaymentMethods: THooks.AdvertiserPaymentMethods.Get;
+    p2pAdvertiserPaymentMethods?: THooks.AdvertiserPaymentMethods.Get;
 };
 
 /**

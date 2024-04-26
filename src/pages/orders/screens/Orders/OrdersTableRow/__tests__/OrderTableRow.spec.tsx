@@ -1,4 +1,4 @@
-import { THooks } from 'types';
+import { THooks, TOrderStatus } from 'types';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -56,8 +56,8 @@ const mockProps = {
     client_details: {
         first_name: 'QA script',
         id: '60',
-        is_online: 1,
-        is_recommended: null,
+        is_online: true,
+        is_recommended: undefined,
         last_name: 'userzShta',
         last_online_time: 1709818032,
         loginid: 'CR90000300',
@@ -72,15 +72,15 @@ const mockProps = {
     },
     expiry_time: 1709816002,
     id: '8',
-    is_incoming: 1,
-    is_reviewable: 1,
+    is_incoming: true,
+    is_reviewable: true,
     local_currency: 'IDR',
     payment_info: 'Transfer to account 000-1111',
     price: 1350,
     price_display: '1350.00',
     rate: 13500,
     rate_display: '13500.00',
-    status: 'completed',
+    status: 'completed' as TOrderStatus,
     type: 'buy' as 'buy' | 'sell',
     is_seen: false,
     review_details: undefined,

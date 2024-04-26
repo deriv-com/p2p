@@ -15,7 +15,8 @@ import { PaymentMethodsList } from './PaymentMethodsList';
  * **/
 const PaymentMethods = () => {
     const isAdvertiser = useIsAdvertiser();
-    const { data: p2pAdvertiserPaymentMethods, isLoading } = api.advertiserPaymentMethods.useGet(isAdvertiser);
+    const { data: p2pAdvertiserPaymentMethods, isPending: isLoading } =
+        api.advertiserPaymentMethods.useGet(isAdvertiser);
     const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
 
     const handleAddPaymentMethod = (selectedPaymentMethod?: TSelectedPaymentMethod) => {

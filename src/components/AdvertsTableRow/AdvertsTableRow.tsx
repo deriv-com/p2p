@@ -1,7 +1,7 @@
 import { Fragment, memo, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
-import { TAdvertsTableRowRenderer, TCurrency, TExchangeRate } from 'types';
+import { TAdvertiserPaymentMethod, TAdvertsTableRowRenderer, TCurrency, TExchangeRate, TPaymentMethod } from 'types';
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
@@ -180,14 +180,14 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                 <BuySellForm
                     advert={props}
                     advertiserBuyLimit={Number(daily_buy_limit) - Number(daily_buy)}
-                    advertiserPaymentMethods={advertiserPaymentMethods}
+                    advertiserPaymentMethods={advertiserPaymentMethods as TAdvertiserPaymentMethod[]}
                     advertiserSellLimit={Number(daily_sell_limit) - Number(daily_sell)}
                     balanceAvailable={data?.balance_available ?? 0}
                     displayEffectiveRate={displayEffectiveRate}
                     effectiveRate={effectiveRate}
                     isModalOpen={isModalOpen}
                     onRequestClose={() => setIsModalOpen(false)}
-                    paymentMethods={paymentMethods}
+                    paymentMethods={paymentMethods as TPaymentMethod[]}
                 />
             )}
         </div>

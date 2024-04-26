@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { TAdvertType, TCurrency, THooks } from 'types';
+import { TAdvertType, TCurrency, THooks, TPaymentMethod } from 'types';
 import { BUY_SELL, ORDERS_URL, RATE_TYPE, VALID_SYMBOLS_PATTERN } from '@/constants';
 import { api } from '@/hooks';
 import {
@@ -98,7 +98,7 @@ const BuySellForm = ({
     const shouldDisableField =
         !isBuy &&
         (parseFloat(balanceAvailable.toString()) === 0 ||
-            parseFloat(balanceAvailable.toString()) < min_order_amount_limit);
+            parseFloat(balanceAvailable.toString()) < (min_order_amount_limit ?? 1));
 
     const {
         control,
@@ -118,7 +118,7 @@ const BuySellForm = ({
         //TODO: error handling after implementation of exchange rate
         const rateValue = rate_type === RATE_TYPE.FIXED ? null : effectiveRate;
         const payload: TPayload = {
-            advert_id: id,
+            advert_id: id as string,
             amount: Number(getValues('amount')),
         };
         if (rateValue) {
@@ -138,7 +138,7 @@ const BuySellForm = ({
     };
 
     const calculatedRate = removeTrailingZeros(roundOffDecimal(effectiveRate, setDecimalPlaces(effectiveRate, 6)));
-    const initialAmount = removeTrailingZeros((min_order_amount_limit * Number(calculatedRate)).toString());
+    const initialAmount = removeTrailingZeros((min_order_amount_limit ?? 1 * Number(calculatedRate)).toString());
 
     const onSelectPaymentMethodCard = (paymentMethodId: number) => {
         if (selectedPaymentMethods.includes(paymentMethodId)) {
@@ -158,7 +158,7 @@ const BuySellForm = ({
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <BuySellFormDisplayWrapper
-                accountCurrency={account_currency}
+                accountCurrency={account_currency as TCurrency}
                 isBuy={isBuy}
                 isModalOpen={isModalOpen}
                 isValid={isValid}
@@ -176,26 +176,26 @@ const BuySellForm = ({
                     </div>
                 )}
                 <BuySellData
-                    accountCurrency={account_currency}
+                    accountCurrency={account_currency as TCurrency}
                     expiryPeriod={order_expiry_period ?? 3600}
                     instructions={description ?? '-'}
                     isBuy={isBuy}
-                    localCurrency={local_currency}
-                    name={advertiser_details?.name}
+                    localCurrency={local_currency as TCurrency}
+                    name={advertiser_details?.name ?? ''}
                     paymentMethodNames={payment_method_names}
                     paymentMethods={paymentMethods}
                     rate={displayEffectiveRate}
                 />
                 <LightDivider />
-                {isBuy && payment_method_names?.length > 0 && (
+                {isBuy && payment_method_names && payment_method_names?.length > 0 && (
                     <BuySellPaymentSection
-                        availablePaymentMethods={availablePaymentMethods}
+                        availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
                         onSelectPaymentMethodCard={onSelectPaymentMethodCard}
                         selectedPaymentMethodIds={selectedPaymentMethods}
                     />
                 )}
                 <BuySellAmount
-                    accountCurrency={account_currency}
+                    accountCurrency={account_currency as TCurrency}
                     amount={initialAmount}
                     calculatedRate={calculatedRate}
                     control={control as unknown as Control<FieldValues>}
@@ -206,9 +206,9 @@ const BuySellForm = ({
                         isBuy,
                         advertiserBuyLimit,
                         advertiserSellLimit,
-                        max_order_amount_limit_display
+                        max_order_amount_limit_display ?? '0'
                     )}
-                    minLimit={min_order_amount_limit_display}
+                    minLimit={min_order_amount_limit_display ?? '0'}
                 />
                 {isBuy && !payment_method_names?.length && (
                     <Controller

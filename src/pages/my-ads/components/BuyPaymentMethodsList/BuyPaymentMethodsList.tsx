@@ -17,7 +17,7 @@ const BuyPaymentMethodsList = ({ list, onSelectPaymentMethod }: TBuyPaymentMetho
                 isFullWidth
                 list={list}
                 name='payment-method-list'
-                onSelect={onSelectPaymentMethod}
+                onSelect={value => onSelectPaymentMethod(value as string)}
                 placeholder='Add'
                 value=''
                 variant='prompt'

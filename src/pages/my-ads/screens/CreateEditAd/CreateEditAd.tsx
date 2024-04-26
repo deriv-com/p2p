@@ -183,9 +183,10 @@ const CreateEditAd = () => {
                 setValue('payment-method', Object.keys(advertInfo.payment_method_details ?? {}).map(Number));
             } else {
                 const paymentMethodNames = advertInfo?.payment_method_names;
-                const paymentMethodKeys = paymentMethodNames?.map(
-                    name => paymentMethodList.find(method => method.display_name === name)?.id
-                );
+                const paymentMethodKeys =
+                    paymentMethodNames?.map(
+                        name => paymentMethodList.find(method => method.display_name === name)?.id
+                    ) ?? [];
                 setValue('payment-method', paymentMethodKeys);
             }
         },
@@ -212,7 +213,7 @@ const CreateEditAd = () => {
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <AdWizard
-                        countryList={countryList as object}
+                        countryList={countryList as TCountryListItem}
                         currency={activeAccount?.currency as TCurrency}
                         localCurrency={p2pSettings?.localCurrency as TCurrency}
                         onCancel={onClickCancel}
