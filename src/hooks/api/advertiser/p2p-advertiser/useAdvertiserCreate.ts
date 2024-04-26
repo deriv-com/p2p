@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { useP2PAdvertiserCreate } from '@deriv-com/api-hooks';
+import useInvalidateQuery from '../../useInvalidateQuery';
 
-//TODO: fix the file after updating with api-hooks
-type TCreateAdvertisePayload = string;
+type TCreateAdvertiserPayload = Parameters<ReturnType<typeof useP2PAdvertiserCreate>['mutate']>[0];
 
 /** A custom hook that creates a P2P advertiser. This can only be used when the user is authorized.
  *
@@ -16,22 +16,19 @@ type TCreateAdvertisePayload = string;
  *
 */
 const useAdvertiserCreate = () => {
-    // const invalidate = useInvalidateQuery();
+    const invalidate = useInvalidateQuery();
     const {
         data,
-        // mutate: _mutate,
+        mutate: _mutate,
         ...rest
     } = useP2PAdvertiserCreate({
-        // onSuccess: () => {
-        //     invalidate('p2p_advertiser_info');
-        // },
+        onSuccess: () => {
+            invalidate('p2p_advertiser_info');
+        },
     });
 
-    // eslint-disable-next-line no-underscore-dangle, no-console, react-hooks/exhaustive-deps
-    const _mutate = (payload: TCreateAdvertisePayload) => console.log(payload);
-
     const mutate = useCallback(
-        (payload: TCreateAdvertisePayload) => {
+        (payload: TCreateAdvertiserPayload) => {
             _mutate(payload);
         },
         [_mutate]

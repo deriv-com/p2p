@@ -1,3 +1,4 @@
+import { MutableOption } from 'types';
 import { TSortByValues } from '@/utils';
 import { LabelPairedChevronDownMdRegularIcon } from '@deriv/quill-icons';
 import { Button, Dropdown, useDevice } from '@deriv-com/ui';
@@ -31,7 +32,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
             <Dropdown
                 dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
                 label='Sort by'
-                list={list}
+                list={list as unknown as MutableOption[]}
                 name='Sort by'
                 onSelect={(value: string) => onSelect(value as TSortByValues)}
                 value={value}

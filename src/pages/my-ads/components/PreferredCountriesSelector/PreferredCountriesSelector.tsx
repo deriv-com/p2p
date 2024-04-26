@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { TCountryListItem } from 'types';
+import { TAdConditionTypes, TCountryListItem } from 'types';
 import { PreferredCountriesModal } from '@/components/Modals';
-import { AD_CONDITION_TYPES } from '@/constants';
 import { LabelPairedChevronRightSmRegularIcon } from '@deriv/quill-icons';
 import { Text, useDevice } from '@deriv-com/ui';
 import { AdConditionContentHeader } from '../AdConditionContentHeader';
@@ -10,7 +9,7 @@ import './PreferredCountriesSelector.scss';
 
 type TPreferredCountriesSelectorProps = {
     countryList: TCountryListItem;
-    type: (typeof AD_CONDITION_TYPES)[keyof typeof AD_CONDITION_TYPES];
+    type: TAdConditionTypes;
 };
 
 const PreferredCountriesSelector = ({ countryList, type }: TPreferredCountriesSelectorProps) => {

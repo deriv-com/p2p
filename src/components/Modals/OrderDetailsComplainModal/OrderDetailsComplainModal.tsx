@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { THooks } from 'types';
 import { FullPageMobileWrapper } from '@/components/FullPageMobileWrapper';
 import { api } from '@/hooks';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
@@ -18,6 +19,7 @@ type TComplainFooterProps = {
     onRequestClose: () => void;
 };
 
+type TDisputeReason = Parameters<THooks.OrderDispute.Dispute>[0]['dispute_reason'];
 const ComplainExplanation = () => {
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'sm' : 'xs';
@@ -73,7 +75,7 @@ const OrderDetailsComplainModal = ({
 
     const disputeOrderRequest = () => {
         mutate({
-            dispute_reason: disputeReason,
+            dispute_reason: disputeReason as TDisputeReason,
             id,
         });
     };

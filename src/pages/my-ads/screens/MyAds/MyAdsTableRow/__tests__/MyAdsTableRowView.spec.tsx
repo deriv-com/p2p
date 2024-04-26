@@ -57,7 +57,6 @@ const mockProps = {
     min_rating: 4,
     order_expiry_period: 900,
     payment_info: '',
-    is_floating: false,
     balanceAvailable: 0,
     dailyBuyLimit: '',
     dailySellLimit: '',

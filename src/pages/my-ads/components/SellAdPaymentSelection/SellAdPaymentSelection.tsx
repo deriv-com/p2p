@@ -1,3 +1,4 @@
+import { TPaymentMethod } from 'types';
 import { PaymentMethodCard } from '@/components';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
@@ -15,7 +16,7 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
 
     return (
         <div className='sell-ad-payment-selection__card'>
-            {advertiserPaymentMethods?.map(paymentMethod => {
+            {advertiserPaymentMethods?.map((paymentMethod: TPaymentMethod) => {
                 const isDisabled =
                     selectedPaymentMethodIds.length >= 3 &&
                     !selectedPaymentMethodIds.includes(Number(paymentMethod.id));

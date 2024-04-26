@@ -1,6 +1,9 @@
+import { TWalletType } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BuySellPaymentSection from '../BuySellPaymentSection';
+
+type TType = 'text' | 'memo';
 
 const mockProps = {
     availablePaymentMethods: [],
@@ -14,22 +17,22 @@ const mockAvailablePaymentMethods = {
         account: {
             display_name: 'Account ID / phone number / email',
             required: 0,
-            type: 'text',
+            type: 'text' as TType,
         },
         instructions: {
             display_name: 'Instructions',
             required: 0,
-            type: 'memo',
+            type: 'memo' as TType,
         },
         name: {
             display_name: 'Payment method name',
             required: 1,
-            type: 'text',
+            type: 'text' as TType,
         },
     },
     id: '67',
     isAvailable: true,
-    type: 'other',
+    type: 'other' as TWalletType,
 };
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),

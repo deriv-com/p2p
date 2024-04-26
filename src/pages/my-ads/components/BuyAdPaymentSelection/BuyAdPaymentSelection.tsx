@@ -13,7 +13,7 @@ type TBuyAdPaymentSelectionProps = {
 
 const BuyAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethods }: TBuyAdPaymentSelectionProps) => {
     // Enabled for payment method modal
-    const { data: paymentMethodList } = api.paymentMethods.useGet(false);
+    const { data: paymentMethodList = [] } = api.paymentMethods.useGet(false);
     const list = (
         paymentMethodList?.map(paymentMethod => ({
             text: paymentMethod.display_name,
@@ -29,7 +29,7 @@ const BuyAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethods }
                     const { display_name: name, type } = paymentMethodObjects[method] ?? {};
                     return (
                         <div className='buy-ad-payment-selection' key={method}>
-                            <PaymentMethodWithIcon name={name} type={type} />
+                            <PaymentMethodWithIcon name={name ?? 'other'} type={type} />
                             <Button
                                 color='white'
                                 onClick={() => onSelectPaymentMethod(method, 'delete')}
