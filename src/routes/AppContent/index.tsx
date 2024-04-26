@@ -3,13 +3,14 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
+import { getCurrentRoute } from '@/utils';
 import { useAuthorize } from '@deriv-com/api-hooks';
 import { Loader, Tab, Tabs } from '@deriv-com/ui';
 import Router from '../Router';
 import { routes } from '../routes-config';
 import './index.scss';
 
-const tabRoutesConfiguration = routes.filter(route => route.name !== 'Advertiser');
+const tabRoutesConfiguration = routes.filter(route => route.name !== 'Advertiser' && route.name !== 'Endpoint');
 
 const AppContent = () => {
     const history = useHistory();
@@ -26,6 +27,7 @@ const AppContent = () => {
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
     const { subscribe: subscribeP2PSettings } = api.settings.useSettings();
     const { error, isIdle, isLoading, isSubscribed, subscribe: subscribeAdvertiserInfo } = api.advertiser.useGetInfo();
+    const isEndpointRoute = getCurrentRoute() === 'endpoint';
 
     useEffect(() => {
         if (activeAccountData) {
@@ -51,10 +53,13 @@ const AppContent = () => {
         setActiveTab(getActiveTab(location.pathname));
     }, [location]);
 
-    if (isLoadingActiveAccount || !activeAccountData) return <Loader />;
+    if ((isLoadingActiveAccount || !activeAccountData) && !isEndpointRoute) {
+        return <Loader />;
+    }
 
     // NOTE: Replace this with P2PBlocked component later and a custom hook useIsP2PEnabled, P2P is only available for USD accounts
-    if (activeAccountData?.currency !== 'USD') return <h1>P2P is only available for USD accounts.</h1>;
+    if (activeAccountData?.currency !== 'USD' && !isEndpointRoute)
+        return <h1>P2P is only available for USD accounts.</h1>;
 
     return (
         <AdvertiserInfoStateProvider
