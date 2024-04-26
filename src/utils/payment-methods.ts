@@ -21,6 +21,8 @@ export const sortPaymentMethods = (paymentMethodsList: THooks.AdvertiserPaymentM
     return paymentMethodsList?.sort((i, j) => getPaymentMethodOrder(i.method) - getPaymentMethodOrder(j.method));
 };
 
+type TGetPaymentMethodObjects = THooks.AdvertiserPaymentMethods.Get | THooks.PaymentMethods.Get;
+type TField = Extract<keyof TGetPaymentMethodObjects[0], 'display_name' | 'id'>;
 /**
  * Retrieves the payment method objects.
  * @param paymentMethodsList - The list of payment methods.
@@ -28,18 +30,17 @@ export const sortPaymentMethods = (paymentMethodsList: THooks.AdvertiserPaymentM
  * @returns The payment method objects.
  * eg. { 'Bank Transfer': { method: 'bank_transfer', ... }, ... }
  */
-export const getPaymentMethodObjects = (
-    paymentMethodsList: THooks.AdvertiserPaymentMethods.Get | THooks.PaymentMethods.Get,
-    field = 'display_name'
-) =>
-    paymentMethodsList?.reduce((acc: TAccumulatedPaymentMethods, curr) => {
-        const displayName = curr[field];
-        if (displayName) {
-            acc[displayName] = curr;
-        }
-        return acc;
-    }, {}) ?? {};
-
+export const getPaymentMethodObjects = (paymentMethodsList: TGetPaymentMethodObjects, field = 'display_name') => {
+    return (
+        paymentMethodsList?.reduce((acc: TAccumulatedPaymentMethods, curr: TGetPaymentMethodObjects[number]) => {
+            const displayName = curr[field as TField];
+            if (displayName) {
+                acc[displayName] = curr;
+            }
+            return acc;
+        }, {}) ?? {}
+    );
+};
 /**
  * Sorts a list of payment methods based on their availability.
  * @param paymentMethodsList - The list of payment methods to be sorted.

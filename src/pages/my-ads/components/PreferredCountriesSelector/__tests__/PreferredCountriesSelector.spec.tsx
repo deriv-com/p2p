@@ -1,3 +1,4 @@
+import { TAdConditionTypes, TCurrency } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PreferredCountriesSelector from '../PreferredCountriesSelector';
@@ -23,11 +24,11 @@ const mockProps = {
     countryList: {
         countryA: {
             country_name: 'countryA',
-            cross_border_ads_enabled: 1,
-            fixed_rate_adverts: 'enabled',
-            float_rate_adverts: 'disabled',
+            cross_border_ads_enabled: 1 as 0 | 1,
+            fixed_rate_adverts: 'enabled' as 'enabled' | 'disabled',
+            float_rate_adverts: 'disabled' as 'enabled' | 'disabled',
             float_rate_offset_limit: 10,
-            local_currency: 'CA',
+            local_currency: 'CA' as TCurrency,
             payment_methods: {
                 alipay: {
                     display_name: 'Alipay',
@@ -49,11 +50,11 @@ const mockProps = {
         },
         countryB: {
             country_name: 'countryB',
-            cross_border_ads_enabled: 1,
-            fixed_rate_adverts: 'enabled',
-            float_rate_adverts: 'disabled',
+            cross_border_ads_enabled: 1 as 0 | 1,
+            fixed_rate_adverts: 'enabled' as 'enabled' | 'disabled',
+            float_rate_adverts: 'disabled' as 'enabled' | 'disabled',
             float_rate_offset_limit: 10,
-            local_currency: 'CA',
+            local_currency: 'CA' as TCurrency,
             payment_methods: {
                 alipay: {
                     display_name: 'Alipay',
@@ -74,7 +75,7 @@ const mockProps = {
             },
         },
     },
-    type: 'preferredCountries',
+    type: 'preferredCountries' as TAdConditionTypes,
 };
 
 describe('PreferredCountriesSelector', () => {

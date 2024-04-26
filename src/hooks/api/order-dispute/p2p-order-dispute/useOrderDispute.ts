@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useP2pOrderDispute } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TOrderDisputePayload = NonNullable<Parameters<ReturnType<typeof useP2pOrderDispute>['mutate']>>[0]['payload'];
+type TOrderDisputePayload = Parameters<ReturnType<typeof useP2pOrderDispute>['mutate']>[number];
 
 /** A custom hook that disputes a P2P order.
  *
@@ -28,13 +28,13 @@ const useOrderDispute = () => {
 
     const mutate = useCallback(
         (payload: TOrderDisputePayload) => {
-            _mutate({ payload });
+            _mutate(payload);
         },
         [_mutate]
     );
 
     const modified_data = useMemo(() => {
-        const p2p_order_dispute = data?.p2p_order_dispute;
+        const p2p_order_dispute = data;
 
         if (!p2p_order_dispute) return undefined;
 

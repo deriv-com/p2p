@@ -45,7 +45,7 @@ describe('usePoiPoaStatus', () => {
                     identity: {
                         status: 'verified',
                     },
-                    needs_verification: false,
+                    needs_verification: [],
                 },
                 p2p_poa_required: 0,
             },

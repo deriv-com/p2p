@@ -10,9 +10,10 @@ import { ChatMessageReceipt } from '../ChatMessageReceipt';
 import { ChatMessageText } from '../ChatMessageText';
 import './ChatMessages.scss';
 
+type TActiveChannel = ReturnType<typeof useSendbird>['activeChatChannel'];
 type TChatMessages = NonNullable<ReturnType<typeof useSendbird>['messages']>;
 type TChatMessagesProps = {
-    chatChannel: ReturnType<typeof useSendbird>['activeChatChannel'];
+    chatChannel: TActiveChannel;
     chatMessages: TChatMessages;
     userId?: string;
 };
@@ -119,7 +120,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMess
                                 </Text>
                                 {isMyMessage && (
                                     <ChatMessageReceipt
-                                        chatChannel={chatChannel}
+                                        chatChannel={chatChannel as NonNullable<TActiveChannel>}
                                         message={chatMessage}
                                         userId={userId}
                                     />

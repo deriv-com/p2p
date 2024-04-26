@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { useP2pAdvertiserPaymentMethods } from '@deriv-com/api-hooks';
+import { useP2PAdvertiserPaymentMethods } from '@deriv-com/api-hooks';
 
 /** A custom hook that returns the list of P2P Advertiser Payment Methods */
 const useAdvertiserPaymentMethods = (is_enabled = true) => {
-    const { data, ...rest } = useP2pAdvertiserPaymentMethods({
-        options: { enabled: is_enabled },
+    const { data, ...rest } = useP2PAdvertiserPaymentMethods({
+        enabled: is_enabled,
     });
 
     // Modify the response to add additional information
