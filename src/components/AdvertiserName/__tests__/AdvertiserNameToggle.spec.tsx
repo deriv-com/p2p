@@ -11,15 +11,10 @@ const mockProps = {
 };
 const mockUseAdvertiserUpdateMutate = jest.fn();
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
-        advertiser: {
-            useUpdate: jest.fn(() => ({
-                mutate: mockUseAdvertiserUpdateMutate,
-            })),
-        },
-    },
+jest.mock('@deriv-com/api-hooks', () => ({
+    useP2pAdvertiserUpdate: jest.fn(() => ({
+        mutate: mockUseAdvertiserUpdateMutate,
+    })),
 }));
 
 describe('AdvertiserNameToggle', () => {
