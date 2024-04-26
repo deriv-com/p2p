@@ -1,21 +1,19 @@
 import { useCallback } from 'react';
-import { useP2pAdvertiserPaymentMethods } from '@deriv-com/api-hooks';
+import { useP2PAdvertiserPaymentMethods } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TPayloads = NonNullable<
-    NonNullable<Parameters<ReturnType<typeof useP2pAdvertiserPaymentMethods>['mutate']>[0]>['payload']
->;
-type TUpdatePayload = NonNullable<TPayloads['update']>[0];
+type TPayloads = Parameters<ReturnType<typeof useP2PAdvertiserPaymentMethods>['mutate']>;
+type TUpdatePayload = TPayloads[number]['update'];
 
 /** A custom hook that sends a request to update an existing p2p advertiser payment method. */
 const useUpdateAdvertiserPaymentMethods = () => {
     const invalidate = useInvalidateQuery();
-    const { data, mutate, ...rest } = useP2pAdvertiserPaymentMethods({
+    const { data, mutate, ...rest } = useP2PAdvertiserPaymentMethods({
         onSuccess: () => invalidate('p2p_advertiser_payment_methods'),
     });
 
     const update = useCallback(
-        (id: string, values: TUpdatePayload) => mutate({ payload: { update: { [id]: { ...values } } } }),
+        (id: string, values: TUpdatePayload) => mutate({ update: { [id]: { ...values } } }),
         [mutate]
     );
 

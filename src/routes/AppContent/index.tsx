@@ -26,7 +26,13 @@ const AppContent = () => {
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
     const { subscribe: subscribeP2PSettings } = api.settings.useSettings();
-    const { error, isIdle, isLoading, isSubscribed, subscribe: subscribeAdvertiserInfo } = api.advertiser.useGetInfo();
+    const {
+        error,
+        isIdle,
+        isLoading,
+        isActive: isSubscribed,
+        subscribe: subscribeAdvertiserInfo,
+    } = api.advertiser.useGetInfo();
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
 
     useEffect(() => {

@@ -1,10 +1,10 @@
-import { useP2pAdvertiserRelations } from '@deriv-com/api-hooks';
+import { useP2PAdvertiserRelations } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
 /** This hook returns favourite and blocked advertisers and the mutation function to update the block list of the current user. */
 const useAdvertiserRelations = () => {
     const invalidate = useInvalidateQuery();
-    const { data, mutate, ...mutate_rest } = useP2pAdvertiserRelations({
+    const { data, mutate, ...mutate_rest } = useP2PAdvertiserRelations({
         onSuccess: () => {
             invalidate('p2p_advertiser_relations');
             invalidate('p2p_advertiser_list');

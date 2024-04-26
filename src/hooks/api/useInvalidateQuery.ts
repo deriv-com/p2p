@@ -8,7 +8,7 @@ const useInvalidateQuery = () => {
 
     const invalidate = useCallback(
         <T>(name: T | T[], options?: TOptions) => {
-            return queryClient.invalidateQueries(Array.isArray(name) ? name : [name], options);
+            return queryClient.invalidateQueries({ queryKey: [name], ...options });
         },
         [queryClient]
     );

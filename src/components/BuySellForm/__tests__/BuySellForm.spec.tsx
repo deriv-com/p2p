@@ -1,3 +1,4 @@
+import { mockAdvertValues } from '@/__mocks__/mock-data';
 import { floatingPointValidator } from '@/utils';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
@@ -56,26 +57,8 @@ jest.mock('@/utils', () => ({
 }));
 const mockFloatingPointValidator = floatingPointValidator as jest.Mock;
 
-const mockAdvertValues = {
-    account_currency: 'USD',
-    advertiser_details: {
-        name: 'name',
-        rating_average: 5,
-        rating_count: 5,
-    },
-    description: 'description',
-    id: 'id',
-    is_buy: true,
-    local_currency: 'USD',
-    max_order_amount_limit_display: '1000',
-    min_order_amount_limit: 1,
-    min_order_amount_limit_display: '1',
-    order_expiry_period: 30,
-    payment_method_names: ['alipay'],
-    rate: 1,
-    rate_type: 'fixed',
-    type: 'sell',
-};
+type TNumber = 0 | 1;
+
 const mockProps = {
     advert: mockAdvertValues,
     advertiserBuyLimit: 1000,
@@ -83,6 +66,25 @@ const mockProps = {
         {
             display_name: 'alipay',
             id: '1',
+            fields: {
+                account: {
+                    display_name: 'Alipay ID',
+                    required: 1,
+                    type: 'text' as 'text' | 'memo',
+                    value: '12345',
+                },
+                instructions: {
+                    display_name: 'Instructions',
+                    required: 0,
+                    type: 'memo' as 'text' | 'memo',
+                    value: 'Alipay instructions',
+                },
+            },
+            is_enabled: 1 as TNumber,
+            method: 'alipay',
+            type: 'ewallet' as 'ewallet' | 'other' | 'bank',
+            used_by_adverts: ['1'],
+            used_by_orders: ['1'],
         },
     ],
     advertiserSellLimit: 1000,
@@ -94,7 +96,22 @@ const mockProps = {
     paymentMethods: [
         {
             display_name: 'alipay',
-            type: 'online',
+            id: '1',
+            fields: {
+                account: {
+                    display_name: 'Alipay ID',
+                    required: 1,
+                    type: 'text' as 'text' | 'memo',
+                    value: '12345',
+                },
+                instructions: {
+                    display_name: 'Instructions',
+                    required: 0,
+                    type: 'memo' as 'text' | 'memo',
+                    value: 'Alipay instructions',
+                },
+            },
+            type: 'ewallet' as 'ewallet' | 'other' | 'bank',
         },
     ],
 };

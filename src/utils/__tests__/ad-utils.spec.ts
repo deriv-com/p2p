@@ -1,4 +1,4 @@
-import { TCurrency } from 'types';
+import { TCurrency, TPaymentFieldType, TWalletType } from 'types';
 import { getFilteredCountryList } from '../ad-utils';
 
 type TNumber = 0 | 1;
@@ -21,20 +21,21 @@ describe('ad-utils', () => {
                     local_currency: 'CA' as TCurrency,
                     payment_methods: {
                         alipay: {
+                            id: '3',
                             display_name: 'Alipay',
                             fields: {
                                 account: {
                                     display_name: 'Alipay ID',
                                     required: 1,
-                                    type: 'text',
+                                    type: 'text' as TPaymentFieldType,
                                 },
                                 instructions: {
                                     display_name: 'Instructions',
                                     required: 0,
-                                    type: 'memo',
+                                    type: 'memo' as TPaymentFieldType,
                                 },
                             },
-                            type: 'ewallet',
+                            type: 'ewallet' as TWalletType,
                         },
                     },
                 },
@@ -47,20 +48,21 @@ describe('ad-utils', () => {
                     local_currency: 'CB' as TCurrency,
                     payment_methods: {
                         bank_transfer: {
+                            id: '2',
                             display_name: 'Bank Transfer',
                             fields: {
                                 account: {
                                     display_name: 'Bank Account',
                                     required: 1,
-                                    type: 'text',
+                                    type: 'text' as TPaymentFieldType,
                                 },
                                 instructions: {
                                     display_name: 'Instructions',
                                     required: 0,
-                                    type: 'memo',
+                                    type: 'memo' as TPaymentFieldType,
                                 },
                             },
-                            type: 'other',
+                            type: 'other' as TWalletType,
                         },
                     },
                 },

@@ -1,4 +1,5 @@
 export type TFile = File & { file: Blob };
+export type TFileType = File & { file: File };
 
 export const maxPotFileSize = 5242880;
 
@@ -43,7 +44,7 @@ const isFileTooLarge = (files: TFile[]): boolean => files?.length > 0 && files[0
  * @param {TFile[]} files
  * @returns {boolean} true if file is supported, false otherwise
  */
-const isFileSupported = (files: (File & { file: File })[]): boolean =>
+const isFileSupported = (files: TFileType[]): boolean =>
     files.filter(eachFile => getPotSupportedFiles(eachFile.file.name))?.length > 0;
 
 /**
@@ -51,8 +52,8 @@ const isFileSupported = (files: (File & { file: File })[]): boolean =>
  * @param {TFile[]} files
  * @returns {string} error message
  */
-export const getErrorMessage = (files: (File & { file: File })[]): string =>
-    isFileTooLarge(files) && isFileSupported(files)
+export const getErrorMessage = (files: TFile[]): string =>
+    isFileTooLarge(files) && isFileSupported(files as TFileType[])
         ? 'Cannot upload a file over 5MB'
         : 'The file you uploaded is not supported. Upload another.';
 

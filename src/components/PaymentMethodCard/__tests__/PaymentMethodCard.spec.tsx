@@ -1,3 +1,4 @@
+import { TWalletType } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PaymentMethodCard from '../PaymentMethodCard';
@@ -12,9 +13,9 @@ const mockProps = {
     paymentMethod: {
         fields: {},
         id: 'test',
-        is_enabled: 0,
+        is_enabled: 0 as 0 | 1,
         method: '',
-        type: 'other',
+        type: 'other' as TWalletType,
         used_by_adverts: null,
         used_by_orders: null,
     },

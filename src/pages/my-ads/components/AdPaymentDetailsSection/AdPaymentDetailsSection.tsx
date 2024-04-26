@@ -45,7 +45,7 @@ const AdPaymentDetailsSection = ({ currency, localCurrency, rateType, ...props }
         <div className='p-[1.6rem] w-full lg:p-0'>
             <AdSummary
                 currency={currency}
-                localCurrency={localCurrency}
+                localCurrency={localCurrency as TCurrency}
                 offerAmount={errors.amount ? '' : getValues('amount')}
                 priceRate={getValues('rate-value')}
                 rateType={rateType}

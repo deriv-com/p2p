@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
-import { useP2pOrderReview } from '@deriv-com/api-hooks';
+import { useP2POrderReview } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
-type TOrderReviewPayload = NonNullable<Parameters<ReturnType<typeof useP2pOrderReview>['mutate']>>[0]['payload'];
+type TOrderReviewPayload = NonNullable<Parameters<ReturnType<typeof useP2POrderReview>['mutate']>>[0];
 
 /** A custom hook that creates a review for a specified order
  *
@@ -21,7 +21,7 @@ const useOrderReview = () => {
         data,
         mutate: _mutate,
         ...rest
-    } = useP2pOrderReview({
+    } = useP2POrderReview({
         onSuccess: () => {
             invalidate('p2p_order_list');
         },
@@ -29,7 +29,7 @@ const useOrderReview = () => {
 
     const mutate = useCallback(
         (payload: TOrderReviewPayload) => {
-            _mutate({ payload });
+            _mutate(payload);
         },
         [_mutate]
     );

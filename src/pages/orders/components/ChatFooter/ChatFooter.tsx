@@ -3,6 +3,12 @@ import { Input, Text, useDevice } from '@deriv-com/ui';
 import ChatFooterIcon from '../ChatFooterIcon/ChatFooterIcon';
 import { TextAreaWithIcon } from '../TextAreaWithIcon';
 
+interface DocumentWithSelection extends Document {
+    selection?: {
+        createRange?: () => Range;
+    };
+}
+
 type TChatFooterProps = {
     isClosed: boolean;
     sendFile: (file: File) => void;
@@ -48,14 +54,17 @@ const ChatFooter = ({ isClosed, sendFile, sendMessage }: TChatFooterProps) => {
 
                 if (typeof element.selectionStart === 'number' && typeof element.selectionEnd === 'number') {
                     element.value = `${value.slice(0, element.selectionStart)}\n${value.slice(element.selectionEnd)}`;
-                } else if (document.selection?.createRange) {
-                    element.focus();
-
-                    const range = document.selection.createRange();
-
-                    range.text = '\r\n';
-                    range.collapse(false);
-                    range.select();
+                } else {
+                    // Fallback for IE
+                    const documentWithSelection = document as DocumentWithSelection;
+                    if (documentWithSelection.selection?.createRange) {
+                        // IE specific logic to insert newline at cursor position
+                        const range = documentWithSelection.selection.createRange();
+                        const newlineNode = document.createTextNode('\r\n');
+                        range.insertNode(newlineNode);
+                        range.collapse(false);
+                        range.selectNode(newlineNode); // Fix: Use selectNode instead of select
+                    }
                 }
             } else {
                 event.preventDefault();
