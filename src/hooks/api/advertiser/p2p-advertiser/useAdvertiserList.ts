@@ -5,8 +5,9 @@ type THookPayload = Parameters<typeof useP2pAdvertiserList>[number];
 
 //TODO: fix the types when updated from api-hooks
 type ExtendedPayload = THookPayload & {
-    is_blocked?: boolean;
+    is_blocked?: number;
     advertiser_name?: string;
+    trade_partners: number;
 };
 /**
  * This custom hook returns the available advertisers who have had or currently have trades with the current advertiser.

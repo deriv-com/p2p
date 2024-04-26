@@ -1,3 +1,5 @@
+import { TOrderStatus } from 'types';
+import { mockAdvertValues } from '@/__mocks__/mock-data';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import OrdersTable from '../OrdersTable';
@@ -21,14 +23,7 @@ const mockProps = {
 const mockData = [
     {
         account_currency: 'USD',
-        advert_details: {
-            block_trade: undefined,
-            description: '1',
-            id: '344',
-            is_block_trade: false,
-            payment_method: 'bank_transfer',
-            type: 'sell' as 'buy' | 'sell',
-        },
+        advert_details: mockAdvertValues,
         advertiser_details: {
             first_name: 'QA script',
             has_not_been_recommended: true,
@@ -65,16 +60,22 @@ const mockData = [
         is_incoming: false,
         is_reviewable: false,
         is_seen: true,
-        is_verification_pending: 0,
+        is_verification_pending: false,
         local_currency: 'IDR',
         payment_info: '',
         price: 1,
         price_display: '1.00',
         rate: 1,
         rate_display: '1.00',
-        review_details: null,
-        status: 'refunded',
-        type: 'buy',
+        review_details: {
+            is_recommended: false,
+            has_not_been_recommended: false,
+            created_time: 1234567,
+            rating: 3,
+            recommended: null,
+        },
+        status: 'refunded' as TOrderStatus,
+        type: 'buy' as 'buy' | 'sell',
     },
 ];
 

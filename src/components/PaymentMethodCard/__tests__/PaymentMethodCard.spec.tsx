@@ -11,6 +11,7 @@ const mockProps = {
     onEditPaymentMethod: jest.fn(),
     onSelectPaymentMethodCard: jest.fn(),
     paymentMethod: {
+        display_name: 'bank',
         fields: {},
         id: 'test',
         is_enabled: 0 as 0 | 1,

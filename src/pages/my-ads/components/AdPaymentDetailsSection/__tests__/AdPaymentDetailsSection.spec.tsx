@@ -68,8 +68,8 @@ jest.mock('../../OrderTimeSelection', () => ({
 }));
 const mockProps = {
     currency: 'USD' as TCurrency,
-    getCurrentStep: () => jest.fn(),
-    getTotalSteps: () => jest.fn(),
+    getCurrentStep: jest.fn(() => 1),
+    getTotalSteps: jest.fn(() => 4),
     goToNextStep: jest.fn(),
     goToPreviousStep: jest.fn(),
     localCurrency: 'IDR' as TCurrency,

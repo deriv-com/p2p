@@ -34,7 +34,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
                 label='Sort by'
                 list={list as unknown as MutableOption[]}
                 name='Sort by'
-                onSelect={(value: string) => onSelect(value as TSortByValues)}
+                onSelect={value => onSelect(value as TSortByValues)}
                 value={value}
             />
         </div>
