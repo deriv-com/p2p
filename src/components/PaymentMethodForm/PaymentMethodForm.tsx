@@ -81,7 +81,6 @@ const PaymentMethodForm = ({ onAdd, onResetFormState, ...rest }: TPaymentMethodF
                     } else if (actionType === 'EDIT' && hasData) {
                         update(String(selectedPaymentMethod?.id), {
                             ...data,
-                            method: String(selectedPaymentMethod?.method),
                         });
                     }
                 })}
