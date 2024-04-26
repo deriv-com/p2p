@@ -14,7 +14,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@deriv-com/api-hooks": "^0.1.13",
+    "@deriv-com/api-hooks": "^0.1.14",
     "@deriv-com/ui": "latest",
     "@deriv-com/utils": "latest",
     "@deriv/deriv-api": "^1.0.15",

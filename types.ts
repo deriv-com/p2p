@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { ComponentProps } from 'react';
-import { ERROR_CODES } from '@/constants';
+import { AD_CONDITION_TYPES, ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
 import { useSendbirdServiceToken } from '@/hooks/api/account';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
@@ -70,7 +70,7 @@ export namespace THooks {
         export type Unblock = NonNullable<ReturnType<typeof api.counterparty.useUnblock>['data']>;
     }
     export namespace OrderDispute {
-        export type Dispute = NonNullable<ReturnType<typeof api.orderDispute.useDispute>['data']>;
+        export type Dispute = NonNullable<ReturnType<typeof api.orderDispute.useDispute>['mutate']>;
     }
     export namespace Order {
         export type Cancel = NonNullable<ReturnType<typeof api.order.useCancel>['data']>;
@@ -195,3 +195,7 @@ export type TTextColors = ComponentProps<typeof Text>[`color`];
 export type TFileType = 'image' | 'pdf' | 'file';
 
 export type TSendBirdServiceToken = ReturnType<typeof useSendbirdServiceToken>['data'];
+
+export type TAdConditionTypes = (typeof AD_CONDITION_TYPES)[keyof typeof AD_CONDITION_TYPES];
+
+export type TWalletType = 'other' | 'bank' | 'ewallet';
