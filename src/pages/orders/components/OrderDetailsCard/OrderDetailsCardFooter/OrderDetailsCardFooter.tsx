@@ -1,4 +1,4 @@
-import { OrderDetailsComplainModal } from '@/components/Modals';
+import { OrderDetailsCancelModal, OrderDetailsComplainModal } from '@/components/Modals';
 import { useModalManager } from '@/hooks/custom-hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { Button, useDevice } from '@deriv-com/ui';
@@ -32,7 +32,14 @@ const OrderDetailsCardFooter = () => {
         <div className='order-details-card-footer'>
             {shouldShowCancelAndPaidButton && (
                 <div className='flex gap-3 ml-auto'>
-                    <Button className='border-2' color='black' size='lg' textSize={textSize} variant='outlined'>
+                    <Button
+                        className='border-2'
+                        color='black'
+                        onClick={() => showModal('OrderDetailsCancelModal')}
+                        size='lg'
+                        textSize={textSize}
+                        variant='outlined'
+                    >
                         Cancel order
                     </Button>
                     <Button size='lg' textSize={textSize}>
@@ -82,6 +89,11 @@ const OrderDetailsCardFooter = () => {
                 id={id}
                 isBuyOrderForUser={isBuyOrderForUser}
                 isModalOpen={!!isModalOpenFor('OrderDetailsComplainModal')}
+                onRequestClose={hideModal}
+            />
+            <OrderDetailsCancelModal
+                id={id}
+                isModalOpen={!!isModalOpenFor('OrderDetailsCancelModal')}
                 onRequestClose={hideModal}
             />
         </div>
