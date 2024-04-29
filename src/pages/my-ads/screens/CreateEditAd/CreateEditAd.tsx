@@ -98,11 +98,11 @@ const CreateEditAd = () => {
             max_order_amount: number;
             min_order_amount: number;
             rate: number;
-            rate_type: string;
+            rate_type: typeof rateType;
             type?: 'buy' | 'sell';
-            payment_method_names?: number[] | string[];
+            payment_method_names?: TMutatePayload['payment_method_names'];
             contact_info?: string;
-            payment_method_ids?: number[] | string[];
+            payment_method_ids?: TMutatePayload['payment_method_ids'];
             description?: string;
             min_completion_rate?: number;
             min_join_days?: number;
@@ -118,10 +118,10 @@ const CreateEditAd = () => {
         };
 
         if (getValues('ad-type') === 'buy') {
-            payload.payment_method_names = getValues('payment-method');
+            payload.payment_method_names = getValues('payment-method') as TMutatePayload['payment_method_names'];
         } else {
             payload.contact_info = getValues('contact-details');
-            payload.payment_method_ids = getValues('payment-method');
+            payload.payment_method_ids = getValues('payment-method') as TMutatePayload['payment_method_ids'];
         }
         if (getValues('instructions')) {
             payload.description = getValues('instructions');
@@ -136,7 +136,7 @@ const CreateEditAd = () => {
         if (isEdit) {
             delete payload.amount;
             delete payload.type;
-            updateMutate({ id: advertId, ...payload } as TMutatePayload);
+            updateMutate({ id: advertId, ...payload });
             return;
         }
         mutate(payload as TMutatePayload);
@@ -185,7 +185,7 @@ const CreateEditAd = () => {
                 const paymentMethodNames = advertInfo?.payment_method_names;
                 const paymentMethodKeys =
                     paymentMethodNames?.map(
-                        name => paymentMethodList.find(method => method.display_name === name)?.id
+                        name => paymentMethodList.find(method => method.display_name === name)?.id ?? ''
                     ) ?? [];
                 setValue('payment-method', paymentMethodKeys);
             }
