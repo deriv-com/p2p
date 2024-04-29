@@ -22,7 +22,12 @@ const BuySellTable = () => {
     const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<string[]>([]);
     const [shouldUseClientLimits, setShouldUseClientLimits] = useState<boolean>(true);
 
-    const { data, isFetching, isLoading, loadMoreAdverts } = api.advert.useGetList({
+    const {
+        data,
+        isFetching,
+        isPending: isLoading,
+        loadMoreAdverts,
+    } = api.advert.useGetList({
         advertiser_name: searchValue,
         counterparty_type: activeTab === ADVERT_TYPE.BUY ? BUY_SELL.BUY : BUY_SELL.SELL,
         local_currency: selectedCurrency,

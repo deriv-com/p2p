@@ -26,7 +26,7 @@
         position: relative;
         display: grid;
         align-items: center;
-        grid-template-columns: repeat(3, 1.6fr) 1.9fr 3fr 1.7fr;
+        grid-template-columns: repeat(3, 1.6fr) 1.9fr 3fr 1.9fr;
 
         &-disabled {
             span:not(.my-ads-table-row__actions span) {
