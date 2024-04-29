@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
+import { NonUndefined } from 'react-hook-form';
 import { useP2PAdvertiserPaymentMethods } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
 type TPayloads = Parameters<ReturnType<typeof useP2PAdvertiserPaymentMethods>['mutate']>;
-type TCreatePayload = TPayloads[number]['create'];
+type TCreatePayload = NonUndefined<TPayloads[number]['create']>[number];
 
 /** A custom hook that sends a request to create a new p2p advertiser payment method. */
 const useCreateAdvertiserPaymentMethods = () => {

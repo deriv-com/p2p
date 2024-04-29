@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { TAdvertType, TCurrency, THooks, TPaymentMethod } from 'types';
+import { TCurrency, THooks, TPaymentMethod } from 'types';
 import { BUY_SELL, ORDERS_URL, RATE_TYPE, VALID_SYMBOLS_PATTERN } from '@/constants';
 import { api } from '@/hooks';
 import {
@@ -25,7 +25,7 @@ type TPayload = Omit<Parameters<ReturnType<typeof api.order.useCreate>['mutate']
 };
 
 type TBuySellFormProps = {
-    advert: TAdvertType;
+    advert: THooks.Advert.GetList[number];
     advertiserBuyLimit: number;
     advertiserPaymentMethods: THooks.AdvertiserPaymentMethods.Get;
     advertiserSellLimit: number;
