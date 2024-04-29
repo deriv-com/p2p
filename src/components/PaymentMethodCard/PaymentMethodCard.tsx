@@ -11,7 +11,7 @@ type TPaymentMethodCardProps = HTMLAttributes<HTMLDivElement> & {
     isDisabled?: boolean;
     isEditable?: boolean;
     medium?: boolean;
-    onClickAdd?: (paymentMethod: TPaymentMethod) => void;
+    onClickAdd?: (paymentMethod: TAdvertiserPaymentMethod | TPaymentMethod) => void;
     onDeletePaymentMethod?: () => void;
     onEditPaymentMethod?: () => void;
     onSelectPaymentMethodCard?: (paymentMethodId: number) => void;
