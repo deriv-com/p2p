@@ -21,6 +21,12 @@ type TAdWizardNav = {
 const AdWizard = ({ countryList, onCancel, steps, ...rest }: TAdWizardNav) => {
     const { isDesktop } = useDevice();
     const [currentStep, setCurrentStep] = useState(0);
+    const wizardProps = {
+        getCurrentStep: () => currentStep + 1,
+        getTotalSteps: () => steps.length,
+        goToNextStep: () => setCurrentStep(currentStep + 1),
+        goToPreviousStep: () => setCurrentStep(currentStep - 1),
+    };
 
     return (
         <Wizard
@@ -58,9 +64,9 @@ const AdWizard = ({ countryList, onCancel, steps, ...rest }: TAdWizardNav) => {
             }
             onStepChange={step => setCurrentStep(step.activeStep - 1)}
         >
-            <AdTypeSection onCancel={onCancel} {...rest} />
-            <AdPaymentDetailsSection {...rest} />
-            <AdConditionsSection countryList={countryList} {...rest} />
+            <AdTypeSection onCancel={onCancel} {...wizardProps} {...rest} />
+            <AdPaymentDetailsSection {...wizardProps} {...rest} />
+            <AdConditionsSection {...wizardProps} countryList={countryList} {...rest} />
         </Wizard>
     );
 };
