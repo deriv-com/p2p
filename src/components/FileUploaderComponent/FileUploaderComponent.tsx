@@ -15,7 +15,7 @@ type TFileUploaderComponentProps = {
     onDropRejected: (fileRejections: FileRejection[], event: DropEvent) => void;
     uploadedMessage: string;
     validationErrorMessage: string | null;
-    value: (File & { file: Blob })[];
+    value: File[];
 };
 
 const FileUploaderComponent = ({

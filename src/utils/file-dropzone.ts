@@ -10,5 +10,5 @@ export type TFileDropzone = DropzoneOptions & {
     message?: ReactNode | ((open?: () => void) => ReactNode);
     previewSingle?: ReactElement;
     validationErrorMessage?: ReactNode | ((open?: () => void) => ReactNode);
-    value: (File & { file: Blob })[];
+    value: File[];
 };

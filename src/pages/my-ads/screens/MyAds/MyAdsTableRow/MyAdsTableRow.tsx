@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { NonUndefinedValues, TCurrency, TExchangeRate } from 'types';
+import { TCurrency, TExchangeRate } from 'types';
 import { PaymentMethodLabel, PopoverDropdown } from '@/components';
 import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
 import { useFloatingRate } from '@/hooks/custom-hooks';
@@ -31,7 +31,7 @@ type TProps = {
 type TMyAdsTableProps = Omit<TMyAdsTableRowRendererProps, 'balanceAvailable' | 'dailyBuyLimit' | 'dailySellLimit'> &
     TProps;
 
-const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: NonUndefinedValues<TMyAdsTableProps>) => {
+const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps) => {
     const { isMobile } = useDevice();
     const { subscribeRates } = useExchangeRates();
 

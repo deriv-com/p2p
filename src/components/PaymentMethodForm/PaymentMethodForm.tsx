@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { TFormState, TSelectedPaymentMethod } from 'types';
+import { TAdvertiserPaymentMethod, TFormState, TSelectedPaymentMethod } from 'types';
 import { PageReturn, PaymentMethodField, PaymentMethodsFormFooter } from '@/components';
 import { api } from '@/hooks';
 import { useDevice } from '@deriv-com/ui';
@@ -77,7 +77,10 @@ const PaymentMethodForm = ({ onAdd, onResetFormState, ...rest }: TPaymentMethodF
                 onSubmit={handleSubmit(data => {
                     const hasData = Object.keys(data).length > 0;
                     if (actionType === 'ADD' && hasData) {
-                        create({ ...data, method: String(selectedPaymentMethod?.method) });
+                        create({
+                            ...data,
+                            method: String((selectedPaymentMethod as TAdvertiserPaymentMethod)?.method),
+                        });
                     } else if (actionType === 'EDIT' && hasData) {
                         update(String(selectedPaymentMethod?.id), {
                             ...data,
@@ -97,7 +100,8 @@ const PaymentMethodForm = ({ onAdd, onResetFormState, ...rest }: TPaymentMethodF
                         />
                     </div>
                     {Object.keys(selectedPaymentMethod?.fields || {})?.map(field => {
-                        const paymentMethodField = selectedPaymentMethod?.fields?.[field];
+                        const paymentMethodField =
+                            (selectedPaymentMethod?.fields as TAdvertiserPaymentMethod['fields'])?.[field] ?? {};
                         return (
                             <PaymentMethodField
                                 control={control}

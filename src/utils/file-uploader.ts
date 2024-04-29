@@ -63,7 +63,7 @@ export const getErrorMessage = (files: TFile[]): string =>
  * @param {number} limit
  * @returns {string} truncated file name
  */
-export const truncateFileName = (file: TFile, limit: number): string => {
+export const truncateFileName = (file: File, limit: number): string => {
     const stringLimitRegex = new RegExp(`(.{${limit || 30}})..+`);
     return file?.name?.replace(stringLimitRegex, `$1….${getFileExtension(file)}`);
 };
@@ -73,7 +73,7 @@ export const truncateFileName = (file: TFile, limit: number): string => {
  * @param {TFile} file
  * @returns {string | null} file extension or null if not found
  */
-const getFileExtension = (file: TFile): string | null => {
+const getFileExtension = (file: File): string | null => {
     const f = file?.type?.match(/[^/]+$/u);
     return f ? f[0] : null;
 };

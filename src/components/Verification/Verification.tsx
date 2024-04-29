@@ -3,6 +3,7 @@ import { Checklist } from '@/components';
 import { useDevice, usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { DerivLightIcCashierSendEmailIcon } from '@deriv/quill-icons';
 import { Loader, Text } from '@deriv-com/ui';
+import { URLConstants } from '@deriv-com/utils';
 import './Verification.scss';
 
 const getPoiAction = (status: string | undefined) => {
@@ -55,7 +56,8 @@ const Verification = () => {
         {
             isDisabled: isPoiPending,
             onClick: () => {
-                if (!isPoiVerified) redirectToVerification('/account/proof-of-identity');
+                if (!isPoiVerified)
+                    redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-identity`);
             },
             status: isPoiVerified ? 'done' : 'action',
             testId: 'dt_verification_poi_arrow_button',
@@ -66,7 +68,8 @@ const Verification = () => {
                   {
                       isDisabled: isPoaPending,
                       onClick: () => {
-                          if (!isPoaVerified) redirectToVerification('/account/proof-of-address');
+                          if (!isPoaVerified)
+                              redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-address`);
                       },
                       status: isPoaVerified ? 'done' : 'action',
                       testId: 'dt_verification_poa_arrow_button',
