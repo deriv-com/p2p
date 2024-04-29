@@ -22,7 +22,7 @@ const AvailableP2PBalanceModal = ({ isModalOpen, onRequestClose }: TAvailableP2P
                 Available Deriv P2P Balance
             </Text>
             <Text as='p' className='block-unblock-user-modal__text' size='sm'>
-                Your Deriv P2P balance only includes deposits that can’t be reversed.
+                Your Deriv P2P balance only includes deposits that cannot be reversed.
             </Text>
             <Text as='p' className='block-unblock-user-modal__text' size='sm'>
                 Deposits via cards and the following payment methods aren’t included: Maestro, Diners Club, ZingPay,
