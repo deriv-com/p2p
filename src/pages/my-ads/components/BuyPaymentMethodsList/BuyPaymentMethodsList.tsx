@@ -12,13 +12,15 @@ const BuyPaymentMethodsList = ({ list, onSelectPaymentMethod }: TBuyPaymentMetho
     return (
         <div className='buy-payment-methods-list'>
             <Dropdown
+                dropdownIcon={<div />}
                 className='buy-payment-methods-list__dropdown'
                 icon={<LabelPairedCirclePlusCaptionRegularIcon />}
                 isFullWidth
                 list={list}
                 name='payment-method-list'
                 onSelect={value => onSelectPaymentMethod(value as string)}
-                placeholder='Add'
+                //TODO: add the placeholder once fixed from deriv-com/ui
+                // placeholder='Add'
                 value=''
                 variant='prompt'
             />

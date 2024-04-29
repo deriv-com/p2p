@@ -14,7 +14,7 @@ type TAdConditionsSection = {
     getCurrentStep: () => number;
     getTotalSteps: () => number;
     goToNextStep: MouseEventHandler<HTMLButtonElement>;
-    goToPreviousStep: MouseEventHandler<HTMLButtonElement>;
+    goToPreviousStep: () => void;
     localCurrency?: TCurrency;
     rateType: string;
 };

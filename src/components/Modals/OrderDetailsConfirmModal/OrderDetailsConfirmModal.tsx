@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FileRejection } from 'react-dropzone';
 import { FileUploaderComponent } from '@/components/FileUploaderComponent';
 import { getErrorMessage, maxPotFileSize, TFile } from '@/utils';
 import { Button, InlineMessage, Modal, Text, useDevice } from '@deriv-com/ui';
@@ -11,7 +12,7 @@ type TOrderDetailsConfirmModalProps = {
 
 type TDocumentFile = {
     errorMessage: string | null;
-    files: TFile[];
+    files: File[];
 };
 
 const OrderDetailsConfirmModal = ({ isModalOpen, onRequestClose }: TOrderDetailsConfirmModalProps) => {
@@ -19,7 +20,7 @@ const OrderDetailsConfirmModal = ({ isModalOpen, onRequestClose }: TOrderDetails
     const { isMobile } = useDevice();
     const buttonTextSize = isMobile ? 'md' : 'sm';
 
-    const handleAcceptedFiles = (files: TFile[]) => {
+    const handleAcceptedFiles = (files: File[]) => {
         if (files.length > 0) {
             setDocumentFile({ errorMessage: null, files });
         }
@@ -29,8 +30,11 @@ const OrderDetailsConfirmModal = ({ isModalOpen, onRequestClose }: TOrderDetails
         setDocumentFile({ errorMessage: null, files: [] });
     };
 
-    const handleRejectedFiles = (files: TFile[]) => {
-        setDocumentFile({ errorMessage: getErrorMessage(files), files });
+    const handleRejectedFiles = (files: FileRejection[]) => {
+        setDocumentFile({
+            errorMessage: getErrorMessage(files as unknown as TFile[]),
+            files: files as unknown as TFile[],
+        });
     };
 
     // TODO: uncomment this when implementing the OrderDetailsConfirmModal

@@ -14,22 +14,23 @@ import clsx from 'clsx';
 import Step from './WizardStep';
 import './Wizard.scss';
 
-type TWizard = {
+type TWizard<T extends ReactNode> = {
     className?: string;
     initialStep: number;
     nav: ReactNode;
     onStepChange?: (prop: { [key: string]: number }) => void;
     selectedStepRef?: () => MutableRefObject<HTMLElement>;
+    children: T[];
 };
 
-const Wizard = ({
+const Wizard = <T extends ReactNode>({
     children = [],
     className,
     initialStep = 0,
     nav = null,
     onStepChange,
     selectedStepRef,
-}: PropsWithChildren<TWizard>) => {
+}: PropsWithChildren<TWizard<T>>) => {
     const [activeStep, setActiveStep] = useState(0);
 
     const getSteps = useCallback(() => Children.toArray(children), [children]);

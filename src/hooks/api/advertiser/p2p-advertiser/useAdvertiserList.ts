@@ -1,18 +1,13 @@
 import { useMemo } from 'react';
 import { useP2pAdvertiserList } from '@deriv-com/api-hooks';
 
-type THookPayload = Parameters<typeof useP2pAdvertiserList>[number];
+type THookPayload = NonNullable<Parameters<typeof useP2pAdvertiserList>[number]>['payload'];
 
-//TODO: fix the types when updated from api-hooks
-type ExtendedPayload = THookPayload & {
-    is_blocked?: number;
-    advertiser_name?: string;
-    trade_partners: number;
-};
 /**
- * This custom hook returns the available advertisers who have had or currently have trades with the current advertiser.
+ * This custom hook returns
+ *  the available advertisers who have had or currently have trades with the current advertiser.
  */
-const useAdvertiserList = (payload?: ExtendedPayload) => {
+const useAdvertiserList = (payload?: THookPayload) => {
     if (!payload?.is_blocked) {
         delete payload?.is_blocked;
     }
