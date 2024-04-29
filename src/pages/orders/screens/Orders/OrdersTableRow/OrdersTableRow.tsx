@@ -43,7 +43,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
     const isBuyOrderForUser = orderDetails.isBuyOrderForUser;
     const transactionAmount = `${Number(priceDisplay).toFixed(2)} ${localCurrency}`;
     const offerAmount = `${amountDisplay} ${accountCurrency}`;
-    const showOrderDetails = () => history.push(`${ORDERS_URL}/${id}`);
+    const showOrderDetails = () => history.push(`${ORDERS_URL}/${id}`, { from: 'Orders' });
 
     if (isMobile) {
         return (

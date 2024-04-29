@@ -82,7 +82,7 @@ const OrderDetailsComplainModal = ({
 
     const onCheckboxChange = (reason: string) => setDisputeReason(reason);
 
-    if (isMobile)
+    if (isMobile && isModalOpen)
         return (
             <FullPageMobileWrapper
                 className='order-details-complain-modal'

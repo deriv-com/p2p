@@ -1,0 +1,9 @@
+.order-details-cancel-modal {
+    height: auto;
+    width: 44rem;
+    border-radius: 8px;
+
+    @include mobile {
+        width: 32.8rem;
+    }
+}
