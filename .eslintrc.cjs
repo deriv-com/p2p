@@ -1,9 +1,15 @@
 module.exports = {
-    extends: ['@deriv-com/eslint-config-deriv'],
-    plugins: ['simple-import-sort'], 
+    extends: ['@deriv-com/eslint-config-deriv', 'eslint:recommended', 'plugin:react/recommended'],
+    plugins: ['simple-import-sort', 'sort-destructure-keys', 'typescript-sort-keys'], 
     rules: {
         'global-require': 'off',
+        '@typescript-eslint/array-type': 'error',
+        '@typescript-eslint/no-explicit-any': 'error',
+        '@typescript-eslint/no-unused-vars': 'error',
+        '@typescript-eslint/sort-type-constituents': 'error',
         'import/newline-after-import': 'error',
+        'react/jsx-sort-props': 'error',
+        'simple-import-sort/exports': 'error',
         'simple-import-sort/imports': [
             'error',
             {
@@ -32,6 +38,10 @@ module.exports = {
                 ],
             },
         ],
+        'sort-destructure-keys/sort-destructure-keys': 'error',
+        'sort-keys': 'error',
+        'typescript-sort-keys/interface': 'error',
+        'typescript-sort-keys/string-enum': 'error',
     },
     overrides: [
         {

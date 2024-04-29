@@ -1,11 +1,10 @@
 .buy-sell-data {
     &__details {
-        display: grid;
-        grid-auto-flow: column;
+        display: flex;
         margin-bottom: 1.6rem;
 
         @include mobile {
-            grid-auto-flow: row;
+            flex-direction: column;
             gap: 1.6rem;
         }
     }
