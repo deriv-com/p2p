@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event';
 import AdConditionsSection from '../AdConditionsSection';
 
 const mockProps = {
-    currency: 'USD' as TCurrency,
     countryList: {},
+    currency: 'USD' as TCurrency,
     getCurrentStep: jest.fn(),
     getTotalSteps: jest.fn(),
     goToNextStep: jest.fn(),

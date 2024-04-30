@@ -2,7 +2,7 @@ import { TCurrency, TPaymentFieldType, TWalletType } from 'types';
 import { getFilteredCountryList } from '../ad-utils';
 
 type TNumber = 0 | 1;
-type TStatus = 'enabled' | 'disabled';
+type TStatus = 'disabled' | 'enabled';
 describe('ad-utils', () => {
     describe('getFilteredCountryList', () => {
         it('should return an empty object with empty country list', () => {
@@ -21,7 +21,6 @@ describe('ad-utils', () => {
                     local_currency: 'CA' as TCurrency,
                     payment_methods: {
                         alipay: {
-                            id: '3',
                             display_name: 'Alipay',
                             fields: {
                                 account: {
@@ -35,6 +34,7 @@ describe('ad-utils', () => {
                                     type: 'memo' as TPaymentFieldType,
                                 },
                             },
+                            id: '3',
                             type: 'ewallet' as TWalletType,
                         },
                     },
@@ -48,7 +48,6 @@ describe('ad-utils', () => {
                     local_currency: 'CB' as TCurrency,
                     payment_methods: {
                         bank_transfer: {
-                            id: '2',
                             display_name: 'Bank Transfer',
                             fields: {
                                 account: {
@@ -62,6 +61,7 @@ describe('ad-utils', () => {
                                     type: 'memo' as TPaymentFieldType,
                                 },
                             },
+                            id: '2',
                             type: 'other' as TWalletType,
                         },
                     },

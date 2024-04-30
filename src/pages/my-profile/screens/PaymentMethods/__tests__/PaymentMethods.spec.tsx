@@ -27,22 +27,22 @@ const data: ReturnType<typeof api.advertiserPaymentMethods.useGet>['data'] = [
 ];
 
 const mockUseGetResponse: ReturnType<typeof mockUseGet> = {
+    context: null,
     data: undefined,
     error: null,
     failureCount: 0,
     failureReason: null,
     isError: false,
+    isIdle: false,
     isPaused: false,
     isPending: true,
     isSuccess: false,
-    status: 'pending',
-    variables: {},
-    isIdle: false,
     mutate: jest.fn(),
     mutateAsync: jest.fn(),
-    context: null,
-    submittedAt: 123,
     reset: () => undefined,
+    status: 'pending',
+    submittedAt: 123,
+    variables: {},
 };
 
 jest.mock('react', () => ({

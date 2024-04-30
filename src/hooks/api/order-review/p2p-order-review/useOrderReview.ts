@@ -41,10 +41,10 @@ const useOrderReview = () => {
 
         return {
             ...p2p_order_review,
-            // Flag to check if the advertiser is recommended
-            is_recommended: Boolean(p2p_order_review.recommended),
             // Flag to check if the advertiser has not been recommended yet
             has_not_been_recommended: p2p_order_review.recommended === null,
+            // Flag to check if the advertiser is recommended
+            is_recommended: Boolean(p2p_order_review.recommended),
         };
     }, [data]);
 

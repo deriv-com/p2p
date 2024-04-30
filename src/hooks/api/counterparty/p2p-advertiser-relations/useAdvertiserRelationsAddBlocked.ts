@@ -3,7 +3,7 @@ import useAdvertiserRelations from './useAdvertiserRelations';
 
 /** This hook blocks advertisers of the current user by passing the advertiser id. */
 const useAdvertiserRelationsAddBlocked = () => {
-    const { mutate, data, ...rest } = useAdvertiserRelations();
+    const { data, mutate, ...rest } = useAdvertiserRelations();
 
     const addBlockedAdvertiser = useCallback((id: number[]) => mutate({ add_blocked: id }), [mutate]);
 

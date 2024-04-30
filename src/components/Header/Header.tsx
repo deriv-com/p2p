@@ -21,8 +21,8 @@ const Header = () => {
                 <Button onClick={logout}>Logout</Button>
             ) : (
                 <a
-                    href={oauthUrl}
                     className='bg-solid-coral-800 text-body-sm text-opacity-white-800 rounded-200 px-800 py-300 font-bold'
+                    href={oauthUrl}
                 >
                     Login
                 </a>

@@ -12,8 +12,8 @@ const Endpoint = () => {
         reset,
     } = useForm({
         defaultValues: {
-            serverUrl: localStorage.getItem(LocalStorageConstants.configServerURL.toString()) || '',
             appId: LocalStorageUtils.getValue(LocalStorageConstants.configAppId) || '',
+            serverUrl: localStorage.getItem(LocalStorageConstants.configServerURL.toString()) || '',
         },
         mode: 'onChange',
     });
@@ -21,7 +21,7 @@ const Endpoint = () => {
     return (
         <div className='endpoint flex flex-col gap-8'>
             <Text weight='bold'>Change API endpoint</Text>
-            <form className='flex flex-col' action=''>
+            <form action='' className='flex flex-col'>
                 <Controller
                     control={control}
                     name='serverUrl'
@@ -51,11 +51,11 @@ const Endpoint = () => {
                         />
                     )}
                     rules={{
-                        required: 'This field is required',
                         pattern: {
                             message: 'Please enter a valid app ID',
                             value: /^(0|[1-9]\d*)(\.\d+)?$/,
                         },
+                        required: 'This field is required',
                     }}
                 />
                 <Button
@@ -66,8 +66,8 @@ const Endpoint = () => {
                         localStorage.setItem(LocalStorageConstants.configServerURL, getValues('serverUrl'));
                         localStorage.setItem(LocalStorageConstants.configAppId, getValues('appId'));
                         reset({
-                            serverUrl: getValues('serverUrl'),
                             appId: getValues('appId'),
+                            serverUrl: getValues('serverUrl'),
                         });
                     })}
                 >

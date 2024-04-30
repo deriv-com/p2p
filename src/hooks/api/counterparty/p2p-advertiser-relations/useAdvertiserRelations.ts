@@ -14,10 +14,10 @@ const useAdvertiserRelations = () => {
     const advertiser_relations = data;
 
     return {
-        /** P2P advertiser relations information. */
-        data: advertiser_relations,
         /** Blocked advertisers by the current user. */
         blocked_advertisers: advertiser_relations?.blocked_advertisers,
+        /** P2P advertiser relations information. */
+        data: advertiser_relations,
         /** Favourite advertisers of the current user. */
         favourite_advertisers: advertiser_relations?.favourite_advertisers,
 
