@@ -94,18 +94,18 @@ const CreateEditAd = () => {
     const onSubmit = () => {
         type TPayload = {
             amount?: number;
+            contact_info?: string;
+            description?: string;
             eligible_countries: string[];
             max_order_amount: number;
+            min_completion_rate?: number;
+            min_join_days?: number;
             min_order_amount: number;
+            payment_method_ids?: TMutatePayload['payment_method_ids'];
+            payment_method_names?: TMutatePayload['payment_method_names'];
             rate: number;
             rate_type: typeof rateType;
             type?: 'buy' | 'sell';
-            payment_method_names?: TMutatePayload['payment_method_names'];
-            contact_info?: string;
-            payment_method_ids?: TMutatePayload['payment_method_ids'];
-            description?: string;
-            min_completion_rate?: number;
-            min_join_days?: number;
         };
         const payload: TPayload = {
             amount: Number(getValues('amount')),

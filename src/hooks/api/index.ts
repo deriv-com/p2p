@@ -4,7 +4,7 @@ export * from './advertiser';
 export * from './chat';
 export * from './counterparty';
 export * from './country';
-export * from './order-dispute';
 export * from './order';
+export * from './order-dispute';
 export * from './payment-method';
 export * from './settings';

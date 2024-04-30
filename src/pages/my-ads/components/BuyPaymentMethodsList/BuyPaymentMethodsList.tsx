@@ -12,8 +12,8 @@ const BuyPaymentMethodsList = ({ list, onSelectPaymentMethod }: TBuyPaymentMetho
     return (
         <div className='buy-payment-methods-list'>
             <Dropdown
-                dropdownIcon={<div />}
                 className='buy-payment-methods-list__dropdown'
+                dropdownIcon={<div />}
                 icon={<LabelPairedCirclePlusCaptionRegularIcon />}
                 isFullWidth
                 list={list}

@@ -108,8 +108,8 @@ export type TCountryListItem = {
     [key: string]: {
         country_name: string;
         cross_border_ads_enabled: 0 | 1;
-        fixed_rate_adverts: 'enabled' | 'disabled';
-        float_rate_adverts: 'enabled' | 'disabled';
+        fixed_rate_adverts: 'disabled' | 'enabled';
+        float_rate_adverts: 'disabled' | 'enabled';
         float_rate_offset_limit: number;
         local_currency: TCurrency;
         payment_methods: {
@@ -118,12 +118,12 @@ export type TCountryListItem = {
     };
 };
 
-export type DeepPartial<T> = T extends string | number | bigint | boolean | null | undefined | symbol | Date
+export type DeepPartial<T> = T extends Date | bigint | boolean | number | string | symbol | null | undefined
     ? T | undefined
-    : T extends Array<infer ArrayType>
-      ? Array<DeepPartial<ArrayType>>
-      : T extends ReadonlyArray<infer ArrayType>
-        ? ReadonlyArray<ArrayType>
+    : T extends (infer ArrayType)[]
+      ? DeepPartial<ArrayType>[]
+      : T extends readonly (infer ArrayType)[]
+        ? readonly ArrayType[]
         : T extends Set<infer SetType>
           ? Set<DeepPartial<SetType>>
           : T extends ReadonlySet<infer SetType>
@@ -137,7 +137,7 @@ export type DeepPartial<T> = T extends string | number | bigint | boolean | null
 export type TFormState = {
     actionType?: 'ADD' | 'DELETE' | 'EDIT' | 'RESET';
     isVisible?: boolean;
-    selectedPaymentMethod?: DeepPartial<NonNullable<TPaymentMethod | TAdvertiserPaymentMethod>>;
+    selectedPaymentMethod?: DeepPartial<NonNullable<TAdvertiserPaymentMethod | TPaymentMethod>>;
     title?: string;
 };
 
@@ -165,6 +165,10 @@ export type TSocketError<T> = {
         message: string;
     };
     /**
+     * Error message from useSubscription response
+     */
+    message?: string;
+    /**
      * Action name of the request made.
      */
     msg_type: T;
@@ -172,10 +176,6 @@ export type TSocketError<T> = {
      * [Optional] Used to map request to response.
      */
     req_id?: number;
-    /**
-     * Error message from useSubscription response
-     */
-    message?: string;
 };
 
 export type WithRequiredProperty<T, Key extends keyof T> = T & {
@@ -192,15 +192,15 @@ export type TErrorCodes = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
 
 export type TTextColors = ComponentProps<typeof Text>[`color`];
 
-export type TFileType = 'image' | 'pdf' | 'file';
+export type TFileType = 'file' | 'image' | 'pdf';
 
 export type TSendBirdServiceToken = ReturnType<typeof useSendbirdServiceToken>['data'];
 
 export type TAdConditionTypes = (typeof AD_CONDITION_TYPES)[keyof typeof AD_CONDITION_TYPES];
 
-export type TWalletType = 'other' | 'bank' | 'ewallet';
+export type TWalletType = 'bank' | 'ewallet' | 'other';
 
-export type TPaymentFieldType = 'text' | 'memo';
+export type TPaymentFieldType = 'memo' | 'text';
 
 export type TType01 = 0 | 1;
 

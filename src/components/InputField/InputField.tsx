@@ -132,13 +132,13 @@ const InputField = ({ decimalPointChange, isError, name = '', onBlur, onChange, 
         if (/^\d+/.test(formattedValue) && +formattedValue > 0) {
             formattedValue = `+${formattedValue}`;
         }
-        onChange?.({ target: { value: formattedValue, name } } as ChangeEvent<HTMLInputElement>);
+        onChange?.({ target: { name, value: formattedValue } } as ChangeEvent<HTMLInputElement>);
     };
 
     const onLongPressEnd = () => {
         const newValue = localValue;
         const formattedValue = newValue;
-        onChange?.({ target: { value: formattedValue || '', name } } as ChangeEvent<HTMLInputElement>);
+        onChange?.({ target: { name, value: formattedValue || '' } } as ChangeEvent<HTMLInputElement>);
 
         setLocalValue('');
     };

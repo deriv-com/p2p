@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PreferredCountriesSelector from '../PreferredCountriesSelector';
 
-type TType = 'text' | 'memo';
+type TType = 'memo' | 'text';
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
@@ -27,13 +27,12 @@ const mockProps = {
         countryA: {
             country_name: 'countryA',
             cross_border_ads_enabled: 1 as 0 | 1,
-            fixed_rate_adverts: 'enabled' as 'enabled' | 'disabled',
-            float_rate_adverts: 'disabled' as 'enabled' | 'disabled',
+            fixed_rate_adverts: 'enabled' as 'disabled' | 'enabled',
+            float_rate_adverts: 'disabled' as 'disabled' | 'enabled',
             float_rate_offset_limit: 10,
             local_currency: 'CA' as TCurrency,
             payment_methods: {
                 alipay: {
-                    id: '2',
                     display_name: 'Alipay',
                     fields: {
                         account: {
@@ -47,6 +46,7 @@ const mockProps = {
                             type: 'memo' as TType,
                         },
                     },
+                    id: '2',
                     type: 'ewallet' as TWalletType,
                 },
             },
@@ -54,13 +54,12 @@ const mockProps = {
         countryB: {
             country_name: 'countryB',
             cross_border_ads_enabled: 1 as 0 | 1,
-            fixed_rate_adverts: 'enabled' as 'enabled' | 'disabled',
-            float_rate_adverts: 'disabled' as 'enabled' | 'disabled',
+            fixed_rate_adverts: 'enabled' as 'disabled' | 'enabled',
+            float_rate_adverts: 'disabled' as 'disabled' | 'enabled',
             float_rate_offset_limit: 10,
             local_currency: 'CA' as TCurrency,
             payment_methods: {
                 alipay: {
-                    id: '2',
                     display_name: 'Alipay',
                     fields: {
                         account: {
@@ -74,6 +73,7 @@ const mockProps = {
                             type: 'memo' as TType,
                         },
                     },
+                    id: '2',
                     type: 'ewallet' as TWalletType,
                 },
             },

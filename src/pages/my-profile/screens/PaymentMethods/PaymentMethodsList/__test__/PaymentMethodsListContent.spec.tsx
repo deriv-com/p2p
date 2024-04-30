@@ -61,14 +61,14 @@ const mockUseDeleteResponse: ReturnType<typeof api.advertiserPaymentMethods.useD
     failureReason: null,
     isError: false,
     isIdle: false,
-    isPending: false,
     isPaused: false,
+    isPending: false,
     isSuccess: true,
-    variables: {},
     mutateAsync: () => Promise.resolve({} as TSocketError<'p2p_advertiser_payment_methods'>),
     reset: () => undefined,
     status: 'success',
     submittedAt: 0,
+    variables: {},
 };
 
 jest.mock('@/components/Modals', () => ({

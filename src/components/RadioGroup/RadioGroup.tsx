@@ -78,6 +78,7 @@ const RadioGroup = ({
                                 <span
                                     className={clsx('radio-group__circle', {
                                         'radio-group__circle--selected': selectedOption === item.props.value,
+                                        // eslint-disable-next-line sort-keys
                                         'radio-group__circle--disabled': item.props.disabled,
                                         'radio-group__circle--error': item.props.hasError,
                                     })}

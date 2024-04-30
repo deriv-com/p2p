@@ -9,8 +9,8 @@ const useAdvertInfo = (
     refetchOnWindowFocus = true
 ) => {
     const { data, ...rest } = useP2PAdvertInfo({
-        payload,
         enabled: isEnabled,
+        payload,
         refetchOnWindowFocus,
     });
 
@@ -21,13 +21,13 @@ const useAdvertInfo = (
 
         return {
             ...p2p_advert_info,
+            is_active: Boolean(p2p_advert_info.is_active),
+            is_block_trade: Boolean(p2p_advert_info.block_trade),
             /** Determines whether the advert is a buy advert or not. */
             is_buy: p2p_advert_info.type === 'buy',
+            is_deleted: Boolean(p2p_advert_info.deleted),
             /** Determines whether the advert is a sell advert or not. */
             is_sell: p2p_advert_info.type === 'sell',
-            is_block_trade: Boolean(p2p_advert_info.block_trade),
-            is_deleted: Boolean(p2p_advert_info.deleted),
-            is_active: Boolean(p2p_advert_info.is_active),
             is_visible: Boolean(p2p_advert_info.is_visible),
             /**
              * @deprecated This property was deprecated on back-end

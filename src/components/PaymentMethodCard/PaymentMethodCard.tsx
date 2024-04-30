@@ -15,7 +15,7 @@ type TPaymentMethodCardProps = HTMLAttributes<HTMLDivElement> & {
     onDeletePaymentMethod?: () => void;
     onEditPaymentMethod?: () => void;
     onSelectPaymentMethodCard?: (paymentMethodId: number) => void;
-    paymentMethod: (TAdvertiserPaymentMethod | TPaymentMethod) & { isAvailable?: boolean };
+    paymentMethod: { isAvailable?: boolean } & (TAdvertiserPaymentMethod | TPaymentMethod);
     selectedPaymentMethodIds?: number[];
     shouldShowPaymentMethodDisplayName?: boolean;
 };

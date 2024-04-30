@@ -43,14 +43,14 @@ const useAdvertDelete = () => {
 
         return {
             ...p2p_advert_update,
-            /** Indicates if this is block trade advert or not. */
-            is_block_trade: Boolean(p2p_advert_update.block_trade),
             /** The activation status of the advert. */
             is_active: Boolean(p2p_advert_update.is_active),
-            /** Indicates that this advert will appear on the main advert list. */
-            is_visible: Boolean(p2p_advert_update.is_visible),
+            /** Indicates if this is block trade advert or not. */
+            is_block_trade: Boolean(p2p_advert_update.block_trade),
             /** Indicates that the advert has been deleted. */
             is_deleted: Boolean(p2p_advert_update.deleted),
+            /** Indicates that this advert will appear on the main advert list. */
+            is_visible: Boolean(p2p_advert_update.is_visible),
         };
     }, [data]);
 

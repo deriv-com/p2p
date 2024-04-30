@@ -6,10 +6,10 @@ const SEVEN_DAYS_MILLISECONDS = 604800000;
 const useSendbirdServiceToken = () => {
     const { isSuccess } = useGetSettings();
     const { data, ...rest } = useServiceToken({
+        enabled: isSuccess,
         payload: {
             service: 'sendbird',
         },
-        enabled: isSuccess,
         staleTime: SEVEN_DAYS_MILLISECONDS, // Sendbird tokens expire 7 days by default
     });
 

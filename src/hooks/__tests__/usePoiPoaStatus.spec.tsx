@@ -23,27 +23,27 @@ jest.mock('@deriv/api-v2', () => ({
 }));
 
 const mockValues = {
-    error: null,
-    isError: false as const,
-    isPending: true as const,
-    isLoading: false,
-    isLoadingError: false as const,
-    isRefetchError: false as const,
-    isSuccess: false as const,
-    status: 'pending' as const,
     dataUpdatedAt: 0,
+    error: null,
+    errorUpdateCount: 0,
     errorUpdatedAt: 0,
     failureCount: 0,
     failureReason: null,
-    errorUpdateCount: 0,
+    fetchStatus: 'fetching',
+    isError: false as const,
     isFetched: false,
     isFetchedAfterMount: false,
     isFetching: false,
     isInitialLoading: false,
+    isLoading: false,
+    isLoadingError: false as const,
     isPaused: false,
+    isPending: true as const,
     isPlaceholderData: false,
+    isRefetchError: false as const,
     isRefetching: false,
     isStale: false,
+    isSuccess: false as const,
     refetch(): Promise<
         QueryObserverResult<
             { get_account_status?: ReturnType<typeof useGetAccountStatus>['data'] | undefined },
@@ -57,7 +57,7 @@ const mockValues = {
     > {
         throw new Error('Function not implemented.');
     },
-    fetchStatus: 'fetching',
+    status: 'pending' as const,
 };
 
 describe('usePoiPoaStatus', () => {
@@ -78,11 +78,6 @@ describe('usePoiPoaStatus', () => {
         mockUseGetAccountStatus.mockReturnValueOnce({
             ...mockValues,
             data: {
-                currency_config: {},
-                p2p_status: 'active',
-                prompt_client_to_authenticate: 1,
-                risk_classification: 'risk',
-                status: ['pending'],
                 authentication: {
                     document: {
                         status: 'verified',
@@ -92,7 +87,12 @@ describe('usePoiPoaStatus', () => {
                     },
                     needs_verification: [],
                 },
+                currency_config: {},
                 p2p_poa_required: 0,
+                p2p_status: 'active',
+                prompt_client_to_authenticate: 1,
+                risk_classification: 'risk',
+                status: ['pending'],
             },
         } as ReturnType<typeof useGetAccountStatus>);
         const { result } = renderHook(() => usePoiPoaStatus());

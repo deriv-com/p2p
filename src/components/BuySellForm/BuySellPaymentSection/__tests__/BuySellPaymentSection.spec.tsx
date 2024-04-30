@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BuySellPaymentSection from '../BuySellPaymentSection';
 
-type TType = 'text' | 'memo';
+type TType = 'memo' | 'text';
 
 const mockProps = {
     availablePaymentMethods: [],

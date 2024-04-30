@@ -8,7 +8,6 @@ import '../../../components/AdFormInput';
 const mockOnChange = jest.fn();
 jest.mock('react-hook-form', () => ({
     ...jest.requireActual('react-hook-form'),
-    FormProvider: ({ children }: { children: ReactNode }) => <div>{children}</div>,
     Controller: ({
         control,
         defaultValue,
@@ -24,6 +23,7 @@ jest.mock('react-hook-form', () => ({
             field: { control, name, onBlur: jest.fn(), onChange: mockOnChange, value: defaultValue },
             fieldState: { error: null },
         }),
+    FormProvider: ({ children }: { children: ReactNode }) => <div>{children}</div>,
     useFormContext: () => ({
         control: 'mockedControl',
         formState: { errors: {}, isValid: true },
@@ -70,6 +70,38 @@ jest.mock('@deriv/api-v2', () => ({
                 isError: false,
                 isSuccess: false,
                 mutate: jest.fn(),
+            }),
+        },
+        countryList: {
+            useGet: () => ({
+                data: {
+                    af: {
+                        country_name: 'Afghanistan',
+                        cross_border_ads_enabled: 1,
+                        fixed_rate_adverts: 'enabled',
+                        float_rate_adverts: 'disabled',
+                        float_rate_offset_limit: 10,
+                        local_currency: 'AFN',
+                        payment_methods: {
+                            alipay: {
+                                display_name: 'Alipay',
+                                fields: {
+                                    account: {
+                                        display_name: 'Alipay ID',
+                                        required: 1,
+                                        type: 'text',
+                                    },
+                                    instructions: {
+                                        display_name: 'Instructions',
+                                        required: 0,
+                                        type: 'memo',
+                                    },
+                                },
+                                type: 'ewallet',
+                            },
+                        },
+                    },
+                },
             }),
         },
         paymentMethods: {
@@ -130,38 +162,6 @@ jest.mock('@deriv/api-v2', () => ({
                         used_by_orders: null,
                     },
                 ],
-            }),
-        },
-        countryList: {
-            useGet: () => ({
-                data: {
-                    af: {
-                        country_name: 'Afghanistan',
-                        cross_border_ads_enabled: 1,
-                        fixed_rate_adverts: 'enabled',
-                        float_rate_adverts: 'disabled',
-                        float_rate_offset_limit: 10,
-                        local_currency: 'AFN',
-                        payment_methods: {
-                            alipay: {
-                                display_name: 'Alipay',
-                                fields: {
-                                    account: {
-                                        display_name: 'Alipay ID',
-                                        required: 1,
-                                        type: 'text',
-                                    },
-                                    instructions: {
-                                        display_name: 'Instructions',
-                                        required: 0,
-                                        type: 'memo',
-                                    },
-                                },
-                                type: 'ewallet',
-                            },
-                        },
-                    },
-                },
             }),
         },
         settings: {
