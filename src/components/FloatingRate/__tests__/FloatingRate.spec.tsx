@@ -11,11 +11,6 @@ jest.mock('@deriv-com/ui', () => ({
 }));
 
 jest.mock('@deriv-com/api-hooks', () => ({
-    useP2PSettings: () => ({
-        data: {
-            override_exchange_rate: 1,
-        },
-    }),
     useExchangeRateSubscription: () => ({
         data: {
             rates: {
@@ -23,6 +18,11 @@ jest.mock('@deriv-com/api-hooks', () => ({
             },
         },
         subscribe: jest.fn(),
+    }),
+    useP2PSettings: () => ({
+        data: {
+            override_exchange_rate: 1,
+        },
     }),
 }));
 

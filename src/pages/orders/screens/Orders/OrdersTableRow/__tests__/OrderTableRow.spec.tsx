@@ -33,10 +33,10 @@ const mockUseDevice = useDevice as jest.Mock;
 const mockProps = {
     account_currency: 'USD',
     advert_details: {
-        is_block_trade: false,
         block_trade: 0 as THooks.Order.GetList[number]['advert_details']['block_trade'],
         description: 'Created by script. Please call me 02203400',
         id: '116',
+        is_block_trade: false,
         payment_method: 'bank_transfer',
         type: 'sell' as 'buy' | 'sell',
     },
@@ -74,17 +74,17 @@ const mockProps = {
     id: '8',
     is_incoming: true,
     is_reviewable: true,
+    is_seen: false,
+    is_verification_pending: false,
     local_currency: 'IDR',
     payment_info: 'Transfer to account 000-1111',
     price: 1350,
     price_display: '1350.00',
     rate: 13500,
     rate_display: '13500.00',
+    review_details: undefined,
     status: 'completed' as TOrderStatus,
     type: 'buy' as 'buy' | 'sell',
-    is_seen: false,
-    review_details: undefined,
-    is_verification_pending: false,
 };
 describe('OrdersTableRow', () => {
     it('should render the component', () => {

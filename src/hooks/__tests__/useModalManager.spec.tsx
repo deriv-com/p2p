@@ -76,9 +76,9 @@ describe('useModalManager', () => {
         mockedUseQueryString.mockImplementationOnce(() => ({
             deleteQueryString: jest.fn(),
             queryString: {
-                modal: 'ModalA',
                 advertId: undefined,
                 formAction: undefined,
+                modal: 'ModalA',
                 paymentMethodId: undefined,
                 tab: undefined,
             },
@@ -140,12 +140,12 @@ describe('useModalManager', () => {
             search: '?modal=ModalA',
         }));
         mockedUseQueryString.mockImplementationOnce(() => ({
+            deleteQueryString: jest.fn(),
             queryString: {
                 ...mockQueryString,
                 modal: 'ModalA',
             },
             setQueryString: jest.fn(),
-            deleteQueryString: jest.fn(),
         }));
         rerender();
 
@@ -159,12 +159,12 @@ describe('useModalManager', () => {
             search: '?modal=ModalA,ModalB',
         }));
         mockedUseQueryString.mockImplementationOnce(() => ({
+            deleteQueryString: jest.fn(),
             queryString: {
                 ...mockQueryString,
                 modal: 'ModalA,ModalB',
             },
             setQueryString: jest.fn(),
-            deleteQueryString: jest.fn(),
         }));
         rerender();
 
@@ -180,12 +180,12 @@ describe('useModalManager', () => {
             search: '?modal=ModalA',
         }));
         mockedUseQueryString.mockImplementationOnce(() => ({
+            deleteQueryString: jest.fn(),
             queryString: {
                 ...mockQueryString,
                 modal: 'ModalA',
             },
             setQueryString: jest.fn(),
-            deleteQueryString: jest.fn(),
         }));
         rerender();
 
@@ -208,12 +208,12 @@ describe('useModalManager', () => {
             search: '?modal=ModalA,ModalB,ModalC',
         }));
         mockedUseQueryString.mockImplementationOnce(() => ({
+            deleteQueryString: jest.fn(),
             queryString: {
                 ...mockQueryString,
                 modal: 'ModalA,ModalB,ModalC',
             },
             setQueryString: jest.fn(),
-            deleteQueryString: jest.fn(),
         }));
 
         const { result } = renderHook(() => useModalManager(), { wrapper });
@@ -235,12 +235,12 @@ describe('useModalManager', () => {
             search: '?modal=ModalA,ModalB,ModalC',
         }));
         mockedUseQueryString.mockImplementationOnce(() => ({
+            deleteQueryString: jest.fn(),
             queryString: {
                 ...mockQueryString,
                 modal: 'ModalA,ModalB,ModalC',
             },
             setQueryString: jest.fn(),
-            deleteQueryString: jest.fn(),
         }));
 
         const { result } = renderHook(
@@ -268,12 +268,12 @@ describe('useModalManager', () => {
             search: '?modal=ModalA,ModalB,ModalC',
         }));
         mockedUseQueryString.mockImplementationOnce(() => ({
+            deleteQueryString: jest.fn(),
             queryString: {
                 ...mockQueryString,
                 modal: 'ModalA,ModalB,ModalC',
             },
             setQueryString: jest.fn(),
-            deleteQueryString: jest.fn(),
         }));
 
         const { result } = renderHook(
@@ -306,12 +306,12 @@ describe('useModalManager', () => {
             isTablet: false,
         }));
         mockedUseQueryString.mockImplementationOnce(() => ({
+            deleteQueryString: jest.fn(),
             queryString: {
                 ...mockQueryString,
                 modal: 'ModalA,ModalB,ModalC',
             },
             setQueryString: jest.fn(),
-            deleteQueryString: jest.fn(),
         }));
 
         const { result } = renderHook(() => useModalManager(), { wrapper });

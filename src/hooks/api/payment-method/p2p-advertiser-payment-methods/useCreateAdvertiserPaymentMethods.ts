@@ -16,9 +16,9 @@ const useCreateAdvertiserPaymentMethods = () => {
     const create = useCallback((values: TCreatePayload) => mutate({ create: [{ ...values }] }), [mutate]);
 
     return {
-        data,
         /** Sends a request to create a new p2p advertiser payment method */
         create,
+        data,
         ...rest,
     };
 };

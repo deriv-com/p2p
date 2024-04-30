@@ -7,7 +7,7 @@ type TPayload = NonNullable<Parameters<typeof useP2PAdvertList>[0]>['payload'];
  */
 const useAdvertList = (payload?: TPayload) => {
     const { data, loadMoreAdverts, ...rest } = useP2PAdvertList({
-        payload: { ...payload, offset: payload?.offset, limit: payload?.limit },
+        payload: { ...payload, limit: payload?.limit, offset: payload?.offset },
     });
 
     // Add additional information to the 'p2p_advert_list' data
@@ -16,14 +16,10 @@ const useAdvertList = (payload?: TPayload) => {
 
         return data.map(advert => ({
             ...advert,
-            /** Determine if the rate is floating or fixed */
-            is_floating: advert?.rate_type === 'float',
-            /** The activation status of the advert. */
-            is_active: Boolean(advert?.is_active),
-            /** Indicates that this advert will appear on the main advert list. */
-            is_visible: Boolean(advert?.is_visible),
             advertiser_details: {
                 ...advert?.advertiser_details,
+                /** Indicates that the advertiser has not been recommended yet. */
+                has_not_been_recommended: advert?.advertiser_details.is_recommended === null,
                 /** Indicates that the advertiser is blocked by the current user. */
                 is_blocked: Boolean(advert?.advertiser_details.is_blocked),
                 /** Indicates that the advertiser is a favourite. */
@@ -32,9 +28,13 @@ const useAdvertList = (payload?: TPayload) => {
                 is_online: Boolean(advert?.advertiser_details?.is_online),
                 /** Indicates that the advertiser was recommended in the most recent review by the current user. */
                 is_recommended: Boolean(advert?.advertiser_details?.is_recommended),
-                /** Indicates that the advertiser has not been recommended yet. */
-                has_not_been_recommended: advert?.advertiser_details.is_recommended === null,
             },
+            /** The activation status of the advert. */
+            is_active: Boolean(advert?.is_active),
+            /** Determine if the rate is floating or fixed */
+            is_floating: advert?.rate_type === 'float',
+            /** Indicates that this advert will appear on the main advert list. */
+            is_visible: Boolean(advert?.is_visible),
         }));
     }, [data]);
 

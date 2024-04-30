@@ -26,12 +26,12 @@ jest.mock('../../AdProgressBar', () => ({
 }));
 
 const mockProps = {
+    countryList: {},
     currency: 'usd' as TCurrency,
     localCurrency: 'usd' as TCurrency,
+    onCancel: jest.fn(),
     rateType: 'float',
     steps: [{ header: { title: 'step 1' } }, { header: { title: 'step 2' } }, { header: { title: 'step 3' } }],
-    onCancel: jest.fn(),
-    countryList: {},
 };
 
 describe('AdWizard', () => {
