@@ -1,4 +1,4 @@
-import { Text, useDevice } from '@deriv-com/ui';
+import { Text } from '@deriv-com/ui';
 
 type TBuySellFormHeaderProps = {
     currency?: string;
@@ -6,10 +6,8 @@ type TBuySellFormHeaderProps = {
 };
 
 const BuySellFormHeader = ({ currency = '', isBuy }: TBuySellFormHeaderProps) => {
-    const { isMobile } = useDevice();
-
     return (
-        <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
+        <Text size='md' weight='bold'>
             {`${isBuy ? 'Sell' : 'Buy'} ${currency}`}
         </Text>
     );

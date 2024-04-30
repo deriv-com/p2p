@@ -39,15 +39,15 @@ const BuySellData = ({
     }, {});
 
     return (
-        <div className='p-[2.4rem]'>
+        <div className='p-[1.6rem] lg:px-[2.4rem]'>
             <div className='buy-sell-data__details'>
-                <div className='flex flex-col'>
+                <div className='flex flex-col w-full'>
                     <Text color='less-prominent' size={labelSize}>
                         {isBuy ? 'Buyer' : 'Seller'}
                     </Text>
                     <Text size={valueSize}>{name}</Text>
                 </div>
-                <div className='flex flex-col'>
+                <div className='flex flex-col w-full'>
                     <Text color='less-prominent' size={labelSize}>{`Rate (1 ${accountCurrency})`}</Text>
                     <Text size={valueSize}>
                         {rate}
