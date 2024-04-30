@@ -85,17 +85,21 @@ const OrderDetailsCardFooter = () => {
                     </Button>
                 </div>
             )}
-            <OrderDetailsComplainModal
-                id={id}
-                isBuyOrderForUser={isBuyOrderForUser}
-                isModalOpen={!!isModalOpenFor('OrderDetailsComplainModal')}
-                onRequestClose={hideModal}
-            />
-            <OrderDetailsCancelModal
-                id={id}
-                isModalOpen={!!isModalOpenFor('OrderDetailsCancelModal')}
-                onRequestClose={hideModal}
-            />
+            {!!isModalOpenFor('OrderDetailsComplainModal') && (
+                <OrderDetailsComplainModal
+                    id={id}
+                    isBuyOrderForUser={isBuyOrderForUser}
+                    isModalOpen={!!isModalOpenFor('OrderDetailsComplainModal')}
+                    onRequestClose={hideModal}
+                />
+            )}
+            {!!isModalOpenFor('OrderDetailsCancelModal') && (
+                <OrderDetailsCancelModal
+                    id={id}
+                    isModalOpen={!!isModalOpenFor('OrderDetailsCancelModal')}
+                    onRequestClose={hideModal}
+                />
+            )}
         </div>
     );
 };
