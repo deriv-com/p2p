@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
+import { BUY_SELL_URL, ORDERS_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
@@ -35,7 +36,12 @@ const OrderDetails = () => {
     const headerText = `${isBuyOrderForUser ? 'Buy' : 'Sell'} USD order`;
     const warningMessage = 'Don’t risk your funds with cash transactions. Use bank transfers or e-wallets instead.';
 
-    const onReturn = () => history.goBack();
+    const onReturn = () => {
+        if ((location.state as { from: string })?.from === 'Orders') history.push(ORDERS_URL);
+        else if ((location.state as { from: string })?.from === 'BuySell') history.push(BUY_SELL_URL);
+        else history.goBack();
+    };
+
     const onChatReturn = () => {
         setShowChat(false);
         if (showChatParam) onReturn();
