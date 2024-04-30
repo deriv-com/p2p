@@ -28,9 +28,9 @@ const AppContent = () => {
     const { subscribe: subscribeP2PSettings } = api.settings.useSettings();
     const {
         error,
+        isActive: isSubscribed,
         isIdle,
         isLoading,
-        isActive: isSubscribed,
         subscribe: subscribeAdvertiserInfo,
     } = api.advertiser.useGetInfo();
     const isEndpointRoute = getCurrentRoute() === 'endpoint';

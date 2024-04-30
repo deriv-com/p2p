@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import ProgressIndicator from '../ProgressIndicator';
 
 const mockProps = {
-    value: 1,
     total: 2,
+    value: 1,
 };
 
 describe('ProgressIndicator', () => {

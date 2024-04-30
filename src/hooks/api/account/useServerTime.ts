@@ -12,10 +12,10 @@ const useServerTime = () => {
 
         const server_time_moment = toMoment(data);
         return {
-            /** Returns the server time in UTC format */
-            server_time_utc: server_time_moment.utc().valueOf(),
             /** Returns the server time in an instance of Moment */
             server_time_moment,
+            /** Returns the server time in UTC format */
+            server_time_utc: server_time_moment.utc().valueOf(),
         };
     }, [data]);
 

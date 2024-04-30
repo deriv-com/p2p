@@ -37,12 +37,12 @@ const useAdvertiserUpdate = () => {
 
         return {
             ...p2p_advertiser_update,
+            /** The approval status of the advertiser. */
+            is_approved: Boolean(is_approved),
             /** Indicating whether the advertiser's identity has been verified. */
             is_basic_verified: Boolean(basic_verification),
             /** Indicating whether the advertiser's address has been verified. */
             is_fully_verified: Boolean(full_verification),
-            /** The approval status of the advertiser. */
-            is_approved: Boolean(is_approved),
             /** Indicates if the advertiser's active adverts are listed. When false, adverts won't be listed regardless if they are active or not. */
             is_listed: Boolean(is_listed),
             /** Indicates if the advertiser is currently online. */

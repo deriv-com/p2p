@@ -68,9 +68,9 @@ const mockData = [
         rate: 1,
         rate_display: '1.00',
         review_details: {
-            is_recommended: false,
-            has_not_been_recommended: false,
             created_time: 1234567,
+            has_not_been_recommended: false,
+            is_recommended: false,
             rating: 3,
             recommended: null,
         },

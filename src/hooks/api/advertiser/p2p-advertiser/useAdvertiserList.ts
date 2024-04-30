@@ -22,16 +22,16 @@ const useAdvertiserList = (payload?: THookPayload) => {
 
         return data.map(advertiser => ({
             ...advertiser,
-            /** Indicating whether the advertiser's identity has been verified. */
-            is_basic_verified: Boolean(advertiser?.basic_verification),
-            /** Indicating whether the advertiser's address has been verified. */
-            is_fully_verified: Boolean(advertiser?.full_verification),
             /** The approval status of the advertiser. */
             is_approved: Boolean(advertiser?.is_approved),
+            /** Indicating whether the advertiser's identity has been verified. */
+            is_basic_verified: Boolean(advertiser?.basic_verification),
             /** Indicates that the advertiser is blocked. */
             is_blocked: Boolean(advertiser?.is_blocked),
             /** Indicates that the advertiser is a favourite. */
             is_favourite: Boolean(advertiser?.is_favourite),
+            /** Indicating whether the advertiser's address has been verified. */
+            is_fully_verified: Boolean(advertiser?.full_verification),
             /** Indicates if the advertiser's active adverts are listed. When false, adverts won't be listed regardless if they are active or not. */
             is_listed: Boolean(advertiser?.is_listed),
             /** Indicates if the advertiser is currently online. */

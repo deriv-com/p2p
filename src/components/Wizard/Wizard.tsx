@@ -15,12 +15,12 @@ import Step from './WizardStep';
 import './Wizard.scss';
 
 type TWizard<T extends ReactNode> = {
+    children: T[];
     className?: string;
     initialStep: number;
     nav: ReactNode;
     onStepChange?: (prop: { [key: string]: number }) => void;
     selectedStepRef?: () => MutableRefObject<HTMLElement>;
-    children: T[];
 };
 
 const Wizard = <T extends ReactNode>({

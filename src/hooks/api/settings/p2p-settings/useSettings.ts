@@ -17,7 +17,7 @@ type TP2PSettings =
           is_disabled: boolean;
           is_payment_methods_enabled: boolean;
           localCurrency?: string;
-          rate_type: 'float' | 'fixed';
+          rate_type: 'fixed' | 'float';
           reached_target_date: boolean;
       })
     | undefined;
@@ -90,8 +90,8 @@ const useSettings = () => {
                 localCurrency,
                 /** Indicates if the current rate type is floating or fixed rates */
                 rate_type: (p2p_settings_data?.float_rate_adverts === 'enabled' ? 'float' : 'fixed') as
-                    | 'float'
-                    | 'fixed',
+                    | 'fixed'
+                    | 'float',
                 /** Indicates if the fixed rate adverts end date has been reached. */
                 reached_target_date: reached_target_date(),
             });

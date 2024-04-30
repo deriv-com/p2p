@@ -8,8 +8,8 @@ const useOrderList = (
 ) => {
     // Fetch the order list data which handles pagination
     const { data, ...rest } = useP2POrderList({
-        payload: { ...payload, offset: payload?.offset, limit: payload?.limit },
         enabled: isEnabled,
+        payload: { ...payload, limit: payload?.limit, offset: payload?.offset },
     });
 
     // Additional p2p_order_list data
@@ -27,38 +27,38 @@ const useOrderList = (
             /** Details of the advertiser for this order. */
             advertiser_details: {
                 ...advert?.advertiser_details,
+                /** Indicates that the advertiser has not been recommended yet. */
+                has_not_been_recommended: advert?.advertiser_details?.is_recommended === null,
                 /** Indicates if the advertiser is currently online. */
                 is_online: Boolean(advert?.advertiser_details?.is_online),
                 /** Indicates that the advertiser was recommended in the most recent review by the current user. */
                 is_recommended: Boolean(advert?.advertiser_details?.is_recommended),
-                /** Indicates that the advertiser has not been recommended yet. */
-                has_not_been_recommended: advert?.advertiser_details?.is_recommended === null,
             },
             /** Details of the client who created the order. */
             client_details: {
                 ...advert?.client_details,
+                /** Indicates that the advertiser has not been recommended yet. */
+                has_not_been_recommended: advert?.client_details?.is_recommended === null,
                 /** Indicates if the advertiser is currently online. */
                 is_online: Boolean(advert?.client_details?.is_online),
                 /** Indicates that the advertiser was recommended in the most recent review by the current user. */
                 is_recommended: Boolean(advert?.client_details?.is_recommended),
-                /** Indicates that the advertiser has not been recommended yet. */
-                has_not_been_recommended: advert?.client_details?.is_recommended === null,
             },
             is_incoming: Boolean(advert?.is_incoming),
             /** Indicates if a review can be given. */
             is_reviewable: Boolean(advert?.is_reviewable),
             /** Indicates if the latest order changes have been seen by the current client. */
             is_seen: Boolean(advert?.is_seen),
+            /** Indicates that the seller in the process of confirming the order. */
+            is_verification_pending: Boolean(advert?.verification_pending),
             /** Details of the review you gave for this order, if any. */
             review_details: {
                 ...advert?.review_details,
-                /** Indicates if the advertiser is recommended. */
-                is_recommended: Boolean(advert?.review_details?.recommended),
                 /** Indicates that the advertiser has not been recommended yet. */
                 has_not_been_recommended: advert?.review_details?.recommended === null,
+                /** Indicates if the advertiser is recommended. */
+                is_recommended: Boolean(advert?.review_details?.recommended),
             },
-            /** Indicates that the seller in the process of confirming the order. */
-            is_verification_pending: Boolean(advert?.verification_pending),
         }));
     }, [data]);
 

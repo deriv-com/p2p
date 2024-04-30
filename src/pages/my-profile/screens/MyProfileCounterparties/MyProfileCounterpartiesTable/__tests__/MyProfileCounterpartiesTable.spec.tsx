@@ -4,8 +4,8 @@ import MyProfileCounterpartiesTable from '../MyProfileCounterpartiesTable';
 
 const mockProps = {
     dropdownValue: 'all',
-    setShowHeader: jest.fn(),
     searchValue: '',
+    setShowHeader: jest.fn(),
 };
 
 const mockApiValues = {
@@ -40,7 +40,7 @@ describe('MyProfileCounterpartiesTable', () => {
     it('should show header when data is present', async () => {
         mockUseGetList.mockReturnValue({
             ...mockApiValues,
-            data: [{ id: 'id1', name: 'name1', is_blocked: false }],
+            data: [{ id: 'id1', is_blocked: false, name: 'name1' }],
         });
         render(<MyProfileCounterpartiesTable {...mockProps} />);
 
