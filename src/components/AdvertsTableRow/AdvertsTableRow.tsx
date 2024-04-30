@@ -1,11 +1,11 @@
-import { Fragment, memo, useEffect, useRef, useState } from 'react';
+import { Fragment, memo, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { TAdvertiserPaymentMethod, TAdvertsTableRowRenderer, TCurrency, TExchangeRate, TPaymentMethod } from 'types';
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
-import { useIsAdvertiser } from '@/hooks/custom-hooks';
+import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, getCurrentRoute } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
 import { useExchangeRates } from '@deriv-com/api-hooks';
@@ -15,7 +15,7 @@ import './AdvertsTableRow.scss';
 const BASE_CURRENCY = 'USD';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { subscribeRates } = useExchangeRates();
     const { isDesktop, isMobile } = useDevice();
     const history = useHistory();
@@ -127,12 +127,12 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                 )}
                 <Container {...(isMobile && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}>
                     {isMobile && (
-                        <Text color={isBuySellPage ? 'general' : 'less-prominent'} size={isBuySellPage ? '2xs' : 'sm'}>
+                        <Text color={isBuySellPage ? 'general' : 'less-prominent'} size={isBuySellPage ? 'xs' : 'sm'}>
                             Rate (1 USD)
                         </Text>
                     )}
                     <Container {...(isMobile && { className: 'flex flex-col-reverse mb-7' })}>
-                        <Text color={textColor} size={isMobile && isBuySellPage ? 'xs' : 'sm'}>
+                        <Text color={textColor} size='sm'>
                             {isMobile && 'Limits:'} {min_order_amount_limit_display}-{max_order_amount_limit_display}{' '}
                             {account_currency}
                         </Text>
@@ -148,7 +148,12 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     <div className='flex flex-wrap gap-2'>
                         {payment_method_names ? (
                             payment_method_names.map((method: string, idx: number) => (
-                                <PaymentMethodLabel color={textColor} key={idx} paymentMethodName={method} />
+                                <PaymentMethodLabel
+                                    color={textColor}
+                                    key={idx}
+                                    paymentMethodName={method}
+                                    size={isMobile ? 'sm' : 'xs'}
+                                />
                             ))
                         ) : (
                             <PaymentMethodLabel color={textColor} paymentMethodName='-' />
@@ -168,15 +173,15 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     )}
                     <Button
                         className='lg:w-[7.5rem]'
-                        onClick={() => setIsModalOpen(true)}
-                        size={isMobile ? 'lg' : 'sm'}
+                        onClick={() => showModal('BuySellForm')}
+                        size={isMobile ? 'md' : 'sm'}
                         textSize={isMobile ? 'md' : 'xs'}
                     >
                         {isBuyAdvert ? 'Buy' : 'Sell'} {account_currency}
                     </Button>
                 </div>
             )}
-            {isModalOpen && (
+            {isModalOpenFor('BuySellForm') && (
                 <BuySellForm
                     advert={props}
                     advertiserBuyLimit={Number(daily_buy_limit) - Number(daily_buy)}
@@ -185,8 +190,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     balanceAvailable={data?.balance_available ?? 0}
                     displayEffectiveRate={displayEffectiveRate}
                     effectiveRate={effectiveRate}
-                    isModalOpen={isModalOpen}
-                    onRequestClose={() => setIsModalOpen(false)}
+                    isModalOpen={!!isModalOpenFor('BuySellForm')}
+                    onRequestClose={hideModal}
                     paymentMethods={paymentMethods as TPaymentMethod[]}
                 />
             )}

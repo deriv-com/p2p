@@ -20,7 +20,7 @@
 
 .ad-status {
     &--active {
-        @include ad-status-base(var(--status-success));
+        @include ad-status-base(#4bb4b3);
 
         width: fit-content;
 
@@ -31,7 +31,7 @@
     }
 
     &--inactive {
-        @include ad-status-base(var(--status-danger));
+        @include ad-status-base(#ec3f3f);
 
         @include mobile {
             margin-bottom: 0.8rem;

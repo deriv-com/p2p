@@ -48,7 +48,7 @@ const BuySellPaymentSection = ({
 
     return (
         <>
-            <div className='flex px-[2.4rem] flex-col py-[2.4rem]'>
+            <div className='flex px-[1.6rem] lg:px-[2.4rem] flex-col py-[1.6rem]'>
                 <Text color='less-prominent' size={isMobile ? 'sm' : 'xs'}>
                     Receive payment to
                 </Text>

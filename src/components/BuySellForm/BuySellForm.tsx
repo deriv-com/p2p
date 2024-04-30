@@ -1,18 +1,12 @@
 /* eslint-disable camelcase */
 import { useEffect, useState } from 'react';
-import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
+import { Control, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { TCurrency, THooks, TPaymentMethod } from 'types';
-import { BUY_SELL, ORDERS_URL, RATE_TYPE, VALID_SYMBOLS_PATTERN } from '@/constants';
+import { BUY_SELL, ORDERS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
-import {
-    getPaymentMethodObjects,
-    getTextFieldError,
-    removeTrailingZeros,
-    roundOffDecimal,
-    setDecimalPlaces,
-} from '@/utils';
-import { InlineMessage, Text, TextArea, useDevice } from '@deriv-com/ui';
+import { getPaymentMethodObjects, removeTrailingZeros, roundOffDecimal, setDecimalPlaces } from '@/utils';
+import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
 import { LightDivider } from '../LightDivider';
 import { BuySellAmount } from './BuySellAmount';
 import { BuySellData } from './BuySellData';
@@ -209,68 +203,8 @@ const BuySellForm = ({
                         max_order_amount_limit_display ?? '0'
                     )}
                     minLimit={min_order_amount_limit_display ?? '0'}
+                    paymentMethodNames={payment_method_names}
                 />
-                {isBuy && !payment_method_names?.length && (
-                    <Controller
-                        control={control}
-                        name='bank_details'
-                        render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => {
-                            return (
-                                <div className='px-[2.4rem] mb-[3.5rem] pt-[1.8rem]'>
-                                    <TextArea
-                                        hint={error ? error.message : 'Bank name, account number, beneficiary name'}
-                                        isInvalid={!!error}
-                                        label='Your bank details'
-                                        maxLength={300}
-                                        onBlur={onBlur}
-                                        onChange={onChange}
-                                        shouldShowCounter
-                                        textSize='sm'
-                                        value={value}
-                                    />
-                                </div>
-                            );
-                        }}
-                        rules={{
-                            pattern: {
-                                message: getTextFieldError('Bank details'),
-                                value: VALID_SYMBOLS_PATTERN,
-                            },
-                            required: 'Bank details is required',
-                        }}
-                    />
-                )}
-                {isBuy && (
-                    <>
-                        <LightDivider />
-                        <Controller
-                            control={control}
-                            name='contact_details'
-                            render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
-                                <div className='px-[2.4rem] mb-[3.5rem] pt-[1.8rem]'>
-                                    <TextArea
-                                        hint={error ? error.message : ''}
-                                        isInvalid={!!error}
-                                        label='Your contact details'
-                                        maxLength={300}
-                                        onBlur={onBlur}
-                                        onChange={onChange}
-                                        shouldShowCounter
-                                        textSize='sm'
-                                        value={value}
-                                    />
-                                </div>
-                            )}
-                            rules={{
-                                pattern: {
-                                    message: getTextFieldError('Contact details'),
-                                    value: VALID_SYMBOLS_PATTERN,
-                                },
-                                required: 'Contact details is required',
-                            }}
-                        />
-                    </>
-                )}
             </BuySellFormDisplayWrapper>
         </form>
     );

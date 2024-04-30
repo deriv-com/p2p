@@ -61,24 +61,24 @@ const mockProps = {
     advertiserPaymentMethods: [
         {
             display_name: 'alipay',
-            id: '1',
             fields: {
                 account: {
                     display_name: 'Alipay ID',
                     required: 1,
-                    type: 'text' as 'text' | 'memo',
+                    type: 'text' as 'memo' | 'text',
                     value: '12345',
                 },
                 instructions: {
                     display_name: 'Instructions',
                     required: 0,
-                    type: 'memo' as 'text' | 'memo',
+                    type: 'memo' as 'memo' | 'text',
                     value: 'Alipay instructions',
                 },
             },
+            id: '1',
             is_enabled: 1 as TNumber,
             method: 'alipay',
-            type: 'ewallet' as 'ewallet' | 'other' | 'bank',
+            type: 'ewallet' as 'bank' | 'ewallet' | 'other',
             used_by_adverts: ['1'],
             used_by_orders: ['1'],
         },
@@ -92,22 +92,22 @@ const mockProps = {
     paymentMethods: [
         {
             display_name: 'alipay',
-            id: '1',
             fields: {
                 account: {
                     display_name: 'Alipay ID',
                     required: 1,
-                    type: 'text' as 'text' | 'memo',
+                    type: 'text' as 'memo' | 'text',
                     value: '12345',
                 },
                 instructions: {
                     display_name: 'Instructions',
                     required: 0,
-                    type: 'memo' as 'text' | 'memo',
+                    type: 'memo' as 'memo' | 'text',
                     value: 'Alipay instructions',
                 },
             },
-            type: 'ewallet' as 'ewallet' | 'other' | 'bank',
+            id: '1',
+            type: 'ewallet' as 'bank' | 'ewallet' | 'other',
         },
     ],
 };
