@@ -21,7 +21,7 @@ const OrderDetailsCancelModal = ({ id, isModalOpen, onRequestClose }: TOrderDeta
     };
 
     return (
-        <Modal className='order-details-cancel-modal' isOpen={isModalOpen}>
+        <Modal ariaHideApp={false} className='order-details-cancel-modal' isOpen={isModalOpen}>
             <Modal.Header className='lg:px-[2.4rem] px-[1.6rem]' hideBorder hideCloseIcon>
                 <Text weight='bold'>Do you want to cancel this order?</Text>
             </Modal.Header>
