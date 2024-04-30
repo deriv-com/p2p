@@ -5,8 +5,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "build:dev": "tsc && vite build",
+        "build": "tsc && vite build",
         "fix": "eslint \"./src/**/*.?(js|jsx|ts|tsx)\" --fix",
         "preview": "vite preview",
         "test:lint": "prettier --log-level silent --write . && eslint \"./src/**/*.?(js|jsx|ts|tsx)\"",
