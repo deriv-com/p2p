@@ -1,9 +1,8 @@
 //TODO: to be replaced with derivcom component
 import { useEffect, useRef, useState } from 'react';
 import { useCopyToClipboard } from 'usehooks-ts';
+import { LegacyCopy1pxIcon, LegacyWonIcon } from '@deriv/quill-icons';
 import { Tooltip } from '@deriv-com/ui';
-import CheckmarkCircle from '../../public/ic-checkmark-circle.svg?react';
-import CopyIcon from '../../public/ic-clipboard.svg?react';
 import './Clipboard.scss';
 
 type TClipboardProps = {
@@ -35,7 +34,7 @@ const Clipboard = ({ textCopy }: TClipboardProps) => {
     return (
         <Tooltip message={isCopied ? 'Copied!' : 'Copy'} position='top'>
             <button className='clipboard' onClick={onClick}>
-                {isCopied ? <CheckmarkCircle /> : <CopyIcon />}
+                {isCopied ? <LegacyWonIcon iconSize='xs' /> : <LegacyCopy1pxIcon iconSize='xs' />}
             </button>
         </Tooltip>
     );

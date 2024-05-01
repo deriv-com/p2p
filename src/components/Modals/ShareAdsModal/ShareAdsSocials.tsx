@@ -4,8 +4,8 @@ import {
     SocialFacebookBrandIcon,
     SocialGoogleBrandIcon,
     SocialTelegramBrandIcon,
+    SocialWhatsappBrandIcon,
 } from '@deriv/quill-icons';
-import WhatsappIcon from '../../../public/ic-whatsapp-filled.svg?react';
 import './ShareAdsSocials.scss';
 
 type TShareMyAdsSocialsProps = {
@@ -16,7 +16,7 @@ type TShareMyAdsSocialsProps = {
 //TODO: fix the icon classnames once the icons are available in quillicons
 const getShareButtons = (advertUrl: string) => [
     {
-        icon: <WhatsappIcon className='h-[34px] w-[34px]' />,
+        icon: <SocialWhatsappBrandIcon height={36} width={36} />,
         messagePropName: 'title',
         ShareButton: WhatsappShareButton,
         text: 'WhatsApp',

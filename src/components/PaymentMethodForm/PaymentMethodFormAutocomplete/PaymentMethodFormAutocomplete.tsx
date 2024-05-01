@@ -1,7 +1,7 @@
 import { TFormState, THooks, TPaymentMethod, TSelectedPaymentMethod } from 'types';
 import { Dropdown } from '@/components';
+import { LegacyCloseCircle1pxIcon } from '@deriv/quill-icons';
 import { Button, Input, Text } from '@deriv-com/ui';
-import CloseCircle from '../../../public/ic-close-circle.svg?react';
 
 type TPaymentMethodFormAutocompleteProps = {
     actionType: TFormState['actionType'];
@@ -29,7 +29,7 @@ const PaymentMethodFormAutocomplete = ({
                 label='Choose your payment method'
                 rightPlaceholder={
                     actionType === 'EDIT' ? null : (
-                        <CloseCircle
+                        <LegacyCloseCircle1pxIcon
                             className='payment-method-form__icon--close'
                             data-testid='dt_payment_methods_form_close_icon'
                             fill='#999999'

@@ -4,11 +4,8 @@ import { Clipboard } from '@/components';
 import { ADVERTISER_URL, BUY_SELL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useCopyToClipboard } from '@/hooks/custom-hooks';
+import { LegacyShare1pxIcon, LegacyShareLink1pxIcon, LegacyWonIcon } from '@deriv/quill-icons';
 import { Button, Divider, Modal, Text, useDevice } from '@deriv-com/ui';
-//TODO: replace below icons with the one from quill once available
-import CheckmarkCircle from '../../../public/ic-checkmark-circle.svg?react';
-import ShareIcon from '../../../public/ic-share.svg?react';
-import ShareLinkIcon from '../../../public/ic-share-link.svg?react';
 import ShareMyAdsCard from './ShareAdsCard';
 import ShareMyAdsSocials from './ShareAdsSocials';
 import './ShareAdsModal.scss';
@@ -119,7 +116,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                                             textSize='md'
                                             variant='outlined'
                                         >
-                                            <ShareIcon />
+                                            <LegacyShare1pxIcon iconSize='xs' />
                                             Share link
                                         </Button>
                                         <Button
@@ -129,7 +126,11 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                                             textSize='md'
                                             variant='outlined'
                                         >
-                                            {isCopied ? <CheckmarkCircle /> : <ShareLinkIcon />}
+                                            {isCopied ? (
+                                                <LegacyWonIcon iconSize='xs' />
+                                            ) : (
+                                                <LegacyShareLink1pxIcon iconSize='xs' />
+                                            )}
                                             Copy link
                                         </Button>
                                     </div>
