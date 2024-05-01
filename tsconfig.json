@@ -25,6 +25,7 @@
     },
   },
   "include": ["src"],
+  "files": ["./global.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],
 }
 
