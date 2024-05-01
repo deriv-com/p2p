@@ -2,9 +2,8 @@ import clsx from 'clsx';
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { OnlineStatusIcon, OnlineStatusLabel, StarRating } from '@/components';
 import { getCurrentRoute } from '@/utils';
+import { LabelPairedCircleUserSlashSmRegularIcon, LabelPairedThumbsUpSmRegularIcon } from '@deriv/quill-icons';
 import { Text, useDevice } from '@deriv-com/ui';
-import ThumbUpIcon from '../../public/ic-thumb-up.svg?react';
-import BlockedUserOutlineIcon from '../../public/ic-user-blocked-outline.svg?react';
 import './AdvertiserNameStats.scss';
 
 /**
@@ -72,7 +71,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                         </div>
                     </div>
                     <div>
-                        <ThumbUpIcon />
+                        <LabelPairedThumbsUpSmRegularIcon />
                         <Text color='less-prominent' size='sm'>
                             {recommendedAverage || 0}%
                         </Text>
@@ -81,7 +80,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
             )}
             {isMyProfile && (
                 <div>
-                    <BlockedUserOutlineIcon />
+                    <LabelPairedCircleUserSlashSmRegularIcon />
                     <Text color='less-prominent' size='sm'>
                         {blockedByCount || 0}
                     </Text>

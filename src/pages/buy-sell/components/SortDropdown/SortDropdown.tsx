@@ -1,8 +1,7 @@
 import { MutableOption } from 'types';
 import { TSortByValues } from '@/utils';
-import { LabelPairedChevronDownMdRegularIcon } from '@deriv/quill-icons';
+import { LabelPairedChevronDownMdRegularIcon, LegacySort1pxIcon } from '@deriv/quill-icons';
 import { Button, Dropdown, useDevice } from '@deriv-com/ui';
-import SortIcon from '../../../../public/ic-cashier-sort.svg?react';
 import './SortDropdown.scss';
 
 type TSortDropdownProps = {
@@ -20,7 +19,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
             <Button
                 className='w-[3.2rem] !border-[#d6dadb] border-[1px]'
                 color='black'
-                icon={<SortIcon className='absolute' data-testid='dt_sort_dropdown_button' />}
+                icon={<LegacySort1pxIcon className='absolute' data-testid='dt_sort_dropdown_button' iconSize='xs' />}
                 onClick={() => setIsFilterModalOpen(true)}
                 variant='outlined'
             />
