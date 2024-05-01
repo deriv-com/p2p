@@ -2,8 +2,8 @@ import { MutableOption } from 'types';
 import { Dropdown, Search } from '@/components';
 import { COUNTERPARTIES_DROPDOWN_LIST } from '@/constants';
 import { useDevice } from '@/hooks/custom-hooks';
+import { LegacySort1pxIcon } from '@deriv/quill-icons';
 import { Button, Text } from '@deriv-com/ui';
-import SortIcon from '../../../../../public/ic-cashier-sort.svg?react';
 import './MyProfileCounterpartiesHeader.scss';
 
 type MyProfileCounterpartiesHeaderProps = {
@@ -34,7 +34,7 @@ const MyProfileCounterpartiesHeader = ({
                     <Button
                         className='my-profile-counterparties-header__sort-icon'
                         color='black'
-                        icon={<SortIcon />}
+                        icon={<LegacySort1pxIcon iconSize='xs' />}
                         onClick={onClickFilter}
                         variant='outlined'
                     />
