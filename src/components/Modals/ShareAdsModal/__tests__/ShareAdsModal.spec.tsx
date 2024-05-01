@@ -1,6 +1,6 @@
 import html2canvas from 'html2canvas';
 import { useDevice } from '@deriv-com/ui';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ShareAdsModal from '../ShareAdsModal';
 
@@ -24,8 +24,8 @@ const mockUseGet = {
     isLoading: false,
 };
 
-jest.mock('@deriv/api-v2', () => ({
-    p2p: {
+jest.mock('@/hooks', () => ({
+    api: {
         advert: {
             useGet: jest.fn(() => mockUseGet),
         },
@@ -50,8 +50,8 @@ jest.mock('@deriv-com/ui', () => ({
 }));
 
 const mockCopyFn = jest.fn();
-jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
     useCopyToClipboard: jest.fn(() => [true, mockCopyFn, jest.fn()]),
 }));
 
@@ -77,21 +77,26 @@ describe('ShareAdsModal', () => {
     });
 
     it('should call onCopy function when clicking on copy icon', async () => {
-        jest.useFakeTimers();
+        mockUseDevice.mockReturnValue({
+            isDesktop: false,
+            isMobile: true,
+        });
 
         render(<ShareAdsModal {...mockProps} />);
+        screen.debug(undefined, 1000000);
         const copyButton = screen.getByRole('button', { name: 'Copy link' });
         await userEvent.click(copyButton);
-        await act(async () => {
-            jest.runAllTimers();
-            await Promise.resolve();
-        });
 
         expect(mockCopyFn).toHaveBeenCalledWith(
             `${window.location.href}advertiser/${mockUseGet.data.advertiser_details.id}?advert_id=${mockProps.id}`
         );
     });
     it('should call html2canvas function when clicking on Download this QR code button', async () => {
+        mockUseDevice.mockReturnValue({
+            isDesktop: false,
+            isMobile: true,
+        });
+
         render(<ShareAdsModal {...mockProps} />);
 
         const downloadButton = screen.getByRole('button', { name: 'Download this QR code' });
