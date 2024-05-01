@@ -40,7 +40,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
 
     useEffect(() => {
         if (isSuccess) {
-            onRequestClose;
+            onRequestClose();
             setHasCreatedAdvertiser(true);
         } else if (isError) {
             debouncedReset();
@@ -90,7 +90,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                         color='black'
                         onClick={() => {
                             history.push(BUY_SELL_URL);
-                            onRequestClose;
+                            onRequestClose();
                         }}
                         size='lg'
                         textSize={textSize}

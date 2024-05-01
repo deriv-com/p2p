@@ -76,6 +76,7 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
     return (
         // TODO: below modal will be rewritten to use @deriv/ui modal
         <Modal
+            ariaHideApp={false}
             className='daily-limit-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
