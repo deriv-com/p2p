@@ -1,10 +1,11 @@
 import { FC, Suspense } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
+import { TCurrency } from 'types';
 import { BUY_SELL_URL } from '@/constants';
 import { Loader } from '@deriv-com/ui';
 import { routes } from './routes-config';
 
-type TState = { from: string };
+type TState = { [key: string]: string[] | TCurrency | string; from: string };
 
 declare module 'react-router-dom' {
     export function useHistory(): {
