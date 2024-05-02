@@ -37,6 +37,7 @@ const MyProfileAdDetailsTextArea = ({
 };
 
 const MyProfileAdDetails = () => {
+    //TODO: change isloading to ispending after fixed from api-hooks
     const { data: advertiserInfo, isLoading } = api.advertiser.useGetInfo();
     const { mutate: updateAdvertiser } = api.advertiser.useUpdate();
     const [contactInfo, setContactInfo] = useState('');
