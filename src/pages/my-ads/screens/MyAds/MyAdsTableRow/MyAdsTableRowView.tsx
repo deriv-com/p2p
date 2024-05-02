@@ -34,7 +34,7 @@ const MyAdsTableRowView = ({
     const { error, isError, mutate: deleteAd } = api.advert.useDelete();
     const history = useHistory();
     const location = useLocation();
-    const createAdvisibilityStatus = (location.state as TState).visibilityStatus;
+    const createAdvisibilityStatus = (location.state as TState)?.visibilityStatus;
 
     useEffect(() => {
         if (createAdvisibilityStatus) {
@@ -133,10 +133,10 @@ const MyAdsTableRowView = ({
                 onRequestClose={hideModal}
             />
             <AdVisibilityErrorModal
-                currency={(location.state as TState).currency as TCurrency}
-                errorCode={(location.state as TState).visibilityStatus ?? ''}
+                currency={(location.state as TState)?.currency ?? ('' as TCurrency)}
+                errorCode={(location.state as TState)?.visibilityStatus ?? ''}
                 isModalOpen={!!isModalOpenFor('AdVisibilityErrorModal')}
-                limit={(location.state as TState).limit ?? ''}
+                limit={(location.state as TState)?.limit ?? ''}
                 onRequestClose={hideModal}
             />
         </>

@@ -64,10 +64,10 @@ const AdVisibilityErrorModal = ({
             shouldCloseOnOverlayClick={false}
         >
             <Modal.Header className='ad-visibility-error-modal__header' hideBorder hideCloseIcon>
-                <Text>{getErrorMessage(currency, limit)[errorCode].title}</Text>
+                <Text>{getErrorMessage(currency, limit)[errorCode]?.title ?? ''}</Text>
             </Modal.Header>
             <Modal.Body className='ad-visibility-error-modal__body'>
-                <Text size='sm'>{getErrorMessage(currency, limit)[errorCode].description}</Text>
+                <Text size='sm'>{getErrorMessage(currency, limit)[errorCode]?.description ?? ''}</Text>
             </Modal.Body>
             <Modal.Footer className='ad-visibility-error-modal__footer' hideBorder>
                 <Button onClick={onRequestClose}>Ok</Button>
