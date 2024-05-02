@@ -6,9 +6,9 @@ const mockOnRequestClose = jest.fn();
 const mockUseBlockMutate = jest.fn();
 const mockUseUnblockMutate = jest.fn();
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         counterparty: {
             useBlock: jest.fn(() => ({
                 mutate: mockUseBlockMutate,

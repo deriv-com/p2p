@@ -10,14 +10,14 @@ let mockUseAdvertiserUpdate = {
         daily_sell_limit: 200,
     },
     error: undefined,
-    isLoading: true,
+    isPending: true,
     isSuccess: false,
     mutate: mockUseAdvertiserUpdateMutate,
 };
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         advertiser: {
             useUpdate: jest.fn(() => mockUseAdvertiserUpdate),
         },
@@ -25,7 +25,7 @@ jest.mock('@deriv/api-v2', () => ({
 }));
 
 describe('DailyLimitModal', () => {
-    it('should render loader when data is not ready', () => {
+    it('should render loader when data is not ready', async () => {
         render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />);
 
         expect(screen.getByTestId('dt_derivs-loader')).toBeVisible();
@@ -33,7 +33,7 @@ describe('DailyLimitModal', () => {
     it('should render the correct title and behaviour', async () => {
         mockUseAdvertiserUpdate = {
             ...mockUseAdvertiserUpdate,
-            isLoading: false,
+            isPending: false,
             isSuccess: false,
         };
         render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />);
@@ -55,7 +55,7 @@ describe('DailyLimitModal', () => {
     it('should render the successful limits increase', async () => {
         mockUseAdvertiserUpdate = {
             ...mockUseAdvertiserUpdate,
-            isLoading: false,
+            isPending: false,
             isSuccess: true,
         };
         render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />);

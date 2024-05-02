@@ -23,8 +23,8 @@ let mockData: { display_name: string; id: string }[] | undefined = [
     },
 ];
 
-jest.mock('@deriv/api-v2', () => ({
-    p2p: {
+jest.mock('@/hooks', () => ({
+    api: {
         paymentMethods: {
             useGet: jest.fn(() => ({
                 data: mockData,
@@ -43,15 +43,7 @@ jest.mock('@deriv-com/ui', () => ({
 const mockUseDevice = useDevice as jest.Mock;
 
 describe('<FilterModal />', () => {
-    beforeEach(() => {
-        jest.useFakeTimers();
-    });
-
-    afterEach(() => {
-        jest.useRealTimers();
-    });
-
-    it('should render the initial page of the FilterModal', () => {
+    it('should render the initial page of the FilterModal', async () => {
         render(<FilterModal {...mockProps} />);
 
         const toggleSwitch = screen.getByRole('checkbox');
@@ -136,6 +128,8 @@ describe('<FilterModal />', () => {
     });
 
     it('should show the search results when user types in the search input', async () => {
+        jest.useRealTimers();
+
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
@@ -143,9 +137,7 @@ describe('<FilterModal />', () => {
 
         const searchInput = screen.getByRole('searchbox');
 
-        async () => {
-            await userEvent.type(searchInput, 'alipay');
-        };
+        await userEvent.type(searchInput, 'alipay');
 
         act(() => {
             jest.runAllTimers();
@@ -156,6 +148,7 @@ describe('<FilterModal />', () => {
     });
 
     it('should show No results for message if payment method is not in the list', async () => {
+        jest.useRealTimers();
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
@@ -163,9 +156,7 @@ describe('<FilterModal />', () => {
 
         const searchInput = screen.getByRole('searchbox');
 
-        async () => {
-            await userEvent.type(searchInput, 'paypal');
-        };
+        await userEvent.type(searchInput, 'paypal');
 
         act(() => {
             jest.runAllTimers();
@@ -174,9 +165,7 @@ describe('<FilterModal />', () => {
         expect(screen.getByText(/No results for "paypal"./s)).toBeInTheDocument();
         expect(screen.getByText('Check your spelling or use a different term.')).toBeInTheDocument();
 
-        async () => {
-            await userEvent.clear(searchInput);
-        };
+        await userEvent.clear(searchInput);
 
         act(() => {
             jest.runAllTimers();

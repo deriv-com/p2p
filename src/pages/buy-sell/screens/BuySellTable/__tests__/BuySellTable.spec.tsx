@@ -7,7 +7,7 @@ const mockPush = jest.fn();
 let mockAdvertiserListData = {
     data: [],
     isFetching: false,
-    isLoading: true,
+    isPending: true,
     loadMoreAdverts: jest.fn(),
 };
 
@@ -23,9 +23,14 @@ jest.mock('react-router-dom', () => ({
     }),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@deriv-com/api-hooks', () => ({
+    ...jest.requireActual('@deriv-com/api-hooks'),
+    useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
+}));
+
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         advert: {
             useGetList: jest.fn(() => mockAdvertiserListData),
         },
@@ -39,8 +44,10 @@ jest.mock('@deriv/api-v2', () => ({
             useGet: jest.fn(() => ({ data: [] })),
         },
         settings: {
-            useGetSettings: jest.fn(() => ({
-                data: {},
+            useSettings: jest.fn(() => ({
+                data: {
+                    localCurrency: 'USD',
+                },
             })),
         },
     },
@@ -53,7 +60,7 @@ jest.mock('@deriv-com/ui', () => ({
 
 jest.mock('../../BuySellHeader/BuySellHeader', () => jest.fn(() => <div>BuySellHeader</div>));
 
-describe('<BuySellTable.spec />', () => {
+describe('<BuySellTable />', () => {
     beforeEach(() => {
         Object.defineProperty(window, 'location', {
             value: {
@@ -95,7 +102,7 @@ describe('<BuySellTable.spec />', () => {
                 },
             ],
             isFetching: false,
-            isLoading: false,
+            isPending: false,
             loadMoreAdverts: jest.fn(),
         };
 
