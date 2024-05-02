@@ -52,8 +52,11 @@ jest.mock('../../../components/AdFormInput', () => ({
 jest.mock('../../../components/AdFormTextArea', () => ({
     AdFormTextArea: () => <div>AdFormTextArea</div>,
 }));
-jest.mock('@deriv/api-v2', () => ({
-    p2p: {
+jest.mock('@/hooks', () => ({
+    api: {
+        account: {
+            useActiveAccount: () => ({ data: { currency: 'USD' } }),
+        },
         advert: {
             useCreate: () => ({
                 error: undefined,
@@ -165,17 +168,16 @@ jest.mock('@deriv/api-v2', () => ({
             }),
         },
         settings: {
-            useGetSettings: () => ({
+            useSettings: () => ({
                 data: {
                     order_payment_period: 60,
                 },
             }),
         },
     },
-    useActiveAccount: () => ({ data: { currency: 'USD' } }),
 }));
 
-jest.mock('@/hooks', () => {
+jest.mock('@/hooks/custom-hooks', () => {
     const modalManager = {
         hideModal: jest.fn(),
         isModalOpenFor: jest.fn(),
