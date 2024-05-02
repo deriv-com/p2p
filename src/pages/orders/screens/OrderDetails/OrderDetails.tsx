@@ -6,9 +6,9 @@ import { api } from '@/hooks';
 import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
+import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
-import ChatIcon from '../../../../public/ic-chat.svg?react';
 import { OrderDetailsCard } from '../../components/OrderDetailsCard';
 import { OrderDetailsCardFooter } from '../../components/OrderDetailsCard/OrderDetailsCardFooter';
 import { OrdersChatSection } from '../OrdersChatSection';
@@ -89,7 +89,7 @@ const OrderDetails = () => {
                                     onClick={() => setShowChat(true)}
                                     variant='contained'
                                 >
-                                    <ChatIcon className='mt-2' />
+                                    <LegacyLiveChatOutlineIcon className='mt-2' iconSize='xs' />
                                 </Button>
                             </Text>
                         )}

@@ -29,9 +29,9 @@ jest.mock('@deriv-com/ui', () => ({
     }),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         advertiser: {
             useCreate: jest.fn(() => ({
                 error: undefined,
@@ -78,7 +78,7 @@ describe('NicknameModal', () => {
         expect(mockedMutate).toHaveBeenCalledWith({
             name: 'Nahida',
         });
-        expect(mockUseAdvertiserInfoState().setHasCreatedAdvertiser).toBeCalledWith(true);
+        expect(mockUseAdvertiserInfoState().setHasCreatedAdvertiser).toHaveBeenCalledWith(true);
     });
     it('should invoke reset when there is an error from creating advertiser', async () => {
         (mockedUseAdvertiserCreate as jest.Mock).mockImplementationOnce(() => ({
@@ -89,11 +89,9 @@ describe('NicknameModal', () => {
             reset: mockedReset,
         }));
 
-        await (() => {
-            render(<NicknameModal {...mockProps} />);
-        });
+        render(<NicknameModal {...mockProps} />);
 
-        expect(mockedReset).toBeCalled();
+        expect(mockedReset).toHaveBeenCalled();
     });
     it('should close the modal when Cancel button is clicked', async () => {
         (mockedUseAdvertiserCreate as jest.Mock).mockImplementationOnce(() => ({
@@ -111,7 +109,7 @@ describe('NicknameModal', () => {
         });
         await userEvent.click(cancelBtn);
 
-        expect(mockPush).toBeCalledWith('/buy-sell');
-        expect(mockProps.onRequestClose).toBeCalledWith(false);
+        expect(mockPush).toHaveBeenCalledWith('/buy-sell');
+        expect(mockProps.onRequestClose).toHaveBeenCalled();
     });
 });

@@ -3,8 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { UserAvatar } from '@/components';
 import { BlockUnblockUserModal } from '@/components/Modals';
 import { ADVERTISER_URL } from '@/constants';
-import { useDevice } from '@/hooks/custom-hooks';
-import { Button, Text } from '@deriv-com/ui';
+import { Button, Text, useDevice } from '@deriv-com/ui';
 import './MyProfileCounterpartiesTableRow.scss';
 
 type TMyProfileCounterpartiesTableRowProps = {

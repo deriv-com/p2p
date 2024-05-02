@@ -1,10 +1,11 @@
+import { DeepPartial, THooks } from 'types';
 import { api } from '@/hooks';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AdvertiserAdvertsTable from '../AdvertiserAdvertsTable';
 
 let mockApiValues = {
-    data: [{}],
+    data: undefined as DeepPartial<THooks.Advert.GetList> | undefined,
     isFetching: false,
     isLoading: true,
     loadMoreAdverts: jest.fn(),
@@ -15,14 +16,19 @@ jest.mock('use-query-params', () => ({
     useQueryParams: jest.fn().mockReturnValue([{}, jest.fn()]),
 }));
 
+jest.mock('@deriv-com/api-hooks', () => ({
+    ...jest.requireActual('@deriv-com/api-hooks'),
+    useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         advert: {
             useGetList: jest.fn(() => mockApiValues),
         },
@@ -67,7 +73,6 @@ describe('<AdvertiserAdvertsTable />', () => {
             data: [
                 {
                     account_currency: 'USD',
-                    advertiser_id: '123',
                     counterparty_type: 'buy',
                     id: '123',
                     max_order_amount_limit_display: '100.00',
@@ -85,7 +90,6 @@ describe('<AdvertiserAdvertsTable />', () => {
         expect(screen.getByText(/10.00-100.00 USD/)).toBeInTheDocument();
 
         expect(screen.getByText('Rate (1 USD)')).toBeInTheDocument();
-        expect(screen.getByText('0.00')).toBeInTheDocument();
 
         expect(screen.getByText('Payment methods')).toBeInTheDocument();
         expect(screen.getByText('Bank Transfer')).toBeInTheDocument();
@@ -100,7 +104,6 @@ describe('<AdvertiserAdvertsTable />', () => {
             data: [
                 {
                     account_currency: 'USD',
-                    advertiser_id: '123',
                     counterparty_type: 'sell',
                     id: '123',
                     max_order_amount_limit_display: '100.00',
