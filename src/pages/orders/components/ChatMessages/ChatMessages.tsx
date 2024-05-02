@@ -5,7 +5,7 @@ import { CHAT_FILE_TYPE, CHAT_MESSAGE_TYPE } from '@/constants';
 import { useSendbird } from '@/hooks/custom-hooks';
 import { convertToMB, formatMilliseconds } from '@/utils';
 import { Text, useDevice } from '@deriv-com/ui';
-import PDFIcon from '../../../../public/ic-pdf.svg';
+import { ReactComponent as PDFIcon } from '../../../../public/ic-pdf.svg';
 import { ChatMessageReceipt } from '../ChatMessageReceipt';
 import { ChatMessageText } from '../ChatMessageText';
 import './ChatMessages.scss';
