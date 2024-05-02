@@ -10,22 +10,38 @@ const mockUseAdvertiserStats = {
     isLoading: true,
 };
 
-jest.mock('@/hooks/useDevice', () => ({
-    __esModule: true,
-    default: jest.fn(() => ({
-        isMobile: false,
-    })),
-}));
-jest.mock('@/hooks/useAdvertiserStats', () => ({
-    __esModule: true,
-    default: jest.fn(() => mockUseAdvertiserStats),
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn().mockReturnValue({ isMobile: false }),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    useActiveAccount: jest.fn(() => ({
-        currency: 'USD',
-    })),
+jest.mock('@/hooks/custom-hooks', () => ({
+    useAdvertiserStats: jest.fn(() => mockUseAdvertiserStats),
+}));
+
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({
+                currency: 'USD',
+            })),
+        },
+        advertiser: {
+            useUpdate: jest.fn(() => ({
+                data: {
+                    data: {
+                        daily_buy_limit: 100,
+                        daily_sell_limit: 200,
+                    },
+                },
+                error: null,
+                isPending: false,
+                isSuccess: false,
+                mutate: jest.fn(),
+            })),
+        },
+    },
 }));
 
 describe('ProfileDailyLimit', () => {
@@ -47,5 +63,10 @@ describe('ProfileDailyLimit', () => {
         expect(screen.queryByTestId('dt_daily_limit_modal')).not.toBeInTheDocument();
         await userEvent.click(increaseLimitsBtn);
         expect(screen.getByTestId('dt_daily_limit_modal')).toBeInTheDocument();
+
+        const noButton = screen.getByRole('button', { name: 'No' });
+        await userEvent.click(noButton);
+
+        expect(screen.queryByTestId('dt_daily_limit_modal')).not.toBeInTheDocument();
     });
 });
