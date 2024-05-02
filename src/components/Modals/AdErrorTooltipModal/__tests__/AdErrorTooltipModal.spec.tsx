@@ -13,14 +13,6 @@ const mockProps = {
     visibilityStatus: [],
 };
 
-jest.mock('@deriv/api-v2', () => ({
-    useAuthorize: () => ({
-        data: {
-            local_currencies: ['USD'],
-        },
-    }),
-}));
-
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: () => ({ isMobile: false }),

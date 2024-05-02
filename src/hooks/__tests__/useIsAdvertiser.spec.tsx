@@ -2,9 +2,9 @@ import { renderHook } from '@testing-library/react';
 import useIsAdvertiser from '../custom-hooks/useIsAdvertiser';
 import { api } from '..';
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         advertiser: {
             useGetInfo: jest.fn().mockReturnValue({
                 data: {
@@ -31,7 +31,9 @@ describe('useIsAdvertiser', () => {
             ...mockUseGetInfo,
             data: {},
             error: {
-                code: 'AdvertiserNotFound',
+                error: {
+                    code: 'AdvertiserNotFound',
+                },
             },
         });
 

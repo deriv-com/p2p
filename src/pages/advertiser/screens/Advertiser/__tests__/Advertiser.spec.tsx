@@ -18,9 +18,9 @@ jest.mock('react-router-dom', () => ({
     useParams: () => ({ advertiserId: '123' }),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         advertiser: {
             useGetInfo: jest.fn(() => ({
                 data: {

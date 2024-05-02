@@ -70,7 +70,7 @@ jest.mock('react-router-dom', () => ({
     useHistory: () => mockHistory,
 }));
 
-jest.mock('@/hooks', () => {
+jest.mock('@/hooks/custom-hooks', () => {
     const modalManager = {
         hideModal: jest.fn(),
         isModalOpenFor: jest.fn(),
@@ -89,8 +89,8 @@ jest.mock('@/hooks', () => {
     };
 });
 
-jest.mock('@deriv/api-v2', () => ({
-    p2p: {
+jest.mock('@/hooks', () => ({
+    api: {
         advert: {
             useDelete: jest.fn().mockReturnValue({ error: null, isError: false, mutate: jest.fn() }),
             useUpdate: jest.fn().mockReturnValue({ error: null, isError: false, mutate: jest.fn() }),

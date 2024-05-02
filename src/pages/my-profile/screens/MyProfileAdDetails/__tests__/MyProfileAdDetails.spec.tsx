@@ -21,20 +21,20 @@ const mockUseDevice = {
 };
 const mockSetQueryString = jest.fn();
 
-jest.mock('@/hooks/useDevice', () => ({
-    __esModule: true,
-    default: jest.fn(() => mockUseDevice),
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => mockUseDevice),
 }));
-jest.mock('@/hooks/useQueryString', () => ({
-    __esModule: true,
-    default: jest.fn(() => ({
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useQueryString: jest.fn(() => ({
         setQueryString: mockSetQueryString,
     })),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         advertiser: {
             useGetInfo: jest.fn(() => mockUseAdvertiserInfo),
             useUpdate: jest.fn(() => mockUseUpdateAdvertiser),
