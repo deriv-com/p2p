@@ -2,8 +2,8 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { THooks } from 'types';
 import { FullPageMobileWrapper, TextArea } from '@/components';
 import { api } from '@/hooks';
-import { useDevice, useQueryString } from '@/hooks/custom-hooks';
-import { Button, Loader } from '@deriv-com/ui';
+import { useQueryString } from '@/hooks/custom-hooks';
+import { Button, Loader, useDevice } from '@deriv-com/ui';
 import './MyProfileAdDetails.scss';
 
 type TMYProfileAdDetailsTextAreaProps = {

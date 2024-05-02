@@ -30,14 +30,18 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: () => ({ isMobile: false }),
 }));
 
-jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
     useAdvertiserStats: jest.fn(() => mockUseAdvertiserStats),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    useActiveAccount: jest.fn(() => mockUseActiveAccount),
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => mockUseActiveAccount),
+        },
+    },
 }));
 
 describe('MyProfileStats', () => {

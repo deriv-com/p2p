@@ -5,8 +5,8 @@ import usePoiPoaStatus from '../custom-hooks/usePoiPoaStatus';
 
 const mockUseGetAccountStatus = useGetAccountStatus as jest.MockedFunction<typeof useGetAccountStatus>;
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
+jest.mock('@deriv-com/api-hooks', () => ({
+    ...jest.requireActual('@deriv-com/api-hooks'),
     useGetAccountStatus: jest.fn().mockReturnValue({
         data: {
             authentication: {
@@ -98,7 +98,7 @@ describe('usePoiPoaStatus', () => {
         const { result } = renderHook(() => usePoiPoaStatus());
 
         expect(result.current.data).toStrictEqual({
-            isP2PPoaRequired: false,
+            isP2PPoaRequired: 0,
             isPoaPending: false,
             isPoaVerified: true,
             isPoiPending: false,
