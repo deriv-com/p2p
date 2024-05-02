@@ -150,7 +150,14 @@ const PaymentMethodForm = ({
                                 isValid={isValid}
                             />
                         ) : (
-                            <Button className='border-2' color='black' size='lg' textSize='sm' variant='outlined'>
+                            <Button
+                                className='border-2'
+                                color='black'
+                                onClick={onRequestClose}
+                                size='lg'
+                                textSize='sm'
+                                variant='outlined'
+                            >
                                 Cancel
                             </Button>
                         )}

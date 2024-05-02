@@ -113,9 +113,15 @@
 
             & .deriv-dropdown {
                 & .deriv-input {
+                    height: 4rem;
+                    align-items: center;
                     &__helper-message {
                         display: none;
                     }
+                }
+
+                &__items--xs {
+                    max-height: 20rem;
                 }
             }
         }
