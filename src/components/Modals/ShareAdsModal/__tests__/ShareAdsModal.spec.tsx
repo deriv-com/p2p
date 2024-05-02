@@ -83,7 +83,7 @@ describe('ShareAdsModal', () => {
         });
 
         render(<ShareAdsModal {...mockProps} />);
-        screen.debug(undefined, 1000000);
+
         const copyButton = screen.getByRole('button', { name: 'Copy link' });
         await userEvent.click(copyButton);
 
