@@ -2,9 +2,9 @@ import { THooks } from 'types';
 import { FlyoutMenu } from '@/components';
 import { LabelPairedEllipsisVerticalXlRegularIcon } from '@deriv/quill-icons';
 import { Button, Checkbox } from '@deriv-com/ui';
-import IcCashierBankTransfer from '../../../public/ic-cashier-bank-transfer.svg?react';
-import IcCashierEwallet from '../../../public/ic-cashier-ewallet.svg?react';
-import IcCashierOther from '../../../public/ic-cashier-other.svg?react';
+import { ReactComponent as IcCashierBankTransfer } from '../../../public/ic-cashier-bank-transfer.svg';
+import { ReactComponent as IcCashierEwallet } from '../../../public/ic-cashier-ewallet.svg';
+import { ReactComponent as IcCashierOther } from '../../../public/ic-cashier-other.svg';
 import './PaymentMethodCardHeader.scss';
 
 type TPaymentMethodCardHeaderProps = {
