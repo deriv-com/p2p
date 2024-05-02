@@ -41,6 +41,7 @@ const BlockUnblockUserModal = ({
 
     return (
         <Modal
+            ariaHideApp={false}
             className='block-unblock-user-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
