@@ -42,6 +42,7 @@ const PaymentMethodField = ({ control, defaultValue, displayName, field, require
                     ) : (
                         <Input
                             error={!!error?.message}
+                            isFullWidth
                             label={displayName}
                             message={error?.message}
                             onBlur={onBlur}

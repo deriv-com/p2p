@@ -1,3 +1,4 @@
+//TODO: remove the override for width and error message hide for dropdown once fixed from @deriv-com/ui
 .payment-method-form {
     max-width: 100%;
     min-width: 67.2rem;
@@ -8,6 +9,26 @@
         min-width: 36rem;
         position: absolute;
         top: 4rem;
+    }
+
+    &__modal {
+        width: 44rem;
+        height: 56rem;
+        padding-top: 0rem;
+        border-radius: 8px;
+
+        &__body {
+            padding: 2.4rem;
+
+            & .deriv-input__container {
+                width: 100%;
+            }
+        }
+
+        @include mobile {
+            padding: 1.6rem;
+            max-width: calc(100vw - 3.2rem);
+        }
     }
 
     &__button {
@@ -53,6 +74,7 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        height: 100%;
 
         @include mobile {
             overflow: auto;
@@ -87,6 +109,14 @@
 
             @include mobile {
                 padding: 1.4rem 1.6rem;
+            }
+
+            & .deriv-dropdown {
+                & .deriv-input {
+                    &__helper-message {
+                        display: none;
+                    }
+                }
             }
         }
     }

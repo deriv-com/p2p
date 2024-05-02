@@ -7,8 +7,8 @@ type TPaymentMethodFormModalRendererProps = {
     isCreateSuccessful: boolean;
     isModalOpen: boolean;
     isUpdateSuccessful: boolean;
+    onRequestClose: () => void;
     onResetFormState: () => void;
-    setIsModalOpen: (isModalOpen: boolean) => void;
     updateError: TSocketError<'p2p_advertiser_payment_methods'> | null;
 };
 
@@ -18,8 +18,8 @@ const PaymentMethodFormModalRenderer = ({
     isCreateSuccessful,
     isModalOpen,
     isUpdateSuccessful,
+    onRequestClose,
     onResetFormState,
-    setIsModalOpen,
     updateError,
 }: TPaymentMethodFormModalRendererProps) => {
     if (actionType === 'ADD' && (!isCreateSuccessful || !createError) && isModalOpen) {
@@ -28,9 +28,7 @@ const PaymentMethodFormModalRenderer = ({
                 description='If you choose to cancel, the changes you’ve made will be lost.'
                 isModalOpen={isModalOpen}
                 onConfirm={onResetFormState}
-                onReject={() => {
-                    setIsModalOpen(false);
-                }}
+                onReject={onRequestClose}
                 primaryButtonLabel='Go back'
                 secondaryButtonLabel='Cancel'
                 title='Cancel adding this payment method?'
@@ -44,9 +42,7 @@ const PaymentMethodFormModalRenderer = ({
                 description='If you choose to cancel, the details you’ve entered will be lost.'
                 isModalOpen={isModalOpen}
                 onConfirm={onResetFormState}
-                onReject={() => {
-                    setIsModalOpen(false);
-                }}
+                onReject={onRequestClose}
                 primaryButtonLabel="Don't cancel"
                 secondaryButtonLabel='Cancel'
                 title='Cancel your edits?'
