@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import { THooks } from 'types';
 import { TGenericSizes } from '@/utils';
 import { Text } from '@deriv-com/ui';
-import IcCashierBankTransfer from '../../public/ic-cashier-bank-transfer.svg?react';
-import IcCashierEwallet from '../../public/ic-cashier-ewallet.svg?react';
-import IcCashierOther from '../../public/ic-cashier-other.svg?react';
+import { ReactComponent as IcCashierBankTransfer } from '../../public/ic-cashier-bank-transfer.svg';
+import { ReactComponent as IcCashierEwallet } from '../../public/ic-cashier-ewallet.svg';
+import { ReactComponent as IcCashierOther } from '../../public/ic-cashier-other.svg';
 
 type TPaymentMethodWithIconProps = {
     className?: string;
