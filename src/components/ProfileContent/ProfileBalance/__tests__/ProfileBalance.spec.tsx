@@ -22,10 +22,21 @@ const mockUseActiveAccount = {
     isLoading: false,
 };
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    useActiveAccount: jest.fn(() => mockUseActiveAccount),
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn().mockReturnValue({ isDesktop: true }),
 }));
+
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => mockUseActiveAccount),
+        },
+    },
+}));
+
+jest.mock('../../ProfileDailyLimit/ProfileDailyLimit', () => jest.fn(() => <div>ProfileDailyLimit</div>));
 
 describe('ProfileBalance', () => {
     it('should render the correct balance', async () => {
@@ -64,7 +75,7 @@ describe('ProfileBalance', () => {
         const dailyAvailableSellLimit = screen.getByTestId('dt_profile_balance_available_sell_limit');
         expect(within(dailyAvailableSellLimit).getByText('600.00 USD')).toBeInTheDocument();
     });
-    it('should render eligibility for daily limit upgrade', async () => {
+    it('should render ProfileDailyLimit', () => {
         mockAdvertiserStatsProp = {
             advertiserStats: {
                 ...mockAdvertiserStatsProp.advertiserStats,
@@ -72,17 +83,7 @@ describe('ProfileBalance', () => {
             },
         };
         render(<ProfileBalance {...mockAdvertiserStatsProp} />);
-        expect(screen.getByTestId('dt_profile_daily_limit')).toBeInTheDocument();
-
-        const openDailyLimitModalBtn = screen.getByRole('button', {
-            name: 'Increase my limits',
-        });
-        await userEvent.click(openDailyLimitModalBtn);
-        const hideDailyLimitBtn = screen.getByRole('button', {
-            name: 'No',
-        });
-        await userEvent.click(hideDailyLimitBtn);
-        expect(screen.queryByTestId('dt_daily_limit_modal')).not.toBeInTheDocument();
+        expect(screen.getByText('ProfileDailyLimit')).toBeInTheDocument();
     });
     it('should render the correct default values', () => {
         mockAdvertiserStatsProp = {

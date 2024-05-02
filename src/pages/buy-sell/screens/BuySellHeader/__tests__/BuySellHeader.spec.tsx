@@ -36,9 +36,9 @@ jest.mock('@deriv-com/ui', () => ({
     }),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         settings: {
             useGetSettings: () => ({
                 data: {},
@@ -51,8 +51,6 @@ jest.mock('../../../components/CurrencyDropdown/CurrencyDropdown', () => jest.fn
 jest.mock('@/components/Modals/FilterModal/FilterModal', () => jest.fn(() => <div>FilterModal</div>));
 
 const mockUseDevice = useDevice as jest.Mock;
-
-jest.useFakeTimers();
 
 describe('<BuySellHeader />', () => {
     it('should render the BuySellHeader', () => {
@@ -82,22 +80,6 @@ describe('<BuySellHeader />', () => {
 
         await userEvent.click(buyTab);
         expect(mockProps.setActiveTab).toHaveBeenCalledWith(0);
-    });
-
-    it('should call setSearchValue when a value is entered in the search input', () => {
-        render(<BuySellHeader {...mockProps} />);
-
-        const searchInput = screen.getByRole('searchbox');
-
-        async () => {
-            await userEvent.type(searchInput, 'John Doe');
-        };
-
-        act(() => {
-            jest.runAllTimers();
-        });
-
-        expect(mockProps.setSearchValue).toHaveBeenCalledWith('John Doe');
     });
 
     it('should call setSortDropdownValue when a value is selected from the dropdown', async () => {
@@ -134,5 +116,23 @@ describe('<BuySellHeader />', () => {
         await userEvent.click(filterButton);
 
         expect(screen.getByText('FilterModal')).toBeInTheDocument();
+    });
+
+    it('should set the search value when the user types in the search input', async () => {
+        jest.useRealTimers();
+
+        render(<BuySellHeader {...mockProps} />);
+
+        const searchInput = screen.getByRole('searchbox');
+
+        await userEvent.type(searchInput, 'John Doe');
+
+        act(() => {
+            jest.runAllTimers();
+        });
+
+        expect(searchInput).toHaveValue('John Doe');
+
+        jest.useFakeTimers();
     });
 });

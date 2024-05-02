@@ -1,7 +1,6 @@
 import Modal from 'react-modal';
 import { api } from '@/hooks';
-import { useDevice } from '@/hooks/custom-hooks';
-import { Button, Loader, Text } from '@deriv-com/ui';
+import { Button, Loader, Text, useDevice } from '@deriv-com/ui';
 import { customStyles } from '../helpers';
 import './DailyLimitModal.scss';
 

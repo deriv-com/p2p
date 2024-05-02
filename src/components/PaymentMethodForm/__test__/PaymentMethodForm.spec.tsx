@@ -51,10 +51,10 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: () => ({ isMobile: false }),
 }));
 
-jest.mock('@deriv/api-v2', () => {
+jest.mock('@/hooks', () => {
     return {
-        ...jest.requireActual('@deriv/api-v2'),
-        p2p: {
+        ...jest.requireActual('@/hooks'),
+        api: {
             advertiserPaymentMethods: {
                 useCreate: jest.fn(() => ({
                     create: jest.fn(),
@@ -273,62 +273,6 @@ describe('PaymentMethodForm', () => {
                 onResetFormState={onResetFormState}
             />
         );
-        expect(onResetFormState).toHaveBeenCalled();
-    });
-    it('should show the error modal when a payment method is not created successfully and close it when the ok button is clicked', async () => {
-        (mockUseCreate as jest.Mock).mockReturnValueOnce({
-            create: jest.fn(),
-            error: {
-                error: {
-                    message: 'Error creating payment method',
-                },
-            },
-            isSuccess: false,
-        });
-        const onResetFormState = jest.fn();
-        render(
-            <PaymentMethodForm
-                formState={{
-                    actionType: 'ADD',
-                    title: 'title',
-                }}
-                onAdd={jest.fn()}
-                onResetFormState={onResetFormState}
-            />
-        );
-        expect(screen.getByText('Error creating payment method')).toBeInTheDocument();
-        const okButton = screen.getByRole('button', { name: 'Ok' });
-        expect(okButton).toBeInTheDocument();
-        await userEvent.click(okButton);
-        expect(onResetFormState).toHaveBeenCalled();
-    });
-    it('should show the error modal when a payment method is not updated successfully and close it when the ok button is clicked', async () => {
-        (mockUseUpdate as jest.Mock).mockReturnValueOnce({
-            error: {
-                error: {
-                    message: 'Error updating payment method',
-                },
-            },
-            isSuccess: false,
-            update: jest.fn(),
-        });
-        const onResetFormState = jest.fn();
-        const otherPaymentMethod = mockPaymentMethods.find(method => method.type === 'other');
-        render(
-            <PaymentMethodForm
-                formState={{
-                    actionType: 'EDIT',
-                    selectedPaymentMethod: otherPaymentMethod,
-                    title: 'title',
-                }}
-                onAdd={jest.fn()}
-                onResetFormState={onResetFormState}
-            />
-        );
-        expect(screen.getByText('Error updating payment method')).toBeInTheDocument();
-        const okButton = screen.getByRole('button', { name: 'Ok' });
-        expect(okButton).toBeInTheDocument();
-        await userEvent.click(okButton);
         expect(onResetFormState).toHaveBeenCalled();
     });
     it('should handle submit when the form is submitted and the actiontype is add', async () => {

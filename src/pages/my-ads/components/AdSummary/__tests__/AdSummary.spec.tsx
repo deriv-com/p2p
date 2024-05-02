@@ -11,6 +11,11 @@ const mockProps = {
     type: 'buy',
 };
 
+jest.mock('@deriv-com/api-hooks', () => ({
+    ...jest.requireActual('@deriv-com/api-hooks'),
+    useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn().mockReturnValue({
@@ -18,7 +23,7 @@ jest.mock('@deriv-com/ui', () => ({
     }),
 }));
 
-jest.mock('@/hooks', () => ({
+jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks'),
     useQueryString: jest.fn().mockReturnValue({
         queryString: {
@@ -27,11 +32,11 @@ jest.mock('@/hooks', () => ({
     }),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         settings: {
-            useGetSettings: () => ({
+            useSettings: () => ({
                 data: {
                     order_payment_period: 60,
                     override_exchange_rate: 0.01,
@@ -39,14 +44,6 @@ jest.mock('@deriv/api-v2', () => ({
             }),
         },
     },
-    useExchangeRateSubscription: () => ({
-        data: {
-            rates: {
-                IDR: 14000,
-            },
-        },
-        subscribe: jest.fn(),
-    }),
 }));
 
 describe('<AdSummary />', () => {
