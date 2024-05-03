@@ -1,14 +1,15 @@
+import { useEffect } from 'react';
 import { TFormState, TSocketError } from 'types';
 import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
+import { useModalManager } from '@/hooks';
 
 type TPaymentMethodFormModalRendererProps = {
     actionType: TFormState['actionType'];
     createError: TSocketError<'p2p_advertiser_payment_methods'> | null;
     isCreateSuccessful: boolean;
-    isModalOpen: boolean;
     isUpdateSuccessful: boolean;
     onResetFormState: () => void;
-    setIsModalOpen: (isModalOpen: boolean) => void;
+    setIsError: (isError: boolean) => void;
     updateError: TSocketError<'p2p_advertiser_payment_methods'> | null;
 };
 
@@ -16,59 +17,65 @@ const PaymentMethodFormModalRenderer = ({
     actionType,
     createError,
     isCreateSuccessful,
-    isModalOpen,
     isUpdateSuccessful,
     onResetFormState,
-    setIsModalOpen,
+    setIsError,
     updateError,
 }: TPaymentMethodFormModalRendererProps) => {
-    if (actionType === 'ADD' && (!isCreateSuccessful || !createError) && isModalOpen) {
-        return (
-            <PaymentMethodModal
-                description='If you choose to cancel, the changes you’ve made will be lost.'
-                isModalOpen={isModalOpen}
-                onConfirm={onResetFormState}
-                onReject={() => {
-                    setIsModalOpen(false);
-                }}
-                primaryButtonLabel='Go back'
-                secondaryButtonLabel='Cancel'
-                title='Cancel adding this payment method?'
-            />
-        );
-    }
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
 
-    if (actionType === 'EDIT' && (!isUpdateSuccessful || !updateError) && isModalOpen) {
-        return (
-            <PaymentMethodModal
-                description='If you choose to cancel, the details you’ve entered will be lost.'
-                isModalOpen={isModalOpen}
-                onConfirm={onResetFormState}
-                onReject={() => {
-                    setIsModalOpen(false);
-                }}
-                primaryButtonLabel="Don't cancel"
-                secondaryButtonLabel='Cancel'
-                title='Cancel your edits?'
-            />
-        );
-    }
+    useEffect(() => {
+        if (
+            (actionType === 'ADD' && (!isCreateSuccessful || !createError)) ||
+            (actionType === 'EDIT' && (!isUpdateSuccessful || !updateError))
+        ) {
+            showModal('PaymentMethodModal');
+        }
 
-    // TODO: Remember to translate these strings
-    if (createError || updateError) {
-        return (
-            <PaymentMethodErrorModal
-                errorMessage={String(createError?.error?.message || updateError?.error?.message)}
-                isModalOpen={true}
-                onConfirm={() => {
-                    onResetFormState();
-                }}
-                title='Something’s not right'
-            />
-        );
-    }
+        // TODO: Remember to translate these strings
+        if (createError || updateError) {
+            showModal('PaymentMethodErrorModal');
+        }
+    }, [actionType, createError, isCreateSuccessful, isUpdateSuccessful, updateError]);
 
-    return null;
+    return (
+        <>
+            {!!isModalOpenFor('PaymentMethodErrorModal') && (
+                <PaymentMethodErrorModal
+                    errorMessage={String(createError?.error?.message || updateError?.error?.message)}
+                    isModalOpen={!!isModalOpenFor('PaymentMethodErrorModal')}
+                    onConfirm={() => {
+                        onResetFormState();
+                        setIsError(false);
+                        hideModal({ shouldHideAllModals: true });
+                    }}
+                    title='Something’s not right'
+                />
+            )}
+            {!!isModalOpenFor('PaymentMethodModal') && (
+                <PaymentMethodModal
+                    description={
+                        actionType === 'ADD'
+                            ? 'If you choose to cancel, the changes you’ve made will be lost.'
+                            : 'If you choose to cancel, the details you’ve entered will be lost.'
+                    }
+                    isModalOpen={!!isModalOpenFor('PaymentMethodModal')}
+                    onConfirm={() => {
+                        onResetFormState();
+                        setIsError(false);
+                        hideModal({ shouldHideAllModals: true });
+                    }}
+                    onReject={() => {
+                        hideModal();
+                        setIsError(false);
+                    }}
+                    primaryButtonLabel={actionType === 'ADD' ? 'Go back' : "Don't cancel"}
+                    secondaryButtonLabel='Cancel'
+                    title={actionType === 'ADD' ? 'Cancel adding this payment method?' : 'Cancel your edits?'}
+                />
+            )}
+        </>
+    );
 };
 
 export default PaymentMethodFormModalRenderer;

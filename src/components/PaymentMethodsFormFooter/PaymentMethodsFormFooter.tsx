@@ -28,7 +28,7 @@ const PaymentMethodsFormFooter = ({
     isValid,
 }: TPaymentMethodsFormFooterProps) => {
     const { isMobile } = useDevice();
-    const textSize = isMobile ? 'lg' : 'sm';
+    const textSize = isMobile ? 'md' : 'sm';
 
     return (
         <div className='payment-methods-form-footer' role='payment-methods-form-footer'>

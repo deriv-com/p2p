@@ -9,8 +9,8 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: () => ({ isMobile: false }),
 }));
 
-jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
     useQueryString: jest.fn().mockReturnValue({ queryString: { advertId: '' } }),
 }));
 

@@ -11,6 +11,10 @@ type TShowModalOptions = {
     shouldStackModals?: boolean;
 };
 
+type THideModalOptions = {
+    shouldHideAllModals?: boolean;
+};
+
 const MODAL_QUERY_SEPARATOR = ',';
 
 /**
@@ -61,30 +65,41 @@ export default function useModalManager(config?: TUseModalManagerConfig) {
         syncModalParams();
     }, []);
 
+    useEffect(() => {
+        if (!queryString?.modal) actions.reset();
+    }, [queryString?.modal]);
+
     // ...or when the user clicks the back button
     useEventListener('popstate', () => {
         syncModalParams();
     });
 
-    const hideModal = () => {
+    const hideModal = (options?: THideModalOptions) => {
         const modalHash = queryString.modal;
 
         if (modalHash) {
             const modalIds = modalHash.split(MODAL_QUERY_SEPARATOR);
-            const currentModalId = modalIds.pop();
-            const previousModalId = modalIds.slice(-1)[0];
-            if (previousModalId) {
-                actions.set(currentModalId, false);
-                actions.set(previousModalId, true);
-            } else {
-                actions.set(currentModalId, false);
-            }
-            if (modalIds.length === 0) {
-                deleteQueryString('modal');
-            } else {
-                setQueryString({
-                    modal: modalIds.join(MODAL_QUERY_SEPARATOR),
+            if (options?.shouldHideAllModals) {
+                isModalOpenScopes.forEach((_, key) => {
+                    actions.set(key, false);
+                    deleteQueryString('modal');
                 });
+            } else {
+                const currentModalId = modalIds.pop();
+                const previousModalId = modalIds.slice(-1)[0];
+                if (previousModalId) {
+                    actions.set(currentModalId, false);
+                    actions.set(previousModalId, true);
+                } else {
+                    actions.set(currentModalId, false);
+                }
+                if (modalIds.length === 0) {
+                    deleteQueryString('modal');
+                } else {
+                    setQueryString({
+                        modal: modalIds.join(MODAL_QUERY_SEPARATOR),
+                    });
+                }
             }
         }
     };

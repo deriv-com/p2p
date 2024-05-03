@@ -175,8 +175,8 @@ const CreateEditAd = () => {
             setValue('amount', advertInfo.amount.toString());
             setValue('instructions', advertInfo.description);
             setValue('max-order', advertInfo.max_order_amount.toString());
-            setValue('min-completion-rate', advertInfo.min_completion_rate.toString());
-            setValue('min-join-days', advertInfo.min_join_days.toString());
+            setValue('min-completion-rate', advertInfo.min_completion_rate?.toString() ?? '');
+            setValue('min-join-days', advertInfo.min_join_days?.toString() ?? '');
             setValue('min-order', advertInfo.min_order_amount.toString());
             setValue('rate-value', setInitialAdRate() as string);
             setValue('preferred-countries', advertInfo.eligible_countries ?? Object.keys(countryList as object));

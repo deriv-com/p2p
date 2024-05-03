@@ -7,10 +7,14 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: () => ({ isMobile: false }),
 }));
 
-jest.mock('@deriv-com/api-hooks', () => ({
-    useP2PSettings: jest.fn(() => ({
-        data: { review_period: 24 },
-    })),
+jest.mock('@/hooks', () => ({
+    api: {
+        settings: {
+            useSettings: () => ({
+                data: { review_period: 24 },
+            }),
+        },
+    },
 }));
 
 jest.mock('@/providers/OrderDetailsProvider', () => ({

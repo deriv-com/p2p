@@ -28,6 +28,53 @@ jest.mock('@deriv-com/ui', () => ({
     }),
 }));
 
+jest.mock('@/hooks', () => ({
+    api: {
+        account: {
+            useActiveAccount: jest.fn().mockReturnValue({
+                data: {
+                    loginid: 'CR90000300',
+                },
+            }),
+            useServerTime: jest.fn().mockReturnValue({
+                data: {
+                    server_time_moment: 1709812402,
+                },
+            }),
+        },
+    },
+}));
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useExtendedOrderDetails: jest.fn().mockReturnValue({
+        data: {
+            account_currency: 'USD',
+            amount_display: '0.10',
+            id: '8',
+            isBuyOrderForUser: true,
+            isCompletedOrder: true,
+            local_currency: 'IDR',
+            orderExpiryMilliseconds: 1234567,
+            otherUserDetails: {
+                name: 'client CR90000299',
+            },
+            price_display: '1350.00',
+            purchaseTime: 1234567,
+            shouldHighlightAlert: false,
+            shouldHighlightDanger: false,
+            shouldHighlightDisabled: false,
+            shouldHighlightSuccess: false,
+            statusString: 'completed',
+        },
+    }),
+    useQueryString: jest.fn().mockReturnValue({
+        queryString: {
+            tab: 'Active orders',
+        },
+    }),
+}));
+
 const mockUseDevice = useDevice as jest.Mock;
 
 const mockProps = {
@@ -90,7 +137,7 @@ describe('OrdersTableRow', () => {
     it('should render the component', () => {
         render(<OrdersTableRow {...mockProps} />);
         expect(screen.getByText('client CR90000299')).toBeInTheDocument();
-        expect(screen.getByText('Completed')).toBeInTheDocument();
+        expect(screen.getByText('completed')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Rate' })).toBeInTheDocument();
     });
 
@@ -98,7 +145,7 @@ describe('OrdersTableRow', () => {
         render(<OrdersTableRow {...mockProps} />);
         const advertiserName = screen.getByText('client CR90000299');
         await userEvent.click(advertiserName);
-        expect(mockPush).toHaveBeenCalledWith('/orders/8');
+        expect(mockPush).toHaveBeenCalledWith('/orders/8', { from: 'Orders' });
     });
 
     it('should call history.push when clicking chat icon on mobile view', async () => {
