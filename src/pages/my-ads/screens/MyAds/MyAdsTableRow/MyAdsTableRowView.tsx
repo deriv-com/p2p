@@ -34,6 +34,7 @@ const MyAdsTableRowView = ({
     const { error, isError, mutate: deleteAd } = api.advert.useDelete();
     const history = useHistory();
     const location = useLocation();
+
     const createAdvisibilityStatus = (location.state as TState)?.visibilityStatus;
 
     useEffect(() => {
