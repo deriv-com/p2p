@@ -1,5 +1,6 @@
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import { FC, PropsWithChildren } from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CurrencyDropdown from '../CurrencyDropdown';
 
@@ -56,15 +57,24 @@ const mockProps = {
     setSelectedCurrency: jest.fn(),
 };
 
+const user = userEvent.setup({ delay: null });
+
 describe('<CurrencyDropdown />', () => {
+    beforeEach(() => {
+        jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
+    });
     it('should call setSelectedCurrency when a currency is selected from the dropdown', async () => {
         render(<CurrencyDropdown {...mockProps} />, { wrapper });
 
         const currencyDropdown = screen.getByText('IDR');
-        await userEvent.click(currencyDropdown);
+        await user.click(currencyDropdown);
 
         const bobOption = screen.getByText('BOB');
-        await userEvent.click(bobOption);
+        await user.click(bobOption);
 
         expect(mockProps.setSelectedCurrency).toHaveBeenCalledWith('BOB');
     });
@@ -73,10 +83,10 @@ describe('<CurrencyDropdown />', () => {
         render(<CurrencyDropdown {...mockProps} />, { wrapper });
 
         const currencyDropdown = screen.getByText('IDR');
-        await userEvent.click(currencyDropdown);
+        await user.click(currencyDropdown);
 
         const clickMe = screen.getByText('Click me');
-        await userEvent.click(clickMe);
+        await user.click(clickMe);
 
         expect(screen.queryByText('BOB')).not.toBeInTheDocument();
     });
@@ -86,62 +96,59 @@ describe('<CurrencyDropdown />', () => {
         render(<CurrencyDropdown {...mockProps} />, { wrapper });
 
         const currencyDropdown = screen.getByText('IDR');
-        await userEvent.click(currencyDropdown);
+        await user.click(currencyDropdown);
 
         expect(screen.getByText('Preferred currency')).toBeInTheDocument();
 
         const arrowIcon = screen.getByTestId('dt_mobile_wrapper_button');
-        await userEvent.click(arrowIcon);
+        await user.click(arrowIcon);
 
         expect(screen.queryByText('Preferred currency')).not.toBeInTheDocument();
     });
 
     it('should only show BOB in the currency list if BOB is searched', async () => {
-        jest.useRealTimers();
-
         render(<CurrencyDropdown {...mockProps} />, { wrapper });
 
         const currencyDropdown = screen.getByText('IDR');
-        await userEvent.click(currencyDropdown);
+        await user.click(currencyDropdown);
 
         const searchInput = screen.getByRole('searchbox');
 
-        await userEvent.type(searchInput, 'BOB');
+        await user.type(searchInput, 'BOB');
 
         act(() => {
             jest.runAllTimers();
         });
 
-        expect(screen.getByText('Boliviano')).toBeInTheDocument();
-        expect(screen.queryByText('Indonesian Rupiah')).not.toBeInTheDocument();
-
-        jest.useFakeTimers();
+        await waitFor(() => {
+            expect(screen.getByText('Boliviano')).toBeInTheDocument();
+            expect(screen.queryByText('Indonesian Rupiah')).not.toBeInTheDocument();
+            expect(screen.queryByText('Egyptian Pound')).not.toBeInTheDocument();
+        });
     });
 
     it('should show No results for message if currency is not in the list', async () => {
-        jest.useRealTimers();
-
         render(<CurrencyDropdown {...mockProps} />, { wrapper });
 
         const currencyDropdown = screen.getByText('IDR');
-        await userEvent.click(currencyDropdown);
+        await user.click(currencyDropdown);
 
         const searchInput = screen.getByRole('searchbox');
 
-        await userEvent.type(searchInput, 'JPY');
+        await user.type(searchInput, 'JPY');
 
         act(() => {
             jest.runAllTimers();
         });
 
-        expect(screen.getByText(/No results for "JPY"./s)).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByText(/No results for "JPY"./s)).toBeInTheDocument();
+        });
 
-        await userEvent.clear(searchInput);
+        await user.clear(searchInput);
 
         act(() => {
             jest.runAllTimers();
         });
-
-        jest.useFakeTimers();
     });
 });

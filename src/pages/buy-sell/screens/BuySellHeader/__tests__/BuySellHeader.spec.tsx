@@ -52,7 +52,16 @@ jest.mock('@/components/Modals/FilterModal/FilterModal', () => jest.fn(() => <di
 
 const mockUseDevice = useDevice as jest.Mock;
 
+const user = userEvent.setup({ delay: null });
+
 describe('<BuySellHeader />', () => {
+    beforeEach(() => {
+        jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
+    });
     it('should render the BuySellHeader', () => {
         render(<BuySellHeader {...mockProps} />);
 
@@ -69,7 +78,7 @@ describe('<BuySellHeader />', () => {
 
         const sellTab = screen.getByRole('button', { name: 'Sell' });
 
-        await userEvent.click(sellTab);
+        await user.click(sellTab);
         expect(mockProps.setActiveTab).toHaveBeenCalledWith(1);
     });
 
@@ -78,7 +87,7 @@ describe('<BuySellHeader />', () => {
 
         const buyTab = screen.getByRole('button', { name: 'Buy' });
 
-        await userEvent.click(buyTab);
+        await user.click(buyTab);
         expect(mockProps.setActiveTab).toHaveBeenCalledWith(0);
     });
 
@@ -87,11 +96,11 @@ describe('<BuySellHeader />', () => {
 
         const dropdown = screen.getByRole('combobox', { name: 'Sort by' });
 
-        await userEvent.click(dropdown);
+        await user.click(dropdown);
 
         const ratingOption = screen.getByRole('option', { name: 'User rating' });
 
-        await userEvent.click(ratingOption);
+        await user.click(ratingOption);
 
         expect(mockProps.setSortDropdownValue).toHaveBeenCalledWith('rating');
     });
@@ -103,7 +112,7 @@ describe('<BuySellHeader />', () => {
 
         const filterButton = screen.getByTestId('dt_sort_dropdown_button');
 
-        await userEvent.click(filterButton);
+        await user.click(filterButton);
 
         expect(mockProps.setIsFilterModalOpen).toHaveBeenCalledWith(true);
     });
@@ -113,26 +122,22 @@ describe('<BuySellHeader />', () => {
 
         const filterButton = screen.getByTestId('dt_buy_sell_header_filter_button');
 
-        await userEvent.click(filterButton);
+        await user.click(filterButton);
 
         expect(screen.getByText('FilterModal')).toBeInTheDocument();
     });
 
     it('should set the search value when the user types in the search input', async () => {
-        jest.useRealTimers();
-
         render(<BuySellHeader {...mockProps} />);
 
         const searchInput = screen.getByRole('searchbox');
 
-        await userEvent.type(searchInput, 'John Doe');
+        await user.type(searchInput, 'John Doe');
 
         act(() => {
             jest.runAllTimers();
         });
 
         expect(searchInput).toHaveValue('John Doe');
-
-        jest.useFakeTimers();
     });
 });

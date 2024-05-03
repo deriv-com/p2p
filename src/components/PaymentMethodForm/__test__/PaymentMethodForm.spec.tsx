@@ -1,5 +1,5 @@
 import { api } from '@/hooks';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PaymentMethodForm from '../PaymentMethodForm';
 
@@ -296,14 +296,14 @@ describe('PaymentMethodForm', () => {
         );
         const inputField = screen.getByDisplayValue('Account 1');
         expect(inputField).toBeInTheDocument();
-        await waitFor(async () => {
-            await userEvent.click(inputField);
-            await userEvent.type(inputField, 'Account 2');
-            await userEvent.tab();
-            const submitButton = screen.getByRole('button', { name: 'Add' });
-            expect(submitButton).toBeInTheDocument();
-            await userEvent.click(submitButton);
-        });
+
+        await userEvent.click(inputField);
+        await userEvent.type(inputField, 'Account 2');
+        await userEvent.tab();
+        const submitButton = screen.getByRole('button', { name: 'Add' });
+        expect(submitButton).toBeInTheDocument();
+        await userEvent.click(submitButton);
+
         expect(create).toHaveBeenCalled();
     });
     it('should handle submit when the form is submitted and the actiontype is edit', async () => {
@@ -327,14 +327,14 @@ describe('PaymentMethodForm', () => {
         );
         const inputField = screen.getByDisplayValue('Account 1');
         expect(inputField).toBeInTheDocument();
-        await waitFor(async () => {
-            await userEvent.click(inputField);
-            await userEvent.type(inputField, 'Account 2');
-            await userEvent.tab();
-            const submitButton = screen.getByText('Save changes');
-            expect(submitButton).toBeInTheDocument();
-            await userEvent.click(submitButton);
-        });
+
+        await userEvent.click(inputField);
+        await userEvent.type(inputField, 'Account 2');
+        await userEvent.tab();
+        const submitButton = screen.getByText('Save changes');
+        expect(submitButton).toBeInTheDocument();
+        await userEvent.click(submitButton);
+
         expect(update).toHaveBeenCalled();
     });
     it('should handle onclick when the back arrow is clicked and the form is dirty, and close the opened modal when go back button is clicked', async () => {
@@ -352,11 +352,11 @@ describe('PaymentMethodForm', () => {
         );
         const inputField = screen.getByDisplayValue('Account 1');
         expect(inputField).toBeInTheDocument();
-        await waitFor(async () => {
-            await userEvent.click(inputField);
-            await userEvent.type(inputField, 'Account 2');
-            await userEvent.tab();
-        });
+
+        await userEvent.click(inputField);
+        await userEvent.type(inputField, 'Account 2');
+        await userEvent.tab();
+
         const backArrow = screen.getByTestId('dt_page_return_btn');
         expect(backArrow).toBeInTheDocument();
         await userEvent.click(backArrow);
@@ -381,11 +381,11 @@ describe('PaymentMethodForm', () => {
         );
         const inputField = screen.getByDisplayValue('Account 1');
         expect(inputField).toBeInTheDocument();
-        await waitFor(async () => {
-            await userEvent.click(inputField);
-            await userEvent.type(inputField, 'Account 2');
-            await userEvent.tab();
-        });
+
+        await userEvent.click(inputField);
+        await userEvent.type(inputField, 'Account 2');
+        await userEvent.tab();
+
         const backArrow = screen.getByTestId('dt_page_return_btn');
         expect(backArrow).toBeInTheDocument();
         await userEvent.click(backArrow);

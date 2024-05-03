@@ -25,6 +25,8 @@ const mockProps = {
     setShouldDisplayFooter: jest.fn(),
 };
 
+const user = userEvent.setup({ delay: null });
+
 describe('PreferredCountriesDropdown', () => {
     beforeEach(() => {
         jest.useFakeTimers();
@@ -42,50 +44,49 @@ describe('PreferredCountriesDropdown', () => {
     it('should handle selecting all countries checkbox for selecting all countries', async () => {
         render(<PreferredCountriesDropdown {...mockProps} />);
         const allCountriesCheckbox = screen.getByRole('checkbox', { name: 'All countries' });
-        await userEvent.click(allCountriesCheckbox);
+        await user.click(allCountriesCheckbox);
         expect(mockProps.setSelectedCountries).toHaveBeenCalledWith(['uk', 'us']);
     });
     it('should handle unselecting all countries checkbox for unselecting all countries', async () => {
         render(<PreferredCountriesDropdown {...mockProps} selectedCountries={['uk', 'us']} />);
         const allCountriesCheckbox = screen.getByRole('checkbox', { name: 'All countries' });
-        await userEvent.click(allCountriesCheckbox);
+        await user.click(allCountriesCheckbox);
         expect(mockProps.setSelectedCountries).toHaveBeenCalledWith([]);
     });
     it('should handle selecting of individual country', async () => {
         render(<PreferredCountriesDropdown {...mockProps} />);
         const usCheckbox = screen.getByRole('checkbox', { name: 'United States' });
-        await userEvent.click(usCheckbox);
+        await user.click(usCheckbox);
         expect(mockProps.setSelectedCountries).toHaveBeenCalledWith(['uk', 'us']);
     });
     it('should handle unselecting of individual country', async () => {
         render(<PreferredCountriesDropdown {...mockProps} selectedCountries={['uk', 'us']} />);
         const ukCheckbox = screen.getByRole('checkbox', { name: 'United Kingdom' });
-        await userEvent.click(ukCheckbox);
+        await user.click(ukCheckbox);
         expect(mockProps.setSelectedCountries).toHaveBeenCalledWith(['us']);
     });
-    it('should display no search results message when there are no search results', () => {
+    it('should display no search results message when there are no search results', async () => {
         render(<PreferredCountriesDropdown {...mockProps} />);
-        const searchInput = screen.getByPlaceholderText('Search countries');
-        async () => {
-            await userEvent.type(searchInput, 'India');
-        };
+        const searchInput = screen.getByRole('searchbox');
+
+        await user.type(searchInput, 'India');
         act(() => {
             jest.runAllTimers();
         });
         expect(screen.getByText('No results for “India”.')).toBeInTheDocument();
     });
-    it('should display full list on search clear', () => {
+    it('should display full list on search clear', async () => {
         render(<PreferredCountriesDropdown {...mockProps} />);
         const searchInput = screen.getByPlaceholderText('Search countries');
-        async () => {
-            await userEvent.type(searchInput, 'India');
-        };
+
+        await user.type(searchInput, 'India');
+
         act(() => {
             jest.runAllTimers();
         });
-        async () => {
-            await userEvent.clear(searchInput);
-        };
+
+        await user.clear(searchInput);
+
         act(() => {
             jest.runAllTimers();
         });
