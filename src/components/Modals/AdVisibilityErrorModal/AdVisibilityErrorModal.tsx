@@ -1,6 +1,6 @@
-import { TCurrency } from 'types';
+import { TCurrency, TTextSize } from 'types';
 import { ERROR_CODES } from '@/constants';
-import { Button, Modal, Text } from '@deriv-com/ui';
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdVisibilityErrorModal.scss';
 
 type TAdVisibilityErrorModalProps = {
@@ -13,7 +13,8 @@ type TAdVisibilityErrorModalProps = {
 
 const getErrorMessage = (
     currency: TCurrency,
-    limit: string
+    limit: string,
+    textSize = 'sm' as TTextSize
 ): {
     [key: string]: { description: JSX.Element; title: string };
 } => {
@@ -21,11 +22,14 @@ const getErrorMessage = (
         [ERROR_CODES.AD_EXCEEDS_BALANCE]: {
             description: (
                 <>
-                    <Text>
+                    <Text size={textSize}>
                         This could be because your account balance is insufficient, your ad amount exceeds your daily
                         limit, or both. You can still see your ad on
+                    </Text>{' '}
+                    <Text size={textSize} weight='bold'>
+                        My ads
                     </Text>
-                    <Text weight='bold'>My ads.</Text>
+                    <Text size={textSize}>.</Text>
                 </>
             ),
             title: 'Your ad isn’t visible to others',
@@ -33,14 +37,26 @@ const getErrorMessage = (
         [ERROR_CODES.AD_EXCEEDS_DAILY_LIMIT]: {
             description: (
                 <>
-                    <Text>Your ad is not listed on</Text>
-                    <Text weight='bold'>Buy/Sell</Text>
-                    <Text>{`because the amount exceeds your daily limit of ${limit} ${currency}.`}</Text>
+                    <Text size={textSize}>Your ad is not listed on</Text>{' '}
+                    <Text size={textSize} weight='bold'>
+                        Buy/Sell
+                    </Text>
+                    <Text
+                        size={textSize}
+                    >{` because the amount exceeds your daily limit of ${limit} ${currency}.`}</Text>
                     <br />
-                    <Text>You can still see your ad on</Text>
-                    <Text weight='bold'>My ads</Text>
-                    <Text>. If you’d like to increase your daily limit, please contact us via</Text>
-                    <Button onClick={() => window.LC_API.open_chat_window()} variant='ghost'>
+                    <br />
+                    <Text size={textSize}>You can still see your ad on</Text>{' '}
+                    <Text size={textSize} weight='bold'>
+                        My ads
+                    </Text>
+                    <Text size={textSize}>. If you’d like to increase your daily limit, please contact us via</Text>{' '}
+                    <Button
+                        className='ad-visibility-error-modal__body__button'
+                        onClick={() => window.LC_API.open_chat_window()}
+                        textSize={textSize}
+                        variant='ghost'
+                    >
                         live chat
                     </Button>
                 </>
@@ -56,6 +72,8 @@ const AdVisibilityErrorModal = ({
     limit,
     onRequestClose,
 }: TAdVisibilityErrorModalProps) => {
+    const { isMobile } = useDevice();
+    const textSize = isMobile ? 'md' : 'sm';
     return (
         <Modal
             ariaHideApp={false}
@@ -64,13 +82,17 @@ const AdVisibilityErrorModal = ({
             shouldCloseOnOverlayClick={false}
         >
             <Modal.Header className='ad-visibility-error-modal__header' hideBorder hideCloseIcon>
-                <Text>{getErrorMessage(currency, limit)[errorCode]?.title ?? ''}</Text>
+                <Text weight='bold'>
+                    {getErrorMessage(currency, limit)[errorCode]?.title ?? 'Something’s not right'}
+                </Text>
             </Modal.Header>
             <Modal.Body className='ad-visibility-error-modal__body'>
-                <Text size='sm'>{getErrorMessage(currency, limit)[errorCode]?.description ?? ''}</Text>
+                {getErrorMessage(currency, limit, textSize)[errorCode]?.description ?? 'Something’s not right'}
             </Modal.Body>
             <Modal.Footer className='ad-visibility-error-modal__footer' hideBorder>
-                <Button onClick={onRequestClose}>Ok</Button>
+                <Button onClick={onRequestClose} size='lg' textSize={textSize}>
+                    Ok
+                </Button>
             </Modal.Footer>
         </Modal>
     );
