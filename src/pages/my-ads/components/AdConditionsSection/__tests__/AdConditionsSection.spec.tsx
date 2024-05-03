@@ -19,10 +19,6 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
-jest.mock('@/hooks', () => ({
-    useQueryString: jest.fn().mockReturnValue({ queryString: { advertId: '' } }),
-}));
-
 const mockSetValue = jest.fn();
 jest.mock('react-hook-form', () => ({
     ...jest.requireActual('react-hook-form'),
@@ -32,6 +28,10 @@ jest.mock('react-hook-form', () => ({
         setValue: mockSetValue,
         watch: jest.fn(),
     })),
+}));
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    useQueryString: jest.fn().mockReturnValue({ queryString: { advertId: '' } }),
 }));
 
 jest.mock('../../AdSummary', () => ({

@@ -6,10 +6,14 @@ import userEvent from '@testing-library/user-event';
 import BuySellForm from '../BuySellForm';
 
 const mockMutateFn = jest.fn();
-jest.mock('@deriv-com/api-hooks', () => ({
-    useP2POrderCreate: jest.fn(() => ({
-        mutate: mockMutateFn,
-    })),
+jest.mock('@/hooks', () => ({
+    api: {
+        order: {
+            useCreate: jest.fn(() => ({
+                mutate: mockMutateFn,
+            })),
+        },
+    },
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -160,7 +164,8 @@ describe('BuySellForm', () => {
                 advertiserBuyLimit={5}
             />
         );
-        expect(screen.getByText('Limit: 1-5.00USD')).toBeInTheDocument();
+
+        expect(screen.getByText('Limit: 1.00-5.00USD')).toBeInTheDocument();
     });
     it('should return the advertiserBuyLimit as max limit if sell limit < max order amount limit and sell order', () => {
         render(
@@ -170,7 +175,7 @@ describe('BuySellForm', () => {
                 advertiserSellLimit={5}
             />
         );
-        expect(screen.getByText('Limit: 1-5.00USD')).toBeInTheDocument();
+        expect(screen.getByText('Limit: 1.00-5.00USD')).toBeInTheDocument();
     });
     it('should call onchange when input field value is changed', async () => {
         mockFloatingPointValidator.mockReturnValue(true);

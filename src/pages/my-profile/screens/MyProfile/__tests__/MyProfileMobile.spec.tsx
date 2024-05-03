@@ -30,7 +30,7 @@ let mockQueryString = {
 };
 
 const mockSetQueryString = jest.fn();
-jest.mock('@/hooks', () => ({
+jest.mock('@/hooks/custom-hooks', () => ({
     useQueryString: jest.fn(() => ({
         queryString: mockQueryString,
         setQueryString: mockSetQueryString,
@@ -45,7 +45,7 @@ describe('MyProfileMobile', () => {
         render(<MyProfileMobile />);
         expect(screen.getByText('ProfileContent')).toBeInTheDocument();
     });
-    it('should render the appropriate screens', () => {
+    it('should render the appropriate screens', async () => {
         render(<MyProfileMobile />);
 
         const clickTabAndRender = async (tab: string) => {
@@ -62,16 +62,16 @@ describe('MyProfileMobile', () => {
             render(<MyProfileMobile />);
         };
 
-        clickTabAndRender('Stats');
+        await clickTabAndRender('Stats');
         expect(screen.getByText('MyProfileStatsMobile')).toBeInTheDocument();
 
-        clickTabAndRender('Payment methods');
+        await clickTabAndRender('Payment methods');
         expect(screen.getByText('PaymentMethodsScreen')).toBeInTheDocument();
 
-        clickTabAndRender('Ad details');
+        await clickTabAndRender('Ad details');
         expect(screen.getByText('MyProfileAdDetailsScreen')).toBeInTheDocument();
 
-        clickTabAndRender('My counterparties');
+        await clickTabAndRender('My counterparties');
         expect(screen.getByText('MyProfileCounterpartiesScreen')).toBeInTheDocument();
     });
 });

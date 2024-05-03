@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SellAdPaymentSelection from '../SellAdPaymentSelection';
 
-jest.mock('@deriv/api-v2', () => ({
-    p2p: {
+jest.mock('@/hooks', () => ({
+    api: {
         advertiserPaymentMethods: {
             useGet: () => ({
                 data: [
@@ -31,7 +31,7 @@ jest.mock('@deriv/api-v2', () => ({
     },
 }));
 
-jest.mock('@/hooks', () => ({
+jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks'),
     useIsAdvertiser: jest.fn(() => true),
 }));

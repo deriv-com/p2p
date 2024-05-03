@@ -6,9 +6,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PaymentMethodsListContent } from '../PaymentMethodsListContent';
 
-jest.mock('@deriv/api-v2', () => ({
-    ...jest.requireActual('@deriv/api-v2'),
-    p2p: {
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
         advertiserPaymentMethods: {
             useDelete: jest.fn(),
         },
