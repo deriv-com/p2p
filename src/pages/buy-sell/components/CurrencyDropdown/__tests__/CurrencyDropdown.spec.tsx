@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import { FC, PropsWithChildren } from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -121,9 +120,11 @@ describe('<CurrencyDropdown />', () => {
         });
 
         await waitFor(() => {
-            expect(screen.getByText('Boliviano')).toBeInTheDocument();
-            expect(screen.queryByText('Indonesian Rupiah')).not.toBeInTheDocument();
-            expect(screen.queryByText('Egyptian Pound')).not.toBeInTheDocument();
+            Promise.all([
+                expect(screen.getByText('Boliviano')).toBeInTheDocument(),
+                expect(screen.queryByText('Indonesian Rupiah')).not.toBeInTheDocument(),
+                expect(screen.queryByText('Egyptian Pound')).not.toBeInTheDocument(),
+            ]);
         });
     });
 
