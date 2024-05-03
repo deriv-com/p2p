@@ -12,15 +12,15 @@
         // @include typeface(--paragraph-left-normal-prominent);
 
         cursor: pointer;
-        color: var(--text-general);
+        color: #333333;
     }
     &__item:not(:last-child) {
         margin-right: 1.6rem;
     }
     &__circle {
-        border: 2px solid var(--text-general);
+        border: 2px solid #333333;
         border-radius: 50%;
-        box-shadow: 0 0 1px 0 var(--shadow-menu);
+        box-shadow: 0 0 1px 0 transparentize(#000000, 0.84);
         min-width: 1.6rem;
         height: 1.6rem;
         transition: all 0.3s ease-in-out;
@@ -28,22 +28,22 @@
         align-self: center;
 
         &--disabled {
-            border-color: var(--border-disabled);
+            border-color: #eaeced;
         }
         &--selected {
             border-width: 4px;
-            border-color: var(--brand-red-coral);
+            border-color: #ff444f;
         }
         &--error {
-            border-color: var(--text-less-prominent);
+            border-color: #999999;
         }
     }
     &__label {
         &--disabled {
-            color: var(--text-disabled);
+            color: #999999;
         }
         &--error {
-            color: var(--text-loss-danger);
+            color: #ec3f3f;
         }
     }
 }
