@@ -13,6 +13,7 @@ const BuyPaymentMethodsList = ({ list, onSelectPaymentMethod }: TBuyPaymentMetho
         <div className='buy-payment-methods-list'>
             <Dropdown
                 className='buy-payment-methods-list__dropdown'
+                data-testid='dt_buy_payment_methods_list'
                 dropdownIcon={<div />}
                 icon={<LabelPairedCirclePlusCaptionRegularIcon />}
                 isFullWidth
