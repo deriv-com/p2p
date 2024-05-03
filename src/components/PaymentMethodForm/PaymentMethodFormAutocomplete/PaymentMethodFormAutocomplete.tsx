@@ -1,7 +1,6 @@
 import { TFormState, THooks, TPaymentMethod, TSelectedPaymentMethod } from 'types';
-import { Dropdown } from '@/components';
-import { LegacyCloseCircle1pxIcon } from '@deriv/quill-icons';
-import { Button, Input, Text } from '@deriv-com/ui';
+import { LabelPairedSearchMdRegularIcon, LegacyCloseCircle1pxIcon } from '@deriv/quill-icons';
+import { Button, Dropdown, Input, Text } from '@deriv-com/ui';
 
 type TPaymentMethodFormAutocompleteProps = {
     actionType: TFormState['actionType'];
@@ -55,22 +54,24 @@ const PaymentMethodFormAutocomplete = ({
     return (
         <>
             <Dropdown
+                dropdownIcon={<LabelPairedSearchMdRegularIcon />}
+                isFullWidth
                 label='Payment method'
                 list={availablePaymentMethodsList}
                 name='Payment method'
-                onSelect={(value: string) => {
+                onSelect={value => {
                     const selectedPaymentMethod = availablePaymentMethods?.find(p => p.id === value);
                     if (selectedPaymentMethod) {
                         onAdd({
                             displayName: selectedPaymentMethod?.display_name,
                             fields: selectedPaymentMethod?.fields,
-                            method: value,
+                            method: selectedPaymentMethod?.id,
                         });
                     }
                 }}
                 // TODO: Remember to translate this
                 value={getValue()}
-                variant='comboBox'
+                variant='prompt'
             />
             <div className='mt-[0.2rem] ml-[1.6rem]'>
                 {/* TODO: Remember to translate these */}
