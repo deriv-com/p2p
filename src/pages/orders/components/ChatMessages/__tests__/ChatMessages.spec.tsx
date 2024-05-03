@@ -59,7 +59,7 @@ describe('ChatMessages', () => {
             ],
         };
         render(<ChatMessages {...props} />);
-        expect(screen.getByText('sample image')).toBeInTheDocument();
+        expect(screen.getByAltText('sample image')).toBeInTheDocument();
     });
     it('should show the pdf icon for sending pdf file', () => {
         const props = {
