@@ -20,13 +20,12 @@ jest.mock('react-hook-form', () => ({
     }),
 }));
 
-jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
+jest.mock('@/hooks/custom-hooks', () => ({
     useQueryString: jest.fn().mockReturnValue({ queryString: { advertId: '' } }),
 }));
 
-jest.mock('@deriv/api-v2', () => ({
-    p2p: {
+jest.mock('@/hooks', () => ({
+    api: {
         paymentMethods: {
             useGet: () => ({
                 data: [
@@ -66,6 +65,7 @@ jest.mock('../../AdSummary', () => ({
 jest.mock('../../OrderTimeSelection', () => ({
     OrderTimeSelection: () => <div>OrderTimeSelection</div>,
 }));
+
 const mockProps = {
     currency: 'USD' as TCurrency,
     getCurrentStep: jest.fn(() => 1),
@@ -84,7 +84,7 @@ describe('AdPaymentDetailsSection', () => {
     });
     it('should handle selection of payment method', async () => {
         render(<AdPaymentDetailsSection {...mockProps} />);
-        await userEvent.click(screen.getByPlaceholderText('Add'));
+        await userEvent.click(screen.getByTestId('dt_buy_payment_methods_list'));
         await userEvent.click(screen.getByText('Bank Transfer'));
         expect(mockFn).toHaveBeenCalledWith('payment-method', ['alipay', 'bank_transfer']);
     });

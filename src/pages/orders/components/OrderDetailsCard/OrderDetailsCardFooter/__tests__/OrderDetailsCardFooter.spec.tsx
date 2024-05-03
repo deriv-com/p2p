@@ -4,36 +4,28 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import OrderDetailsCardFooter from '../OrderDetailsCardFooter';
 
-const mockUseDispute = {
-    isSuccess: true,
-    mutate: jest.fn(),
-};
-
-jest.mock('@deriv-com/api-hooks', () => ({
-    useP2pOrderDispute: () => mockUseDispute,
-}));
+const mockUseDevice = useDevice as jest.Mock;
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn().mockReturnValue({ isMobile: false }),
 }));
 
-const mockUseDevice = useDevice as jest.Mock;
+jest.mock('@/components/Modals', () => ({
+    OrderDetailsCancelModal: () => <div>OrderDetailsCancelModal</div>,
+    OrderDetailsComplainModal: () => <div>OrderDetailsComplainModal</div>,
+}));
 
-jest.mock('@/hooks', () => {
-    const modalManager = {
-        hideModal: jest.fn(),
-        isModalOpenFor: jest.fn(),
-        showModal: jest.fn(),
-    };
-    modalManager.showModal.mockImplementation(() => {
-        modalManager.isModalOpenFor.mockReturnValue(true);
-    });
-    return {
-        ...jest.requireActual('@/hooks'),
-        useModalManager: jest.fn().mockReturnValue(modalManager),
-    };
-});
+const modalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    useModalManager: () => modalManager,
+}));
 
 jest.mock('@/providers/OrderDetailsProvider', () => ({
     useOrderDetails: jest.fn().mockReturnValue({
@@ -109,7 +101,10 @@ describe('<OrderDetailsCardFooter />', () => {
 
         expect(container).toBeEmptyDOMElement();
     });
-    it('should open the complain modal on clicking the complain button', async () => {
+    it('should open the OrderDetailsComplainModal on clicking the complain button', async () => {
+        modalManager.isModalOpenFor.mockImplementation(
+            (modalName: string) => modalName === 'OrderDetailsComplainModal'
+        );
         mockUseDevice.mockReturnValue({ isMobile: true });
         mockUseOrderDetails.mockReturnValue({
             orderDetails: {
@@ -118,12 +113,56 @@ describe('<OrderDetailsCardFooter />', () => {
                 shouldShowOnlyComplainButton: true,
             },
         });
+
         render(<OrderDetailsCardFooter />);
+
         const complainButton = screen.getByRole('button', { name: 'Complain' });
         expect(complainButton).toBeInTheDocument();
         await userEvent.click(complainButton);
         await waitFor(() => {
-            expect(screen.getByText('I’ve not received any payment.')).toBeInTheDocument();
+            expect(screen.getByText('OrderDetailsComplainModal')).toBeInTheDocument();
+        });
+    });
+    it('should open OrderDetailsCancelModal on clicking the cancel order button', async () => {
+        modalManager.isModalOpenFor.mockImplementation((modalName: string) => modalName === 'OrderDetailsCancelModal');
+        mockUseDevice.mockReturnValue({ isMobile: true });
+        mockUseOrderDetails.mockReturnValue({
+            orderDetails: {
+                ...mockUseOrderDetails().orderDetails,
+                shouldShowCancelAndPaidButton: true,
+                shouldShowOnlyComplainButton: false,
+            },
+        });
+
+        render(<OrderDetailsCardFooter />);
+
+        const cancelOrderButton = screen.getByRole('button', { name: 'Cancel order' });
+        expect(cancelOrderButton).toBeInTheDocument();
+        await userEvent.click(cancelOrderButton);
+        await waitFor(() => {
+            expect(screen.getByText('OrderDetailsCancelModal')).toBeInTheDocument();
+        });
+    });
+    it('should show OrderDetailsComplainModal on clicking the complain button if shouldShowComplainAndReceiveButton is true', async () => {
+        modalManager.isModalOpenFor.mockImplementation(
+            (modalName: string) => modalName === 'OrderDetailsComplainModal'
+        );
+        mockUseDevice.mockReturnValue({ isMobile: true });
+        mockUseOrderDetails.mockReturnValue({
+            orderDetails: {
+                ...mockUseOrderDetails().orderDetails,
+                shouldShowCancelAndPaidButton: false,
+                shouldShowComplainAndReceivedButton: true,
+            },
+        });
+
+        render(<OrderDetailsCardFooter />);
+
+        const complainButton = screen.getByRole('button', { name: 'Complain' });
+        expect(complainButton).toBeInTheDocument();
+        await userEvent.click(complainButton);
+        await waitFor(() => {
+            expect(screen.getByText('OrderDetailsComplainModal')).toBeInTheDocument();
         });
     });
 });

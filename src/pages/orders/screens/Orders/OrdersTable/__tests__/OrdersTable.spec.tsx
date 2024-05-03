@@ -4,14 +4,6 @@ import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import OrdersTable from '../OrdersTable';
 
-jest.mock('use-query-params', () => ({
-    ...jest.requireActual('use-query-params'),
-    useQueryParams: jest.fn().mockReturnValue([
-        {},
-        jest.fn(), // setQuery
-    ]),
-}));
-
 const mockProps = {
     data: [],
     isActive: true,
@@ -82,6 +74,53 @@ const mockData = [
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),
+}));
+
+jest.mock('@/hooks', () => ({
+    api: {
+        account: {
+            useActiveAccount: jest.fn().mockReturnValue({
+                data: {
+                    loginid: 'CR90000300',
+                },
+            }),
+            useServerTime: jest.fn().mockReturnValue({
+                data: {
+                    server_time_moment: 1709812402,
+                },
+            }),
+        },
+    },
+}));
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useExtendedOrderDetails: jest.fn().mockReturnValue({
+        data: {
+            account_currency: 'USD',
+            amount_display: '0.10',
+            id: '8',
+            isBuyOrderForUser: true,
+            isCompletedOrder: true,
+            local_currency: 'IDR',
+            orderExpiryMilliseconds: 1234567,
+            otherUserDetails: {
+                name: 'test123',
+            },
+            price_display: '1350.00',
+            purchaseTime: 1234567,
+            shouldHighlightAlert: false,
+            shouldHighlightDanger: false,
+            shouldHighlightDisabled: false,
+            shouldHighlightSuccess: false,
+            statusString: 'completed',
+        },
+    }),
+    useQueryString: jest.fn().mockReturnValue({
+        queryString: {
+            tab: 'Active orders',
+        },
+    }),
 }));
 
 const mockUseDevice = useDevice as jest.Mock;
