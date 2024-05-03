@@ -8,8 +8,8 @@ jest.mock('@deriv-com/ui', () => ({
 }));
 
 const mockFn = jest.fn();
-jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
     useQueryString: () => ({ setQueryString: mockFn }),
 }));
 

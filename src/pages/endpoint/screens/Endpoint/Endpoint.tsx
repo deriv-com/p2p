@@ -27,6 +27,7 @@ const Endpoint = () => {
                     name='serverUrl'
                     render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
                         <Input
+                            data-testid='dt_endpoint_server_url_input'
                             label='Server'
                             message={error?.message}
                             onBlur={onBlur}
@@ -43,6 +44,7 @@ const Endpoint = () => {
                     name='appId'
                     render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
                         <Input
+                            data-testid='dt_endpoint_app_id_input'
                             label='OAuth App ID'
                             message={error?.message}
                             onBlur={onBlur}

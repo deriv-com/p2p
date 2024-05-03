@@ -8,8 +8,8 @@ jest.mock('../PaymentMethodsListContent/PaymentMethodsListContent', () =>
     jest.fn().mockReturnValue(<div>PaymentMethodsListContent</div>)
 );
 
-jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
     useQueryString: jest.fn().mockReturnValue({ setQueryString: jest.fn() }),
 }));
 
