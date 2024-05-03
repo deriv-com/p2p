@@ -42,7 +42,16 @@ jest.mock('@deriv-com/ui', () => ({
 
 const mockUseDevice = useDevice as jest.Mock;
 
+const user = userEvent.setup({ delay: null });
+
 describe('<FilterModal />', () => {
+    beforeEach(() => {
+        jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
+    });
     it('should render the initial page of the FilterModal', async () => {
         render(<FilterModal {...mockProps} />);
 
@@ -68,7 +77,7 @@ describe('<FilterModal />', () => {
         const toggleSwitch = screen.getByRole('checkbox');
         const applyButton = screen.getByRole('button', { name: 'Apply' });
 
-        await userEvent.click(toggleSwitch);
+        await user.click(toggleSwitch);
 
         expect(toggleSwitch).not.toBeChecked();
         expect(applyButton).toBeEnabled();
@@ -80,8 +89,8 @@ describe('<FilterModal />', () => {
         const toggleSwitch = screen.getByRole('checkbox');
         const applyButton = screen.getByRole('button', { name: 'Apply' });
 
-        await userEvent.click(toggleSwitch);
-        await userEvent.click(applyButton);
+        await user.click(toggleSwitch);
+        await user.click(applyButton);
 
         expect(mockProps.setSelectedPaymentMethods).toHaveBeenCalled();
         expect(mockProps.onToggle).toHaveBeenCalled();
@@ -94,10 +103,10 @@ describe('<FilterModal />', () => {
         const toggleSwitch = screen.getByRole('checkbox');
         const resetButton = screen.getByRole('button', { name: 'Reset' });
 
-        await userEvent.click(toggleSwitch);
+        await user.click(toggleSwitch);
         expect(toggleSwitch).not.toBeChecked();
 
-        await userEvent.click(resetButton);
+        await user.click(resetButton);
 
         expect(mockProps.setSelectedPaymentMethods).toHaveBeenCalled();
         expect(toggleSwitch).toBeChecked();
@@ -107,7 +116,7 @@ describe('<FilterModal />', () => {
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
-        await userEvent.click(paymentMethodsText);
+        await user.click(paymentMethodsText);
 
         const clearButton = screen.getByRole('button', { name: 'Clear' });
         const confirmButton = screen.getByRole('button', { name: 'Confirm' });
@@ -128,16 +137,14 @@ describe('<FilterModal />', () => {
     });
 
     it('should show the search results when user types in the search input', async () => {
-        jest.useRealTimers();
-
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
-        await userEvent.click(paymentMethodsText);
+        await user.click(paymentMethodsText);
 
         const searchInput = screen.getByRole('searchbox');
 
-        await userEvent.type(searchInput, 'alipay');
+        await user.type(searchInput, 'alipay');
 
         act(() => {
             jest.runAllTimers();
@@ -148,15 +155,14 @@ describe('<FilterModal />', () => {
     });
 
     it('should show No results for message if payment method is not in the list', async () => {
-        jest.useRealTimers();
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
-        await userEvent.click(paymentMethodsText);
+        await user.click(paymentMethodsText);
 
         const searchInput = screen.getByRole('searchbox');
 
-        await userEvent.type(searchInput, 'paypal');
+        await user.type(searchInput, 'paypal');
 
         act(() => {
             jest.runAllTimers();
@@ -165,7 +171,7 @@ describe('<FilterModal />', () => {
         expect(screen.getByText(/No results for "paypal"./s)).toBeInTheDocument();
         expect(screen.getByText('Check your spelling or use a different term.')).toBeInTheDocument();
 
-        await userEvent.clear(searchInput);
+        await user.clear(searchInput);
 
         act(() => {
             jest.runAllTimers();
@@ -176,13 +182,13 @@ describe('<FilterModal />', () => {
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
-        await userEvent.click(paymentMethodsText);
+        await user.click(paymentMethodsText);
 
         const alipayCheckbox = screen.getByRole('checkbox', { name: 'Alipay' });
         const confirmButton = screen.getByRole('button', { name: 'Confirm' });
         const clearButton = screen.getByRole('button', { name: 'Clear' });
 
-        await userEvent.click(alipayCheckbox);
+        await user.click(alipayCheckbox);
 
         expect(alipayCheckbox).toBeChecked();
         expect(confirmButton).toBeEnabled();
@@ -193,13 +199,13 @@ describe('<FilterModal />', () => {
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
-        await userEvent.click(paymentMethodsText);
+        await user.click(paymentMethodsText);
 
         const alipayCheckbox = screen.getByRole('checkbox', { name: 'Alipay' });
         const clearButton = screen.getByRole('button', { name: 'Clear' });
 
-        await userEvent.click(alipayCheckbox);
-        await userEvent.click(clearButton);
+        await user.click(alipayCheckbox);
+        await user.click(clearButton);
 
         expect(alipayCheckbox).not.toBeChecked();
     });
@@ -208,11 +214,11 @@ describe('<FilterModal />', () => {
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
-        await userEvent.click(paymentMethodsText);
+        await user.click(paymentMethodsText);
 
         const backButton = screen.getByTestId('dt_page_return_btn');
 
-        await userEvent.click(backButton);
+        await user.click(backButton);
 
         expect(screen.getByText('Filter')).toBeInTheDocument();
     });
@@ -221,15 +227,15 @@ describe('<FilterModal />', () => {
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
-        await userEvent.click(paymentMethodsText);
+        await user.click(paymentMethodsText);
 
         const alipayCheckbox = screen.getByRole('checkbox', { name: 'Alipay' });
         const bankTransferCheckbox = screen.getByRole('checkbox', { name: 'Bank Transfer' });
         const confirmButton = screen.getByRole('button', { name: 'Confirm' });
 
-        await userEvent.click(alipayCheckbox);
-        await userEvent.click(bankTransferCheckbox);
-        await userEvent.click(confirmButton);
+        await user.click(alipayCheckbox);
+        await user.click(bankTransferCheckbox);
+        await user.click(confirmButton);
 
         expect(screen.getByText('Filter')).toBeInTheDocument();
         expect(screen.getByText('Alipay, Bank Transfer')).toBeInTheDocument();
@@ -239,12 +245,12 @@ describe('<FilterModal />', () => {
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
-        await userEvent.click(paymentMethodsText);
+        await user.click(paymentMethodsText);
 
         const alipayCheckbox = screen.getByRole('checkbox', { name: 'Alipay' });
 
-        await userEvent.click(alipayCheckbox);
-        await userEvent.click(alipayCheckbox);
+        await user.click(alipayCheckbox);
+        await user.click(alipayCheckbox);
 
         expect(mockProps.setSelectedPaymentMethods).toHaveBeenCalled();
     });
@@ -254,7 +260,7 @@ describe('<FilterModal />', () => {
         const { rerender } = render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
-        await userEvent.click(paymentMethodsText);
+        await user.click(paymentMethodsText);
 
         const alipayCheckbox = screen.queryByRole('checkbox', { name: 'Alipay' });
         const bankTransferCheckbox = screen.queryByRole('checkbox', { name: 'Bank Transfer' });
@@ -290,7 +296,7 @@ describe('<FilterModal />', () => {
         render(<FilterModal {...mockProps} />);
 
         const backButton = screen.getByTestId('dt_mobile_wrapper_button');
-        await userEvent.click(backButton);
+        await user.click(backButton);
 
         expect(mockProps.onRequestClose).toHaveBeenCalled();
     });
@@ -299,10 +305,10 @@ describe('<FilterModal />', () => {
         render(<FilterModal {...mockProps} />);
 
         const paymentMethodsText = screen.getByText('Payment methods');
-        await userEvent.click(paymentMethodsText);
+        await user.click(paymentMethodsText);
 
         const backButton = screen.getByTestId('dt_mobile_wrapper_button');
-        await userEvent.click(backButton);
+        await user.click(backButton);
 
         expect(screen.getByText('Filter')).toBeInTheDocument();
     });

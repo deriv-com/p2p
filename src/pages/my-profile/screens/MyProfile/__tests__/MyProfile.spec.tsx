@@ -48,7 +48,13 @@ const mockUseDevice = useDevice as jest.MockedFunction<typeof useDevice>;
 const mockUsePoiPoaStatus = usePoiPoaStatus as jest.MockedFunction<typeof usePoiPoaStatus>;
 const mockUseAdvertiserStats = useAdvertiserStats as jest.MockedFunction<typeof useAdvertiserStats>;
 const mockUseIsAdvertiser = useIsAdvertiser as jest.MockedFunction<typeof useIsAdvertiser>;
-jest.mock('@/hooks', () => ({
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+
+jest.mock('@/hooks/custom-hooks', () => ({
     useAdvertiserStats: jest.fn().mockReturnValue({
         data: {
             fullName: 'Jane Done',
@@ -57,6 +63,7 @@ jest.mock('@/hooks', () => ({
         isLoading: false,
     }),
     useIsAdvertiser: jest.fn().mockReturnValue(true),
+    useModalManager: jest.fn(() => mockModalManager),
     usePoiPoaStatus: jest.fn().mockReturnValue({
         data: {
             isP2PPoaRequired: false,
@@ -120,6 +127,8 @@ describe('MyProfile', () => {
             error: 'Failure',
             isLoading: false,
         });
+
+        mockModalManager.isModalOpenFor.mockImplementation((modalName: string) => modalName === 'NicknameModal');
 
         render(<MyProfile />);
         expect(screen.getByText('NicknameModal')).toBeInTheDocument();

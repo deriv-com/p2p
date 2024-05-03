@@ -1,10 +1,10 @@
 import { ComponentType, SVGAttributes } from 'react';
 import { CHAT_MESSAGE_STATUS } from '@/constants';
 import { useSendbird } from '@/hooks/custom-hooks';
-import MessageDeliveredIcon from '../../../../public/ic-message-delivered.svg?react';
-import MessageErroredIcon from '../../../../public/ic-message-errored.svg?react';
-import MessagePendingIcon from '../../../../public/ic-message-pending.svg?react';
-import MessageSeenIcon from '../../../../public/ic-message-seen.svg?react';
+import { ReactComponent as MessageDeliveredIcon } from '../../../../public/ic-message-delivered.svg';
+import { ReactComponent as MessageErroredIcon } from '../../../../public/ic-message-errored.svg';
+import { ReactComponent as MessagePendingIcon } from '../../../../public/ic-message-pending.svg';
+import { ReactComponent as MessageSeenIcon } from '../../../../public/ic-message-seen.svg';
 
 export type TChatMessageReceiptProps = {
     chatChannel: NonNullable<ReturnType<typeof useSendbird>['activeChatChannel']>;
