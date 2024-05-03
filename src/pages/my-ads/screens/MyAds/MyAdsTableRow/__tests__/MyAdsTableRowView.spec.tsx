@@ -64,10 +64,13 @@ const mockProps = {
 const mockHistory = {
     push: jest.fn(),
 };
-
+const mockUseLocation = {
+    state: {},
+};
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useHistory: () => mockHistory,
+    useLocation: () => mockUseLocation,
 }));
 
 jest.mock('@/hooks/custom-hooks', () => {
@@ -101,6 +104,7 @@ jest.mock('@/hooks', () => ({
 jest.mock('@/components/Modals', () => ({
     AdErrorTooltipModal: () => <div>AdErrorTooltipModal</div>,
     AdRateSwitchModal: () => <div>AdRateSwitchModal</div>,
+    AdVisibilityErrorModal: () => <div>AdVisibilityErrorModal</div>,
     ErrorModal: () => <div>ErrorModal</div>,
     MyAdsDeleteModal: () => <div>MyAdsDeleteModal</div>,
     ShareAdsModal: () => <div>ShareAdsModal</div>,
