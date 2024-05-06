@@ -11,19 +11,21 @@ jest.mock('@deriv-com/ui', () => ({
 }));
 
 jest.mock('@deriv-com/api-hooks', () => ({
-    useExchangeRateSubscription: () => ({
-        data: {
-            rates: {
-                USD: 1,
-            },
+    ...jest.requireActual('@deriv-com/api-hooks'),
+    useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
+}));
+
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        settings: {
+            useSettings: jest.fn(() => ({
+                data: {
+                    override_exchange_rate: 1,
+                },
+            })),
         },
-        subscribe: jest.fn(),
-    }),
-    useP2PSettings: () => ({
-        data: {
-            override_exchange_rate: 1,
-        },
-    }),
+    },
 }));
 
 const mockProps = {

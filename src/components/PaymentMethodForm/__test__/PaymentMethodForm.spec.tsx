@@ -46,6 +46,12 @@ const mockPaymentMethods = [
     },
 ] as const;
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: () => ({ isMobile: false }),
@@ -71,6 +77,11 @@ jest.mock('@/hooks', () => {
         },
     };
 });
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    useModalManager: jest.fn(() => mockModalManager),
+    useQueryString: jest.fn().mockReturnValue({ queryString: { tab: '' } }),
+}));
 
 const mockUseCreate = api.advertiserPaymentMethods.useCreate as jest.MockedFunction<
     typeof api.advertiserPaymentMethods.useCreate
@@ -207,8 +218,10 @@ describe('PaymentMethodForm', () => {
                 onResetFormState={jest.fn()}
             />
         );
-        const dropdown = screen.getByText('Payment method');
+        const dropdown = screen.getByRole('combobox');
+
         await userEvent.click(dropdown);
+
         const dropdownItem = screen.getByText('Bank Transfer');
         await userEvent.click(dropdownItem);
         const otherPaymentMethod = mockPaymentMethods.find(method => method.type === 'bank');
@@ -339,6 +352,7 @@ describe('PaymentMethodForm', () => {
     });
     it('should handle onclick when the back arrow is clicked and the form is dirty, and close the opened modal when go back button is clicked', async () => {
         const otherPaymentMethod = mockPaymentMethods.find(method => method.type === 'other');
+        mockModalManager.isModalOpenFor.mockImplementation((modalName: string) => modalName === 'PaymentMethodModal');
         render(
             <PaymentMethodForm
                 formState={{
@@ -368,6 +382,7 @@ describe('PaymentMethodForm', () => {
     });
     it("should handle onclick when the back arrow is clicked and the form is dirty, and close the opened modal when don't cancel button is clicked", async () => {
         const otherPaymentMethod = mockPaymentMethods.find(method => method.type === 'other');
+        mockModalManager.isModalOpenFor.mockImplementation((modalName: string) => modalName === 'PaymentMethodModal');
         render(
             <PaymentMethodForm
                 formState={{

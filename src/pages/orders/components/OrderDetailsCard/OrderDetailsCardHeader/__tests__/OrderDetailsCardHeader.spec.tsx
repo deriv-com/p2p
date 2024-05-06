@@ -26,6 +26,18 @@ jest.mock('@/providers/OrderDetailsProvider', () => ({
     }),
 }));
 
+jest.mock('@/hooks', () => ({
+    api: {
+        account: {
+            useServerTime: jest.fn(() => ({
+                data: {
+                    server_time: 1626864000,
+                },
+            })),
+        },
+    },
+}));
+
 jest.mock('../../../OrderTimer', () => ({
     OrderTimer: () => <div>OrderTimer</div>,
 }));
