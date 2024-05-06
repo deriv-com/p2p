@@ -1,5 +1,4 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
 import OrderDetailsCancelModal from '../OrderDetailsCancelModal';
 
 jest.mock('@deriv-com/ui', () => ({
@@ -47,12 +46,12 @@ describe('<OrderDetailsCancelModal />', () => {
         expect(screen.getByRole('button', { name: 'Do not cancel' })).toBeInTheDocument();
     });
 
-    it('should call the cancel function when the cancel button is clicked', async () => {
+    it('should call the cancel function when the cancel button is clicked', () => {
         render(<OrderDetailsCancelModal {...mockProps} />);
 
         const cancelButton = screen.getByRole('button', { name: 'Cancel this order' });
 
-        await userEvent.click(cancelButton);
+        fireEvent.click(cancelButton);
 
         expect(mockProps.onRequestClose).toHaveBeenCalledTimes(1);
         expect(mockMutate).toHaveBeenCalledTimes(1);

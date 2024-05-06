@@ -1,6 +1,6 @@
 import { api } from '@/hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NicknameModal from '../NicknameModal';
 
@@ -55,6 +55,8 @@ const mockProps = {
     onRequestClose: jest.fn(),
 };
 
+const user = userEvent.setup({ delay: null });
+
 describe('NicknameModal', () => {
     it('should render title and description correctly', () => {
         render(<NicknameModal {...mockProps} />);
@@ -66,14 +68,12 @@ describe('NicknameModal', () => {
 
         const nicknameInput = screen.getByTestId('dt_nickname_modal_input');
 
-        await userEvent.type(nicknameInput, 'Nahida');
+        await user.type(nicknameInput, 'Nahida');
 
-        await waitFor(async () => {
-            const confirmBtn = screen.getByRole('button', {
-                name: 'Confirm',
-            });
-            await userEvent.click(confirmBtn);
+        const confirmBtn = screen.getByRole('button', {
+            name: 'Confirm',
         });
+        await user.click(confirmBtn);
 
         expect(mockedMutate).toHaveBeenCalledWith({
             name: 'Nahida',
@@ -107,7 +107,7 @@ describe('NicknameModal', () => {
         const cancelBtn = screen.getByRole('button', {
             name: 'Cancel',
         });
-        await userEvent.click(cancelBtn);
+        await user.click(cancelBtn);
 
         expect(mockPush).toHaveBeenCalledWith('/buy-sell');
         expect(mockProps.onRequestClose).toHaveBeenCalled();

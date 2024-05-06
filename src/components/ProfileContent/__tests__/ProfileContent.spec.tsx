@@ -21,6 +21,17 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
+jest.mock('@/hooks/custom-hooks', () => ({
+    useAdvertiserStats: jest.fn(() => ({
+        data: {
+            isAddressVerified: false,
+            isIdentityVerified: false,
+            totalOrders: 10,
+        },
+        isLoading: false,
+    })),
+}));
+
 const mockUseDevice = useDevice as jest.Mock;
 
 describe('ProfileContent', () => {

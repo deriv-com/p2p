@@ -56,14 +56,12 @@ describe('MyProfileCounterpartiesTableRow', () => {
     it('should close modal for onRequest close of modal', async () => {
         render(<MyProfileCounterpartiesTableRow {...mockProps} />);
         await userEvent.click(screen.getByText('Block'));
-        await waitFor(async () => {
-            expect(screen.getByText('Block nickname?')).toBeInTheDocument();
-            const button = screen.getByRole('button', { name: 'Cancel' });
-            await userEvent.click(button);
-        });
-        await waitFor(() => {
-            expect(screen.queryByText('Block nickname?')).not.toBeInTheDocument();
-        });
+
+        expect(screen.getByText('Block nickname?')).toBeInTheDocument();
+        const button = screen.getByRole('button', { name: 'Cancel' });
+        await userEvent.click(button);
+
+        expect(screen.queryByText('Block nickname?')).not.toBeInTheDocument();
     });
 
     it('should call history.push when clicking on the nickname', async () => {
