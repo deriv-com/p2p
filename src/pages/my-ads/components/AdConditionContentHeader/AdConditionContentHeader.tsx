@@ -11,6 +11,7 @@ type TAdConditionContentHeaderProps = {
 const AdConditionContentHeader = ({ type }: TAdConditionContentHeaderProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { isMobile } = useDevice();
+
     return (
         <div className='flex gap-[0.8rem] items-center'>
             <Text color='less-prominent' size={isMobile ? 'md' : 'sm'}>

@@ -7,17 +7,15 @@ jest.mock('../MyProfileStats', () => ({
     default: () => <div>MyProfileStats</div>,
 }));
 const mockSetQueryString = jest.fn();
-jest.mock('@/hooks/useQueryString', () => ({
-    __esModule: true,
-    default: jest.fn(() => ({
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useQueryString: jest.fn(() => ({
         setQueryString: mockSetQueryString,
     })),
 }));
-jest.mock('@/hooks/useDevice', () => ({
-    __esModule: true,
-    default: jest.fn(() => ({
-        isMobile: true,
-    })),
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => ({ isMobile: true })),
 }));
 
 describe('MyProfileStatsMobile', () => {

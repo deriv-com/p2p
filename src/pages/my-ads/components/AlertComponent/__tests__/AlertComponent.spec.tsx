@@ -20,6 +20,6 @@ describe('AlertComponent', () => {
         render(<AlertComponent {...mockProps} />);
         const button = screen.getByRole('button');
         await userEvent.click(button);
-        expect(mockProps.onClick).toBeCalledTimes(1);
+        expect(mockProps.onClick).toHaveBeenCalledTimes(1);
     });
 });

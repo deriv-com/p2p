@@ -9,6 +9,10 @@ const mockProps = {
     },
 };
 
+jest.mock('@deriv-com/api-hooks', () => ({
+    useGetSettings: jest.fn(() => ({ email: 'test@gmail.com' })),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),

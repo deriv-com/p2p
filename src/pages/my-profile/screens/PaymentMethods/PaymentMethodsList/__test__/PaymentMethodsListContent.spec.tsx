@@ -59,6 +59,7 @@ const mockUseDeleteResponse: ReturnType<typeof api.advertiserPaymentMethods.useD
     error: null,
     failureCount: 0,
     failureReason: null,
+    get: jest.fn(),
     isError: false,
     isIdle: false,
     isPaused: false,
@@ -178,7 +179,7 @@ describe('PaymentMethodsListContent', () => {
 
     it('should handle confirm when the confirm button is clicked on the payment method modal and delete status is successful', async () => {
         const onResetFormState = jest.fn();
-        mockUseDelete.mockReturnValue({
+        (mockUseDelete as jest.Mock).mockReturnValue({
             ...mockUseDeleteResponse,
             isSuccess: true,
             status: 'success',
@@ -240,7 +241,7 @@ describe('PaymentMethodsListContent', () => {
         expect(screen.queryByText('PaymentMethodModal')).not.toBeInTheDocument();
     });
     it('should show the error modal when delete is unsuccessful and handle on confirm when the ok button is clicked', async () => {
-        mockUseDelete.mockReturnValue({
+        (mockUseDelete as jest.Mock).mockReturnValue({
             ...mockUseDeleteResponse,
             error: {
                 echo_req: {
