@@ -17,7 +17,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 const mockedUseQueryString = useQueryString as jest.MockedFunction<typeof useQueryString>;
-jest.mock('@/hooks/useQueryString', () => ({
+jest.mock('@/hooks/custom-hooks/useQueryString', () => ({
     __esModule: true,
     default: jest.fn(() => ({
         deleteQueryString: jest.fn(),

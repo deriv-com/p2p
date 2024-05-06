@@ -14,16 +14,11 @@ jest.mock('@/components/Modals/RadioGroupFilterModal', () => ({
     RadioGroupFilterModal: jest.fn(() => <div>RadioGroupFilterModal</div>),
 }));
 
-jest.mock('@/hooks/useDevice', () => ({
-    __esModule: true,
-    default: jest.fn(() => ({
+jest.mock('@/hooks/custom-hooks', () => ({
+    useDevice: jest.fn(() => ({
         isMobile: false,
     })),
-}));
-
-jest.mock('@/hooks/useQueryString', () => ({
-    __esModule: true,
-    default: jest.fn(() => ({
+    useQueryString: jest.fn(() => ({
         setQueryString: jest.fn(),
     })),
 }));
