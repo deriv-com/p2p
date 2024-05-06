@@ -10,7 +10,7 @@
         "preview": "vite preview",
         "test:lint": "prettier --log-level silent --write . && eslint \"./src/**/*.?(js|jsx|ts|tsx)\"",
         "test": "jest --passWithNoTests",
-        "test:coverage": "jest --coverage --passWithNoTests --maxWorkers=75% --silent",
+        "test:coverage": "jest --coverage --passWithNoTests --runInBand",
         "prepare": "husky install"
     },
     "dependencies": {
