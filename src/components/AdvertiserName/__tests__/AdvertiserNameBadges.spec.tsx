@@ -10,8 +10,8 @@ const mockUseAdvertiserStats = {
     isLoading: false,
 };
 
-jest.mock('../../../hooks', () => ({
-    ...jest.requireActual('../../../hooks'),
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
     useAdvertiserStats: jest.fn(() => mockUseAdvertiserStats),
 }));
 

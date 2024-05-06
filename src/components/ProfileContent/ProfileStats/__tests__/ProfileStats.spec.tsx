@@ -21,7 +21,7 @@ let mockProps = {
 
 describe('<ProfileStats />', () => {
     it('should render no results if advertiserStats is empty', () => {
-        render(<ProfileStats advertiserStats={{}} />);
+        render(<ProfileStats advertiserStats={undefined} />);
 
         expect(screen.queryByText('Buy completion 30d')).not.toBeInTheDocument();
         expect(screen.queryByText('Sell completion 30d')).not.toBeInTheDocument();

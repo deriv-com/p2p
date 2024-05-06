@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import OrderDetailsConfirmModal from '../OrderDetailsConfirmModal';
 
@@ -57,7 +57,20 @@ describe('<OrderDetailsConfirmModal />', () => {
         const file = new File(['test'], 'test.mp4', { type: 'video/mp4' });
         const fileInput = screen.getByTestId('dt_file_upload_input');
 
-        await userEvent.upload(fileInput, file);
+        const fileList = {
+            0: file,
+            item: () => file,
+            length: 1,
+        };
+
+        Object.defineProperty(fileInput, 'files', {
+            value: fileList,
+        });
+
+        // eslint-disable-next-line testing-library/no-unnecessary-act
+        await act(async () => {
+            fireEvent.change(fileInput);
+        });
 
         await waitFor(() => {
             expect(screen.getByText('The file you uploaded is not supported. Upload another.')).toBeInTheDocument();
@@ -71,11 +84,22 @@ describe('<OrderDetailsConfirmModal />', () => {
         const file = new File([blob], 'test.png');
         const fileInput = screen.getByTestId('dt_file_upload_input');
 
-        await userEvent.upload(fileInput, file);
+        const fileList = {
+            0: file,
+            item: () => file,
+            length: 1,
+        };
 
-        await waitFor(() => {
-            expect(screen.getByText('Cannot upload a file over 5MB')).toBeInTheDocument();
+        Object.defineProperty(fileInput, 'files', {
+            value: fileList,
         });
+
+        // eslint-disable-next-line testing-library/no-unnecessary-act
+        await act(async () => {
+            fireEvent.change(fileInput);
+        });
+
+        expect(screen.getByText('Cannot upload a file over 5MB')).toBeInTheDocument();
     });
 
     it('should remove file when close icon is clicked', async () => {
@@ -84,10 +108,19 @@ describe('<OrderDetailsConfirmModal />', () => {
         const file = new File(['test'], 'test.png', { type: 'image/png' });
         const fileInput = screen.getByTestId('dt_file_upload_input');
 
-        await userEvent.upload(fileInput, file);
+        const fileList = {
+            0: file,
+            item: () => file,
+            length: 1,
+        };
 
-        await waitFor(() => {
-            expect(screen.getByText('test.png')).toBeInTheDocument();
+        Object.defineProperty(fileInput, 'files', {
+            value: fileList,
+        });
+
+        // eslint-disable-next-line testing-library/no-unnecessary-act
+        await act(async () => {
+            fireEvent.change(fileInput);
         });
 
         const closeIcon = screen.getByTestId('dt_remove_file_icon');

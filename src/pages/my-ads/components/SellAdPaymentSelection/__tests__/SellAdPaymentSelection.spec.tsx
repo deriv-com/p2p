@@ -2,6 +2,11 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SellAdPaymentSelection from '../SellAdPaymentSelection';
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: () => ({ isMobile: false }),
+}));
+
 jest.mock('@/hooks', () => ({
     api: {
         advertiserPaymentMethods: {
@@ -31,9 +36,20 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks'),
     useIsAdvertiser: jest.fn(() => true),
+    useModalManager: jest.fn(() => mockModalManager),
+}));
+
+jest.mock('@/components/PaymentMethodForm', () => ({
+    PaymentMethodForm: () => <div>PaymentMethodForm</div>,
 }));
 
 const mockProps = {

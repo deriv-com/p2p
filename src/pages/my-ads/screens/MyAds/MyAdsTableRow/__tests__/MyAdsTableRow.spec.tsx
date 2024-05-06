@@ -1,4 +1,3 @@
-import { useExchangeRates } from '@deriv-com/api-hooks';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -72,7 +71,8 @@ const mockProps = {
 };
 
 jest.mock('@deriv-com/api-hooks', () => ({
-    useExchangeRates: jest.fn(),
+    ...jest.requireActual('@deriv-com/api-hooks'),
+    useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -80,15 +80,7 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn().mockReturnValue({ isMobile: false }),
 }));
 
-const mockUseExchangeRate = useExchangeRates as jest.Mock;
-
 describe('MyAdsTableRow', () => {
-    beforeEach(() => {
-        mockUseExchangeRate.mockReturnValue({
-            subscribe: jest.fn(),
-            unsubscribe: jest.fn(),
-        });
-    });
     it('should render the component as expected', () => {
         render(<MyAdsTableRow {...mockProps} />);
         expect(screen.getByText('Buy 138')).toBeInTheDocument();

@@ -10,12 +10,12 @@
         "preview": "vite preview",
         "test:lint": "prettier --log-level silent --write . && eslint \"./src/**/*.?(js|jsx|ts|tsx)\"",
         "test": "jest --passWithNoTests",
-        "test:coverage": "jest --coverage --passWithNoTests",
+        "test:coverage": "jest --coverage --passWithNoTests --maxWorkers=75% --silent",
         "prepare": "husky install"
     },
     "dependencies": {
         "@babel/preset-env": "^7.24.5",
-        "@deriv-com/api-hooks": "^0.1.16",
+        "@deriv-com/api-hooks": "^0.1.18",
         "@deriv-com/ui": "latest",
         "@deriv-com/utils": "latest",
         "@deriv/deriv-api": "^1.0.15",
