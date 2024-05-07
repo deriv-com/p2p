@@ -42,10 +42,9 @@ const getErrorMessage = (
                         Buy/Sell
                     </Text>
                     <Text
+                        className='whitespace-pre-line'
                         size={textSize}
-                    >{` because the amount exceeds your daily limit of ${limit} ${currency}.`}</Text>
-                    <br />
-                    <br />
+                    >{` because the amount exceeds your daily limit of ${limit} ${currency}.\n\n`}</Text>
                     <Text size={textSize}>You can still see your ad on</Text>{' '}
                     <Text size={textSize} weight='bold'>
                         My ads
@@ -53,7 +52,9 @@ const getErrorMessage = (
                     <Text size={textSize}>. If you’d like to increase your daily limit, please contact us via</Text>{' '}
                     <Button
                         className='ad-visibility-error-modal__body__button'
-                        onClick={() => window.LC_API.open_chat_window()}
+                        //TODO: open live chat
+                        onClick={() => undefined}
+                        // onClick={() => window.LC_API.open_chat_window()}
                         textSize={textSize}
                         variant='ghost'
                     >
