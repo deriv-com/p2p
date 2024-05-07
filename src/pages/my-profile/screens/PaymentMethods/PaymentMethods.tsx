@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { TSelectedPaymentMethod } from 'types';
 import { PaymentMethodForm } from '@/components';
 import { api } from '@/hooks';
@@ -15,9 +15,14 @@ import { PaymentMethodsList } from './PaymentMethodsList';
  * **/
 const PaymentMethods = () => {
     const isAdvertiser = useIsAdvertiser();
-    const { data: p2pAdvertiserPaymentMethods, isPending: isLoading } =
-        api.advertiserPaymentMethods.useGet(isAdvertiser);
+    const { data: p2pAdvertiserPaymentMethods, get, isPending: isLoading } = api.advertiserPaymentMethods.useGet();
     const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
+
+    useEffect(() => {
+        if (isAdvertiser) {
+            get();
+        }
+    }, [isAdvertiser]);
 
     const handleAddPaymentMethod = (selectedPaymentMethod?: TSelectedPaymentMethod) => {
         dispatch({
