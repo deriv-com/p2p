@@ -109,7 +109,7 @@ const MyAdsTableRowView = ({
                     balanceAvailable={balanceAvailable}
                     dailyBuyLimit={dailyBuyLimit}
                     dailySellLimit={dailySellLimit}
-                    isModalOpen={!!isModalOpenFor('AdErrorTooltipModal')}
+                    isModalOpen
                     onRequestClose={hideModal}
                     remainingAmount={remainingAmount}
                     visibilityStatus={getVisibilityErrorCodes(visibilityStatus, rateType !== currentRateType, isListed)}
@@ -129,7 +129,7 @@ const MyAdsTableRowView = ({
             )}
             {!!isModalOpenFor('AdRateSwitchModal') && (
                 <AdRateSwitchModal
-                    isModalOpen={!!isModalOpenFor('AdRateSwitchModal')}
+                    isModalOpen
                     onClickSet={() => onClickIcon(AD_ACTION.EDIT)}
                     onRequestClose={hideModal}
                     rateType={currentRateType}
@@ -137,11 +137,7 @@ const MyAdsTableRowView = ({
                 />
             )}
             {!!isModalOpenFor('ErrorModal') && (
-                <ErrorModal
-                    isModalOpen={!!isModalOpenFor('ErrorModal')}
-                    message={updateError?.error?.message}
-                    onRequestClose={hideModal}
-                />
+                <ErrorModal isModalOpen message={updateError?.error?.message} onRequestClose={hideModal} />
             )}
             {!!isModalOpenFor('AdVisibilityErrorModal') && (
                 <AdVisibilityErrorModal
