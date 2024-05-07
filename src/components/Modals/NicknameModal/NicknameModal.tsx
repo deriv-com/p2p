@@ -45,6 +45,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
         } else if (isError) {
             debouncedReset();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isError, isSuccess, setHasCreatedAdvertiser]);
 
     return (
