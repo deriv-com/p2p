@@ -14,7 +14,11 @@ const useAdvertiserList = (payload?: THookPayload) => {
     if (!payload?.advertiser_name) {
         delete payload?.advertiser_name;
     }
-    const { data, ...rest } = useP2pAdvertiserList({ ...payload, refetchOnWindowFocus: false });
+    const { data, ...rest } = useP2pAdvertiserList({
+        payload,
+        queryKey: ['p2p_advertiser_list', payload],
+        refetchOnWindowFocus: false,
+    });
 
     // Add additional information to the 'p2p_advertiser_list' data
     const modified_data = useMemo(() => {
