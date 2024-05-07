@@ -8,6 +8,7 @@ type TPayload = NonNullable<Parameters<typeof useP2PAdvertList>[0]>['payload'];
 const useAdvertList = (payload?: TPayload) => {
     const { data, loadMoreAdverts, ...rest } = useP2PAdvertList({
         payload: { ...payload, limit: payload?.limit, offset: payload?.offset },
+        queryKey: ['p2p_advert_list', payload],
     });
 
     // Add additional information to the 'p2p_advert_list' data
