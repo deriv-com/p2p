@@ -211,3 +211,5 @@ export type TAdvertiserPaymentMethod = THooks.AdvertiserPaymentMethods.Get[numbe
 export type TBankName = THooks.AdvertiserPaymentMethods.Get[number]['fields']['bank_name'];
 export type TName = THooks.AdvertiserPaymentMethods.Get[number]['fields']['name'];
 export type TAccount = THooks.AdvertiserPaymentMethods.Get[number]['fields']['account'];
+
+export type TTextSize = ComponentProps<typeof Text>['size'];

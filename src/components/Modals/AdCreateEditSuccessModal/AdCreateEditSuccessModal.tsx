@@ -1,19 +1,26 @@
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { TCurrency } from 'types';
 import { MY_ADS_URL } from '@/constants';
 import { Button, Checkbox, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdCreateEditSuccessModal.scss';
 
 type TAdCreateEditSuccessModalProps = {
     advertsArchivePeriod?: number;
+    currency: TCurrency;
     isModalOpen: boolean;
+    limit: string;
     onRequestClose: () => void;
+    visibilityStatus: string;
 };
 
 const AdCreateEditSuccessModal = ({
     advertsArchivePeriod,
+    currency,
     isModalOpen,
+    limit,
     onRequestClose,
+    visibilityStatus,
 }: TAdCreateEditSuccessModalProps) => {
     const { isMobile } = useDevice();
     const history = useHistory();
@@ -25,7 +32,16 @@ const AdCreateEditSuccessModal = ({
 
     const onClickOk = () => {
         localStorage.setItem('should_not_show_auto_archive_message_again', JSON.stringify(isChecked));
-        history.push(MY_ADS_URL);
+        if (visibilityStatus) {
+            history.push(MY_ADS_URL, {
+                currency,
+                from: '',
+                limit,
+                visibilityStatus,
+            });
+        } else {
+            history.push(MY_ADS_URL);
+        }
         onRequestClose();
     };
     return (
