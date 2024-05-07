@@ -15,7 +15,7 @@
     },
     "dependencies": {
         "@babel/preset-env": "^7.24.5",
-        "@deriv-com/api-hooks": "^0.1.18",
+        "@deriv-com/api-hooks": "^0.1.19",
         "@deriv-com/ui": "latest",
         "@deriv-com/utils": "latest",
         "@deriv/deriv-api": "^1.0.15",

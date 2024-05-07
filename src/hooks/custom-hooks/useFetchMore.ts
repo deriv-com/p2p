@@ -14,7 +14,9 @@ const useFetchMore = ({ isFetching, loadMore, ref }: TProps) => {
             if (containerRefElement) {
                 const { clientHeight, scrollHeight, scrollTop } = containerRefElement;
                 //once the user has scrolled within 200px of the bottom of the table, fetch more data if we can
-                if (scrollHeight - scrollTop - clientHeight < 200 && !isFetching) {
+                const isBottom = scrollHeight - scrollTop <= clientHeight + 200;
+
+                if (isBottom) {
                     loadMore();
                 }
             }
@@ -22,10 +24,19 @@ const useFetchMore = ({ isFetching, loadMore, ref }: TProps) => {
         [loadMore, isFetching]
     );
 
-    //a check on mount and after a fetch to see if the table is already scrolled to the bottom and immediately needs to fetch more data
     useEffect(() => {
-        fetchMoreOnBottomReached(ref.current);
-    }, [fetchMoreOnBottomReached]);
+        const handleScroll = () => fetchMoreOnBottomReached(ref.current);
+
+        if (ref.current) {
+            ref.current.addEventListener('scroll', handleScroll);
+        }
+
+        return () => {
+            if (ref.current) {
+                ref.current.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, [fetchMoreOnBottomReached, ref]);
 
     return {
         fetchMoreOnBottomReached,
