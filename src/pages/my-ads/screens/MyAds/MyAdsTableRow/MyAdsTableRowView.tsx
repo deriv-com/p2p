@@ -1,8 +1,10 @@
 import { memo, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { TCurrency } from 'types';
 import {
     AdErrorTooltipModal,
     AdRateSwitchModal,
+    AdVisibilityErrorModal,
     ErrorModal,
     MyAdsDeleteModal,
     ShareAdsModal,
@@ -14,6 +16,11 @@ import { getVisibilityErrorCodes } from '@/utils';
 import { TMyAdsTableRowRendererProps } from '../MyAdsTable/MyAdsTable';
 import MyAdsTableRow from './MyAdsTableRow';
 
+type TState = {
+    currency?: TCurrency;
+    limit?: string;
+    visibilityStatus?: string;
+};
 const MyAdsTableRowView = ({
     balanceAvailable,
     dailyBuyLimit,
@@ -26,6 +33,16 @@ const MyAdsTableRowView = ({
     const { error: updateError, isError: isErrorUpdate, mutate } = api.advert.useUpdate();
     const { error, isError, mutate: deleteAd } = api.advert.useDelete();
     const history = useHistory();
+    const location = useLocation();
+
+    const createAdvisibilityStatus = (location.state as TState)?.visibilityStatus;
+
+    useEffect(() => {
+        if (createAdvisibilityStatus) {
+            showModal('AdVisibilityErrorModal');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [createAdvisibilityStatus]);
 
     const {
         account_currency: accountCurrency = '',
@@ -85,37 +102,52 @@ const MyAdsTableRowView = ({
                 showModal={showModal}
                 {...rest}
             />
-            <AdErrorTooltipModal
-                accountCurrency={accountCurrency}
-                advertType={type}
-                balanceAvailable={balanceAvailable}
-                dailyBuyLimit={dailyBuyLimit}
-                dailySellLimit={dailySellLimit}
-                isModalOpen={!!isModalOpenFor('AdErrorTooltipModal')}
-                onRequestClose={hideModal}
-                remainingAmount={remainingAmount}
-                visibilityStatus={getVisibilityErrorCodes(visibilityStatus, rateType !== currentRateType, isListed)}
-            />
-            <MyAdsDeleteModal
-                error={error?.error?.message}
-                id={id}
-                isModalOpen={!!isModalOpenFor('MyAdsDeleteModal') || !!error?.error?.message}
-                onClickDelete={onClickDelete}
-                onRequestClose={hideModal}
-            />
-            <ShareAdsModal id={id} isModalOpen={!!isModalOpenFor('ShareAdsModal')} onRequestClose={hideModal} />
-            <AdRateSwitchModal
-                isModalOpen={!!isModalOpenFor('AdRateSwitchModal')}
-                onClickSet={() => onClickIcon(AD_ACTION.EDIT)}
-                onRequestClose={hideModal}
-                rateType={currentRateType}
-                reachedEndDate={reachedTargetDate}
-            />
-            <ErrorModal
-                isModalOpen={!!isModalOpenFor('ErrorModal')}
-                message={updateError?.error?.message}
-                onRequestClose={hideModal}
-            />
+            {!!isModalOpenFor('AdErrorTooltipModal') && (
+                <AdErrorTooltipModal
+                    accountCurrency={accountCurrency}
+                    advertType={type}
+                    balanceAvailable={balanceAvailable}
+                    dailyBuyLimit={dailyBuyLimit}
+                    dailySellLimit={dailySellLimit}
+                    isModalOpen
+                    onRequestClose={hideModal}
+                    remainingAmount={remainingAmount}
+                    visibilityStatus={getVisibilityErrorCodes(visibilityStatus, rateType !== currentRateType, isListed)}
+                />
+            )}
+            {!!isModalOpenFor('MyAdsDeleteModal') && (
+                <MyAdsDeleteModal
+                    error={error?.error?.message}
+                    id={id}
+                    isModalOpen={!!isModalOpenFor('MyAdsDeleteModal') || !!error?.error?.message}
+                    onClickDelete={onClickDelete}
+                    onRequestClose={hideModal}
+                />
+            )}
+            {!!isModalOpenFor('ShareAdsModal') && (
+                <ShareAdsModal id={id} isModalOpen={!!isModalOpenFor('ShareAdsModal')} onRequestClose={hideModal} />
+            )}
+            {!!isModalOpenFor('AdRateSwitchModal') && (
+                <AdRateSwitchModal
+                    isModalOpen
+                    onClickSet={() => onClickIcon(AD_ACTION.EDIT)}
+                    onRequestClose={hideModal}
+                    rateType={currentRateType}
+                    reachedEndDate={reachedTargetDate}
+                />
+            )}
+            {!!isModalOpenFor('ErrorModal') && (
+                <ErrorModal isModalOpen message={updateError?.error?.message} onRequestClose={hideModal} />
+            )}
+            {!!isModalOpenFor('AdVisibilityErrorModal') && (
+                <AdVisibilityErrorModal
+                    currency={(location.state as TState)?.currency ?? ('' as TCurrency)}
+                    errorCode={(location.state as TState)?.visibilityStatus ?? ''}
+                    isModalOpen
+                    limit={(location.state as TState)?.limit ?? ''}
+                    onRequestClose={hideModal}
+                />
+            )}
         </>
     );
 };

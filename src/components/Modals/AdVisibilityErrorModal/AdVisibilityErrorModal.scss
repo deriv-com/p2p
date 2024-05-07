@@ -1,0 +1,36 @@
+.ad-visibility-error-modal {
+    width: 44rem;
+    border-radius: 8px;
+    height: fit-content;
+
+    @include mobile {
+        max-width: calc(100vw - 3.2rem);
+    }
+
+    &__header {
+        @include mobile {
+            padding: 1.6rem;
+        }
+    }
+
+    &__body {
+        padding: 2.4rem;
+
+        @include mobile {
+            padding: 0.8rem 2.4rem;
+        }
+
+        &__button {
+            padding: 0;
+            &:hover {
+                background: transparent !important;
+                text-decoration: underline;
+                text-decoration-color: #ff444f;
+
+                span {
+                    color: #ff444f !important;
+                }
+            }
+        }
+    }
+}

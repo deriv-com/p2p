@@ -49,7 +49,7 @@ const CreateEditAd = () => {
     const { data: activeAccount } = api.account.useActiveAccount();
     const { data: p2pSettings } = api.settings.useSettings();
     const { order_payment_period: orderPaymentPeriod } = p2pSettings ?? {};
-    const { error, isError, isSuccess, mutate } = api.advert.useCreate();
+    const { data: createResponse, error, isError, isSuccess, mutate } = api.advert.useCreate();
     const {
         error: updateError,
         isError: isUpdateError,
@@ -144,12 +144,15 @@ const CreateEditAd = () => {
 
     useEffect(() => {
         if (isSuccess || isUpdateSuccess) {
-            // TODO: Show success modal and other 2 visibility modals after modal manager implementation or update ad impelementation
-            // Redirect to the ad list page
             if (shouldNotShowArchiveMessageAgain !== 'true') {
                 showModal('AdCreateEditSuccessModal');
-            } else {
-                history.push(MY_ADS_URL);
+            } else if (createResponse?.visibility_status) {
+                history.push(MY_ADS_URL, {
+                    currency: createResponse?.account_currency,
+                    from: '',
+                    limit: createResponse?.max_order_amount_limit_display,
+                    visibilityStatus: createResponse?.visibility_status[0],
+                });
             }
         } else if (isError || isUpdateError) {
             showModal('AdCreateEditErrorModal');
@@ -230,8 +233,11 @@ const CreateEditAd = () => {
             />
             <AdCreateEditSuccessModal
                 advertsArchivePeriod={orderPaymentPeriod}
+                currency={createResponse?.account_currency as TCurrency}
                 isModalOpen={!!isModalOpenFor('AdCreateEditSuccessModal')}
+                limit={createResponse?.max_order_amount_limit_display ?? ''}
                 onRequestClose={hideModal}
+                visibilityStatus={createResponse?.visibility_status?.[0] ?? ''}
             />
             <AdCancelCreateEditModal
                 isModalOpen={!!isModalOpenFor('AdCancelCreateEditModal')}

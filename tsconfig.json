@@ -24,6 +24,7 @@
             "@/*": ["src/*"]
         }
     },
+    "files": ["./global.d.ts"],
     "include": ["src", "vite-env-override.d.ts"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }
