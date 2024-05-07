@@ -147,7 +147,7 @@ const MyAdsTableRowView = ({
                 <AdVisibilityErrorModal
                     currency={(location.state as TState)?.currency ?? ('' as TCurrency)}
                     errorCode={(location.state as TState)?.visibilityStatus ?? ''}
-                    isModalOpen={!!isModalOpenFor('AdVisibilityErrorModal')}
+                    isModalOpen
                     limit={(location.state as TState)?.limit ?? ''}
                     onRequestClose={hideModal}
                 />
