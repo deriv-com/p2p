@@ -1,13 +1,12 @@
 import { RefObject, useCallback, useEffect } from 'react';
 
 type TProps = {
-    isFetching: boolean;
     loadMore: () => void;
     ref: RefObject<HTMLDivElement>;
 };
 
 /** A custom hook to load more items in the table on scroll to bottom of the table */
-const useFetchMore = ({ isFetching, loadMore, ref }: TProps) => {
+const useFetchMore = ({ loadMore, ref }: TProps) => {
     //called on scroll and possibly on mount to fetch more data as the user scrolls and reaches bottom of table
     const fetchMoreOnBottomReached = useCallback(
         (containerRefElement?: HTMLDivElement | null) => {
@@ -21,19 +20,20 @@ const useFetchMore = ({ isFetching, loadMore, ref }: TProps) => {
                 }
             }
         },
-        [loadMore, isFetching]
+        [loadMore]
     );
 
     useEffect(() => {
-        const handleScroll = () => fetchMoreOnBottomReached(ref.current);
+        const currentRef = ref.current;
+        const handleScroll = () => fetchMoreOnBottomReached(currentRef);
 
-        if (ref.current) {
-            ref.current.addEventListener('scroll', handleScroll);
+        if (currentRef) {
+            currentRef.addEventListener('scroll', handleScroll);
         }
 
         return () => {
-            if (ref.current) {
-                ref.current.removeEventListener('scroll', handleScroll);
+            if (currentRef) {
+                currentRef.removeEventListener('scroll', handleScroll);
             }
         };
     }, [fetchMoreOnBottomReached, ref]);
