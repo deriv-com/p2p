@@ -21,7 +21,6 @@ const Table = <T,>({
     columns = [],
     data,
     emptyDataMessage,
-    isFetching,
     loadMoreFunction,
     renderHeader = () => <div />,
     rowRender,
@@ -47,7 +46,6 @@ const Table = <T,>({
     }, [headerRef?.current]);
 
     const { fetchMoreOnBottomReached } = useFetchMore({
-        isFetching,
         loadMore: loadMoreFunction,
         ref: tableContainerRef,
     });

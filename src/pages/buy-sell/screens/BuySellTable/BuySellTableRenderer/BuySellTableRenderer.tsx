@@ -32,7 +32,7 @@ const BuySellTableRenderer = ({
         return <Loader className='mt-80' />;
     }
 
-    if (!data && !searchValue) {
+    if ((!data && !searchValue) || (data.length === 0 && !searchValue)) {
         return (
             <div className='mt-[5.5rem] lg:mt-10'>
                 <ActionScreen
