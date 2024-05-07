@@ -3,7 +3,7 @@ import { THooks } from 'types';
 import { FullPageMobileWrapper, TextArea } from '@/components';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
-import { Button, Loader, useDevice } from '@deriv-com/ui';
+import { Button, useDevice } from '@deriv-com/ui';
 import './MyProfileAdDetails.scss';
 
 type TMYProfileAdDetailsTextAreaProps = {
@@ -20,15 +20,17 @@ const MyProfileAdDetailsTextArea = ({
     return (
         <>
             <TextArea
+                label='Contact details'
+                maxLength={300}
                 onChange={e => setContactInfo((e.target as HTMLInputElement).value)}
-                placeholder='My contact details'
                 testId='dt_profile_ad_details_contact'
                 value={advertiserInfo?.contact_info || ''}
             />
             <TextArea
-                label='This information will be visible to everyone.'
+                hint='This information will be visible to everyone.'
+                label='Instructions'
+                maxLength={300}
                 onChange={e => setAdvertDescription((e.target as HTMLInputElement).value)}
-                placeholder='Instructions'
                 testId='dt_profile_ad_details_description'
                 value={advertiserInfo?.default_advert_description || ''}
             />
@@ -37,7 +39,7 @@ const MyProfileAdDetailsTextArea = ({
 };
 
 const MyProfileAdDetails = () => {
-    const { data: advertiserInfo, isLoading } = api.advertiser.useGetInfo();
+    const { data: advertiserInfo } = api.advertiser.useGetInfo();
     const { mutate: updateAdvertiser } = api.advertiser.useUpdate();
     const [contactInfo, setContactInfo] = useState('');
     const [advertDescription, setAdvertDescription] = useState('');
@@ -63,7 +65,8 @@ const MyProfileAdDetails = () => {
         });
     };
 
-    if (isLoading) return <Loader />;
+    //TODO: Uncomment once isLoading is implemented from api-hooks
+    //if (isLoading) return <Loader />;
 
     if (isMobile) {
         return (

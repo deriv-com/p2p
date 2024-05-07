@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom';
 import { Checklist } from '@/components';
 import { useDevice, usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { DerivLightIcCashierSendEmailIcon } from '@deriv/quill-icons';
@@ -34,7 +33,6 @@ const getPoaAction = (status: string | undefined) => {
 
 const Verification = () => {
     const { isMobile } = useDevice();
-    const history = useHistory();
     const { data, isLoading } = usePoiPoaStatus();
     const { isP2PPoaRequired, isPoaPending, isPoaVerified, isPoiPending, isPoiVerified, poaStatus, poiStatus } =
         data || {};
@@ -49,7 +47,8 @@ const Verification = () => {
             urlParams.forEach((value, key) => updatedUrlParams.append(key, value));
             updatedUrl = `${updatedUrl}&${urlParams.toString()}`;
         }
-        history.push(updatedUrl);
+
+        window.location.href = updatedUrl;
     };
 
     const checklistItems = [
@@ -87,7 +86,7 @@ const Verification = () => {
             <Text className='verification__text' size={isMobile ? 'lg' : 'md'} weight='bold'>
                 Verify your P2P account
             </Text>
-            <Text align='center' className='verification__text' size={isMobile ? 'lg' : 'md'}>
+            <Text align='center' className='verification__text' size={isMobile ? 'lg' : 'sm'}>
                 Verify your identity and address to use Deriv P2P.
             </Text>
             <Checklist items={checklistItems} />
