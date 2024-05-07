@@ -62,12 +62,10 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                     <div className='profile-balance__items'>
                         {dailyLimits.map(({ available, dailyLimit, type }) => (
                             <div className='profile-balance__item' key={type}>
-                                <Text size={isDesktop ? 'sm' : 'xs'}>{type}</Text>
+                                <Text>{type}</Text>
                                 <div className='profile-balance__item-limits'>
                                     <div data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_limit`}>
-                                        <Text color='less-prominent' size={isDesktop ? 'sm' : 'xs'}>
-                                            Daily limit
-                                        </Text>
+                                        <Text color='less-prominent'>Daily limit</Text>
                                         <Text
                                             className='profile-balance__label'
                                             size={isDesktop ? 'sm' : 'md'}
@@ -77,9 +75,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                                         </Text>
                                     </div>
                                     <div data-testid={`dt_profile_balance_available_${type.toLowerCase()}_limit`}>
-                                        <Text color='less-prominent' size={isDesktop ? 'sm' : 'xs'}>
-                                            Available
-                                        </Text>
+                                        <Text color='less-prominent'>Available</Text>
                                         <Text
                                             className='profile-balance__label'
                                             size={isDesktop ? 'sm' : 'md'}

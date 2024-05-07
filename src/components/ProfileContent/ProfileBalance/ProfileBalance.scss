@@ -11,11 +11,6 @@
     &__amount {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-
-        @include mobile {
-            gap: 0;
-        }
 
         & div {
             display: flex;
@@ -62,6 +57,10 @@
         &-limits {
             display: grid;
             grid-template-columns: 1fr 1fr;
+
+            @include desktop {
+                margin-bottom: 2.8rem;
+            }
 
             @include mobile {
                 grid-template-columns: 1fr;

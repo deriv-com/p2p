@@ -29,7 +29,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                 }}
                 renderHeader={() => (
                     <Text size='lg' weight='bold'>
-                        Payment Methods
+                        Payment methods
                     </Text>
                 )}
             >
