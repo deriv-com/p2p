@@ -11,7 +11,7 @@ jest.mock('@deriv-com/ui', () => ({
 jest.mock('@/constants', () => ({
     ...jest.requireActual('@/constants'),
     AD_CONDITION_CONTENT: {
-        type: {
+        completionRates: {
             description: 'description',
             title: 'title',
         },

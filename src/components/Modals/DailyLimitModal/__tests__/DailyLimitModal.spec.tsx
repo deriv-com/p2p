@@ -24,6 +24,11 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: () => ({ isMobile: false }),
+}));
+
 describe('DailyLimitModal', () => {
     it('should render loader when data is not ready', async () => {
         render(<DailyLimitModal currency='USD' isModalOpen onRequestClose={mockOnRequestClose} />);

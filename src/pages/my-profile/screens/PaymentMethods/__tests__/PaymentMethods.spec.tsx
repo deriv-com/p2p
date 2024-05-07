@@ -26,16 +26,17 @@ const data: ReturnType<typeof api.advertiserPaymentMethods.useGet>['data'] = [
     },
 ];
 
-const mockUseGetResponse: ReturnType<typeof mockUseGet> = {
+const mockUseGetResponse = {
     context: null,
     data: undefined,
     error: null,
     failureCount: 0,
     failureReason: null,
+    get: jest.fn(),
     isError: false,
     isIdle: false,
     isPaused: false,
-    isPending: true,
+    isPending: false,
     isSuccess: false,
     mutate: jest.fn(),
     mutateAsync: jest.fn(),
@@ -55,12 +56,6 @@ jest.mock('@deriv-com/ui', () => ({
     Loader: () => <div>Loader</div>,
 }));
 
-jest.mock('@deriv-com/api-hooks', () => ({
-    useP2PAdvertiserPaymentMethods: {
-        useGet: jest.fn(() => ({})),
-    },
-}));
-
 jest.mock('@/components', () => ({
     ...jest.requireActual('@/components'),
     PaymentMethodForm: jest.fn(({ onResetFormState }: ComponentProps<typeof PaymentMethodForm>) => (
@@ -75,6 +70,15 @@ jest.mock('@/components', () => ({
 
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
+    api: {
+        advertiserPaymentMethods: {
+            useGet: jest.fn(),
+        },
+    },
+}));
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
     useIsAdvertiser: jest.fn(() => true),
 }));
 
@@ -102,7 +106,7 @@ describe('PaymentMethods', () => {
     it('should call dispatch with the type add', async () => {
         const mockDispatch = jest.fn();
         mockUseReducer.mockReturnValue([{ isVisible: false }, mockDispatch]);
-        mockUseGet.mockReturnValue({ ...mockUseGetResponse, data });
+        (mockUseGet as jest.Mock).mockReturnValue({ ...mockUseGetResponse, data });
         render(<PaymentMethods />);
         await userEvent.click(screen.getByText('Add'));
         expect(mockDispatch).toHaveBeenCalledWith({
@@ -115,7 +119,7 @@ describe('PaymentMethods', () => {
     it('should call dispatch with the type edit', async () => {
         const mockDispatch = jest.fn();
         mockUseReducer.mockReturnValue([{ isVisible: false }, mockDispatch]);
-        mockUseGet.mockReturnValue({ ...mockUseGetResponse, data });
+        (mockUseGet as jest.Mock).mockReturnValue({ ...mockUseGetResponse, data });
         render(<PaymentMethods />);
         await userEvent.click(screen.getByText('Edit'));
         expect(mockDispatch).toHaveBeenCalledWith({ payload: { selectedPaymentMethod: data[0] }, type: 'EDIT' });
@@ -123,7 +127,7 @@ describe('PaymentMethods', () => {
     it('should call dispatch with type delete', async () => {
         const mockDispatch = jest.fn();
         mockUseReducer.mockReturnValue([{ isVisible: false }, mockDispatch]);
-        mockUseGet.mockReturnValue({ ...mockUseGetResponse, data });
+        (mockUseGet as jest.Mock).mockReturnValue({ ...mockUseGetResponse, data });
         render(<PaymentMethods />);
         await userEvent.click(screen.getByText('Delete'));
         expect(mockDispatch).toHaveBeenCalledWith({ payload: { selectedPaymentMethod: data[0] }, type: 'DELETE' });
@@ -135,14 +139,19 @@ describe('PaymentMethods', () => {
         await userEvent.click(screen.getByTestId('dt_cancel_button'));
         expect(mockDispatch).toHaveBeenCalledWith({ type: 'RESET' });
     });
-    it('should show the loader when isloading is true', () => {
-        mockUseGet.mockReturnValue({ ...mockUseGetResponse, isPending: true, isSuccess: false, status: 'pending' });
+    it('should show the loader when isPending is true', () => {
+        (mockUseGet as jest.Mock).mockReturnValue({
+            ...mockUseGetResponse,
+            isPending: true,
+            isSuccess: false,
+            status: 'pending',
+        });
         render(<PaymentMethods />);
         expect(screen.getByText('Loader')).toBeInTheDocument();
     });
     it('should render the payment methods empty component when data undefined and formstate.isvisible is false', () => {
         mockUseReducer.mockReturnValue([{ isVisible: false }, jest.fn()]);
-        mockUseGet.mockReturnValue({ ...mockUseGetResponse, data: undefined });
+        (mockUseGet as jest.Mock).mockReturnValue({ ...mockUseGetResponse, data: undefined });
         render(<PaymentMethods />);
         expect(screen.getByText('PaymentMethodsEmpty')).toBeInTheDocument();
     });
@@ -153,7 +162,7 @@ describe('PaymentMethods', () => {
     });
     it('should render payment methods list when data is defined and formstate.isvisible is false', () => {
         mockUseReducer.mockReturnValue([{ isVisible: false }, jest.fn()]);
-        mockUseGet.mockReturnValue({
+        (mockUseGet as jest.Mock).mockReturnValue({
             ...mockUseGetResponse,
             data: [
                 {
