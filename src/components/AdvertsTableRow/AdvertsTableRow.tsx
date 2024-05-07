@@ -23,8 +23,15 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
 
     const isAdvertiser = useIsAdvertiser();
     const { data: paymentMethods } = api.paymentMethods.useGet();
-    const { data: advertiserPaymentMethods } = api.advertiserPaymentMethods.useGet(isAdvertiser);
+    const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { data } = api.advertiser.useGetInfo() || {};
+
+    useEffect(() => {
+        if (isAdvertiser) {
+            get();
+        }
+    }, [isAdvertiser]);
+
     const { daily_buy = 0, daily_buy_limit = 0, daily_sell = 0, daily_sell_limit = 0 } = data || {};
 
     const exchangeRateRef = useRef<TExchangeRate | null>(null);

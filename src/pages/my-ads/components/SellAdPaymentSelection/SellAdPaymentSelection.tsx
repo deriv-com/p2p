@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { TAdvertiserPaymentMethod, TSelectedPaymentMethod } from 'types';
 import { PaymentMethodCard, PaymentMethodForm } from '@/components';
 import { api } from '@/hooks';
@@ -15,10 +15,16 @@ type TSellAdPaymentSelectionProps = {
 const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodIds }: TSellAdPaymentSelectionProps) => {
     const { isMobile } = useDevice();
     const isAdvertiser = useIsAdvertiser();
-    const { data: advertiserPaymentMethods } = api.advertiserPaymentMethods.useGet(isAdvertiser);
+    const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
 
     const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
+
+    useEffect(() => {
+        if (isAdvertiser) {
+            get();
+        }
+    }, [isAdvertiser]);
 
     const handleAddPaymentMethod = (selectedPaymentMethod?: TSelectedPaymentMethod) => {
         dispatch({
