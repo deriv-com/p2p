@@ -1,7 +1,6 @@
 import { THooks } from 'types';
-import { FlyoutMenu } from '@/components';
 import { LabelPairedEllipsisVerticalXlRegularIcon } from '@deriv/quill-icons';
-import { Button, Checkbox } from '@deriv-com/ui';
+import { Checkbox, Dropdown } from '@deriv-com/ui';
 import { ReactComponent as IcCashierBankTransfer } from '../../../public/ic-cashier-bank-transfer.svg';
 import { ReactComponent as IcCashierEwallet } from '../../../public/ic-cashier-ewallet.svg';
 import { ReactComponent as IcCashierOther } from '../../../public/ic-cashier-other.svg';
@@ -39,14 +38,15 @@ const PaymentMethodCardHeader = ({
         Icon = IcCashierEwallet;
     }
     // TODO: Remember to translate these
-    const flyoutMenuItems = [
-        <Button color='black' key={0} onClick={() => onEditPaymentMethod?.()} size='sm' textSize='xs' variant='ghost'>
-            Edit
-        </Button>,
-
-        <Button color='black' key={1} onClick={() => onDeletePaymentMethod?.()} size='sm' textSize='xs' variant='ghost'>
-            Delete
-        </Button>,
+    const actions = [
+        {
+            text: 'Edit',
+            value: 'edit',
+        },
+        {
+            text: 'Delete',
+            value: 'delete',
+        },
     ];
     return (
         <div className='payment-method-card__header' data-testid='dt_payment_method_card_header'>
@@ -57,9 +57,18 @@ const PaymentMethodCardHeader = ({
                 width={medium || small ? 16 : 24}
             />
             {isEditable && (
-                <FlyoutMenu
-                    listItems={flyoutMenuItems}
-                    renderIcon={() => <LabelPairedEllipsisVerticalXlRegularIcon className='cursor-pointer' />}
+                <Dropdown
+                    className='payment-method-card__header-dropdown'
+                    dropdownIcon={<LabelPairedEllipsisVerticalXlRegularIcon />}
+                    list={actions}
+                    name='payment-method-actions'
+                    onSelect={value => {
+                        if (value === 'edit') {
+                            onEditPaymentMethod?.();
+                        } else if (value === 'delete') {
+                            onDeletePaymentMethod?.();
+                        }
+                    }}
                 />
             )}
             {isSelectable && (

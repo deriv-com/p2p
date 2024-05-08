@@ -8,6 +8,26 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 1.1rem;
+
+        .deriv-dropdown {
+            width: 3.2rem;
+
+            &__items {
+                width: 12.8rem;
+                border: 0;
+                padding: 0;
+            }
+
+            .deriv-input {
+                border: 0;
+                padding: 0;
+
+                &__field,
+                &__helper-message {
+                    display: none;
+                }
+            }
+        }
     }
     .derivs-button__variant--ghost {
         color: #0e0e0e;
