@@ -1,0 +1,12 @@
+.loading-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    width: 44rem;
+    height: unset;
+
+    @include mobile {
+        max-width: calc(100% - 3.2rem);
+    }
+}

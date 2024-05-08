@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import clsx from 'clsx';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
 import { SORT_BY_LIST } from '@/constants';
+import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
 import { TSortByValues } from '@/utils';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { Button, Tab, Tabs, useDevice } from '@deriv-com/ui';
@@ -38,10 +40,16 @@ const BuySellHeader = ({
     sortDropdownValue,
 }: TBuySellHeaderProps) => {
     const { isMobile } = useDevice();
+    const isAdvertiserBarred = useIsAdvertiserBarred();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
-        <div className='buy-sell-header' data-testid='dt_buy_sell_header'>
+        <div
+            className={clsx('buy-sell-header', {
+                'buy-sell-header--has-border': isMobile && !isAdvertiserBarred,
+            })}
+            data-testid='dt_buy_sell_header'
+        >
             <Tabs
                 TitleFontSize='sm'
                 activeTab={activeTab}

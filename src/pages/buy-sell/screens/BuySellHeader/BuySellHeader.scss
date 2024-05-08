@@ -10,7 +10,6 @@
         padding: 0;
         flex-direction: column;
         justify-content: center;
-        border: 1px solid #f2f3f4;
     }
 
     .deriv-input {
@@ -28,6 +27,10 @@
         &__helper-message {
             display: none;
         }
+    }
+
+    &--has-border {
+        border: 1px solid #f2f3f4;
     }
 
     &__tabs {

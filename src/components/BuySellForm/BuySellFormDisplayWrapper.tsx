@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
 import clsx from 'clsx';
+import { getCurrentRoute } from '@/utils';
 import { Modal, useDevice } from '@deriv-com/ui';
 import { FullPageMobileWrapper } from '../FullPageMobileWrapper';
 import { BuySellFormFooter } from './BuySellFormFooter';
@@ -23,10 +24,14 @@ const BuySellFormDisplayWrapper = ({
     onSubmit,
 }: PropsWithChildren<TBuySellFormDisplayWrapperProps>) => {
     const { isMobile } = useDevice();
+    const currentRoute = getCurrentRoute();
+
     if (isMobile) {
         return (
             <FullPageMobileWrapper
-                className='buy-sell-form__full-page-modal'
+                className={clsx('buy-sell-form__full-page-modal', {
+                    'buy-sell-form__full-page-modal--is-buy': currentRoute === 'buy-sell',
+                })}
                 onBack={onRequestClose}
                 renderFooter={() => <BuySellFormFooter isDisabled={!isValid} onClickCancel={onRequestClose} />}
                 renderHeader={() => <BuySellFormHeader currency={accountCurrency} isBuy={isBuy} />}

@@ -1,11 +1,19 @@
 /* eslint-disable camelcase */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { TCurrency, THooks, TPaymentMethod } from 'types';
+import { TCurrency, TExchangeRate, THooks, TPaymentMethod } from 'types';
 import { BUY_SELL, ORDERS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
-import { getPaymentMethodObjects, removeTrailingZeros, roundOffDecimal, setDecimalPlaces } from '@/utils';
+import { useIsAdvertiser } from '@/hooks/custom-hooks';
+import {
+    generateEffectiveRate,
+    getPaymentMethodObjects,
+    removeTrailingZeros,
+    roundOffDecimal,
+    setDecimalPlaces,
+} from '@/utils';
+import { useExchangeRates } from '@deriv-com/api-hooks';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
 import { LightDivider } from '../LightDivider';
 import { BuySellAmount } from './BuySellAmount';
@@ -19,16 +27,9 @@ type TPayload = Omit<Parameters<ReturnType<typeof api.order.useCreate>['mutate']
 };
 
 type TBuySellFormProps = {
-    advert: THooks.Advert.GetList[number];
-    advertiserBuyLimit: number;
-    advertiserPaymentMethods: THooks.AdvertiserPaymentMethods.Get;
-    advertiserSellLimit: number;
-    balanceAvailable: number;
-    displayEffectiveRate: string;
-    effectiveRate: number;
+    advertId?: string;
     isModalOpen: boolean;
     onRequestClose: () => void;
-    paymentMethods: THooks.PaymentMethods.Get;
 };
 
 const getAdvertiserMaxLimit = (
@@ -43,39 +44,80 @@ const getAdvertiserMaxLimit = (
     return maxOrderAmountLimitDisplay;
 };
 
-const BuySellForm = ({
-    advert,
-    advertiserBuyLimit,
-    advertiserPaymentMethods,
-    advertiserSellLimit,
-    balanceAvailable,
-    displayEffectiveRate,
-    effectiveRate,
-    isModalOpen,
-    onRequestClose,
-    paymentMethods,
-}: TBuySellFormProps) => {
+const BASE_CURRENCY = 'USD';
+
+const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProps) => {
+    const { subscribeRates } = useExchangeRates();
+    const { data: advertInfo } = api.advert.useGet({ id: advertId });
     const { data: orderCreatedInfo, isSuccess, mutate } = api.order.useCreate();
+    const { data: paymentMethods } = api.paymentMethods.useGet();
+    const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
+    const { data } = api.advertiser.useGetInfo() || {};
+    const {
+        balance_available = '',
+        daily_buy = 0,
+        daily_buy_limit = 0,
+        daily_sell = 0,
+        daily_sell_limit = 0,
+    } = data || {};
+
+    const isAdvertiser = useIsAdvertiser();
+
     const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<number[]>([]);
+    const [calculatedRate, setCalculatedRate] = useState<string>('0');
+    const [initialAmount, setInitialAmount] = useState<string>('0');
+
+    const exchangeRateRef = useRef<TExchangeRate | null>(null);
 
     const {
         account_currency,
         advertiser_details,
         description,
+        effective_rate,
         id,
-        local_currency,
+        local_currency = '',
         max_order_amount_limit_display,
         min_order_amount_limit,
         min_order_amount_limit_display,
         order_expiry_period,
         payment_method_names,
+        price_display,
+        rate,
         rate_type,
         type,
-    } = advert;
+    } = advertInfo || {};
 
-    const advertiserPaymentMethodObjects = getPaymentMethodObjects(advertiserPaymentMethods);
+    useEffect(() => {
+        if (isAdvertiser) {
+            get();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAdvertiser]);
 
-    const paymentMethodObjects = getPaymentMethodObjects(paymentMethods);
+    useEffect(() => {
+        if (local_currency) {
+            exchangeRateRef.current = subscribeRates({
+                base_currency: BASE_CURRENCY,
+                target_currencies: [local_currency],
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [local_currency]);
+
+    const { displayEffectiveRate, effectiveRate } = generateEffectiveRate({
+        exchangeRate: exchangeRateRef.current?.rates?.[local_currency],
+        localCurrency: local_currency as TCurrency,
+        marketRate: Number(effective_rate),
+        price: Number(price_display),
+        rate,
+        rateType: rate_type,
+    });
+
+    const advertiserPaymentMethodObjects = getPaymentMethodObjects(
+        advertiserPaymentMethods as THooks.AdvertiserPaymentMethods.Get
+    );
+
+    const paymentMethodObjects = getPaymentMethodObjects(paymentMethods as THooks.PaymentMethods.Get);
 
     const availablePaymentMethods = payment_method_names?.map(paymentMethod => {
         const isAvailable = advertiserPaymentMethods?.some(method => method.display_name === paymentMethod);
@@ -91,8 +133,8 @@ const BuySellForm = ({
 
     const shouldDisableField =
         !isBuy &&
-        (parseFloat(balanceAvailable.toString()) === 0 ||
-            parseFloat(balanceAvailable.toString()) < (min_order_amount_limit ?? 1));
+        (parseFloat(balance_available.toString()) === 0 ||
+            parseFloat(balance_available.toString()) < (min_order_amount_limit ?? 1));
 
     const {
         control,
@@ -131,9 +173,6 @@ const BuySellForm = ({
         mutate(payload);
     };
 
-    const calculatedRate = removeTrailingZeros(roundOffDecimal(effectiveRate, setDecimalPlaces(effectiveRate, 6)));
-    const initialAmount = removeTrailingZeros((min_order_amount_limit ?? 1 * Number(calculatedRate)).toString());
-
     const onSelectPaymentMethodCard = (paymentMethodId: number) => {
         if (selectedPaymentMethods.includes(paymentMethodId)) {
             setSelectedPaymentMethods(selectedPaymentMethods.filter(method => method !== paymentMethodId));
@@ -141,6 +180,13 @@ const BuySellForm = ({
             setSelectedPaymentMethods([...selectedPaymentMethods, paymentMethodId]);
         }
     };
+
+    useEffect(() => {
+        if (effectiveRate) {
+            setCalculatedRate(removeTrailingZeros(roundOffDecimal(effectiveRate, setDecimalPlaces(effectiveRate, 6))));
+            setInitialAmount(removeTrailingZeros((min_order_amount_limit ?? 1 * Number(calculatedRate)).toString()));
+        }
+    }, [calculatedRate, effectiveRate, min_order_amount_limit]);
 
     useEffect(() => {
         if (isSuccess && orderCreatedInfo) {
@@ -177,7 +223,7 @@ const BuySellForm = ({
                     localCurrency={local_currency as TCurrency}
                     name={advertiser_details?.name ?? ''}
                     paymentMethodNames={payment_method_names}
-                    paymentMethods={paymentMethods}
+                    paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
                     rate={displayEffectiveRate}
                 />
                 <LightDivider />
@@ -198,8 +244,8 @@ const BuySellForm = ({
                     localCurrency={local_currency as TCurrency}
                     maxLimit={getAdvertiserMaxLimit(
                         isBuy,
-                        advertiserBuyLimit,
-                        advertiserSellLimit,
+                        Number(daily_buy_limit) - Number(daily_buy),
+                        Number(daily_sell_limit) - Number(daily_sell),
                         max_order_amount_limit_display ?? '0'
                     )}
                     minLimit={min_order_amount_limit_display ?? '0'}
