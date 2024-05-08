@@ -4,7 +4,6 @@ import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
-import { useAuthorize } from '@deriv-com/api-hooks';
 import { Loader, Tab, Tabs } from '@deriv-com/ui';
 import Router from '../Router';
 import { routes } from '../routes-config';
@@ -16,7 +15,6 @@ const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
     const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
-    const { isSuccess } = useAuthorize();
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -42,18 +40,16 @@ const AppContent = () => {
     }, [activeAccountData, subscribeP2PSettings]);
 
     useEffect(() => {
-        if (isSuccess) {
-            subscribeAdvertiserInfo({});
-        }
-    }, [isSuccess, subscribeAdvertiserInfo]);
+        subscribeAdvertiserInfo({});
+    }, [subscribeAdvertiserInfo]);
 
     // Need this to subscribe to advertiser info after user has created an advertiser.
     // setHasCreatedAdvertiser is triggered inside of NicknameModal.
     useEffect(() => {
-        if (isSuccess && hasCreatedAdvertiser) {
+        if (hasCreatedAdvertiser) {
             subscribeAdvertiserInfo({});
         }
-    }, [hasCreatedAdvertiser, isSuccess, subscribeAdvertiserInfo]);
+    }, [hasCreatedAdvertiser, subscribeAdvertiserInfo]);
 
     useEffect(() => {
         setActiveTab(getActiveTab(location.pathname));

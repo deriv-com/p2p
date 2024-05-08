@@ -60,7 +60,6 @@ const MyProfileCounterpartiesTable = ({
     return (
         <Table
             data={data}
-            isFetching={isFetching}
             loadMoreFunction={loadMoreAdvertisers}
             rowRender={(rowData: unknown) => (
                 <MyProfileCounterpartiesTableRowRenderer
