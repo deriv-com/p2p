@@ -1,11 +1,10 @@
-import { DerivProductDerivP2pBrandLightLogoWordmarkHorizontalIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
-import { Button } from '@deriv-com/ui';
-import { LocalStorageConstants, LocalStorageUtils, URLUtils } from '@deriv-com/utils';
-import './Header.scss';
+import { Button, Header } from '@deriv-com/ui';
+import { LocalStorageConstants, LocalStorageUtils, URLConstants, URLUtils } from '@deriv-com/utils';
+import './AppHeader.scss';
 
 // TODO: handle local storage values not updating after changing local storage values
-const Header = () => {
+const AppHeader = () => {
     const { activeLoginid, logout } = useAuthData();
     const appId = LocalStorageUtils.getValue(LocalStorageConstants.configAppId);
     const serverUrl = localStorage.getItem(LocalStorageConstants.configServerURL.toString());
@@ -15,8 +14,14 @@ const Header = () => {
             : URLUtils.getOauthURL();
 
     return (
-        <div className='header'>
-            <DerivProductDerivP2pBrandLightLogoWordmarkHorizontalIcon width='100' />
+        <Header className='app-header'>
+            <Header.DerivLogo
+                href={URLConstants.deriv}
+                logoHeight={30}
+                logoWidth={30}
+                target='_blank'
+                variant='wallets'
+            />
             {activeLoginid ? (
                 <Button onClick={logout}>Logout</Button>
             ) : (
@@ -27,8 +32,8 @@ const Header = () => {
                     Login
                 </a>
             )}
-        </div>
+        </Header>
     );
 };
 
-export default Header;
+export default AppHeader;
