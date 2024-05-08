@@ -11,7 +11,7 @@ import './PaymentMethodForm.scss';
 type TPaymentMethodFormProps = {
     displayModal?: boolean;
     formState: TFormState;
-    onAdd: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
+    onAdd?: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
     onRequestClose?: () => void;
     onResetFormState: () => void;
 };

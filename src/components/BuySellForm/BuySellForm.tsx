@@ -2,9 +2,9 @@
 import { useEffect, useState } from 'react';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { TCurrency, THooks, TPaymentMethod } from 'types';
+import { TAdvertiserPaymentMethod, TCurrency, THooks, TPaymentMethod } from 'types';
 import { BUY_SELL, ORDERS_URL, RATE_TYPE } from '@/constants';
-import { api } from '@/hooks';
+import { api, useIsAdvertiser } from '@/hooks';
 import { getPaymentMethodObjects, removeTrailingZeros, roundOffDecimal, setDecimalPlaces } from '@/utils';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
 import { LightDivider } from '../LightDivider';
@@ -21,7 +21,6 @@ type TPayload = Omit<Parameters<ReturnType<typeof api.order.useCreate>['mutate']
 type TBuySellFormProps = {
     advert: THooks.Advert.GetList[number];
     advertiserBuyLimit: number;
-    advertiserPaymentMethods: THooks.AdvertiserPaymentMethods.Get;
     advertiserSellLimit: number;
     balanceAvailable: number;
     displayEffectiveRate: string;
@@ -46,7 +45,6 @@ const getAdvertiserMaxLimit = (
 const BuySellForm = ({
     advert,
     advertiserBuyLimit,
-    advertiserPaymentMethods,
     advertiserSellLimit,
     balanceAvailable,
     displayEffectiveRate,
@@ -56,7 +54,15 @@ const BuySellForm = ({
     paymentMethods,
 }: TBuySellFormProps) => {
     const { data: orderCreatedInfo, isSuccess, mutate } = api.order.useCreate();
+    const isAdvertiser = useIsAdvertiser();
     const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<number[]>([]);
+    const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
+
+    useEffect(() => {
+        if (isAdvertiser) {
+            get();
+        }
+    }, [isAdvertiser]);
 
     const {
         account_currency,
@@ -73,7 +79,9 @@ const BuySellForm = ({
         type,
     } = advert;
 
-    const advertiserPaymentMethodObjects = getPaymentMethodObjects(advertiserPaymentMethods);
+    const advertiserPaymentMethodObjects = getPaymentMethodObjects(
+        advertiserPaymentMethods as TAdvertiserPaymentMethod[]
+    );
 
     const paymentMethodObjects = getPaymentMethodObjects(paymentMethods);
 
@@ -128,6 +136,10 @@ const BuySellForm = ({
             payload.payment_info = getValues('bank_details');
         }
 
+        if (isBuy) {
+            payload.contact_info = getValues('contact_details');
+        }
+
         mutate(payload);
     };
 
@@ -155,7 +167,7 @@ const BuySellForm = ({
                 accountCurrency={account_currency as TCurrency}
                 isBuy={isBuy}
                 isModalOpen={isModalOpen}
-                isValid={isValid}
+                isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
                 onRequestClose={onRequestClose}
                 onSubmit={onSubmit}
             >
