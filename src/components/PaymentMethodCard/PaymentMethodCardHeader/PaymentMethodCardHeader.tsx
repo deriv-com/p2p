@@ -19,6 +19,18 @@ type TPaymentMethodCardHeaderProps = {
     type: THooks.AdvertiserPaymentMethods.Get[number]['type'];
 };
 
+// TODO: Remember to translate these
+const actions = [
+    {
+        text: 'Edit',
+        value: 'edit',
+    },
+    {
+        text: 'Delete',
+        value: 'delete',
+    },
+];
+
 const PaymentMethodCardHeader = ({
     isDisabled = false,
     isEditable = false,
@@ -37,17 +49,7 @@ const PaymentMethodCardHeader = ({
     } else if (type === 'ewallet') {
         Icon = IcCashierEwallet;
     }
-    // TODO: Remember to translate these
-    const actions = [
-        {
-            text: 'Edit',
-            value: 'edit',
-        },
-        {
-            text: 'Delete',
-            value: 'delete',
-        },
-    ];
+
     return (
         <div className='payment-method-card__header' data-testid='dt_payment_method_card_header'>
             <Icon
