@@ -1,11 +1,11 @@
 import { Fragment, memo, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
-import { TAdvertiserPaymentMethod, TAdvertsTableRowRenderer, TCurrency, TExchangeRate, TPaymentMethod } from 'types';
+import { TAdvertsTableRowRenderer, TCurrency, TExchangeRate, TPaymentMethod } from 'types';
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
-import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
+import { useModalManager } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, getCurrentRoute } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
 import { useExchangeRates } from '@deriv-com/api-hooks';
@@ -21,16 +21,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const history = useHistory();
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
 
-    const isAdvertiser = useIsAdvertiser();
     const { data: paymentMethods } = api.paymentMethods.useGet();
-    const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { data } = api.advertiser.useGetInfo() || {};
-
-    useEffect(() => {
-        if (isAdvertiser) {
-            get();
-        }
-    }, [isAdvertiser]);
 
     const { daily_buy = 0, daily_buy_limit = 0, daily_sell = 0, daily_sell_limit = 0 } = data || {};
 
@@ -192,7 +184,6 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                 <BuySellForm
                     advert={props}
                     advertiserBuyLimit={Number(daily_buy_limit) - Number(daily_buy)}
-                    advertiserPaymentMethods={advertiserPaymentMethods as TAdvertiserPaymentMethod[]}
                     advertiserSellLimit={Number(daily_sell_limit) - Number(daily_sell)}
                     balanceAvailable={data?.balance_available ?? 0}
                     displayEffectiveRate={displayEffectiveRate}
