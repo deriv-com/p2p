@@ -17,9 +17,9 @@ jobs:
         with:
           PROJECT_NAME: ${{ env.VITE_PROJECT_NAME }}
           CROWDIN_BRANCH_NAME: ${{ env.VITE_CROWDIN_BRANCH_NAME }}
-          CROWDIN_PROJECT_ID: ${{ env.VITE_CROWDIN_PROJECT_ID }}
-          CROWDIN_PERSONAL_TOKEN: ${{ env.VITE_CROWDIN_PERSONAL_TOKEN }}
-          R2_ACCOUNT_ID: ${{ env.VITE_R2_ACCOUNT_ID }}
-          R2_ACCESS_KEY_ID: ${{ env.VITE_R2_ACCESS_KEY_ID }}
-          R2_SECRET_ACCESS_KEY: ${{ env.VITE_R2_SECRET_ACCESS_KEY }}
-          R2_BUCKET_NAME: ${{ env.VITE_R2_BUCKET_NAME }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
