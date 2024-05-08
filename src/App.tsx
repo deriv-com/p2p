@@ -6,7 +6,7 @@ import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import AppContent from './routes/AppContent';
 
 const i18nInstance = initializeI18n({
-    cdnUrl: `https://pub-5ce11fcb15f34c0a9ce8ba7086d16e6a.r2.dev/${process.env.CROWDIN_PROJECT_ID}/${process.env.CROWDIN_BRANCH_NAME}`,
+    cdnUrl: `https://pub-5ce11fcb15f34c0a9ce8ba7086d16e6a.r2.dev/${process.env.VITE_CROWDIN_PROJECT_ID}/${process.env.VITE_CROWDIN_BRANCH_NAME}`,
 });
 
 const App = () => {
