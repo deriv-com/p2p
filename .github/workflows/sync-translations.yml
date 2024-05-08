@@ -3,13 +3,13 @@ name: Sync translations
 on:
   push:
     branches:
-      - 'main'
+      - 'master'
 
 jobs:
   sync_translations:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout to main branch
+      - name: Checkout to master branch
         uses: actions/checkout@v3
 
       - name: Sync translations
