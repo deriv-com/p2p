@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { useP2PAdvertiserCreate } from '@deriv-com/api-hooks';
+import { useP2PAdvertiserCreate, useP2PAdvertiserInfo } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
 type TCreateAdvertiserPayload = Parameters<ReturnType<typeof useP2PAdvertiserCreate>['mutate']>[0];
@@ -16,6 +16,7 @@ type TCreateAdvertiserPayload = Parameters<ReturnType<typeof useP2PAdvertiserCre
  *
 */
 const useAdvertiserCreate = () => {
+    const { subscribe } = useP2PAdvertiserInfo() ?? {};
     const invalidate = useInvalidateQuery();
     const {
         data,
@@ -24,6 +25,7 @@ const useAdvertiserCreate = () => {
     } = useP2PAdvertiserCreate({
         onSuccess: () => {
             invalidate('p2p_advertiser_info');
+            subscribe({});
         },
     });
 
