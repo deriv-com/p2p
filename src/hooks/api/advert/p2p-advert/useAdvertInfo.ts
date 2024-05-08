@@ -12,6 +12,7 @@ const useAdvertInfo = (
         enabled: isEnabled,
         payload,
         refetchOnWindowFocus,
+        retry: 2,
     });
 
     const modified_data = useMemo(() => {

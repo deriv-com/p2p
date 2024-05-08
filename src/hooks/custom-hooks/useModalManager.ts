@@ -8,6 +8,7 @@ type TUseModalManagerConfig = {
 };
 
 type TShowModalOptions = {
+    shouldClearPreviousModals?: boolean;
     shouldStackModals?: boolean;
 };
 
@@ -120,6 +121,8 @@ export default function useModalManager(config?: TUseModalManagerConfig) {
         if (modalHash) {
             const modalIds = modalHash.split(MODAL_QUERY_SEPARATOR);
             const currentModalId = modalIds.slice(-1)[0];
+
+            if (currentModalId === modalId) return;
             // set the previous modal open state to false if shouldStackModals is false, otherwise set it to true (default true for mobile)
             // set the new modal open state to true
             actions.set(currentModalId, options?.shouldStackModals || isMobile);
@@ -127,7 +130,7 @@ export default function useModalManager(config?: TUseModalManagerConfig) {
             // push the state of the new modal to the hash
             modalIds.push(modalId);
             setQueryString({
-                modal: modalIds.join(MODAL_QUERY_SEPARATOR),
+                modal: options?.shouldClearPreviousModals ? modalId : modalIds.join(MODAL_QUERY_SEPARATOR),
             });
         } else {
             actions.set(modalId, true);

@@ -34,7 +34,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
     const { id: advertiserId } = advertiserDetails ?? {};
 
     const divRef = useRef<HTMLDivElement | null>(null);
-    const advertUrl = `${websiteUrl()}${ADVERTISER_URL}/${advertiserId}?advert_id=${id}`;
+    const advertUrl = `${websiteUrl()}${ADVERTISER_URL}/${advertiserId}?advert_id=${id}&currency=${localCurrency}`;
     const isBuyAd = type === BUY_SELL.BUY;
     const firstCurrency = isBuyAd ? localCurrency : accountCurrency;
     const secondCurrency = isBuyAd ? accountCurrency : localCurrency;

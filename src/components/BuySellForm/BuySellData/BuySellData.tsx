@@ -50,8 +50,7 @@ const BuySellData = ({
                 <div className='flex flex-col w-full'>
                     <Text color='less-prominent' size={labelSize}>{`Rate (1 ${accountCurrency})`}</Text>
                     <Text size={valueSize}>
-                        {rate}
-                        {localCurrency}
+                        {rate} {localCurrency}
                     </Text>
                 </div>
             </div>
