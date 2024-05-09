@@ -47,7 +47,8 @@ const AppContent = () => {
     // setHasCreatedAdvertiser is triggered inside of NicknameModal.
     useEffect(() => {
         if (hasCreatedAdvertiser) {
-            subscribeAdvertiserInfo({});
+            // @ts-expect-error - passthrough is not a valid parameter
+            subscribeAdvertiserInfo({ passthrough: { createdNickname: 'nickname' } });
         }
     }, [hasCreatedAdvertiser, subscribeAdvertiserInfo]);
 

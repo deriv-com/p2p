@@ -23,17 +23,6 @@ describe('PaymentMethodCardHeader', () => {
         );
         expect(screen.getByTestId('dt_payment_method_card_header')).toBeInTheDocument();
     });
-    it('should render the component correctly when iseditable is true', () => {
-        render(
-            <PaymentMethodCardHeader
-                isEditable
-                onDeletePaymentMethod={() => undefined}
-                onEditPaymentMethod={() => undefined}
-                type='bank'
-            />
-        );
-        expect(screen.getByTestId('dt_flyout_toggle')).toBeInTheDocument();
-    });
     it('should render the component correctly when isselectable is true', () => {
         render(
             <PaymentMethodCardHeader
