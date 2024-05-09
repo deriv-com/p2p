@@ -1,5 +1,8 @@
-import { TPaymentMethod } from 'types';
-import { LightDivider } from '@/components';
+import { useCallback, useReducer } from 'react';
+import { TPaymentMethod, TSelectedPaymentMethod } from 'types';
+import { LightDivider, PaymentMethodForm } from '@/components';
+import { useModalManager } from '@/hooks';
+import { advertiserPaymentMethodsReducer } from '@/reducers';
 import { sortPaymentMethodsWithAvailability } from '@/utils';
 import { Text, useDevice } from '@deriv-com/ui';
 import { PaymentMethodCard } from '../../PaymentMethodCard';
@@ -17,34 +20,26 @@ const BuySellPaymentSection = ({
 }: TBuySellPaymentSectionProps) => {
     const { isMobile } = useDevice();
     const sortedList = sortPaymentMethodsWithAvailability(availablePaymentMethods);
-    //TODO: below section to be modified to handle payment method addition after handling of modal provider
-    // const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
 
-    // const handleAddPaymentMethod = (selectedPaymentMethod?: TSelectedPaymentMethod) => {
-    //     dispatch({
-    //         payload: {
-    //             selectedPaymentMethod,
-    //         },
-    //         type: 'ADD',
-    //     });
-    // };
+    const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
 
-    // const handleResetFormState = useCallback(() => {
-    //     dispatch({ type: 'RESET' });
-    // }, []);
+    const handleAddPaymentMethod = (displayName: string, selectedPaymentMethod?: TSelectedPaymentMethod) => {
+        dispatch({
+            payload: {
+                selectedPaymentMethod: {
+                    ...selectedPaymentMethod,
+                    displayName,
+                    method: selectedPaymentMethod?.method ?? selectedPaymentMethod?.id,
+                },
+            },
+            type: 'ADD',
+        });
+    };
 
-    // if (formState?.isVisible) {
-    //     return (
-    //         <PaymentMethodForm
-    //             displayFullPage={isMobile}
-    //             displayModal={!isMobile}
-    //             formState={formState}
-    //             isDisabled
-    //             onAdd={handleAddPaymentMethod}
-    //             onResetFormState={handleResetFormState}
-    //         />
-    //     );
-    // }
+    const handleResetFormState = useCallback(() => {
+        dispatch({ type: 'RESET' });
+    }, []);
 
     return (
         <>
@@ -62,7 +57,10 @@ const BuySellPaymentSection = ({
                         <PaymentMethodCard
                             key={paymentMethod?.id}
                             medium
-                            onClickAdd={() => undefined}
+                            onClickAdd={() => {
+                                showModal('PaymentMethodForm', { shouldStackModals: false });
+                                handleAddPaymentMethod(paymentMethod?.display_name, paymentMethod);
+                            }}
                             onSelectPaymentMethodCard={onSelectPaymentMethodCard}
                             paymentMethod={paymentMethod}
                             selectedPaymentMethodIds={selectedPaymentMethodIds}
@@ -71,6 +69,14 @@ const BuySellPaymentSection = ({
                 </div>
             </div>
             <LightDivider />
+            {isModalOpenFor('PaymentMethodForm') && (
+                <PaymentMethodForm
+                    displayModal={!isMobile && !!isModalOpenFor('PaymentMethodForm')}
+                    formState={formState}
+                    onRequestClose={hideModal}
+                    onResetFormState={handleResetFormState}
+                />
+            )}
         </>
     );
 };

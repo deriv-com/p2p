@@ -31,6 +31,7 @@ jest.mock('@/hooks', () => ({
                         used_by_orders: null,
                     },
                 ],
+                get: jest.fn(),
             }),
         },
     },
