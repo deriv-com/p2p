@@ -24,7 +24,7 @@ const AppHeader = () => {
     return (
         <Header className='app-header'>
             {isDesktop ? (
-                <Wrapper>
+                <Wrapper variant='left'>
                     <DerivLogo
                         href='https://deriv.com'
                         logoHeight={30}
@@ -41,7 +41,7 @@ const AppHeader = () => {
                     </MenuItem>
                 </Wrapper>
             ) : (
-                <Wrapper>
+                <Wrapper variant='left'>
                     <Drawer
                         isOpen={isDrawerOpen}
                         onCloseDrawer={() => {

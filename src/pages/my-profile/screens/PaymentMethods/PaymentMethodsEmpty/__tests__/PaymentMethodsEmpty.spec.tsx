@@ -37,6 +37,7 @@ describe('PaymentMethodsEmpty', () => {
             isDesktop: false,
             isMobile: true,
             isTablet: false,
+            isTabletPortrait: false,
         });
         const onAddPaymentMethod = jest.fn();
         render(<PaymentMethodsEmpty onAddPaymentMethod={onAddPaymentMethod} />);
@@ -57,6 +58,7 @@ describe('PaymentMethodsEmpty', () => {
             isDesktop: false,
             isMobile: true,
             isTablet: false,
+            isTabletPortrait: false,
         });
         const onAddPaymentMethod = jest.fn();
         render(<PaymentMethodsEmpty onAddPaymentMethod={onAddPaymentMethod} />);
@@ -71,6 +73,7 @@ describe('PaymentMethodsEmpty', () => {
             isDesktop: false,
             isMobile: true,
             isTablet: false,
+            isTabletPortrait: false,
         });
         const onAddPaymentMethod = jest.fn();
         render(<PaymentMethodsEmpty onAddPaymentMethod={onAddPaymentMethod} />);
