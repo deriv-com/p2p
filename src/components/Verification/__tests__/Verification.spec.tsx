@@ -15,18 +15,9 @@ let mockUsePoiPoaStatusData = {
     isLoading: true,
 };
 
-const mockHistoryPush = jest.fn();
-
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
     usePoiPoaStatus: jest.fn(() => mockUsePoiPoaStatusData),
-}));
-
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useHistory: () => ({
-        push: mockHistoryPush,
-    }),
 }));
 
 describe('<Verification />', () => {
@@ -55,6 +46,13 @@ describe('<Verification />', () => {
             isLoading: false,
         };
 
+        Object.defineProperty(window, 'location', {
+            value: {
+                href: 'https://test.com',
+            },
+            writable: true,
+        });
+
         render(<Verification />);
 
         const poiButton = screen.getByTestId('dt_verification_poi_arrow_button');
@@ -62,9 +60,7 @@ describe('<Verification />', () => {
 
         await userEvent.click(poiButton);
 
-        expect(mockHistoryPush).toHaveBeenCalledWith(
-            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/p2p'
-        );
+        expect(window.location.href).toBe('https://app.deriv.com/account/proof-of-identity?ext_platform_url=/p2p');
     });
 
     it('should redirect user to proof-of-address route if user clicks on arrow button', async () => {
@@ -80,9 +76,7 @@ describe('<Verification />', () => {
 
         await userEvent.click(poaButton);
 
-        expect(mockHistoryPush).toHaveBeenCalledWith(
-            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/p2p'
-        );
+        expect(window.location.href).toBe('https://app.deriv.com/account/proof-of-address?ext_platform_url=/p2p');
     });
 
     it('should update url with search params if user clicks on arrow button and url has search params', async () => {
@@ -98,9 +92,7 @@ describe('<Verification />', () => {
 
         await userEvent.click(poiButton);
 
-        expect(mockHistoryPush).toHaveBeenCalledWith(
-            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/p2p'
-        );
+        expect(window.location.href).toBe('https://app.deriv.com/account/proof-of-identity?ext_platform_url=/p2p');
     });
 
     it('should show the pending message if poi/poa status is pending and poi/poa buttons are disabled', () => {

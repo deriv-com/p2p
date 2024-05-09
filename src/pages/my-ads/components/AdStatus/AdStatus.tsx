@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import { useDevice } from '@/hooks/custom-hooks';
-import { Text } from '@deriv-com/ui';
+import { Text, useDevice } from '@deriv-com/ui';
 import './AdStatus.scss';
 
 type TAdStatusProps = {
