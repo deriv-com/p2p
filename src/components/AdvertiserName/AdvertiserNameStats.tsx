@@ -3,6 +3,7 @@ import { DeepPartial, TAdvertiserStats } from 'types';
 import { OnlineStatusIcon, OnlineStatusLabel, StarRating } from '@/components';
 import { getCurrentRoute } from '@/utils';
 import { LabelPairedCircleUserSlashSmRegularIcon, LabelPairedThumbsUpSmRegularIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import './AdvertiserNameStats.scss';
 
@@ -51,7 +52,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
             {!ratingAverage && (
                 <div>
                     <Text color='less-prominent' size='sm'>
-                        Not rated yet
+                        <Localize i18n_default_text='Not rated yet' />
                     </Text>
                 </div>
             )}
