@@ -7,7 +7,6 @@ export * from './Clipboard';
 export * from './Dropdown';
 export * from './FileDropzone';
 export * from './FloatingRate';
-export * from './FlyoutMenu';
 export * from './FormProgress';
 export * from './FullPageMobileWrapper';
 export * from './Header';
