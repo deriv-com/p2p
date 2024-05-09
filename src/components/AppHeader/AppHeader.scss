@@ -2,7 +2,6 @@
     padding: 2.4rem;
 
     @include mobile {
-        padding: 0.8rem 2.4rem;
-        margin-bottom: 0;
+        padding-left: 0;
     }
 }
