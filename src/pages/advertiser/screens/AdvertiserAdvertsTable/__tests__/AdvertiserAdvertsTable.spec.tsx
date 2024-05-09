@@ -209,11 +209,29 @@ describe('<AdvertiserAdvertsTable />', () => {
         expect(buySellForms.length).toBeGreaterThan(0);
     });
 
-    it('should show ErrorModal if error is passed', () => {
+    it('should show ErrorModal if error is sent back from api and data is undefined', () => {
         (mockUseGet as jest.Mock).mockReturnValue({
             ...mockUseGetAdvertInfo,
             data: undefined,
             error: 'Error',
+            isLoading: false,
+        });
+        mockSearch = '?advert_id=456';
+        mockUseModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'ErrorModal');
+
+        render(<AdvertiserAdvertsTable advertiserId='222' />);
+
+        expect(screen.getByText('ErrorModal')).toBeInTheDocument();
+    });
+
+    it('should show ErrorModal if advert is not active and visible, and error is undefined', () => {
+        (mockUseGet as jest.Mock).mockReturnValue({
+            ...mockUseGetAdvertInfo,
+            data: {
+                ...mockUseGetAdvertInfo.data,
+                is_active: false,
+                is_visible: false,
+            },
             isLoading: false,
         });
         mockSearch = '?advert_id=456';

@@ -46,11 +46,13 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
             const { is_active, is_buy, is_visible } = advertInfo;
             if (is_active && is_visible) {
                 setActiveTab(is_buy ? 1 : 0);
-                showModal('BuySellForm', { shouldClearPreviousModals: true });
+                showModal('BuySellForm', { shouldClearPreviousModals: true, shouldStackModals: false });
+            } else {
+                showModal('ErrorModal', { shouldClearPreviousModals: true });
             }
         } else if (error) {
             showModal('ErrorModal', { shouldClearPreviousModals: true });
-        } else if (isLoadingAdvert) {
+        } else if (isLoadingAdvert && !advertInfo) {
             showModal('LoadingModal');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
