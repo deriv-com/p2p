@@ -9,6 +9,7 @@ import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, getCurrentRoute } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
 import { useExchangeRates } from '@deriv-com/api-hooks';
+import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './AdvertsTableRow.scss';
 
@@ -125,7 +126,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     </>
                                 ) : (
                                     <Text color='less-prominent' size='xs'>
-                                        Not rated yet
+                                        <Localize i18n_default_text='Not rated yet' />
                                     </Text>
                                 )}
                             </div>
