@@ -11,7 +11,7 @@
 
         &-row {
             &:not(:last-child) {
-                border-bottom: 1px solid var(--general-section-1);
+                border-bottom: 1px solid #f2f3f4;
             }
         }
     }
@@ -39,13 +39,13 @@
             scrollbar-width: thin;
             display: unset;
             border-radius: 10px;
-            background-color: var(--state-active);
+            background-color: #d6dadb;
         }
     }
 
     &__header {
         display: grid;
-        border-bottom: 2px solid var(--general-section-1);
+        border-bottom: 2px solid #f2f3f4;
         padding: 1.6rem;
     }
 }

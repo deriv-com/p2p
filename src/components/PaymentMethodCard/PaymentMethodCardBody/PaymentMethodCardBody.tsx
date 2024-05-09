@@ -16,11 +16,11 @@ const PaymentMethodCardBody = ({
     const isBankOrOther = modifiedDisplayName && ['BankTransfer', 'Other'].includes(modifiedDisplayName);
     return (
         <div className='payment-method-card__body'>
-            {isBankOrOther && !shouldShowPaymentMethodDisplayName ? null : <Text size='xs'>{displayName}</Text>}
-            <Text size='xs'>
+            {isBankOrOther && !shouldShowPaymentMethodDisplayName ? null : <Text>{displayName}</Text>}
+            <Text>
                 {(paymentMethod.fields?.bank_name as TBankName)?.value ?? (paymentMethod.fields?.name as TName)?.value}
             </Text>
-            <Text size='xs'>{(paymentMethod.fields?.account as TAccount)?.value}</Text>
+            <Text>{(paymentMethod.fields?.account as TAccount)?.value}</Text>
         </div>
     );
 };
