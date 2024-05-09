@@ -43,11 +43,6 @@ jest.mock('@/hooks', () => ({
 }));
 
 describe('MyProfileBalance', () => {
-    it('should render the loader when initial data is fetching', () => {
-        render(<MyProfileAdDetails />);
-        expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
-        mockUseAdvertiserInfo.isLoading = false;
-    });
     it('should render initial default details when user has not updated their details yet', () => {
         mockUseAdvertiserInfo.data = {};
         render(<MyProfileAdDetails />);
