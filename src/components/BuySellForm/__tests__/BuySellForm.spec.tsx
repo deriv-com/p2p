@@ -6,14 +6,52 @@ import userEvent from '@testing-library/user-event';
 import BuySellForm from '../BuySellForm';
 
 const mockMutateFn = jest.fn();
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+
 jest.mock('@/hooks', () => ({
     api: {
+        advertiserPaymentMethods: {
+            useGet: jest.fn(() => ({
+                data: [
+                    {
+                        display_name: 'alipay',
+                        fields: {
+                            account: {
+                                display_name: 'Alipay ID',
+                                required: 1,
+                                type: 'text' as 'memo' | 'text',
+                                value: '12345',
+                            },
+                            instructions: {
+                                display_name: 'Instructions',
+                                required: 0,
+                                type: 'memo' as 'memo' | 'text',
+                                value: 'Alipay instructions',
+                            },
+                        },
+                        id: '1',
+                        is_enabled: 1 as 0 | 1,
+                        method: 'alipay',
+                        type: 'ewallet' as 'bank' | 'ewallet' | 'other',
+                        used_by_adverts: ['1'],
+                        used_by_orders: ['1'],
+                    },
+                ],
+                get: jest.fn(),
+            })),
+        },
         order: {
             useCreate: jest.fn(() => ({
                 mutate: mockMutateFn,
             })),
         },
     },
+    useIsAdvertiser: jest.fn(() => true),
+    useModalManager: jest.fn(() => mockModalManager),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -57,36 +95,9 @@ jest.mock('@/utils', () => ({
 }));
 const mockFloatingPointValidator = floatingPointValidator as jest.Mock;
 
-type TNumber = 0 | 1;
-
 const mockProps = {
     advert: mockAdvertValues,
     advertiserBuyLimit: 1000,
-    advertiserPaymentMethods: [
-        {
-            display_name: 'alipay',
-            fields: {
-                account: {
-                    display_name: 'Alipay ID',
-                    required: 1,
-                    type: 'text' as 'memo' | 'text',
-                    value: '12345',
-                },
-                instructions: {
-                    display_name: 'Instructions',
-                    required: 0,
-                    type: 'memo' as 'memo' | 'text',
-                    value: 'Alipay instructions',
-                },
-            },
-            id: '1',
-            is_enabled: 1 as TNumber,
-            method: 'alipay',
-            type: 'ewallet' as 'bank' | 'ewallet' | 'other',
-            used_by_adverts: ['1'],
-            used_by_orders: ['1'],
-        },
-    ],
     advertiserSellLimit: 1000,
     balanceAvailable: 10,
     displayEffectiveRate: '1',
