@@ -1,9 +1,10 @@
 .error-modal {
     width: 44rem;
     height: unset;
+    border-radius: 8px;
 
     @include mobile {
-        max-width: calc(100% - 3.2rem);
+        max-width: 34rem;
     }
 
     &__body {

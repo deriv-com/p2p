@@ -14,7 +14,7 @@ const ErrorModal = ({ buttonText, isModalOpen, message, onRequestClose, title }:
     const textSize = isMobile ? 'lg' : 'md';
     return (
         <Modal ariaHideApp={false} className='error-modal' isOpen={isModalOpen} shouldCloseOnOverlayClick={false}>
-            <Modal.Header hideBorder onRequestClose={onRequestClose}>
+            <Modal.Header className='lg:pl-[2.4rem] pl-[1.6rem]' hideBorder onRequestClose={onRequestClose}>
                 <Text size={textSize} weight='bold'>
                     {title ?? `Something's not right`}
                 </Text>

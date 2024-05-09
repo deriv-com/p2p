@@ -2,11 +2,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 3rem;
+    padding: 3rem 0;
     width: 44rem;
     height: unset;
+    border-radius: 8px;
 
     @include mobile {
-        max-width: calc(100% - 3.2rem);
+        max-width: 32rem;
     }
 }
