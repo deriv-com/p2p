@@ -27,6 +27,7 @@ describe('PaymentMethodsList', () => {
             isDesktop: false,
             isMobile: true,
             isTablet: false,
+            isTabletPortrait: false,
         });
         render(
             <PaymentMethodsList
@@ -45,6 +46,7 @@ describe('PaymentMethodsList', () => {
             isDesktop: false,
             isMobile: false,
             isTablet: false,
+            isTabletPortrait: false,
         });
         render(
             <PaymentMethodsList
@@ -63,6 +65,7 @@ describe('PaymentMethodsList', () => {
             isDesktop: false,
             isMobile: true,
             isTablet: false,
+            isTabletPortrait: false,
         });
         render(
             <PaymentMethodsList
@@ -92,6 +95,7 @@ describe('PaymentMethodsList', () => {
             isDesktop: false,
             isMobile: false,
             isTablet: false,
+            isTabletPortrait: false,
         });
         render(
             <PaymentMethodsList
@@ -122,6 +126,7 @@ describe('PaymentMethodsList', () => {
             isDesktop: false,
             isMobile: true,
             isTablet: false,
+            isTabletPortrait: false,
         });
         render(
             <PaymentMethodsList
