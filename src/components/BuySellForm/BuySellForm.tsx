@@ -64,8 +64,8 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const isAdvertiser = useIsAdvertiser();
 
     const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<number[]>([]);
-    const [calculatedRate, setCalculatedRate] = useState<string>('0');
-    const [initialAmount, setInitialAmount] = useState<string>('0');
+    const [calculatedRate, setCalculatedRate] = useState('0');
+    const [initialAmount, setInitialAmount] = useState('0');
 
     const exchangeRateRef = useRef<TExchangeRate | null>(null);
 
