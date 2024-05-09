@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TAdvertiserPaymentMethod, TFormState, TSelectedPaymentMethod } from 'types';
 import { PageReturn, PaymentMethodField, PaymentMethodsFormFooter } from '@/components';
@@ -181,6 +181,24 @@ const PaymentMethodForm = ({
         );
     }
 
+    const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Prevents create edit ad form submission
+        event.stopPropagation();
+        handleSubmit(data => {
+            const hasData = Object.keys(data).length > 0;
+            if (actionType === 'ADD' && hasData) {
+                create({
+                    ...data,
+                    method: String((selectedPaymentMethod as TAdvertiserPaymentMethod)?.method),
+                });
+            } else if (actionType === 'EDIT' && hasData) {
+                update(String(selectedPaymentMethod?.id), {
+                    ...data,
+                });
+            }
+        })(event);
+    };
+
     return (
         <div className='payment-method-form'>
             <PageReturn
@@ -191,22 +209,7 @@ const PaymentMethodForm = ({
                 size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />
-            <form
-                className='payment-method-form__form'
-                onSubmit={handleSubmit(data => {
-                    const hasData = Object.keys(data).length > 0;
-                    if (actionType === 'ADD' && hasData) {
-                        create({
-                            ...data,
-                            method: String((selectedPaymentMethod as TAdvertiserPaymentMethod)?.method),
-                        });
-                    } else if (actionType === 'EDIT' && hasData) {
-                        update(String(selectedPaymentMethod?.id), {
-                            ...data,
-                        });
-                    }
-                })}
-            >
+            <form className='payment-method-form__form' onSubmit={handleFormSubmit}>
                 <div className='payment-method-form__fields'>
                     <div className='payment-method-form__field-wrapper'>
                         <PaymentMethodFormAutocomplete
@@ -240,6 +243,8 @@ const PaymentMethodForm = ({
                         isDirty={isDirty}
                         isSubmitting={isSubmitting}
                         isValid={isValid}
+                        onSubmit={handleFormSubmit}
+                        type='button'
                     />
                 )}
             </form>
