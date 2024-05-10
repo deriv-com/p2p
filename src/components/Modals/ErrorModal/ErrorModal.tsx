@@ -24,7 +24,7 @@ const ErrorModal = ({ buttonText, isModalOpen, message, onRequestClose, title }:
             </Modal.Body>
             <Modal.Footer hideBorder>
                 <Button onClick={onRequestClose} size='lg' textSize='sm'>
-                    {buttonText ?? 'Ok'}
+                    {buttonText ?? 'OK'}
                 </Button>
             </Modal.Footer>
         </Modal>
