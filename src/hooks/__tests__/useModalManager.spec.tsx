@@ -304,6 +304,7 @@ describe('useModalManager', () => {
             isDesktop: false,
             isMobile: true,
             isTablet: false,
+            isTabletPortrait: false,
         }));
         mockedUseQueryString.mockImplementationOnce(() => ({
             deleteQueryString: jest.fn(),
