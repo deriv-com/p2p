@@ -114,7 +114,7 @@ const FilterModal = ({
 
     return (
         <Modal ariaHideApp={false} className='filter-modal' isOpen={isModalOpen} onRequestClose={onRequestClose}>
-            <Modal.Header className='border-2' onRequestClose={onRequestClose}>
+            <Modal.Header onRequestClose={onRequestClose}>
                 <PageReturn
                     onClick={() => setShowPaymentMethods(false)}
                     pageTitle={headerText}

@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { useDevice } from '@deriv-com/ui';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BuySellTable from '../BuySellTable';
 
@@ -9,6 +10,12 @@ let mockAdvertiserListData = {
     isFetching: false,
     isPending: true,
     loadMoreAdverts: jest.fn(),
+};
+
+let mockAdvertiserInfoData = {
+    data: {
+        id: '123',
+    },
 };
 
 jest.mock('use-query-params', () => ({
@@ -32,6 +39,11 @@ jest.mock('@/components/BuySellForm', () => ({
     BuySellForm: jest.fn(() => <div>BuySellForm</div>),
 }));
 
+jest.mock('@/components/Modals', () => ({
+    ...jest.requireActual('@/components/Modals'),
+    NicknameModal: jest.fn(() => <div>NicknameModal</div>),
+}));
+
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
@@ -39,11 +51,7 @@ jest.mock('@/hooks', () => ({
             useGetList: jest.fn(() => mockAdvertiserListData),
         },
         advertiser: {
-            useGetInfo: jest.fn(() => ({
-                data: {
-                    id: '123',
-                },
-            })),
+            useGetInfo: jest.fn(() => mockAdvertiserInfoData),
         },
         advertiserPaymentMethods: {
             useGet: jest.fn(() => ({ data: [] })),
@@ -61,16 +69,27 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+let mockUseIsAdvertiser = true;
+
 const mockUseModalManager = {
     hideModal: jest.fn(),
     isModalOpenFor: jest.fn(),
     showModal: jest.fn(),
 };
 
+const mockUseQueryString = {
+    queryString: {
+        tab: 'buy',
+    },
+    setQueryString: jest.fn(),
+};
+
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
+    useIsAdvertiser: jest.fn(() => mockUseIsAdvertiser),
     useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
     useModalManager: jest.fn(() => mockUseModalManager),
+    useQueryString: jest.fn(() => mockUseQueryString),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -78,7 +97,7 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
-jest.mock('../../BuySellHeader/BuySellHeader', () => jest.fn(() => <div>BuySellHeader</div>));
+const mockUseDevice = useDevice as jest.Mock;
 
 describe('<BuySellTable />', () => {
     beforeEach(() => {
@@ -89,11 +108,22 @@ describe('<BuySellTable />', () => {
             writable: true,
         });
     });
-    it('should render the BuySellHeader component and loader component if isLoading is true', () => {
+    it('should render the BuySellHeader component and loader component if isLoading is true', async () => {
         render(<BuySellTable />);
 
-        expect(screen.getByText('BuySellHeader')).toBeInTheDocument();
+        const buySellHeader = screen.getByTestId('dt_buy_sell_header');
+        const buyTab = within(buySellHeader).getByRole('button', { name: 'Buy' });
+        const sellTab = within(buySellHeader).getByRole('button', { name: 'Sell' });
+
+        expect(buyTab).toBeInTheDocument();
+        expect(sellTab).toBeInTheDocument();
+        expect(screen.getByRole('searchbox')).toBeInTheDocument();
+        expect(screen.getByRole('combobox', { name: 'Sort by' })).toBeInTheDocument();
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
+
+        await userEvent.click(sellTab);
+
+        expect(mockUseQueryString.setQueryString).toHaveBeenCalledWith({ tab: 'Sell' });
     });
 
     it('should render the Table component if data is not empty', () => {
@@ -148,5 +178,54 @@ describe('<BuySellTable />', () => {
         await userEvent.click(buyButton);
 
         expect(screen.getByText('BuySellForm')).toBeInTheDocument();
+    });
+
+    it('should render the NicknameModal component when user clicks on Buy/Sell button and user is not an advertiser', async () => {
+        mockUseIsAdvertiser = false;
+        mockUseModalManager.isModalOpenFor.mockImplementation((modalName: string) => modalName === 'NicknameModal');
+        render(<BuySellTable />);
+
+        const buyButton = screen.getByText(/Buy USD/);
+        await userEvent.click(buyButton);
+
+        expect(screen.getByText('NicknameModal')).toBeInTheDocument();
+    });
+
+    it('should not render render the BuySellForm when the user clicks on Buy/Sell button and the user is an advertiser', async () => {
+        mockUseIsAdvertiser = true;
+        mockUseModalManager.isModalOpenFor.mockImplementation((modalName: string) => modalName === 'BuySellForm');
+        render(<BuySellTable />);
+
+        const buyButton = screen.getByText(/Buy USD/);
+        await userEvent.click(buyButton);
+
+        expect(screen.getByText('BuySellForm')).toBeInTheDocument();
+    });
+
+    it('should not render the Buy/Sell button the advert is yours', () => {
+        mockAdvertiserInfoData = {
+            data: {
+                id: '1',
+            },
+        };
+
+        render(<BuySellTable />);
+        expect(screen.queryByRole('button', { name: /Buy USD/i })).not.toBeInTheDocument();
+    });
+
+    it('should render the RadioGroupFilterModal when the filter button is clicked', async () => {
+        mockUseDevice.mockReturnValue({ isMobile: true });
+        mockUseModalManager.isModalOpenFor.mockImplementation(modal_name => modal_name === 'RadioGroupFilterModal');
+        render(<BuySellTable />);
+
+        const filterButton = screen.getByTestId('dt_sort_dropdown_button');
+        await userEvent.click(filterButton);
+
+        expect(mockUseModalManager.showModal).toHaveBeenCalledWith('RadioGroupFilterModal');
+
+        const userRatingText = screen.getByText('User rating');
+        await userEvent.click(userRatingText);
+
+        expect(mockUseModalManager.hideModal).toHaveBeenCalled();
     });
 });

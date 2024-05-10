@@ -47,9 +47,16 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+const mockUseModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn(),
+    showModal: jest.fn(),
+};
+
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
     useIsAdvertiserBarred: jest.fn(() => false),
+    useModalManager: jest.fn(() => mockUseModalManager),
 }));
 
 jest.mock('../../../components/CurrencyDropdown/CurrencyDropdown', () => jest.fn(() => <div>CurrencyDropdown</div>));
@@ -110,19 +117,9 @@ describe('<BuySellHeader />', () => {
         expect(mockProps.setSortDropdownValue).toHaveBeenCalledWith('rating');
     });
 
-    it('should call setIsFilterModalOpen when the filter button is clicked on responsive', async () => {
-        mockUseDevice.mockReturnValue({ isMobile: true });
-
-        render(<BuySellHeader {...mockProps} />);
-
-        const filterButton = screen.getByTestId('dt_sort_dropdown_button');
-
-        await user.click(filterButton);
-
-        expect(mockProps.setIsFilterModalOpen).toHaveBeenCalledWith(true);
-    });
-
     it('should allow users to click on filter button', async () => {
+        mockUseDevice.mockReturnValue({ isMobile: true });
+        mockUseModalManager.isModalOpenFor.mockImplementation(modal_name => modal_name === 'FilterModal');
         render(<BuySellHeader {...mockProps} />);
 
         const filterButton = screen.getByTestId('dt_buy_sell_header_filter_button');

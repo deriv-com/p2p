@@ -3,7 +3,7 @@ import { THooks } from 'types';
 import { FullPageMobileWrapper, TextArea } from '@/components';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
-import { Button, useDevice } from '@deriv-com/ui';
+import { Button, Loader, useDevice } from '@deriv-com/ui';
 import './MyProfileAdDetails.scss';
 
 type TMYProfileAdDetailsTextAreaProps = {
@@ -39,7 +39,7 @@ const MyProfileAdDetailsTextArea = ({
 };
 
 const MyProfileAdDetails = () => {
-    const { data: advertiserInfo } = api.advertiser.useGetInfo();
+    const { data: advertiserInfo, isLoading } = api.advertiser.useGetInfo();
     const { mutate: updateAdvertiser } = api.advertiser.useUpdate();
     const [contactInfo, setContactInfo] = useState('');
     const [advertDescription, setAdvertDescription] = useState('');
@@ -65,8 +65,7 @@ const MyProfileAdDetails = () => {
         });
     };
 
-    //TODO: Uncomment once isLoading is implemented from api-hooks
-    //if (isLoading) return <Loader />;
+    if (isLoading && !advertiserInfo) return <Loader className='mt-16' />;
 
     if (isMobile) {
         return (
