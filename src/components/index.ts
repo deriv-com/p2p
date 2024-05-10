@@ -1,5 +1,7 @@
 export * from './AdvertiserName';
 export * from './AdvertsTableRow';
+export * from './AppFooter';
+export * from './AppHeader';
 export * from './Badge';
 export * from './BuySellForm';
 export * from './Checklist';
@@ -9,7 +11,6 @@ export * from './FileDropzone';
 export * from './FloatingRate';
 export * from './FormProgress';
 export * from './FullPageMobileWrapper';
-export * from './Header';
 export * from './Input';
 export * from './LightDivider';
 export * from './MobileTabs';

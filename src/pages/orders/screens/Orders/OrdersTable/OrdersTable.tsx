@@ -64,12 +64,11 @@ const columnsPast = [
 type TOrdersTableProps = {
     data: THooks.Order.GetList;
     isActive: boolean;
-    isFetching: boolean;
     isLoading: boolean;
     loadMoreOrders: () => void;
 };
 
-const OrdersTable = ({ data, isActive, isFetching, isLoading, loadMoreOrders }: TOrdersTableProps) => {
+const OrdersTable = ({ data, isActive, isLoading, loadMoreOrders }: TOrdersTableProps) => {
     const { isMobile } = useDevice();
     if (data?.length === 0 && !isLoading) {
         return <OrdersEmpty />;
@@ -84,7 +83,6 @@ const OrdersTable = ({ data, isActive, isFetching, isLoading, loadMoreOrders }: 
                 <Table
                     columns={isMobile ? [] : columns}
                     data={data}
-                    isFetching={isFetching}
                     loadMoreFunction={loadMoreOrders}
                     renderHeader={headerRenderer}
                     rowRender={(rowData: unknown) => (

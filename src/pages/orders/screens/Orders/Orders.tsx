@@ -12,7 +12,6 @@ const Orders = () => {
 
     const {
         data = [],
-        isFetching,
         isLoading,
         loadMoreOrders,
     } = api.order.useGetList({ active: currentTab === ORDERS_STATUS.ACTIVE_ORDERS ? 1 : 0 });
@@ -24,7 +23,6 @@ const Orders = () => {
             <OrdersTable
                 data={data}
                 isActive={currentTab === ORDERS_STATUS.ACTIVE_ORDERS}
-                isFetching={isFetching}
                 isLoading={isLoading}
                 loadMoreOrders={loadMoreOrders}
             />

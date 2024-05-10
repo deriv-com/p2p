@@ -1,15 +1,16 @@
 .app-content {
     overflow: hidden;
-    min-height: calc(100vh - 48px - 36px - 53px - 2.4rem);
+    height: calc(100vh - 14rem);
 
     @include desktop {
         max-width: 952px;
         min-width: 672px;
-        margin: 0 auto;
+        margin: 2rem auto;
     }
 
     @include mobile {
         width: 100vw;
+        height: 100vh;
     }
 
     &__tabs {
