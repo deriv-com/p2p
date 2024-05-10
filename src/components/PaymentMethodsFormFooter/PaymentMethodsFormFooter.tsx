@@ -1,3 +1,4 @@
+import { ButtonHTMLAttributes, FormEvent, MouseEventHandler } from 'react';
 import { TFormState } from 'types';
 import { Button, useDevice } from '@deriv-com/ui';
 import './PaymentMethodsFormFooter.scss';
@@ -8,6 +9,8 @@ type TPaymentMethodsFormFooterProps = {
     isDirty: boolean;
     isSubmitting: boolean;
     isValid: boolean;
+    onSubmit?: (event: FormEvent<HTMLFormElement>) => void;
+    type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 };
 
 /**
@@ -26,6 +29,8 @@ const PaymentMethodsFormFooter = ({
     isDirty,
     isSubmitting,
     isValid,
+    onSubmit,
+    type = 'submit',
 }: TPaymentMethodsFormFooterProps) => {
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'md' : 'sm';
@@ -48,7 +53,13 @@ const PaymentMethodsFormFooter = ({
                 Cancel
             </Button>
             {/* TODO: Remember to translate these */}
-            <Button disabled={isSubmitting || !isValid || !isDirty} size='lg' textSize={textSize}>
+            <Button
+                disabled={isSubmitting || !isValid || !isDirty}
+                onClick={onSubmit as unknown as MouseEventHandler<HTMLButtonElement>}
+                size='lg'
+                textSize={textSize}
+                type={type}
+            >
                 {actionType === 'ADD' ? 'Add' : 'Save changes'}
             </Button>
         </div>

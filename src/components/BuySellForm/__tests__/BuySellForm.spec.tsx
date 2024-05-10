@@ -78,6 +78,12 @@ const mockUseCreate = {
     mutate: jest.fn(),
 };
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+
 jest.mock('@/hooks', () => ({
     api: {
         advert: {
@@ -100,6 +106,8 @@ jest.mock('@/hooks', () => ({
             })),
         },
     },
+    useIsAdvertiser: jest.fn(() => true),
+    useModalManager: jest.fn(() => mockModalManager),
 }));
 
 jest.mock('@/hooks/custom-hooks', () => ({

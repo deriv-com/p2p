@@ -9,7 +9,7 @@ const MyAds = () => {
     const isAdvertiserBarred = useIsAdvertiserBarred();
 
     return (
-        <div className={clsx('flex flex-col', isMobile ? 'h-[calc(100vh-12rem)]' : 'h-full')}>
+        <div className={clsx('flex flex-col', isMobile ? 'h-[calc(100vh-8rem)]' : 'h-full')}>
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             <MyAdsTable />
         </div>

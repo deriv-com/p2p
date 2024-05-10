@@ -10,6 +10,7 @@ const useOrderList = (
     const { data, ...rest } = useP2POrderList({
         enabled: isEnabled,
         payload: { ...payload, limit: payload?.limit, offset: payload?.offset },
+        queryKey: ['p2p_order_list', payload],
     });
 
     // Additional p2p_order_list data
