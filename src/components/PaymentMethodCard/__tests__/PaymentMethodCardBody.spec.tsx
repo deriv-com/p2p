@@ -3,9 +3,7 @@ import { PaymentMethodCardBody } from '../PaymentMethodCardBody';
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => {
-        false;
-    }),
+    useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
 describe('PaymentMethodCardBody', () => {

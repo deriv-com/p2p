@@ -6,15 +6,6 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PaymentMethodsListContent } from '../PaymentMethodsListContent';
 
-jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
-    api: {
-        advertiserPaymentMethods: {
-            useDelete: jest.fn(),
-        },
-    },
-}));
-
 const mockPaymentMethodsData: THooks.AdvertiserPaymentMethods.Get = [
     {
         display_name: 'Other',
@@ -72,6 +63,15 @@ const mockUseDeleteResponse: ReturnType<typeof api.advertiserPaymentMethods.useD
     variables: {},
 };
 
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        advertiserPaymentMethods: {
+            useDelete: jest.fn(() => mockUseDeleteResponse),
+        },
+    },
+}));
+
 jest.mock('@/components/Modals', () => ({
     ...jest.requireActual('@/components/Modals'),
     PaymentMethodErrorModal: jest.fn(({ isModalOpen, onConfirm }: ComponentProps<typeof PaymentMethodErrorModal>) => {
@@ -97,6 +97,11 @@ jest.mock('@/components/Modals', () => ({
             </div>
         ) : null;
     }),
+}));
+
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn().mockReturnValue({ isMobile: false }),
 }));
 
 const mockUseDelete = api.advertiserPaymentMethods.useDelete as jest.MockedFunction<
