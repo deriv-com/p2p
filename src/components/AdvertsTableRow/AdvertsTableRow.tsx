@@ -3,9 +3,10 @@ import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { TAdvertsTableRowRenderer, TCurrency, TExchangeRate } from 'types';
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
+import { NicknameModal } from '@/components/Modals';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
-import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
+import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, getCurrentRoute } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
 import { useExchangeRates } from '@deriv-com/api-hooks';
@@ -21,6 +22,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const history = useHistory();
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
     const isAdvertiserBarred = useIsAdvertiserBarred();
+    const isAdvertiser = useIsAdvertiser();
 
     const { data } = api.advertiser.useGetInfo() || {};
 
@@ -179,7 +181,10 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     <Button
                         className='lg:w-[7.5rem]'
                         disabled={isAdvertiserBarred}
-                        onClick={() => showModal('BuySellForm')}
+                        onClick={() => {
+                            if (isAdvertiser) showModal('BuySellForm');
+                            else showModal('NicknameModal');
+                        }}
                         size={isMobile ? 'md' : 'sm'}
                         textSize={isMobile ? 'md' : 'xs'}
                     >
@@ -194,6 +199,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     onRequestClose={hideModal}
                 />
             )}
+            {isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
         </div>
     );
 });

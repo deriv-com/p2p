@@ -1,6 +1,5 @@
-import Modal from 'react-modal';
 import { RadioGroup } from '@/components';
-import { customStyles } from '../helpers';
+import { Modal } from '@deriv-com/ui';
 import './RadioGroupFilterModal.scss';
 
 type TRadioGroupFilterModalProps = {
@@ -20,10 +19,10 @@ const RadioGroupFilterModal = ({
 }: TRadioGroupFilterModalProps) => {
     return (
         <Modal
+            ariaHideApp={false}
             className='radio-group-filter-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
-            style={customStyles}
         >
             <RadioGroup
                 className='sort-radiogroup'

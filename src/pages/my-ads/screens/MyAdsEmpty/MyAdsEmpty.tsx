@@ -1,10 +1,14 @@
 import { useHistory } from 'react-router-dom';
+import { NicknameModal } from '@/components/Modals';
 import { MY_ADS_URL } from '@/constants';
+import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
 import { DerivLightIcCashierNoAdsIcon } from '@deriv/quill-icons';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
 
 const MyAdsEmpty = () => {
     const { isMobile } = useDevice();
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
+    const isAdvertiser = useIsAdvertiser();
     const history = useHistory();
     const textSize = isMobile ? 'lg' : 'md';
     return (
@@ -12,7 +16,10 @@ const MyAdsEmpty = () => {
             <ActionScreen
                 actionButtons={
                     <Button
-                        onClick={() => history.push(`${MY_ADS_URL}/adForm?formAction=create`)}
+                        onClick={() => {
+                            if (isAdvertiser) history.push(`${MY_ADS_URL}/adForm?formAction=create`);
+                            else showModal('NicknameModal');
+                        }}
                         size='lg'
                         textSize={isMobile ? 'md' : 'sm'}
                     >
@@ -31,6 +38,7 @@ const MyAdsEmpty = () => {
                     </Text>
                 }
             />
+            {isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
         </div>
     );
 };

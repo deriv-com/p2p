@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import clsx from 'clsx';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
 import { SORT_BY_LIST } from '@/constants';
-import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
+import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
 import { TSortByValues } from '@/utils';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { Button, Tab, Tabs, useDevice } from '@deriv-com/ui';
@@ -15,7 +14,7 @@ type TBuySellHeaderProps = {
     selectedCurrency: string;
     selectedPaymentMethods: string[];
     setActiveTab: (tab: number) => void;
-    setIsFilterModalOpen: (value: boolean) => void;
+    setIsFilterModalOpen: () => void;
     setSearchValue: (value: string) => void;
     setSelectedCurrency: (value: string) => void;
     setSelectedPaymentMethods: (value: string[]) => void;
@@ -39,9 +38,9 @@ const BuySellHeader = ({
     shouldUseClientLimits,
     sortDropdownValue,
 }: TBuySellHeaderProps) => {
+    const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { isMobile } = useDevice();
     const isAdvertiserBarred = useIsAdvertiserBarred();
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div
@@ -90,18 +89,20 @@ const BuySellHeader = ({
                             <LabelPairedBarsFilterMdBoldIcon />
                         )
                     }
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => showModal('FilterModal')}
                     variant='outlined'
                 />
             </div>
-            <FilterModal
-                isModalOpen={isModalOpen}
-                isToggled={shouldUseClientLimits}
-                onRequestClose={() => setIsModalOpen(false)}
-                onToggle={setShouldUseClientLimits}
-                selectedPaymentMethods={selectedPaymentMethods}
-                setSelectedPaymentMethods={setSelectedPaymentMethods}
-            />
+            {isModalOpenFor('FilterModal') && (
+                <FilterModal
+                    isModalOpen
+                    isToggled={shouldUseClientLimits}
+                    onRequestClose={hideModal}
+                    onToggle={setShouldUseClientLimits}
+                    selectedPaymentMethods={selectedPaymentMethods}
+                    setSelectedPaymentMethods={setSelectedPaymentMethods}
+                />
+            )}
         </div>
     );
 };

@@ -79,12 +79,14 @@ const AppHeader = () => {
             {activeLoginid ? (
                 <Button onClick={logout}>Logout</Button>
             ) : (
-                <a
-                    className='bg-solid-coral-800 text-body-sm text-opacity-white-800 rounded-200 px-800 py-300 font-bold'
-                    href={oauthUrl}
+                <Button
+                    className='w-36'
+                    color='primary-light'
+                    onClick={() => window.open(oauthUrl, '_self')}
+                    variant='ghost'
                 >
-                    <Text>Log in</Text>
-                </a>
+                    <Text weight='bold'>Log in</Text>
+                </Button>
             )}
         </Header>
     );
