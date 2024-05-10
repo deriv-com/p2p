@@ -39,7 +39,22 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
-describe('BuySellPaymentSection', () => {
+const mockUseModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn(),
+    showModal: jest.fn(),
+};
+
+jest.mock('@/components/PaymentMethodForm', () => ({
+    PaymentMethodForm: jest.fn(() => <div>PaymentMethodForm</div>),
+}));
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useModalManager: jest.fn(() => mockUseModalManager),
+}));
+
+describe('<BuySellPaymentSection />', () => {
     it('should render the component as expected', () => {
         render(<BuySellPaymentSection {...mockProps} />);
         expect(screen.getByText('Receive payment to')).toBeInTheDocument();
@@ -51,6 +66,17 @@ describe('BuySellPaymentSection', () => {
         expect(screen.getByText('Other')).toBeInTheDocument();
         const checkbox = screen.getByRole('checkbox');
         await userEvent.click(checkbox);
-        expect(mockProps.onSelectPaymentMethodCard).toBeCalledWith(67);
+        expect(mockProps.onSelectPaymentMethodCard).toHaveBeenCalledWith(67);
+    });
+
+    it('should render the PaymentMethodForm modal when the add button is clicked', async () => {
+        mockAvailablePaymentMethods.isAvailable = false;
+        mockUseModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'PaymentMethodForm');
+        render(<BuySellPaymentSection {...mockProps} availablePaymentMethods={[mockAvailablePaymentMethods]} />);
+
+        const addButton = screen.getByTestId('dt_payment_method_add_button');
+        await userEvent.click(addButton);
+        expect(mockUseModalManager.showModal).toHaveBeenCalledWith('PaymentMethodForm', { shouldStackModals: false });
+        expect(screen.getByText('PaymentMethodForm')).toBeInTheDocument();
     });
 });
