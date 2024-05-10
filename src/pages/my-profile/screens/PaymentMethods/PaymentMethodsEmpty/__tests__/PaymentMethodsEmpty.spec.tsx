@@ -33,7 +33,7 @@ describe('PaymentMethodsEmpty', () => {
         expect(mockOnAddPaymentMethod).toHaveBeenCalled();
     });
     it('should call onAddPaymentMethods when isMobile is true', async () => {
-        mockUseDevice.mockReturnValueOnce({
+        (mockUseDevice as jest.Mock).mockReturnValueOnce({
             isDesktop: false,
             isMobile: true,
             isTablet: false,
@@ -54,7 +54,7 @@ describe('PaymentMethodsEmpty', () => {
         expect(screen.queryByTestId('dt_mobile_wrapper_button')).not.toBeInTheDocument();
     });
     it('should render the correct content when isMobile is true', () => {
-        mockUseDevice.mockReturnValueOnce({
+        (mockUseDevice as jest.Mock).mockReturnValueOnce({
             isDesktop: false,
             isMobile: true,
             isTablet: false,
@@ -69,7 +69,7 @@ describe('PaymentMethodsEmpty', () => {
     });
     it('should call setQueryString when isMobile is true', async () => {
         const { setQueryString: mockSetQueryString } = mockUseQueryString();
-        mockUseDevice.mockReturnValueOnce({
+        (mockUseDevice as jest.Mock).mockReturnValueOnce({
             isDesktop: false,
             isMobile: true,
             isTablet: false,

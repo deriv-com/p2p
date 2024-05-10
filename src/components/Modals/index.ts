@@ -12,6 +12,7 @@ export * from './EmailVerificationModal';
 export * from './ErrorModal';
 export * from './FilterModal';
 export * from './LanguagesModal';
+export * from './LoadingModal';
 export * from './MyAdsDeleteModal';
 export * from './NicknameModal';
 export * from './OrderDetailsCancelModal';

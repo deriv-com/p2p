@@ -27,13 +27,17 @@
 
     &__full-page-modal {
         position: absolute;
-        top: -4rem;
+        top: 0;
         left: 0;
         z-index: 1;
         height: calc(100vh - 4rem);
 
         & .mobile-wrapper__body {
-            overflow: auto;
+            overflow: overlay;
+        }
+
+        &--is-buy {
+            top: -4rem;
         }
 
         & .payment-method-form {

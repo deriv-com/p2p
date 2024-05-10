@@ -23,7 +23,7 @@ const mockUseQueryString = useQueryString as jest.MockedFunction<typeof useQuery
 
 describe('PaymentMethodsList', () => {
     it('should render the component when an empty list of payment methods is provided and isMobile is true', () => {
-        mockUseDevice.mockReturnValueOnce({
+        (mockUseDevice as jest.Mock).mockReturnValueOnce({
             isDesktop: false,
             isMobile: true,
             isTablet: false,
@@ -42,7 +42,7 @@ describe('PaymentMethodsList', () => {
         expect(screen.queryByText('PaymentMethodsListContent')).not.toBeInTheDocument();
     });
     it('should render the component when an empty list of payment methods is provided and isMobile is false', () => {
-        mockUseDevice.mockReturnValueOnce({
+        (mockUseDevice as jest.Mock).mockReturnValueOnce({
             isDesktop: false,
             isMobile: false,
             isTablet: false,
@@ -61,7 +61,7 @@ describe('PaymentMethodsList', () => {
         expect(screen.queryByText('PaymentMethodsListContent')).not.toBeInTheDocument();
     });
     it('should render the component when a list of payment methods is provided and isMobile is true', () => {
-        mockUseDevice.mockReturnValueOnce({
+        (mockUseDevice as jest.Mock).mockReturnValueOnce({
             isDesktop: false,
             isMobile: true,
             isTablet: false,
@@ -91,7 +91,7 @@ describe('PaymentMethodsList', () => {
         expect(screen.getByText('PaymentMethodsListContent')).toBeInTheDocument();
     });
     it('should render the component when a list of payment methods is provided and isMobile is false', () => {
-        mockUseDevice.mockReturnValueOnce({
+        (mockUseDevice as jest.Mock).mockReturnValueOnce({
             isDesktop: false,
             isMobile: false,
             isTablet: false,
@@ -122,7 +122,7 @@ describe('PaymentMethodsList', () => {
     });
     it('should handle onclick for the back button for mobile', async () => {
         const { setQueryString: mockSetQueryString } = mockUseQueryString();
-        mockUseDevice.mockReturnValueOnce({
+        (mockUseDevice as jest.Mock).mockReturnValueOnce({
             isDesktop: false,
             isMobile: true,
             isTablet: false,

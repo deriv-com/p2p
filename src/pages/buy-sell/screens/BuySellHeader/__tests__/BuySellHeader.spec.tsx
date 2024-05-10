@@ -47,6 +47,11 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useIsAdvertiserBarred: jest.fn(() => false),
+}));
+
 jest.mock('../../../components/CurrencyDropdown/CurrencyDropdown', () => jest.fn(() => <div>CurrencyDropdown</div>));
 jest.mock('@/components/Modals/FilterModal/FilterModal', () => jest.fn(() => <div>FilterModal</div>));
 

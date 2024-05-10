@@ -300,7 +300,7 @@ describe('useModalManager', () => {
             href: 'http://localhost?modal=ModalA,ModalB,ModalC',
             search: '?modal=ModalA,ModalB,ModalC',
         }));
-        mockedUseDevice.mockImplementation(() => ({
+        (mockedUseDevice as jest.Mock).mockImplementation(() => ({
             isDesktop: false,
             isMobile: true,
             isTablet: false,

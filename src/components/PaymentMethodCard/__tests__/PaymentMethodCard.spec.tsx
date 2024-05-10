@@ -23,6 +23,11 @@ const mockProps = {
     shouldShowPaymentMethodDisplayName: false,
 };
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => ({ isMobile: false })),
+}));
+
 describe('PaymentMethodCard', () => {
     it('should render the component correctly', () => {
         render(<PaymentMethodCard {...mockProps} />);

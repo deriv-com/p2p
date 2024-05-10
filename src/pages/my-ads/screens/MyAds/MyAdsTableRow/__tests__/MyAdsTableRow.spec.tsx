@@ -80,6 +80,10 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn().mockReturnValue({ isMobile: false }),
 }));
 
+jest.mock('@/hooks/custom-hooks', () => ({
+    useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
+}));
+
 describe('MyAdsTableRow', () => {
     it('should render the component as expected', () => {
         render(<MyAdsTableRow {...mockProps} />);

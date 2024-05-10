@@ -1,6 +1,5 @@
 import { TAccount, TBankName, THooks, TName } from 'types';
-import { useDevice } from '@/hooks';
-import { Text } from '@deriv-com/ui';
+import { Text, useDevice } from '@deriv-com/ui';
 import './PaymentMethodCardBody.scss';
 
 type TPaymentMethodCardBodyProps = {
