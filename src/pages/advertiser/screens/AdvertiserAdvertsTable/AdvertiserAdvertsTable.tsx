@@ -89,7 +89,6 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
             )}
             {isModalOpenFor('ErrorModal') && (
                 <ErrorModal
-                    buttonText='OK'
                     isModalOpen
                     message='It’s either deleted or no longer active.'
                     onRequestClose={hideModal}
