@@ -59,14 +59,6 @@ const AppContent = () => {
         setActiveTab(getActiveTab(location.pathname));
     }, [location]);
 
-    if ((isLoadingActiveAccount || !activeAccountData) && !isEndpointRoute) {
-        return <Loader />;
-    }
-
-    // NOTE: Replace this with P2PBlocked component later and a custom hook useIsP2PEnabled, P2P is only available for USD accounts
-    if (activeAccountData?.currency !== 'USD' && !isEndpointRoute)
-        return <h1>P2P is only available for USD accounts.</h1>;
-
     return (
         <AdvertiserInfoStateProvider
             value={{
@@ -78,20 +70,26 @@ const AppContent = () => {
             }}
         >
             <div className='app-content'>
-                <Tabs
-                    activeTab={activeTab}
-                    className='app-content__tabs'
-                    onChange={index => {
-                        setActiveTab(tabRoutesConfiguration[index].name);
-                        history.push(tabRoutesConfiguration[index].path);
-                    }}
-                    variant='secondary'
-                >
-                    {tabRoutesConfiguration.map(route => (
-                        <Tab key={route.name} title={route.name} />
-                    ))}
-                </Tabs>
-                <Router />
+                {(isLoadingActiveAccount || !activeAccountData) && !isEndpointRoute ? (
+                    <Loader />
+                ) : (
+                    <>
+                        <Tabs
+                            activeTab={activeTab}
+                            className='app-content__tabs'
+                            onChange={index => {
+                                setActiveTab(tabRoutesConfiguration[index].name);
+                                history.push(tabRoutesConfiguration[index].path);
+                            }}
+                            variant='secondary'
+                        >
+                            {tabRoutesConfiguration.map(route => (
+                                <Tab key={route.name} title={route.name} />
+                            ))}
+                        </Tabs>
+                        <Router />
+                    </>
+                )}
             </div>
         </AdvertiserInfoStateProvider>
     );

@@ -1,0 +1,13 @@
+.app-footer {
+    padding: 2.4rem;
+
+    &__language-btn {
+        &:hover {
+            background-color: transparent !important;
+
+            span {
+                color: #000 !important;
+            }
+        }
+    }
+}
