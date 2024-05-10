@@ -170,6 +170,10 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
             payload.payment_info = getValues('bank_details');
         }
 
+        if (isBuy) {
+            payload.contact_info = getValues('contact_details');
+        }
+
         mutate(payload);
     };
 
@@ -201,7 +205,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 accountCurrency={account_currency as TCurrency}
                 isBuy={isBuy}
                 isModalOpen={isModalOpen}
-                isValid={isValid}
+                isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
                 onRequestClose={onRequestClose}
                 onSubmit={onSubmit}
             >

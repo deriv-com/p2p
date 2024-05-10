@@ -21,6 +21,14 @@ jest.mock('@/hooks/custom-hooks', () => ({
 }));
 
 describe('<Verification />', () => {
+    beforeAll(() => {
+        Object.defineProperty(window, 'location', {
+            value: {
+                href: 'https://test.com',
+            },
+            writable: true,
+        });
+    });
     it('should show Loader if isLoading is true', () => {
         render(<Verification />);
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();

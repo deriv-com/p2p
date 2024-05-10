@@ -1,6 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { PaymentMethodCardBody } from '../PaymentMethodCardBody';
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => {
+        false;
+    }),
+}));
+
 describe('PaymentMethodCardBody', () => {
     it('should render the component correctly', () => {
         render(

@@ -6,7 +6,7 @@ type TPaymentMethodFormAutocompleteProps = {
     actionType: TFormState['actionType'];
     availablePaymentMethods?: THooks.PaymentMethods.Get;
     availablePaymentMethodsList: { text: string; value: string }[];
-    onAdd: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
+    onAdd?: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
     reset: () => void;
     selectedPaymentMethod: TFormState['selectedPaymentMethod'];
 };
@@ -34,7 +34,7 @@ const PaymentMethodFormAutocomplete = ({
                             fill='#999999'
                             height={15.7}
                             onClick={() => {
-                                onAdd();
+                                onAdd?.();
                                 reset();
                             }}
                             width={15.7}
@@ -62,7 +62,7 @@ const PaymentMethodFormAutocomplete = ({
                 onSelect={value => {
                     const selectedPaymentMethod = availablePaymentMethods?.find(p => p.id === value);
                     if (selectedPaymentMethod) {
-                        onAdd({
+                        onAdd?.({
                             displayName: selectedPaymentMethod?.display_name,
                             fields: selectedPaymentMethod?.fields,
                             method: selectedPaymentMethod?.id,
@@ -86,7 +86,7 @@ const PaymentMethodFormAutocomplete = ({
                         e.stopPropagation();
                         const paymentMethod = availablePaymentMethods?.find(p => p.id === 'other');
                         if (paymentMethod) {
-                            onAdd({
+                            onAdd?.({
                                 displayName: paymentMethod?.display_name,
                                 fields: paymentMethod?.fields,
                                 method: 'other',
