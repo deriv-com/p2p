@@ -45,6 +45,12 @@ const BuySellAmount = ({
         );
     }, [calculatedRate, inputValue, localCurrency]);
 
+    // This is needed as minLimit can be passed as the default 0 on first time render
+    // causing the amount to be 0
+    useEffect(() => {
+        setInputValue(minLimit);
+    }, [minLimit]);
+
     return (
         <div className='flex flex-col gap-[2rem] py-[1.6rem]'>
             <div className='flex w-full'>
