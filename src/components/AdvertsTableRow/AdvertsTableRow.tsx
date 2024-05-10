@@ -181,10 +181,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     <Button
                         className='lg:w-[7.5rem]'
                         disabled={isAdvertiserBarred}
-                        onClick={() => {
-                            if (isAdvertiser) showModal('BuySellForm');
-                            else showModal('NicknameModal');
-                        }}
+                        onClick={() => showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal')}
                         size={isMobile ? 'md' : 'sm'}
                         textSize={isMobile ? 'md' : 'xs'}
                     >
