@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
+import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
 import { LabelPairedEllipsisVerticalMdRegularIcon } from '@deriv/quill-icons';
 import { Button, Text, Tooltip, useDevice } from '@deriv-com/ui';
 import './PopoverDropdown.scss';
@@ -20,6 +21,7 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
     const ref = useRef(null);
     useOnClickOutside(ref, () => setVisible(false));
     const { isMobile } = useDevice();
+    const isAdvertiserBarred = useIsAdvertiserBarred();
 
     return (
         <div className='popover-dropdown' ref={ref}>
@@ -36,6 +38,7 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
                         <Button
                             className='popover-dropdown__list-item'
                             color='black'
+                            disabled={isAdvertiserBarred}
                             key={item.value}
                             onClick={() => {
                                 onClick(item.value);

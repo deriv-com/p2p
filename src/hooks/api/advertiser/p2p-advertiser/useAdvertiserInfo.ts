@@ -18,10 +18,6 @@ type TP2PAdvertiserInfo = ReturnType<typeof useP2PAdvertiserInfo>['data'] & {
 const useAdvertiserInfo = (id?: string) => {
     const { data, error, subscribe, ...rest } = useP2PAdvertiserInfo() ?? {};
 
-    useEffect(() => {
-        subscribe({});
-    }, [subscribe]);
-
     /**
      * Use different local storage key for each advertiser, one to keep the current user's info, the other to keep the advertiser's info
      * This is to prevent the current user's info from being overwritten by the advertiser's info when the current user views the advertiser's profile.

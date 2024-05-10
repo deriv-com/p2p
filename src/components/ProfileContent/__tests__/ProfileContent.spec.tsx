@@ -38,7 +38,7 @@ describe('ProfileContent', () => {
     it('should render the advertiser name and profile balance if location is my-profile', () => {
         Object.defineProperty(window, 'location', {
             value: {
-                href: 'https://app.deriv.com/cashier/p2p-v2/my-profile',
+                href: 'https://test.com/my-profile',
             },
             writable: true,
         });
@@ -50,7 +50,7 @@ describe('ProfileContent', () => {
     it('should render the advertiser name and profile stats if location is advertiser', () => {
         Object.defineProperty(window, 'location', {
             value: {
-                href: 'https://app.deriv.com/cashier/p2p-v2/advertiser',
+                href: 'https://test.com/advertiser',
             },
             writable: true,
         });
@@ -62,7 +62,7 @@ describe('ProfileContent', () => {
     it('should render the AdvertiserNameToggle if isMobile is true and location is my-profile', () => {
         Object.defineProperty(window, 'location', {
             value: {
-                href: 'https://app.deriv.com/cashier/p2p-v2/my-profile',
+                href: 'https://test.com/my-profile',
             },
             writable: true,
         });

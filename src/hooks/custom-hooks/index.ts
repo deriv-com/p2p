@@ -5,6 +5,7 @@ export { default as useExtendedOrderDetails } from './useExtendedOrderDetails';
 export { default as useFetchMore } from './useFetchMore';
 export { default as useFloatingRate } from './useFloatingRate';
 export { default as useIsAdvertiser } from './useIsAdvertiser';
+export { default as useIsAdvertiserBarred } from './useIsAdvertiserBarred';
 export { default as useModalManager } from './useModalManager';
 export { default as usePoiPoaStatus } from './usePoiPoaStatus';
 export { default as useQueryString } from './useQueryString';

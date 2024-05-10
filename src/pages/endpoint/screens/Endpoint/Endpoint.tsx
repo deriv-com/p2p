@@ -21,7 +21,7 @@ const Endpoint = () => {
     return (
         <div className='endpoint flex flex-col gap-8'>
             <Text weight='bold'>Change API endpoint</Text>
-            <form action='' className='flex flex-col'>
+            <form action='' className='flex flex-col gap-8'>
                 <Controller
                     control={control}
                     name='serverUrl'

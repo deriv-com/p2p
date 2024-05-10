@@ -15,18 +15,9 @@ let mockUsePoiPoaStatusData = {
     isLoading: true,
 };
 
-const mockHistoryPush = jest.fn();
-
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
     usePoiPoaStatus: jest.fn(() => mockUsePoiPoaStatusData),
-}));
-
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useHistory: () => ({
-        push: mockHistoryPush,
-    }),
 }));
 
 describe('<Verification />', () => {
@@ -62,6 +53,13 @@ describe('<Verification />', () => {
             ...mockUsePoiPoaStatusData,
             isLoading: false,
         };
+
+        Object.defineProperty(window, 'location', {
+            value: {
+                href: 'https://test.com',
+            },
+            writable: true,
+        });
 
         render(<Verification />);
 

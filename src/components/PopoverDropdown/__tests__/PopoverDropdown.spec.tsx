@@ -1,6 +1,11 @@
+import { useIsAdvertiserBarred } from '@/hooks';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PopoverDropdown from '../PopoverDropdown';
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
+}));
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
@@ -24,6 +29,8 @@ const mockProps = {
     tooltipMessage: 'test tooltip message',
 };
 
+const mockUseIsAdvertiserBarred = useIsAdvertiserBarred as jest.MockedFunction<typeof useIsAdvertiserBarred>;
+
 describe('PopoverDropdown', () => {
     it('should render', () => {
         render(<PopoverDropdown {...mockProps} />);
@@ -39,5 +46,12 @@ describe('PopoverDropdown', () => {
         await userEvent.click(screen.getByTestId('dt_popover_dropdown_icon'));
         await userEvent.click(screen.getByText('label 1'));
         expect(mockProps.onClick).toHaveBeenCalledWith('value 1');
+    });
+
+    it('should disable the button if advertiser is barred', async () => {
+        mockUseIsAdvertiserBarred.mockReturnValue(true);
+        render(<PopoverDropdown {...mockProps} />);
+        await userEvent.click(screen.getByTestId('dt_popover_dropdown_icon'));
+        expect(screen.getByRole('button', { name: 'label 1' })).toBeDisabled();
     });
 });

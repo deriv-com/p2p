@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BuySellTable from '../BuySellTable';
 
@@ -28,6 +28,10 @@ jest.mock('@deriv-com/api-hooks', () => ({
     useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
 }));
 
+jest.mock('@/components/BuySellForm', () => ({
+    BuySellForm: jest.fn(() => <div>BuySellForm</div>),
+}));
+
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
@@ -35,7 +39,11 @@ jest.mock('@/hooks', () => ({
             useGetList: jest.fn(() => mockAdvertiserListData),
         },
         advertiser: {
-            useGetInfo: jest.fn(() => ({ data: { id: '123' } })),
+            useGetInfo: jest.fn(() => ({
+                data: {
+                    id: '123',
+                },
+            })),
         },
         advertiserPaymentMethods: {
             useGet: jest.fn(() => ({ data: [] })),
@@ -53,6 +61,18 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+const mockUseModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn(),
+    showModal: jest.fn(),
+};
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
+    useModalManager: jest.fn(() => mockUseModalManager),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),
@@ -64,7 +84,7 @@ describe('<BuySellTable />', () => {
     beforeEach(() => {
         Object.defineProperty(window, 'location', {
             value: {
-                href: 'https://app.deriv.com/cashier/p2p-v2/buy-sell',
+                href: 'https://test.com/buy-sell',
             },
             writable: true,
         });
@@ -76,7 +96,7 @@ describe('<BuySellTable />', () => {
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });
 
-    it('should render the Table component if data is not empty', async () => {
+    it('should render the Table component if data is not empty', () => {
         mockAdvertiserListData = {
             data: [
                 // @ts-expect-error caused by typing of never[]
@@ -108,9 +128,7 @@ describe('<BuySellTable />', () => {
 
         render(<BuySellTable />);
 
-        await waitFor(() => {
-            expect(screen.getByText('John Doe')).toBeInTheDocument();
-        });
+        expect(screen.getByText('John Doe')).toBeInTheDocument();
     });
 
     it('should call history.push when clicking on the table row', async () => {
@@ -119,6 +137,16 @@ describe('<BuySellTable />', () => {
         const usernameText = screen.getByText('John Doe');
         await userEvent.click(usernameText);
 
-        expect(mockPush).toHaveBeenCalledWith('/advertiser/1');
+        expect(mockPush).toHaveBeenCalledWith('/advertiser/1?currency=USD');
+    });
+
+    it('should render the BuySellForm component when clicking on the Buy button', async () => {
+        mockUseModalManager.isModalOpenFor.mockImplementation((modalName: string) => modalName === 'BuySellForm');
+        render(<BuySellTable />);
+
+        const buyButton = screen.getByRole('button', { name: /Buy USD/ });
+        await userEvent.click(buyButton);
+
+        expect(screen.getByText('BuySellForm')).toBeInTheDocument();
     });
 });

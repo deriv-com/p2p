@@ -45,6 +45,12 @@ const BuySellAmount = ({
         );
     }, [calculatedRate, inputValue, localCurrency]);
 
+    // This is needed as minLimit can be passed as the default 0 on first time render
+    // causing the amount to be 0
+    useEffect(() => {
+        setInputValue(minLimit);
+    }, [minLimit]);
+
     return (
         <div className='flex flex-col gap-[2rem] py-[1.6rem]'>
             <div className='flex w-full'>
@@ -65,7 +71,7 @@ const BuySellAmount = ({
                                     isFullWidth
                                     label={`${isBuy ? 'Sell' : 'Buy'} amount`}
                                     message={
-                                        error ? error?.message : `Limit: ${minLimit}-${maxLimit}${accountCurrency}`
+                                        error ? error?.message : `Limit: ${minLimit}-${maxLimit} ${accountCurrency}`
                                     }
                                     min={0}
                                     name='amount'
@@ -108,7 +114,7 @@ const BuySellAmount = ({
                     <div className='buy-sell-amount__value'>
                         <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
                         <Text size={isMobile ? 'md' : 'sm'} weight='bold'>
-                            {buySellAmount} {localCurrency}
+                            {buySellAmount}&nbsp;{localCurrency}
                         </Text>
                     </div>
                 )}

@@ -1,11 +1,11 @@
 import { Fragment, memo, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
-import { TAdvertsTableRowRenderer, TCurrency, TExchangeRate, TPaymentMethod } from 'types';
+import { TAdvertsTableRowRenderer, TCurrency, TExchangeRate } from 'types';
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
-import { useModalManager } from '@/hooks/custom-hooks';
+import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, getCurrentRoute } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
 import { useExchangeRates } from '@deriv-com/api-hooks';
@@ -15,16 +15,14 @@ import './AdvertsTableRow.scss';
 const BASE_CURRENCY = 'USD';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
-    const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { subscribeRates } = useExchangeRates();
     const { isDesktop, isMobile } = useDevice();
     const history = useHistory();
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
+    const isAdvertiserBarred = useIsAdvertiserBarred();
 
-    const { data: paymentMethods } = api.paymentMethods.useGet();
     const { data } = api.advertiser.useGetInfo() || {};
-
-    const { daily_buy = 0, daily_buy_limit = 0, daily_sell = 0, daily_sell_limit = 0 } = data || {};
 
     const exchangeRateRef = useRef<TExchangeRate | null>(null);
 
@@ -33,6 +31,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         advertiser_details,
         counterparty_type,
         effective_rate,
+        id: advertId,
         local_currency = '',
         max_order_amount_limit_display,
         min_order_amount_limit_display,
@@ -49,13 +48,14 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                 target_currencies: [local_currency],
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [local_currency]);
 
     const Container = isMobile ? 'div' : Fragment;
 
     const { completed_orders_count, id, is_online, name, rating_average, rating_count } = advertiser_details || {};
 
-    const { displayEffectiveRate, effectiveRate } = generateEffectiveRate({
+    const { displayEffectiveRate } = generateEffectiveRate({
         exchangeRate: exchangeRateRef.current?.rates?.[local_currency],
         localCurrency: local_currency as TCurrency,
         marketRate: Number(effective_rate),
@@ -78,8 +78,14 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
             <Container>
                 {isBuySellPage && (
                     <div
-                        className='flex gap-4 items-center cursor-pointer'
-                        onClick={() => history.push(`${ADVERTISER_URL}/${id}`)}
+                        className={clsx('flex gap-4 items-center', {
+                            'cursor-pointer': !isAdvertiserBarred,
+                        })}
+                        onClick={() =>
+                            isAdvertiserBarred
+                                ? undefined
+                                : history.push(`${ADVERTISER_URL}/${id}?currency=${local_currency}`)
+                        }
                     >
                         <UserAvatar
                             isOnline={is_online}
@@ -172,6 +178,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     )}
                     <Button
                         className='lg:w-[7.5rem]'
+                        disabled={isAdvertiserBarred}
                         onClick={() => showModal('BuySellForm')}
                         size={isMobile ? 'md' : 'sm'}
                         textSize={isMobile ? 'md' : 'xs'}
@@ -182,15 +189,9 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
             )}
             {isModalOpenFor('BuySellForm') && (
                 <BuySellForm
-                    advert={props}
-                    advertiserBuyLimit={Number(daily_buy_limit) - Number(daily_buy)}
-                    advertiserSellLimit={Number(daily_sell_limit) - Number(daily_sell)}
-                    balanceAvailable={data?.balance_available ?? 0}
-                    displayEffectiveRate={displayEffectiveRate}
-                    effectiveRate={effectiveRate}
+                    advertId={advertId}
                     isModalOpen={!!isModalOpenFor('BuySellForm')}
                     onRequestClose={hideModal}
-                    paymentMethods={paymentMethods as TPaymentMethod[]}
                 />
             )}
         </div>
