@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { RadioGroupFilterModal } from '@/components/Modals';
 import { ADVERT_TYPE, BUY_SELL, SORT_BY_LIST } from '@/constants';
 import { api } from '@/hooks';
-import { useQueryString } from '@/hooks/custom-hooks';
+import { useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { TSortByValues } from '@/utils';
 import { BuySellHeader } from '../BuySellHeader';
 import { BuySellTableRenderer } from './BuySellTableRenderer';
@@ -11,6 +11,7 @@ import './BuySellTable.scss';
 const TABS = [ADVERT_TYPE.BUY, ADVERT_TYPE.SELL];
 
 const BuySellTable = () => {
+    const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { data: p2pSettingsData } = api.settings.useSettings();
     const { queryString, setQueryString } = useQueryString();
     const activeTab = queryString.tab || ADVERT_TYPE.BUY;
@@ -18,7 +19,6 @@ const BuySellTable = () => {
     const [selectedCurrency, setSelectedCurrency] = useState<string>(p2pSettingsData?.localCurrency || '');
     const [sortDropdownValue, setSortDropdownValue] = useState<TSortByValues>('rate');
     const [searchValue, setSearchValue] = useState<string>('');
-    const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
     const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<string[]>([]);
     const [shouldUseClientLimits, setShouldUseClientLimits] = useState<boolean>(true);
 
@@ -38,7 +38,7 @@ const BuySellTable = () => {
 
     const onToggle = (value: string) => {
         setSortDropdownValue(value as TSortByValues);
-        setIsFilterModalOpen(false);
+        hideModal();
     };
 
     const setActiveTab = (index: number) => {
@@ -58,7 +58,7 @@ const BuySellTable = () => {
                 selectedCurrency={selectedCurrency}
                 selectedPaymentMethods={selectedPaymentMethods}
                 setActiveTab={setActiveTab}
-                setIsFilterModalOpen={setIsFilterModalOpen}
+                setIsFilterModalOpen={() => showModal('RadioGroupFilterModal')}
                 setSearchValue={setSearchValue}
                 setSelectedCurrency={setSelectedCurrency}
                 setSelectedPaymentMethods={setSelectedPaymentMethods}
@@ -74,13 +74,15 @@ const BuySellTable = () => {
                 loadMoreAdverts={loadMoreAdverts}
                 searchValue={searchValue}
             />
-            <RadioGroupFilterModal
-                isModalOpen={isFilterModalOpen}
-                list={SORT_BY_LIST}
-                onRequestClose={() => setIsFilterModalOpen(false)}
-                onToggle={onToggle}
-                selected={sortDropdownValue as string}
-            />
+            {isModalOpenFor('RadioGroupFilterModal') && (
+                <RadioGroupFilterModal
+                    isModalOpen
+                    list={SORT_BY_LIST}
+                    onRequestClose={hideModal}
+                    onToggle={onToggle}
+                    selected={sortDropdownValue as string}
+                />
+            )}
         </div>
     );
 };

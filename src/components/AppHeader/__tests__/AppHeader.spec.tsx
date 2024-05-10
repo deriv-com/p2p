@@ -15,12 +15,20 @@ jest.mock('@deriv-com/ui', () => ({
     Button: ({ children, onClick }: { children: ReactNode; onClick: () => void }) => (
         <button onClick={onClick}>{children}</button>
     ),
+    useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
 
 describe('<AppHeader/>', () => {
-    it('should render the header', () => {
+    window.open = jest.fn();
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+    it('should render the header', async () => {
         render(<AppHeader />);
-        expect(screen.getByRole('link', { name: 'Login' })).toHaveAttribute('href', URLUtils.getOauthURL());
+        await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
+
+        expect(window.open).toHaveBeenCalledWith(URLUtils.getOauthURL(), '_self');
     });
     it('should handle the logout functionality if there is an active login id', async () => {
         mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });

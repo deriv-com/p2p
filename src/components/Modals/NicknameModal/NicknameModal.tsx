@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
+import { getCurrentRoute } from '@/utils';
 import { DerivLightIcCashierUserIcon } from '@deriv/quill-icons';
 import { Button, Input, Modal, Text, useDevice } from '@deriv-com/ui';
 import './NicknameModal.scss';
@@ -33,6 +34,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'md' : 'sm';
     const debouncedReset = debounce(reset, 3000);
+    const currentRoute = getCurrentRoute();
 
     const onSubmit = () => {
         mutate({ name: getValues('nickname') });
@@ -90,7 +92,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                         className='border-2 mr-[0.8rem]'
                         color='black'
                         onClick={() => {
-                            history.push(BUY_SELL_URL);
+                            if (currentRoute !== 'my-ads' && currentRoute !== 'advertiser') history.push(BUY_SELL_URL);
                             onRequestClose();
                         }}
                         size='lg'

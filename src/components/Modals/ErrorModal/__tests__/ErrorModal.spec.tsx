@@ -20,7 +20,7 @@ describe('ErrorModal', () => {
     });
     it('should call onRequestClose when the close button is clicked', async () => {
         render(<ErrorModal {...mockProps} />);
-        await userEvent.click(screen.getByRole('button', { name: 'Ok' }));
+        await userEvent.click(screen.getByRole('button', { name: 'OK' }));
         expect(mockProps.onRequestClose).toHaveBeenCalledTimes(1);
     });
 });
