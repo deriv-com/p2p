@@ -1,21 +1,39 @@
+import { TActiveChannel, TChatMessages } from 'types';
 import { FullPageMobileWrapper, LightDivider } from '@/components';
-import { useExtendedOrderDetails, useSendbird } from '@/hooks/custom-hooks';
+import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
 import { Loader, useDevice } from '@deriv-com/ui';
 import { ChatError, ChatFooter, ChatHeader, ChatMessages } from '../../components';
 import './OrdersChatSection.scss';
 
 type TOrdersChatSectionProps = {
-    id: string;
+    activeChatChannel: TActiveChannel;
+    isChatLoading: boolean;
+    isError: boolean;
     isInactive: boolean;
+    messages: TChatMessages;
     onReturn?: () => void;
     otherUserDetails: ReturnType<typeof useExtendedOrderDetails>['data']['otherUserDetails'];
+    refreshChat: () => void;
+    sendFile: (file: File) => void;
+    sendMessage: (message: string) => void;
+    userId: string;
 };
 
-const OrdersChatSection = ({ id, isInactive, onReturn, otherUserDetails }: TOrdersChatSectionProps) => {
+const OrdersChatSection = ({
+    activeChatChannel,
+    isChatLoading,
+    isError,
+    isInactive,
+    messages,
+    onReturn,
+    otherUserDetails,
+    refreshChat,
+    sendFile,
+    sendMessage,
+    userId,
+}: TOrdersChatSectionProps) => {
     const { isMobile } = useDevice();
     const { is_online: isOnline, last_online_time: lastOnlineTime, name } = otherUserDetails ?? {};
-    const { activeChatChannel, isChatLoading, isError, messages, refreshChat, sendFile, sendMessage, userId } =
-        useSendbird(id);
     const isChannelClosed = isInactive || !!activeChatChannel?.isFrozen;
 
     if (isError) {

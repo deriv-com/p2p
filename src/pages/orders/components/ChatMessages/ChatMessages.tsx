@@ -1,8 +1,7 @@
 import { Fragment, SyntheticEvent, useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { TTextColors } from 'types';
+import { TActiveChannel, TChatMessages, TTextColors } from 'types';
 import { CHAT_FILE_TYPE, CHAT_MESSAGE_TYPE } from '@/constants';
-import { useSendbird } from '@/hooks/custom-hooks';
 import { convertToMB, formatMilliseconds } from '@/utils';
 import { Text, useDevice } from '@deriv-com/ui';
 import { ReactComponent as PDFIcon } from '../../../../public/ic-pdf.svg';
@@ -10,8 +9,6 @@ import { ChatMessageReceipt } from '../ChatMessageReceipt';
 import { ChatMessageText } from '../ChatMessageText';
 import './ChatMessages.scss';
 
-type TActiveChannel = ReturnType<typeof useSendbird>['activeChatChannel'];
-type TChatMessages = NonNullable<ReturnType<typeof useSendbird>['messages']>;
 type TChatMessagesProps = {
     chatChannel: TActiveChannel;
     chatMessages: TChatMessages;

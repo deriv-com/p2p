@@ -3,7 +3,7 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { BUY_SELL_URL, ORDERS_URL } from '@/constants';
 import { api } from '@/hooks';
-import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
+import { useExtendedOrderDetails, useSendbird } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
@@ -32,6 +32,8 @@ const OrderDetails = () => {
     });
     const { isBuyOrderForUser, shouldShowLostFundsBanner } = orderDetails;
     const { isMobile } = useDevice();
+    const { activeChatChannel, isChatLoading, isError, messages, refreshChat, sendFile, sendMessage, userId } =
+        useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
 
     const headerText = `${isBuyOrderForUser ? 'Buy' : 'Sell'} USD order`;
     const warningMessage = 'Don’t risk your funds with cash transactions. Use bank transfers or e-wallets instead.';
@@ -69,16 +71,23 @@ const OrderDetails = () => {
             <OrderDetailsProvider value={{ isErrorOrderInfo: !!error, orderDetails }}>
                 {showChat ? (
                     <OrdersChatSection
-                        id={orderId}
+                        activeChatChannel={activeChatChannel}
+                        isChatLoading={isChatLoading}
+                        isError={isError}
                         isInactive={!!orderDetails?.isInactiveOrder}
+                        messages={messages}
                         onReturn={onChatReturn}
                         otherUserDetails={orderDetails?.otherUserDetails}
+                        refreshChat={refreshChat}
+                        sendFile={sendFile}
+                        sendMessage={sendMessage}
+                        userId={userId ?? ''}
                     />
                 ) : (
                     <FullPageMobileWrapper
                         className='order-details'
                         onBack={onReturn}
-                        renderFooter={() => <OrderDetailsCardFooter />}
+                        renderFooter={() => <OrderDetailsCardFooter sendFile={sendFile} />}
                         renderHeader={() => (
                             <Text as='div' className='w-full flex items-center justify-between' size='lg' weight='bold'>
                                 {headerText}
@@ -103,7 +112,7 @@ const OrderDetails = () => {
                                 <Text size='xs'>{warningMessage}</Text>
                             </InlineMessage>
                         )}
-                        <OrderDetailsCard />
+                        <OrderDetailsCard sendFile={sendFile} />
                     </FullPageMobileWrapper>
                 )}
             </OrderDetailsProvider>
@@ -121,11 +130,19 @@ const OrderDetails = () => {
                         </InlineMessage>
                     )}
                     <div className='grid grid-cols-none lg:grid-cols-2 lg:gap-14'>
-                        <OrderDetailsCard />
+                        <OrderDetailsCard sendFile={sendFile} />
                         <OrdersChatSection
-                            id={orderId}
+                            activeChatChannel={activeChatChannel}
+                            isChatLoading={isChatLoading}
+                            isError={isError}
                             isInactive={!!orderDetails?.isInactiveOrder}
+                            messages={messages}
+                            onReturn={onChatReturn}
                             otherUserDetails={orderDetails?.otherUserDetails}
+                            refreshChat={refreshChat}
+                            sendFile={sendFile}
+                            sendMessage={sendMessage}
+                            userId={userId ?? ''}
                         />
                     </div>
                 </div>

@@ -22,9 +22,11 @@ jest.mock('../OrderDetailsCardFooter', () => ({
 
 const mockUseDevice = useDevice as jest.Mock;
 
+const mockProps = { sendFile: jest.fn() };
+
 describe('<OrderDetailsCard />', () => {
     it('should render the OrderDetailsCard component', () => {
-        render(<OrderDetailsCard />);
+        render(<OrderDetailsCard {...mockProps} />);
         expect(screen.getByText('OrderDetailsCardHeader')).toBeInTheDocument();
         expect(screen.getByText('OrderDetailsCardInfo')).toBeInTheDocument();
         expect(screen.getByText('OrderDetailsCardReview')).toBeInTheDocument();
@@ -34,7 +36,7 @@ describe('<OrderDetailsCard />', () => {
     it('should not render the OrderDetailsCardFooter component on mobile', () => {
         mockUseDevice.mockReturnValue({ isDesktop: false });
 
-        render(<OrderDetailsCard />);
+        render(<OrderDetailsCard {...mockProps} />);
 
         expect(screen.queryByText('OrderDetailsCardFooter')).not.toBeInTheDocument();
     });
