@@ -7,7 +7,7 @@ import './SortDropdown.scss';
 type TSortDropdownProps = {
     list: readonly { text: string; value: string }[];
     onSelect: (value: TSortByValues) => void;
-    setIsFilterModalOpen: (value: boolean) => void;
+    setIsFilterModalOpen: () => void;
     value: TSortByValues;
 };
 
@@ -27,7 +27,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
                         width={24}
                     />
                 }
-                onClick={() => setIsFilterModalOpen(true)}
+                onClick={setIsFilterModalOpen}
                 variant='outlined'
             />
         );

@@ -53,7 +53,7 @@ const MyProfile = () => {
         return (
             <div className='my-profile'>
                 <MyProfileMobile />
-                <NicknameModal isModalOpen={!!isModalOpenFor('NicknameModal')} onRequestClose={hideModal} />
+                {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
             </div>
         );
     }
@@ -77,7 +77,7 @@ const MyProfile = () => {
                     </Tab>
                 ))}
             </Tabs>
-            <NicknameModal isModalOpen={!!isModalOpenFor('NicknameModal')} onRequestClose={hideModal} />
+            {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
         </div>
     );
 };
