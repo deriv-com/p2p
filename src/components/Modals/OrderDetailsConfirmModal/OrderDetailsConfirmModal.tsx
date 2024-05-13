@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { FileRejection } from 'react-dropzone';
 import { FileUploaderComponent } from '@/components/FileUploaderComponent';
+import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { getErrorMessage, maxPotFileSize, TFile } from '@/utils';
 import { Button, InlineMessage, Modal, Text, useDevice } from '@deriv-com/ui';
 import './OrderDetailsConfirmModal.scss';
 
 type TOrderDetailsConfirmModalProps = {
     isModalOpen: boolean;
+    onCancel: () => void;
+    onConfirm: () => void;
     onRequestClose: () => void;
+    sendFile: (file: File) => void;
 };
 
 type TDocumentFile = {
@@ -15,8 +19,17 @@ type TDocumentFile = {
     files: File[];
 };
 
-const OrderDetailsConfirmModal = ({ isModalOpen, onRequestClose }: TOrderDetailsConfirmModalProps) => {
+const OrderDetailsConfirmModal = ({
+    isModalOpen,
+    onCancel,
+    onConfirm,
+    onRequestClose,
+    sendFile,
+}: TOrderDetailsConfirmModalProps) => {
     const [documentFile, setDocumentFile] = useState<TDocumentFile>({ errorMessage: null, files: [] });
+    const { orderDetails } = useOrderDetails();
+    const { displayPaymentAmount, local_currency: localCurrency, otherUserDetails } = orderDetails ?? {};
+    const { name } = otherUserDetails ?? {};
     const { isMobile } = useDevice();
     const buttonTextSize = isMobile ? 'md' : 'sm';
 
@@ -37,11 +50,6 @@ const OrderDetailsConfirmModal = ({ isModalOpen, onRequestClose }: TOrderDetails
         });
     };
 
-    // TODO: uncomment this when implementing the OrderDetailsConfirmModal
-    // const displayPaymentAmount = removeTrailingZeros(
-    //     formatMoney(local_currency, amount_display * Number(roundOffDecimal(rate, setDecimalPlaces(rate, 6))), true)
-    // );
-
     return (
         <Modal
             ariaHideApp={false}
@@ -59,8 +67,8 @@ const OrderDetailsConfirmModal = ({ isModalOpen, onRequestClose }: TOrderDetails
             </Modal.Header>
             <Modal.Body className='flex flex-col lg:px-[2.4rem] px-[1.6rem]'>
                 <Text size='sm'>
-                    Please make sure that you’ve paid 9.99 IDR to client CR90000012, and upload the receipt as proof of
-                    your payment
+                    {`Please make sure that you’ve paid ${displayPaymentAmount} ${localCurrency} to client ${name}, and upload the receipt as proof of
+                    your payment`}
                 </Text>
                 <Text className='pt-[0.8rem] pb-[2.4rem]' color='less-prominent' size='sm'>
                     We accept JPG, PDF, or PNG (up to 5MB).
@@ -72,8 +80,10 @@ const OrderDetailsConfirmModal = ({ isModalOpen, onRequestClose }: TOrderDetails
                 </InlineMessage>
                 <FileUploaderComponent
                     accept={{
-                        'application/*': ['.pdf'],
-                        'image/*': ['.jpg', '.jpeg', './png'],
+                        'application/pdf': ['.pdf'],
+                        'image/jpeg': ['.jpeg'],
+                        'image/jpg': ['.jpg'],
+                        'image/png': ['.png'],
                     }}
                     hoverMessage='Upload receipt here'
                     maxSize={maxPotFileSize}
@@ -86,12 +96,18 @@ const OrderDetailsConfirmModal = ({ isModalOpen, onRequestClose }: TOrderDetails
                 />
             </Modal.Body>
             <Modal.Footer className='gap-4 border-none lg:p-[2.4rem] p-[1.6rem]'>
-                <Button className='border-2' color='black' size='lg' variant='outlined'>
+                <Button className='border-2' color='black' onClick={onCancel} size='lg' variant='outlined'>
                     <Text lineHeight='6xl' size={buttonTextSize} weight='bold'>
                         Go Back
                     </Text>
                 </Button>
-                <Button size='lg'>
+                <Button
+                    onClick={() => {
+                        sendFile(documentFile.files[0]);
+                        onConfirm();
+                    }}
+                    size='lg'
+                >
                     <Text lineHeight='6xl' size={buttonTextSize} weight='bold'>
                         Confirm
                     </Text>

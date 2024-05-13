@@ -3,7 +3,7 @@ import { ComponentProps } from 'react';
 import { AD_CONDITION_TYPES, ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
 import { useSendbirdServiceToken } from '@/hooks/api/account';
-import { useAdvertiserStats } from '@/hooks/custom-hooks';
+import { useAdvertiserStats, useSendbird } from '@/hooks/custom-hooks';
 import { useExchangeRates } from '@deriv-com/api-hooks';
 import { Text } from '@deriv-com/ui';
 import { CurrencyConstants } from '@deriv-com/utils';
@@ -213,3 +213,6 @@ export type TName = THooks.AdvertiserPaymentMethods.Get[number]['fields']['name'
 export type TAccount = THooks.AdvertiserPaymentMethods.Get[number]['fields']['account'];
 
 export type TTextSize = ComponentProps<typeof Text>['size'];
+
+export type TActiveChannel = ReturnType<typeof useSendbird>['activeChatChannel'];
+export type TChatMessages = NonNullable<ReturnType<typeof useSendbird>['messages']>;
