@@ -10,4 +10,8 @@ export const ERROR_CODES = {
     ADVERTISER_NOT_FOUND: 'AdvertiserNotFound',
     ADVERTISER_TEMP_BAN: 'advertiser_temp_ban',
     DUPLICATE_ADVERT: 'DuplicateAdvert',
+    EXCESSIVE_VERIFICATION_FAILURES: 'ExcessiveVerificationFailures',
+    EXCESSIVE_VERIFICATION_REQUESTS: 'ExcessiveVerificationRequests',
+    INVALID_VERIFICATION_TOKEN: 'InvalidVerificationToken',
+    ORDER_EMAIL_VERIFICATION_REQUIRED: 'OrderEmailVerificationRequired',
 } as const;
