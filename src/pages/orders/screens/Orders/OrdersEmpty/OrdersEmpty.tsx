@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { BUY_SELL_URL } from '@/constants';
 import { DerivLightOrderIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
 
 const OrdersEmpty = () => {
@@ -18,7 +19,7 @@ const OrdersEmpty = () => {
                 icon={<DerivLightOrderIcon height='128px' width='128px' />}
                 title={
                     <Text size={textSize} weight='bold'>
-                        You have no orders.
+                        <Localize i18n_default_text='You have no orders.' />
                     </Text>
                 }
             />

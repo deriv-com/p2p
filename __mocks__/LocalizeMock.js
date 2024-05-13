@@ -1,5 +1,5 @@
-import React from 'react';
+const Localize = ({ i18n_default_text }) => {
+    return i18n_default_text || null;
+};
 
-const Localize = () => <div>Mock Localize</div>;
-
-export default Localize;
+export { Localize };

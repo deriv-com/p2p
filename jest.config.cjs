@@ -1,7 +1,8 @@
 module.exports = {
     moduleNameMapper: {
-        '@deriv-com/(.*)': '<rootDir>/node_modules/@deriv-com/$1',
         '@deriv-com/translations': '<rootDir>/__mocks__/LocalizeMock.js',
+        // eslint-disable-next-line sort-keys
+        '@deriv-com/(.*)': '<rootDir>/node_modules/@deriv-com/$1',
         '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
         '\\.svg': '<rootDir>/__mocks__/svgMock.js',
         '^@/(.*)$': '<rootDir>/src/$1',
