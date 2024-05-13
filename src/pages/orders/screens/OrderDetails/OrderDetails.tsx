@@ -32,8 +32,7 @@ const OrderDetails = () => {
     });
     const { isBuyOrderForUser, shouldShowLostFundsBanner } = orderDetails;
     const { isMobile } = useDevice();
-    const { activeChatChannel, isChatLoading, isError, messages, refreshChat, sendFile, sendMessage, userId } =
-        useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
+    const { sendFile, userId, ...rest } = useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
 
     const headerText = `${isBuyOrderForUser ? 'Buy' : 'Sell'} USD order`;
     const warningMessage = 'Don’t risk your funds with cash transactions. Use bank transfers or e-wallets instead.';
@@ -71,17 +70,12 @@ const OrderDetails = () => {
             <OrderDetailsProvider value={{ isErrorOrderInfo: !!error, orderDetails }}>
                 {showChat ? (
                     <OrdersChatSection
-                        activeChatChannel={activeChatChannel}
-                        isChatLoading={isChatLoading}
-                        isError={isError}
                         isInactive={!!orderDetails?.isInactiveOrder}
-                        messages={messages}
                         onReturn={onChatReturn}
                         otherUserDetails={orderDetails?.otherUserDetails}
-                        refreshChat={refreshChat}
                         sendFile={sendFile}
-                        sendMessage={sendMessage}
                         userId={userId ?? ''}
+                        {...rest}
                     />
                 ) : (
                     <FullPageMobileWrapper
@@ -132,17 +126,12 @@ const OrderDetails = () => {
                     <div className='grid grid-cols-none lg:grid-cols-2 lg:gap-14'>
                         <OrderDetailsCard sendFile={sendFile} />
                         <OrdersChatSection
-                            activeChatChannel={activeChatChannel}
-                            isChatLoading={isChatLoading}
-                            isError={isError}
                             isInactive={!!orderDetails?.isInactiveOrder}
-                            messages={messages}
                             onReturn={onChatReturn}
                             otherUserDetails={orderDetails?.otherUserDetails}
-                            refreshChat={refreshChat}
                             sendFile={sendFile}
-                            sendMessage={sendMessage}
                             userId={userId ?? ''}
+                            {...rest}
                         />
                     </div>
                 </div>

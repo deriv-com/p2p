@@ -24,11 +24,9 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     const { error, isError, mutate } = api.order.useConfirm();
     const textSize = isMobile ? 'md' : 'sm';
 
-    useEffect(() => {
-        //TODO: handle email verification, invalid verification, and rating modals.
+    //TODO: handle email verification, invalid verification, and rating modals.
+    const handleModalDisplay = (isError: boolean, isBuyOrderForUser: boolean, code?: string) => {
         if (isError) {
-            const { code } = error?.error ?? {};
-
             if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED) {
                 showModal('EmailVerificationModal');
             } else if (
@@ -36,13 +34,17 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                 code === ERROR_CODES.EXCESSIVE_VERIFICATION_REQUESTS
             ) {
                 showModal('InvalidVerificationLinkModal');
-            } else if (code === ERROR_CODES.EXCESSIVE_VERIFICATION_FAILURES && orderDetails.isBuyOrderForUser) {
+            } else if (code === ERROR_CODES.EXCESSIVE_VERIFICATION_FAILURES && isBuyOrderForUser) {
                 showModal('EmailLinkBlockedModal');
             }
         } else if (!isBuyOrderForUser) {
             showModal('RatingModal');
         }
-    }, [error?.error, isBuyOrderForUser, isError, orderDetails.isBuyOrderForUser]);
+    };
+
+    useEffect(() => {
+        handleModalDisplay(isError, isBuyOrderForUser, error?.error?.code);
+    }, [error?.error, isBuyOrderForUser, isError]);
 
     if (
         !shouldShowCancelAndPaidButton &&

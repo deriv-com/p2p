@@ -276,6 +276,7 @@ const useSendbird = (orderId: string, isErrorOrderInfo: boolean, chatChannelUrl:
         } else if (sendbirdServiceToken?.app_id) {
             initialiseChat();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orderId, chatChannelUrl, sendbirdServiceToken?.app_id]);
 
     return {
