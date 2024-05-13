@@ -19,19 +19,9 @@ type TOrdersChatSectionProps = {
     userId: string;
 };
 
-const OrdersChatSection = ({
-    activeChatChannel,
-    isChatLoading,
-    isError,
-    isInactive,
-    messages,
-    onReturn,
-    otherUserDetails,
-    refreshChat,
-    sendFile,
-    sendMessage,
-    userId,
-}: TOrdersChatSectionProps) => {
+const OrdersChatSection = ({ isInactive, onReturn, otherUserDetails, ...sendBirdData }: TOrdersChatSectionProps) => {
+    const { activeChatChannel, isChatLoading, isError, messages, refreshChat, sendFile, sendMessage, userId } =
+        sendBirdData;
     const { isMobile } = useDevice();
     const { is_online: isOnline, last_online_time: lastOnlineTime, name } = otherUserDetails ?? {};
     const isChannelClosed = isInactive || !!activeChatChannel?.isFrozen;
