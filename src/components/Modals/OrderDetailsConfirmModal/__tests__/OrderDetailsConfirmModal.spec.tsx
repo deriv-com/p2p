@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import OrderDetailsConfirmModal from '../OrderDetailsConfirmModal';
 
@@ -9,9 +9,22 @@ jest.mock('@deriv-com/ui', () => ({
     }),
 }));
 
+jest.mock('@/providers/OrderDetailsProvider', () => ({
+    useOrderDetails: jest.fn().mockReturnValue({
+        orderDetails: {
+            displayPaymentAmount: '0.10',
+            local_currency: 'INR',
+            otherUserDetails: { name: 'John Doe' },
+        },
+    }),
+}));
+
 const mockProps = {
     isModalOpen: true,
+    onCancel: jest.fn(),
+    onConfirm: jest.fn(),
     onRequestClose: jest.fn(),
+    sendFile: jest.fn(),
 };
 
 describe('<OrderDetailsConfirmModal />', () => {
@@ -21,7 +34,7 @@ describe('<OrderDetailsConfirmModal />', () => {
         expect(screen.getByText('Payment confirmation')).toBeInTheDocument();
         expect(
             screen.getByText(
-                /Please make sure that you’ve paid 9.99 IDR to client CR90000012, and upload the receipt as proof of your payment/
+                /Please make sure that you’ve paid 0.10 INR to client John Doe, and upload the receipt as proof of your payment/
             )
         ).toBeInTheDocument();
         expect(screen.getByText('We accept JPG, PDF, or PNG (up to 5MB).')).toBeInTheDocument();
@@ -67,10 +80,7 @@ describe('<OrderDetailsConfirmModal />', () => {
             value: fileList,
         });
 
-        // eslint-disable-next-line testing-library/no-unnecessary-act
-        await act(async () => {
-            fireEvent.change(fileInput);
-        });
+        fireEvent.change(fileInput);
 
         await waitFor(() => {
             expect(screen.getByText('The file you uploaded is not supported. Upload another.')).toBeInTheDocument();
@@ -82,22 +92,7 @@ describe('<OrderDetailsConfirmModal />', () => {
 
         const blob = new Blob([new Array(6 * 1024 * 1024).join('a')], { type: 'image/png' });
         const file = new File([blob], 'test.png');
-        const fileInput = screen.getByTestId('dt_file_upload_input');
-
-        const fileList = {
-            0: file,
-            item: () => file,
-            length: 1,
-        };
-
-        Object.defineProperty(fileInput, 'files', {
-            value: fileList,
-        });
-
-        // eslint-disable-next-line testing-library/no-unnecessary-act
-        await act(async () => {
-            fireEvent.change(fileInput);
-        });
+        await userEvent.upload(screen.getByTestId('dt_file_upload_input'), file);
 
         expect(screen.getByText('Cannot upload a file over 5MB')).toBeInTheDocument();
     });
@@ -108,19 +103,10 @@ describe('<OrderDetailsConfirmModal />', () => {
         const file = new File(['test'], 'test.png', { type: 'image/png' });
         const fileInput = screen.getByTestId('dt_file_upload_input');
 
-        const fileList = {
-            0: file,
-            item: () => file,
-            length: 1,
-        };
+        await userEvent.upload(fileInput, file);
 
-        Object.defineProperty(fileInput, 'files', {
-            value: fileList,
-        });
-
-        // eslint-disable-next-line testing-library/no-unnecessary-act
-        await act(async () => {
-            fireEvent.change(fileInput);
+        await waitFor(() => {
+            expect(screen.getByText('test.png')).toBeInTheDocument();
         });
 
         const closeIcon = screen.getByTestId('dt_remove_file_icon');
@@ -130,5 +116,23 @@ describe('<OrderDetailsConfirmModal />', () => {
         await waitFor(() => {
             expect(screen.queryByText('test.png')).not.toBeInTheDocument();
         });
+    });
+
+    it('should handle confirm button click', async () => {
+        render(<OrderDetailsConfirmModal {...mockProps} />);
+
+        const button = screen.getByRole('button', { name: 'Confirm' });
+        await userEvent.click(button);
+
+        expect(mockProps.onConfirm).toHaveBeenCalled();
+    });
+
+    it('should handle goback click', async () => {
+        render(<OrderDetailsConfirmModal {...mockProps} />);
+
+        const button = screen.getByRole('button', { name: 'Go Back' });
+        await userEvent.click(button);
+
+        expect(mockProps.onCancel).toHaveBeenCalled();
     });
 });

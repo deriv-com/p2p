@@ -141,6 +141,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         formState: { isValid },
         getValues,
         handleSubmit,
+        setValue,
     } = useForm({
         defaultValues: {
             amount: min_order_amount_limit ?? 1,
@@ -254,6 +255,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     )}
                     minLimit={min_order_amount_limit_display ?? '0'}
                     paymentMethodNames={payment_method_names}
+                    setValue={setValue as unknown as (name: string, value: string) => void}
                 />
             </BuySellFormDisplayWrapper>
         </form>

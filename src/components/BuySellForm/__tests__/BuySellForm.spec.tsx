@@ -153,6 +153,7 @@ jest.mock('react-hook-form', () => ({
             amount: 1,
         })),
         handleSubmit: mockHandleSubmit,
+        setValue: jest.fn(),
     }),
 }));
 

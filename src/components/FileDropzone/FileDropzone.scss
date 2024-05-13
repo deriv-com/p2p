@@ -1,11 +1,15 @@
 @mixin file-dropzone-message {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     max-width: 16.8rem;
     opacity: 1;
     pointer-events: none;
     position: absolute;
     transform: translate3d(0, 0, 0);
-    transition: transform 0.25s ease, opacity 0.15s linear;
+    transition:
+        transform 0.25s ease,
+        opacity 0.15s linear;
 
     @include mobile {
         max-width: 26rem;
