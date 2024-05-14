@@ -4,6 +4,7 @@
 
     &__wrapper {
         align-items: center;
+        gap: 2rem;
         background: #fff;
         border: 2px solid #f2f3f4;
         border-radius: 6px;
@@ -31,9 +32,5 @@
         &-button {
             margin-top: 2rem;
         }
-    }
-
-    .advertiser-page-adverts__table-body {
-        min-height: 20vh;
     }
 }

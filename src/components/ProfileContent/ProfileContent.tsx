@@ -30,10 +30,7 @@ const ProfileContent = ({ id, setAdvertiserName, setShowOverlay }: TProfileConte
     return (
         <>
             <div className='profile-content'>
-                <AdvertiserName
-                    advertiserStats={data}
-                    onClickBlocked={() => setShowOverlay?.((prevState: boolean) => !prevState)}
-                />
+                <AdvertiserName advertiserStats={data} onClickBlocked={() => setShowOverlay?.(true)} />
                 {isMyProfile ? <ProfileBalance advertiserStats={data} /> : <ProfileStats advertiserStats={data} />}
             </div>
             {isMobile && isMyProfile && <AdvertiserNameToggle advertiserInfo={data} />}

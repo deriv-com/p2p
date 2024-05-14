@@ -39,7 +39,7 @@ const AdvertiserName = ({ advertiserStats, onClickBlocked }: TAdvertiserNameProp
                 <AdvertiserNameBadges advertiserStats={advertiserStats} />
             </div>
             {isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={advertiserStats} />}
-            {isDesktop && !isMyProfile && !advertiserStats?.isBlocked && (
+            {isDesktop && !isMyProfile && !advertiserStats?.is_blocked && (
                 <BlockDropdown id={advertiserStats?.id} onClickBlocked={onClickBlocked} />
             )}
         </div>

@@ -50,8 +50,10 @@ const Advertiser = () => {
             />
             <AdvertiserBlockOverlay
                 advertiserName={advertiserName}
+                id={id}
                 isOverlayVisible={showOverlay}
                 onClickUnblock={() => showModal('BlockUnblockUserModal')}
+                setShowOverlay={setShowOverlay}
             >
                 <ProfileContent id={id} setAdvertiserName={setAdvertiserName} setShowOverlay={setShowOverlay} />
                 <AdvertiserAdvertsTable advertiserId={advertiserId} />
