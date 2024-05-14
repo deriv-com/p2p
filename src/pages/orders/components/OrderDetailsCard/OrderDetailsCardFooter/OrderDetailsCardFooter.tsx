@@ -1,11 +1,14 @@
-import { OrderDetailsCancelModal, OrderDetailsComplainModal } from '@/components/Modals';
+import { useEffect } from 'react';
+import { OrderDetailsCancelModal, OrderDetailsComplainModal, OrderDetailsConfirmModal } from '@/components/Modals';
+import { ERROR_CODES } from '@/constants';
+import { api } from '@/hooks';
 import { useModalManager } from '@/hooks/custom-hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { Button, useDevice } from '@deriv-com/ui';
 import './OrderDetailsCardFooter.scss';
 
 // TODO: Implement functionality for each button when integrating with the API and disable buttons while chat is loading
-const OrderDetailsCardFooter = () => {
+const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }) => {
     const { orderDetails } = useOrderDetails();
     const {
         id,
@@ -15,9 +18,33 @@ const OrderDetailsCardFooter = () => {
         shouldShowOnlyComplainButton,
         shouldShowOnlyReceivedButton,
     } = orderDetails;
+
     const { isMobile } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
+    const { error, isError, mutate } = api.order.useConfirm();
     const textSize = isMobile ? 'md' : 'sm';
+
+    //TODO: handle email verification, invalid verification, and rating modals.
+    const handleModalDisplay = (isError: boolean, isBuyOrderForUser: boolean, code?: string) => {
+        if (isError) {
+            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED) {
+                showModal('EmailVerificationModal');
+            } else if (
+                code === ERROR_CODES.INVALID_VERIFICATION_TOKEN ||
+                code === ERROR_CODES.EXCESSIVE_VERIFICATION_REQUESTS
+            ) {
+                showModal('InvalidVerificationLinkModal');
+            } else if (code === ERROR_CODES.EXCESSIVE_VERIFICATION_FAILURES && isBuyOrderForUser) {
+                showModal('EmailLinkBlockedModal');
+            }
+        } else if (!isBuyOrderForUser) {
+            showModal('RatingModal');
+        }
+    };
+
+    useEffect(() => {
+        handleModalDisplay(isError, isBuyOrderForUser, error?.error?.code);
+    }, [error?.error, isBuyOrderForUser, isError]);
 
     if (
         !shouldShowCancelAndPaidButton &&
@@ -27,6 +54,11 @@ const OrderDetailsCardFooter = () => {
     ) {
         return null;
     }
+
+    const onClickPaid = () => {
+        hideModal();
+        mutate({ id });
+    };
 
     return (
         <div className='order-details-card-footer'>
@@ -42,7 +74,7 @@ const OrderDetailsCardFooter = () => {
                     >
                         Cancel order
                     </Button>
-                    <Button size='lg' textSize={textSize}>
+                    <Button onClick={() => showModal('OrderDetailsConfirmModal')} size='lg' textSize={textSize}>
                         I’ve paid
                     </Button>
                 </div>
@@ -98,6 +130,15 @@ const OrderDetailsCardFooter = () => {
                     id={id}
                     isModalOpen={!!isModalOpenFor('OrderDetailsCancelModal')}
                     onRequestClose={hideModal}
+                />
+            )}
+            {!!isModalOpenFor('OrderDetailsConfirmModal') && (
+                <OrderDetailsConfirmModal
+                    isModalOpen={!!isModalOpenFor('OrderDetailsConfirmModal')}
+                    onCancel={hideModal}
+                    onConfirm={onClickPaid}
+                    onRequestClose={hideModal}
+                    sendFile={sendFile}
                 />
             )}
         </div>

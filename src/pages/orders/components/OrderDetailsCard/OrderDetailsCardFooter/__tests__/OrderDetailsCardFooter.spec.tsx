@@ -38,11 +38,20 @@ jest.mock('@/providers/OrderDetailsProvider', () => ({
     }),
 }));
 
-const mockUseOrderDetails = useOrderDetails as jest.Mock;
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        order: {
+            useConfirm: jest.fn().mockReturnValue({ error: null, isError: false, mutate: jest.fn() }),
+        },
+    },
+}));
 
+const mockUseOrderDetails = useOrderDetails as jest.Mock;
+const mockProps = { sendFile: jest.fn() };
 describe('<OrderDetailsCardFooter />', () => {
     it('should render cancel and paid buttons', () => {
-        render(<OrderDetailsCardFooter />);
+        render(<OrderDetailsCardFooter {...mockProps} />);
         expect(screen.getByRole('button', { name: 'Cancel order' })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'I’ve paid' })).toBeInTheDocument();
     });
@@ -56,7 +65,7 @@ describe('<OrderDetailsCardFooter />', () => {
             },
         });
 
-        render(<OrderDetailsCardFooter />);
+        render(<OrderDetailsCardFooter {...mockProps} />);
 
         expect(screen.getByRole('button', { name: 'Complain' })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'I’ve received payment' })).toBeInTheDocument();
@@ -71,7 +80,7 @@ describe('<OrderDetailsCardFooter />', () => {
             },
         });
 
-        render(<OrderDetailsCardFooter />);
+        render(<OrderDetailsCardFooter {...mockProps} />);
 
         expect(screen.getByRole('button', { name: 'Complain' })).toBeInTheDocument();
     });
@@ -85,7 +94,7 @@ describe('<OrderDetailsCardFooter />', () => {
             },
         });
 
-        render(<OrderDetailsCardFooter />);
+        render(<OrderDetailsCardFooter {...mockProps} />);
 
         expect(screen.getByRole('button', { name: 'I’ve received payment' })).toBeInTheDocument();
     });
@@ -97,7 +106,7 @@ describe('<OrderDetailsCardFooter />', () => {
             },
         });
 
-        const { container } = render(<OrderDetailsCardFooter />);
+        const { container } = render(<OrderDetailsCardFooter {...mockProps} />);
 
         expect(container).toBeEmptyDOMElement();
     });
@@ -114,7 +123,7 @@ describe('<OrderDetailsCardFooter />', () => {
             },
         });
 
-        render(<OrderDetailsCardFooter />);
+        render(<OrderDetailsCardFooter {...mockProps} />);
 
         const complainButton = screen.getByRole('button', { name: 'Complain' });
         expect(complainButton).toBeInTheDocument();
@@ -134,7 +143,7 @@ describe('<OrderDetailsCardFooter />', () => {
             },
         });
 
-        render(<OrderDetailsCardFooter />);
+        render(<OrderDetailsCardFooter {...mockProps} />);
 
         const cancelOrderButton = screen.getByRole('button', { name: 'Cancel order' });
         expect(cancelOrderButton).toBeInTheDocument();
@@ -156,7 +165,7 @@ describe('<OrderDetailsCardFooter />', () => {
             },
         });
 
-        render(<OrderDetailsCardFooter />);
+        render(<OrderDetailsCardFooter {...mockProps} />);
 
         const complainButton = screen.getByRole('button', { name: 'Complain' });
         expect(complainButton).toBeInTheDocument();
