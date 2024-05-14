@@ -48,7 +48,7 @@ const AdRateSwitchModal = ({
                     {reachedEndDate ? (
                         <Localize i18n_default_text='Cancel' />
                     ) : (
-                        <Localize i18n_default_text={`I'll do this later`} />
+                        <Localize i18n_default_text="I'll do this later " />
                     )}
                 </Button>
                 <Button onClick={onClickSet} size='lg' textSize={textSize}>

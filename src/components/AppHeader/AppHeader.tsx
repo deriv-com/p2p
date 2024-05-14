@@ -39,7 +39,7 @@ const AppHeader = () => {
                         leftComponent={<LabelPairedHouseBlankMdRegularIcon />}
                     >
                         <Text>
-                            <Localize i18n_default_text={`Trader's Hub`} />
+                            <Localize i18n_default_text="Trader's Hub" />
                         </Text>
                     </MenuItem>
                 </Wrapper>
@@ -70,7 +70,7 @@ const AppHeader = () => {
                                     rightComponent={<LegacyChevronRight2pxIcon iconSize='xs' />}
                                 >
                                     <Text>
-                                        <Localize i18n_default_text={`Trader's Hub`} />
+                                        <Localize i18n_default_text="Trader's Hub " />
                                     </Text>
                                 </MenuItem>
                             </div>
