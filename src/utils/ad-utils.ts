@@ -53,7 +53,8 @@ const decimalPointValidation = (value: string) =>
     'Only up to 2 decimals are allowed.';
 export const getValidationRules = (
     fieldName: string,
-    getValues: (fieldName: string) => number | string
+    getValues: (fieldName: string) => number | string,
+    localize: (key: string) => string
 ): ValidationRules => {
     switch (fieldName) {
         case 'amount':
@@ -79,7 +80,7 @@ export const getValidationRules = (
         case 'rate-value':
             return {
                 validation_1: value => requiredValidation(value, 'Fixed rate'),
-                validation_2: value => !isNaN(Number(value)) || 'Enter a valid amount',
+                validation_2: value => !isNaN(Number(value)) || localize('Enter a valid amount'),
                 validation_3: value => {
                     if (getValues('rate-type-string') === RATE_TYPE.FIXED) {
                         return decimalPointValidation(value);

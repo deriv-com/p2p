@@ -25,6 +25,12 @@ jest.mock('react-hook-form', () => ({
     }),
 }));
 
+jest.mock('@deriv-com/translations', () => ({
+    ...jest.requireActual('@deriv-com/translations'),
+    useTranslations: () => ({
+        localize: jest.fn(),
+    }),
+}));
 const mockProps = {
     currency: 'usd',
     label: 'label',
