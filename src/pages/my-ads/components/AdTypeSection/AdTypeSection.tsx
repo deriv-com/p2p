@@ -5,6 +5,7 @@ import { FloatingRate, RadioGroup } from '@/components';
 import { BUY_SELL, RATE_TYPE } from '@/constants';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { getValidationRules, restrictDecimalPlace } from '@/utils';
+import { useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { AdFormController } from '../AdFormController';
 import { AdFormInput } from '../AdFormInput';
@@ -24,6 +25,7 @@ type TAdTypeSectionProps = {
 
 const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }: TAdTypeSectionProps) => {
     const { queryString } = useQueryString();
+    const { localize } = useTranslations();
     const { advertId = '' } = queryString;
     const isEdit = !!advertId;
     const { isMobile } = useDevice();
@@ -120,7 +122,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                                 />
                             );
                         }}
-                        rules={{ validate: getValidationRules('rate-value', getValues) }}
+                        rules={{ validate: getValidationRules('rate-value', getValues, localize) }}
                     />
                 ) : (
                     <AdFormInput
