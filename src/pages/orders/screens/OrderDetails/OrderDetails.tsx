@@ -38,7 +38,10 @@ const OrderDetails = () => {
     const warningMessage = 'Don’t risk your funds with cash transactions. Use bank transfers or e-wallets instead.';
 
     const onReturn = () => {
-        if ((location.state as { from: string })?.from === 'Orders') history.push(ORDERS_URL);
+        const searchParams = new URLSearchParams(location.search);
+        const codeParam = searchParams.get('code');
+
+        if ((location.state as { from: string })?.from === 'Orders' || codeParam) history.push(ORDERS_URL);
         else if ((location.state as { from: string })?.from === 'BuySell') history.push(BUY_SELL_URL);
         else history.goBack();
     };

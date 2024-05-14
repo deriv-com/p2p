@@ -71,6 +71,7 @@ const Endpoint = () => {
                             appId: getValues('appId'),
                             serverUrl: getValues('serverUrl'),
                         });
+                        window.location.reload();
                     })}
                 >
                     Submit

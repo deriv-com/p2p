@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useCountdown } from 'usehooks-ts';
 import {
     DerivLightIcEmailSentIcon,
     DerivLightIcFirewallEmailPasskeyIcon,
@@ -30,14 +31,40 @@ const reasons = [
 
 type TEmailVerificationModalProps = {
     isModalOpen: boolean;
+    nextRequestTime: number;
     onRequestClose: () => void;
+    onResendEmail: () => void;
 };
 
-const EmailVerificationModal = ({ isModalOpen, onRequestClose }: TEmailVerificationModalProps) => {
+const EmailVerificationModal = ({
+    isModalOpen,
+    nextRequestTime,
+    onRequestClose,
+    onResendEmail,
+}: TEmailVerificationModalProps) => {
     const [shouldShowReasons, setShouldShowReasons] = useState<boolean>(false);
     const { isMobile } = useDevice();
     const emailIconSize = isMobile ? 100 : 128;
     const reasonIconSize = isMobile ? 32 : 36;
+
+    const timeNow = Date.now() / 1000;
+
+    const [timeLeft, setTimeLeft] = useState<number>(Math.round(nextRequestTime - timeNow));
+
+    const [countdownTime, { startCountdown }] = useCountdown({
+        countStart: timeLeft,
+        intervalMs: 1000,
+    });
+
+    useEffect(() => {
+        if (timeLeft > 0) {
+            startCountdown();
+        }
+    }, [startCountdown, timeLeft]);
+
+    useEffect(() => {
+        setTimeLeft(Math.round(nextRequestTime - timeNow));
+    }, [nextRequestTime, timeNow]);
 
     return (
         <Modal
@@ -72,10 +99,9 @@ const EmailVerificationModal = ({ isModalOpen, onRequestClose }: TEmailVerificat
                             </div>
                         ))}
                         <div className='flex justify-center'>
-                            {/* TODO: Replace 59s with epoch value (verification_next_request) from BE response
-                             * and disable the button if the epoch value is not reached yet
-                             */}
-                            <Button size='md'>Resend email 59s</Button>
+                            <Button disabled={countdownTime > 0} onClick={onResendEmail} size='md'>
+                                Resend email {countdownTime > 0 && `${countdownTime}s`}
+                            </Button>
                         </div>
                     </div>
                 )}

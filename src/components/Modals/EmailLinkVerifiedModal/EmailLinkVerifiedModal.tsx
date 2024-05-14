@@ -1,3 +1,4 @@
+import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { DerivLightIcEmailVerificationLinkValidIcon } from '@deriv/quill-icons';
 import { Button, Modal, Text } from '@deriv-com/ui';
 import './EmailLinkVerifiedModal.scss';
@@ -5,10 +6,12 @@ import './EmailLinkVerifiedModal.scss';
 type TEmailLinkVerifiedModal = {
     isModalOpen: boolean;
     onRequestClose: () => void;
+    onSubmit: () => void;
 };
 
-// TODO: replace value, currency and username with actual values when implementing function
-const EmailLinkVerifiedModal = ({ isModalOpen, onRequestClose }: TEmailLinkVerifiedModal) => {
+const EmailLinkVerifiedModal = ({ isModalOpen, onRequestClose, onSubmit }: TEmailLinkVerifiedModal) => {
+    const { orderDetails } = useOrderDetails();
+
     return (
         <Modal ariaHideApp={false} className='email-link-verified-modal' isOpen={isModalOpen}>
             <Modal.Header hideBorder onRequestClose={onRequestClose} />
@@ -18,17 +21,13 @@ const EmailLinkVerifiedModal = ({ isModalOpen, onRequestClose }: TEmailLinkVerif
                     One last step before we close this order
                 </Text>
                 <Text align='center'>
-                    If you’ve received 100 USD from Test in your bank account or e-wallet, hit the button below to
+                    If you’ve received {orderDetails.amount} {orderDetails.local_currency} from{' '}
+                    {orderDetails.advertiser_details.name} in your bank account or e-wallet, hit the button below to
                     complete the order.
                 </Text>
             </Modal.Body>
-            <Modal.Footer className='justify-center mt-4' hideBorder>
-                <Button
-                    onClick={() => {
-                        // add function here when implementing this modal
-                    }}
-                    size='md'
-                >
+            <Modal.Footer className='justify-center lg:mt-4 mt-0' hideBorder>
+                <Button onClick={onSubmit} size='md'>
                     Confirm
                 </Button>
             </Modal.Footer>
