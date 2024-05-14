@@ -38,9 +38,7 @@ const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose }: TAdCancelCreat
                     {isEdit ? (
                         <Localize i18n_default_text='If you choose to cancel, the edited details will be lost.' />
                     ) : (
-                        <Localize
-                            i18n_default_text={`If you choose to cancel, the details you've entered will be lost.`}
-                        />
+                        <Localize i18n_default_text="If you choose to cancel, the details you've entered will be lost." />
                     )}
                 </Text>
             </Modal.Body>
