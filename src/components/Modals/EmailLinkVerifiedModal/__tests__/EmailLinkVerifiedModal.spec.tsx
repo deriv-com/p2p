@@ -3,7 +3,7 @@ import EmailLinkVerifiedModal from '../EmailLinkVerifiedModal';
 
 describe('<EmailLinkVerifiedModal />', () => {
     it('it should render the EmailLinkVerifiedModal', () => {
-        render(<EmailLinkVerifiedModal isModalOpen onRequestClose={jest.fn()} />);
+        render(<EmailLinkVerifiedModal isModalOpen onRequestClose={jest.fn()} onSubmit={jest.fn()} />);
 
         expect(screen.getByText('One last step before we close this order')).toBeInTheDocument();
         expect(

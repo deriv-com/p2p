@@ -1,9 +1,3 @@
 .invalid-verification-link-modal {
-    height: auto;
-    width: 44rem;
-    border-radius: 8px;
-
-    @include mobile {
-        max-width: calc(100vw - 3.2rem);
-    }
+    @include default-modal;
 }

@@ -9,7 +9,9 @@ jest.mock('@deriv-com/ui', () => ({
 
 const mockProps = {
     isModalOpen: true,
+    nextRequestTime: 10,
     onRequestClose: jest.fn(),
+    onResendEmail: jest.fn(),
 };
 
 describe('<EmailVerificationModal />', () => {
