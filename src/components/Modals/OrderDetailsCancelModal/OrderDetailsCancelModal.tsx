@@ -1,4 +1,5 @@
 import { api } from '@/hooks';
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './OrderDetailsCancelModal.scss';
 
@@ -23,16 +24,24 @@ const OrderDetailsCancelModal = ({ id, isModalOpen, onRequestClose }: TOrderDeta
     return (
         <Modal ariaHideApp={false} className='order-details-cancel-modal' isOpen={isModalOpen}>
             <Modal.Header className='lg:px-[2.4rem] px-[1.6rem]' hideBorder hideCloseIcon>
-                <Text weight='bold'>Do you want to cancel this order?</Text>
+                <Text weight='bold'>
+                    <Localize i18n_default_text='Do you want to cancel this order?' />
+                </Text>
             </Modal.Header>
             <Modal.Body className='flex flex-col gap-2 lg:px-[2.4rem] px-[1.6rem]'>
-                <Text size='sm'>
-                    If you cancel your order {data?.cancellation_limit} times in {data?.cancellation_count_period}{' '}
-                    hours, you will be blocked from using Deriv P2P for {data?.cancellation_block_duration} hours.
-                    <br />({advertiserInfo.cancels_remaining} cancellations remaining)
+                <Text className='whitespace-pre-line' size='sm'>
+                    <Localize
+                        i18n_default_text='If you cancel your order {{cancellationLimit}} times in {{cancellationCountPeriod}} hours, you will be blocked from using Deriv P2P for {{cancellationBlockDuration}} hours.\n{{cancellationRemaining}} cancellations remaining.'
+                        values={{
+                            cancellationBlockDuration: data?.cancellation_block_duration,
+                            cancellationCountPeriod: data?.cancellation_count_period,
+                            cancellationLimit: data?.cancellation_limit,
+                            cancellationRemaining: advertiserInfo.cancels_remaining,
+                        }}
+                    />
                 </Text>
                 <Text color='error' size='sm'>
-                    Please do not cancel if you have already made payment.
+                    <Localize i18n_default_text='Please do not cancel if you have already made payment.' />
                 </Text>
             </Modal.Body>
             <Modal.Footer className='gap-4 lg:px-[2.4rem] px-[1.6rem]' hideBorder>
@@ -44,10 +53,10 @@ const OrderDetailsCancelModal = ({ id, isModalOpen, onRequestClose }: TOrderDeta
                     textSize={textSize}
                     variant='outlined'
                 >
-                    Cancel this order
+                    <Localize i18n_default_text='Cancel this order' />
                 </Button>
                 <Button onClick={onRequestClose} size='lg' textSize={textSize}>
-                    Do not cancel
+                    <Localize i18n_default_text='Do not cancel' />
                 </Button>
             </Modal.Footer>
         </Modal>

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { api } from '@/hooks';
-import { useDevice } from '@/hooks/custom-hooks';
-import { Button, Modal, Text } from '@deriv-com/ui';
+import { Localize } from '@deriv-com/translations';
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './MyAdsDeleteModal.scss';
 
 type TMyAdsDeleteModalProps = {
@@ -21,18 +21,20 @@ const MyAdsDeleteModal = ({ error, id, isModalOpen, onClickDelete, onRequestClos
 
     const getModalText = () => {
         if (hasActiveOrders && !error) {
-            return 'You have open orders for this ad. Complete all open orders before deleting this ad.';
+            return (
+                <Localize i18n_default_text='You have open orders for this ad. Complete all open orders before deleting this ad.' />
+            );
         } else if (error) {
             return error;
         }
-        return 'You will NOT be able to restore it.';
+        return <Localize i18n_default_text='You will NOT be able to restore it.' />;
     };
 
     const getModalFooter = () => {
         if (hasActiveOrders || error) {
             return (
                 <Button onClick={onRequestClose} size='lg' textSize={textSize}>
-                    Ok
+                    <Localize i18n_default_text='Ok' />
                 </Button>
             );
         }
@@ -47,10 +49,10 @@ const MyAdsDeleteModal = ({ error, id, isModalOpen, onClickDelete, onRequestClos
                     textSize={textSize}
                     variant='outlined'
                 >
-                    Cancel
+                    <Localize i18n_default_text='Cancel' />
                 </Button>
                 <Button onClick={onClickDelete} size='lg' textSize={textSize}>
-                    Delete
+                    <Localize i18n_default_text='Delete' />
                 </Button>
             </div>
         );
@@ -72,7 +74,9 @@ const MyAdsDeleteModal = ({ error, id, isModalOpen, onClickDelete, onRequestClos
                         hideCloseIcon
                         onRequestClose={onRequestClose}
                     >
-                        <Text weight='bold'>Do you want to delete this ad?</Text>
+                        <Text weight='bold'>
+                            <Localize i18n_default_text='Do you want to delete this ad?' />
+                        </Text>
                     </Modal.Header>
                     <Modal.Body className='my-ads-delete-modal__body'>
                         <Text color='prominent' size='sm'>

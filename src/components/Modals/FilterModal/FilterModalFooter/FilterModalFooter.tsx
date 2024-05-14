@@ -1,3 +1,4 @@
+import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 import './FilterModalFooter.scss';
 
@@ -32,7 +33,7 @@ const FilterModalFooter = ({
                 textSize={isMobile ? 'md' : 'sm'}
                 variant='outlined'
             >
-                {showPaymentMethods ? 'Clear' : 'Reset'}
+                {showPaymentMethods ? <Localize i18n_default_text='Clear' /> : <Localize i18n_default_text='Reset' />}
             </Button>
             <Button
                 disabled={(showPaymentMethods && hasSamePaymentMethods) || (!showPaymentMethods && hasSameFilters)}
@@ -41,7 +42,7 @@ const FilterModalFooter = ({
                 size='lg'
                 textSize={isMobile ? 'md' : 'sm'}
             >
-                {showPaymentMethods ? 'Confirm' : 'Apply'}
+                {showPaymentMethods ? <Localize i18n_default_text='Confirm' /> : <Localize i18n_default_text='Apply' />}
             </Button>
         </div>
     );

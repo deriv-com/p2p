@@ -1,5 +1,6 @@
 import { TFormState, THooks, TPaymentMethod, TSelectedPaymentMethod } from 'types';
 import { LabelPairedSearchMdRegularIcon, LegacyCloseCircle1pxIcon } from '@deriv/quill-icons';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Dropdown, Input, Text } from '@deriv-com/ui';
 
 type TPaymentMethodFormAutocompleteProps = {
@@ -19,13 +20,14 @@ const PaymentMethodFormAutocomplete = ({
     reset,
     selectedPaymentMethod,
 }: TPaymentMethodFormAutocompleteProps) => {
+    const { localize } = useTranslations();
     if (selectedPaymentMethod) {
         // TODO: Remember to translate this
         return (
             <Input
                 defaultValue={selectedPaymentMethod?.display_name}
                 disabled
-                label='Choose your payment method'
+                label={localize('Choose your payment method')}
                 rightPlaceholder={
                     actionType === 'EDIT' ? null : (
                         <LegacyCloseCircle1pxIcon
@@ -56,7 +58,7 @@ const PaymentMethodFormAutocomplete = ({
             <Dropdown
                 dropdownIcon={<LabelPairedSearchMdRegularIcon />}
                 isFullWidth
-                label='Payment method'
+                label={localize('Payment method')}
                 list={availablePaymentMethodsList}
                 name='Payment method'
                 onSelect={value => {
@@ -69,14 +71,15 @@ const PaymentMethodFormAutocomplete = ({
                         });
                     }
                 }}
-                // TODO: Remember to translate this
                 value={getValue()}
                 variant='prompt'
             />
             <div className='mt-[0.2rem] ml-[1.6rem]'>
-                {/* TODO: Remember to translate these */}
                 <Text color='less-prominent' size='xs'>
-                    Don’t see your payment method?
+                    <Localize
+                        i18n_default_text='
+                    Don’t see your payment method?'
+                    />
                 </Text>
                 <Button
                     className='payment-method-form__button'
@@ -97,7 +100,7 @@ const PaymentMethodFormAutocomplete = ({
                     textSize='xs'
                     variant='ghost'
                 >
-                    Add new.
+                    <Localize i18n_default_text='Add new.' />
                 </Button>
             </div>
         </>

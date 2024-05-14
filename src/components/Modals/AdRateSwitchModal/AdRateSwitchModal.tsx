@@ -1,4 +1,5 @@
 import { RATE_TYPE } from '@/constants';
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdRateSwitchModal.scss';
 
@@ -27,7 +28,13 @@ const AdRateSwitchModal = ({
             shouldCloseOnOverlayClick={false}
         >
             <Modal.Body className='ad-rate-switch-modal__body'>
-                <Text size='sm'>{isFloat ? 'Set a floating rate for your ad.' : 'Set a fixed rate for your ad.'}</Text>
+                <Text size='sm'>
+                    {isFloat ? (
+                        <Localize i18n_default_text='Set a floating rate for your ad.' />
+                    ) : (
+                        <Localize i18n_default_text='Set a fixed rate for your ad.' />
+                    )}
+                </Text>
             </Modal.Body>
             <Modal.Footer className='ad-rate-switch-modal__footer' hideBorder>
                 <Button
@@ -38,10 +45,18 @@ const AdRateSwitchModal = ({
                     textSize={textSize}
                     variant='outlined'
                 >
-                    {reachedEndDate ? 'Cancel' : `I'll do this later`}
+                    {reachedEndDate ? (
+                        <Localize i18n_default_text='Cancel' />
+                    ) : (
+                        <Localize i18n_default_text={`I'll do this later`} />
+                    )}
                 </Button>
                 <Button onClick={onClickSet} size='lg' textSize={textSize}>
-                    {isFloat ? 'Set floating rate' : 'Set fixed rate'}
+                    {isFloat ? (
+                        <Localize i18n_default_text='Set floating rate' />
+                    ) : (
+                        <Localize i18n_default_text='Set fixed rate' />
+                    )}
                 </Button>
             </Modal.Footer>
         </Modal>

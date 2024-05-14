@@ -7,6 +7,7 @@ import { api } from '@/hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
 import { DerivLightIcCashierUserIcon } from '@deriv/quill-icons';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Input, Modal, Text, useDevice } from '@deriv-com/ui';
 import './NicknameModal.scss';
 
@@ -16,6 +17,7 @@ type TNicknameModalProps = {
 };
 
 const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => {
+    const { localize } = useTranslations();
     const {
         control,
         formState: { isDirty, isValid },
@@ -56,10 +58,10 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                 <Modal.Body className='nickname-modal__body'>
                     <DerivLightIcCashierUserIcon height='12.8rem' width='12.8rem' />
                     <Text className='nickname-modal__body-title' weight='bold'>
-                        What’s your nickname?
+                        <Localize i18n_default_text='What’s your nickname?' />
                     </Text>
                     <Text align='center' className='mt-4 mb-6' size={textSize}>
-                        Others will see this on your profile, ads and charts.
+                        <Localize i18n_default_text='Others will see this on your profile, ads and charts.' />
                     </Text>
                     <Controller
                         control={control}
@@ -68,7 +70,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                             <Input
                                 data-testid='dt_nickname_modal_input'
                                 error={!!error?.message || isError}
-                                label='Your nickname'
+                                label={localize('Your nickname')}
                                 message={createError?.error?.message || error?.message}
                                 onBlur={onBlur}
                                 onChange={onChange}
@@ -77,14 +79,17 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                         )}
                         rules={{
                             pattern: {
-                                message: 'Can only contain letters, numbers, and special characters .-_@.',
+                                message: localize('Can only contain letters, numbers, and special characters .-_@.'),
                                 value: /^[a-zA-Z0-9.@_-]*$/,
                             },
-                            required: 'Nickname is required',
+                            required: localize('Nickname is required'),
                         }}
                     />
                     <Text className='my-10' size={textSize}>
-                        Your nickname cannot be changed later.
+                        <Localize
+                            i18n_default_text='
+                        Your nickname cannot be changed later.'
+                        />
                     </Text>
                 </Modal.Body>
                 <Modal.Footer className='p-0 min-h-0' hideBorder>
@@ -100,10 +105,10 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                         type='button'
                         variant='outlined'
                     >
-                        Cancel
+                        <Localize i18n_default_text='Cancel' />
                     </Button>
                     <Button disabled={!isValid || !isDirty || isError} size='lg' textSize={textSize} type='submit'>
-                        Confirm
+                        <Localize i18n_default_text='Confirm' />
                     </Button>
                 </Modal.Footer>
             </form>

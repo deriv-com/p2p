@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { MY_ADS_URL } from '@/constants';
 import { useQueryString } from '@/hooks/custom-hooks';
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdCancelCreateEditModal.scss';
 
@@ -24,13 +25,23 @@ const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose }: TAdCancelCreat
             shouldCloseOnOverlayClick={false}
         >
             <Modal.Header className='ad-cancel-create-edit-modal__header' hideBorder hideCloseIcon>
-                <Text weight='bold'>{isEdit ? 'Cancel your edits?' : 'Cancel ad creation?'}</Text>
+                <Text weight='bold'>
+                    {isEdit ? (
+                        <Localize i18n_default_text='Cancel your edits?' />
+                    ) : (
+                        <Localize i18n_default_text='Cancel ad creation?' />
+                    )}
+                </Text>
             </Modal.Header>
             <Modal.Body className='ad-cancel-create-edit-modal__body'>
                 <Text size='sm'>
-                    {isEdit
-                        ? `If you choose to cancel, the edited details will be lost.`
-                        : `If you choose to cancel, the details you've entered will be lost.`}
+                    {isEdit ? (
+                        <Localize i18n_default_text='If you choose to cancel, the edited details will be lost.' />
+                    ) : (
+                        <Localize
+                            i18n_default_text={`If you choose to cancel, the details you've entered will be lost.`}
+                        />
+                    )}
                 </Text>
             </Modal.Body>
             <Modal.Footer className='ad-cancel-create-edit-modal__footer' hideBorder>
@@ -42,10 +53,10 @@ const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose }: TAdCancelCreat
                     textSize={textSize}
                     variant='outlined'
                 >
-                    Cancel
+                    <Localize i18n_default_text='Cancel' />
                 </Button>
                 <Button onClick={onRequestClose} size='lg' textSize={textSize}>
-                    Don’t cancel
+                    <Localize i18n_default_text='Don’t cancel' />
                 </Button>
             </Modal.Footer>
         </Modal>

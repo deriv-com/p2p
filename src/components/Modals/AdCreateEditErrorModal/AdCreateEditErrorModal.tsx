@@ -1,5 +1,6 @@
 import { TErrorCodes } from 'types';
 import { ERROR_CODES } from '@/constants';
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdCreateEditErrorModal.scss';
 
@@ -41,14 +42,22 @@ const AdCreateEditErrorModal = ({
             onRequestClose={onRequestClose}
         >
             <Modal.Header className='ad-create-edit-error-modal__header' hideBorder hideCloseIcon>
-                <Text weight='bold'>{(errorCode && errorContent?.[errorCode]?.title) ?? 'Something’s not right'}</Text>
+                <Text weight='bold'>
+                    {(errorCode && errorContent?.[errorCode]?.title) ?? (
+                        <Localize i18n_default_text='Something’s not right' />
+                    )}
+                </Text>
             </Modal.Header>
             <Modal.Body className='ad-create-edit-error-modal__body'>
                 <Text size={textSize}>{errorMessage}</Text>
             </Modal.Body>
             <Modal.Footer className='ad-create-edit-error-modal__footer' hideBorder>
                 <Button onClick={onRequestClose} size='lg' textSize={textSize}>
-                    {errorCode && errorContent?.[errorCode]?.title ? 'Update ad' : 'Ok'}
+                    {errorCode && errorContent?.[errorCode]?.title ? (
+                        <Localize i18n_default_text='Update ad' />
+                    ) : (
+                        <Localize i18n_default_text='OK' />
+                    )}
                 </Button>
             </Modal.Footer>
         </Modal>

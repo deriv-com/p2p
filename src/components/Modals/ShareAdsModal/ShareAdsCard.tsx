@@ -3,6 +3,7 @@ import { ForwardedRef, forwardRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { THooks } from 'types';
 import { ADVERT_TYPE, BUY_SELL, p2pLogo, RATE_TYPE } from '@/constants';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import './ShareAdsCard.scss';
 
@@ -37,13 +38,13 @@ const ShareMyAdsCard = forwardRef(
                 <div className='flex flex-row share-ads-card__numbers'>
                     <div className='flex flex-col share-ads-card__numbers-text'>
                         <Text color='white' size={textSize}>
-                            ID number
+                            <Localize i18n_default_text='ID number' />
                         </Text>
                         <Text color='white' size={textSize}>
-                            Limits
+                            <Localize i18n_default_text='Limits' />
                         </Text>
                         <Text color='white' size={textSize}>
-                            Rate
+                            <Localize i18n_default_text='Rate' />
                         </Text>
                     </div>
                     <div className='flex flex-col share-ads-card__numbers-text'>
@@ -80,7 +81,7 @@ const ShareMyAdsCard = forwardRef(
                         />
                     </div>
                     <Text className='share-ads-card__qr-text' color='less-prominent' size='xs'>
-                        Scan this code to order via Deriv P2P
+                        <Localize i18n_default_text='Scan this code to order via Deriv P2P' />
                     </Text>
                 </div>
             </div>

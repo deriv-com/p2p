@@ -5,6 +5,7 @@ import {
     LegacyMenuHamburger1pxIcon,
 } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
+import { Localize } from '@deriv-com/translations';
 import { Button, DerivLogo, Drawer, Header, MenuItem, Text, useDevice, Wrapper } from '@deriv-com/ui';
 import { LocalStorageConstants, LocalStorageUtils, URLUtils } from '@deriv-com/utils';
 import './AppHeader.scss';
@@ -37,7 +38,9 @@ const AppHeader = () => {
                         className='flex gap-2 p-5'
                         leftComponent={<LabelPairedHouseBlankMdRegularIcon />}
                     >
-                        <Text>Trader&apos;s Hub</Text>
+                        <Text>
+                            <Localize i18n_default_text={`Trader's Hub`} />
+                        </Text>
                     </MenuItem>
                 </Wrapper>
             ) : (
@@ -54,7 +57,9 @@ const AppHeader = () => {
                                 setIsDrawerOpen(false);
                             }}
                         >
-                            <Text>Menu</Text>
+                            <Text>
+                                <Localize i18n_default_text='Menu' />
+                            </Text>
                         </Drawer.Header>
                         <Drawer.Content>
                             <div className='flex'>
@@ -64,7 +69,9 @@ const AppHeader = () => {
                                     leftComponent={<LabelPairedHouseBlankMdRegularIcon />}
                                     rightComponent={<LegacyChevronRight2pxIcon iconSize='xs' />}
                                 >
-                                    <Text>Trader&apos;s Hub</Text>
+                                    <Text>
+                                        <Localize i18n_default_text={`Trader's Hub`} />
+                                    </Text>
                                 </MenuItem>
                             </div>
                         </Drawer.Content>
@@ -77,7 +84,9 @@ const AppHeader = () => {
                 </Wrapper>
             )}
             {activeLoginid ? (
-                <Button onClick={logout}>Logout</Button>
+                <Button onClick={logout}>
+                    <Localize i18n_default_text='Logout' />
+                </Button>
             ) : (
                 <Button
                     className='w-36'
@@ -85,7 +94,9 @@ const AppHeader = () => {
                     onClick={() => window.open(oauthUrl, '_self')}
                     variant='ghost'
                 >
-                    <Text weight='bold'>Log in</Text>
+                    <Text weight='bold'>
+                        <Localize i18n_default_text='Log in' />
+                    </Text>
                 </Button>
             )}
         </Header>
