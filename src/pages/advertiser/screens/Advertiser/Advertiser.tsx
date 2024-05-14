@@ -15,6 +15,7 @@ const Advertiser = () => {
     const { advertiserId } = useParams<{ advertiserId: string }>();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
     const [showOverlay, setShowOverlay] = useState(false);
+    const [advertiserName, setAdvertiserName] = useState('');
 
     // Need to return undefined if the id is the same as the logged in user
     // This will prevent the API from trying to resubscribe to the same user and grab the data from local storage
@@ -48,15 +49,11 @@ const Advertiser = () => {
                 weight='bold'
             />
             <AdvertiserBlockOverlay
+                advertiserName={advertiserName}
                 isOverlayVisible={showOverlay}
                 onClickUnblock={() => showModal('BlockUnblockUserModal')}
             >
-                <ProfileContent
-                    id={id}
-                    onClickBlocked={() => {
-                        setShowOverlay(prevState => !prevState);
-                    }}
-                />
+                <ProfileContent id={id} setAdvertiserName={setAdvertiserName} setShowOverlay={setShowOverlay} />
                 <AdvertiserAdvertsTable advertiserId={advertiserId} />
             </AdvertiserBlockOverlay>
         </div>

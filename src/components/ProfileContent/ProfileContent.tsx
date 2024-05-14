@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { AdvertiserName, AdvertiserNameToggle } from '@/components';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
 import { getCurrentRoute } from '@/utils';
@@ -8,18 +9,31 @@ import './ProfileContent.scss';
 
 type TProfileContentProps = {
     id?: string;
-    onClickBlocked?: () => void;
+    setAdvertiserName?: (name: string) => void;
+    setShowOverlay?: Dispatch<SetStateAction<boolean>>;
 };
 
-const ProfileContent = ({ id, onClickBlocked }: TProfileContentProps) => {
+const ProfileContent = ({ id, setAdvertiserName, setShowOverlay }: TProfileContentProps) => {
     const { isMobile } = useDevice();
     const { data } = useAdvertiserStats(id);
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
+    useEffect(() => {
+        if (data?.name && setAdvertiserName && setShowOverlay) {
+            if (data?.is_blocked) {
+                setShowOverlay(true);
+            }
+            setAdvertiserName(data?.name);
+        }
+    }, [data?.is_blocked, data?.name, setAdvertiserName, setShowOverlay]);
+
     return (
         <>
             <div className='profile-content'>
-                <AdvertiserName advertiserStats={data} onClickBlocked={onClickBlocked} />
+                <AdvertiserName
+                    advertiserStats={data}
+                    onClickBlocked={() => setShowOverlay?.((prevState: boolean) => !prevState)}
+                />
                 {isMyProfile ? <ProfileBalance advertiserStats={data} /> : <ProfileStats advertiserStats={data} />}
             </div>
             {isMobile && isMyProfile && <AdvertiserNameToggle advertiserInfo={data} />}

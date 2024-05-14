@@ -1,12 +1,15 @@
 import { PropsWithChildren } from 'react';
+import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './AdvertiserBlockOverlay.scss';
 
 type TAdvertiserBlockOverlayProps = {
+    advertiserName: string;
     isOverlayVisible: boolean;
     onClickUnblock: () => void;
 };
 const AdvertiserBlockOverlay = ({
+    advertiserName,
     children,
     isOverlayVisible,
     onClickUnblock,
@@ -21,7 +24,7 @@ const AdvertiserBlockOverlay = ({
                         size={isMobile ? 'lg' : 'md'}
                         weight='bold'
                     >
-                        You have blocked
+                        <Localize i18n_default_text='You have blocked {{advertiserName}}' values={{ advertiserName }} />
                     </Text>
                     <Button
                         className='border-2'
