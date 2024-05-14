@@ -1,5 +1,6 @@
 import Modal from 'react-modal';
 import { api } from '@/hooks';
+import { Localize } from '@deriv-com/translations';
 import { Button, Loader, Text, useDevice } from '@deriv-com/ui';
 import { customStyles } from '../helpers';
 import './DailyLimitModal.scss';
@@ -23,14 +24,19 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
             return (
                 <>
                     <Text color='prominent' weight='bold'>
-                        Success!
+                        <Localize
+                            i18n_default_text='
+                        Success! '
+                        />
                     </Text>
                     <Text as='p' className='daily-limit-modal__text' color='prominent' size='sm'>
-                        {`Your daily limits have been increased to ${daily_buy_limit} ${currency} (buy) and ${daily_sell_limit} ${currency} (sell).`}
+                        <Localize
+                            i18n_default_text={`Your daily limits have been increased to ${daily_buy_limit} ${currency} (buy) and ${daily_sell_limit} ${currency} (sell).`}
+                        />
                     </Text>
                     <div className='daily-limit-modal__footer'>
                         <Button onClick={onRequestClose} size='lg' textSize='sm'>
-                            Ok
+                            <Localize i18n_default_text='Ok' />
                         </Button>
                     </div>
                 </>
@@ -39,14 +45,14 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
             return (
                 <>
                     <Text color='prominent' weight='bold'>
-                        An internal error occured
+                        <Localize i18n_default_text='An internal error occurred' />
                     </Text>
                     <Text as='p' className='daily-limit-modal__text' color='prominent' size='sm'>
-                        {`Sorry, we're unable to increase your limits right now. Please try again in a few minutes.`}
+                        <Localize i18n_default_text='Sorry, we’re unable to increase your limits right now. Please try again in a few minutes.' />
                     </Text>
                     <div className='daily-limit-modal__footer'>
                         <Button onClick={onRequestClose} size='lg' textSize='sm'>
-                            Ok
+                            <Localize i18n_default_text='Ok' />
                         </Button>
                     </div>
                 </>
@@ -55,17 +61,20 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
         return (
             <>
                 <Text color='prominent' weight='bold'>
-                    Are you sure?
+                    <Localize i18n_default_text='Are you sure?' />
                 </Text>
                 <Text as='p' className='daily-limit-modal__text' color='prominent' size={isMobile ? 'md' : 'sm'}>
-                    You won’t be able to change your buy and sell limits again after this. Do you want to continue?
+                    <Localize
+                        i18n_default_text='
+                    You won’t be able to change your buy and sell limits again after this. Do you want to continue?'
+                    />
                 </Text>
                 <div className='daily-limit-modal__footer'>
                     <Button onClick={onRequestClose} size='lg' textSize='sm' variant='outlined'>
-                        No
+                        <Localize i18n_default_text='No' />
                     </Button>
                     <Button onClick={() => mutate({ upgrade_limits: 1 })} size='lg' textSize='sm'>
-                        Yes, continue
+                        <Localize i18n_default_text='Yes, continue' />
                     </Button>
                 </div>
             </>

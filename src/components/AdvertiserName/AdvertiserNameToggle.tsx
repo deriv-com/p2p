@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { api } from '@/hooks';
+import { Localize } from '@deriv-com/translations';
 import { Text, ToggleSwitch } from '@deriv-com/ui';
 import './AdvertiserNameToggle.scss';
 
@@ -28,7 +29,7 @@ const AdvertiserNameToggle = memo(({ advertiserInfo, onToggle }: TAdvertiserName
         <div className='advertiser-name-toggle'>
             <div className='advertiser-name-toggle__label'>
                 <Text lineHeight='lg' size='sm'>
-                    Show my real name
+                    <Localize i18n_default_text='Show my real name' />
                 </Text>
                 <Text className='advertiser-name-toggle__label-real-name' color='less-prominent' lineHeight='xs'>
                     {advertiserInfo?.fullName}

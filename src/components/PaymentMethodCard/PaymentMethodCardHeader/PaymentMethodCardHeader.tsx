@@ -1,5 +1,6 @@
 import { THooks } from 'types';
 import { LabelPairedEllipsisVerticalXlRegularIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Checkbox, Dropdown } from '@deriv-com/ui';
 import { ReactComponent as IcCashierBankTransfer } from '../../../public/ic-cashier-bank-transfer.svg';
 import { ReactComponent as IcCashierEwallet } from '../../../public/ic-cashier-ewallet.svg';
@@ -19,14 +20,13 @@ type TPaymentMethodCardHeaderProps = {
     type: THooks.AdvertiserPaymentMethods.Get[number]['type'];
 };
 
-// TODO: Remember to translate these
-const actions = [
+const getActions = (localize: (key: string) => string) => [
     {
-        text: 'Edit',
+        text: localize('Edit'),
         value: 'edit',
     },
     {
-        text: 'Delete',
+        text: localize('Delete'),
         value: 'delete',
     },
 ];
@@ -43,6 +43,7 @@ const PaymentMethodCardHeader = ({
     small = false,
     type,
 }: TPaymentMethodCardHeaderProps) => {
+    const { localize } = useTranslations();
     let Icon = IcCashierOther;
     if (type === 'bank') {
         Icon = IcCashierBankTransfer;
@@ -62,7 +63,7 @@ const PaymentMethodCardHeader = ({
                 <Dropdown
                     className='payment-method-card__header-dropdown'
                     dropdownIcon={<LabelPairedEllipsisVerticalXlRegularIcon />}
-                    list={actions}
+                    list={getActions(localize)}
                     name='payment-method-actions'
                     onSelect={value => {
                         if (value === 'edit') {
