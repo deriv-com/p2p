@@ -12,20 +12,15 @@ type TAdCreateEditErrorModalProps = {
 
 type ErrorContent = {
     [key in TErrorCodes]?: {
-        description: string;
         title: string;
     };
 };
 
 const errorContent: ErrorContent = {
     [ERROR_CODES.ADVERT_SAME_LIMITS]: {
-        description:
-            'Please set a different minimum and/or maximum order limit. \n\nThe range of your ad should not overlap with any of your active ads.',
         title: 'You already have an ad with this range',
     },
     [ERROR_CODES.DUPLICATE_ADVERT]: {
-        description:
-            'You already have an ad with the same exchange rate for this currency pair and order type. \n\nPlease set a different rate for your ad.',
         title: 'You already have an ad with this rate',
     },
 };
@@ -49,7 +44,7 @@ const AdCreateEditErrorModal = ({
                 <Text weight='bold'>{(errorCode && errorContent?.[errorCode]?.title) ?? 'Something’s not right'}</Text>
             </Modal.Header>
             <Modal.Body className='ad-create-edit-error-modal__body'>
-                <Text size={textSize}>{(errorCode && errorContent?.[errorCode]?.description) ?? errorMessage}</Text>
+                <Text size={textSize}>{errorMessage}</Text>
             </Modal.Body>
             <Modal.Footer className='ad-create-edit-error-modal__footer' hideBorder>
                 <Button onClick={onRequestClose} size='lg' textSize={textSize}>
