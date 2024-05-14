@@ -8,9 +8,10 @@ import './ProfileContent.scss';
 
 type TProfileContentProps = {
     id?: string;
+    onClickBlocked?: () => void;
 };
 
-const ProfileContent = ({ id }: TProfileContentProps) => {
+const ProfileContent = ({ id, onClickBlocked }: TProfileContentProps) => {
     const { isMobile } = useDevice();
     const { data } = useAdvertiserStats(id);
     const isMyProfile = getCurrentRoute() === 'my-profile';
@@ -18,7 +19,7 @@ const ProfileContent = ({ id }: TProfileContentProps) => {
     return (
         <>
             <div className='profile-content'>
-                <AdvertiserName advertiserStats={data} />
+                <AdvertiserName advertiserStats={data} onClickBlocked={onClickBlocked} />
                 {isMyProfile ? <ProfileBalance advertiserStats={data} /> : <ProfileStats advertiserStats={data} />}
             </div>
             {isMobile && isMyProfile && <AdvertiserNameToggle advertiserInfo={data} />}

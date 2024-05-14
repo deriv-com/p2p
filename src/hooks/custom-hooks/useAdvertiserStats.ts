@@ -31,12 +31,14 @@ const useAdvertiserStats = (advertiserId?: string) => {
         if (advertiserId) {
             subscribe({ id: advertiserId });
         }
+    }, [advertiserId, subscribe]);
 
+    useEffect(() => {
         return () => {
             localStorage.removeItem(`p2p_advertiser_info_${advertiserId}`);
             unsubscribe();
         };
-    }, [advertiserId, subscribe, unsubscribe]);
+    }, []);
 
     const transformedData = useMemo(() => {
         if (!isSubscribed && isEmptyObject(data) && !isSuccessSettings && !isSuccessAuthenticationStatus)
@@ -80,6 +82,9 @@ const useAdvertiserStats = (advertiserId?: string) => {
 
             /** Checks if the user is already an advertiser */
             isAdvertiser,
+
+            /** Indicates that the advertiser is blocked by the current user. */
+            isBlocked: !!data?.is_blocked,
 
             /** Checks if the user is eligible to upgrade their daily limits */
             isEligibleForLimitUpgrade: Boolean(data?.upgradable_daily_limits),

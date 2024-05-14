@@ -1,8 +1,9 @@
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserAvatar } from '@/components';
 import { BlockUnblockUserModal } from '@/components/Modals';
 import { ADVERTISER_URL } from '@/constants';
+import { useModalManager } from '@/hooks';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './MyProfileCounterpartiesTableRow.scss';
 
@@ -13,9 +14,9 @@ type TMyProfileCounterpartiesTableRowProps = {
 };
 
 const MyProfileCounterpartiesTableRow = ({ id, isBlocked, nickname }: TMyProfileCounterpartiesTableRowProps) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const { isMobile } = useDevice();
     const history = useHistory();
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
 
     return (
         <>
@@ -31,19 +32,20 @@ const MyProfileCounterpartiesTableRow = ({ id, isBlocked, nickname }: TMyProfile
                 <Button
                     className='w-36 border-[1px]'
                     color={isBlocked ? 'black' : 'primary'}
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => {
+                        showModal('BlockUnblockUserModal');
+                    }}
                     variant='outlined'
                 >
                     {isBlocked ? 'Unblock' : 'Block'}
                 </Button>
             </div>
-            {/* TODO: to be replaced by deriv-com/ui modal component */}
             <BlockUnblockUserModal
                 advertiserName={nickname}
                 id={id}
                 isBlocked={isBlocked}
-                isModalOpen={isModalOpen}
-                onRequestClose={() => setIsModalOpen(false)}
+                isModalOpen={!!isModalOpenFor('BlockUnblockUserModal')}
+                onRequestClose={hideModal}
             />
         </>
     );
