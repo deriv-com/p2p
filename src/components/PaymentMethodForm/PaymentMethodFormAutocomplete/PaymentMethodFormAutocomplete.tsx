@@ -22,7 +22,6 @@ const PaymentMethodFormAutocomplete = ({
 }: TPaymentMethodFormAutocompleteProps) => {
     const { localize } = useTranslations();
     if (selectedPaymentMethod) {
-        // TODO: Remember to translate this
         return (
             <Input
                 defaultValue={selectedPaymentMethod?.display_name}
@@ -76,10 +75,7 @@ const PaymentMethodFormAutocomplete = ({
             />
             <div className='mt-[0.2rem] ml-[1.6rem]'>
                 <Text color='less-prominent' size='xs'>
-                    <Localize
-                        i18n_default_text='
-                    Don’t see your payment method?'
-                    />
+                    <Localize i18n_default_text='Don’t see your payment method?' />
                 </Text>
                 <Button
                     className='payment-method-form__button'

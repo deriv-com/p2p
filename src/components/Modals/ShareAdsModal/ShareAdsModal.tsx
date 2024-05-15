@@ -42,7 +42,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
     const secondCurrency = isBuyAd ? accountCurrency : localCurrency;
     const adRateType = rateType === RATE_TYPE.FLOAT ? '%' : ` ${localCurrency}`;
     const customMessage = localize(
-        "Hi! I'd like to exchange {{firstCurrency}} for {{secondCurrency}} at {{rateDisplay}}{{adRateType}} on Deriv P2P.\n\nIf you're interested, check out my ad 👉\n\n{{advertUrl}}nnThanks!",
+        "Hi! I'd like to exchange {{firstCurrency}} for {{secondCurrency}} at {{rateDisplay}}{{adRateType}} on Deriv P2P.\n\nIf you're interested, check out my ad 👉\n\n{{advertUrl}}\n\nThanks!",
         {
             adRateType,
             advertUrl,
