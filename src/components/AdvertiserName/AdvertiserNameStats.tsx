@@ -46,7 +46,11 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                     </div>
                 )}
                 <Text color='less-prominent' size='sm'>
-                    Joined {daysSinceJoined && daysSinceJoined > 0 ? `${daysSinceJoined}d` : 'Today'}
+                    {daysSinceJoined && daysSinceJoined > 0 ? (
+                        <Localize i18n_default_text='Joined {{daysSinceJoined}}d' values={{ daysSinceJoined }} />
+                    ) : (
+                        <Localize i18n_default_text='Joined Today' />
+                    )}
                 </Text>
             </div>
             {!ratingAverage && (
@@ -67,7 +71,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                             )}
                             <StarRating allowFraction isReadonly ratingValue={ratingAverage} />
                             <Text color='less-prominent' size='sm'>
-                                ({ratingCount} ratings)
+                                (<Localize i18n_default_text='{{ratingCount}} ratings' values={{ ratingCount }} />)
                             </Text>
                         </div>
                     </div>

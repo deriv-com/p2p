@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { THooks } from 'types';
 import { FullPageMobileWrapper } from '@/components/FullPageMobileWrapper';
 import { api } from '@/hooks';
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import { OrderDetailsComplainModalRadioGroup } from './OrderDetailsComplainModalRadioGroup';
 import './OrderDetailsComplainModal.scss';
@@ -25,11 +26,15 @@ const ComplainExplanation = () => {
     const textSize = isMobile ? 'sm' : 'xs';
     return (
         <div className='order-details-complain-modal__explanation'>
-            <Text size={textSize}>If your complaint isn’t listed here, please contact our </Text>{' '}
+            <Text size={textSize}>
+                <Localize i18n_default_text='If your complaint isn’t listed here, please contact our ' />
+            </Text>
             <Text color='red' size={textSize} weight='bold'>
-                Customer Support
-            </Text>{' '}
-            <Text size={textSize}>team.</Text>
+                <Localize i18n_default_text='Customer Support ' />
+            </Text>
+            <Text size={textSize}>
+                <Localize i18n_default_text='team.' />
+            </Text>
         </div>
     );
 };
@@ -48,10 +53,10 @@ const ComplainFooter = ({ disputeOrderRequest, disputeReason, onRequestClose }: 
                 type='button'
                 variant='outlined'
             >
-                Cancel
+                <Localize i18n_default_text='Cancel' />
             </Button>
             <Button disabled={!disputeReason} onClick={disputeOrderRequest} size='lg' textSize={buttonTextSize}>
-                Submit
+                <Localize i18n_default_text='Submit' />
             </Button>
         </div>
     );
@@ -96,7 +101,7 @@ const OrderDetailsComplainModal = ({
                 )}
                 renderHeader={() => (
                     <Text size='lg' weight='bold'>
-                        Complaint
+                        <Localize i18n_default_text='Complaint' />
                     </Text>
                 )}
             >
@@ -116,7 +121,12 @@ const OrderDetailsComplainModal = ({
             onRequestClose={onRequestClose}
         >
             <Modal.Header onRequestClose={onRequestClose}>
-                <Text weight='bold'>What’s your complaint?</Text>
+                <Text weight='bold'>
+                    <Localize
+                        i18n_default_text='
+                    What’s your complaint?'
+                    />
+                </Text>
             </Modal.Header>
             <Modal.Body className='order-details-complain-modal__body'>
                 <OrderDetailsComplainModalRadioGroup

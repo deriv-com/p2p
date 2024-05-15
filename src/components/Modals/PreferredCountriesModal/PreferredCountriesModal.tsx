@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FullPageMobileWrapper } from '@/components/FullPageMobileWrapper';
+import { Localize } from '@deriv-com/translations';
 import { Modal, Text, useDevice } from '@deriv-com/ui';
 import { PreferredCountriesDropdown } from './PreferredCountriesDropdown';
 import { PreferredCountriesFooter } from './PreferredCountriesFooter';
@@ -41,7 +42,11 @@ const PreferredCountriesModal = ({
                           )
                         : undefined
                 }
-                renderHeader={() => <Text weight='bold'>Preferred countries</Text>}
+                renderHeader={() => (
+                    <Text weight='bold'>
+                        <Localize i18n_default_text='Preferred countries' />
+                    </Text>
+                )}
             >
                 <PreferredCountriesDropdown
                     list={countryList}
@@ -61,7 +66,9 @@ const PreferredCountriesModal = ({
             shouldCloseOnOverlayClick={false}
         >
             <Modal.Header onRequestClose={onRequestClose}>
-                <Text weight='bold'>Preferred countries</Text>
+                <Text weight='bold'>
+                    <Localize i18n_default_text='Preferred countries' />
+                </Text>
             </Modal.Header>
             <Modal.Body>
                 <PreferredCountriesDropdown

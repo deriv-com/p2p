@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TCurrency } from 'types';
 import { MY_ADS_URL } from '@/constants';
+import { Localize } from '@deriv-com/translations';
 import { Button, Checkbox, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdCreateEditSuccessModal.scss';
 
@@ -52,22 +53,27 @@ const AdCreateEditSuccessModal = ({
             onRequestClose={onRequestClose}
         >
             <Modal.Header hideBorder hideCloseIcon>
-                <Text weight='bold'>You’ve created an ad</Text>
+                <Text weight='bold'>
+                    <Localize i18n_default_text='You’ve created an ad' />
+                </Text>
             </Modal.Header>
             <Modal.Body className='ad-create-edit-success-modal__body'>
                 <Text color='prominent' size={textSize}>
-                    {`If the ad doesn't receive an order for ${advertsArchivePeriod} days, it will be deactivated.`}
+                    <Localize
+                        i18n_default_text={`If the ad doesn't receive an order for {{advertsArchivePeriod}} days, it will be deactivated.`}
+                        values={{ advertsArchivePeriod }}
+                    />
                 </Text>
                 <Checkbox
                     checked={isChecked}
-                    label='Don’t show this message again.'
+                    label={<Localize i18n_default_text='Don’t show this message again' />}
                     name='ad-create-success-message'
                     onChange={onToggleCheckbox}
                 />
             </Modal.Body>
             <Modal.Footer hideBorder>
                 <Button onClick={onClickOk} size='lg' textSize={textSize}>
-                    Ok
+                    <Localize i18n_default_text='Ok' />
                 </Button>
             </Modal.Footer>
         </Modal>

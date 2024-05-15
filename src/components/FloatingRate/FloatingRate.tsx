@@ -3,6 +3,7 @@ import { TCurrency, TExchangeRate } from 'types';
 import { api } from '@/hooks';
 import { mobileOSDetect, percentOf, removeTrailingZeros, roundOffDecimal, setDecimalPlaces } from '@/utils';
 import { useExchangeRates } from '@deriv-com/api-hooks';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import InputField from '../InputField';
@@ -70,7 +71,7 @@ const FloatingRate = ({
         <div className='floating-rate'>
             <div className='floating-rate__field'>
                 <Text as='div' className='floating-rate__field--prefix' size={isMobile ? 'lg' : 'md'}>
-                    at
+                    <Localize i18n_default_text='at' />
                 </Text>
                 <InputField
                     decimalPointChange={2}
@@ -83,7 +84,7 @@ const FloatingRate = ({
                 />
                 <div className='floating-rate__mkt-rate'>
                     <Text className='floating-rate__mkt-rate--label' size={textSize}>
-                        of the market rate
+                        <Localize i18n_default_text='of the market rate' />
                     </Text>
                     <Text className='floating-rate__mkt-rate--msg' color='prominent' size={textSize}>
                         1 {fiatCurrency} ={' '}
@@ -102,7 +103,7 @@ const FloatingRate = ({
                 </Text>
             ) : (
                 <Text as='div' className='floating-rate__hint' color='blue' size={textSize}>
-                    Your rate is ={' '}
+                    <Localize i18n_default_text='Your rate is = ' />
                     {removeTrailingZeros(
                         FormatUtils.formatMoney(Number(roundOffDecimal(marketFeed, decimalPlace)), {
                             currency: localCurrency,

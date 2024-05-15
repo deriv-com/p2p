@@ -1,4 +1,5 @@
 import { AD_CONDITION_CONTENT } from '@/constants';
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdConditionsModal.scss';
 
@@ -22,7 +23,7 @@ const AdConditionsModal = ({ isModalOpen, onRequestClose, type }: TAdConditionsM
             </Modal.Body>
             <Modal.Footer hideBorder>
                 <Button onClick={onRequestClose} size='lg' textSize={isMobile ? 'md' : 'sm'} variant='contained'>
-                    OK
+                    <Localize i18n_default_text='OK' />
                 </Button>
             </Modal.Footer>
         </Modal>

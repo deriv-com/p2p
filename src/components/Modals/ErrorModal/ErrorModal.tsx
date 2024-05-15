@@ -1,3 +1,4 @@
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './ErrorModal.scss';
 
@@ -16,15 +17,15 @@ const ErrorModal = ({ buttonText, isModalOpen, message, onRequestClose, title }:
         <Modal ariaHideApp={false} className='error-modal' isOpen={isModalOpen} shouldCloseOnOverlayClick={false}>
             <Modal.Header className='lg:pl-[2.4rem] pl-[1.6rem]' hideBorder onRequestClose={onRequestClose}>
                 <Text size={textSize} weight='bold'>
-                    {title ?? `Something's not right`}
+                    {title ?? <Localize i18n_default_text='Something’s not right' />}
                 </Text>
             </Modal.Header>
             <Modal.Body className='error-modal__body'>
-                <Text size={textSize}>{message ?? `Something's not right`}</Text>
+                <Text size={textSize}>{message ?? <Localize i18n_default_text='Something’s not right' />}</Text>
             </Modal.Body>
             <Modal.Footer hideBorder>
                 <Button onClick={onRequestClose} size='lg' textSize='sm'>
-                    {buttonText ?? 'OK'}
+                    {buttonText ?? <Localize i18n_default_text='OK' />}
                 </Button>
             </Modal.Footer>
         </Modal>

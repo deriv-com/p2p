@@ -56,13 +56,17 @@ const getTimeDifference = (lastSeenOnline: number) => {
  * @param {number} lastOnlineTime - The last online time in epoch
  * @returns {string} The status label to be shown.
  */
-export const getLastOnlineLabel = (isOnline: boolean, lastOnlineTime?: number): string => {
+export const getLastOnlineLabel = (
+    isOnline: boolean,
+    localize: (key: string) => string,
+    lastOnlineTime?: number
+): string => {
     if (!isOnline) {
         if (lastOnlineTime) {
             const diff = getTimeDifference(lastOnlineTime);
             return getStatusLabel(diff);
         }
-        return 'Seen more than 6 months ago';
+        return localize('Seen more than 6 months ago');
     }
-    return 'Online';
+    return localize('Online');
 };

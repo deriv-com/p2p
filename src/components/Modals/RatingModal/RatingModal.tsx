@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { StarRating } from '@/components';
 import { StandaloneThumbsDownRegularIcon, StandaloneThumbsUpRegularIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './RatingModal.scss';
 
@@ -55,7 +56,7 @@ const RatingModal = ({
         <Modal ariaHideApp={false} className='rating-modal' isOpen={isModalOpen} onRequestClose={onRequestClose}>
             <Modal.Header hideBorder onRequestClose={onRequestClose}>
                 <Text size='md' weight='bold'>
-                    How would you rate this transaction?
+                    <Localize i18n_default_text='How would you rate this transaction?' />
                 </Text>
             </Modal.Header>
             <Modal.Body className='px-0 py-4 lg:px-[2.4rem]'>
@@ -64,7 +65,12 @@ const RatingModal = ({
                 </div>
                 {rating > 0 && (
                     <div className='lg:px-0 pt-8 px-[2.4rem]'>
-                        <Text size='sm'>Would you recommend this {`${isBuyOrder ? 'buyer' : 'seller'}`}?</Text>
+                        <Text size='sm'>
+                            <Localize
+                                i18n_default_text='Would you recommend this {{value}}?'
+                                values={{ value: isBuyOrder ? 'seller' : 'buyer' }}
+                            />
+                        </Text>
                         <div className='mt-6 flex gap-3'>
                             <Button
                                 className={clsx('rating-modal__button', {
@@ -81,7 +87,9 @@ const RatingModal = ({
                                 size='sm'
                                 variant='outlined'
                             >
-                                <Text size={buttonTextSize}>Yes</Text>
+                                <Text size={buttonTextSize}>
+                                    <Localize i18n_default_text='Yes' />
+                                </Text>
                             </Button>
                             <Button
                                 className={clsx('rating-modal__button', {
@@ -98,7 +106,9 @@ const RatingModal = ({
                                 size='sm'
                                 variant='outlined'
                             >
-                                <Text size={buttonTextSize}>No</Text>
+                                <Text size={buttonTextSize}>
+                                    <Localize i18n_default_text='No' />
+                                </Text>
                             </Button>
                         </div>
                     </div>
@@ -113,7 +123,7 @@ const RatingModal = ({
                     textSize={isMobile ? 'md' : 'sm'}
                     variant={rating ? 'contained' : 'outlined'}
                 >
-                    {rating ? 'Done' : 'Skip'}
+                    {rating ? <Localize i18n_default_text='Done' /> : <Localize i18n_default_text='Skip' />}
                 </Button>
             </Modal.Footer>
         </Modal>

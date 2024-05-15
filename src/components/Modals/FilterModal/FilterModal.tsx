@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { api } from '@/hooks';
 import { LabelPairedChevronRightLgRegularIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Modal, Text, ToggleSwitch, useDevice } from '@deriv-com/ui';
 import { FilterModalContent } from './FilterModalContent';
 import { FilterModalFooter } from './FilterModalFooter';
@@ -25,6 +26,7 @@ const FilterModal = ({
     setSelectedPaymentMethods,
 }: TFilterModalProps) => {
     const { data } = api.paymentMethods.useGet();
+    const { localize } = useTranslations();
     const [showPaymentMethods, setShowPaymentMethods] = useState<boolean>(false);
     const [isMatching, setIsMatching] = useState<boolean>(isToggled);
     const [paymentMethods, setPaymentMethods] = useState<string[]>(selectedPaymentMethods);
@@ -36,12 +38,12 @@ const FilterModal = ({
             component: <LabelPairedChevronRightLgRegularIcon />,
             onClick: () => setShowPaymentMethods(true),
             subtext: paymentMethodNames,
-            text: 'Payment methods',
+            text: localize('Payment methods'),
         },
         {
             component: <ToggleSwitch onChange={event => setIsMatching(event.target.checked)} value={isMatching} />,
-            subtext: 'Ads that match your Deriv P2P balance and limit.',
-            text: 'Matching ads',
+            subtext: localize('Ads that match your Deriv P2P balance and limit.'),
+            text: localize('Matching ads'),
         },
     ];
 
@@ -50,7 +52,7 @@ const FilterModal = ({
     const hasSamePaymentMethods = JSON.stringify(sortedSelectedPaymentMethods) === JSON.stringify(sortedPaymentMethods);
     const hasSameMatching = isToggled === isMatching;
     const hasSameFilters = hasSamePaymentMethods && hasSameMatching;
-    const headerText = showPaymentMethods ? 'Payment methods' : 'Filter';
+    const headerText = showPaymentMethods ? localize('Payment methods') : localize('Filter');
 
     const onApplyConfirm = () => {
         if (showPaymentMethods) {
