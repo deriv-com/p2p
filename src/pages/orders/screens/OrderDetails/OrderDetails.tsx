@@ -17,6 +17,7 @@ const OrderDetails = () => {
     const history = useHistory();
     const location = useLocation();
     const codeParam = new URLSearchParams(location.search).get('code');
+    const orderStatusParam = new URLSearchParams(location.search).get('order_status');
     const showChatParam = new URLSearchParams(location.search).get('showChat');
     const [showChat, setShowChat] = useState(!!showChatParam);
 
@@ -38,6 +39,8 @@ const OrderDetails = () => {
 
     const onReturn = () => {
         if ((location.state as { from: string })?.from === 'Orders' || codeParam) history.push(ORDERS_URL);
+        else if (location.state === 'PastOrders' || orderStatusParam === 'completed')
+            history.push(`${ORDERS_URL}?tab=Past+orders`);
         else if ((location.state as { from: string })?.from === 'BuySell') history.push(BUY_SELL_URL);
         else history.goBack();
     };

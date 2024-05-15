@@ -51,7 +51,8 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
     const transactionAmount = `${Number(priceDisplay).toFixed(2)} ${localCurrency}`;
     const offerAmount = `${amountDisplay} ${accountCurrency}`;
     const showOrderDetails = () => {
-        if (!isModalOpenFor('RatingModal')) history.push(`${ORDERS_URL}/${id}`, { from: 'Orders' });
+        if (!isModalOpenFor('RatingModal'))
+            history.push(`${ORDERS_URL}/${id}`, { from: isPast ? 'PastOrders' : 'Orders' });
     };
 
     const onClickRatingButton = (event: MouseEvent<HTMLButtonElement>) => {

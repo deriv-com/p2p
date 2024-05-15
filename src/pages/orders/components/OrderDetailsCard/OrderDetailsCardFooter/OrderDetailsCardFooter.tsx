@@ -58,6 +58,12 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             showModal('EmailLinkVerifiedModal');
         } else if (isSuccess && !isBuyOrderForUser && orderDetails?.status === 'completed') {
             setShowRatingModal(true);
+
+            // This is to help handle routing back to past orders tab after confirming order.
+            // This is handled in OrderDetails
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set('order_status', 'completed');
+            history.replace({ pathname: location.pathname, search: searchParams.toString() });
         }
     };
 

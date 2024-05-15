@@ -44,7 +44,7 @@ const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderD
 
     if (isCompletedOrder && !hasReviewDetails)
         return (
-            <div className='flex flex-col px-[1.6rem] py-10 gap-3'>
+            <div className='flex flex-col px-[1.6rem] py-10 gap-3 lg:static absolute top-[31rem] w-full'>
                 <Button
                     className='border-[1px] gap-[0.2rem] pl-4 pr-[1.4rem] w-fit'
                     color='black'
@@ -78,7 +78,7 @@ const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderD
 
     if (hasReviewDetails) {
         return (
-            <div className='flex flex-col px-[1.6rem] py-10 gap-4'>
+            <div className='flex flex-col px-[1.6rem] py-10 gap-4 lg:static absolute top-[31rem] w-full'>
                 <Text weight='bold'>Your transaction experience</Text>
                 <div className='flex justify-between w-4/5 ml-2'>
                     <StarRating isReadonly ratingValue={ratingAverageDecimals} starsScale={1.2} />
