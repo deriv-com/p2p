@@ -28,10 +28,10 @@ const MyProfileCounterpartiesTableRow = ({ id, isBlocked, nickname }: TMyProfile
                     <UserAvatar className='h-[3rem] w-[3rem]' nickname={nickname} size={65} textSize='sm' />
                     <Text size={isMobile ? 'md' : 'sm'}>{nickname}</Text>
                 </div>
-                {/* TODO: variant to be replaced after available in @deriv-com/ui */}
                 <Button
                     className='w-36 border-[1px]'
                     color={isBlocked ? 'black' : 'primary'}
+                    data-testid='dt_block_unblock_button'
                     onClick={() => {
                         showModal('BlockUnblockUserModal');
                     }}

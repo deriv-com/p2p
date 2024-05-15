@@ -25,7 +25,6 @@ const useAdvertiserInfo = (id?: string) => {
      * Key removal is handled in useAdvertiserStats hook's useEffect.
      * */
     const local_storage_key = id ? `p2p_advertiser_info_${id}` : 'p2p_advertiser_info';
-
     const [p2p_advertiser_info, setP2PAdvertiserInfo] = useLocalStorage<DeepPartial<TP2PAdvertiserInfo>>(
         local_storage_key,
         {}
