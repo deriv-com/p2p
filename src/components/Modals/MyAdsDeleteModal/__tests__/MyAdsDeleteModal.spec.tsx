@@ -30,6 +30,11 @@ jest.mock('@/hooks', () => ({
     }),
 }));
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: () => ({ isMobile: false }),
+}));
+
 describe('MyAdsDeleteModal', () => {
     it('should render the component as expected', () => {
         render(<MyAdsDeleteModal {...mockProps} />);

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Modal from 'react-modal';
 import { api } from '@/hooks';
+import { Localize } from '@deriv-com/translations';
 import { Button, Text } from '@deriv-com/ui';
 import { customStyles } from '../helpers';
 import './BlockUnblockUserModal.scss';
@@ -36,9 +37,17 @@ const BlockUnblockUserModal = ({
     const getModalTitle = () => (isBlocked ? `Unblock ${advertiserName}?` : `Block ${advertiserName}?`);
 
     const getModalContent = () =>
-        isBlocked
-            ? `You will be able to see ${advertiserName}'s ads. They'll be able to place orders on your ads, too.`
-            : `You won't see ${advertiserName}'s ads anymore and they won't be able to place orders on your ads.`;
+        isBlocked ? (
+            <Localize
+                i18n_default_text={`You will be able to see {{advertiserName}}'s ads. They'll be able to place orders on your ads, too.`}
+                values={{ advertiserName }}
+            />
+        ) : (
+            <Localize
+                i18n_default_text={`You won't see {{advertiserName}}'s ads anymore and they won't be able to place orders on your ads.`}
+                values={{ advertiserName }}
+            />
+        );
 
     const onClickBlockUnblock = () => {
         if (isBlocked) {

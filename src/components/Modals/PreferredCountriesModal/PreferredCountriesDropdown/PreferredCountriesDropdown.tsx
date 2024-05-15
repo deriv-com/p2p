@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import clsx from 'clsx';
 import { Search } from '@/components';
+import { useTranslations } from '@deriv-com/translations';
 import { Checkbox, Divider } from '@deriv-com/ui';
 import { NoSearchResults } from '../NoSearchResults';
 import './PreferredCountriesDropdown.scss';
@@ -19,6 +20,7 @@ const PreferredCountriesDropdown = ({
     setSelectedCountries,
     setShouldDisplayFooter,
 }: TPreferredCountriesDropdownProps) => {
+    const { localize } = useTranslations();
     const [searchResults, setSearchResults] = useState<TItem[]>([
         ...list.filter(item => selectedCountries.includes(item.value)),
         ...list.filter(item => !selectedCountries.includes(item.value)),
@@ -47,7 +49,7 @@ const PreferredCountriesDropdown = ({
                     hideBorder
                     name='preferred-countries-search'
                     onSearch={onSearch}
-                    placeholder='Search countries'
+                    placeholder={localize('Search countries')}
                 />
             </div>
             <Divider className='w-full' color='#f2f3f4' />
@@ -62,7 +64,7 @@ const PreferredCountriesDropdown = ({
                             <div className='p-[1.6rem]'>
                                 <Checkbox
                                     checked={selectedCountries?.length === list?.length}
-                                    label='All countries'
+                                    label={localize('All countries')}
                                     name='all-countries'
                                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                                         if (event.target.checked) {

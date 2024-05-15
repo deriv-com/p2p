@@ -136,7 +136,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                 <Container {...(isMobile && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}>
                     {isMobile && (
                         <Text color={isBuySellPage ? 'general' : 'less-prominent'} size={isBuySellPage ? 'xs' : 'sm'}>
-                            Rate (1 USD)
+                            <Localize i18n_default_text='Rate (1 USD)' />
                         </Text>
                     )}
                     <Container {...(isMobile && { className: 'flex flex-col-reverse mb-7' })}>

@@ -3,6 +3,7 @@ import { FileRejection } from 'react-dropzone';
 import { FileUploaderComponent } from '@/components/FileUploaderComponent';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { getErrorMessage, maxPotFileSize, TFile } from '@/utils';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, InlineMessage, Modal, Text, useDevice } from '@deriv-com/ui';
 import './OrderDetailsConfirmModal.scss';
 
@@ -26,6 +27,7 @@ const OrderDetailsConfirmModal = ({
     onRequestClose,
     sendFile,
 }: TOrderDetailsConfirmModalProps) => {
+    const { localize } = useTranslations();
     const [documentFile, setDocumentFile] = useState<TDocumentFile>({ errorMessage: null, files: [] });
     const { orderDetails } = useOrderDetails();
     const { displayPaymentAmount, local_currency: localCurrency, otherUserDetails } = orderDetails ?? {};
@@ -62,20 +64,22 @@ const OrderDetailsConfirmModal = ({
                 onRequestClose={onRequestClose}
             >
                 <Text size='md' weight='bold'>
-                    Payment confirmation
+                    <Localize i18n_default_text='Payment confirmation' />
                 </Text>
             </Modal.Header>
             <Modal.Body className='flex flex-col lg:px-[2.4rem] px-[1.6rem]'>
                 <Text size='sm'>
-                    {`Please make sure that you’ve paid ${displayPaymentAmount} ${localCurrency} to client ${name}, and upload the receipt as proof of
-                    your payment`}
+                    <Localize
+                        i18n_default_text='Please make sure that you’ve paid {{displayPaymentAmount}} {{localCurrency}} to client {{name}}, and upload the receipt as proof of your payment'
+                        values={{ displayPaymentAmount, localCurrency, name }}
+                    />
                 </Text>
                 <Text className='pt-[0.8rem] pb-[2.4rem]' color='less-prominent' size='sm'>
-                    We accept JPG, PDF, or PNG (up to 5MB).
+                    <Localize i18n_default_text=' We accept JPG, PDF, or PNG (up to 5MB).' />
                 </Text>
                 <InlineMessage className='mb-4' variant='warning'>
                     <Text size={isMobile ? 'xs' : '2xs'}>
-                        Sending forged documents will result in an immediate and permanent ban.
+                        <Localize i18n_default_text=' Sending forged documents will result in an immediate and permanent ban.' />
                     </Text>
                 </InlineMessage>
                 <FileUploaderComponent
@@ -85,12 +89,12 @@ const OrderDetailsConfirmModal = ({
                         'image/jpg': ['.jpg'],
                         'image/png': ['.png'],
                     }}
-                    hoverMessage='Upload receipt here'
+                    hoverMessage={localize('Upload receipt here')}
                     maxSize={maxPotFileSize}
                     onClickClose={removeFile}
                     onDropAccepted={handleAcceptedFiles}
                     onDropRejected={handleRejectedFiles}
-                    uploadedMessage='Upload receipt here'
+                    uploadedMessage={localize('Upload receipt here')}
                     validationErrorMessage={documentFile.errorMessage}
                     value={documentFile.files}
                 />
@@ -98,7 +102,7 @@ const OrderDetailsConfirmModal = ({
             <Modal.Footer className='gap-4 border-none lg:p-[2.4rem] p-[1.6rem]'>
                 <Button className='border-2' color='black' onClick={onCancel} size='lg' variant='outlined'>
                     <Text lineHeight='6xl' size={buttonTextSize} weight='bold'>
-                        Go Back
+                        <Localize i18n_default_text='Go Back' />
                     </Text>
                 </Button>
                 <Button
@@ -109,7 +113,7 @@ const OrderDetailsConfirmModal = ({
                     size='lg'
                 >
                     <Text lineHeight='6xl' size={buttonTextSize} weight='bold'>
-                        Confirm
+                        <Localize i18n_default_text='Confirm' />
                     </Text>
                 </Button>
             </Modal.Footer>
