@@ -38,6 +38,7 @@ const useAdvertiserStats = (advertiserId?: string) => {
             localStorage.removeItem(`p2p_advertiser_info_${advertiserId}`);
             unsubscribe();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const transformedData = useMemo(() => {
