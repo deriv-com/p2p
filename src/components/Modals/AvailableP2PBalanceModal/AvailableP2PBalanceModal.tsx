@@ -1,4 +1,5 @@
 import Modal from 'react-modal';
+import { Localize } from '@deriv-com/translations';
 import { Button, Text } from '@deriv-com/ui';
 import { customStyles } from '../helpers';
 import './AvailableP2PBalanceModal.scss';
@@ -11,6 +12,7 @@ type TAvailableP2PBalanceModalProps = {
 const AvailableP2PBalanceModal = ({ isModalOpen, onRequestClose }: TAvailableP2PBalanceModalProps) => {
     return (
         <Modal
+            ariaHideApp={false}
             className='available-balance-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
@@ -19,18 +21,17 @@ const AvailableP2PBalanceModal = ({ isModalOpen, onRequestClose }: TAvailableP2P
             testId='dt_available_p2p_balance_modal'
         >
             <Text as='p' weight='bold'>
-                Available Deriv P2P Balance
+                <Localize i18n_default_text='Available Deriv P2P Balance' />
             </Text>
             <Text as='p' className='block-unblock-user-modal__text' size='sm'>
-                Your Deriv P2P balance only includes deposits that can’t be reversed.
+                <Localize i18n_default_text='Your Deriv P2P balance only includes deposits that can’t be reversed.' />
             </Text>
             <Text as='p' className='block-unblock-user-modal__text' size='sm'>
-                Deposits via cards and the following payment methods aren’t included: Maestro, Diners Club, ZingPay,
-                Skrill, Neteller, Ozow, and UPI QR.
+                <Localize i18n_default_text='Deposits via cards and the following payment methods aren’t included: Maestro, Diners Club, ZingPay, Skrill, Neteller, Ozow, and UPI QR.' />
             </Text>
             <div className='block-unblock-user-modal__footer'>
                 <Button onClick={onRequestClose} size='lg' textSize='sm'>
-                    Ok
+                    <Localize i18n_default_text='Ok' />
                 </Button>
             </div>
         </Modal>

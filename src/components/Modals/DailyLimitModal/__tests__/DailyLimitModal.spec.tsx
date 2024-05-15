@@ -73,7 +73,7 @@ describe('DailyLimitModal', () => {
             name: 'Ok',
         });
         await userEvent.click(okBtn);
-        expect(mockOnRequestClose).toBeCalled();
+        expect(mockOnRequestClose).toHaveBeenCalled();
     });
     it('should render the error information when limits are unable to be upgraded', async () => {
         mockUseAdvertiserUpdate = {
@@ -87,7 +87,7 @@ describe('DailyLimitModal', () => {
 
         expect(
             screen.getByText(
-                `Sorry, we're unable to increase your limits right now. Please try again in a few minutes.`
+                'Sorry, we’re unable to increase your limits right now. Please try again in a few minutes.'
             )
         ).toBeVisible();
 

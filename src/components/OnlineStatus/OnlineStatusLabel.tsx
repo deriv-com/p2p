@@ -1,4 +1,5 @@
 import { getLastOnlineLabel } from '@/utils';
+import { useTranslations } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 
 type TOnlineStatusLabelProps = {
@@ -7,9 +8,10 @@ type TOnlineStatusLabelProps = {
 };
 
 const OnlineStatusLabel = ({ isOnline = false, lastOnlineTime }: TOnlineStatusLabelProps) => {
+    const { localize } = useTranslations();
     return (
         <Text color='less-prominent' size='sm'>
-            {getLastOnlineLabel(isOnline, lastOnlineTime)}
+            {getLastOnlineLabel(isOnline, localize, lastOnlineTime)}
         </Text>
     );
 };

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useCopyToClipboard } from 'usehooks-ts';
 import { LegacyCopy1pxIcon, LegacyWonIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Tooltip } from '@deriv-com/ui';
 import './Clipboard.scss';
 
@@ -13,6 +14,7 @@ const Clipboard = ({ textCopy }: TClipboardProps) => {
     const timeoutClipboardRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [, copy] = useCopyToClipboard();
     const [isCopied, setIsCopied] = useState(false);
+    const { localize } = useTranslations();
 
     const onClick = (event: { stopPropagation: () => void }) => {
         setIsCopied(true);
@@ -32,7 +34,7 @@ const Clipboard = ({ textCopy }: TClipboardProps) => {
     }, []);
 
     return (
-        <Tooltip message={isCopied ? 'Copied!' : 'Copy'} position='top'>
+        <Tooltip message={isCopied ? localize('Copied!') : localize('Copy')} position='top'>
             <button className='clipboard' onClick={onClick}>
                 {isCopied ? <LegacyWonIcon iconSize='xs' /> : <LegacyCopy1pxIcon iconSize='xs' />}
             </button>

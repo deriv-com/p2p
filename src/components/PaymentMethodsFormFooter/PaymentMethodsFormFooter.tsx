@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes, FormEvent, MouseEventHandler } from 'react';
 import { TFormState } from 'types';
+import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 import './PaymentMethodsFormFooter.scss';
 
@@ -50,9 +51,8 @@ const PaymentMethodsFormFooter = ({
                 textSize={textSize}
                 variant='outlined'
             >
-                Cancel
+                <Localize i18n_default_text='Cancel' />
             </Button>
-            {/* TODO: Remember to translate these */}
             <Button
                 disabled={isSubmitting || !isValid || !isDirty}
                 onClick={onSubmit as unknown as MouseEventHandler<HTMLButtonElement>}
@@ -60,7 +60,11 @@ const PaymentMethodsFormFooter = ({
                 textSize={textSize}
                 type={type}
             >
-                {actionType === 'ADD' ? 'Add' : 'Save changes'}
+                {actionType === 'ADD' ? (
+                    <Localize i18n_default_text='Add' />
+                ) : (
+                    <Localize i18n_default_text='Save changes' />
+                )}
             </Button>
         </div>
     );

@@ -1,5 +1,6 @@
 import { MouseEventHandler } from 'react';
 import { ORDER_TIME_INFO_MESSAGE } from '@/constants';
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text } from '@deriv-com/ui';
 
 type TOrderTimeTooltipModalProps = {
@@ -16,7 +17,9 @@ const OrderTimeTooltipModal = ({ isModalOpen, onRequestClose }: TOrderTimeToolti
                 </Text>
             </Modal.Body>
             <Modal.Footer hideBorder>
-                <Button onClick={onRequestClose}>Ok</Button>
+                <Button onClick={onRequestClose}>
+                    <Localize i18n_default_text='Ok' />
+                </Button>
             </Modal.Footer>
         </Modal>
     );

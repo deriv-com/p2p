@@ -34,8 +34,6 @@ const PaymentMethodCard = ({
 }: TPaymentMethodCardProps) => {
     const { display_name, isAvailable, type } = paymentMethod;
 
-    // TODO: Add logic to display the "add" icon here when working on the sell modal under the sell tab
-
     const toAdd = !!(isAvailable ?? isAvailable === undefined);
     const isSelected = !!paymentMethod.id && selectedPaymentMethodIds.includes(Number(paymentMethod.id));
 

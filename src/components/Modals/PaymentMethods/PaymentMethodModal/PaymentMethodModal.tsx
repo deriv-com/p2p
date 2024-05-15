@@ -23,7 +23,6 @@ const PaymentMethodModal = ({
     const { isMobile } = useDevice();
     const buttonTextSize = isMobile ? 'md' : 'sm';
 
-    // TODO: Remember to translate these strings
     return (
         <Modal
             ariaHideApp={false}

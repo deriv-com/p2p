@@ -1,3 +1,4 @@
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './PaymentMethodErrorModal.scss';
 
@@ -11,7 +12,6 @@ type TPaymentMethodErrorModalProps = {
 const PaymentMethodErrorModal = ({ errorMessage, isModalOpen, onConfirm, title }: TPaymentMethodErrorModalProps) => {
     const { isMobile } = useDevice();
 
-    // TODO: Remember to translate these strings
     return (
         <Modal
             ariaHideApp={false}
@@ -28,7 +28,7 @@ const PaymentMethodErrorModal = ({ errorMessage, isModalOpen, onConfirm, title }
             </Modal.Body>
             <Modal.Footer className='payment-method-error-modal__footer' hideBorder>
                 <Button onClick={onConfirm} size='lg' textSize={isMobile ? 'md' : 'sm'}>
-                    Ok
+                    <Localize i18n_default_text='Ok' />
                 </Button>
             </Modal.Footer>
         </Modal>

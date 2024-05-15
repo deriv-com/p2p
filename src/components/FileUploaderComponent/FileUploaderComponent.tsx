@@ -1,6 +1,7 @@
 import { memo, useCallback } from 'react';
 import { DropEvent, FileRejection } from 'react-dropzone';
 import { DerivLightIcCloudUploadIcon, StandaloneCircleXmarkBoldIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 import { FileDropzone } from '../FileDropzone';
 import './FileUploaderComponent.scss';
@@ -30,6 +31,7 @@ const FileUploaderComponent = ({
     validationErrorMessage,
     value,
 }: TFileUploaderComponentProps) => {
+    const { localize } = useTranslations();
     const getUploadMessage = useCallback(() => {
         return (
             <>
@@ -45,7 +47,7 @@ const FileUploaderComponent = ({
         <div className='file-uploader-component'>
             <FileDropzone
                 accept={accept}
-                errorMessage='Please upload supported file type.'
+                errorMessage={localize('Please upload supported file type.')}
                 filenameLimit={26}
                 hoverMessage={hoverMessage}
                 maxSize={maxSize}
