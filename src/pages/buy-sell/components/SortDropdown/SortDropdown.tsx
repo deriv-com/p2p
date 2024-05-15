@@ -1,6 +1,7 @@
 import { MutableOption } from 'types';
 import { TSortByValues } from '@/utils';
 import { LabelPairedChevronDownMdRegularIcon, LabelPairedSortCaptionRegularIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Button, Dropdown, useDevice } from '@deriv-com/ui';
 import './SortDropdown.scss';
 
@@ -13,6 +14,7 @@ type TSortDropdownProps = {
 
 const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDropdownProps) => {
     const { isMobile } = useDevice();
+    const { localize } = useTranslations();
 
     if (isMobile) {
         return (
@@ -37,7 +39,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
         <div className='sort-dropdown'>
             <Dropdown
                 dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
-                label='Sort by'
+                label={localize('Sort by')}
                 list={list as unknown as MutableOption[]}
                 name='Sort by'
                 onSelect={value => onSelect(value as TSortByValues)}

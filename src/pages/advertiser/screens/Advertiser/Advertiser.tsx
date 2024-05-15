@@ -3,11 +3,13 @@ import { PageReturn, ProfileContent } from '@/components';
 import { BUY_SELL_URL, MY_PROFILE_URL } from '@/constants';
 import { api } from '@/hooks';
 import { LabelPairedEllipsisVerticalLgRegularIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
 import { AdvertiserAdvertsTable } from '../AdvertiserAdvertsTable';
 import './Advertiser.scss';
 
 const Advertiser = () => {
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const { advertiserId } = useParams<{ advertiserId: string }>();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
@@ -30,7 +32,7 @@ const Advertiser = () => {
                             : BUY_SELL_URL
                     )
                 }
-                pageTitle='Advertiser’s page'
+                pageTitle={localize('Advertiser’s page')}
                 {...(isMobile && {
                     rightPlaceHolder: <LabelPairedEllipsisVerticalLgRegularIcon className='cursor-pointer' />,
                 })}

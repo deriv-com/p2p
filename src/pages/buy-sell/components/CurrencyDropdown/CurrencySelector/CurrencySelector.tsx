@@ -2,6 +2,7 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import { TCurrencyListItem } from 'types';
 import { Search } from '@/components';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import './CurrencySelector.scss';
 
@@ -12,6 +13,7 @@ type TCurrencySelectorProps = {
 };
 
 const CurrencySelector = ({ localCurrencies, onSelectItem, selectedCurrency }: TCurrencySelectorProps) => {
+    const { localize } = useTranslations();
     const [searchedCurrency, setSearchedCurrency] = useState<string>('');
     const [searchedCurrencies, setSearchedCurrencies] = useState(localCurrencies);
     const { isMobile } = useDevice();
@@ -42,7 +44,7 @@ const CurrencySelector = ({ localCurrencies, onSelectItem, selectedCurrency }: T
                 delayTimer={0}
                 name='search-currency'
                 onSearch={(value: string) => searchCurrencies(value)}
-                placeholder='Search'
+                placeholder={localize('Search')}
             />
             <div className='currency-selector__list'>
                 {searchedCurrencies.length > 0 ? (
@@ -80,7 +82,10 @@ const CurrencySelector = ({ localCurrencies, onSelectItem, selectedCurrency }: T
                         size={textSize}
                         weight={isMobile ? 'bold' : 'normal'}
                     >
-                        No results for &quot;{searchedCurrency}&quot;.
+                        <Localize
+                            i18n_default_text='No results for "{{searchedCurrency}}".'
+                            values={{ searchedCurrency }}
+                        />
                     </Text>
                 )}
             </div>
