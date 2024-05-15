@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
 import clsx from 'clsx';
 import { TAdvertiserStats } from 'types';
+import { useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import './ProfileStats.scss';
 
 const ProfileStats = ({ advertiserStats }: { advertiserStats: Partial<TAdvertiserStats> }) => {
     const { isMobile } = useDevice();
+    const { localize } = useTranslations();
 
     const advertiserStatsList = useMemo(() => {
         if (!advertiserStats) return [];
@@ -23,18 +25,24 @@ const ProfileStats = ({ advertiserStats }: { advertiserStats: Partial<TAdvertise
 
         return [
             {
-                text: 'Buy completion 30d',
+                text: localize('Buy completion 30d'),
                 value: buyCompletionRate && buyCompletionRate > 0 ? `${buyCompletionRate}% (${buyOrdersCount})` : '-',
             },
             {
-                text: 'Sell completion 30d',
+                text: localize('Sell completion 30d'),
                 value:
                     sellCompletionRate && sellCompletionRate > 0 ? `${sellCompletionRate}% (${sellOrdersCount})` : '-',
             },
-            { text: 'Trade volume 30d', value: `${tradeVolume ? tradeVolume.toFixed(2) : '0.00'} USD` },
-            { text: 'Avg pay time 30d', value: averagePayTime !== -1 ? `${averagePayTime} min` : '-' },
-            { text: 'Avg release time 30d', value: averageReleaseTime !== -1 ? `${averageReleaseTime} min` : '-' },
-            { text: 'Trade partners', value: tradePartners },
+            { text: localize('Trade volume 30d'), value: `${tradeVolume ? tradeVolume.toFixed(2) : '0.00'} USD` },
+            {
+                text: localize('Avg pay time 30d'),
+                value: averagePayTime !== -1 ? `${averagePayTime} ${localize('min')}` : '-',
+            },
+            {
+                text: localize('Avg release time 30d'),
+                value: averageReleaseTime !== -1 ? `${averageReleaseTime} ${localize('min')}` : '-',
+            },
+            { text: localize('Trade partners'), value: tradePartners },
         ];
     }, [advertiserStats]);
 

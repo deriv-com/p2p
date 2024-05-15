@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { THooks } from 'types';
 import { Search } from '@/components/Search';
 import { api } from '@/hooks';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Checkbox, Text } from '@deriv-com/ui';
 import './FilterModalPaymentMethods.scss';
 
@@ -14,6 +15,7 @@ const FilterModalPaymentMethods = ({
     selectedPaymentMethods,
     setSelectedPaymentMethods,
 }: TFilterModalPaymentMethodsProps) => {
+    const { localize } = useTranslations();
     const { data = [] } = api.paymentMethods.useGet();
     const [searchedPaymentMethod, setSearchedPaymentMethod] = useState<string>('');
     const [searchedPaymentMethods, setSearchedPaymentMethods] = useState<THooks.PaymentMethods.Get>(data);
@@ -41,7 +43,7 @@ const FilterModalPaymentMethods = ({
                 delayTimer={0}
                 name='search-payment-method'
                 onSearch={(value: string) => onSearch(value)}
-                placeholder='Search payment method'
+                placeholder={localize('Search payment method')}
             />
             {searchedPaymentMethods?.length > 0 ? (
                 <div>
@@ -67,9 +69,14 @@ const FilterModalPaymentMethods = ({
             ) : (
                 <div className='flex flex-col justify-center mt-64 break-all'>
                     <Text align='center' weight='bold'>
-                        No results for &quot;{searchedPaymentMethod}&quot;.
+                        <Localize
+                            i18n_default_text='No results for "{{value}}".'
+                            values={{ value: searchedPaymentMethod }}
+                        />
                     </Text>
-                    <Text align='center'>Check your spelling or use a different term.</Text>
+                    <Text align='center'>
+                        <Localize i18n_default_text='Check your spelling or use a different term.' />
+                    </Text>
                 </div>
             )}
         </div>

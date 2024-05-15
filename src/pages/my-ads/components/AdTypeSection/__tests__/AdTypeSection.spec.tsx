@@ -7,10 +7,6 @@ jest.mock('../../AdFormTextArea', () => ({
     AdFormTextArea: () => <div>AdFormTextArea</div>,
 }));
 
-jest.mock('@deriv-com/translations', () => ({
-    ...jest.requireActual('@deriv-com/translations'),
-    useTranslations: () => ({ localize: jest.fn() }),
-}));
 const mockSetFieldValue = jest.fn();
 const mockTriggerFunction = jest.fn();
 jest.mock('react-hook-form', () => ({

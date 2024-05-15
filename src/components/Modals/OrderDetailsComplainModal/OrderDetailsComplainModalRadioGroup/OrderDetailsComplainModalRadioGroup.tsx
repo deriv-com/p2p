@@ -1,4 +1,5 @@
 import { RadioGroup } from '@/components';
+import { useTranslations } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
 import './OrderDetailsComplainModalRadioGroup.scss';
 
@@ -8,30 +9,30 @@ type TOrderDetailsComplainModalRadioGroupProps = {
     onCheckboxChange: (reason: string) => void;
 };
 
-const getRadioItems = (isBuyOrderForUser: boolean) => {
+const getRadioItems = (isBuyOrderForUser: boolean, localize: (key: string) => string) => {
     const radioItems = [
         {
             label: isBuyOrderForUser
-                ? 'I’ve made full payment, but the seller hasn’t released the funds.'
-                : 'I’ve not received any payment.',
+                ? localize('I’ve made full payment, but the seller hasn’t released the funds.')
+                : localize('I’ve not received any payment.'),
             value: isBuyOrderForUser ? 'seller_not_released' : 'buyer_not_paid',
         },
         {
             label: isBuyOrderForUser
-                ? 'I wasn’t able to make full payment.'
-                : 'I’ve received less than the agreed amount.',
+                ? localize('I wasn’t able to make full payment.')
+                : localize('I’ve received less than the agreed amount.'),
             value: 'buyer_underpaid',
         },
         {
             label: isBuyOrderForUser
-                ? 'I’ve paid more than the agreed amount.'
-                : 'I’ve received more than the agreed amount.',
+                ? localize('I’ve paid more than the agreed amount.')
+                : localize('I’ve received more than the agreed amount.'),
             value: 'buyer_overpaid',
         },
         {
             hidden: isBuyOrderForUser,
-            label: 'I’ve received payment from 3rd party.',
-            value: 'buyer_third_party_payment_method',
+            label: localize('I’ve received payment from 3rd party.'),
+            value: localize('buyer_third_party_payment_method'),
         },
     ];
 
@@ -44,6 +45,7 @@ const OrderDetailsComplainModalRadioGroup = ({
 }: TOrderDetailsComplainModalRadioGroupProps) => {
     const { isMobile } = useDevice();
 
+    const { localize } = useTranslations();
     return (
         <RadioGroup
             className='order-details-complain-modal-radio-group'
@@ -53,7 +55,7 @@ const OrderDetailsComplainModalRadioGroup = ({
             selected={disputeReason}
             textSize={isMobile ? 'md' : 'sm'}
         >
-            {getRadioItems(isBuyOrderForUser).map(item => (
+            {getRadioItems(isBuyOrderForUser, localize).map(item => (
                 <RadioGroup.Item hidden={item.hidden} key={item.label} label={item.label} value={item.value} />
             ))}
         </RadioGroup>

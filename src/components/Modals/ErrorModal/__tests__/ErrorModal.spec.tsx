@@ -16,7 +16,7 @@ const mockProps = {
 describe('ErrorModal', () => {
     it('should render the component as expected', () => {
         render(<ErrorModal {...mockProps} />);
-        expect(screen.getByText("Something's not right")).toBeInTheDocument();
+        expect(screen.getByText('Something’s not right')).toBeInTheDocument();
     });
     it('should call onRequestClose when the close button is clicked', async () => {
         render(<ErrorModal {...mockProps} />);

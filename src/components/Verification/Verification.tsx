@@ -1,38 +1,40 @@
 import { Checklist } from '@/components';
 import { useDevice, usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { DerivLightIcCashierSendEmailIcon } from '@deriv/quill-icons';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Loader, Text } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
 import './Verification.scss';
 
-const getPoiAction = (status: string | undefined) => {
+const getPoiAction = (status: string | undefined, localize: (key: string) => string) => {
     switch (status) {
         case 'pending':
-            return 'Identity verification in progress.';
+            return localize('Identity verification in progress.');
         case 'rejected':
-            return 'Identity verification failed. Please try again.';
+            return localize('Identity verification failed. Please try again.');
         case 'verified':
-            return 'Identity verification complete.';
+            return localize('Identity verification complete.');
         default:
-            return 'Upload documents to verify your identity.';
+            return localize('Upload documents to verify your identity.');
     }
 };
 
-const getPoaAction = (status: string | undefined) => {
+const getPoaAction = (status: string | undefined, localize: (key: string) => string) => {
     switch (status) {
         case 'pending':
-            return 'Address verification in progress.';
+            return localize('Address verification in progress.');
         case 'rejected':
-            return 'Address verification failed. Please try again.';
+            return localize('Address verification failed. Please try again.');
         case 'verified':
-            return 'Address verification complete.';
+            return localize('Address verification complete.');
         default:
-            return 'Upload documents to verify your address.';
+            return localize('Upload documents to verify your address.');
     }
 };
 
 const Verification = () => {
     const { isMobile } = useDevice();
+    const { localize } = useTranslations();
     const { data, isLoading } = usePoiPoaStatus();
     const { isP2PPoaRequired, isPoaPending, isPoaVerified, isPoiPending, isPoiVerified, poaStatus, poiStatus } =
         data || {};
@@ -60,7 +62,7 @@ const Verification = () => {
             },
             status: isPoiVerified ? 'done' : 'action',
             testId: 'dt_verification_poi_arrow_button',
-            text: getPoiAction(poiStatus),
+            text: getPoiAction(poiStatus, localize),
         },
         ...(isP2PPoaRequired
             ? [
@@ -72,7 +74,7 @@ const Verification = () => {
                       },
                       status: isPoaVerified ? 'done' : 'action',
                       testId: 'dt_verification_poa_arrow_button',
-                      text: getPoaAction(poaStatus),
+                      text: getPoaAction(poaStatus, localize),
                   },
               ]
             : []),
@@ -84,10 +86,10 @@ const Verification = () => {
         <div className='verification'>
             <DerivLightIcCashierSendEmailIcon className='verification__icon' height={128} width={128} />
             <Text className='verification__text' size={isMobile ? 'lg' : 'md'} weight='bold'>
-                Verify your P2P account
+                <Localize i18n_default_text='Verify your P2P account' />
             </Text>
             <Text align='center' className='verification__text' size={isMobile ? 'lg' : 'sm'}>
-                Verify your identity and address to use Deriv P2P.
+                <Localize i18n_default_text='Verify your identity and address to use Deriv P2P.' />
             </Text>
             <Checklist items={checklistItems} />
         </div>

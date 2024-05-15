@@ -1,5 +1,6 @@
 import { api } from '@/hooks';
 import { convertToMillis, getFormattedDateString } from '@/utils';
+import { Localize } from '@deriv-com/translations';
 import { InlineMessage, useDevice } from '@deriv-com/ui';
 
 const TemporarilyBarredHint = () => {
@@ -14,8 +15,10 @@ const TemporarilyBarredHint = () => {
             iconPosition={isMobile ? 'top' : 'center'}
             variant='warning'
         >
-            You’ve been temporarily barred from using our services due to multiple cancellation attempts. Try again
-            after {getFormattedDateString(new Date(convertToMillis(data.blocked_until)))} GMT.
+            <Localize
+                i18n_default_text='You’ve been temporarily barred from using our services due to multiple cancellation attempts. Try again after {{blocked_until}} GMT.'
+                values={{ blocked_until: getFormattedDateString(new Date(convertToMillis(data.blocked_until))) }}
+            />
         </InlineMessage>
     );
 };
