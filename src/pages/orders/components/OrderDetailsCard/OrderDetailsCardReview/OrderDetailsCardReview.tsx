@@ -1,18 +1,28 @@
 import { useEffect, useState } from 'react';
 import { StarRating } from '@/components';
+import { RatingModal } from '@/components/Modals';
 import { api } from '@/hooks';
+import { useModalManager } from '@/hooks/custom-hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { getDateAfterHours } from '@/utils';
 import { StandaloneStarFillIcon } from '@deriv/quill-icons';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import { RecommendationStatus } from './RecommendationStatus';
 
-const OrderDetailsCardReview = () => {
+type TOrderDetailsCardReviewProps = {
+    setShowRatingModal: (showRatingModal: boolean) => void;
+    showRatingModal: boolean;
+};
+
+const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderDetailsCardReviewProps) => {
     const { orderDetails } = useOrderDetails();
     const {
+        client_details: clientDetails,
         completion_time: completionTime,
         hasReviewDetails,
+        id,
         is_reviewable: isReviewable,
+        isBuyOrderForUser,
         isCompletedOrder,
         review_details: reviewDetails,
     } = orderDetails;
@@ -20,6 +30,11 @@ const OrderDetailsCardReview = () => {
     const [remainingReviewTime, setRemainingReviewTime] = useState<string | null>(null);
     const ratingAverageDecimals = reviewDetails ? Number(Number(reviewDetails.rating).toFixed(1)) : 0;
     const { isMobile } = useDevice();
+    const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
+
+    useEffect(() => {
+        if (showRatingModal) showModal('RatingModal');
+    }, [showModal, showRatingModal]);
 
     useEffect(() => {
         if (completionTime && p2pSettingsData?.review_period) {
@@ -35,6 +50,7 @@ const OrderDetailsCardReview = () => {
                     color='black'
                     disabled={!isReviewable}
                     icon={<StandaloneStarFillIcon fill='#FFAD3A' height={18} width={18} />}
+                    onClick={() => showModal('RatingModal')}
                     variant='outlined'
                 >
                     <Text size={isMobile ? 'sm' : 'xs'}>{isReviewable ? 'Rate this transaction' : 'Not rated'}</Text>
@@ -44,6 +60,19 @@ const OrderDetailsCardReview = () => {
                         ? `You have until ${remainingReviewTime} GMT to rate this transaction.`
                         : 'You can no longer rate this transaction.'}
                 </Text>
+                {!!isModalOpenFor('RatingModal') && (
+                    <RatingModal
+                        isBuyOrder={isBuyOrderForUser}
+                        isModalOpen
+                        isRecommended={clientDetails?.is_recommended}
+                        isRecommendedPreviously={!clientDetails?.has_not_been_recommended}
+                        onRequestClose={() => {
+                            if (showRatingModal) setShowRatingModal(false);
+                            hideModal();
+                        }}
+                        orderId={id}
+                    />
+                )}
             </div>
         );
 

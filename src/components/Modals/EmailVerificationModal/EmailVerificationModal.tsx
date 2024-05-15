@@ -51,7 +51,7 @@ const EmailVerificationModal = ({
 
     const [timeLeft, setTimeLeft] = useState<number>(Math.round(nextRequestTime - timeNow));
 
-    const [countdownTime, { startCountdown }] = useCountdown({
+    const [, { startCountdown }] = useCountdown({
         countStart: timeLeft,
         intervalMs: 1000,
     });
@@ -99,8 +99,8 @@ const EmailVerificationModal = ({
                             </div>
                         ))}
                         <div className='flex justify-center'>
-                            <Button disabled={countdownTime > 0} onClick={onResendEmail} size='md'>
-                                Resend email {countdownTime > 0 && `${countdownTime}s`}
+                            <Button disabled={timeLeft > 0} onClick={onResendEmail} size='md'>
+                                Resend email {timeLeft > 0 && `${timeLeft}s`}
                             </Button>
                         </div>
                     </div>

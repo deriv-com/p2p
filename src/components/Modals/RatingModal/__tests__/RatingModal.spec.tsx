@@ -5,9 +5,10 @@ import RatingModal, { TRatingModalProps } from '../RatingModal';
 let mockProps: TRatingModalProps = {
     isBuyOrder: true,
     isModalOpen: true,
-    isRecommendedPreviously: null,
+    isRecommended: undefined,
+    isRecommendedPreviously: false,
     onRequestClose: jest.fn(),
-    ratingValue: 0,
+    orderId: '12345',
 };
 
 const disabledClassName = 'rating-modal__button--disabled';
@@ -31,7 +32,7 @@ describe('<RatingModal />', () => {
     });
 
     it('should show the recommendation buttons if ratingValue is passed ', () => {
-        mockProps = { ...mockProps, ratingValue: 4 };
+        mockProps = { ...mockProps };
         render(<RatingModal {...mockProps} />);
 
         expect(screen.getByText('Would you recommend this buyer?')).toBeInTheDocument();
@@ -42,7 +43,7 @@ describe('<RatingModal />', () => {
     });
 
     it('should enable the Yes button when clicked and disabled the No button if isRecommendedPreviously is 0', async () => {
-        mockProps = { ...mockProps, isRecommendedPreviously: 0 };
+        mockProps = { ...mockProps };
 
         render(<RatingModal {...mockProps} />);
 
@@ -57,7 +58,7 @@ describe('<RatingModal />', () => {
     });
 
     it('should enable the No button when clicked and disabled the Yes button if isRecommendedPreviously is 1', async () => {
-        mockProps = { ...mockProps, isRecommendedPreviously: 1 };
+        mockProps = { ...mockProps, isRecommendedPreviously: true };
 
         render(<RatingModal {...mockProps} />);
 

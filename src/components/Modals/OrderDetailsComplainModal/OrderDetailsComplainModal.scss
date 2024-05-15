@@ -1,5 +1,8 @@
 .order-details-complain-modal {
+    height: fit-content;
     width: 44rem;
+    border-radius: 8px;
+
     &__body {
         padding: 1.6rem;
         padding-top: 0;
@@ -23,7 +26,7 @@
         top: 0;
         left: 0;
         z-index: 1;
-        height: calc(100vh - 8rem);
+        height: calc(100vh - 4rem);
 
         & .mobile-wrapper__body {
             padding: 0 1.6rem;

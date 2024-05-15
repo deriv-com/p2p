@@ -7,7 +7,6 @@ import { useExtendedOrderDetails, useSendbird } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
-import { useAuthData } from '@deriv-com/api-hooks';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
 import { OrderDetailsCard } from '../../components/OrderDetailsCard';
 import { OrderDetailsCardFooter } from '../../components/OrderDetailsCard/OrderDetailsCardFooter';
@@ -17,11 +16,11 @@ import './OrderDetails.scss';
 const OrderDetails = () => {
     const history = useHistory();
     const location = useLocation();
+    const codeParam = new URLSearchParams(location.search).get('code');
     const showChatParam = new URLSearchParams(location.search).get('showChat');
     const [showChat, setShowChat] = useState(!!showChatParam);
 
     const { orderId } = useParams<{ orderId: string }>();
-    const { isAuthorized: isSuccess } = useAuthData();
     const { data: orderInfo, error, isLoading, subscribe, unsubscribe } = api.order.useGet();
     const { data: activeAccount } = api.account.useActiveAccount();
     const { data: serverTime } = api.account.useServerTime();
@@ -38,9 +37,6 @@ const OrderDetails = () => {
     const warningMessage = 'Don’t risk your funds with cash transactions. Use bank transfers or e-wallets instead.';
 
     const onReturn = () => {
-        const searchParams = new URLSearchParams(location.search);
-        const codeParam = searchParams.get('code');
-
         if ((location.state as { from: string })?.from === 'Orders' || codeParam) history.push(ORDERS_URL);
         else if ((location.state as { from: string })?.from === 'BuySell') history.push(BUY_SELL_URL);
         else history.goBack();
@@ -52,16 +48,15 @@ const OrderDetails = () => {
     };
 
     useEffect(() => {
-        if (isSuccess) {
-            subscribe({
-                id: orderId,
-            });
-        }
+        subscribe({
+            id: orderId,
+        });
 
         return () => {
             unsubscribe();
         };
-    }, [isSuccess, orderId]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [orderId]);
 
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 

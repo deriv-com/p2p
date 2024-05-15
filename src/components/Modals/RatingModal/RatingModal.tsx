@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { StarRating } from '@/components';
+import { api } from '@/hooks';
 import { StandaloneThumbsDownRegularIcon, StandaloneThumbsUpRegularIcon } from '@deriv/quill-icons';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './RatingModal.scss';
@@ -8,21 +9,24 @@ import './RatingModal.scss';
 export type TRatingModalProps = {
     isBuyOrder: boolean;
     isModalOpen: boolean;
-    isRecommendedPreviously: number | null;
+    isRecommended?: boolean;
+    isRecommendedPreviously?: boolean;
     onRequestClose: () => void;
-    ratingValue: number;
+    orderId: string;
 };
 
 const RatingModal = ({
     isBuyOrder,
     isModalOpen,
+    isRecommended,
     isRecommendedPreviously,
     onRequestClose,
-    ratingValue,
+    orderId,
 }: TRatingModalProps) => {
-    const [rating, setRating] = useState<number>(ratingValue);
+    const [rating, setRating] = useState<number>(0);
     const [isNoSelected, setIsNoSelected] = useState(false);
     const [isYesSelected, setIsYesSelected] = useState(false);
+    const { mutate } = api.orderReview.useReview();
 
     const { isMobile } = useDevice();
     const buttonTextSize = isMobile ? 'sm' : 'xs';
@@ -41,14 +45,24 @@ const RatingModal = ({
         setIsNoSelected(prevState => !prevState);
     };
 
+    const getRecommendedValue = () => {
+        if (isYesSelected || isNoSelected) {
+            if (isYesSelected) return 1;
+            else if (isNoSelected) return 0;
+        } else {
+            return undefined;
+        }
+    };
+
     useEffect(() => {
-        if (isRecommendedPreviously !== null) {
-            if (isRecommendedPreviously) {
+        if (isRecommendedPreviously) {
+            if (isRecommended) {
                 setIsYesSelected(true);
             } else {
                 setIsNoSelected(true);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -64,7 +78,7 @@ const RatingModal = ({
                 </div>
                 {rating > 0 && (
                     <div className='lg:px-0 pt-8 px-[2.4rem]'>
-                        <Text size='sm'>Would you recommend this {`${isBuyOrder ? 'buyer' : 'seller'}`}?</Text>
+                        <Text size='sm'>Would you recommend this {`${isBuyOrder ? 'seller' : 'buyer'}`}?</Text>
                         <div className='mt-6 flex gap-3'>
                             <Button
                                 className={clsx('rating-modal__button', {
@@ -108,7 +122,14 @@ const RatingModal = ({
                 <Button
                     className='border-2'
                     color={rating ? 'primary' : 'black'}
-                    onClick={onRequestClose}
+                    onClick={() => {
+                        mutate({
+                            order_id: orderId,
+                            rating,
+                            recommended: getRecommendedValue(),
+                        });
+                        onRequestClose();
+                    }}
                     size='lg'
                     textSize={isMobile ? 'md' : 'sm'}
                     variant={rating ? 'contained' : 'outlined'}

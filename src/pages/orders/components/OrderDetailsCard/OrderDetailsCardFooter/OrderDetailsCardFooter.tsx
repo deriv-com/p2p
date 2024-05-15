@@ -14,15 +14,17 @@ import { api } from '@/hooks';
 import { useModalManager } from '@/hooks/custom-hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { Button, useDevice } from '@deriv-com/ui';
+import { OrderDetailsCardReview } from '../OrderDetailsCardReview';
 import './OrderDetailsCardFooter.scss';
 
-// TODO: Implement functionality for each button when integrating with the API and disable buttons while chat is loading
 const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }) => {
     const [verificationCode, setVerificationCode] = useState<string | undefined>(undefined);
+    const [showRatingModal, setShowRatingModal] = useState(false);
     const { orderDetails } = useOrderDetails();
     const {
         id,
         isBuyOrderForUser,
+        isCompletedOrder,
         shouldShowCancelAndPaidButton,
         shouldShowComplainAndReceivedButton,
         shouldShowOnlyComplainButton,
@@ -32,14 +34,13 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
 
     const { isMobile } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
-    const { data, error, isError, isSuccess, mutate } = api.order.useConfirm();
+    const { data, error, isError, isSuccess, mutate, reset } = api.order.useConfirm();
     const textSize = isMobile ? 'md' : 'sm';
 
     const history = useHistory();
     const location = useLocation();
 
-    //TODO: handle email verification, invalid verification, and rating modals.
-    const handleModalDisplay = (isError: boolean, isBuyOrderForUser: boolean, isSuccess: boolean, code?: string) => {
+    const handleModalDisplay = (code?: string) => {
         if (isError) {
             if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && verification_next_request) {
                 showModal('EmailVerificationModal');
@@ -50,11 +51,13 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                 showModal('InvalidVerificationLinkModal');
             } else if (code === ERROR_CODES.EXCESSIVE_VERIFICATION_FAILURES) {
                 showModal('EmailLinkBlockedModal');
+            } else if (code === ERROR_CODES.ORDER_CONFIRM_COMPLETED) {
+                history.replace({ pathname: location.pathname, search: '' });
             }
         } else if (isSuccess && verificationCode && data?.is_dry_run_successful) {
             showModal('EmailLinkVerifiedModal');
         } else if (isSuccess && !isBuyOrderForUser && orderDetails?.status === 'completed') {
-            showModal('RatingModal');
+            setShowRatingModal(true);
         }
     };
 
@@ -79,9 +82,13 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     }, [verificationCode]);
 
     useEffect(() => {
-        handleModalDisplay(isError, isBuyOrderForUser, isSuccess, error?.error?.code);
+        handleModalDisplay(error?.error?.code);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [error?.error, isBuyOrderForUser, isError, isSuccess, verification_next_request, data?.is_dry_run_successful]);
+    }, [error?.error, isBuyOrderForUser, isError, isSuccess, verification_next_request, data, orderDetails?.status]);
+
+    if (isCompletedOrder) {
+        return <OrderDetailsCardReview setShowRatingModal={setShowRatingModal} showRatingModal={showRatingModal} />;
+    }
 
     if (
         !shouldShowCancelAndPaidButton &&
@@ -193,7 +200,10 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                     error={error?.error}
                     isModalOpen
                     mutate={() => mutate({ id })}
-                    onRequestClose={hideModal}
+                    onRequestClose={() => {
+                        hideAndClearSearchParams();
+                        reset();
+                    }}
                 />
             )}
             {!!isModalOpenFor('EmailLinkBlockedModal') && (
@@ -209,7 +219,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                     onRequestClose={hideAndClearSearchParams}
                     onSubmit={() => {
                         mutate({ id, verification_code: verificationCode });
-                        hideAndClearSearchParams();
+                        history.replace({ pathname: location.pathname, search: '' });
                     }}
                 />
             )}
