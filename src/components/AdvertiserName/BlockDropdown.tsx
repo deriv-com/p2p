@@ -18,7 +18,6 @@ const BlockDropdown = ({ id, onClickBlocked }: TBlockDropdownProps) => {
     return (
         <div className='block-dropdown'>
             <Dropdown
-                className='block-dropdown__header-dropdown'
                 dropdownIcon={<LabelPairedEllipsisVerticalXlRegularIcon data-testid='dt_block_dropdown_icon' />}
                 list={[
                     {
