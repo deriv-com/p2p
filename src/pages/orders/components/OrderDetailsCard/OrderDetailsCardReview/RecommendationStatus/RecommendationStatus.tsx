@@ -1,6 +1,5 @@
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { StandaloneThumbsDownRegularIcon, StandaloneThumbsUpRegularIcon } from '@deriv/quill-icons';
-import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 
 const RecommendationStatus = () => {
@@ -16,12 +15,12 @@ const RecommendationStatus = () => {
             {reviewDetails?.recommended ? (
                 <>
                     <StandaloneThumbsUpRegularIcon className='mb-[0.3rem]' fill='#4BB4B3' iconSize='sm' />
-                    <Localize i18n_default_text='Recommended' />
+                    Recommended
                 </>
             ) : (
                 <>
                     <StandaloneThumbsDownRegularIcon fill='#ec3f3f' iconSize='sm' />
-                    <Localize i18n_default_text='Not Recommended' />
+                    Not Recommended
                 </>
             )}
         </Text>
