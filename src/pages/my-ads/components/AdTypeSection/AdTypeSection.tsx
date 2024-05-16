@@ -122,7 +122,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                                 />
                             );
                         }}
-                        rules={{ validate: getValidationRules('rate-value', getValues, localize) }}
+                        rules={{ validate: getValidationRules('rate-value', getValues) }}
                     />
                 ) : (
                     <AdFormInput

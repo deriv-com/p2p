@@ -1,4 +1,5 @@
 import moment, { Duration } from 'moment';
+import { localize } from '@deriv-com/translations';
 import { epochToMoment, toMoment } from './time';
 
 /**
@@ -11,36 +12,36 @@ export const getDiffDuration = (startTime: number, endTime: number): Duration =>
     moment.duration(moment.unix(endTime).diff(moment.unix(startTime)));
 
 const getStatusLabel = (diff: Duration) => {
-    if (diff.years()) return 'Seen more than 6 months ago';
+    if (diff.years()) return localize('Seen more than 6 months ago');
 
     if (diff.months()) {
         if (diff.months() > 6) {
-            return 'Seen more than 6 months ago';
+            return localize('Seen more than 6 months ago');
         }
         if (diff.months() === 1) {
-            return `Seen ${diff.months()} month ago`;
+            return localize('Seen 1 month ago');
         }
-        return `Seen ${diff.months()} months ago`;
+        return localize('Seen {{diff}} months ago', { diff: diff.months() });
     }
     if (diff.days()) {
         if (diff.days() === 1) {
-            return `Seen ${diff.days()} day ago`;
+            return localize('Seen 1 day ago');
         }
-        return `Seen ${diff.days()} days ago`;
+        return localize('Seen {{days}} days ago', { days: diff.days() });
     }
     if (diff.hours()) {
         if (diff.hours() === 1) {
-            return `Seen ${diff.hours()} hour ago`;
+            return localize('Seen 1 hour ago');
         }
-        return `Seen ${diff.hours()} hours ago`;
+        return localize('Seen {{hours}} hours ago', { hours: diff.hours() });
     }
     if (diff.minutes()) {
         if (diff.minutes() === 1) {
-            return `Seen ${diff.minutes()} minute ago`;
+            return localize('Seen 1 minute ago');
         }
-        return `Seen ${diff.minutes()} minutes ago`;
+        return localize('Seen {{dif}} minutes ago', { dif: diff.minutes() });
     }
-    return 'Online';
+    return localize('Online');
 };
 
 const getTimeDifference = (lastSeenOnline: number) => {

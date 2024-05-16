@@ -1,3 +1,5 @@
+import { localize } from '@deriv-com/translations';
+
 export const ORDERS_STATUS = {
     ACTIVE_ORDERS: 'Active orders',
     BUYER_CONFIRMED: 'buyer-confirmed',
@@ -15,19 +17,19 @@ export const ORDERS_STATUS = {
 //TODO: Below constant to be removed once list is fetched from API
 export const ORDER_COMPLETION_TIME_LIST = [
     {
-        text: '1 hour',
+        text: localize('1 hour'),
         value: '3600',
     },
     {
-        text: '45 minutes',
+        text: localize('45 minutes'),
         value: '2700',
     },
     {
-        text: '30 minutes',
+        text: localize('30 minutes'),
         value: '1800',
     },
     {
-        text: '15 minutes',
+        text: localize('15 minutes'),
         value: '900',
     },
 ] as const;

@@ -28,7 +28,6 @@ export * from './Search';
 export * from './StarRating';
 export * from './Table';
 export * from './TemporarilyBarredHint';
-export * from './TextArea';
 export * from './TextField';
 export * from './UserAvatar';
 export * from './Verification';
