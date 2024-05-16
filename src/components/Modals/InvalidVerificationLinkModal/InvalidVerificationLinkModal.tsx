@@ -42,15 +42,18 @@ const InvalidVerificationLinkModal = ({
                     'py-0 px-[1.4rem] gap-[1.4rem]': isExcessiveErrorMobile,
                 })}
             >
-                {isInvalidVerification || !error ? (
+                {isInvalidVerification ? (
                     <DerivLightIcEmailVerificationLinkInvalidIcon height={iconSize} width={iconSize} />
                 ) : (
                     <DerivLightIcEmailVerificationLinkBlockedIcon height={iconSize} width={iconSize} />
                 )}
+                {isInvalidVerification && (
+                    <Text weight='bold'>
+                        <Localize i18n_default_text='Invalid verification link' />
+                    </Text>
+                )}
                 <Text align='center' weight={isInvalidVerification ? 'normal' : 'bold'}>
-                    {error?.message || (
-                        <Localize i18n_default_text='The verification link appears to be invalid. Hit the button below to request for a new one.' />
-                    )}
+                    {error?.message}
                 </Text>
             </Modal.Body>
             <Modal.Footer
@@ -64,7 +67,7 @@ const InvalidVerificationLinkModal = ({
                     size={isMobile ? 'md' : 'lg'}
                     textSize='sm'
                 >
-                    {isInvalidVerification || !error ? (
+                    {isInvalidVerification ? (
                         <Localize i18n_default_text='Get new link' />
                     ) : (
                         <Localize i18n_default_text='OK' />

@@ -55,6 +55,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             } else if (code === ERROR_CODES.EXCESSIVE_VERIFICATION_FAILURES) {
                 showModal('EmailLinkBlockedModal');
             } else if (code === ERROR_CODES.ORDER_CONFIRM_COMPLETED) {
+                // Clear search params if user tries to use verification link to a completed order
                 history.replace({ pathname: location.pathname, search: '' });
             }
         } else if (isSuccess && verificationCode && data?.is_dry_run_successful) {
@@ -104,7 +105,15 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     useEffect(() => {
         handleModalDisplay(error?.error?.code);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [error?.error, isBuyOrderForUser, isError, isSuccess, verificationNextRequest, data, orderDetails?.status]);
+    }, [
+        error?.error,
+        isBuyOrderForUser,
+        isError,
+        isSuccess,
+        verificationNextRequest,
+        data?.is_dry_run_successful,
+        orderDetails?.status,
+    ]);
 
     // TODO: Uncomment this block when implementing email link has expired modal
     // useEffect(() => {

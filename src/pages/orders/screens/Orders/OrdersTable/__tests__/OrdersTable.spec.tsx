@@ -76,6 +76,10 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
+jest.mock('@/components/Modals/RatingModal', () => ({
+    RatingModal: () => <div>RatingModal</div>,
+}));
+
 jest.mock('@/hooks', () => ({
     api: {
         account: {
@@ -115,6 +119,11 @@ jest.mock('@/hooks/custom-hooks', () => ({
             shouldHighlightSuccess: false,
             statusString: 'completed',
         },
+    }),
+    useModalManager: jest.fn().mockReturnValue({
+        hideModal: jest.fn(),
+        isModalOpenFor: jest.fn(),
+        showModal: jest.fn(),
     }),
     useQueryString: jest.fn().mockReturnValue({
         queryString: {

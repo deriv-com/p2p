@@ -1,6 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import EmailLinkVerifiedModal from '../EmailLinkVerifiedModal';
 
+jest.mock('@/providers/OrderDetailsProvider', () => ({
+    useOrderDetails: jest.fn().mockReturnValue({
+        orderDetails: {
+            advertiser_details: {
+                name: 'Test',
+            },
+            amount: 100,
+            local_currency: 'USD',
+        },
+    }),
+}));
+
 describe('<EmailLinkVerifiedModal />', () => {
     it('it should render the EmailLinkVerifiedModal', () => {
         render(<EmailLinkVerifiedModal isModalOpen onRequestClose={jest.fn()} onSubmit={jest.fn()} />);
