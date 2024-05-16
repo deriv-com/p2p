@@ -12,9 +12,15 @@ jest.mock('@/hooks', () => ({
         counterparty: {
             useBlock: jest.fn(() => ({
                 mutate: mockUseBlockMutate,
+                mutation: {
+                    isSuccess: false,
+                },
             })),
             useUnblock: jest.fn(() => ({
                 mutate: mockUseUnblockMutate,
+                mutation: {
+                    isSuccess: false,
+                },
             })),
         },
     },

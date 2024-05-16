@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyProfileCounterpartiesTableRow from '../MyProfileCounterpartiesTableRow';
 
@@ -26,17 +26,30 @@ jest.mock('@/components/UserAvatar', () => ({
     UserAvatar: () => <div>UserAvatar</div>,
 }));
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+
 jest.mock('@/hooks', () => ({
     api: {
         counterparty: {
             useBlock: () => ({
                 mutate: jest.fn(),
+                mutation: {
+                    isSuccess: false,
+                },
             }),
             useUnblock: () => ({
                 mutate: jest.fn(),
+                mutation: {
+                    isSuccess: false,
+                },
             }),
         },
     },
+    useModalManager: jest.fn(() => mockModalManager),
 }));
 
 describe('MyProfileCounterpartiesTableRow', () => {
@@ -49,19 +62,19 @@ describe('MyProfileCounterpartiesTableRow', () => {
     it('should handle open modal for click of block/unblock button in the row', async () => {
         render(<MyProfileCounterpartiesTableRow {...mockProps} />);
         await userEvent.click(screen.getByText('Block'));
-        await waitFor(() => {
-            expect(screen.getByText('Block nickname?')).toBeInTheDocument();
-        });
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('BlockUnblockUserModal');
     });
     it('should close modal for onRequest close of modal', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation(
+            (modalName: string) => modalName === 'BlockUnblockUserModal'
+        );
         render(<MyProfileCounterpartiesTableRow {...mockProps} />);
-        await userEvent.click(screen.getByText('Block'));
+        await userEvent.click(screen.getByTestId('dt_block_unblock_button'));
 
         expect(screen.getByText('Block nickname?')).toBeInTheDocument();
         const button = screen.getByRole('button', { name: 'Cancel' });
         await userEvent.click(button);
-
-        expect(screen.queryByText('Block nickname?')).not.toBeInTheDocument();
+        expect(mockModalManager.hideModal).toHaveBeenCalled();
     });
 
     it('should call history.push when clicking on the nickname', async () => {

@@ -31,12 +31,15 @@ const useAdvertiserStats = (advertiserId?: string) => {
         if (advertiserId) {
             subscribe({ id: advertiserId });
         }
+    }, [advertiserId, subscribe]);
 
+    useEffect(() => {
         return () => {
             localStorage.removeItem(`p2p_advertiser_info_${advertiserId}`);
             unsubscribe();
         };
-    }, [advertiserId, subscribe, unsubscribe]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const transformedData = useMemo(() => {
         if (!isSubscribed && isEmptyObject(data) && !isSuccessSettings && !isSuccessAuthenticationStatus)
