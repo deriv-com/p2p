@@ -1,20 +1,21 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
-import { THooks } from 'types';
-import { FullPageMobileWrapper, TextArea } from '@/components';
+import { FullPageMobileWrapper } from '@/components';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Button, Loader, Text, useDevice } from '@deriv-com/ui';
+import { Button, Loader, Text, TextArea, useDevice } from '@deriv-com/ui';
 import './MyProfileAdDetails.scss';
 
 type TMYProfileAdDetailsTextAreaProps = {
-    advertiserInfo: THooks.Advertiser.GetInfo;
+    advertDescription: string;
+    contactInfo: string;
     setAdvertDescription: Dispatch<SetStateAction<string>>;
     setContactInfo: Dispatch<SetStateAction<string>>;
 };
 
 const MyProfileAdDetailsTextArea = ({
-    advertiserInfo,
+    advertDescription,
+    contactInfo,
     setAdvertDescription,
     setContactInfo,
 }: TMYProfileAdDetailsTextAreaProps) => {
@@ -22,19 +23,21 @@ const MyProfileAdDetailsTextArea = ({
     return (
         <>
             <TextArea
+                data-testid='dt_profile_ad_details_contact'
                 label={localize('Contact details')}
                 maxLength={300}
-                onChange={e => setContactInfo((e.target as HTMLInputElement).value)}
-                testId='dt_profile_ad_details_contact'
-                value={advertiserInfo?.contact_info || ''}
+                onChange={e => setContactInfo(e.target.value)}
+                textSize='sm'
+                value={contactInfo}
             />
             <TextArea
+                data-testid='dt_profile_ad_details_description'
                 hint={localize('This information will be visible to everyone.')}
                 label={localize('Instructions')}
                 maxLength={300}
-                onChange={e => setAdvertDescription((e.target as HTMLInputElement).value)}
-                testId='dt_profile_ad_details_description'
-                value={advertiserInfo?.default_advert_description || ''}
+                onChange={e => setAdvertDescription(e.target.value)}
+                textSize='sm'
+                value={advertDescription}
             />
         </>
     );
@@ -91,7 +94,8 @@ const MyProfileAdDetails = () => {
             >
                 <div className='my-profile-ad-details'>
                     <MyProfileAdDetailsTextArea
-                        advertiserInfo={advertiserInfo}
+                        advertDescription={advertDescription}
+                        contactInfo={contactInfo}
                         setAdvertDescription={setAdvertDescription}
                         setContactInfo={setContactInfo}
                     />
@@ -102,7 +106,8 @@ const MyProfileAdDetails = () => {
     return (
         <div className='my-profile-ad-details'>
             <MyProfileAdDetailsTextArea
-                advertiserInfo={advertiserInfo}
+                advertDescription={advertDescription}
+                contactInfo={contactInfo}
                 setAdvertDescription={setAdvertDescription}
                 setContactInfo={setContactInfo}
             />

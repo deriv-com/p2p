@@ -6,7 +6,6 @@ export * from './Badge';
 export * from './BuySellForm';
 export * from './Checklist';
 export * from './Clipboard';
-export * from './Dropdown';
 export * from './FileDropzone';
 export * from './FloatingRate';
 export * from './FormProgress';
