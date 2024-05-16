@@ -7,25 +7,32 @@ import {
     DerivLightIcTypoEmailPasskeyIcon,
     DerivLightIcWrongEmailPasskeyIcon,
 } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './EmailVerificationModal.scss';
 
 const reasons = [
     {
         icon: DerivLightIcSpamEmailPasskeyIcon,
-        text: 'The email is in your spam folder (sometimes things get lost there).',
+        text: <Localize i18n_default_text='The email is in your spam folder (sometimes things get lost there).' />,
     },
     {
         icon: DerivLightIcWrongEmailPasskeyIcon,
-        text: 'You accidentally gave us another email address (usually a work or a personal one instead of the one you meant).',
+        text: (
+            <Localize i18n_default_text='You accidentally gave us another email address (usually a work or a personal one instead of the one you meant).' />
+        ),
     },
     {
         icon: DerivLightIcTypoEmailPasskeyIcon,
-        text: 'The email address you entered had a mistake or typo (happens to the best of us).',
+        text: (
+            <Localize i18n_default_text='The email address you entered had a mistake or typo (happens to the best of us).' />
+        ),
     },
     {
         icon: DerivLightIcFirewallEmailPasskeyIcon,
-        text: 'We can’t deliver the email to this address (usually because of firewalls or filtering).',
+        text: (
+            <Localize i18n_default_text='We can’t deliver the email to this address (usually because of firewalls or filtering).' />
+        ),
     },
 ];
 
@@ -77,30 +84,32 @@ const EmailVerificationModal = ({
             <Modal.Body className='flex flex-col items-center justify-center lg:gap-[2.4rem] gap-8 lg:px-10 lg:pb-10 p-8 pt-0'>
                 <DerivLightIcEmailSentIcon height={emailIconSize} width={emailIconSize} />
                 <Text align='center' weight='bold'>
-                    Has the buyer paid you?
+                    <Localize i18n_default_text='Has the buyer paid you?' />
                 </Text>
                 <Text align='center' size={isMobile ? 'sm' : 'md'}>
-                    Releasing funds before receiving payment may result in losses. Check your email and follow the
-                    instructions <strong>within 10 minutes</strong> to release the funds.
+                    <Localize
+                        components={[<strong key={0} />]}
+                        i18n_default_text='Releasing funds before receiving payment may result in losses. Check your email and follow the instructions <0>within 10 minutes</0> to release the funds.'
+                    />
                 </Text>
                 <Button
                     className='email-verification-modal__button'
                     onClick={() => setShouldShowReasons(true)}
                     variant='ghost'
                 >
-                    I didn’t receive the email
+                    <Localize i18n_default_text='I didn’t receive the email' />
                 </Button>
                 {shouldShowReasons && (
                     <div className='flex flex-col w-full gap-8'>
                         {reasons.map(reason => (
-                            <div className='grid grid-cols-[11%_89%] gap-4 items-center' key={reason.text}>
+                            <div className='grid grid-cols-[11%_89%] gap-4 items-center' key={reason.icon.toString()}>
                                 <reason.icon height={reasonIconSize} width={reasonIconSize} />
                                 <Text size='xs'>{reason.text}</Text>
                             </div>
                         ))}
                         <div className='flex justify-center'>
                             <Button disabled={timeLeft > 0} onClick={onResendEmail} size='md'>
-                                Resend email {timeLeft > 0 && `${timeLeft}s`}
+                                <Localize i18n_default_text='Resend email' /> {timeLeft > 0 && `${timeLeft}s`}
                             </Button>
                         </div>
                     </div>

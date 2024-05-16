@@ -13,12 +13,14 @@ import { ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
 import { useModalManager } from '@/hooks/custom-hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
+import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 import { OrderDetailsCardReview } from '../OrderDetailsCardReview';
 import './OrderDetailsCardFooter.scss';
 
 const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }) => {
     const [verificationCode, setVerificationCode] = useState<string | undefined>(undefined);
+    // const [hasEmailExpired, setHasEmailExpired] = useState(false);
     const [showRatingModal, setShowRatingModal] = useState(false);
     const { orderDetails } = useOrderDetails();
     const {
@@ -29,7 +31,8 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
         shouldShowComplainAndReceivedButton,
         shouldShowOnlyComplainButton,
         shouldShowOnlyReceivedButton,
-        verification_next_request,
+        verification_next_request: verificationNextRequest,
+        // verification_token_expiry: verificationTokenExpiry,
     } = orderDetails;
 
     const { isMobile } = useDevice();
@@ -42,7 +45,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
 
     const handleModalDisplay = (code?: string) => {
         if (isError) {
-            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && verification_next_request) {
+            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && verificationNextRequest) {
                 showModal('EmailVerificationModal');
             } else if (
                 code === ERROR_CODES.INVALID_VERIFICATION_TOKEN ||
@@ -56,7 +59,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             }
         } else if (isSuccess && verificationCode && data?.is_dry_run_successful) {
             showModal('EmailLinkVerifiedModal');
-        } else if (isSuccess && !isBuyOrderForUser && orderDetails?.status === 'completed') {
+        } else if (isSuccess && !isBuyOrderForUser && orderDetails?.statusString === 'Completed') {
             setShowRatingModal(true);
 
             // This is to help handle routing back to past orders tab after confirming order.
@@ -65,6 +68,17 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             searchParams.set('order_status', 'completed');
             history.replace({ pathname: location.pathname, search: searchParams.toString() });
         }
+        // TODO: Uncomment this block when implementing email link has expired modal
+        // else if (
+        //     verificationPending === 0 &&
+        //     !isBuyOrderForUser &&
+        //     orderDetails?.statusString !== 'Expired' &&
+        //     orderDetails?.statusString !== 'Under Dispute' &&
+        //     !verificationCode &&
+        //     hasEmailExpired
+        // ) {
+        //     showModal('EmailLinkExpiredModal');
+        // }
     };
 
     useEffect(() => {
@@ -90,7 +104,17 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     useEffect(() => {
         handleModalDisplay(error?.error?.code);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [error?.error, isBuyOrderForUser, isError, isSuccess, verification_next_request, data, orderDetails?.status]);
+    }, [error?.error, isBuyOrderForUser, isError, isSuccess, verificationNextRequest, data, orderDetails?.status]);
+
+    // TODO: Uncomment this block when implementing email link has expired modal
+    // useEffect(() => {
+    //     if (verificationTokenExpiry) {
+    //         const emailExpiryTime = epochToMoment(verificationTokenExpiry);
+    //         const currentTime = epochToMoment(Date.now() / 1000);
+
+    //         setHasEmailExpired(currentTime.isAfter(emailExpiryTime));
+    //     }
+    // }, [verificationTokenExpiry]);
 
     if (isCompletedOrder) {
         return <OrderDetailsCardReview setShowRatingModal={setShowRatingModal} showRatingModal={showRatingModal} />;
@@ -128,10 +152,10 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                         textSize={textSize}
                         variant='outlined'
                     >
-                        Cancel order
+                        <Localize i18n_default_text='Cancel order' />
                     </Button>
                     <Button onClick={() => showModal('OrderDetailsConfirmModal')} size='lg' textSize={textSize}>
-                        I’ve paid
+                        <Localize i18n_default_text='I’ve paid' />
                     </Button>
                 </div>
             )}
@@ -145,10 +169,10 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                         textSize={textSize}
                         variant='ghost'
                     >
-                        Complain
+                        <Localize i18n_default_text='Complain' />
                     </Button>
                     <Button onClick={() => mutate({ id })} size='lg' textSize={textSize}>
-                        I’ve received payment
+                        <Localize i18n_default_text='I’ve received payment' />
                     </Button>
                 </div>
             )}
@@ -162,14 +186,14 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                         textSize={textSize}
                         variant='ghost'
                     >
-                        Complain
+                        <Localize i18n_default_text='Complain' />
                     </Button>
                 </div>
             )}
             {shouldShowOnlyReceivedButton && (
                 <div className='ml-auto'>
                     <Button onClick={() => mutate({ id })} size='lg' textSize={textSize}>
-                        I’ve received payment
+                        <Localize i18n_default_text='I’ve received payment' />
                     </Button>
                 </div>
             )}
@@ -196,7 +220,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             {!!isModalOpenFor('EmailVerificationModal') && (
                 <EmailVerificationModal
                     isModalOpen
-                    nextRequestTime={verification_next_request!}
+                    nextRequestTime={verificationNextRequest!}
                     onRequestClose={hideModal}
                     onResendEmail={() => mutate({ id })}
                 />
@@ -222,10 +246,14 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             {!!isModalOpenFor('EmailLinkVerifiedModal') && (
                 <EmailLinkVerifiedModal
                     isModalOpen
-                    onRequestClose={hideAndClearSearchParams}
+                    onRequestClose={() => {
+                        hideAndClearSearchParams();
+                        setVerificationCode(undefined);
+                    }}
                     onSubmit={() => {
                         mutate({ id, verification_code: verificationCode });
                         history.replace({ pathname: location.pathname, search: '' });
+                        setVerificationCode(undefined);
                     }}
                 />
             )}

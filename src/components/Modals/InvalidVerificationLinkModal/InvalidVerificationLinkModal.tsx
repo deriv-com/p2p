@@ -4,6 +4,7 @@ import {
     DerivLightIcEmailVerificationLinkBlockedIcon,
     DerivLightIcEmailVerificationLinkInvalidIcon,
 } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './InvalidVerificationLinkModal.scss';
 
@@ -41,13 +42,15 @@ const InvalidVerificationLinkModal = ({
                     'py-0 px-[1.4rem] gap-[1.4rem]': isExcessiveErrorMobile,
                 })}
             >
-                {isInvalidVerification ? (
+                {isInvalidVerification || !error ? (
                     <DerivLightIcEmailVerificationLinkInvalidIcon height={iconSize} width={iconSize} />
                 ) : (
                     <DerivLightIcEmailVerificationLinkBlockedIcon height={iconSize} width={iconSize} />
                 )}
                 <Text align='center' weight={isInvalidVerification ? 'normal' : 'bold'}>
-                    {error?.message}
+                    {error?.message || (
+                        <Localize i18n_default_text='The verification link appears to be invalid. Hit the button below to request for a new one.' />
+                    )}
                 </Text>
             </Modal.Body>
             <Modal.Footer
@@ -61,7 +64,11 @@ const InvalidVerificationLinkModal = ({
                     size={isMobile ? 'md' : 'lg'}
                     textSize='sm'
                 >
-                    {isInvalidVerification ? 'Get new link' : 'OK'}
+                    {isInvalidVerification || !error ? (
+                        <Localize i18n_default_text='Get new link' />
+                    ) : (
+                        <Localize i18n_default_text='OK' />
+                    )}
                 </Button>
             </Modal.Footer>
         </Modal>

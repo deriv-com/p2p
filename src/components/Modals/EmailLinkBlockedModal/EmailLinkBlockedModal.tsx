@@ -1,4 +1,5 @@
 import { DerivLightIcEmailVerificationLinkBlockedIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Modal, Text, useDevice } from '@deriv-com/ui';
 import './EmailLinkBlockedModal.scss';
 
@@ -23,7 +24,7 @@ const EmailLinkBlockedModal = ({ errorMessage, isModalOpen, onRequestClose }: TE
             <Modal.Body className='flex flex-col items-center lg:gap-[2.4rem] gap-8 p-[2.4rem] lg:pt-4 pt-0'>
                 <DerivLightIcEmailVerificationLinkBlockedIcon height={iconSize} width={iconSize} />
                 <Text align='center' weight='bold'>
-                    Too many failed attempts
+                    <Localize i18n_default_text='Too many failed attempts' />
                 </Text>
                 <Text align='center'>{errorMessage}</Text>
             </Modal.Body>
