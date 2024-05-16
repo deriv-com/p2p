@@ -1,18 +1,23 @@
+import { useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { PageReturn, ProfileContent } from '@/components';
+import BlockDropdown from '@/components/AdvertiserName/BlockDropdown';
 import { BUY_SELL_URL, MY_PROFILE_URL } from '@/constants';
-import { api } from '@/hooks';
-import { LabelPairedEllipsisVerticalLgRegularIcon } from '@deriv/quill-icons';
+import { api, useModalManager } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
 import { AdvertiserAdvertsTable } from '../AdvertiserAdvertsTable';
+import { AdvertiserBlockOverlay } from '../AdvertiserBlockOverlay';
 import './Advertiser.scss';
 
 const Advertiser = () => {
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
+    const { showModal } = useModalManager();
     const { advertiserId } = useParams<{ advertiserId: string }>();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
+    const [showOverlay, setShowOverlay] = useState(false);
+    const [advertiserName, setAdvertiserName] = useState('');
 
     // Need to return undefined if the id is the same as the logged in user
     // This will prevent the API from trying to resubscribe to the same user and grab the data from local storage
@@ -34,12 +39,27 @@ const Advertiser = () => {
                 }
                 pageTitle={localize('Advertiser’s page')}
                 {...(isMobile && {
-                    rightPlaceHolder: <LabelPairedEllipsisVerticalLgRegularIcon className='cursor-pointer' />,
+                    rightPlaceHolder: (
+                        <BlockDropdown
+                            id={advertiserId}
+                            onClickBlocked={() => {
+                                setShowOverlay(prevState => !prevState);
+                            }}
+                        />
+                    ),
                 })}
                 weight='bold'
             />
-            <ProfileContent id={id} />
-            <AdvertiserAdvertsTable advertiserId={advertiserId} />
+            <AdvertiserBlockOverlay
+                advertiserName={advertiserName}
+                id={id}
+                isOverlayVisible={showOverlay}
+                onClickUnblock={() => showModal('BlockUnblockUserModal')}
+                setShowOverlay={setShowOverlay}
+            >
+                <ProfileContent id={id} setAdvertiserName={setAdvertiserName} setShowOverlay={setShowOverlay} />
+                <AdvertiserAdvertsTable advertiserId={advertiserId} />
+            </AdvertiserBlockOverlay>
         </div>
     );
 };
