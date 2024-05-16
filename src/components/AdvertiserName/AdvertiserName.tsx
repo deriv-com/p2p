@@ -1,15 +1,20 @@
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { UserAvatar } from '@/components';
 import { getCurrentRoute } from '@/utils';
-import { LabelPairedEllipsisVerticalLgRegularIcon } from '@deriv/quill-icons';
 import { useGetSettings } from '@deriv-com/api-hooks';
 import { Text, useDevice } from '@deriv-com/ui';
 import AdvertiserNameBadges from './AdvertiserNameBadges';
 import AdvertiserNameStats from './AdvertiserNameStats';
 import AdvertiserNameToggle from './AdvertiserNameToggle';
+import BlockDropdown from './BlockDropdown';
 import './AdvertiserName.scss';
 
-const AdvertiserName = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
+type TAdvertiserNameProps = {
+    advertiserStats: DeepPartial<TAdvertiserStats>;
+    onClickBlocked?: () => void;
+};
+
+const AdvertiserName = ({ advertiserStats, onClickBlocked }: TAdvertiserNameProps) => {
     const { data } = useGetSettings();
     const { isDesktop } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
@@ -34,7 +39,9 @@ const AdvertiserName = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                 <AdvertiserNameBadges advertiserStats={advertiserStats} />
             </div>
             {isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={advertiserStats} />}
-            {isDesktop && !isMyProfile && <LabelPairedEllipsisVerticalLgRegularIcon className='cursor-pointer' />}
+            {isDesktop && !isMyProfile && !advertiserStats?.is_blocked && (
+                <BlockDropdown id={advertiserStats?.id} onClickBlocked={onClickBlocked} />
+            )}
         </div>
     );
 };

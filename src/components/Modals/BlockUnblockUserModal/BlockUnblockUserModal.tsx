@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Modal from 'react-modal';
 import { api } from '@/hooks';
 import { Localize } from '@deriv-com/translations';
@@ -10,6 +11,7 @@ type TBlockUnblockUserModalProps = {
     id: string;
     isBlocked: boolean;
     isModalOpen: boolean;
+    onClickBlocked?: () => void;
     onRequestClose: () => void;
 };
 
@@ -18,10 +20,19 @@ const BlockUnblockUserModal = ({
     id,
     isBlocked,
     isModalOpen,
+    onClickBlocked,
     onRequestClose,
 }: TBlockUnblockUserModalProps) => {
-    const { mutate: blockAdvertiser } = api.counterparty.useBlock();
-    const { mutate: unblockAdvertiser } = api.counterparty.useUnblock();
+    const { mutate: blockAdvertiser, mutation } = api.counterparty.useBlock();
+    const { mutate: unblockAdvertiser, mutation: unblockMutation } = api.counterparty.useUnblock();
+
+    useEffect(() => {
+        if (mutation.isSuccess || unblockMutation.isSuccess) {
+            onClickBlocked?.();
+            onRequestClose();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mutation.isSuccess, onClickBlocked, unblockMutation.isSuccess]);
 
     const getModalTitle = () => (isBlocked ? `Unblock ${advertiserName}?` : `Block ${advertiserName}?`);
 
@@ -44,8 +55,6 @@ const BlockUnblockUserModal = ({
         } else {
             blockAdvertiser([parseInt(id)]);
         }
-
-        onRequestClose();
     };
 
     return (

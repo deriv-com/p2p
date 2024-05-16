@@ -1,0 +1,31 @@
+.block-dropdown {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    .deriv-dropdown {
+        width: 3.2rem;
+
+        & .deriv-dropdown__button {
+            transform: none;
+            transition: none;
+        }
+
+        &__items {
+            width: 12.8rem;
+            border: 0;
+            padding: 0;
+            top: 3rem;
+            right: 1rem;
+        }
+
+        .deriv-input {
+            border: 0;
+            padding: 0;
+
+            &__field,
+            &__helper-message {
+                display: none;
+            }
+        }
+    }
+}
