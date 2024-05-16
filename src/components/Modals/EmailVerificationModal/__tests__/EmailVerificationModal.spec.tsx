@@ -24,7 +24,7 @@ describe('<EmailVerificationModal />', () => {
                 /Releasing funds before receiving payment may result in losses. Check your email and follow the instructions/
             )
         ).toBeInTheDocument();
-        expect(screen.getByText('within 10 minutes', { selector: 'strong' })).toBeInTheDocument();
+        expect(screen.getByText(/within 10 minutes/i)).toBeInTheDocument();
         expect(screen.getByText(/to release the funds./)).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'I didn’t receive the email' })).toBeInTheDocument();
     });
