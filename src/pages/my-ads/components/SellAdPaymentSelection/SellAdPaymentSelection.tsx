@@ -5,6 +5,7 @@ import { api } from '@/hooks';
 import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
 import { advertiserPaymentMethodsReducer } from '@/reducers';
 import { LabelPairedPlusLgBoldIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './SellAdPaymentSelection.scss';
 
@@ -64,7 +65,9 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
                 >
                     <LabelPairedPlusLgBoldIcon fill='white' />
                 </Button>
-                <Text size='sm'>Payment method</Text>
+                <Text size='sm'>
+                    <Localize i18n_default_text='Payment method' />
+                </Text>
             </div>
             {isModalOpenFor('PaymentMethodForm') && (
                 <PaymentMethodForm

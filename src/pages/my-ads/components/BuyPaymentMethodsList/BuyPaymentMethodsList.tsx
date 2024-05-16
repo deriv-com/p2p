@@ -20,8 +20,8 @@ const BuyPaymentMethodsList = ({ list, onSelectPaymentMethod }: TBuyPaymentMetho
                 list={list}
                 name='payment-method-list'
                 onSelect={value => onSelectPaymentMethod(value as string)}
-                //TODO: add the placeholder once fixed from deriv-com/ui
-                // placeholder='Add'
+                // @ts-expect-error - Dropdown component does not have a value prop
+                placeholder='Add'
                 value=''
                 variant='prompt'
             />

@@ -4,11 +4,6 @@
     align-items: flex-end;
     gap: 2.4rem;
 
-    &__header {
-        font-size: 1.6rem;
-        font-weight: 800;
-    }
-
     @include mobile {
         padding: 2rem;
     }

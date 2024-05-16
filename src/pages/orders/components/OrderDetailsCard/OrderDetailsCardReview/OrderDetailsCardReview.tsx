@@ -4,6 +4,7 @@ import { api } from '@/hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { getDateAfterHours } from '@/utils';
 import { StandaloneStarFillIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import { RecommendationStatus } from './RecommendationStatus';
 
@@ -37,12 +38,23 @@ const OrderDetailsCardReview = () => {
                     icon={<StandaloneStarFillIcon fill='#FFAD3A' height={18} width={18} />}
                     variant='outlined'
                 >
-                    <Text size={isMobile ? 'sm' : 'xs'}>{isReviewable ? 'Rate this transaction' : 'Not rated'}</Text>
+                    <Text size={isMobile ? 'sm' : 'xs'}>
+                        {isReviewable ? (
+                            <Localize i18n_default_text='Rate this transaction' />
+                        ) : (
+                            <Localize i18n_default_text='Not rated' />
+                        )}
+                    </Text>
                 </Button>
                 <Text color='less-prominent' size={isMobile ? 'xs' : '2xs'}>
-                    {isReviewable
-                        ? `You have until ${remainingReviewTime} GMT to rate this transaction.`
-                        : 'You can no longer rate this transaction.'}
+                    {isReviewable ? (
+                        <Localize
+                            i18n_default_text='You have until {{remainingReviewTime}} GMT to rate this transaction.'
+                            values={{ remainingReviewTime }}
+                        />
+                    ) : (
+                        <Localize i18n_default_text='You can no longer rate this transaction.' />
+                    )}
                 </Text>
             </div>
         );
@@ -50,7 +62,9 @@ const OrderDetailsCardReview = () => {
     if (hasReviewDetails) {
         return (
             <div className='flex flex-col px-[1.6rem] py-10 gap-4'>
-                <Text weight='bold'>Your transaction experience</Text>
+                <Text weight='bold'>
+                    <Localize i18n_default_text='Your transaction experience' />
+                </Text>
                 <div className='flex justify-between w-4/5 ml-2'>
                     <StarRating isReadonly ratingValue={ratingAverageDecimals} starsScale={1.2} />
                     <RecommendationStatus />

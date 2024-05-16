@@ -4,6 +4,7 @@ import { ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
 import { useModalManager } from '@/hooks/custom-hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
+import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 import './OrderDetailsCardFooter.scss';
 
@@ -72,10 +73,10 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                         textSize={textSize}
                         variant='outlined'
                     >
-                        Cancel order
+                        <Localize i18n_default_text='Cancel order' />
                     </Button>
                     <Button onClick={() => showModal('OrderDetailsConfirmModal')} size='lg' textSize={textSize}>
-                        I’ve paid
+                        <Localize i18n_default_text='I’ve paid' />
                     </Button>
                 </div>
             )}
@@ -89,10 +90,10 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                         textSize={textSize}
                         variant='ghost'
                     >
-                        Complain
+                        <Localize i18n_default_text='Complain' />
                     </Button>
                     <Button size='lg' textSize={textSize}>
-                        I’ve received payment
+                        <Localize i18n_default_text='I’ve received payment' />
                     </Button>
                 </div>
             )}
@@ -106,14 +107,14 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                         textSize={textSize}
                         variant='ghost'
                     >
-                        Complain
+                        <Localize i18n_default_text='Complain' />
                     </Button>
                 </div>
             )}
             {shouldShowOnlyReceivedButton && (
                 <div className='ml-auto'>
                     <Button size='lg' textSize={textSize}>
-                        I’ve received payment
+                        <Localize i18n_default_text='I’ve received payment' />
                     </Button>
                 </div>
             )}

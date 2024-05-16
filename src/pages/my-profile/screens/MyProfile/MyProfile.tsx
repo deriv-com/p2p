@@ -8,6 +8,7 @@ import {
     usePoiPoaStatus,
     useQueryString,
 } from '@/hooks/custom-hooks';
+import { useTranslations } from '@deriv-com/translations';
 import { Loader, Tab, Tabs, useDevice } from '@deriv-com/ui';
 import { MyProfileAdDetails } from '../MyProfileAdDetails';
 import { MyProfileCounterparties } from '../MyProfileCounterparties';
@@ -19,6 +20,7 @@ import './MyProfile.scss';
 const TABS = ['Stats', 'Payment methods', 'Ad details', 'My counterparties'];
 
 const MyProfile = () => {
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const { queryString, setQueryString } = useQueryString();
     const { data } = usePoiPoaStatus();
@@ -30,10 +32,10 @@ const MyProfile = () => {
     const currentTab = queryString.tab;
 
     const tabs = [
-        { component: <MyProfileStats />, title: 'Stats' },
-        { component: <PaymentMethods />, title: 'Payment methods' },
-        { component: <MyProfileAdDetails />, title: 'Ad details' },
-        { component: <MyProfileCounterparties />, title: 'My counterparties' },
+        { component: <MyProfileStats />, title: localize('Stats') },
+        { component: <PaymentMethods />, title: localize('Payment methods') },
+        { component: <MyProfileAdDetails />, title: localize('Ad details') },
+        { component: <MyProfileCounterparties />, title: localize('My counterparties') },
     ];
 
     useEffect(() => {

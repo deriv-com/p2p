@@ -3,7 +3,8 @@ import { THooks } from 'types';
 import { FullPageMobileWrapper, TextArea } from '@/components';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
-import { Button, Loader, useDevice } from '@deriv-com/ui';
+import { Localize, useTranslations } from '@deriv-com/translations';
+import { Button, Loader, Text, useDevice } from '@deriv-com/ui';
 import './MyProfileAdDetails.scss';
 
 type TMYProfileAdDetailsTextAreaProps = {
@@ -17,18 +18,19 @@ const MyProfileAdDetailsTextArea = ({
     setAdvertDescription,
     setContactInfo,
 }: TMYProfileAdDetailsTextAreaProps) => {
+    const { localize } = useTranslations();
     return (
         <>
             <TextArea
-                label='Contact details'
+                label={localize('Contact details')}
                 maxLength={300}
                 onChange={e => setContactInfo((e.target as HTMLInputElement).value)}
                 testId='dt_profile_ad_details_contact'
                 value={advertiserInfo?.contact_info || ''}
             />
             <TextArea
-                hint='This information will be visible to everyone.'
-                label='Instructions'
+                hint={localize('This information will be visible to everyone.')}
+                label={localize('Instructions')}
                 maxLength={300}
                 onChange={e => setAdvertDescription((e.target as HTMLInputElement).value)}
                 testId='dt_profile_ad_details_description'
@@ -78,10 +80,14 @@ const MyProfileAdDetails = () => {
                 }
                 renderFooter={() => (
                     <Button disabled={!hasUpdated} isFullWidth onClick={submitAdDetails} size='lg'>
-                        Save
+                        <Localize i18n_default_text='Save' />
                     </Button>
                 )}
-                renderHeader={() => <h1 className='my-profile-ad-details__header'>Ad Details</h1>}
+                renderHeader={() => (
+                    <Text size='lg' weight='bold'>
+                        <Localize i18n_default_text='Ad Details ' />
+                    </Text>
+                )}
             >
                 <div className='my-profile-ad-details'>
                     <MyProfileAdDetailsTextArea
@@ -102,7 +108,7 @@ const MyProfileAdDetails = () => {
             />
             <div className='my-profile-ad-details__border' />
             <Button disabled={!hasUpdated} onClick={submitAdDetails} size='lg' textSize='sm'>
-                Save
+                <Localize i18n_default_text='Save' />
             </Button>
         </div>
     );

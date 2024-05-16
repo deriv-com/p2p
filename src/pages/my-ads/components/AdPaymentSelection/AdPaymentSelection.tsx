@@ -1,3 +1,4 @@
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { BuyAdPaymentSelection } from '../BuyAdPaymentSelection';
 import { SellAdPaymentSelection } from '../SellAdPaymentSelection';
@@ -19,10 +20,14 @@ const AdPaymentSelection = ({
         <>
             <div className='mb-[2.4rem]'>
                 <Text as='div' color='prominent' size={textSize}>
-                    Payment methods
+                    <Localize i18n_default_text='Payment methods' />
                 </Text>
                 <Text as='div' color='less-prominent' size={textSize}>
-                    {isSellAdvert ? 'You may tap and choose up to 3.' : 'You may choose up to 3.'}
+                    {isSellAdvert ? (
+                        <Localize i18n_default_text='You may tap and choose up to 3.' />
+                    ) : (
+                        <Localize i18n_default_text='You may choose up to 3.' />
+                    )}
                 </Text>
             </div>
 

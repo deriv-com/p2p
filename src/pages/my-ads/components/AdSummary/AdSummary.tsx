@@ -5,6 +5,7 @@ import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { percentOf, roundOffDecimal, setDecimalPlaces } from '@/utils';
 import { useExchangeRates } from '@deriv-com/api-hooks';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 
@@ -50,7 +51,8 @@ const AdSummary = ({
                 target_currencies: [localCurrency],
             });
         }
-    }, [localCurrency]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currency, localCurrency]);
 
     const exchangeRate = exchangeRateRef?.current?.rates?.[localCurrency];
     const marketRate = overrideExchangeRate ? Number(overrideExchangeRate) : exchangeRate;
@@ -73,11 +75,14 @@ const AdSummary = ({
             });
             return (
                 <Text color='less-prominent' size={summaryTextSize}>
-                    {`You’re ${adText} an ad to ${adTypeText}`}
+                    <Localize
+                        i18n_default_text='You’re {{adText}} an ad to {{adTypeText}}'
+                        values={{ adText, adTypeText }}
+                    />
                     <Text color='blue' size={summaryTextSize} weight='bold'>
                         {` ${displayOfferAmount} ${currency} `}
                     </Text>
-                    for
+                    <Localize i18n_default_text='for' />
                     <Text color='blue' size={summaryTextSize} weight='bold'>
                         {` ${displayTotal} ${localCurrency}`}
                     </Text>
@@ -90,7 +95,10 @@ const AdSummary = ({
 
         return (
             <Text color='less-prominent' size={summaryTextSize}>
-                {`You’re ${adText} an ad to ${adTypeText}`}
+                <Localize
+                    i18n_default_text='You’re {{adText}} an ad to {{adTypeText}}'
+                    values={{ adText, adTypeText }}
+                />
                 <Text color='blue' size={summaryTextSize} weight='bold'>
                     {` ${displayOfferAmount} ${currency}`}
                 </Text>
@@ -101,7 +109,10 @@ const AdSummary = ({
 
     return (
         <Text color='less-prominent' size={summaryTextSize}>
-            {`You’re ${adText} an ad to ${adTypeText}...`}
+            <Localize
+                i18n_default_text='You’re {{adText}} an ad to {{adTypeText}}...'
+                values={{ adText, adTypeText }}
+            />
         </Text>
     );
 };

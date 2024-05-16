@@ -5,6 +5,7 @@ import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals
 import { PAYMENT_METHOD_CATEGORIES } from '@/constants';
 import { api } from '@/hooks';
 import { sortPaymentMethods } from '@/utils';
+import { useTranslations } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 import AddNewButton from '../AddNewButton';
 import './PaymentMethodsListContent.scss';
@@ -44,6 +45,7 @@ const PaymentMethodsListContent = ({
     onResetFormState,
     p2pAdvertiserPaymentMethods,
 }: TPaymentMethodsListContentProps) => {
+    const { localize } = useTranslations();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {
         delete: deleteAdvertiserPaymentMethod,
@@ -117,7 +119,6 @@ const PaymentMethodsListContent = ({
                     </div>
                 );
             })}
-            {/* TODO: Remember to translate these strings */}
             {actionType === 'DELETE' && isDeleteError && (
                 <PaymentMethodErrorModal
                     errorMessage={String(deleteError?.error?.message)}
@@ -125,12 +126,12 @@ const PaymentMethodsListContent = ({
                     onConfirm={() => {
                         setIsModalOpen(false);
                     }}
-                    title='Something’s not right'
+                    title={localize('Something’s not right')}
                 />
             )}
             {actionType === 'DELETE' && !isDeleteError && (
                 <PaymentMethodModal
-                    description='Are you sure you want to remove this payment method?'
+                    description={localize('Are you sure you want to remove this payment method?')}
                     isModalOpen={isModalOpen}
                     onConfirm={() => {
                         deleteAdvertiserPaymentMethod(Number(selectedPaymentMethod?.id));
@@ -138,13 +139,14 @@ const PaymentMethodsListContent = ({
                     onReject={() => {
                         setIsModalOpen(false);
                     }}
-                    primaryButtonLabel='No'
-                    secondaryButtonLabel='Yes, remove'
-                    title={`Delete ${
-                        (selectedPaymentMethod?.fields?.bank_name as TBankName)?.value ??
-                        (selectedPaymentMethod?.fields?.name as TName)?.value ??
-                        selectedPaymentMethod?.display_name
-                    }?`}
+                    primaryButtonLabel={localize('No')}
+                    secondaryButtonLabel={localize('Yes, remove')}
+                    title={localize('Delete {{value}}?', {
+                        value:
+                            (selectedPaymentMethod?.fields?.bank_name as TBankName)?.value ??
+                            (selectedPaymentMethod?.fields?.name as TName)?.value ??
+                            selectedPaymentMethod?.display_name,
+                    })}
                 />
             )}
         </div>

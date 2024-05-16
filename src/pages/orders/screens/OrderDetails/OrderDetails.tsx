@@ -8,6 +8,7 @@ import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetai
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
 import { OrderDetailsCard } from '../../components/OrderDetailsCard';
 import { OrderDetailsCardFooter } from '../../components/OrderDetailsCard/OrderDetailsCardFooter';
@@ -15,6 +16,7 @@ import { OrdersChatSection } from '../OrdersChatSection';
 import './OrderDetails.scss';
 
 const OrderDetails = () => {
+    const { localize } = useTranslations();
     const history = useHistory();
     const location = useLocation();
     const showChatParam = new URLSearchParams(location.search).get('showChat');
@@ -34,8 +36,11 @@ const OrderDetails = () => {
     const { isMobile } = useDevice();
     const { sendFile, userId, ...rest } = useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
 
-    const headerText = `${isBuyOrderForUser ? 'Buy' : 'Sell'} USD order`;
-    const warningMessage = 'Don’t risk your funds with cash transactions. Use bank transfers or e-wallets instead.';
+    const headerText = isBuyOrderForUser ? localize('Buy USD order') : localize('Sell USD order');
+
+    const warningMessage = (
+        <Localize i18n_default_text='Don’t risk your funds with cash transactions. Use bank transfers or e-wallets instead.' />
+    );
 
     const onReturn = () => {
         if ((location.state as { from: string })?.from === 'Orders') history.push(ORDERS_URL);
