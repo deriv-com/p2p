@@ -9,6 +9,7 @@ export * from './AvailableP2PBalanceModal';
 export * from './BlockUnblockUserModal';
 export * from './DailyLimitModal';
 export * from './EmailLinkBlockedModal';
+export * from './EmailLinkExpiredModal';
 export * from './EmailLinkVerifiedModal';
 export * from './EmailVerificationModal';
 export * from './ErrorModal';
