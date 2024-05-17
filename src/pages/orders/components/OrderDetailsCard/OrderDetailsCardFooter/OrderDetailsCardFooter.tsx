@@ -1,50 +1,133 @@
-import { useEffect } from 'react';
-import { OrderDetailsCancelModal, OrderDetailsComplainModal, OrderDetailsConfirmModal } from '@/components/Modals';
+import { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import {
+    EmailLinkBlockedModal,
+    EmailLinkVerifiedModal,
+    EmailVerificationModal,
+    InvalidVerificationLinkModal,
+    OrderDetailsCancelModal,
+    OrderDetailsComplainModal,
+    OrderDetailsConfirmModal,
+} from '@/components/Modals';
 import { ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
 import { useModalManager } from '@/hooks/custom-hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
+import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
+import { OrderDetailsCardReview } from '../OrderDetailsCardReview';
 import './OrderDetailsCardFooter.scss';
 
-// TODO: Implement functionality for each button when integrating with the API and disable buttons while chat is loading
 const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }) => {
+    const [verificationCode, setVerificationCode] = useState<string | undefined>(undefined);
+    // const [hasEmailExpired, setHasEmailExpired] = useState(false);
+    const [showRatingModal, setShowRatingModal] = useState(false);
     const { orderDetails } = useOrderDetails();
     const {
         id,
         isBuyOrderForUser,
+        isCompletedOrder,
         shouldShowCancelAndPaidButton,
         shouldShowComplainAndReceivedButton,
         shouldShowOnlyComplainButton,
         shouldShowOnlyReceivedButton,
+        verification_next_request: verificationNextRequest,
+        // verification_token_expiry: verificationTokenExpiry,
     } = orderDetails;
 
     const { isMobile } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
-    const { error, isError, mutate } = api.order.useConfirm();
+    const { data, error, isError, isSuccess, mutate, reset } = api.order.useConfirm();
     const textSize = isMobile ? 'md' : 'sm';
 
-    //TODO: handle email verification, invalid verification, and rating modals.
-    const handleModalDisplay = (isError: boolean, isBuyOrderForUser: boolean, code?: string) => {
+    const history = useHistory();
+    const location = useLocation();
+
+    const handleModalDisplay = (code?: string) => {
         if (isError) {
-            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED) {
+            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && verificationNextRequest) {
                 showModal('EmailVerificationModal');
             } else if (
                 code === ERROR_CODES.INVALID_VERIFICATION_TOKEN ||
                 code === ERROR_CODES.EXCESSIVE_VERIFICATION_REQUESTS
             ) {
                 showModal('InvalidVerificationLinkModal');
-            } else if (code === ERROR_CODES.EXCESSIVE_VERIFICATION_FAILURES && isBuyOrderForUser) {
+            } else if (code === ERROR_CODES.EXCESSIVE_VERIFICATION_FAILURES) {
                 showModal('EmailLinkBlockedModal');
+            } else if (code === ERROR_CODES.ORDER_CONFIRM_COMPLETED) {
+                // Clear search params if user tries to use verification link to a completed order
+                history.replace({ pathname: location.pathname, search: '' });
             }
-        } else if (!isBuyOrderForUser) {
-            showModal('RatingModal');
+        } else if (isSuccess && verificationCode && data?.is_dry_run_successful) {
+            showModal('EmailLinkVerifiedModal');
+        } else if (isSuccess && !isBuyOrderForUser && orderDetails?.statusString === 'Completed') {
+            setShowRatingModal(true);
+
+            // This is to help handle routing back to past orders tab after confirming order.
+            // This is handled in OrderDetails
+            const searchParams = new URLSearchParams(location.search);
+            searchParams.set('order_status', 'completed');
+            history.replace({ pathname: location.pathname, search: searchParams.toString() });
         }
+        // TODO: Uncomment this block when implementing email link has expired modal
+        // else if (
+        //     verificationPending === 0 &&
+        //     !isBuyOrderForUser &&
+        //     orderDetails?.statusString !== 'Expired' &&
+        //     orderDetails?.statusString !== 'Under Dispute' &&
+        //     !verificationCode &&
+        //     hasEmailExpired
+        // ) {
+        //     showModal('EmailLinkExpiredModal');
+        // }
     };
 
     useEffect(() => {
-        handleModalDisplay(isError, isBuyOrderForUser, error?.error?.code);
-    }, [error?.error, isBuyOrderForUser, isError]);
+        const searchParams = new URLSearchParams(location.search);
+        const actionParam = searchParams.get('action');
+        const codeParam = searchParams.get('code');
+
+        if (actionParam && codeParam) {
+            setVerificationCode(codeParam);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // Need this useEffect to handle confirming order if verification code is present in the URL
+    // If this is used in the above useEffect, it will invoke the mutation twice
+    useEffect(() => {
+        if (verificationCode) {
+            mutate({ dry_run: 1, id, verification_code: verificationCode });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [verificationCode]);
+
+    useEffect(() => {
+        handleModalDisplay(error?.error?.code);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        error?.error,
+        isBuyOrderForUser,
+        isError,
+        isSuccess,
+        verificationNextRequest,
+        data?.is_dry_run_successful,
+        orderDetails?.status,
+    ]);
+
+    // TODO: Uncomment this block when implementing email link has expired modal
+    // useEffect(() => {
+    //     if (verificationTokenExpiry) {
+    //         const emailExpiryTime = epochToMoment(verificationTokenExpiry);
+    //         const currentTime = epochToMoment(Date.now() / 1000);
+
+    //         setHasEmailExpired(currentTime.isAfter(emailExpiryTime));
+    //     }
+    // }, [verificationTokenExpiry]);
+
+    if (isCompletedOrder) {
+        return <OrderDetailsCardReview setShowRatingModal={setShowRatingModal} showRatingModal={showRatingModal} />;
+    }
 
     if (
         !shouldShowCancelAndPaidButton &&
@@ -60,6 +143,12 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
         mutate({ id });
     };
 
+    // If verification code params are present in the URL, clear the search params after the modal is closed
+    const hideAndClearSearchParams = () => {
+        history.replace({ pathname: location.pathname, search: '' });
+        hideModal({ shouldHideAllModals: true });
+    };
+
     return (
         <div className='order-details-card-footer'>
             {shouldShowCancelAndPaidButton && (
@@ -72,10 +161,10 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                         textSize={textSize}
                         variant='outlined'
                     >
-                        Cancel order
+                        <Localize i18n_default_text='Cancel order' />
                     </Button>
                     <Button onClick={() => showModal('OrderDetailsConfirmModal')} size='lg' textSize={textSize}>
-                        I’ve paid
+                        <Localize i18n_default_text='I’ve paid' />
                     </Button>
                 </div>
             )}
@@ -89,10 +178,10 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                         textSize={textSize}
                         variant='ghost'
                     >
-                        Complain
+                        <Localize i18n_default_text='Complain' />
                     </Button>
-                    <Button size='lg' textSize={textSize}>
-                        I’ve received payment
+                    <Button onClick={() => mutate({ id })} size='lg' textSize={textSize}>
+                        <Localize i18n_default_text='I’ve received payment' />
                     </Button>
                 </div>
             )}
@@ -106,14 +195,14 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                         textSize={textSize}
                         variant='ghost'
                     >
-                        Complain
+                        <Localize i18n_default_text='Complain' />
                     </Button>
                 </div>
             )}
             {shouldShowOnlyReceivedButton && (
                 <div className='ml-auto'>
-                    <Button size='lg' textSize={textSize}>
-                        I’ve received payment
+                    <Button onClick={() => mutate({ id })} size='lg' textSize={textSize}>
+                        <Localize i18n_default_text='I’ve received payment' />
                     </Button>
                 </div>
             )}
@@ -121,24 +210,60 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                 <OrderDetailsComplainModal
                     id={id}
                     isBuyOrderForUser={isBuyOrderForUser}
-                    isModalOpen={!!isModalOpenFor('OrderDetailsComplainModal')}
+                    isModalOpen
                     onRequestClose={hideModal}
                 />
             )}
             {!!isModalOpenFor('OrderDetailsCancelModal') && (
-                <OrderDetailsCancelModal
-                    id={id}
-                    isModalOpen={!!isModalOpenFor('OrderDetailsCancelModal')}
-                    onRequestClose={hideModal}
-                />
+                <OrderDetailsCancelModal id={id} isModalOpen onRequestClose={hideModal} />
             )}
             {!!isModalOpenFor('OrderDetailsConfirmModal') && (
                 <OrderDetailsConfirmModal
-                    isModalOpen={!!isModalOpenFor('OrderDetailsConfirmModal')}
+                    isModalOpen
                     onCancel={hideModal}
                     onConfirm={onClickPaid}
                     onRequestClose={hideModal}
                     sendFile={sendFile}
+                />
+            )}
+            {!!isModalOpenFor('EmailVerificationModal') && (
+                <EmailVerificationModal
+                    isModalOpen
+                    nextRequestTime={verificationNextRequest!}
+                    onRequestClose={hideModal}
+                    onResendEmail={() => mutate({ id })}
+                />
+            )}
+            {!!isModalOpenFor('InvalidVerificationLinkModal') && (
+                <InvalidVerificationLinkModal
+                    error={error?.error}
+                    isModalOpen
+                    mutate={() => mutate({ id })}
+                    onRequestClose={() => {
+                        hideAndClearSearchParams();
+                        reset();
+                    }}
+                />
+            )}
+            {!!isModalOpenFor('EmailLinkBlockedModal') && (
+                <EmailLinkBlockedModal
+                    errorMessage={error?.error.message}
+                    isModalOpen
+                    onRequestClose={hideAndClearSearchParams}
+                />
+            )}
+            {!!isModalOpenFor('EmailLinkVerifiedModal') && (
+                <EmailLinkVerifiedModal
+                    isModalOpen
+                    onRequestClose={() => {
+                        hideAndClearSearchParams();
+                        setVerificationCode(undefined);
+                    }}
+                    onSubmit={() => {
+                        mutate({ id, verification_code: verificationCode });
+                        history.replace({ pathname: location.pathname, search: '' });
+                        setVerificationCode(undefined);
+                    }}
                 />
             )}
         </div>

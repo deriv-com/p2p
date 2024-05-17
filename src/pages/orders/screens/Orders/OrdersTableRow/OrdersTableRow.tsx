@@ -1,9 +1,12 @@
+import { MouseEvent } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { DeepPartial, THooks } from 'types';
+import { StarRating } from '@/components';
+import { RatingModal } from '@/components/Modals';
 import { ORDERS_STATUS, ORDERS_URL } from '@/constants';
 import { api } from '@/hooks';
-import { useExtendedOrderDetails, useQueryString } from '@/hooks/custom-hooks';
+import { useExtendedOrderDetails, useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderRatingButton, OrderStatusTag, OrderTimer } from '@/pages/orders/components';
 import { getDistanceToServerTime } from '@/utils';
@@ -25,17 +28,21 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
         orderDetails: props as ExtendedOrderDetails,
         serverTime,
     });
+    const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
 
     const distance = getDistanceToServerTime(orderDetails.orderExpiryMilliseconds, serverTime?.server_time_moment);
 
     const {
         account_currency: accountCurrency,
         amount_display: amountDisplay,
+        client_details: clientDetails,
         id,
         isCompletedOrder,
+        isOrderReviewable,
         local_currency: localCurrency,
         price_display: priceDisplay,
         purchaseTime,
+        review_details: reviewDetails,
         shouldHighlightAlert,
         shouldHighlightDanger,
         shouldHighlightDisabled,
@@ -45,7 +52,15 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
     const isBuyOrderForUser = orderDetails.isBuyOrderForUser;
     const transactionAmount = `${Number(priceDisplay).toFixed(2)} ${localCurrency}`;
     const offerAmount = `${amountDisplay} ${accountCurrency}`;
-    const showOrderDetails = () => history.push(`${ORDERS_URL}/${id}`, { from: 'Orders' });
+    const showOrderDetails = () => {
+        if (!isModalOpenFor('RatingModal'))
+            history.push(`${ORDERS_URL}/${id}`, { from: isPast ? 'PastOrders' : 'Orders' });
+    };
+
+    const onClickRatingButton = (event: MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        showModal('RatingModal');
+    };
 
     if (isMobile) {
         return (
@@ -77,7 +92,10 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
                             </Button>
                         </div>
                     )}
-                    {isCompletedOrder && <OrderRatingButton />}
+                    {isCompletedOrder && !reviewDetails?.rating && (
+                        <OrderRatingButton isDisabled={!isOrderReviewable} onClick={onClickRatingButton} />
+                    )}
+                    {reviewDetails?.rating && <StarRating isReadonly ratingValue={reviewDetails?.rating} />}
                 </div>
                 <div className='flex gap-1'>
                     <Text size='2xl' weight='bold'>
@@ -87,6 +105,16 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
                 <Text color='less-prominent' size='sm'>
                     {purchaseTime}
                 </Text>
+                {!!isModalOpenFor('RatingModal') && (
+                    <RatingModal
+                        isBuyOrder={isBuyOrderForUser}
+                        isModalOpen
+                        isRecommended={clientDetails.is_recommended}
+                        isRecommendedPreviously={!clientDetails.has_not_been_recommended}
+                        onRequestClose={hideModal}
+                        orderId={id}
+                    />
+                )}
             </div>
         );
     }
@@ -109,7 +137,22 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
             <Text size='sm'>{isBuyOrderForUser ? transactionAmount : offerAmount}</Text>
             <Text size='sm'>{isBuyOrderForUser ? offerAmount : transactionAmount}</Text>
             {!isPast && <OrderTimer distance={distance} />}
-            {isCompletedOrder && <OrderRatingButton />}
+            {isCompletedOrder && !reviewDetails?.rating && (
+                <OrderRatingButton isDisabled={!isOrderReviewable} onClick={onClickRatingButton} />
+            )}
+            {reviewDetails?.rating && (
+                <StarRating className='ml-8' isReadonly ratingValue={reviewDetails?.rating} starsScale={0.8} />
+            )}
+            {!!isModalOpenFor('RatingModal') && (
+                <RatingModal
+                    isBuyOrder={isBuyOrderForUser}
+                    isModalOpen
+                    isRecommended={clientDetails.is_recommended}
+                    isRecommendedPreviously={!clientDetails.has_not_been_recommended}
+                    onRequestClose={hideModal}
+                    orderId={id}
+                />
+            )}
         </div>
     );
 };
