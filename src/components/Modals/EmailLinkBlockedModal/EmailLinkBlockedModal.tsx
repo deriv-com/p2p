@@ -26,7 +26,7 @@ const EmailLinkBlockedModal = ({ errorMessage, isModalOpen, onRequestClose }: TE
                 <Text align='center' weight='bold'>
                     <Localize i18n_default_text='Too many failed attempts' />
                 </Text>
-                <Text align='center'>{errorMessage}</Text>
+                {errorMessage && <Text align='center'>{errorMessage}</Text>}
             </Modal.Body>
         </Modal>
     );
