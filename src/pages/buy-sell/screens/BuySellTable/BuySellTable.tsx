@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { RadioGroupFilterModal } from '@/components/Modals';
+import { EmailLinkExpiredModal, RadioGroupFilterModal } from '@/components/Modals';
 import { ADVERT_TYPE, BUY_SELL, SORT_BY_LIST } from '@/constants';
 import { api } from '@/hooks';
 import { useModalManager, useQueryString } from '@/hooks/custom-hooks';
@@ -15,6 +15,10 @@ const BuySellTable = () => {
     const { data: p2pSettingsData } = api.settings.useSettings();
     const { queryString, setQueryString } = useQueryString();
     const activeTab = queryString.tab || ADVERT_TYPE.BUY;
+
+    useEffect(() => {
+        showModal('EmailLinkExpiredModal');
+    }, []);
 
     const [selectedCurrency, setSelectedCurrency] = useState<string>(p2pSettingsData?.localCurrency || '');
     const [sortDropdownValue, setSortDropdownValue] = useState<TSortByValues>('rate');
@@ -82,6 +86,9 @@ const BuySellTable = () => {
                     onToggle={onToggle}
                     selected={sortDropdownValue as string}
                 />
+            )}
+            {isModalOpenFor('EmailLinkExpiredModal') && (
+                <EmailLinkExpiredModal isModalOpen onRequestClose={hideModal} />
             )}
         </div>
     );
