@@ -1,6 +1,6 @@
 import { DerivLightIcEmailSentExpiredIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
-import { Button, Modal, Text } from '@deriv-com/ui';
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './EmailLinkExpiredModal.scss';
 
 type TEmailLinkExpiredModal = {
@@ -10,6 +10,8 @@ type TEmailLinkExpiredModal = {
 };
 
 const EmailLinkExpiredModal = ({ isModalOpen, onClickHandler, onRequestClose }: TEmailLinkExpiredModal) => {
+    const { isMobile } = useDevice();
+    const iconSize = isMobile ? 96 : 128;
     return (
         <Modal
             ariaHideApp={false}
@@ -19,7 +21,7 @@ const EmailLinkExpiredModal = ({ isModalOpen, onClickHandler, onRequestClose }: 
         >
             <Modal.Header hideBorder onRequestClose={onRequestClose} />
             <Modal.Body className='email-link-expired-modal__body'>
-                <DerivLightIcEmailSentExpiredIcon height={102} width={102} />
+                <DerivLightIcEmailSentExpiredIcon height={iconSize} width={iconSize} />
                 <Text align='center' className='flex justify-center mt-[3.6rem]' weight='bold'>
                     <Localize i18n_default_text='The verification link appears to be invalid. Hit the button below to request for a new one' />
                 </Text>
