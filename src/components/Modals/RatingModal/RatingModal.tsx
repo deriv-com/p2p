@@ -24,7 +24,7 @@ const RatingModal = ({
     onRequestClose,
     orderId,
 }: TRatingModalProps) => {
-    const [rating, setRating] = useState<number>(0);
+    const [rating, setRating] = useState(0);
     const [isNoSelected, setIsNoSelected] = useState(false);
     const [isYesSelected, setIsYesSelected] = useState(false);
     const { mutate } = api.orderReview.useReview();

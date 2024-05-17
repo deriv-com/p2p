@@ -109,7 +109,16 @@ const EmailVerificationModal = ({
                         ))}
                         <div className='flex justify-center'>
                             <Button disabled={timeLeft > 0} onClick={onResendEmail} size='md'>
-                                <Localize i18n_default_text='Resend email' /> {timeLeft > 0 && `${timeLeft}s`}
+                                {timeLeft > 0 ? (
+                                    <Localize
+                                        i18n_default_text='Resend email {{timeLeft}}s'
+                                        values={{
+                                            timeLeft,
+                                        }}
+                                    />
+                                ) : (
+                                    <Localize i18n_default_text='Resend email' />
+                                )}
                             </Button>
                         </div>
                     </div>

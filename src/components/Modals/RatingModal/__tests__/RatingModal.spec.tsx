@@ -48,7 +48,7 @@ describe('<RatingModal />', () => {
     });
 
     it('should enable the Yes button when clicked and disable the No button', async () => {
-        render(<RatingModal {...mockProps} isRecommended={false} isRecommendedPreviously={true} />);
+        render(<RatingModal {...mockProps} isRecommended={false} isRecommendedPreviously />);
         const stars = screen.getByText('StarRating');
         await userEvent.click(stars);
 
@@ -63,7 +63,7 @@ describe('<RatingModal />', () => {
     });
 
     it('should enable the No button when clicked and disable the Yes button', async () => {
-        render(<RatingModal {...mockProps} isRecommended={true} isRecommendedPreviously={true} />);
+        render(<RatingModal {...mockProps} isRecommended isRecommendedPreviously />);
         const stars = screen.getByText('StarRating');
         await userEvent.click(stars);
 
@@ -78,7 +78,7 @@ describe('<RatingModal />', () => {
     });
 
     it('should call mutate with recommended value 1 when yes is selected, and onRequestClose when Done button is clicked', async () => {
-        render(<RatingModal {...mockProps} isRecommendedPreviously={false} />);
+        render(<RatingModal {...mockProps} />);
         const stars = screen.getByText('StarRating');
         await userEvent.click(stars);
 
@@ -93,7 +93,7 @@ describe('<RatingModal />', () => {
     });
 
     it('should call mutate with recommended value 0 when no is selected, and onRequestClose when Done button is clicked', async () => {
-        render(<RatingModal {...mockProps} isRecommendedPreviously={false} />);
+        render(<RatingModal {...mockProps} />);
         const stars = screen.getByText('StarRating');
         await userEvent.click(stars);
 
@@ -108,7 +108,7 @@ describe('<RatingModal />', () => {
     });
 
     it('should call mutate with recommended value undefined when nothing is selected and onRequestClose when Done button is clicked', async () => {
-        render(<RatingModal {...mockProps} isRecommendedPreviously={false} />);
+        render(<RatingModal {...mockProps} />);
         const stars = screen.getByText('StarRating');
         await userEvent.click(stars);
 

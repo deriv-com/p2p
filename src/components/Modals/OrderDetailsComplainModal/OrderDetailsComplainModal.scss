@@ -1,7 +1,5 @@
 .order-details-complain-modal {
-    height: fit-content;
-    width: 44rem;
-    border-radius: 8px;
+    @include default-modal;
 
     &__body {
         padding: 1.6rem;
@@ -21,7 +19,7 @@
     }
 
     @include mobile {
-        width: unset;
+        max-width: fit-content;
         position: absolute;
         top: 0;
         left: 0;
