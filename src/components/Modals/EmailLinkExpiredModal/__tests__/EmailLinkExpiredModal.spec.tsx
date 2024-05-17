@@ -8,6 +8,13 @@ const mockProps = {
     onRequestClose: jest.fn(),
 };
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: () => ({
+        isMobile: false,
+    }),
+}));
+
 describe('EmailLinkExpiredModal', () => {
     it('should render the modal as expected', () => {
         render(<EmailLinkExpiredModal {...mockProps} />);
