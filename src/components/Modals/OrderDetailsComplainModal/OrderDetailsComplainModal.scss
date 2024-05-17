@@ -1,5 +1,6 @@
 .order-details-complain-modal {
-    width: 44rem;
+    @include default-modal;
+
     &__body {
         padding: 1.6rem;
         padding-top: 0;
@@ -18,12 +19,12 @@
     }
 
     @include mobile {
-        width: unset;
+        max-width: fit-content;
         position: absolute;
         top: 0;
         left: 0;
         z-index: 1;
-        height: calc(100vh - 8rem);
+        height: calc(100vh - 4rem);
 
         & .mobile-wrapper__body {
             padding: 0 1.6rem;

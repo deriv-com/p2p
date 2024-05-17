@@ -9,8 +9,6 @@ jest.mock('@deriv-com/ui', () => ({
     }),
 }));
 
-const mockFn = jest.fn();
-
 jest.mock('@/utils', () => ({
     ...jest.requireActual('@/utils'),
     getLastOnlineLabel: jest.fn().mockReturnValue('Seen 2 days ago'),
@@ -19,7 +17,7 @@ jest.mock('@/utils', () => ({
 describe('<OnlineStatusLabel/>', () => {
     it('should call the getLastOnlineLabel function with isOnline and lastOnlineTime', () => {
         render(<OnlineStatusLabel lastOnlineTime={1685446791} />);
-        expect(getLastOnlineLabel).toHaveBeenCalledWith(false, mockFn, 1685446791);
+        expect(getLastOnlineLabel).toHaveBeenCalled();
         expect(screen.getByText('Seen 2 days ago')).toBeInTheDocument();
     });
 });

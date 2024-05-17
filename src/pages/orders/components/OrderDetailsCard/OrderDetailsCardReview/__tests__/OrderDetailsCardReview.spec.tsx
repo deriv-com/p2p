@@ -1,5 +1,6 @@
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import OrderDetailsCardReview from '../OrderDetailsCardReview';
 
 jest.mock('@deriv-com/ui', () => ({
@@ -9,12 +10,27 @@ jest.mock('@deriv-com/ui', () => ({
 
 jest.mock('@/hooks', () => ({
     api: {
+        orderReview: {
+            useReview: () => ({
+                mutate: jest.fn(),
+            }),
+        },
         settings: {
             useSettings: () => ({
                 data: { review_period: 24 },
             }),
         },
     },
+}));
+
+const mockUseModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn(),
+    showModal: jest.fn(),
+};
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    useModalManager: () => mockUseModalManager,
 }));
 
 jest.mock('@/providers/OrderDetailsProvider', () => ({
@@ -31,12 +47,40 @@ jest.mock('@/providers/OrderDetailsProvider', () => ({
 
 const mockUseOrderDetails = useOrderDetails as jest.Mock;
 
+const mockProps = {
+    setShowRatingModal: jest.fn(),
+    showRatingModal: false,
+};
+
 describe('<OrderDetailsCardReview />', () => {
     it('should prompt the user to rate the order if isCompletedOrder is true and hasReviewDetails is false', () => {
-        render(<OrderDetailsCardReview />);
+        render(<OrderDetailsCardReview {...mockProps} />);
 
         expect(screen.getByRole('button', { name: 'Rate this transaction' })).toBeInTheDocument();
         expect(screen.getByText('You have until 21 Mar 2024, 01:10 GMT to rate this transaction.')).toBeInTheDocument();
+    });
+
+    it('should show RatingModal when Rate this transaction button is clicked', async () => {
+        mockUseModalManager.isModalOpenFor.mockImplementation(modal => modal === 'RatingModal');
+        render(<OrderDetailsCardReview {...mockProps} />);
+
+        const rateButton = screen.getByRole('button', { name: 'Rate this transaction' });
+        await userEvent.click(rateButton);
+
+        expect(screen.getByText('How would you rate this transaction?')).toBeInTheDocument();
+    });
+
+    it('should show RatingModal if showRatingModal is true and call hideModal and setShowRatingModal if user closes the modal', async () => {
+        mockUseModalManager.isModalOpenFor.mockImplementation(modal => modal === 'RatingModal');
+        render(<OrderDetailsCardReview {...mockProps} showRatingModal={true} />);
+
+        expect(screen.getByText('How would you rate this transaction?')).toBeInTheDocument();
+
+        const skipButton = screen.getByRole('button', { name: 'Skip' });
+        await userEvent.click(skipButton);
+
+        expect(mockUseModalManager.hideModal).toHaveBeenCalledTimes(1);
+        expect(mockProps.setShowRatingModal).toHaveBeenCalledWith(false);
     });
 
     it('should prompt the user that they cannot rate the order if is_reviewable is false', () => {
@@ -44,7 +88,7 @@ describe('<OrderDetailsCardReview />', () => {
             orderDetails: { ...mockUseOrderDetails().orderDetails, is_reviewable: false },
         });
 
-        render(<OrderDetailsCardReview />);
+        render(<OrderDetailsCardReview {...mockProps} />);
 
         const notRatedButton = screen.getByRole('button', { name: 'Not rated' });
 
@@ -65,7 +109,7 @@ describe('<OrderDetailsCardReview />', () => {
             },
         });
 
-        render(<OrderDetailsCardReview />);
+        render(<OrderDetailsCardReview {...mockProps} />);
 
         expect(screen.getByText('Your transaction experience')).toBeInTheDocument();
         expect(screen.getByText('Recommended')).toBeInTheDocument();
@@ -83,7 +127,7 @@ describe('<OrderDetailsCardReview />', () => {
             },
         });
 
-        render(<OrderDetailsCardReview />);
+        render(<OrderDetailsCardReview {...mockProps} />);
 
         expect(screen.getByText('Your transaction experience')).toBeInTheDocument();
         expect(screen.getByText('Not Recommended')).toBeInTheDocument();
@@ -101,7 +145,7 @@ describe('<OrderDetailsCardReview />', () => {
             },
         });
 
-        render(<OrderDetailsCardReview />);
+        render(<OrderDetailsCardReview {...mockProps} />);
 
         expect(screen.queryByText('Recommended')).not.toBeInTheDocument();
         expect(screen.queryByText('Not Recommended')).not.toBeInTheDocument();
@@ -112,7 +156,7 @@ describe('<OrderDetailsCardReview />', () => {
             orderDetails: { ...mockUseOrderDetails().orderDetails, hasReviewDetails: false, isCompletedOrder: false },
         });
 
-        const { container } = render(<OrderDetailsCardReview />);
+        const { container } = render(<OrderDetailsCardReview {...mockProps} />);
 
         expect(container).toBeEmptyDOMElement();
     });
