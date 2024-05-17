@@ -17,7 +17,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <QueryParamProvider adapter={ReactRouter5Adapter}>
-                <TranslationProvider defaultLang='ID' i18nInstance={i18nInstance}>
+                <TranslationProvider defaultLang='EN' i18nInstance={i18nInstance}>
                     <AppHeader />
                     <AppContent />
                     {isDesktop && <AppFooter />}

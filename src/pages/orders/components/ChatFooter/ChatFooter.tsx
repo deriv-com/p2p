@@ -1,4 +1,5 @@
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Input, Text, useDevice } from '@deriv-com/ui';
 import ChatFooterIcon from '../ChatFooterIcon/ChatFooterIcon';
 import { TextAreaWithIcon } from '../TextAreaWithIcon';
@@ -15,6 +16,7 @@ type TChatFooterProps = {
     sendMessage: (message: string) => void;
 };
 const ChatFooter = ({ isClosed, sendFile, sendMessage }: TChatFooterProps) => {
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const [value, setValue] = useState('');
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -26,7 +28,9 @@ const ChatFooter = ({ isClosed, sendFile, sendMessage }: TChatFooterProps) => {
     if (isClosed) {
         return (
             <div className='flex justify-center lg:px-[2.4rem] lg:py-[1.6rem]'>
-                <Text size={isMobile ? 'md' : 'sm'}>This conversation is closed</Text>
+                <Text size={isMobile ? 'md' : 'sm'}>
+                    <Localize i18n_default_text='This conversation is closed' />
+                </Text>
             </div>
         );
     }
@@ -85,7 +89,7 @@ const ChatFooter = ({ isClosed, sendFile, sendMessage }: TChatFooterProps) => {
                 maxLength={5000}
                 onChange={onChange}
                 onKeyDown={handleKeyDown}
-                placeholder='Enter message'
+                placeholder={localize('Enter message')}
                 ref={ref => (textInputRef.current = ref)}
                 shouldShowCounter
                 value={value}

@@ -3,6 +3,7 @@ import { FullPageMobileWrapper } from '@/components';
 import { RadioGroupFilterModal } from '@/components/Modals';
 import { COUNTERPARTIES_DROPDOWN_LIST } from '@/constants';
 import { useDevice, useQueryString } from '@/hooks/custom-hooks';
+import { Localize } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 import { MyProfileCounterpartiesHeader } from './MyProfileCounterpartiesHeader';
 import { MyProfileCounterpartiesTable } from './MyProfileCounterpartiesTable';
@@ -23,7 +24,7 @@ const MyProfileCounterpartiesDisplayWrapper = ({ children }: PropsWithChildren<u
                 }
                 renderHeader={() => (
                     <Text className='my-profile-counterparties__header' size='md' weight='bold'>
-                        My counterparties
+                        <Localize i18n_default_text='My counterparties' />
                     </Text>
                 )}
             >

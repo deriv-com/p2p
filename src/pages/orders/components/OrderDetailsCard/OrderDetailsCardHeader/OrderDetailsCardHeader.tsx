@@ -1,6 +1,7 @@
 import { api } from '@/hooks';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
 import { getDistanceToServerTime } from '@/utils';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { OrderTimer } from '../../OrderTimer';
 
@@ -45,13 +46,13 @@ const OrderDetailsCardHeader = () => {
                     </Text>
                 )}
                 <Text color='less-prominent' size={textSize}>
-                    Order ID {id}
+                    <Localize i18n_default_text='Order ID {{id}}' values={{ id }} />
                 </Text>
             </div>
             {shouldShowOrderTimer && (
                 <div className='flex flex-col justify-center gap-1'>
                     <Text align='center' size={textSize}>
-                        Time left
+                        <Localize i18n_default_text='Time left' />
                     </Text>
                     <OrderTimer distance={distance} />
                 </div>

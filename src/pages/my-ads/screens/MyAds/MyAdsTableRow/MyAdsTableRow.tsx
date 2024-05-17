@@ -16,7 +16,8 @@ const BASE_CURRENCY = 'USD';
 
 const getList = (isActive = false) => [
     { label: 'Edit', value: 'edit' },
-    { label: 'Copy', value: 'copy' },
+    // TODO: to be added when copy ads feature is released
+    // { label: 'Copy', value: 'copy' },
     { label: 'Share', value: 'share' },
     { label: `${isActive ? 'Deactivate' : 'Activate'}`, value: `${isActive ? 'deactivate' : 'activate'}` },
     { label: 'Delete', value: 'delete' },

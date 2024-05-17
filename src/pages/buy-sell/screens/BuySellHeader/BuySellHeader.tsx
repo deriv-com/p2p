@@ -5,6 +5,7 @@ import { SORT_BY_LIST } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
 import { TSortByValues } from '@/utils';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Button, Tab, Tabs, useDevice } from '@deriv-com/ui';
 import { CurrencyDropdown, SortDropdown } from '../../components';
 import './BuySellHeader.scss';
@@ -39,6 +40,7 @@ const BuySellHeader = ({
     sortDropdownValue,
 }: TBuySellHeaderProps) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const isAdvertiserBarred = useIsAdvertiserBarred();
 
@@ -56,8 +58,8 @@ const BuySellHeader = ({
                 variant='primary'
                 wrapperClassName='buy-sell-header__tabs'
             >
-                <Tab title='Buy' />
-                <Tab title='Sell' />
+                <Tab title={localize('Buy')} />
+                <Tab title={localize('Sell')} />
             </Tabs>
             <div className='buy-sell-header__row'>
                 <div className='flex flex-row-reverse lg:flex-row gap-4'>
@@ -66,7 +68,7 @@ const BuySellHeader = ({
                         <Search
                             name='search-nickname'
                             onSearch={setSearchValue}
-                            placeholder={isMobile ? 'Search' : 'Search by nickname'}
+                            placeholder={isMobile ? localize('Search') : localize('Search by nickname')}
                         />
                     </div>
                 </div>

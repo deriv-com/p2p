@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { TActiveChannel, TChatMessages, TTextColors } from 'types';
 import { CHAT_FILE_TYPE, CHAT_MESSAGE_TYPE } from '@/constants';
 import { convertToMB, formatMilliseconds } from '@/utils';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { ReactComponent as PDFIcon } from '../../../../public/ic-pdf.svg';
 import { ChatMessageReceipt } from '../ChatMessageReceipt';
@@ -18,9 +19,7 @@ type TChatMessagesProps = {
 const AdminMessage = () => (
     <div className='chat-messages__item chat-messages__item__admin'>
         <ChatMessageText color='general' type='admin'>
-            Hello! This is where you can chat with the counterparty to confirm the order details.
-            <br />
-            Note: In case of a dispute, we’ll use this chat as a reference.
+            <Localize i18n_default_text='Hello! This is where you can chat with the counterparty to confirm the order details.<br /> Note: In case of a dispute, we’ll use this chat as a reference.' />
         </ChatMessageText>
     </div>
 );

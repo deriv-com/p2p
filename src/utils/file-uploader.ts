@@ -1,3 +1,5 @@
+import { localize } from '@deriv-com/translations';
+
 export type TFile = File & { file: Blob };
 export type TFileType = File & { file: File };
 
@@ -54,8 +56,8 @@ const isFileSupported = (files: TFileType[]): boolean =>
  */
 export const getErrorMessage = (files: TFile[]): string =>
     isFileTooLarge(files) && isFileSupported(files as TFileType[])
-        ? 'Cannot upload a file over 5MB'
-        : 'The file you uploaded is not supported. Upload another.';
+        ? localize('Cannot upload a file over 5MB')
+        : localize('The file you uploaded is not supported. Upload another.');
 
 /**
  * Truncates the file name to a certain length

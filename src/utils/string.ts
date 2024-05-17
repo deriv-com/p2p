@@ -1,3 +1,5 @@
+import { localize } from '@deriv-com/translations';
+
 /**
  * A function that counts the number of decimal places in a number.
  * @param {Number | String} value - The number to count the decimal places of.
@@ -20,7 +22,9 @@ export const getShortNickname = (nickname: string): string => nickname?.substrin
  * @returns {String} The error message for the text field.
  */
 export const getTextFieldError = (fieldName: string): string =>
-    `${fieldName} can only include letters, numbers, spaces, and any of these symbols: -+.,'#@():;`;
+    localize("{{fieldName}} can only include letters, numbers, spaces, and any of these symbols: -+.,'#@():;", {
+        fieldName,
+    });
 
 /**
  * Validates that a string represents a decimal number.

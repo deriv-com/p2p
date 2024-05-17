@@ -4,6 +4,7 @@ import { MutableOption } from 'types';
 import { OrderTimeTooltipModal } from '@/components/Modals';
 import { ORDER_COMPLETION_TIME_LIST, ORDER_TIME_INFO_MESSAGE } from '@/constants';
 import { LabelPairedChevronDownMdRegularIcon, LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Button, Dropdown, Text, Tooltip, useDevice } from '@deriv-com/ui';
 
 const OrderTimeSelection = () => {
@@ -15,7 +16,7 @@ const OrderTimeSelection = () => {
         <div className='my-4'>
             <div className='flex items-center gap-[0.8rem]'>
                 <Text color='prominent' size={isMobile ? 'md' : 'sm'}>
-                    Orders must be completed in
+                    <Localize i18n_default_text='Orders must be completed in' />
                 </Text>
                 <Text size='xs'>
                     <Tooltip className='max-w-none' message={ORDER_TIME_INFO_MESSAGE} position='top'>

@@ -13,7 +13,7 @@ const OrdersEmpty = () => {
             <ActionScreen
                 actionButtons={
                     <Button onClick={() => history.push(BUY_SELL_URL)} size='lg' textSize={isMobile ? 'md' : 'sm'}>
-                        Buy/Sell
+                        <Localize i18n_default_text='Buy/Sell' />
                     </Button>
                 }
                 icon={<DerivLightOrderIcon height='128px' width='128px' />}

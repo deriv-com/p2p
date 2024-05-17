@@ -1,3 +1,4 @@
+import { Localize } from '@deriv-com/translations';
 import { Button } from '@deriv-com/ui';
 
 type TAddNewButtonProps = {
@@ -14,8 +15,7 @@ type TAddNewButtonProps = {
  * **/
 const AddNewButton = ({ isMobile, onAdd }: TAddNewButtonProps) => (
     <Button isFullWidth={isMobile} onClick={() => onAdd()} size='lg' textSize={isMobile ? 'md' : 'sm'}>
-        {/*  TODO Remember to translate this*/}
-        Add new
+        <Localize i18n_default_text='Add new' />
     </Button>
 );
 

@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { TAdConditionTypes, TCountryListItem } from 'types';
 import { PreferredCountriesModal } from '@/components/Modals';
 import { LabelPairedChevronRightSmRegularIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { AdConditionContentHeader } from '../AdConditionContentHeader';
 import './PreferredCountriesSelector.scss';
@@ -13,6 +14,7 @@ type TPreferredCountriesSelectorProps = {
 };
 
 const PreferredCountriesSelector = ({ countryList, type }: TPreferredCountriesSelectorProps) => {
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const { getValues, setValue } = useFormContext();
     const countries = Object.keys(countryList).map(key => ({
@@ -27,7 +29,7 @@ const PreferredCountriesSelector = ({ countryList, type }: TPreferredCountriesSe
     const getSelectedCountriesText = () => {
         const selectedCountries = getValues('preferred-countries');
         if (selectedCountries?.length === countries.length) {
-            return 'All countries';
+            return localize('All countries');
         }
         return selectedCountries?.map((value: string) => countryList[value]?.country_name).join(', ');
     };
