@@ -2,7 +2,6 @@ import { ComponentProps, ReactNode } from 'react';
 import clsx from 'clsx';
 import { Controller, useFormContext } from 'react-hook-form';
 import { getValidationRules } from '@/utils';
-import { useTranslations } from '@deriv-com/translations';
 import { Input } from '@deriv-com/ui';
 
 type TAdFormInputProps = ComponentProps<typeof Input> & {
@@ -23,7 +22,6 @@ const AdFormInput = ({
     ...props
 }: TAdFormInputProps) => {
     const { control, getValues } = useFormContext();
-    const { localize } = useTranslations();
     return (
         <Controller
             control={control}
@@ -49,7 +47,7 @@ const AdFormInput = ({
                 </div>
             )}
             rules={{
-                validate: getValidationRules(name, getValues, localize),
+                validate: getValidationRules(name, getValues),
             }}
         />
     );

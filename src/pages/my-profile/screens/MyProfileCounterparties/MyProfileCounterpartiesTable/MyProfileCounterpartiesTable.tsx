@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { api } from '@/hooks';
+import { Localize } from '@deriv-com/translations';
 import { Loader, Table, Text } from '@deriv-com/ui';
 import { MyProfileCounterpartiesEmpty } from '../MyProfileCounterpartiesEmpty';
 import { MyProfileCounterpartiesTableRow } from '../MyProfileCounterpartiesTableRow';
@@ -54,7 +55,11 @@ const MyProfileCounterpartiesTable = ({
 
     if (!isFetching && data.length === 0) {
         if (searchValue === '') return <MyProfileCounterpartiesEmpty />;
-        return <Text weight='bold'>There are no matching name</Text>;
+        return (
+            <Text weight='bold'>
+                <Localize i18n_default_text='There are no matching name' />
+            </Text>
+        );
     }
 
     return (

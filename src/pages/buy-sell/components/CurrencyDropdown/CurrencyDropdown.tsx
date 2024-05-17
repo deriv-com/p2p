@@ -5,6 +5,7 @@ import { useOnClickOutside } from 'usehooks-ts';
 import { FullPageMobileWrapper } from '@/components';
 import { api } from '@/hooks';
 import { LabelPairedChevronDownMdRegularIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { CurrencySelector } from './CurrencySelector';
 import './CurrencyDropdown.scss';
@@ -51,7 +52,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
                 }}
                 renderHeader={() => (
                     <Text size='lg' weight='bold'>
-                        Preferred currency
+                        <Localize i18n_default_text='Preferred currency' />
                     </Text>
                 )}
             >
@@ -76,7 +77,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
                     color='less-prominent'
                     size={isMobile ? 'xs' : '2xs'}
                 >
-                    Currency
+                    <Localize i18n_default_text='Currency' />
                 </Text>
                 <Text size='sm'>{selectedCurrency}</Text>
                 <LabelPairedChevronDownMdRegularIcon

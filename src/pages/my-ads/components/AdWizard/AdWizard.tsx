@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TCountryListItem, TCurrency, TStep } from 'types';
 import { FormProgress, Wizard } from '@/components';
 import { LabelPairedXmarkLgBoldIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import { AdConditionsSection } from '../AdConditionsSection';
 import { AdPaymentDetailsSection } from '../AdPaymentDetailsSection';
@@ -43,11 +44,14 @@ const AdWizard = ({ countryList, onCancel, steps, ...rest }: TAdWizardNav) => {
                                 <Text weight='bold'>{steps[currentStep].header.title}</Text>
                                 {steps[currentStep + 1] ? (
                                     <Text as='div' color='less-prominent'>
-                                        {`Next: ${steps[currentStep + 1].header.title}`}
+                                        <Localize
+                                            i18n_default_text='Next: {{title}}'
+                                            values={{ title: steps[currentStep + 1].header.title }}
+                                        />
                                     </Text>
                                 ) : (
                                     <Text as='div' color='less-prominent'>
-                                        Last step
+                                        <Localize i18n_default_text='Last step' />
                                     </Text>
                                 )}
                             </div>

@@ -4,12 +4,14 @@ import { PageReturn, ProfileContent } from '@/components';
 import BlockDropdown from '@/components/AdvertiserName/BlockDropdown';
 import { BUY_SELL_URL, MY_PROFILE_URL } from '@/constants';
 import { api, useModalManager } from '@/hooks';
+import { useTranslations } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
 import { AdvertiserAdvertsTable } from '../AdvertiserAdvertsTable';
 import { AdvertiserBlockOverlay } from '../AdvertiserBlockOverlay';
 import './Advertiser.scss';
 
 const Advertiser = () => {
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const { showModal } = useModalManager();
     const { advertiserId } = useParams<{ advertiserId: string }>();
@@ -35,7 +37,7 @@ const Advertiser = () => {
                             : BUY_SELL_URL
                     )
                 }
-                pageTitle='Advertiser’s page'
+                pageTitle={localize('Advertiser’s page')}
                 {...(isMobile && {
                     rightPlaceHolder: (
                         <BlockDropdown

@@ -1,7 +1,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import { VALID_SYMBOLS_PATTERN } from '@/constants';
-import { Input } from '@deriv-com/ui';
-import { TextArea } from '..';
+import { useTranslations } from '@deriv-com/translations';
+import { Input, TextArea } from '@deriv-com/ui';
 
 type TPaymentMethodField = {
     control: ReturnType<typeof useForm>['control'];
@@ -23,6 +23,7 @@ type TPaymentMethodField = {
  * @example <PaymentMethodField control={control} defaultValue={defaultValue} displayName={displayName} field={field} required={required} />
  * **/
 const PaymentMethodField = ({ control, defaultValue, displayName, field, required }: TPaymentMethodField) => {
+    const { localize } = useTranslations();
     return (
         <div className='payment-method-form__field-wrapper'>
             <Controller
@@ -37,6 +38,7 @@ const PaymentMethodField = ({ control, defaultValue, displayName, field, require
                             label={displayName}
                             onBlur={onBlur}
                             onChange={onChange}
+                            textSize='sm'
                             value={value}
                         />
                     ) : (
@@ -53,10 +55,13 @@ const PaymentMethodField = ({ control, defaultValue, displayName, field, require
                 }}
                 rules={{
                     pattern: {
-                        message: `${displayName} can only include letters, numbers, spaces, and any of these symbols: -+.,'#@():;`, // TODO: Remember to translate this
+                        message: localize(
+                            "{{displayName}} can only include letters, numbers, spaces, and any of these symbols: -+.,'#@():;",
+                            { displayName }
+                        ),
                         value: VALID_SYMBOLS_PATTERN,
                     },
-                    required: required ? 'This field is required.' : false,
+                    required: required ? localize('This field is required.') : false,
                 }}
             />
         </div>

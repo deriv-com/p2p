@@ -1,6 +1,7 @@
 import { TFormState, THooks, TSelectedPaymentMethod } from 'types';
 import { FullPageMobileWrapper } from '@/components';
 import { useQueryString } from '@/hooks/custom-hooks';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import AddNewButton from './AddNewButton';
 import { PaymentMethodsListContent } from './PaymentMethodsListContent';
@@ -42,10 +43,9 @@ const PaymentMethodsList = ({
                     })
                 }
                 renderFooter={() => <AddNewButton isMobile={isMobile} onAdd={onAdd} />}
-                // TODO: Remember to translate the title
                 renderHeader={() => (
                     <Text size='lg' weight='bold'>
-                        Payment methods
+                        <Localize i18n_default_text='Payment methods' />
                     </Text>
                 )}
             >

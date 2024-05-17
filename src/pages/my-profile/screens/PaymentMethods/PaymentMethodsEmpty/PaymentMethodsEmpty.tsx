@@ -1,6 +1,7 @@
 import { FullPageMobileWrapper } from '@/components';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { DerivLightIcPaymentMethodsWalletIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './PaymentMethodsEmpty.scss';
 
@@ -29,7 +30,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                 }}
                 renderHeader={() => (
                     <Text size='lg' weight='bold'>
-                        Payment methods
+                        <Localize i18n_default_text='Payment methods' />
                     </Text>
                 )}
             >
@@ -37,16 +38,18 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                     <DerivLightIcPaymentMethodsWalletIcon height='16rem' />
                     {/* TODO: Remember to localize the text below */}
                     <Text className='payment-methods-empty__heading' size='lg' weight='bold'>
-                        You haven’t added any payment methods yet
+                        <Localize i18n_default_text='You haven’t added any payment methods yet' />
                     </Text>
-                    <Text size='lg'>Hit the button below to add payment methods.</Text>
+                    <Text size='lg'>
+                        <Localize i18n_default_text='Hit the button below to add payment methods.' />
+                    </Text>
                     <Button
                         className='payment-methods-empty__button'
                         onClick={() => {
                             onAddPaymentMethod();
                         }}
                     >
-                        Add payment methods
+                        <Localize i18n_default_text='Add payment methods' />
                     </Button>
                 </div>
             </FullPageMobileWrapper>
@@ -58,16 +61,18 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
             <DerivLightIcPaymentMethodsWalletIcon height='16rem' />
             {/* TODO: Remember to localize the text below */}
             <Text className='payment-methods-empty__heading' weight='bold'>
-                You haven’t added any payment methods yet
+                <Localize i18n_default_text='You haven’t added any payment methods yet' />
             </Text>
-            <Text>Hit the button below to add payment methods.</Text>
+            <Text>
+                <Localize i18n_default_text='Hit the button below to add payment methods.' />
+            </Text>
             <Button
                 className='payment-methods-empty__button'
                 onClick={() => {
                     onAddPaymentMethod();
                 }}
             >
-                Add payment methods
+                <Localize i18n_default_text='Add payment methods' />
             </Button>
         </div>
     );

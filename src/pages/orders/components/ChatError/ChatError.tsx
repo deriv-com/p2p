@@ -1,4 +1,5 @@
 import { MouseEventHandler } from 'react';
+import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 
 type TChatErrorProps = {
@@ -10,9 +11,11 @@ const ChatError = ({ onClickRetry }: TChatErrorProps) => {
 
     return (
         <div className='flex flex-col gap-[1.6rem] items-center'>
-            <Text size={isMobile ? 'lg' : 'md'}>Oops, something went wrong</Text>
+            <Text size={isMobile ? 'lg' : 'md'}>
+                <Localize i18n_default_text='Oops, something went wrong' />
+            </Text>
             <Button className='w-fit' onClick={onClickRetry} variant='contained'>
-                Retry
+                <Localize i18n_default_text='Retry' />
             </Button>
         </div>
     );

@@ -1,6 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { VALID_SYMBOLS_PATTERN } from '@/constants';
 import { getTextFieldError } from '@/utils';
+import { useTranslations } from '@deriv-com/translations';
 import { TextArea } from '@deriv-com/ui';
 import './AdFormTextArea.scss';
 
@@ -13,6 +14,7 @@ type TAdFormTextAreaProps = {
 };
 const AdFormTextArea = ({ field, hint = '', label, name, required = false }: TAdFormTextAreaProps) => {
     const { control } = useFormContext();
+    const { localize } = useTranslations();
     return (
         <Controller
             control={control}
@@ -37,7 +39,7 @@ const AdFormTextArea = ({ field, hint = '', label, name, required = false }: TAd
                     message: getTextFieldError(field),
                     value: VALID_SYMBOLS_PATTERN,
                 },
-                required: required ? `${field} is required` : undefined,
+                required: required ? localize('{{field}} is required', { field }) : undefined,
             }}
         />
     );

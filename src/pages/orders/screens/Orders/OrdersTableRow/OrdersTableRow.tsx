@@ -8,10 +8,12 @@ import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetai
 import { OrderRatingButton, OrderStatusTag, OrderTimer } from '@/pages/orders/components';
 import { getDistanceToServerTime } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './OrdersTableRow.scss';
 
 const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>) => {
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const { queryString } = useQueryString();
     const history = useHistory();
@@ -79,7 +81,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
                 </div>
                 <div className='flex gap-1'>
                     <Text size='2xl' weight='bold'>
-                        {`${isBuyOrderForUser ? 'Buy' : 'Sell'} ${offerAmount}`}
+                        {`${isBuyOrderForUser ? localize('Buy') : localize('Sell')} ${offerAmount}`}
                     </Text>
                 </div>
                 <Text color='less-prominent' size='sm'>

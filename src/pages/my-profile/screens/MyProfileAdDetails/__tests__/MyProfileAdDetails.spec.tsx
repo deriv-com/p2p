@@ -1,5 +1,6 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 import MyProfileAdDetails from '../MyProfileAdDetails';
 
 const mockUseAdvertiserInfo = {
@@ -47,9 +48,9 @@ describe('MyProfileBalance', () => {
         mockUseAdvertiserInfo.data = {};
         render(<MyProfileAdDetails />);
         const contactTextAreaNode = screen.getByTestId('dt_profile_ad_details_contact');
-        expect(within(contactTextAreaNode).getByRole('textbox')).toHaveValue('');
+        expect(contactTextAreaNode).toHaveValue('');
         const descriptionTextAreaNode = screen.getByTestId('dt_profile_ad_details_description');
-        expect(within(descriptionTextAreaNode).getByRole('textbox')).toHaveValue('');
+        expect(descriptionTextAreaNode).toHaveValue('');
     });
     it('should render initial empty details when user has not updated their details yet', () => {
         mockUseAdvertiserInfo.data = {
@@ -58,9 +59,9 @@ describe('MyProfileBalance', () => {
         };
         render(<MyProfileAdDetails />);
         const contactTextAreaNode = screen.getByTestId('dt_profile_ad_details_contact');
-        expect(within(contactTextAreaNode).getByRole('textbox')).toHaveValue('');
+        expect(contactTextAreaNode).toHaveValue('');
         const descriptionTextAreaNode = screen.getByTestId('dt_profile_ad_details_description');
-        expect(within(descriptionTextAreaNode).getByRole('textbox')).toHaveValue('');
+        expect(descriptionTextAreaNode).toHaveValue('');
     });
     it('should render initial details when user has previously updated their details', () => {
         mockUseAdvertiserInfo.data = {
@@ -69,9 +70,9 @@ describe('MyProfileBalance', () => {
         };
         render(<MyProfileAdDetails />);
         const contactTextAreaNode = screen.getByTestId('dt_profile_ad_details_contact');
-        expect(within(contactTextAreaNode).getByRole('textbox')).toHaveValue('0123456789');
+        expect(contactTextAreaNode).toHaveValue('0123456789');
         const descriptionTextAreaNode = screen.getByTestId('dt_profile_ad_details_description');
-        expect(within(descriptionTextAreaNode).getByRole('textbox')).toHaveValue('mock description');
+        expect(descriptionTextAreaNode).toHaveValue('mock description');
     });
     it('should render and post updated details when user updates their details', async () => {
         mockUseAdvertiserInfo.data = {
@@ -79,10 +80,8 @@ describe('MyProfileBalance', () => {
             default_advert_description: 'mock description',
         };
         render(<MyProfileAdDetails />);
-        const contactTextBoxNode = within(screen.getByTestId('dt_profile_ad_details_contact')).getByRole('textbox');
-        const descriptionTextBoxNode = within(screen.getByTestId('dt_profile_ad_details_description')).getByRole(
-            'textbox'
-        );
+        const contactTextBoxNode = screen.getByTestId('dt_profile_ad_details_contact');
+        const descriptionTextBoxNode = screen.getByTestId('dt_profile_ad_details_description');
         const submitBtn = screen.getByRole('button', {
             name: 'Save',
         });
@@ -93,7 +92,7 @@ describe('MyProfileBalance', () => {
         expect(submitBtn).toBeEnabled();
 
         await userEvent.click(submitBtn);
-        expect(mockMutateAdvertiser).toBeCalledWith({
+        expect(mockMutateAdvertiser).toHaveBeenCalledWith({
             contact_info: '01234567890',
             default_advert_description: 'mock description here',
         });
@@ -101,16 +100,14 @@ describe('MyProfileBalance', () => {
     it('should render mobile screen', async () => {
         mockUseDevice.isMobile = true;
         render(<MyProfileAdDetails />);
-        const contactTextBoxNode = within(screen.getByTestId('dt_profile_ad_details_contact')).getByRole('textbox');
-        const descriptionTextBoxNode = within(screen.getByTestId('dt_profile_ad_details_description')).getByRole(
-            'textbox'
-        );
+        const contactTextBoxNode = screen.getByTestId('dt_profile_ad_details_contact');
+        const descriptionTextBoxNode = screen.getByTestId('dt_profile_ad_details_description');
         expect(contactTextBoxNode).toBeInTheDocument();
         expect(descriptionTextBoxNode).toBeInTheDocument();
 
         const goBackBtn = screen.getByTestId('dt_mobile_wrapper_button');
         await userEvent.click(goBackBtn);
-        expect(mockSetQueryString).toBeCalledWith({
+        expect(mockSetQueryString).toHaveBeenCalledWith({
             tab: 'default',
         });
     });

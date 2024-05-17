@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react';
 import { TCountryListItem } from 'types';
 import { ERROR_CODES, RATE_TYPE } from '@/constants';
+import { localize } from '@deriv-com/translations';
 import { rangeValidator } from './format-value';
 import { countDecimalPlaces, decimalValidator } from './string';
 
@@ -53,26 +54,25 @@ const decimalPointValidation = (value: string) =>
     'Only up to 2 decimals are allowed.';
 export const getValidationRules = (
     fieldName: string,
-    getValues: (fieldName: string) => number | string,
-    localize: (key: string) => string
+    getValues: (fieldName: string) => number | string
 ): ValidationRules => {
     switch (fieldName) {
         case 'amount':
             return {
                 validation_1: value => requiredValidation(value, 'Amount'),
-                validation_2: value => !isNaN(Number(value)) || 'Enter a valid amount',
+                validation_2: value => !isNaN(Number(value)) || localize('Enter a valid amount'),
                 validation_3: value => decimalPointValidation(value),
                 validation_4: value => {
                     const minOrder = getValues('min-order');
                     if (minOrder && Number(value) < Number(minOrder)) {
-                        return 'Amount should not be below Min limit';
+                        return localize('Amount should not be below Min limit');
                     }
                     return true;
                 },
                 validation_5: value => {
                     const maxOrder = getValues('max-order');
                     if (maxOrder && Number(value) < Number(maxOrder)) {
-                        return 'Amount should not be below Max limit';
+                        return localize('Amount should not be below Max limit');
                     }
                     return true;
                 },
@@ -94,7 +94,9 @@ export const getValidationRules = (
                         getValues('rate-type-string') === RATE_TYPE.FLOAT &&
                         !rangeValidator(parseFloat(value), Number(limitValue))
                     ) {
-                        return `Enter a value that's within -${limitValue}% to +${limitValue}%`;
+                        return localize("Enter a value that's within -{{limitValue}}% to +{{limitValue}}%", {
+                            limitValue,
+                        });
                     }
                     return true;
                 },
@@ -102,19 +104,19 @@ export const getValidationRules = (
         case 'min-order':
             return {
                 validation_1: value => requiredValidation(value, 'Min limit'),
-                validation_2: value => !isNaN(Number(value)) || 'Only numbers are allowed',
+                validation_2: value => !isNaN(Number(value)) || localize('Only numbers are allowed'),
                 validation_3: value => decimalPointValidation(value),
                 validation_4: value => {
                     const amount = getValues('amount');
                     if (getValues('amount') && Number(value) > Number(amount)) {
-                        return 'Min limit should not exceed Amount';
+                        return localize('Min limit should not exceed Amount');
                     }
                     return true;
                 },
                 validation_5: value => {
                     const maxOrder = getValues('max-order');
                     if (maxOrder && Number(value) > Number(maxOrder)) {
-                        return 'Min limit should not exceed Max limit';
+                        return localize('Min limit should not exceed Max limit');
                     }
                     return true;
                 },
@@ -127,14 +129,14 @@ export const getValidationRules = (
                 validation_4: value => {
                     const amount = getValues('amount');
                     if (amount && Number(value) > Number(amount)) {
-                        return 'Max limit should not exceed Amount';
+                        return localize('Max limit should not exceed Amount');
                     }
                     return true;
                 },
                 validation_5: value => {
                     const minOrder = getValues('min-order');
                     if (minOrder && Number(value) < Number(minOrder)) {
-                        return 'Max limit should not be below Min limit';
+                        return localize('Max limit should not be below Min limit');
                     }
                     return true;
                 },
