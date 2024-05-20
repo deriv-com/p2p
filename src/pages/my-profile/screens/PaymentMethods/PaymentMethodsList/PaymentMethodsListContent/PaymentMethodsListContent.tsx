@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { TBankName, TFormState, THooks, TName, TSelectedPaymentMethod } from 'types';
 import { PaymentMethodCard } from '@/components';
 import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
-import { PAYMENT_METHOD_CATEGORIES } from '@/constants';
+import { getPaymentMethodCategories } from '@/constants';
 import { api } from '@/hooks';
 import { sortPaymentMethods } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
@@ -63,7 +63,7 @@ const PaymentMethodsListContent = ({
             } else {
                 groups[advertiserPaymentMethod.type] = {
                     paymentMethods: [advertiserPaymentMethod],
-                    title: PAYMENT_METHOD_CATEGORIES[advertiserPaymentMethod.type],
+                    title: getPaymentMethodCategories(localize)[advertiserPaymentMethod.type],
                 };
             }
         });

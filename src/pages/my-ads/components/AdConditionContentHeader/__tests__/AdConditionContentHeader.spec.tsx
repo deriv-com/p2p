@@ -10,12 +10,12 @@ jest.mock('@deriv-com/ui', () => ({
 
 jest.mock('@/constants', () => ({
     ...jest.requireActual('@/constants'),
-    AD_CONDITION_CONTENT: {
+    getAdConditionContent: () => ({
         completionRates: {
             description: 'description',
             title: 'title',
         },
-    },
+    }),
 }));
 
 const mockUseDevice = useDevice as jest.Mock;

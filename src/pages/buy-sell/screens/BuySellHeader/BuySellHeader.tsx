@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
-import { SORT_BY_LIST } from '@/constants';
+import { getSortByList } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
 import { TSortByValues } from '@/utils';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
@@ -73,7 +73,7 @@ const BuySellHeader = ({
                     </div>
                 </div>
                 <SortDropdown
-                    list={SORT_BY_LIST}
+                    list={getSortByList(localize)}
                     onSelect={setSortDropdownValue}
                     setIsFilterModalOpen={setIsFilterModalOpen}
                     value={sortDropdownValue}

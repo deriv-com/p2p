@@ -1,9 +1,9 @@
 import { PropsWithChildren, useState } from 'react';
 import { FullPageMobileWrapper } from '@/components';
 import { RadioGroupFilterModal } from '@/components/Modals';
-import { COUNTERPARTIES_DROPDOWN_LIST } from '@/constants';
+import { getCounterpartiesDropdownList } from '@/constants';
 import { useDevice, useQueryString } from '@/hooks/custom-hooks';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 import { MyProfileCounterpartiesHeader } from './MyProfileCounterpartiesHeader';
 import { MyProfileCounterpartiesTable } from './MyProfileCounterpartiesTable';
@@ -40,6 +40,7 @@ const MyProfileCounterparties = () => {
     const [dropdownValue, setDropdownValue] = useState('all');
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const [showHeader, setShowHeader] = useState(false);
+    const { localize } = useTranslations();
 
     const onClickFilter = () => {
         setIsFilterModalOpen(true);
@@ -70,7 +71,7 @@ const MyProfileCounterparties = () => {
                 </div>
                 <RadioGroupFilterModal
                     isModalOpen={isFilterModalOpen}
-                    list={COUNTERPARTIES_DROPDOWN_LIST}
+                    list={getCounterpartiesDropdownList(localize)}
                     onRequestClose={() => setIsFilterModalOpen(false)}
                     onToggle={onToggle}
                     selected={dropdownValue}

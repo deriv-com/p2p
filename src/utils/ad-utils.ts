@@ -48,10 +48,10 @@ type ValidationRules = {
     [key: string]: (value: string) => boolean | string;
 };
 
-const requiredValidation = (value: string, field: string) => !!value || `${field} is required`;
+const requiredValidation = (value: string, field: string) => !!value || localize('{{field}} is required', { field });
 const decimalPointValidation = (value: string) =>
     (Number(value) > 0 && decimalValidator(value) && countDecimalPlaces(value) <= 2) ||
-    'Only up to 2 decimals are allowed.';
+    localize('Only up to 2 decimals are allowed.');
 export const getValidationRules = (
     fieldName: string,
     getValues: (fieldName: string) => number | string

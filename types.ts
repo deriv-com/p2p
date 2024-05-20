@@ -216,3 +216,5 @@ export type TTextSize = ComponentProps<typeof Text>['size'];
 
 export type TActiveChannel = ReturnType<typeof useSendbird>['activeChatChannel'];
 export type TChatMessages = NonNullable<ReturnType<typeof useSendbird>['messages']>;
+
+export type TLocalize = (key: string) => string;
