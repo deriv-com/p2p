@@ -9,7 +9,9 @@ import Router from '../Router';
 import { routes } from '../routes-config';
 import './index.scss';
 
-const tabRoutesConfiguration = routes.filter(route => route.name !== 'Advertiser' && route.name !== 'Endpoint');
+const tabRoutesConfiguration = routes.filter(
+    route => route.name !== 'Advertiser' && route.name !== 'Endpoint' && route.name !== 'P2PRedirectHandler'
+);
 
 const AppContent = () => {
     const history = useHistory();

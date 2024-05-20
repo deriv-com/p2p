@@ -60,6 +60,7 @@ export const routes = [
     },
     {
         component: P2PRedirectHandler,
+        name: 'P2PRedirectHandler',
         path: '/redirect/p2p',
     },
 ];
