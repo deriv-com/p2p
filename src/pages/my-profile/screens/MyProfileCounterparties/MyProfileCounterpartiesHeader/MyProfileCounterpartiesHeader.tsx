@@ -1,6 +1,6 @@
 import { MutableOption } from 'types';
 import { Search } from '@/components';
-import { COUNTERPARTIES_DROPDOWN_LIST } from '@/constants';
+import { getCounterpartiesDropdownList } from '@/constants';
 import { useDevice } from '@/hooks/custom-hooks';
 import { LabelPairedChevronDownMdRegularIcon, LegacySort1pxIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
@@ -41,7 +41,7 @@ const MyProfileCounterpartiesHeader = ({
                     <Dropdown
                         dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
                         label={localize('Filter by')}
-                        list={COUNTERPARTIES_DROPDOWN_LIST as unknown as MutableOption[]}
+                        list={getCounterpartiesDropdownList(localize) as unknown as MutableOption[]}
                         listHeight='sm'
                         name='counterparty-filter'
                         onSelect={value => setDropdownValue(value as string)}

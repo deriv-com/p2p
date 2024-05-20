@@ -5,7 +5,7 @@ import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { percentOf, roundOffDecimal, setDecimalPlaces } from '@/utils';
 import { useExchangeRates } from '@deriv-com/api-hooks';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 
@@ -28,6 +28,7 @@ const AdSummary = ({
     rateType,
     type,
 }: TAdSummaryProps) => {
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const { queryString } = useQueryString();
     const adOption = queryString.formAction;
@@ -37,7 +38,7 @@ const AdSummary = ({
 
     const marketRateType = adOption === AD_ACTION.CREATE ? rateType : adRateType;
     const displayOfferAmount = offerAmount ? FormatUtils.formatMoney(Number(offerAmount), { currency }) : '';
-    const adText = adOption === AD_ACTION.CREATE ? 'creating' : 'editing';
+    const adText = adOption === AD_ACTION.CREATE ? localize('creating') : localize('editing');
     const adTypeText = type;
 
     let displayPriceRate: number | string = '';

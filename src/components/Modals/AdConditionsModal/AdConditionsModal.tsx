@@ -1,5 +1,5 @@
-import { AD_CONDITION_CONTENT } from '@/constants';
-import { Localize } from '@deriv-com/translations';
+import { getAdConditionContent } from '@/constants';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdConditionsModal.scss';
 
@@ -11,14 +11,15 @@ type TAdConditionsModalProps = {
 
 const AdConditionsModal = ({ isModalOpen, onRequestClose, type }: TAdConditionsModalProps) => {
     const { isMobile } = useDevice();
+    const { localize } = useTranslations();
     return (
         <Modal ariaHideApp={false} className='ad-conditions-modal' isOpen={isModalOpen} onRequestClose={onRequestClose}>
             <Modal.Header className='px-[1.6rem]' hideBorder hideCloseIcon onRequestClose={onRequestClose}>
-                <Text weight='bold'>{AD_CONDITION_CONTENT[type].title}</Text>
+                <Text weight='bold'>{getAdConditionContent(localize)[type].title}</Text>
             </Modal.Header>
             <Modal.Body className='p-[1.6rem] lg:p-[2.4rem]'>
                 <Text className='whitespace-pre-line' size='sm'>
-                    {AD_CONDITION_CONTENT[type].description}
+                    {getAdConditionContent(localize)[type].description}
                 </Text>
             </Modal.Body>
             <Modal.Footer hideBorder>

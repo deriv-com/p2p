@@ -10,4 +10,6 @@ const useTranslations = () => ({
     localize: jest.fn(text => text),
 });
 
-export { Localize, useTranslations };
+const localize = jest.fn(text => text);
+
+export { Localize, localize, useTranslations };

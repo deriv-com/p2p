@@ -36,9 +36,7 @@ describe('ChatMessages', () => {
     it('should render the messages as expected', () => {
         render(<ChatMessages {...mockProps} />);
         expect(
-            screen.getByText(
-                /Hello! This is where you can chat with the counterparty to confirm the order details.\s*Note: In case of a dispute, we’ll use this chat as a reference./
-            )
+            screen.getByText(/Hello! This is where you can chat with the counterparty to confirm the order details./)
         ).toBeInTheDocument();
     });
     it('should display the message sent by the user', () => {

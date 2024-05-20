@@ -2,15 +2,16 @@ import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { MutableOption } from 'types';
 import { OrderTimeTooltipModal } from '@/components/Modals';
-import { ORDER_COMPLETION_TIME_LIST, ORDER_TIME_INFO_MESSAGE } from '@/constants';
+import { getOrderTimeCompletionList, getOrderTimeInfoMessage } from '@/constants';
 import { LabelPairedChevronDownMdRegularIcon, LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Dropdown, Text, Tooltip, useDevice } from '@deriv-com/ui';
 
 const OrderTimeSelection = () => {
     const { control } = useFormContext();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { isMobile } = useDevice();
+    const { localize } = useTranslations();
 
     return (
         <div className='my-4'>
@@ -19,7 +20,7 @@ const OrderTimeSelection = () => {
                     <Localize i18n_default_text='Orders must be completed in' />
                 </Text>
                 <Text size='xs'>
-                    <Tooltip className='max-w-none' message={ORDER_TIME_INFO_MESSAGE} position='top'>
+                    <Tooltip className='max-w-none' message={getOrderTimeInfoMessage(localize)} position='top'>
                         <Button
                             color='white'
                             onClick={isMobile ? () => setIsModalOpen(true) : () => undefined}
@@ -42,7 +43,7 @@ const OrderTimeSelection = () => {
                     <Dropdown
                         className='items-center h-16'
                         dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
-                        list={ORDER_COMPLETION_TIME_LIST as unknown as MutableOption[]}
+                        list={getOrderTimeCompletionList(localize) as unknown as MutableOption[]}
                         name='order-completion-time'
                         onSelect={onChange}
                         value={value}
