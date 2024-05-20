@@ -1,6 +1,6 @@
 import { MouseEventHandler } from 'react';
-import { ORDER_TIME_INFO_MESSAGE } from '@/constants';
-import { Localize } from '@deriv-com/translations';
+import { getOrderTimeInfoMessage } from '@/constants';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text } from '@deriv-com/ui';
 
 type TOrderTimeTooltipModalProps = {
@@ -9,11 +9,12 @@ type TOrderTimeTooltipModalProps = {
 };
 
 const OrderTimeTooltipModal = ({ isModalOpen, onRequestClose }: TOrderTimeTooltipModalProps) => {
+    const { localize } = useTranslations();
     return (
         <Modal ariaHideApp={false} className='h-fit rounded-[8px] p-[2.4rem] pb-0 w-[32.8rem]' isOpen={isModalOpen}>
             <Modal.Body>
                 <Text color='prominent' size='sm'>
-                    {ORDER_TIME_INFO_MESSAGE}
+                    {getOrderTimeInfoMessage(localize)}
                 </Text>
             </Modal.Body>
             <Modal.Footer hideBorder>

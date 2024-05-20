@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { AdConditionsModal } from '@/components/Modals';
-import { AD_CONDITION_CONTENT, AD_CONDITION_TYPES } from '@/constants';
+import { AD_CONDITION_TYPES, getAdConditionContent } from '@/constants';
 import { LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 
 type TAdConditionContentHeaderProps = {
@@ -10,12 +11,13 @@ type TAdConditionContentHeaderProps = {
 
 const AdConditionContentHeader = ({ type }: TAdConditionContentHeaderProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
 
     return (
         <div className='flex gap-[0.8rem] items-center'>
             <Text color='less-prominent' size={isMobile ? 'md' : 'sm'}>
-                {AD_CONDITION_CONTENT[type]?.title}
+                {getAdConditionContent(localize)[type]?.title}
             </Text>
             <Button
                 className='p-0 hover:bg-none'

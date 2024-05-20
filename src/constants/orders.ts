@@ -1,4 +1,4 @@
-import { localize } from '@deriv-com/translations';
+import { TLocalize } from 'types';
 
 export const ORDERS_STATUS = {
     ACTIVE_ORDERS: 'Active orders',
@@ -15,23 +15,25 @@ export const ORDERS_STATUS = {
 } as const;
 
 //TODO: Below constant to be removed once list is fetched from API
-export const ORDER_COMPLETION_TIME_LIST = [
-    {
-        text: localize('1 hour'),
-        value: '3600',
-    },
-    {
-        text: localize('45 minutes'),
-        value: '2700',
-    },
-    {
-        text: localize('30 minutes'),
-        value: '1800',
-    },
-    {
-        text: localize('15 minutes'),
-        value: '900',
-    },
-] as const;
+export const getOrderTimeCompletionList = (localize: TLocalize) =>
+    [
+        {
+            text: localize('1 hour'),
+            value: '3600',
+        },
+        {
+            text: localize('45 minutes'),
+            value: '2700',
+        },
+        {
+            text: localize('30 minutes'),
+            value: '1800',
+        },
+        {
+            text: localize('15 minutes'),
+            value: '900',
+        },
+    ] as const;
 
-export const ORDER_TIME_INFO_MESSAGE = 'Orders will expire if they aren’t completed within this time.';
+export const getOrderTimeInfoMessage = (localize: TLocalize) =>
+    localize('Orders will expire if they aren’t completed within this time.');
