@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { UserAvatar } from '@/components';
 import { BlockUnblockUserModal } from '@/components/Modals';
 import { ADVERTISER_URL } from '@/constants';
-import { useModalManager } from '@/hooks';
+import { useModalManager } from '@/hooks/custom-hooks';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './MyProfileCounterpartiesTableRow.scss';
 
