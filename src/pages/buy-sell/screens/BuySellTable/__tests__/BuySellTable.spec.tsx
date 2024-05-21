@@ -1,9 +1,13 @@
+import { usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BuySellTable from '../BuySellTable';
 
-const mockPush = jest.fn();
+const mockUseHistory = {
+    push: jest.fn(),
+    replace: jest.fn(),
+};
 
 let mockAdvertiserListData = {
     data: [],
@@ -25,9 +29,11 @@ jest.mock('use-query-params', () => ({
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
-    useHistory: () => ({
-        push: mockPush,
-    }),
+    useHistory: () => mockUseHistory,
+    useLocation: jest.fn(() => ({
+        pathname: '/buy-sell',
+        search: '',
+    })),
 }));
 
 jest.mock('@deriv-com/api-hooks', () => ({
@@ -89,6 +95,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useIsAdvertiser: jest.fn(() => mockUseIsAdvertiser),
     useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
     useModalManager: jest.fn(() => mockUseModalManager),
+    usePoiPoaStatus: jest.fn(() => ({ data: { isPoaVerified: true, isPoiVerified: true } })),
     useQueryString: jest.fn(() => mockUseQueryString),
 }));
 
@@ -98,6 +105,7 @@ jest.mock('@deriv-com/ui', () => ({
 }));
 
 const mockUseDevice = useDevice as jest.Mock;
+const mockUsePoiPoaStatus = usePoiPoaStatus as jest.Mock;
 
 describe('<BuySellTable />', () => {
     beforeEach(() => {
@@ -167,7 +175,7 @@ describe('<BuySellTable />', () => {
         const usernameText = screen.getByText('John Doe');
         await userEvent.click(usernameText);
 
-        expect(mockPush).toHaveBeenCalledWith('/advertiser/1?currency=USD');
+        expect(mockUseHistory.push).toHaveBeenCalledWith('/advertiser/1?currency=USD');
     });
 
     it('should render the BuySellForm component when clicking on the Buy button', async () => {
@@ -200,6 +208,21 @@ describe('<BuySellTable />', () => {
         await userEvent.click(buyButton);
 
         expect(screen.getByText('BuySellForm')).toBeInTheDocument();
+    });
+
+    it('should call history.replace if user clicks on Buy/Sell button and POA/POI is not verified', async () => {
+        mockUseModalManager.isModalOpenFor.mockReturnValue(false);
+        mockUsePoiPoaStatus.mockReturnValueOnce({ data: { isPoaVerified: false, isPoiVerified: false } });
+
+        render(<BuySellTable />);
+
+        const buyButton = screen.getByText(/Buy USD/);
+        await userEvent.click(buyButton);
+
+        expect(mockUseHistory.replace).toHaveBeenCalledWith({
+            pathname: '/buy-sell',
+            search: 'poi_poa_verified=false',
+        });
     });
 
     it('should not render the Buy/Sell button the advert is yours', () => {

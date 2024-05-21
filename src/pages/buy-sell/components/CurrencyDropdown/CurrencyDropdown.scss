@@ -46,10 +46,10 @@
 
     &__full-page-modal {
         position: absolute;
-        top: 0;
+        top: -4rem;
         left: 0;
         z-index: 1;
-        height: calc(100vh - 12rem);
+        height: calc(100vh - 5rem);
 
         .search {
             position: fixed;
