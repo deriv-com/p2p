@@ -78,6 +78,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                             />
                         )}
                         rules={{
+                            // TODO: Add these to a config file with other form validation messages
                             maxLength: {
                                 message: localize('Nickname is too long'),
                                 value: 24,
