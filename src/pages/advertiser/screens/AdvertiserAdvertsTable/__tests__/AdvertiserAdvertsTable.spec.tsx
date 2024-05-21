@@ -88,6 +88,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useIsAdvertiser: jest.fn(() => true),
     useIsAdvertiserBarred: jest.fn(() => false),
     useModalManager: jest.fn(() => mockUseModalManager),
+    usePoiPoaStatus: jest.fn(() => ({ data: { isPoaVerified: true, isPoiVerified: true } })),
     useQueryString: jest.fn(() => ({ queryString: {}, setQueryString: jest.fn() })),
 }));
 

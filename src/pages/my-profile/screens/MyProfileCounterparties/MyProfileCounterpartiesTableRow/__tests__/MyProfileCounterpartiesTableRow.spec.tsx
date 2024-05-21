@@ -49,7 +49,10 @@ jest.mock('@/hooks', () => ({
             }),
         },
     },
-    useModalManager: jest.fn(() => mockModalManager),
+}));
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    useModalManager: () => mockModalManager,
 }));
 
 describe('MyProfileCounterpartiesTableRow', () => {

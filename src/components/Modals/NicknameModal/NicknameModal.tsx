@@ -78,11 +78,28 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                             />
                         )}
                         rules={{
+                            // TODO: Add these to a config file with other form validation messages
+                            maxLength: {
+                                message: localize('Nickname is too long'),
+                                value: 24,
+                            },
+                            minLength: {
+                                message: localize('Nickname is too short'),
+                                value: 2,
+                            },
                             pattern: {
                                 message: localize('Can only contain letters, numbers, and special characters .-_@.'),
                                 value: /^[a-zA-Z0-9.@_-]*$/,
                             },
                             required: localize('Nickname is required'),
+                            validate: {
+                                noRepeatedCharsMoreThanFourTimes: value =>
+                                    !/(.)\1{4,}/.test(value) ||
+                                    localize('Cannot repeat a character more than 4 times.'),
+                                noSpecialCharsAtStartEndOrRepeated: value =>
+                                    !/^[.@_-].*|[.@_-]{2,}|.*[.@_-]$/.test(value) ||
+                                    localize('Cannot start, end with, or repeat special characters.'),
+                            },
                         }}
                     />
                     <Text className='my-10' size={textSize}>

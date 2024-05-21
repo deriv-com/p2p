@@ -1,12 +1,12 @@
 import { Fragment, memo, useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { TAdvertsTableRowRenderer, TCurrency, TExchangeRate } from 'types';
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
 import { NicknameModal } from '@/components/Modals';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
-import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
+import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, getCurrentRoute } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
 import { useExchangeRates } from '@deriv-com/api-hooks';
@@ -21,11 +21,13 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { subscribeRates } = useExchangeRates();
     const { isDesktop, isMobile } = useDevice();
     const history = useHistory();
+    const location = useLocation();
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const isAdvertiser = useIsAdvertiser();
-
     const { data } = api.advertiser.useGetInfo() || {};
+    const { data: poiPoaData } = usePoiPoaStatus();
+    const { isPoaVerified, isPoiVerified } = poiPoaData || {};
 
     const exchangeRateRef = useRef<TExchangeRate | null>(null);
 
@@ -182,7 +184,15 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     <Button
                         className='lg:w-[7.5rem]'
                         disabled={isAdvertiserBarred}
-                        onClick={() => showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal')}
+                        onClick={() => {
+                            if (!isPoaVerified || !isPoiVerified) {
+                                const searchParams = new URLSearchParams(location.search);
+                                searchParams.set('poi_poa_verified', 'false');
+                                history.replace({ pathname: location.pathname, search: searchParams.toString() });
+                            } else {
+                                showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal');
+                            }
+                        }}
                         size={isMobile ? 'md' : 'sm'}
                         textSize={isMobile ? 'md' : 'xs'}
                     >
