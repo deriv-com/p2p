@@ -1,7 +1,7 @@
 import { Fragment, memo, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
-import { TAdvertsTableRowRenderer, TCurrency, TExchangeRate } from 'types';
+import { TAdvertsTableRowRenderer, TCurrency } from 'types';
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
 import { NicknameModal } from '@/components/Modals';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
@@ -18,7 +18,7 @@ const BASE_CURRENCY = 'USD';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const { subscribeRates } = useExchangeRates();
+    const { data: exchangeRateData, subscribeRates } = useExchangeRates();
     const { isDesktop, isMobile } = useDevice();
     const history = useHistory();
     const location = useLocation();
@@ -29,7 +29,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { data: poiPoaData } = usePoiPoaStatus();
     const { isPoaVerified, isPoiVerified } = poiPoaData || {};
 
-    const exchangeRateRef = useRef<TExchangeRate | null>(null);
+    const exchangeRateRef = useRef<number | undefined>(undefined);
 
     const {
         account_currency,
@@ -48,7 +48,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
 
     useEffect(() => {
         if (local_currency) {
-            exchangeRateRef.current = subscribeRates({
+            subscribeRates({
                 base_currency: BASE_CURRENCY,
                 target_currencies: [local_currency],
             });
@@ -56,12 +56,19 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [local_currency]);
 
+    useEffect(() => {
+        if (exchangeRateData?.exchange_rates?.rates) {
+            exchangeRateRef.current = exchangeRateData?.exchange_rates?.rates?.[local_currency];
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [exchangeRateData]);
+
     const Container = isMobile ? 'div' : Fragment;
 
     const { completed_orders_count, id, is_online, name, rating_average, rating_count } = advertiser_details || {};
 
     const { displayEffectiveRate } = generateEffectiveRate({
-        exchangeRate: exchangeRateRef.current?.rates?.[local_currency],
+        exchangeRate: exchangeRateRef.current,
         localCurrency: local_currency as TCurrency,
         marketRate: Number(effective_rate),
         price: Number(price_display),

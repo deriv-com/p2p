@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { TCurrency, TExchangeRate } from 'types';
+import { TCurrency } from 'types';
 import { AD_ACTION, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
@@ -33,7 +33,7 @@ const AdSummary = ({
     const { queryString } = useQueryString();
     const adOption = queryString.formAction;
     const { data: p2pSettings } = api.settings.useSettings();
-    const { subscribeRates } = useExchangeRates();
+    const { data: exchangeRatesData, subscribeRates } = useExchangeRates();
     const overrideExchangeRate = p2pSettings?.override_exchange_rate;
 
     const marketRateType = adOption === AD_ACTION.CREATE ? rateType : adRateType;
@@ -43,11 +43,11 @@ const AdSummary = ({
 
     let displayPriceRate: number | string = '';
     let displayTotal = '';
-    const exchangeRateRef = useRef<TExchangeRate | null>(null);
+    const exchangeRateRef = useRef<number | undefined>(undefined);
 
     useEffect(() => {
         if (localCurrency) {
-            exchangeRateRef.current = subscribeRates({
+            subscribeRates({
                 base_currency: currency,
                 target_currencies: [localCurrency],
             });
@@ -55,7 +55,14 @@ const AdSummary = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currency, localCurrency]);
 
-    const exchangeRate = exchangeRateRef?.current?.rates?.[localCurrency];
+    useEffect(() => {
+        if (exchangeRatesData?.exchange_rates?.rates) {
+            exchangeRateRef.current = exchangeRatesData.exchange_rates?.rates?.[localCurrency];
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [exchangeRatesData]);
+
+    const exchangeRate = exchangeRateRef?.current;
     const marketRate = overrideExchangeRate ? Number(overrideExchangeRate) : exchangeRate;
     const marketFeed = marketRateType === RATE_TYPE.FLOAT ? marketRate : null;
     const summaryTextSize = isMobile ? 'md' : 'sm';
