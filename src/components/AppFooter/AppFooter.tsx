@@ -8,7 +8,7 @@ import './AppFooter.scss';
 
 // TODO: handle local storage values not updating after changing local storage values
 const AppFooter = () => {
-    const { currentLang } = useTranslations();
+    const { currentLang = 'EN' } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const CountryIcon = LANGUAGES.find(lang => lang.code === currentLang)?.icon as IconTypes;
 
