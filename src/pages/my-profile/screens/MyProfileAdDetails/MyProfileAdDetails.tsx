@@ -21,6 +21,7 @@ const MyProfileAdDetailsTextArea = ({
 }: TMYProfileAdDetailsTextAreaProps) => {
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
+    const textSize = isMobile ? 'md' : 'sm';
     return (
         <>
             <TextArea
@@ -29,7 +30,7 @@ const MyProfileAdDetailsTextArea = ({
                 maxLength={300}
                 onChange={e => setContactInfo(e.target.value)}
                 shouldShowCounter
-                textSize={isMobile ? 'md' : 'sm'}
+                textSize={textSize}
                 value={contactInfo}
             />
             <TextArea
@@ -39,7 +40,7 @@ const MyProfileAdDetailsTextArea = ({
                 maxLength={300}
                 onChange={e => setAdvertDescription(e.target.value)}
                 shouldShowCounter
-                textSize={isMobile ? 'md' : 'sm'}
+                textSize={textSize}
                 value={advertDescription}
             />
         </>
