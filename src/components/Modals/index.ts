@@ -7,6 +7,7 @@ export * from './AdRateSwitchModal';
 export * from './AdVisibilityErrorModal';
 export * from './AvailableP2PBalanceModal';
 export * from './BlockUnblockUserModal';
+export * from './BlockUserCountModal';
 export * from './DailyLimitModal';
 export * from './EmailLinkBlockedModal';
 export * from './EmailLinkExpiredModal';
