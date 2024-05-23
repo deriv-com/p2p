@@ -1,13 +1,41 @@
 .app-footer {
-    padding: 2.4rem;
+    height: 32px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-top: 1px solid #f2f3f4;
+    box-shadow: 0px 1px 0px 0px #f2f3f4 inset;
+    background: #fff;
 
-    &__language-btn {
-        &:hover {
-            background-color: transparent !important;
+    &__icon {
+        padding: 8px;
+    }
 
-            span {
-                color: #000 !important;
-            }
+    &__vertical-line {
+        width: 1px;
+        height: 16px;
+        background-color: #f2f3f4;
+        margin: 0 8px;
+    }
+
+    &__language {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+
+        & span {
+            margin-left: 4px;
         }
+    }
+
+    &__network-status {
+        width: 8px;
+        height: 8px;
+        border-radius: 100%;
+        background-color: #4bb4b3;
     }
 }
