@@ -22,7 +22,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
     if (isMobile) {
         return (
             <FullPageMobileWrapper
-                className='absolute top-16'
+                className='payment-methods-empty__mobile'
                 onBack={() => {
                     setQueryString({
                         tab: 'default',
@@ -35,7 +35,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                 )}
             >
                 <div className='payment-methods-empty'>
-                    <DerivLightIcPaymentMethodsWalletIcon height={16} />
+                    <DerivLightIcPaymentMethodsWalletIcon height='160px' />
                     <Text className='payment-methods-empty__heading' size='lg' weight='bold'>
                         <Localize i18n_default_text='You haven’t added any payment methods yet' />
                     </Text>
@@ -44,9 +44,12 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                     </Text>
                     <Button
                         className='payment-methods-empty__button'
+                        isFullWidth
                         onClick={() => {
                             onAddPaymentMethod();
                         }}
+                        size='lg'
+                        textSize='md'
                     >
                         <Localize i18n_default_text='Add payment methods' />
                     </Button>
@@ -57,7 +60,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
 
     return (
         <div className='payment-methods-empty'>
-            <DerivLightIcPaymentMethodsWalletIcon height={16} />
+            <DerivLightIcPaymentMethodsWalletIcon height='160px' />
             <Text className='payment-methods-empty__heading' weight='bold'>
                 <Localize i18n_default_text='You haven’t added any payment methods yet' />
             </Text>

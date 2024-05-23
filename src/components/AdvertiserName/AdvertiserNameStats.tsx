@@ -65,11 +65,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                 <>
                     <div>
                         <div className='advertiser-name-stats__rating'>
-                            {isMobile && (
-                                <Text color='less-prominent' size='sm'>
-                                    ({ratingAverage})
-                                </Text>
-                            )}
+                            <Text size='sm'>({ratingAverage})</Text>
                             <StarRating allowFraction isReadonly ratingValue={ratingAverage} />
                             <Text color='less-prominent' size='sm'>
                                 (<Localize i18n_default_text='{{ratingCount}} ratings' values={{ ratingCount }} />)

@@ -1,11 +1,12 @@
 .app-content {
     overflow: hidden;
-    height: calc(100vh - 14rem);
+    height: calc(100vh - 13rem);
 
     @include desktop {
         max-width: 952px;
         min-width: 672px;
         margin: 2rem auto;
+        margin-bottom: 0;
     }
 
     @include mobile {
