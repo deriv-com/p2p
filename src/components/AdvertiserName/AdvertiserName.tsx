@@ -23,7 +23,7 @@ const AdvertiserName = ({ advertiserStats, onClickBlocked }: TAdvertiserNameProp
 
     return (
         <div className='advertiser-name' data-testid='dt_advertiser_name'>
-            <UserAvatar nickname={name!} size={isDesktop ? 64 : 42} textSize='lg' />
+            <UserAvatar nickname={name ?? ''} size={isDesktop ? 64 : 42} textSize='lg' />
             <div className='advertiser-name__details'>
                 <div className='flex items-center gap-3'>
                     <Text size='md' weight='bold'>
