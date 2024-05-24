@@ -7,7 +7,9 @@ const Localize = ({ i18n_default_text, values }) => {
 
 // Mock for useTranslations hook
 const useTranslations = () => ({
-    localize: jest.fn(text => text),
+    localize: jest.fn((text, args) => {
+        return text.replace(/{{(.*?)}}/g, (_, match) => args[match.trim()]);
+    }),
 });
 
 const localize = jest.fn(text => text);
