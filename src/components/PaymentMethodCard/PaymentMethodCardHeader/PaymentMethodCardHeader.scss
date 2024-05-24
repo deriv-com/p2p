@@ -12,6 +12,11 @@
         .deriv-dropdown {
             width: 3.2rem;
 
+            & .deriv-dropdown__button {
+                transform: none;
+                transition: none;
+            }
+
             &__items {
                 width: 12.8rem;
                 border: 0;

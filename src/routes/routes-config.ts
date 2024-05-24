@@ -34,7 +34,7 @@ export const routes = [
     },
     {
         component: MyAds,
-        name: 'My Ads',
+        name: 'My ads',
         path: MY_ADS_URL,
         routes: [
             {
