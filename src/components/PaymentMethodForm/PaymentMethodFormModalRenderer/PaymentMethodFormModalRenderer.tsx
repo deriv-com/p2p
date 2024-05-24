@@ -37,6 +37,7 @@ const PaymentMethodFormModalRenderer = ({
         if (createError || updateError) {
             showModal('PaymentMethodErrorModal');
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [actionType, createError, isCreateSuccessful, isUpdateSuccessful, updateError]);
 
     return (
