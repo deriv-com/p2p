@@ -1,31 +1,56 @@
-import { LanguagesModal } from '@/components/Modals';
 import { LANGUAGES } from '@/constants';
-import { useModalManager } from '@/hooks/custom-hooks';
-import { IconTypes } from '@deriv/quill-icons';
+import { useModalManager } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
-import { Button, Footer } from '@deriv-com/ui';
+import { DesktopLanguagesModal } from '@deriv-com/ui';
+import AccountLimits from './AccountLimits';
+import ChangeTheme from './ChangeTheme';
+import Deriv from './Deriv';
+import Endpoint from './Endpoint';
+import FullScreen from './FullScreen';
+import HelpCentre from './HelpCentre';
+import LanguageSettings from './LanguageSettings';
+import Livechat from './Livechat';
+import { NetworkStatus } from './NetworkStatus';
+import ResponsibleTrading from './ResponsibleTrading';
+import { ServerTime } from './ServerTime';
+import WhatsApp from './WhatsApp';
 import './AppFooter.scss';
 
-// TODO: handle local storage values not updating after changing local storage values
 const AppFooter = () => {
-    const { currentLang = 'EN' } = useTranslations();
+    const { currentLang = 'EN', localize, switchLanguage } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const CountryIcon = LANGUAGES.find(lang => lang.code === currentLang)?.icon as IconTypes;
+
+    const openLanguageSettingModal = () => showModal('DesktopLanguagesModal');
 
     return (
-        <Footer className='app-footer'>
-            <Button
-                className='app-footer__language-btn'
-                color='black'
-                icon={<CountryIcon iconSize='sm' />}
-                onClick={() => showModal('LanguagesModal')}
-                size='sm'
-                variant='ghost'
-            >
-                {currentLang}
-            </Button>
-            {isModalOpenFor('LanguagesModal') && <LanguagesModal isModalOpen onClose={hideModal} />}
-        </Footer>
+        <footer className='app-footer'>
+            <FullScreen />
+            <LanguageSettings openLanguageSettingModal={openLanguageSettingModal} />
+            <HelpCentre />
+            <div className='app-footer__vertical-line' />
+            <ChangeTheme />
+            <AccountLimits />
+            <ResponsibleTrading />
+            <Deriv />
+            <Livechat />
+            <WhatsApp />
+            <div className='app-footer__vertical-line' />
+            <ServerTime />
+            <div className='app-footer__vertical-line' />
+            <NetworkStatus />
+            <Endpoint />
+
+            {isModalOpenFor('DesktopLanguagesModal') && (
+                <DesktopLanguagesModal
+                    headerTitle={localize('Select Language')}
+                    isModalOpen
+                    languages={LANGUAGES}
+                    onClose={hideModal}
+                    onLanguageSwitch={code => switchLanguage(code)}
+                    selectedLanguage={currentLang}
+                />
+            )}
+        </footer>
     );
 };
 
