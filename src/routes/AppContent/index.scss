@@ -1,6 +1,6 @@
 .app-content {
     overflow: hidden;
-    height: calc(100vh - 13rem);
+    height: calc(100vh - 10rem);
 
     @include desktop {
         max-width: 952px;
