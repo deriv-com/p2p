@@ -17,7 +17,7 @@ import WhatsApp from './WhatsApp';
 import './AppFooter.scss';
 
 const AppFooter = () => {
-    const { currentLang, localize, switchLanguage } = useTranslations();
+    const { currentLang = 'EN', localize, switchLanguage } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
 
     const openLanguageSettingModal = () => showModal('DesktopLanguagesModal');
