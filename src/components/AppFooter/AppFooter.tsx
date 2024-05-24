@@ -5,6 +5,7 @@ import { DesktopLanguagesModal } from '@deriv-com/ui';
 import AccountLimits from './AccountLimits';
 import ChangeTheme from './ChangeTheme';
 import Deriv from './Deriv';
+import Endpoint from './Endpoint';
 import FullScreen from './FullScreen';
 import HelpCentre from './HelpCentre';
 import LanguageSettings from './LanguageSettings';
@@ -37,6 +38,7 @@ const AppFooter = () => {
             <ServerTime />
             <div className='app-footer__vertical-line' />
             <NetworkStatus />
+            <Endpoint />
 
             {isModalOpenFor('DesktopLanguagesModal') && (
                 <DesktopLanguagesModal
