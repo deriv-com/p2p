@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { TCurrency, TExchangeRate, TLocalize } from 'types';
+import { TCurrency, TLocalize } from 'types';
 import { PaymentMethodLabel, PopoverDropdown } from '@/components';
 import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
 import { useFloatingRate } from '@/hooks/custom-hooks';
@@ -39,7 +39,7 @@ type TMyAdsTableProps = Omit<TMyAdsTableRowRendererProps, 'balanceAvailable' | '
 const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps) => {
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
-    const { subscribeRates } = useExchangeRates();
+    const { data: exchangeRatesData, subscribeRates } = useExchangeRates();
 
     const {
         account_currency: accountCurrency = '',
@@ -66,16 +66,24 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
 
     const isFloatingRate = rateType === RATE_TYPE.FLOAT;
 
-    const exchangeRateRef = useRef<TExchangeRate | null>(null);
+    const exchangeRateRef = useRef<number | undefined>(undefined);
 
     useEffect(() => {
         if (localCurrency) {
-            exchangeRateRef.current = subscribeRates({
+            subscribeRates({
                 base_currency: BASE_CURRENCY,
                 target_currencies: [localCurrency],
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localCurrency]);
+
+    useEffect(() => {
+        if (exchangeRatesData?.exchange_rates?.rates) {
+            exchangeRateRef.current = exchangeRatesData.exchange_rates?.rates?.[localCurrency ?? ''];
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [exchangeRatesData]);
 
     const [showAlertIcon, setShowAlertIcon] = useState(false);
     const isAdvertListed = isListed && !isBarred;
@@ -85,11 +93,12 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
     const isRowDisabled = !isActive || isBarred || !isListed;
     const isAdActive = !!isActive && !isBarred;
 
-    const exchangeRate = exchangeRateRef.current?.rates?.[localCurrency ?? ''];
+    const exchangeRate = exchangeRateRef.current;
     const enableActionPoint = currentRateType !== rateType;
 
     useEffect(() => {
         setShowAlertIcon(enableActionPoint || shouldShowTooltipIcon(visibilityStatus) || !isListed);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [enableActionPoint, isListed, shouldShowTooltipIcon]);
 
     const { displayEffectiveRate } = generateEffectiveRate({
