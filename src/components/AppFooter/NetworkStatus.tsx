@@ -1,7 +1,9 @@
-import { localize } from '@deriv-com/translations';
+import { useTranslations } from '@deriv-com/translations';
 import { TooltipMenuIcon } from '@deriv-com/ui';
 
 export const NetworkStatus = () => {
+    const { localize } = useTranslations();
+
     return (
         <TooltipMenuIcon
             as='div'

@@ -1,7 +1,9 @@
-import { localize } from '@deriv-com/translations';
+import { useTranslations } from '@deriv-com/translations';
 import { Text, TooltipMenuIcon } from '@deriv-com/ui';
 
 export const ServerTime = () => {
+    const { localize } = useTranslations();
+
     return (
         <TooltipMenuIcon
             as='div'

@@ -1,5 +1,5 @@
 import { LANGUAGES } from '@/constants';
-import { localize, useTranslations } from '@deriv-com/translations';
+import { useTranslations } from '@deriv-com/translations';
 import { Text, TooltipMenuIcon } from '@deriv-com/ui';
 import './AppFooter.scss';
 
@@ -8,7 +8,7 @@ type TLanguageSettings = {
 };
 
 const LanguageSettings = ({ openLanguageSettingModal }: TLanguageSettings) => {
-    const { currentLang } = useTranslations();
+    const { currentLang, localize } = useTranslations();
 
     const countryIcon = LANGUAGES.find(({ code }) => code == currentLang)?.icon;
 
