@@ -25,4 +25,13 @@
     &__heading {
         margin: 3.9rem 0 0.8rem;
     }
+
+    &__mobile {
+        position: absolute;
+        top: 4rem;
+
+        & .mobile-wrapper__body {
+            padding: 0 2rem;
+        }
+    }
 }

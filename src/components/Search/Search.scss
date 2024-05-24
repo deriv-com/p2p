@@ -9,9 +9,13 @@
         &__container {
             width: 100%;
         }
-
         &__field {
             margin-left: 0.8rem;
+
+            // placeholder is hidden when input is focused, visibility hidden doesn't work with firefox.
+            &::-moz-placeholder {
+                color: transparent;
+            }
 
             &:not(:placeholder-shown) ~ label,
             &:focus ~ label {

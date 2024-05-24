@@ -1,0 +1,19 @@
+.block-user-count {
+    & .deriv-tooltip-container {
+        display: flex;
+        align-items: center;
+        gap: 0.1rem;
+    }
+    &__tooltip {
+        padding: 0.8rem;
+        gap: 0;
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &__button {
+        padding: 0;
+    }
+}
