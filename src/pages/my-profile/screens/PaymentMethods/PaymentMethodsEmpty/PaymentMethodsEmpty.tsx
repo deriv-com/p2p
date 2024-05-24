@@ -35,7 +35,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                 )}
             >
                 <div className='payment-methods-empty'>
-                    <DerivLightIcPaymentMethodsWalletIcon height='160px' />
+                    <DerivLightIcPaymentMethodsWalletIcon height={160} />
                     <Text className='payment-methods-empty__heading' size='lg' weight='bold'>
                         <Localize i18n_default_text='You haven’t added any payment methods yet' />
                     </Text>
@@ -60,7 +60,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
 
     return (
         <div className='payment-methods-empty'>
-            <DerivLightIcPaymentMethodsWalletIcon height='160px' />
+            <DerivLightIcPaymentMethodsWalletIcon height={160} />
             <Text className='payment-methods-empty__heading' weight='bold'>
                 <Localize i18n_default_text='You haven’t added any payment methods yet' />
             </Text>
