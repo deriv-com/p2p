@@ -13,17 +13,24 @@ jest.mock('@/hooks', () => ({
             useBlock: jest.fn(() => ({
                 mutate: mockUseBlockMutate,
                 mutation: {
+                    error: {},
                     isSuccess: false,
                 },
             })),
             useUnblock: jest.fn(() => ({
                 mutate: mockUseUnblockMutate,
                 mutation: {
+                    error: {},
                     isSuccess: false,
                 },
             })),
         },
     },
+}));
+
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
 describe('BlockUnblockUserModal', () => {

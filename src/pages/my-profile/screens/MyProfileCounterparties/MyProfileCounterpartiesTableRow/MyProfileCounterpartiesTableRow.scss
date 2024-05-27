@@ -12,5 +12,9 @@
         align-items: center;
         gap: 0.8rem;
         cursor: pointer;
+
+        &--barred {
+            cursor: not-allowed;
+        }
     }
 }

@@ -40,6 +40,7 @@ const MyProfileStatsItem = ({
                 {shouldShowDuration && (
                     <button className='my-profile-stats__item--inactive' onClick={() => onClickLabel(false)}>
                         <Text
+                            className='italic'
                             color={!hasClickedLifetime && shouldShowLifetime ? 'red' : 'less-prominent'}
                             size={textSize}
                         >
@@ -53,7 +54,11 @@ const MyProfileStatsItem = ({
                             |{' '}
                         </Text>
                         <button className='my-profile-stats__item--inactive' onClick={() => onClickLabel(true)}>
-                            <Text color={hasClickedLifetime ? 'red' : 'less-prominent'} size={textSize}>
+                            <Text
+                                className='italic'
+                                color={hasClickedLifetime ? 'red' : 'less-prominent'}
+                                size={textSize}
+                            >
                                 <Localize i18n_default_text='lifetime' />
                             </Text>
                         </button>

@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { api } from '@/hooks';
+import { DerivLightIcBlockedAdvertisersBarredIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
-import { Loader, Table, Text } from '@deriv-com/ui';
+import { Loader, Table, Text, useDevice } from '@deriv-com/ui';
 import { MyProfileCounterpartiesEmpty } from '../MyProfileCounterpartiesEmpty';
 import { MyProfileCounterpartiesTableRow } from '../MyProfileCounterpartiesTableRow';
 import './MyProfileCounterpartiesTable.scss';
@@ -16,17 +17,23 @@ type TMyProfileCounterpartiesTableRowRendererProps = {
     id?: string;
     is_blocked: boolean;
     name?: string;
+    setErrorMessage: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const MyProfileCounterpartiesTableRowRenderer = ({
     id,
     is_blocked: isBlocked,
     name,
+    setErrorMessage,
 }: TMyProfileCounterpartiesTableRowRendererProps) => (
-    <MyProfileCounterpartiesTableRow id={id!} isBlocked={isBlocked} nickname={name!} />
+    <MyProfileCounterpartiesTableRow
+        id={id ?? ''}
+        isBlocked={isBlocked}
+        nickname={name ?? ''}
+        setErrorMessage={setErrorMessage}
+    />
 );
 
-//TODO: rewrite the implementation in accordance with @deriv-com/ui table component
 const MyProfileCounterpartiesTable = ({
     dropdownValue,
     searchValue,
@@ -42,12 +49,17 @@ const MyProfileCounterpartiesTable = ({
         is_blocked: dropdownValue === 'blocked' ? 1 : 0,
         trade_partners: 1,
     });
+    const [errorMessage, setErrorMessage] = useState<string | undefined>('');
+    const { isMobile } = useDevice();
 
     useEffect(() => {
         if (data.length > 0) {
             setShowHeader(true);
         }
-    }, [data, setShowHeader]);
+        if (errorMessage) {
+            setShowHeader(false);
+        }
+    }, [data, errorMessage, setShowHeader]);
 
     if (isLoading) {
         return <Loader className='my-profile-counterparties-table__loader' isFullScreen={false} />;
@@ -62,6 +74,17 @@ const MyProfileCounterpartiesTable = ({
         );
     }
 
+    if (errorMessage) {
+        return (
+            <div className='flex flex-col items-center lg:px-[11rem] px-[1.6rem]'>
+                <DerivLightIcBlockedAdvertisersBarredIcon height={128} width={128} />
+                <Text align='center' className='mt-[3rem]' size={isMobile ? 'lg' : 'md'} weight='bold'>
+                    {errorMessage}
+                </Text>
+            </div>
+        );
+    }
+
     return (
         <Table
             data={data}
@@ -69,6 +92,7 @@ const MyProfileCounterpartiesTable = ({
             rowRender={(rowData: unknown) => (
                 <MyProfileCounterpartiesTableRowRenderer
                     {...(rowData as TMyProfileCounterpartiesTableRowRendererProps)}
+                    setErrorMessage={setErrorMessage}
                 />
             )}
             tableClassname='my-profile-counterparties-table'
