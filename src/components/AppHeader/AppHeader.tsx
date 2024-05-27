@@ -62,7 +62,7 @@ const AppHeader = () => {
                     <PlatformSwitcher
                         bottomLinkLabel='Looking for CFDs? Go to Trader’s Hub'
                         buttonProps={{
-                            className: 'pt-0 pb-0 pr-4 pl-4',
+                            className: 'py-0 px-4',
                             icon: platformsConfig[0].buttonIcon,
                         }}
                     >
