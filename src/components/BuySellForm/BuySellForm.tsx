@@ -105,9 +105,11 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     }, [local_currency]);
 
     useEffect(() => {
-        if (exchangeRatesData?.exchange_rates?.rates) {
-            exchangeRateRef.current = exchangeRatesData?.exchange_rates.rates?.[local_currency];
+        const rate = exchangeRatesData?.exchange_rates?.rates?.[local_currency];
+        if (typeof rate === 'number') {
+            exchangeRateRef.current = rate;
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [exchangeRatesData]);
 
