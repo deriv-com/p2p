@@ -60,7 +60,7 @@ const AppHeader = () => {
             {isDesktop ? (
                 <Wrapper variant='left'>
                     <PlatformSwitcher
-                        bottomLinkLabel='Looking for CFDs? Go to Trader’s Hub'
+                        bottomLinkLabel={localize('Looking for CFDs? Go to Trader’s Hub')}
                         buttonProps={{
                             className: 'py-0 px-4',
                             icon: platformsConfig[0].buttonIcon,
