@@ -1,10 +1,10 @@
-import { useActiveAccount } from '@/hooks/api/account';
+import { api } from '@/hooks';
 import { CurrencyUsdIcon } from '@deriv/quill-icons';
 import { AccountSwitcher as UIAccountSwitcher } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 
 export const AccountSwitcher = () => {
-    const { data } = useActiveAccount();
+    const { data } = api.account.useActiveAccount();
     const activeAccount = {
         balance: FormatUtils.formatMoney(data?.balance ?? 0),
         currency: data?.currency || 'USD',

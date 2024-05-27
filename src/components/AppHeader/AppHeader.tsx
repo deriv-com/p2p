@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useDevice } from '@/hooks';
 import {
     LegacyMenuHamburger2pxIcon,
     LegacyNotificationIcon,
@@ -16,6 +15,7 @@ import {
     PlatformSwitcherItem,
     Text,
     TooltipMenuIcon,
+    useDevice,
     Wrapper,
 } from '@deriv-com/ui';
 import { LocalStorageConstants, LocalStorageUtils, URLUtils } from '@deriv-com/utils';
