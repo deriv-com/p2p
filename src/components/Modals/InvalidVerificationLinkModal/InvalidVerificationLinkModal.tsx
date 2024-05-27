@@ -52,9 +52,11 @@ const InvalidVerificationLinkModal = ({
                         <Localize i18n_default_text='Invalid verification link' />
                     </Text>
                 )}
-                {error?.message && <Text align='center' weight={isInvalidVerification ? 'normal' : 'bold'}>
-                    {error.message}
-                </Text>}
+                {error?.message && (
+                    <Text align='center' weight={isInvalidVerification ? 'normal' : 'bold'}>
+                        {error.message}
+                    </Text>
+                )}
             </Modal.Body>
             <Modal.Footer
                 className={clsx('justify-center', {

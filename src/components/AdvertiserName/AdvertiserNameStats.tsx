@@ -2,9 +2,10 @@ import clsx from 'clsx';
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { OnlineStatusIcon, OnlineStatusLabel, StarRating } from '@/components';
 import { getCurrentRoute } from '@/utils';
-import { LabelPairedCircleUserSlashSmRegularIcon, LabelPairedThumbsUpSmRegularIcon } from '@deriv/quill-icons';
+import { LabelPairedThumbsUpSmRegularIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
+import BlockUserCount from './BlockUserCount';
 import './AdvertiserNameStats.scss';
 
 /**
@@ -49,7 +50,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                     {daysSinceJoined && daysSinceJoined > 0 ? (
                         <Localize i18n_default_text='Joined {{daysSinceJoined}}d' values={{ daysSinceJoined }} />
                     ) : (
-                        <Localize i18n_default_text='Joined Today' />
+                        <Localize i18n_default_text='Joined today' />
                     )}
                 </Text>
             </div>
@@ -64,11 +65,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                 <>
                     <div>
                         <div className='advertiser-name-stats__rating'>
-                            {isMobile && (
-                                <Text color='less-prominent' size='sm'>
-                                    ({ratingAverage})
-                                </Text>
-                            )}
+                            <Text size='sm'>({ratingAverage})</Text>
                             <StarRating allowFraction isReadonly ratingValue={ratingAverage} />
                             <Text color='less-prominent' size='sm'>
                                 (<Localize i18n_default_text='{{ratingCount}} ratings' values={{ ratingCount }} />)
@@ -83,14 +80,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                     </div>
                 </>
             )}
-            {isMyProfile && (
-                <div>
-                    <LabelPairedCircleUserSlashSmRegularIcon />
-                    <Text color='less-prominent' size='sm'>
-                        {blockedByCount || 0}
-                    </Text>
-                </div>
-            )}
+            {isMyProfile && <BlockUserCount count={blockedByCount} />}
         </div>
     );
 };
