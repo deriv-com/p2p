@@ -6,6 +6,7 @@ const mockProps = {
     id: 'id1',
     isBlocked: false,
     nickname: 'nickname',
+    setErrorMessage: jest.fn(),
 };
 
 const mockPush = jest.fn();

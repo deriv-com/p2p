@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { FullPageMobileWrapper } from '@/components';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
+import { LabelPairedCheckMdFillIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Loader, Text, TextArea, useDevice } from '@deriv-com/ui';
 import './MyProfileAdDetails.scss';
@@ -49,7 +50,7 @@ const MyProfileAdDetailsTextArea = ({
 
 const MyProfileAdDetails = () => {
     const { data: advertiserInfo, isLoading } = api.advertiser.useGetInfo();
-    const { mutate: updateAdvertiser } = api.advertiser.useUpdate();
+    const { isPending, mutate: updateAdvertiser } = api.advertiser.useUpdate();
     const [contactInfo, setContactInfo] = useState('');
     const [advertDescription, setAdvertDescription] = useState('');
     const { isMobile } = useDevice();
@@ -116,7 +117,14 @@ const MyProfileAdDetails = () => {
                 setContactInfo={setContactInfo}
             />
             <div className='my-profile-ad-details__border' />
-            <Button disabled={!hasUpdated} onClick={submitAdDetails} size='lg' textSize='sm'>
+            <Button
+                className={isPending ? 'my-profile-ad-details__button--submitting' : ''}
+                disabled={!hasUpdated || isPending}
+                icon={isPending ? <LabelPairedCheckMdFillIcon fill='#fff' /> : null}
+                onClick={submitAdDetails}
+                size='lg'
+                textSize='sm'
+            >
                 <Localize i18n_default_text='Save' />
             </Button>
         </div>
