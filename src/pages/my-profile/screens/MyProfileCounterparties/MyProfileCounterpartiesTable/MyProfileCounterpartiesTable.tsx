@@ -27,7 +27,7 @@ const MyProfileCounterpartiesTableRowRenderer = ({
     setErrorMessage,
 }: TMyProfileCounterpartiesTableRowRendererProps) => (
     <MyProfileCounterpartiesTableRow
-        id={id!}
+        id={id ?? ''}
         isBlocked={isBlocked}
         nickname={name ?? ''}
         setErrorMessage={setErrorMessage}
