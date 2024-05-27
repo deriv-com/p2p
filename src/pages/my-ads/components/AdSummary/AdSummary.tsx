@@ -56,9 +56,11 @@ const AdSummary = ({
     }, [currency, localCurrency]);
 
     useEffect(() => {
-        if (exchangeRatesData?.exchange_rates?.rates) {
-            exchangeRateRef.current = exchangeRatesData.exchange_rates?.rates?.[localCurrency];
+        const rate = exchangeRatesData?.exchange_rates?.rates?.[localCurrency];
+        if (typeof rate === 'number') {
+            exchangeRateRef.current = rate;
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [exchangeRatesData]);
 

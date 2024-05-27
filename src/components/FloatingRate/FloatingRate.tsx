@@ -46,8 +46,9 @@ const FloatingRate = ({
     }, [localCurrency]);
 
     useEffect(() => {
-        if (exchangeRateData?.exchange_rates?.rates) {
-            exchangeRateRef.current = exchangeRateData?.exchange_rates?.rates?.[localCurrency];
+        const rate = exchangeRateData?.exchange_rates?.rates?.[localCurrency];
+        if (typeof rate === 'number') {
+            exchangeRateRef.current = rate;
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [exchangeRateData]);
