@@ -57,8 +57,9 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     }, [local_currency]);
 
     useEffect(() => {
-        if (exchangeRateData?.exchange_rates?.rates) {
-            exchangeRateRef.current = exchangeRateData?.exchange_rates?.rates?.[local_currency];
+        const rate = exchangeRateData?.exchange_rates?.rates?.[local_currency];
+        if (typeof rate === 'number') {
+            exchangeRateRef.current = rate;
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [exchangeRateData]);
