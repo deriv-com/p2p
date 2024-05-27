@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-// import { useActiveAccount } from '@/hooks/api/account';
-
 import { useEffect, useState } from 'react';
 import { useDevice } from '@/hooks';
 import {
@@ -31,7 +28,6 @@ const AppHeader = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const { data: accounts } = useAccountList();
     const { isDesktop } = useDevice();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { activeLoginid, logout } = useAuthData();
     const { localize } = useTranslations();
     const appId = LocalStorageUtils.getValue(LocalStorageConstants.configAppId);
@@ -66,8 +62,8 @@ const AppHeader = () => {
                     <PlatformSwitcher
                         bottomLinkLabel='Looking for CFDs? Go to Trader’s Hub'
                         buttonProps={{
+                            className: 'pt-0 pb-0 pr-4 pl-4',
                             icon: platformsConfig[0].buttonIcon,
-                            style: { padding: '0 16px' },
                         }}
                     >
                         {platformsConfig.map(({ active, description, href, icon }) => (
