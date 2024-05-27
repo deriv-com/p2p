@@ -50,7 +50,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                     {daysSinceJoined && daysSinceJoined > 0 ? (
                         <Localize i18n_default_text='Joined {{daysSinceJoined}}d' values={{ daysSinceJoined }} />
                     ) : (
-                        <Localize i18n_default_text='Joined Today' />
+                        <Localize i18n_default_text='Joined today' />
                     )}
                 </Text>
             </div>
