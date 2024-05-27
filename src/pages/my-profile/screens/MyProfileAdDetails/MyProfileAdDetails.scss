@@ -26,4 +26,11 @@
             }
         }
     }
+
+    &__button {
+        &--submitting {
+            //TODO: add this variant to deriv-com/ui
+            background-color: #4bb4b3 !important;
+        }
+    }
 }
