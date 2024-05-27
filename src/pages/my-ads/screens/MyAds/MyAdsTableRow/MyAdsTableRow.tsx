@@ -83,9 +83,6 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
         if (typeof rate === 'number') {
             exchangeRateRef.current = rate;
         }
-        // if (exchangeRatesData?.exchange_rates?.rates) {
-        //     exchangeRateRef.current = exchangeRatesData.exchange_rates?.rates?.[localCurrency ?? ''];
-        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [exchangeRatesData]);
 
