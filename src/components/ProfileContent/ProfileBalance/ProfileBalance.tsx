@@ -10,7 +10,7 @@ import './ProfileBalance.scss';
 
 const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
     const { data: activeAccount } = api.account.useActiveAccount();
-    const { isDesktop } = useDevice();
+    const { isMobile } = useDevice();
     const [shouldShowAvailableBalanceModal, setShouldShowAvailableBalanceModal] = useState(false);
 
     const currency = activeAccount?.currency || 'USD';
@@ -36,6 +36,8 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
         ]
     );
 
+    const labelSize = isMobile ? 'md' : 'sm';
+
     return (
         <>
             <AvailableP2PBalanceModal
@@ -45,7 +47,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
             <div className='profile-balance'>
                 <div className='profile-balance__amount' data-testid='dt_available_balance_amount'>
                     <div>
-                        <Text color='less-prominent' size={isDesktop ? 'sm' : 'xs'}>
+                        <Text color='less-prominent' size={isMobile ? 'xs' : 'sm'}>
                             Available Deriv P2P Balance
                         </Text>
                         <LabelPairedCircleInfoMdRegularIcon
@@ -54,7 +56,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                             onClick={() => setShouldShowAvailableBalanceModal(true)}
                         />
                     </div>
-                    <Text size={isDesktop ? 'xl' : '2xl'} weight='bold'>
+                    <Text size={isMobile ? '2xl' : 'xl'} weight='bold'>
                         {numberToCurrencyText(advertiserStats?.balance_available || 0)} USD
                     </Text>
                 </div>
@@ -62,25 +64,21 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                     <div className='profile-balance__items'>
                         {dailyLimits.map(({ available, dailyLimit, type }) => (
                             <div className='profile-balance__item' key={type}>
-                                <Text>{type}</Text>
+                                <Text size={labelSize}>{type}</Text>
                                 <div className='profile-balance__item-limits'>
                                     <div data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_limit`}>
-                                        <Text color='less-prominent'>Daily limit</Text>
-                                        <Text
-                                            className='profile-balance__label'
-                                            size={isDesktop ? 'sm' : 'md'}
-                                            weight='bold'
-                                        >
+                                        <Text color='less-prominent' size={labelSize}>
+                                            Daily limit
+                                        </Text>
+                                        <Text className='profile-balance__label' size={labelSize} weight='bold'>
                                             {dailyLimit}
                                         </Text>
                                     </div>
                                     <div data-testid={`dt_profile_balance_available_${type.toLowerCase()}_limit`}>
-                                        <Text color='less-prominent'>Available</Text>
-                                        <Text
-                                            className='profile-balance__label'
-                                            size={isDesktop ? 'sm' : 'md'}
-                                            weight='bold'
-                                        >
+                                        <Text color='less-prominent' size={labelSize}>
+                                            Available
+                                        </Text>
+                                        <Text className='profile-balance__label' size={labelSize} weight='bold'>
                                             {available}
                                         </Text>
                                     </div>
