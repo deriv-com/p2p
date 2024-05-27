@@ -73,10 +73,6 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
 
-jest.mock('@deriv-com/translations', () => ({
-    useTranslations: jest.fn(() => ({ localize: jest.fn(text => text) })),
-}));
-
 describe('<AppHeader/>', () => {
     window.open = jest.fn();
 
@@ -95,7 +91,6 @@ describe('<AppHeader/>', () => {
         mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
 
         render(<AppHeader />);
-        screen.debug(undefined, Infinity);
         const logoutButton = screen.getByRole('button', { name: 'Logout' });
         const { logout } = mockUseAuthData();
         expect(logoutButton).toBeInTheDocument();
