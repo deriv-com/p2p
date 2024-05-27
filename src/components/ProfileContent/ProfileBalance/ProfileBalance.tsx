@@ -4,6 +4,7 @@ import { AvailableP2PBalanceModal } from '@/components/Modals';
 import { api } from '@/hooks';
 import { numberToCurrencyText } from '@/utils';
 import { LabelPairedCircleInfoMdRegularIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { ProfileDailyLimit } from '../ProfileDailyLimit';
 import './ProfileBalance.scss';
@@ -48,7 +49,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                 <div className='profile-balance__amount' data-testid='dt_available_balance_amount'>
                     <div>
                         <Text color='less-prominent' size={isMobile ? 'xs' : 'sm'}>
-                            Available Deriv P2P Balance
+                            <Localize i18n_default_text='Available Deriv P2P Balance' />
                         </Text>
                         <LabelPairedCircleInfoMdRegularIcon
                             className='cursor-pointer fill-gray-400'
@@ -68,7 +69,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                                 <div className='profile-balance__item-limits'>
                                     <div data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_limit`}>
                                         <Text color='less-prominent' size={labelSize}>
-                                            Daily limit
+                                            <Localize i18n_default_text='Daily limit' />
                                         </Text>
                                         <Text className='profile-balance__label' size={labelSize} weight='bold'>
                                             {dailyLimit}
@@ -76,7 +77,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                                     </div>
                                     <div data-testid={`dt_profile_balance_available_${type.toLowerCase()}_limit`}>
                                         <Text color='less-prominent' size={labelSize}>
-                                            Available
+                                            <Localize i18n_default_text='Available' />
                                         </Text>
                                         <Text className='profile-balance__label' size={labelSize} weight='bold'>
                                             {available}
