@@ -162,3 +162,33 @@ export const getDateAfterHours = (initialEpoch: number, hours: number): string =
 
     return getFormattedDateString(new Date(totalMilliseconds));
 };
+
+/**
+ * Converts an epoch timestamp to a formatted UTC string.
+ *
+ * @param {number} time - The epoch timestamp in seconds.
+ * @param {string} format - The desired output format of the date and time.
+ *                          This format string follows the conventions used by the moment.js library.
+ * @returns {string} The formatted date and time string in UTC.
+ *
+ * @example
+ * // Convert epoch timestamp to UTC date string in 'YYYY-MM-DD HH:mm:ss' format
+ * const formattedDate = epochToUTC(1609459200, 'YYYY-MM-DD HH:mm:ss');
+ * console.log(formattedDate); // Output: '2021-01-01 00:00:00'
+ */
+export const epochToUTC = (time: number, format: string) => moment.unix(time).utc().format(format);
+
+/**
+ * Converts an epoch timestamp to a formatted local time string.
+ *
+ * @param {number} time - The epoch timestamp in seconds.
+ * @param {string} format - The desired output format of the date and time.
+ *                          This format string follows the conventions used by the moment.js library.
+ * @returns {string} The formatted date and time string in local time.
+ *
+ * @example
+ * // Convert epoch timestamp to local date string in 'YYYY-MM-DD HH:mm:ss' format
+ * const formattedDate = epochToLocal(1609459200, 'YYYY-MM-DD HH:mm:ss');
+ * console.log(formattedDate); // Output will vary depending on the local timezone, e.g., '2020-12-31 19:00:00' for EST
+ */
+export const epochToLocal = (time: number, format: string) => moment.unix(time).utc().local().format(format);
