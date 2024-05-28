@@ -10,7 +10,6 @@ jest.mock('@/providers/OrderDetailsProvider', () => ({
     useOrderDetails: jest.fn().mockReturnValue({
         orderDetails: {
             account_currency: 'USD',
-            advertiser_details: { name: 'Johnny123' },
             amount_display: '100',
             displayPaymentAmount: '110',
             labels: {
@@ -21,7 +20,7 @@ jest.mock('@/providers/OrderDetailsProvider', () => ({
                 rightSendOrReceive: 'Receive',
             },
             local_currency: 'IDR',
-            otherUserDetails: { first_name: 'John', last_name: 'Doe' },
+            otherUserDetails: { first_name: 'John', last_name: 'Doe', name: 'Johnny123' },
             purchaseTime: '2021-09-01 12:00:00',
             rateAmount: '10',
         },
