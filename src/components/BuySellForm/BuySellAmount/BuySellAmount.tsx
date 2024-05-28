@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TCurrency } from 'types';
 import { LightDivider } from '@/components';
 import { VALID_SYMBOLS_PATTERN } from '@/constants';
-import { floatingPointValidator, getTextFieldError } from '@/utils';
+import { floatingPointValidator, getTextFieldError, restrictDecimalPlace } from '@/utils';
 import { Input, Text, TextArea, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import './BuySellAmount.scss';
@@ -64,41 +64,44 @@ const BuySellAmount = ({
                     <Controller
                         control={control}
                         name='amount'
-                        render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
-                            <div className='px-[1.6rem] lg:px-[2.4rem] pr-6 '>
-                                <Input
-                                    className='mb-[0.2rem]'
-                                    data-lpignore='true'
-                                    disabled={isDisabled}
-                                    error={!!error?.message}
-                                    isFullWidth
-                                    label={`${isBuy ? 'Sell' : 'Buy'} amount`}
-                                    message={
-                                        error ? error?.message : `Limit: ${minLimit}-${maxLimit} ${accountCurrency}`
-                                    }
-                                    min={0}
-                                    name='amount'
-                                    onBlur={onBlur}
-                                    onChange={event => {
-                                        setInputValue(event.target.value);
-                                        onChange(event);
-                                    }}
-                                    onKeyDown={event => {
-                                        if (!floatingPointValidator(event.key)) {
-                                            event.preventDefault();
+                        render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => {
+                            const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+                                setInputValue(event.target.value);
+                                onChange(event);
+                            };
+                            return (
+                                <div className='px-[1.6rem] lg:px-[2.4rem] pr-6 '>
+                                    <Input
+                                        className='mb-[0.2rem]'
+                                        data-lpignore='true'
+                                        disabled={isDisabled}
+                                        error={!!error?.message}
+                                        isFullWidth
+                                        label={`${isBuy ? 'Sell' : 'Buy'} amount`}
+                                        message={
+                                            error ? error?.message : `Limit: ${minLimit}-${maxLimit} ${accountCurrency}`
                                         }
-                                    }}
-                                    rightPlaceholder={
-                                        <Text color='less-prominent' size='sm'>
-                                            {accountCurrency}
-                                        </Text>
-                                    }
-                                    step='any'
-                                    type='number'
-                                    value={value}
-                                />
-                            </div>
-                        )}
+                                        min={0}
+                                        name='amount'
+                                        onBlur={onBlur}
+                                        onChange={event => restrictDecimalPlace(event, handleChange)}
+                                        onKeyDown={event => {
+                                            if (!floatingPointValidator(event.key)) {
+                                                event.preventDefault();
+                                            }
+                                        }}
+                                        rightPlaceholder={
+                                            <Text color='less-prominent' size='sm'>
+                                                {accountCurrency}
+                                            </Text>
+                                        }
+                                        step='any'
+                                        type='number'
+                                        value={value}
+                                    />
+                                </div>
+                            );
+                        }}
                         rules={{
                             max: {
                                 message: `Maximum is ${maxLimit}${accountCurrency}`,
