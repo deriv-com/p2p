@@ -36,12 +36,32 @@
         width: 0.8rem;
         height: 0.8rem;
         border-radius: 100%;
-        background-color: #4bb4b3;
         margin-left: 2rem;
+
+        &-online {
+            background-color: #4bb4b3;
+        }
+
+        &-offline {
+            background-color: #ff444f;
+        }
+
+        &-blinking {
+            animation: blink 1s infinite alternate;
+        }
     }
 
     &__endpoint {
         color: #377cfc;
         text-decoration: underline;
+    }
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.2;
     }
 }
