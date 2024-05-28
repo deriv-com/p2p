@@ -6,6 +6,7 @@ import { api } from '@/hooks';
 import { useExtendedOrderDetails, useSendbird } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
+import { isOrderSeen } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
@@ -58,6 +59,13 @@ const OrderDetails = () => {
         subscribe({
             id: orderId,
         });
+
+        if (!isOrderSeen(orderId)) {
+            localStorage.setItem(
+                'order_ids',
+                JSON.stringify([...JSON.parse(localStorage.getItem('order_ids') || '[]'), orderId])
+            );
+        }
 
         return () => {
             unsubscribe();

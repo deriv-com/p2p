@@ -3,6 +3,7 @@
     align-items: center;
     grid-template-columns: 1fr 1.5fr 2fr 3fr 1.5fr 1.5fr 1.5fr;
     cursor: pointer;
+    padding: 1.6rem;
 
     &--inactive {
         grid-template-columns: 2fr 1fr 1.5fr 2fr 3fr 1.5fr 1.5fr 2fr;
@@ -11,5 +12,12 @@
 
     &__timer {
         border: 1px solid #d6dadb;
+    }
+
+    &--unseen {
+        background-color: #ff444f14;
+        &:hover {
+            background-color: #e6e9e9;
+        }
     }
 }
