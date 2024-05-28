@@ -8,6 +8,7 @@ import {
     setDecimalPlaces,
     toMoment,
 } from '@/utils';
+import { useTranslations } from '@deriv-com/translations';
 import { FormatUtils } from '@deriv-com/utils';
 
 type TOrder = THooks.Order.Get;
@@ -72,21 +73,36 @@ const useExtendedOrderDetails = ({
     orderDetails: TOrder;
     serverTime: TServerTime;
 }): { data: ExtendedOrderDetails } => {
+    const { localize } = useTranslations();
     const extendedOrderDetails: ExtendedOrderDetails = {
         ...orderDetails,
         // Derived properties
         get counterpartyAdStatusString() {
             return {
-                contactDetails: this.isBuyOrder ? "Seller's contact details" : 'Your contact details',
-                counterpartyNicknameLabel: this.isBuyOrder ? "Seller's nickname" : "Buyer's nickname",
-                counterpartyRealNameLabel: this.isBuyOrder ? "Seller's real name" : "Buyer's real name",
-                instructions: this.isBuyOrder ? "Seller's instructions" : "Buyer's instructions",
-                leftSendOrReceive: this.isBuyOrder ? 'Send' : 'Receive',
-                paymentDetails: this.isBuyOrder ? "Seller's payment details" : 'Your payment details',
+                contactDetails: this.isBuyOrder
+                    ? localize("Seller's contact details")
+                    : localize('Your contact details'),
+                counterpartyNicknameLabel: this.isBuyOrder
+                    ? localize("Seller's nickname")
+                    : localize("Buyer's nickname"),
+                counterpartyRealNameLabel: this.isBuyOrder
+                    ? localize("Seller's real name")
+                    : localize("Buyer's real name"),
+                instructions: this.isBuyOrder ? localize("Seller's instructions") : localize("Buyer's instructions"),
+                leftSendOrReceive: this.isBuyOrder ? localize('Send') : localize('Receive'),
+                paymentDetails: this.isBuyOrder
+                    ? localize("Seller's payment details")
+                    : localize('Your payment details'),
                 resultString: this.isBuyOrder
-                    ? `You've received ${this.amount_display} ${this.account_currency}`
-                    : `You sold ${this.amount_display}${this.account_currency}`,
-                rightSendOrReceive: this.isBuyOrder ? 'Receive' : 'Send',
+                    ? localize("You've received {{currency}} {{displayAmount}}", {
+                          currency: this.account_currency,
+                          displayAmount: this.amount_display,
+                      })
+                    : localize('You sold {{currency}} {{displayAmount}}', {
+                          currency: this.account_currency,
+                          displayAmount: this.amount_display,
+                      }),
+                rightSendOrReceive: this.isBuyOrder ? localize('Receive') : localize('Send'),
             };
         },
         get displayPaymentAmount() {
