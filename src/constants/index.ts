@@ -6,5 +6,6 @@ export * from './languages';
 export * from './orders';
 export * from './p2p-logo';
 export * from './payment-methods';
+export * from './time';
 export * from './url';
 export * from './validation';
