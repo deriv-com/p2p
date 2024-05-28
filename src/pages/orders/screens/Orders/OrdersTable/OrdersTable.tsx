@@ -70,8 +70,8 @@ type TOrdersTableProps = {
 
 const OrdersTable = ({ data, isActive, isLoading, loadMoreOrders }: TOrdersTableProps) => {
     const { isMobile } = useDevice();
-    if (data?.length === 0 && !isLoading) {
-        return <OrdersEmpty />;
+    if (data?.length !== 0 && !isLoading) {
+        return <OrdersEmpty isPast={!isActive} />;
     }
 
     const columns = isActive ? columnsActive : columnsPast;
