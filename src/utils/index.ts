@@ -5,6 +5,7 @@ export * from './file-dropzone';
 export * from './file-uploader';
 export * from './format-value';
 export * from './object';
+export * from './order-utils';
 export * from './os';
 export * from './payment-methods';
 export * from './react-node-to-string';
