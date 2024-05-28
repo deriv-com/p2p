@@ -1,17 +1,15 @@
-import { useTranslations } from '@deriv-com/translations';
+import { useSyncedTime } from '@/hooks';
+import { epochToLocal, epochToUTC } from '@/utils';
 import { Text, TooltipMenuIcon } from '@deriv-com/ui';
 
 export const ServerTime = () => {
-    const { localize } = useTranslations();
+    const time = useSyncedTime();
+    const UTCFormat = epochToUTC(time, 'YYYY-MM-DD HH:mm:ss [GMT]');
+    const localFormat = epochToLocal(time, 'YYYY-MM-DD HH:mm:ss Z');
 
     return (
-        <TooltipMenuIcon
-            as='div'
-            className='app-footer__icon'
-            disableHover
-            tooltipContent={localize('01 Jan 2021 00:00:00 GMT')}
-        >
-            <Text size='xs'>01 Jan 2021 00:00:00 GMT</Text>
+        <TooltipMenuIcon as='div' className='app-footer__icon' disableHover tooltipContent={localFormat}>
+            <Text size='xs'>{UTCFormat}</Text>
         </TooltipMenuIcon>
     );
 };
