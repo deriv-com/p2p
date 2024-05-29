@@ -52,7 +52,7 @@ const BuySellHeader = ({
             data-testid='dt_buy_sell_header'
         >
             <Tabs
-                TitleFontSize='sm'
+                TitleFontSize={isMobile ? 'md' : 'sm'}
                 activeTab={activeTab}
                 onChange={setActiveTab}
                 variant='primary'

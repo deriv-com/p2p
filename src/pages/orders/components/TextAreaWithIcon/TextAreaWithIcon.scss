@@ -2,8 +2,7 @@
     position: relative;
     border: 1px solid #d6dadb;
     border-radius: 0.4rem;
-    &:focus,
-    &:active {
+    &:focus-within {
         border: 1px solid #85acb0;
     }
 
@@ -22,6 +21,7 @@
             outline: none;
             border: none;
         }
+        margin-bottom: -0.5rem;
     }
     &__textarea {
         &::placeholder {
