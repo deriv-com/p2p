@@ -60,18 +60,22 @@ const OrderDetails = () => {
             id: orderId,
         });
 
-        if (!isOrderSeen(orderId)) {
-            localStorage.setItem(
-                'order_ids',
-                JSON.stringify([...JSON.parse(localStorage.getItem('order_ids') || '[]'), orderId])
-            );
-        }
-
         return () => {
             unsubscribe();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orderId]);
+
+    useEffect(() => {
+        if (orderId && activeAccount?.loginid) {
+            const loginId = activeAccount.loginid;
+            if (!isOrderSeen(orderId, loginId)) {
+                const orderIdsMap = JSON.parse(localStorage.getItem('order_ids') || '{}');
+                orderIdsMap[loginId] = [...(orderIdsMap[loginId] || []), orderId];
+                localStorage.setItem('order_ids', JSON.stringify(orderIdsMap));
+            }
+        }
+    }, [orderId, activeAccount?.loginid]);
 
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 

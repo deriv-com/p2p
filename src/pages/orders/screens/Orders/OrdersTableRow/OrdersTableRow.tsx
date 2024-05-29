@@ -64,7 +64,12 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
 
     if (isMobile) {
         return (
-            <div className='flex flex-col' onClick={showOrderDetails}>
+            <div
+                className={clsx('orders-table-row', {
+                    'orders-table-row--unseen': !!activeAccount?.loginid && !isOrderSeen(id, activeAccount.loginid),
+                })}
+                onClick={showOrderDetails}
+            >
                 <div className='flex justify-between'>
                     <Text size='sm' weight='bold'>
                         <OrderStatusTag
@@ -123,7 +128,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
         <div
             className={clsx('orders-table-row', {
                 'orders-table-row--inactive': isPast,
-                'orders-table-row--unseen': !isOrderSeen(id),
+                'orders-table-row--unseen': !!activeAccount?.loginid && !isOrderSeen(id, activeAccount.loginid),
             })}
             onClick={showOrderDetails}
         >

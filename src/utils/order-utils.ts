@@ -3,6 +3,7 @@
  * @param orderId - The order id to check if it was visited.
  * @returns {boolean} Returns true if the order was visited, false otherwise.
  */
-export const isOrderSeen = (orderId: string) => {
-    return !!JSON.parse(localStorage.getItem('order_ids') || '[]').includes(orderId);
+export const isOrderSeen = (orderId: string, loginId: string) => {
+    const orderIdsMap = JSON.parse(localStorage.getItem('order_ids') || '{}');
+    return (orderIdsMap[loginId] || []).includes(orderId);
 };
