@@ -10,7 +10,7 @@ import FullScreen from './FullScreen';
 import HelpCentre from './HelpCentre';
 import LanguageSettings from './LanguageSettings';
 import Livechat from './Livechat';
-import { NetworkStatus } from './NetworkStatus';
+import NetworkStatus from './NetworkStatus';
 import ResponsibleTrading from './ResponsibleTrading';
 import { ServerTime } from './ServerTime';
 import WhatsApp from './WhatsApp';
