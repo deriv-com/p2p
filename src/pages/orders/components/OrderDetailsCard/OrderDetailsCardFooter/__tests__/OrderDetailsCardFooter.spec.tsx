@@ -314,7 +314,7 @@ describe('<OrderDetailsCardFooter />', () => {
         expect(screen.getByText('Please wait for 59 seconds before requesting another email.')).toBeInTheDocument();
     });
 
-    it('should call history.replace, hideModal and reset when clicking on OK button in InvalidVerificationLinkModal', async () => {
+    it('should call mutate when clicking on Get new link button in InvalidVerificationLinkModal', async () => {
         modalManager.isModalOpenFor.mockImplementation(
             (modalName: string) => modalName === 'InvalidVerificationLinkModal'
         );
@@ -327,9 +327,7 @@ describe('<OrderDetailsCardFooter />', () => {
         const okButton = screen.getByRole('button', { name: 'Get new link' });
         await userEvent.click(okButton);
 
-        expect(modalManager.hideModal).toHaveBeenCalled();
-        expect(mockUseHistory().replace).toHaveBeenCalled();
-        expect(mockUseConfirm().reset).toHaveBeenCalled();
+        expect(mockUseConfirm().mutate).toHaveBeenCalled();
     });
 
     it('should show InvalidVerificationLinkModal if InvalidVerificationToken error is returned when code param is in the URL', async () => {

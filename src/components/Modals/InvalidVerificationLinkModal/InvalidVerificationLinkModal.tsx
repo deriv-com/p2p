@@ -50,11 +50,7 @@ const InvalidVerificationLinkModal = ({
                 })}
                 hideBorder
             >
-                <Button
-                    onClick={() => (isInvalidVerification ? mutate() : onRequestClose())}
-                    size={isMobile ? 'md' : 'lg'}
-                    textSize='sm'
-                >
+                <Button onClick={mutate} size={isMobile ? 'md' : 'lg'} textSize='sm'>
                     <Localize i18n_default_text='Get new link' />
                 </Button>
             </Modal.Footer>
