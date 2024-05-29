@@ -324,7 +324,7 @@ describe('<OrderDetailsCardFooter />', () => {
         const paymentButton = screen.getByRole('button', { name: 'I’ve received payment' });
         await userEvent.click(paymentButton);
 
-        const okButton = screen.getByRole('button', { name: 'OK' });
+        const okButton = screen.getByRole('button', { name: 'Get new link' });
         await userEvent.click(okButton);
 
         expect(modalManager.hideModal).toHaveBeenCalled();
