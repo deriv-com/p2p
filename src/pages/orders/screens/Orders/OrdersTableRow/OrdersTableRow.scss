@@ -1,9 +1,16 @@
 .orders-table-row {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 1.5fr 2fr 3fr 1.5fr 1.5fr 1.5fr;
-    cursor: pointer;
     padding: 1.6rem;
+    @include desktop {
+        display: grid;
+        align-items: center;
+        grid-template-columns: 1fr 1.5fr 2fr 3fr 1.5fr 1.5fr 1.5fr;
+        cursor: pointer;
+    }
+
+    @include mobile {
+        display: flex;
+        flex-direction: column;
+    }
 
     &--inactive {
         grid-template-columns: 2fr 1fr 1.5fr 2fr 3fr 1.5fr 1.5fr 2fr;
