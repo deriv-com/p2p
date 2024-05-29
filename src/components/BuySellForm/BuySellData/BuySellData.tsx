@@ -1,6 +1,7 @@
 import { THooks } from 'types';
 import { PaymentMethodWithIcon } from '@/components';
 import { formatTime } from '@/utils';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import './BuySellData.scss';
 
@@ -54,28 +55,34 @@ const BuySellData = ({
                     </Text>
                 </div>
             </div>
+            {paymentMethodNames?.length && (
+                <div className='flex flex-col mb-[1.6rem]'>
+                    <Text className='mb-[0.8rem]' color='less-prominent' size={labelSize}>
+                        <Localize i18n_default_text='Payment methods' />
+                    </Text>
+                    {paymentMethodNames.map(method => (
+                        <PaymentMethodWithIcon
+                            className='mb-[0.8rem]'
+                            key={method}
+                            name={method}
+                            type={paymentMethodTypes?.[method] as TType}
+                        />
+                    ))}
+                </div>
+            )}
             <div className='flex flex-col mb-[1.6rem]'>
-                <Text className='mb-[0.8rem]' color='less-prominent' size={labelSize}>
-                    Payment methods
+                <Text color='less-prominent' size={labelSize}>
+                    {isBuy ? (
+                        <Localize i18n_default_text="Buyer's instructions" />
+                    ) : (
+                        <Localize i18n_default_text="Seller's instructions" />
+                    )}
                 </Text>
-                {paymentMethodNames?.length
-                    ? paymentMethodNames.map(method => (
-                          <PaymentMethodWithIcon
-                              className='mb-[0.8rem]'
-                              key={method}
-                              name={method}
-                              type={paymentMethodTypes?.[method] as TType}
-                          />
-                      ))
-                    : '-'}
-            </div>
-            <div className='flex flex-col mb-[1.6rem]'>
-                <Text color='less-prominent' size={labelSize}>{`${isBuy ? 'Buyer' : 'Seller'}'s instructions`}</Text>
                 <Text size={valueSize}>{instructions}</Text>
             </div>
             <div className='flex flex-col mb-[1.6rem]'>
                 <Text color='less-prominent' size={labelSize}>
-                    Orders must be completed in
+                    <Localize i18n_default_text='Orders must be completed in' />
                 </Text>
                 <Text size={valueSize}>{formatTime(expiryPeriod)}</Text>
             </div>

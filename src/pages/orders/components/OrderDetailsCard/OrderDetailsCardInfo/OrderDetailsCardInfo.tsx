@@ -6,7 +6,6 @@ const OrderDetailsCardInfo = () => {
     const { orderDetails } = useOrderDetails();
     const {
         account_currency: accountCurrency,
-        advertiser_details: { name },
         amount_display: amountDisplay,
         displayPaymentAmount,
         labels,
@@ -18,7 +17,7 @@ const OrderDetailsCardInfo = () => {
     const { isMobile } = useDevice();
 
     const clientDetails = [
-        { text: labels.counterpartyNicknameLabel, value: name },
+        { text: labels.counterpartyNicknameLabel, value: otherUserDetails.name },
         {
             text: labels.counterpartyRealNameLabel,
             value: `${otherUserDetails.first_name} ${otherUserDetails.last_name}`,
