@@ -1,3 +1,4 @@
+import { RESPONSIBLE } from '@/constants';
 import { LegacyResponsibleTradingIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { TooltipMenuIcon } from '@deriv-com/ui';
@@ -9,7 +10,7 @@ const ResponsibleTrading = () => {
         <TooltipMenuIcon
             as='a'
             className='app-footer__icon'
-            href='https://deriv.com/responsible/'
+            href={RESPONSIBLE}
             target='_blank'
             tooltipContent={localize('Responsible trading')}
         >
