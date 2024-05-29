@@ -90,6 +90,6 @@ export const MenuItems: MenuItemsConfig[] = [
         as: 'button',
         href: 'https://app.deriv.com/appstore/traders-hub',
         icon: <CashierLogo iconSize='xs' />,
-        label: `Cashier`,
+        label: 'Cashier',
     },
 ];
