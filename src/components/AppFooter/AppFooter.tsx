@@ -6,7 +6,7 @@ import AccountLimits from './AccountLimits';
 import ChangeTheme from './ChangeTheme';
 import Deriv from './Deriv';
 import Endpoint from './Endpoint';
-import FullScreen from './FullScreen';
+import { FullScreen } from './FullScreen';
 import HelpCentre from './HelpCentre';
 import LanguageSettings from './LanguageSettings';
 import Livechat from './Livechat';
