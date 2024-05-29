@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { TActiveChannel, TChatMessages } from 'types';
 import { FullPageMobileWrapper, LightDivider } from '@/components';
 import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
@@ -37,7 +38,9 @@ const OrdersChatSection = ({ isInactive, onReturn, otherUserDetails, ...sendBird
     if (isMobile) {
         return (
             <FullPageMobileWrapper
-                className='orders-chat-section__full-page'
+                className={clsx('orders-chat-section__full-page', {
+                    'orders-chat-section__full-page--closed': isChannelClosed,
+                })}
                 //TODO: handle goback based on route
                 onBack={onReturn}
                 renderFooter={() => (

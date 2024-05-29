@@ -19,7 +19,7 @@ const BASE_CURRENCY = 'USD';
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { data: exchangeRateData, subscribeRates } = useExchangeRates();
-    const { isDesktop, isMobile } = useDevice();
+    const { isMobile } = useDevice();
     const history = useHistory();
     const location = useLocation();
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
@@ -104,8 +104,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             isOnline={is_online}
                             nickname={name || ''}
                             showOnlineStatus
-                            size={25}
-                            textSize='xs'
+                            size={isMobile ? 32 : 24}
+                            textSize={isMobile ? 'sm' : 'xs'}
                         />
                         <div className='flex flex-col'>
                             <div
@@ -113,7 +113,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     'mb-[-0.5rem]': hasRating,
                                 })}
                             >
-                                <Text size='sm' weight={isMobile ? 'bold' : 400}>
+                                <Text size={isMobile ? 'md' : 'sm'} weight={isMobile ? 'bold' : 400}>
                                     {name}
                                 </Text>
                                 <Badge tradeCount={completed_orders_count} />
@@ -150,14 +150,14 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         </Text>
                     )}
                     <Container {...(isMobile && { className: 'flex flex-col-reverse mb-7' })}>
-                        <Text color={textColor} size='sm'>
+                        <Text color={textColor} size={'sm'}>
                             {isMobile && 'Limits:'} {min_order_amount_limit_display}-{max_order_amount_limit_display}{' '}
                             {account_currency}
                         </Text>
                         <Text
                             className='text-wrap w-[90%]'
                             color='success'
-                            size={isBuySellPage || isDesktop ? 'sm' : 'md'}
+                            size={!isMobile ? 'sm' : 'md'}
                             weight='bold'
                         >
                             {displayEffectiveRate} {local_currency}

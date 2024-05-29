@@ -13,7 +13,7 @@
         top: 5rem;
         left: 0;
         z-index: 1;
-        height: calc(100vh - 9rem);
+        height: calc(100vh - 6rem);
 
         & .mobile-wrapper {
             &__body {
@@ -25,6 +25,16 @@
 
             &__footer {
                 padding: 0;
+            }
+        }
+
+        &--closed {
+            height: calc(100vh - 2rem);
+
+            & .mobile-wrapper {
+                &__footer {
+                    padding: 1.6rem;
+                }
             }
         }
     }
