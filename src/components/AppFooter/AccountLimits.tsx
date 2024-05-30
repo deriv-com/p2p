@@ -1,3 +1,4 @@
+import { ACCOUNT_LIMITS } from '@/constants';
 import { LegacyAccountLimitsIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { TooltipMenuIcon } from '@deriv-com/ui';
@@ -9,7 +10,7 @@ const AccountLimits = () => {
         <TooltipMenuIcon
             as='a'
             className='app-footer__icon'
-            href='https://app.deriv.com/account/account-limits'
+            href={ACCOUNT_LIMITS}
             tooltipContent={localize('Account limits')}
         >
             <LegacyAccountLimitsIcon iconSize='xs' />

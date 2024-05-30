@@ -39,7 +39,8 @@ const useSyncedTime = () => {
         }
 
         return () => clearInterval(timeInterval);
-    }, [data, currentDate]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
 
     return serverTime;
 };
