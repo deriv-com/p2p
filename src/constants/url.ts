@@ -12,4 +12,3 @@ export const ACCOUNT_LIMITS = `${URLConstants.derivAppProduction}/account/accoun
 export const DERIV_COM = URLConstants.derivComProduction;
 export const HELP_CENTRE = `${URLConstants.derivComProduction}/help-centre/`;
 export const RESPONSIBLE = `${URLConstants.derivComProduction}/responsible/`;
-export const WHATSAPP = 'https://api.whatsapp.com/send/?phone=35699578341&text&type=phone_number&app_absent=0';
