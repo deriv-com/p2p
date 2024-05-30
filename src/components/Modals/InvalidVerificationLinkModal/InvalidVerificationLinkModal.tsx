@@ -1,9 +1,6 @@
 import clsx from 'clsx';
 import { ERROR_CODES } from '@/constants';
-import {
-    DerivLightIcEmailVerificationLinkBlockedIcon,
-    DerivLightIcEmailVerificationLinkInvalidIcon,
-} from '@deriv/quill-icons';
+import { DerivLightIcEmailVerificationLinkInvalidIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './InvalidVerificationLinkModal.scss';
@@ -36,27 +33,16 @@ const InvalidVerificationLinkModal = ({
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
         >
-            <Modal.Header hideBorder onRequestClose={onRequestClose} />
             <Modal.Body
-                className={clsx('flex flex-col items-center gap-[2.4rem] p-[2.4rem] pb-4', {
+                className={clsx('flex flex-col items-center gap-[2.4rem] p-[2.4rem]', {
                     'py-0 px-[1.4rem] gap-[1.4rem]': isExcessiveErrorMobile,
                 })}
             >
-                {isInvalidVerification ? (
-                    <DerivLightIcEmailVerificationLinkInvalidIcon height={iconSize} width={iconSize} />
-                ) : (
-                    <DerivLightIcEmailVerificationLinkBlockedIcon height={iconSize} width={iconSize} />
-                )}
-                {isInvalidVerification && (
-                    <Text weight='bold'>
-                        <Localize i18n_default_text='Invalid verification link' />
-                    </Text>
-                )}
-                {error?.message && (
-                    <Text align='center' weight={isInvalidVerification ? 'normal' : 'bold'}>
-                        {error.message}
-                    </Text>
-                )}
+                <DerivLightIcEmailVerificationLinkInvalidIcon height={iconSize} width={iconSize} />
+                <Text weight='bold'>
+                    <Localize i18n_default_text='Invalid verification link' />
+                </Text>
+                {error?.message && <Text align='center'>{error.message}</Text>}
             </Modal.Body>
             <Modal.Footer
                 className={clsx('justify-center', {
@@ -64,16 +50,8 @@ const InvalidVerificationLinkModal = ({
                 })}
                 hideBorder
             >
-                <Button
-                    onClick={() => (isInvalidVerification ? mutate() : onRequestClose())}
-                    size={isMobile ? 'md' : 'lg'}
-                    textSize='sm'
-                >
-                    {isInvalidVerification ? (
-                        <Localize i18n_default_text='Get new link' />
-                    ) : (
-                        <Localize i18n_default_text='OK' />
-                    )}
+                <Button onClick={mutate} size={isMobile ? 'md' : 'lg'} textSize='sm'>
+                    <Localize i18n_default_text='Get new link' />
                 </Button>
             </Modal.Footer>
         </Modal>

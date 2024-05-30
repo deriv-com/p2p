@@ -6,6 +6,7 @@ import { api } from '@/hooks';
 import { useExtendedOrderDetails, useSendbird } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
+import { isOrderSeen } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
@@ -64,6 +65,17 @@ const OrderDetails = () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orderId]);
+
+    useEffect(() => {
+        if (orderId && activeAccount?.loginid) {
+            const loginId = activeAccount.loginid;
+            if (!isOrderSeen(orderId, loginId)) {
+                const orderIdsMap = JSON.parse(localStorage.getItem('order_ids') || '{}');
+                orderIdsMap[loginId] = [...(orderIdsMap[loginId] || []), orderId];
+                localStorage.setItem('order_ids', JSON.stringify(orderIdsMap));
+            }
+        }
+    }, [orderId, activeAccount?.loginid]);
 
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 

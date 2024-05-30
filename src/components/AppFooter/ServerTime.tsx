@@ -3,14 +3,22 @@ import { useSyncedTime } from '@/hooks';
 import { epochToLocal, epochToUTC } from '@/utils';
 import { Text, TooltipMenuIcon } from '@deriv-com/ui';
 
-export const ServerTime = () => {
+const ServerTime = () => {
     const time = useSyncedTime();
     const UTCFormat = epochToUTC(time, DATE_TIME_FORMAT_WITH_GMT);
     const localFormat = epochToLocal(time, DATE_TIME_FORMAT_WITH_OFFSET);
 
     return (
-        <TooltipMenuIcon as='div' className='app-footer__icon' disableHover tooltipContent={localFormat}>
+        <TooltipMenuIcon
+            as='div'
+            className='app-footer__icon'
+            data-testid='dt_server_time'
+            disableHover
+            tooltipContent={localFormat}
+        >
             <Text size='xs'>{UTCFormat}</Text>
         </TooltipMenuIcon>
     );
 };
+
+export default ServerTime;
