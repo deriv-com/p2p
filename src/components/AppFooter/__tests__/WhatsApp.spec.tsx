@@ -1,4 +1,4 @@
-import { WHATSAPP } from '@/constants';
+import { URLConstants } from '@deriv-com/utils';
 import { render, screen } from '@testing-library/react';
 import WhatsApp from '../WhatsApp';
 
@@ -8,7 +8,7 @@ describe('WhatsApp component', () => {
 
         const link = screen.getByRole('link');
         expect(link).toBeInTheDocument();
-        expect(link).toHaveAttribute('href', WHATSAPP);
+        expect(link).toHaveAttribute('href', URLConstants.whatsApp);
         expect(link).toHaveAttribute('target', '_blank');
 
         expect(screen.getByRole('img')).toBeInTheDocument();
