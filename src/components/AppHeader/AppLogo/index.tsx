@@ -5,5 +5,5 @@ export const AppLogo = () => {
     const { isDesktop } = useDevice();
 
     if (!isDesktop) return null;
-    return <DerivLogo className='app-header__logo' href='https://deriv.com' target='_blank' variant='wallets' />;
+    return <DerivLogo className='app-header__logo' href={URLConstant.DerivComProduction} target='_blank' variant='wallets' />;
 };
