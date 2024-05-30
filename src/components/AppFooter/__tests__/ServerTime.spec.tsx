@@ -31,7 +31,7 @@ describe('ServerTime component', () => {
     it('renders the server time with UTC and local formats', async () => {
         render(<ServerTime />);
 
-        await userEvent.hover(screen.getByTestId('dt_server-time'));
+        await userEvent.hover(screen.getByTestId('dt_server_time'));
 
         expect(screen.getByText(mockLocalFormat)).toBeInTheDocument();
         expect(screen.getByText(mockUTCFormat)).toBeInTheDocument();

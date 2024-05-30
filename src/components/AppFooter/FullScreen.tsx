@@ -3,7 +3,7 @@ import { LegacyFullscreen1pxIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { TooltipMenuIcon } from '@deriv-com/ui';
 
-export const FullScreen = () => {
+const FullScreen = () => {
     const { toggleFullScreenMode } = useFullScreen();
     const { localize } = useTranslations();
 

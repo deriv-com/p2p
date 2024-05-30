@@ -5,6 +5,7 @@ export const MY_PROFILE_URL = '/my-profile';
 export const ADVERTISER_URL = '/advertiser';
 export const ENDPOINT = '/endpoint';
 
+// TODO move these to deriv-utils library
 export const ACCOUNT_LIMITS = 'https://app.deriv.com/account/account-limits';
 export const DERIV_COM = 'https://deriv.com/';
 export const HELP_CENTRE = 'https://deriv.com/help-centre/';

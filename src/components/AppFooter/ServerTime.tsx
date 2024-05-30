@@ -12,7 +12,7 @@ const ServerTime = () => {
         <TooltipMenuIcon
             as='div'
             className='app-footer__icon'
-            data-testid='dt_server-time'
+            data-testid='dt_server_time'
             disableHover
             tooltipContent={localFormat}
         >
