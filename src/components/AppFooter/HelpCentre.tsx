@@ -1,3 +1,4 @@
+import { HELP_CENTRE } from '@/constants';
 import { LegacyHelpCentreIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { TooltipMenuIcon } from '@deriv-com/ui';
@@ -9,7 +10,7 @@ const HelpCentre = () => {
         <TooltipMenuIcon
             as='a'
             className='app-footer__icon'
-            href='https://deriv.com/help-centre/'
+            href={HELP_CENTRE}
             target='_blank'
             tooltipContent={localize('Help centre')}
         >
