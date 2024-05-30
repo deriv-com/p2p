@@ -169,7 +169,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                 </div>
             )}
             {shouldShowComplainAndReceivedButton && (
-                <div className='justify-between'>
+                <div className='flex justify-end w-full'>
                     <Button
                         className='border-2'
                         color='primary-light'
