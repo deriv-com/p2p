@@ -14,6 +14,7 @@ import {
     setDecimalPlaces,
 } from '@/utils';
 import { useExchangeRates } from '@deriv-com/api-hooks';
+import { Localize } from '@deriv-com/translations';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
 import { LightDivider } from '../LightDivider';
 import { BuySellAmount } from './BuySellAmount';
@@ -223,8 +224,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     <div className='px-[2.4rem] mt-[2.4rem]'>
                         <InlineMessage variant='info'>
                             <Text size={isMobile ? 'xs' : '2xs'}>
-                                If the market rate changes from the rate shown here, we won’t be able to process your
-                                order.
+                                <Localize i18n_default_text=' If the market rate changes from the rate shown here, we won’t be able to process your order.' />
                             </Text>
                         </InlineMessage>
                     </div>

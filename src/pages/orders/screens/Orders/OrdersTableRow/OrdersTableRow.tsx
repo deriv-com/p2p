@@ -9,7 +9,7 @@ import { api } from '@/hooks';
 import { useExtendedOrderDetails, useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderRatingButton, OrderStatusTag, OrderTimer } from '@/pages/orders/components';
-import { getDistanceToServerTime } from '@/utils';
+import { getDistanceToServerTime, isOrderSeen } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
@@ -64,7 +64,12 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
 
     if (isMobile) {
         return (
-            <div className='flex flex-col' onClick={showOrderDetails}>
+            <div
+                className={clsx('orders-table-row', {
+                    'orders-table-row--unseen': !!activeAccount?.loginid && !isOrderSeen(id, activeAccount.loginid),
+                })}
+                onClick={showOrderDetails}
+            >
                 <div className='flex justify-between'>
                     <Text size='sm' weight='bold'>
                         <OrderStatusTag
@@ -120,7 +125,13 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
     }
 
     return (
-        <div className={clsx('orders-table-row', { 'orders-table-row--inactive': isPast })} onClick={showOrderDetails}>
+        <div
+            className={clsx('orders-table-row', {
+                'orders-table-row--inactive': isPast,
+                'orders-table-row--unseen': !!activeAccount?.loginid && !isOrderSeen(id, activeAccount.loginid),
+            })}
+            onClick={showOrderDetails}
+        >
             {isPast && <Text size='sm'>{purchaseTime}</Text>}
             <Text size='sm'>{isBuyOrderForUser ? 'Buy' : 'Sell'}</Text>
             <Text size='sm'>{id}</Text>

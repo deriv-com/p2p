@@ -53,6 +53,7 @@ jest.mock('@/hooks', () => ({
 }));
 
 jest.mock('@/hooks/custom-hooks', () => ({
+    useIsAdvertiserBarred: () => false,
     useModalManager: () => mockModalManager,
 }));
 
