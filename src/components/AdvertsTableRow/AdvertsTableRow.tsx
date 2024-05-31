@@ -150,16 +150,11 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         </Text>
                     )}
                     <Container {...(isMobile && { className: 'flex flex-col-reverse mb-7' })}>
-                        <Text color={textColor} size={'sm'}>
+                        <Text color={textColor} size='sm'>
                             {isMobile && 'Limits:'} {min_order_amount_limit_display}-{max_order_amount_limit_display}{' '}
                             {account_currency}
                         </Text>
-                        <Text
-                            className='text-wrap w-[90%]'
-                            color='success'
-                            size={!isMobile ? 'sm' : 'md'}
-                            weight='bold'
-                        >
+                        <Text className='text-wrap w-[90%]' color='success' size={isMobile ? 'md' : 'sm'} weight='bold'>
                             {displayEffectiveRate} {local_currency}
                         </Text>
                     </Container>
