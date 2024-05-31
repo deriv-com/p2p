@@ -1,7 +1,7 @@
+import { useMemo } from 'react';
 import { LANGUAGES } from '@/constants';
 import { useTranslations } from '@deriv-com/translations';
 import { Text, TooltipMenuIcon } from '@deriv-com/ui';
-import './AppFooter.scss';
 
 type TLanguageSettings = {
     openLanguageSettingModal: () => void;
@@ -10,7 +10,10 @@ type TLanguageSettings = {
 const LanguageSettings = ({ openLanguageSettingModal }: TLanguageSettings) => {
     const { currentLang, localize } = useTranslations();
 
-    const countryIcon = LANGUAGES.find(({ code }) => code == currentLang)?.icon;
+    const countryIcon = useMemo(
+        () => LANGUAGES.find(({ code }) => code == currentLang)?.placeholderIcon,
+        [currentLang]
+    );
 
     return (
         <TooltipMenuIcon
