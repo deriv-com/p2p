@@ -14,5 +14,5 @@ export const AccountSwitcher = () => {
         isVirtual: Boolean(data?.is_virtual),
         loginid: data?.loginid || '',
     };
-    return data && <UIAccountSwitcher activeAccount={activeAccount} isDisabled />;
+    return data && <UIAccountSwitcher activeAccount={activeAccount} buttonClassName='mr-4' isDisabled />;
 };

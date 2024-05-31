@@ -12,7 +12,7 @@ import LanguageSettings from './LanguageSettings';
 import Livechat from './Livechat';
 import NetworkStatus from './NetworkStatus';
 import ResponsibleTrading from './ResponsibleTrading';
-import { ServerTime } from './ServerTime';
+import ServerTime from './ServerTime';
 import WhatsApp from './WhatsApp';
 import './AppFooter.scss';
 
