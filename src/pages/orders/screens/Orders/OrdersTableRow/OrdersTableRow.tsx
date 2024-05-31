@@ -81,7 +81,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
                         />
                     </Text>
                     {!isPast && (
-                        <div className='flex items-center gap-5'>
+                        <div className='orders-table-row__timer-wrapper'>
                             <OrderTimer distance={distance} />
                             <Button
                                 className='h-full p-0'

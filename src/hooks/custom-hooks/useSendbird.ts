@@ -174,7 +174,10 @@ const useSendbird = (orderId: string, isErrorOrderInfo: boolean, chatChannelUrl:
             .onSucceeded(sentMessage => {
                 const idx = messages?.findIndex(msg => msg.id === messageToSendId);
                 if (sentMessage.isUserMessage()) {
-                    setMessages(previousMessages => previousMessages.splice(idx, 1, createChatMessage(sentMessage)));
+                    setMessages(previousMessages => {
+                        previousMessages.splice(idx, 1, createChatMessage(sentMessage));
+                        return previousMessages;
+                    });
                 }
             })
             .onFailed(() => {
