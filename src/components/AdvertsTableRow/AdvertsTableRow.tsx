@@ -3,14 +3,14 @@ import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
 import { TAdvertsTableRowRenderer, TCurrency } from 'types';
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
-import { NicknameModal } from '@/components/Modals';
+import { ErrorModal, NicknameModal } from '@/components/Modals';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
 import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, usePoiPoaStatus } from '@/hooks/custom-hooks';
-import { generateEffectiveRate, getCurrentRoute } from '@/utils';
+import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
 import { useExchangeRates } from '@deriv-com/api-hooks';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './AdvertsTableRow.scss';
 
@@ -28,6 +28,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { data } = api.advertiser.useGetInfo() || {};
     const { data: poiPoaData } = usePoiPoaStatus();
     const { isPoaVerified, isPoiVerified } = poiPoaData || {};
+    const { localize } = useTranslations();
 
     const exchangeRateRef = useRef<number | undefined>(undefined);
 
@@ -36,7 +37,9 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         advertiser_details,
         counterparty_type,
         effective_rate,
+        eligibility_status: eligibilityStatus = [],
         id: advertId,
+        is_eligible: isEligible,
         local_currency = '',
         max_order_amount_limit_display,
         min_order_amount_limit_display,
@@ -177,30 +180,43 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
             {!isMyAdvert && (
                 <div
                     className={clsx('flex relative', {
-                        'flex-col h-full justify-center': isBuySellPage,
+                        'flex-col h-full justify-center items-end': isBuySellPage,
                         'flex-row justify-end': !isBuySellPage,
                     })}
                 >
                     {isMobile && isBuySellPage && (
                         <LabelPairedChevronRightMdRegularIcon className='absolute top-0 right-0' />
                     )}
-                    <Button
-                        className='lg:w-[7.5rem]'
-                        disabled={isAdvertiserBarred}
-                        onClick={() => {
-                            if (!isPoaVerified || !isPoiVerified) {
-                                const searchParams = new URLSearchParams(location.search);
-                                searchParams.set('poi_poa_verified', 'false');
-                                history.replace({ pathname: location.pathname, search: searchParams.toString() });
-                            } else {
-                                showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal');
-                            }
-                        }}
-                        size={isMobile ? 'md' : 'sm'}
-                        textSize={isMobile ? 'md' : 'xs'}
-                    >
-                        {isBuyAdvert ? 'Buy' : 'Sell'} {account_currency}
-                    </Button>
+                    {isEligible === 0 ? (
+                        <Button
+                            className='border px-[1.6rem]'
+                            color='black'
+                            onClick={() => showModal('ErrorModal')}
+                            size={isMobile ? 'md' : 'sm'}
+                            textSize={isMobile ? 'md' : 'xs'}
+                            variant='outlined'
+                        >
+                            <Localize i18n_default_text='Unavailable' />
+                        </Button>
+                    ) : (
+                        <Button
+                            className='lg:w-[7.5rem]'
+                            disabled={isAdvertiserBarred}
+                            onClick={() => {
+                                if (!isPoaVerified || !isPoiVerified) {
+                                    const searchParams = new URLSearchParams(location.search);
+                                    searchParams.set('poi_poa_verified', 'false');
+                                    history.replace({ pathname: location.pathname, search: searchParams.toString() });
+                                } else {
+                                    showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal');
+                                }
+                            }}
+                            size={isMobile ? 'md' : 'sm'}
+                            textSize={isMobile ? 'md' : 'xs'}
+                        >
+                            {isBuyAdvert ? 'Buy' : 'Sell'} {account_currency}
+                        </Button>
+                    )}
                 </div>
             )}
             {isModalOpenFor('BuySellForm') && (
@@ -211,6 +227,14 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                 />
             )}
             {isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
+            {isModalOpenFor('ErrorModal') && (
+                <ErrorModal
+                    isModalOpen
+                    message={getEligibilityErrorMessage(eligibilityStatus, localize)}
+                    onRequestClose={hideModal}
+                    showTitle={false}
+                />
+            )}
         </div>
     );
 });
