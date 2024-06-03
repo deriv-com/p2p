@@ -24,6 +24,6 @@ jobs:
         - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
           run: npm audit signatures
         - name: Test
-          run: JEST_MAX_WORKERS=95% npm run test:jest -- --collectCoverage
+          run: JEST_MAX_WORKERS=95% npm run test -- --collectCoverage
         - name: Coveralls
           uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
