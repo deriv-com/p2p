@@ -55,6 +55,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { data } = api.advertiser.useGetInfo() || {};
     const [errorMessage, setErrorMessage] = useState('');
+    const scrollRef = useRef<HTMLDivElement>(null);
     const {
         balance_available = '',
         daily_buy = 0,
@@ -212,10 +213,11 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     }, [isSuccess, orderCreatedInfo, history, onRequestClose]);
 
     useEffect(() => {
-        if (isError) {
+        if (isError && error?.error.message) {
             setErrorMessage(error?.error.message);
+            scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
-    }, [error, isError]);
+    }, [error?.error.message, isError]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -254,6 +256,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     paymentMethodNames={payment_method_names}
                     paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
                     rate={displayEffectiveRate}
+                    ref={scrollRef}
                 />
                 <LightDivider />
                 {isBuy && payment_method_names && payment_method_names?.length > 0 && (
