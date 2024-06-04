@@ -1,8 +1,9 @@
 import { TCurrency, TPaymentFieldType, TWalletType } from 'types';
-import { getFilteredCountryList } from '../ad-utils';
+import { getEligibilityErrorMessage, getFilteredCountryList } from '../ad-utils';
 
 type TNumber = 0 | 1;
 type TStatus = 'disabled' | 'enabled';
+
 describe('ad-utils', () => {
     describe('getFilteredCountryList', () => {
         it('should return an empty object with empty country list', () => {
@@ -74,6 +75,17 @@ describe('ad-utils', () => {
 
             const result = getFilteredCountryList(mockCountryList, ['bank_transfer']);
             expect(result).toEqual(expectedResult);
+        });
+    });
+
+    describe('getEligibilityErrorMessage', () => {
+        it('should return the corresponding error message based on the error code', () => {
+            const result = getEligibilityErrorMessage(['join_date']);
+            expect(result).toEqual("You've not used Deriv P2P long enough for this ad.");
+        });
+        it('should return the default error message when the error code is not found', () => {
+            const result = getEligibilityErrorMessage(['unknown_error']);
+            expect(result).toEqual("The advertiser has set conditions for this ad that you don't meet.");
         });
     });
 });

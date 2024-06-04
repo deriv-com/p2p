@@ -6,9 +6,9 @@ import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
 import AppContent from './routes/AppContent';
 
-//TODO: replace with ${process.env.VITE_PROJECT_NAME}/${process.env.VITE_CROWDIN_BRANCH_NAME}
+const { VITE_CROWDIN_BRANCH_NAME, VITE_PROJECT_NAME, VITE_TRANSLATIONS_CDN_URL } = import.meta.env;
 const i18nInstance = initializeI18n({
-    cdnUrl: `https://pub-5ce11fcb15f34c0a9ce8ba7086d16e6a.r2.dev/p2p/DP2P`,
+    cdnUrl: `${VITE_TRANSLATIONS_CDN_URL}/${VITE_PROJECT_NAME}/${VITE_CROWDIN_BRANCH_NAME}`,
 });
 
 const App = () => {
