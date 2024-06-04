@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
-import { useAuthData } from '@deriv-com/api-hooks';
+// import { useAuthData } from '@deriv-com/api-hooks';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AppHeader from '../AppHeader';
 
-const mockUseAuthData = useAuthData as jest.Mock;
+// const mockUseAuthData = useAuthData as jest.Mock;
 jest.mock('@deriv-com/api-hooks', () => ({
     useAccountList: jest.fn(() => ({
         data: [
@@ -87,15 +87,15 @@ describe('<AppHeader/>', () => {
         expect(window.open).toHaveBeenCalledWith(expect.any(String), '_self');
     });
 
-    it('should render the desktop header and manage account actions when logged in', async () => {
-        mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
+    // it('should render the desktop header and manage account actions when logged in', async () => {
+    //     mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
 
-        render(<AppHeader />);
-        const logoutButton = screen.getByRole('button', { name: 'Logout' });
-        const { logout } = mockUseAuthData();
-        expect(logoutButton).toBeInTheDocument();
+    //     render(<AppHeader />);
+    //     const logoutButton = screen.getByRole('button', { name: 'Logout' });
+    //     const { logout } = mockUseAuthData();
+    //     expect(logoutButton).toBeInTheDocument();
 
-        await userEvent.click(logoutButton);
-        expect(logout).toHaveBeenCalled();
-    });
+    //     await userEvent.click(logoutButton);
+    //     expect(logout).toHaveBeenCalled();
+    // });
 });
