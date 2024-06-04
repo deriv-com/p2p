@@ -90,6 +90,20 @@ describe('<AppHeader/>', () => {
     it('should render the desktop header and manage account actions when logged in', async () => {
         mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
 
+        Object.defineProperty(window, 'matchMedia', {
+            value: jest.fn().mockImplementation(query => ({
+                addEventListener: jest.fn(),
+                addListener: jest.fn(), // Deprecated
+                dispatchEvent: jest.fn(),
+                matches: false,
+                media: query,
+                onchange: null,
+                removeEventListener: jest.fn(),
+                removeListener: jest.fn(), // Deprecated
+            })),
+            writable: true,
+        });
+
         render(<AppHeader />);
         const logoutButton = screen.getByRole('button', { name: 'Logout' });
         const { logout } = mockUseAuthData();
