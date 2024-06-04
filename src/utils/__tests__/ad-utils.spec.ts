@@ -3,7 +3,7 @@ import { getEligibilityErrorMessage, getFilteredCountryList } from '../ad-utils'
 
 type TNumber = 0 | 1;
 type TStatus = 'disabled' | 'enabled';
-const mockFn = jest.fn((value: string) => value);
+
 describe('ad-utils', () => {
     describe('getFilteredCountryList', () => {
         it('should return an empty object with empty country list', () => {
@@ -80,11 +80,11 @@ describe('ad-utils', () => {
 
     describe('getEligibilityErrorMessage', () => {
         it('should return the corresponding error message based on the error code', () => {
-            const result = getEligibilityErrorMessage(['join_date'], mockFn);
+            const result = getEligibilityErrorMessage(['join_date']);
             expect(result).toEqual("You've not used Deriv P2P long enough for this ad.");
         });
         it('should return the default error message when the error code is not found', () => {
-            const result = getEligibilityErrorMessage(['unknown_error'], mockFn);
+            const result = getEligibilityErrorMessage(['unknown_error']);
             expect(result).toEqual("The advertiser has set conditions for this ad that you don't meet.");
         });
     });

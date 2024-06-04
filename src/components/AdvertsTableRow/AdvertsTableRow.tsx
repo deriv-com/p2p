@@ -84,6 +84,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const isMyAdvert = data?.id === id;
     const ratingAverageDecimal = rating_average ? Number(rating_average).toFixed(1) : null;
     const textColor = isMobile ? 'less-prominent' : 'general';
+    const size = isMobile ? 'md' : 'sm';
+    const buttonTextSize = isMobile ? 'md' : 'xs';
 
     return (
         <div
@@ -116,7 +118,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     'mb-[-0.5rem]': hasRating,
                                 })}
                             >
-                                <Text size={isMobile ? 'md' : 'sm'} weight={isMobile ? 'bold' : 400}>
+                                <Text size={size} weight={isMobile ? 'bold' : 400}>
                                     {name}
                                 </Text>
                                 <Badge tradeCount={completed_orders_count} />
@@ -157,7 +159,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             {isMobile && 'Limits:'} {min_order_amount_limit_display}-{max_order_amount_limit_display}{' '}
                             {account_currency}
                         </Text>
-                        <Text className='text-wrap w-[90%]' color='success' size={isMobile ? 'md' : 'sm'} weight='bold'>
+                        <Text className='text-wrap w-[90%]' color='success' size={size} weight='bold'>
                             {displayEffectiveRate} {local_currency}
                         </Text>
                     </Container>
@@ -192,8 +194,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             className='border px-[1.6rem]'
                             color='black'
                             onClick={() => showModal('ErrorModal')}
-                            size={isMobile ? 'md' : 'sm'}
-                            textSize={isMobile ? 'md' : 'xs'}
+                            size={size}
+                            textSize={buttonTextSize}
                             variant='outlined'
                         >
                             <Localize i18n_default_text='Unavailable' />
@@ -211,8 +213,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal');
                                 }
                             }}
-                            size={isMobile ? 'md' : 'sm'}
-                            textSize={isMobile ? 'md' : 'xs'}
+                            size={size}
+                            textSize={buttonTextSize}
                         >
                             {isBuyAdvert ? 'Buy' : 'Sell'} {account_currency}
                         </Button>
@@ -230,7 +232,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
             {isModalOpenFor('ErrorModal') && (
                 <ErrorModal
                     isModalOpen
-                    message={getEligibilityErrorMessage(eligibilityStatus, localize)}
+                    message={localize(getEligibilityErrorMessage(eligibilityStatus))}
                     onRequestClose={hideModal}
                     showTitle={false}
                 />
