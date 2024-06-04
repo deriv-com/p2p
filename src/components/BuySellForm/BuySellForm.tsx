@@ -50,10 +50,12 @@ const BASE_CURRENCY = 'USD';
 const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProps) => {
     const { data: exchangeRatesData, subscribeRates } = useExchangeRates();
     const { data: advertInfo } = api.advert.useGet({ id: advertId });
-    const { data: orderCreatedInfo, isSuccess, mutate } = api.order.useCreate();
+    const { data: orderCreatedInfo, error, isError, isSuccess, mutate } = api.order.useCreate();
     const { data: paymentMethods } = api.paymentMethods.useGet();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { data } = api.advertiser.useGetInfo() || {};
+    const [errorMessage, setErrorMessage] = useState('');
+    const scrollRef = useRef<HTMLDivElement>(null);
     const {
         balance_available = '',
         daily_buy = 0,
@@ -210,6 +212,13 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         }
     }, [isSuccess, orderCreatedInfo, history, onRequestClose]);
 
+    useEffect(() => {
+        if (isError && error?.error.message) {
+            setErrorMessage(error?.error.message);
+            scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+    }, [error?.error.message, isError]);
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <BuySellFormDisplayWrapper
@@ -220,12 +229,20 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 onRequestClose={onRequestClose}
                 onSubmit={onSubmit}
             >
+                {/* TODO: Remove the below banner when implementing real time exchange changes */}
                 {rate_type === RATE_TYPE.FLOAT && !shouldDisableField && (
                     <div className='px-[2.4rem] mt-[2.4rem]'>
                         <InlineMessage variant='info'>
                             <Text size={isMobile ? 'xs' : '2xs'}>
-                                <Localize i18n_default_text=' If the market rate changes from the rate shown here, we won’t be able to process your order.' />
+                                <Localize i18n_default_text='If the market rate changes from the rate shown here, we won’t be able to process your order.' />
                             </Text>
+                        </InlineMessage>
+                    </div>
+                )}
+                {errorMessage && (
+                    <div className='px-[2.4rem] mt-[2.4rem]'>
+                        <InlineMessage variant='error'>
+                            <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
                         </InlineMessage>
                     </div>
                 )}
@@ -239,6 +256,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     paymentMethodNames={payment_method_names}
                     paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
                     rate={displayEffectiveRate}
+                    ref={scrollRef}
                 />
                 <LightDivider />
                 {isBuy && payment_method_names && payment_method_names?.length > 0 && (

@@ -23,4 +23,8 @@ describe('ErrorModal', () => {
         await userEvent.click(screen.getByRole('button', { name: 'OK' }));
         expect(mockProps.onRequestClose).toHaveBeenCalledTimes(1);
     });
+    it('should not render the title when showTitle is false', () => {
+        render(<ErrorModal {...mockProps} showTitle={false} title='test title' />);
+        expect(screen.queryByText('test title')).not.toBeInTheDocument();
+    });
 });
