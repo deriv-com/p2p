@@ -222,7 +222,7 @@ describe('<AdvertiserAdvertsTable />', () => {
 
         render(<AdvertiserAdvertsTable advertiserId='222' />);
 
-        expect(screen.getByText('ErrorModal')).toBeInTheDocument();
+        expect(screen.getAllByText('ErrorModal')).toHaveLength(2);
     });
 
     it('should show ErrorModal if advert is not active and visible, and error is undefined', () => {
@@ -240,7 +240,7 @@ describe('<AdvertiserAdvertsTable />', () => {
 
         render(<AdvertiserAdvertsTable advertiserId='222' />);
 
-        expect(screen.getByText('ErrorModal')).toBeInTheDocument();
+        expect(screen.getAllByText('ErrorModal')).toHaveLength(2);
     });
 
     it('should call history.push if the advertiser is barred', () => {
