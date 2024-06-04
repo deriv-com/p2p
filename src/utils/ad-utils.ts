@@ -175,3 +175,21 @@ export const restrictDecimalPlace = (
         handleChangeCallback(e);
     }
 };
+
+/**
+ * The below function is used to get the eligibility error message based on the error codes.
+ * @param {string[]} errorCodes - The array of error codes.
+ * @returns {string} - The error message.
+ */
+export const getEligibilityErrorMessage = (errorCodes: string[]) => {
+    const errorMessages: { [key: string]: string } = {
+        completion_rate: 'Your completion rate is too low for this ad.',
+        join_date: "You've not used Deriv P2P long enough for this ad.",
+    };
+
+    if (errorCodes.length === 1 && errorMessages[errorCodes[0]]) {
+        return errorMessages[errorCodes[0]];
+    }
+
+    return "The advertiser has set conditions for this ad that you don't meet.";
+};

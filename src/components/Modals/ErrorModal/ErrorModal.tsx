@@ -7,19 +7,29 @@ type TErrorModalProps = {
     isModalOpen: boolean;
     message?: string;
     onRequestClose: () => void;
+    showTitle?: boolean;
     title?: string;
 };
 
-const ErrorModal = ({ buttonText, isModalOpen, message, onRequestClose, title }: TErrorModalProps) => {
+const ErrorModal = ({
+    buttonText,
+    isModalOpen,
+    message,
+    onRequestClose,
+    showTitle = true,
+    title,
+}: TErrorModalProps) => {
     const { isMobile } = useDevice();
-    const textSize = isMobile ? 'lg' : 'md';
+    const textSize = isMobile ? 'md' : 'sm';
     return (
         <Modal ariaHideApp={false} className='error-modal' isOpen={isModalOpen} shouldCloseOnOverlayClick={false}>
-            <Modal.Header className='lg:pl-[2.4rem] pl-[1.6rem]' hideBorder onRequestClose={onRequestClose}>
-                <Text size={textSize} weight='bold'>
-                    {title ?? <Localize i18n_default_text='Something’s not right' />}
-                </Text>
-            </Modal.Header>
+            {showTitle && (
+                <Modal.Header className='lg:pl-[2.4rem] pl-[1.6rem]' hideBorder onRequestClose={onRequestClose}>
+                    <Text size={textSize} weight='bold'>
+                        {title ?? <Localize i18n_default_text='Something’s not right' />}
+                    </Text>
+                </Modal.Header>
+            )}
             <Modal.Body className='error-modal__body'>
                 <Text size={textSize}>{message ?? <Localize i18n_default_text='Something’s not right' />}</Text>
             </Modal.Body>
