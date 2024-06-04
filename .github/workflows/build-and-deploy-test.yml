@@ -51,9 +51,9 @@ jobs:
             - name: Build staging
               run: npm run build
               env:
-                VITE_PROJECT_NAME: ${{ secrets.VITE_PROJECT_NAME }}
-                VITE_CROWDIN_BRANCH_NAME: ${{ secrets.VITE_CROWDIN_BRANCH_NAME }}
-                VITE_TRANSLATIONS_CDN_URL: ${{ secrets.VITE_TRANSLATIONS_CDN_URL }}
+                VITE_PROJECT_NAME: ${{ vars.VITE_PROJECT_NAME }}
+                VITE_CROWDIN_BRANCH_NAME: ${{ vars.VITE_CROWDIN_BRANCH_NAME }}
+                VITE_TRANSLATIONS_CDN_URL: ${{ vars.VITE_TRANSLATIONS_CDN_URL }}
 
             - name: Run tests for Eslint
               run: npm run test:lint
