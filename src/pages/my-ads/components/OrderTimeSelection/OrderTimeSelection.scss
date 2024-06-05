@@ -1,0 +1,9 @@
+.order-time-selection {
+    margin: 1rem 0;
+}
+
+@include mobile {
+    #react-tiny-popover-container {
+        display: none;
+    }
+}

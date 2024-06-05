@@ -75,6 +75,13 @@ jest.mock('@/hooks', () => ({
                 mutate: jest.fn(),
             }),
         },
+        advertiser: {
+            useGetInfo: jest.fn(() => ({
+                data: {
+                    balance_available: 1000,
+                },
+            })),
+        },
         countryList: {
             useGet: () => ({
                 data: {
