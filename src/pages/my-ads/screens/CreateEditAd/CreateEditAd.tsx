@@ -50,7 +50,6 @@ const CreateEditAd = () => {
     const { data: p2pSettings } = api.settings.useSettings();
     const { order_payment_period: orderPaymentPeriod } = p2pSettings ?? {};
     const { data: createResponse, error, isError, isSuccess, mutate } = api.advert.useCreate();
-
     const {
         error: updateError,
         isError: isUpdateError,
