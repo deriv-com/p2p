@@ -50,7 +50,6 @@ const AppContent = () => {
     useEffect(() => {
         if (hasCreatedAdvertiser) {
             // Need to pass params to subscribeAdvertiserInfo to trigger the subscription.
-            // @ts-expect-error - passthrough is not a valid parameter
             subscribeAdvertiserInfo({ passthrough: { createdNickname: 'nickname' } });
         }
     }, [hasCreatedAdvertiser, subscribeAdvertiserInfo]);
