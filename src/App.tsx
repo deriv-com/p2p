@@ -7,6 +7,7 @@ import { useDevice } from '@deriv-com/ui';
 import AppContent from './routes/AppContent';
 
 const { VITE_CROWDIN_BRANCH_NAME, VITE_PROJECT_NAME, VITE_TRANSLATIONS_CDN_URL } = import.meta.env;
+// eslint-disable-next-line no-console
 console.log(
     'VITE_CROWDIN_BRANCH_NAME',
     VITE_CROWDIN_BRANCH_NAME,
@@ -15,6 +16,7 @@ console.log(
     'VITE_TRANSLATIONS_CDN_URL',
     VITE_TRANSLATIONS_CDN_URL
 );
+// eslint-disable-next-line no-console
 console.log(`${VITE_TRANSLATIONS_CDN_URL}/${VITE_PROJECT_NAME}/${VITE_CROWDIN_BRANCH_NAME}`);
 const i18nInstance = initializeI18n({
     cdnUrl: `${VITE_TRANSLATIONS_CDN_URL}/${VITE_PROJECT_NAME}/${VITE_CROWDIN_BRANCH_NAME}`,
