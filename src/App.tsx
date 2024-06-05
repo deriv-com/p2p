@@ -14,17 +14,6 @@ const i18nInstance = initializeI18n({
 
 const App = () => {
     const { isDesktop } = useDevice();
-    // eslint-disable-next-line no-console
-    console.log(
-        'VITE_CROWDIN_BRANCH_NAME',
-        VITE_CROWDIN_BRANCH_NAME,
-        'VITE_PROJECT_NAME',
-        VITE_PROJECT_NAME,
-        'VITE_TRANSLATIONS_CDN_URL',
-        VITE_TRANSLATIONS_CDN_URL
-    );
-    // eslint-disable-next-line no-console
-    console.log(`${VITE_TRANSLATIONS_CDN_URL}/${VITE_PROJECT_NAME}/${VITE_CROWDIN_BRANCH_NAME}`);
 
     return (
         <BrowserRouter>
