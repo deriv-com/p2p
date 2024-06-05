@@ -6,6 +6,7 @@ import { Input } from '@deriv-com/ui';
 
 type TAdFormInputProps = ComponentProps<typeof Input> & {
     currency?: string;
+    hint?: JSX.Element | string;
     isDisabled?: boolean;
     label: string;
     name: string;
@@ -14,6 +15,7 @@ type TAdFormInputProps = ComponentProps<typeof Input> & {
 };
 
 const AdFormInput = ({
+    hint = <div />,
     isDisabled = false,
     label,
     name,
@@ -33,7 +35,7 @@ const AdFormInput = ({
                         disabled={isDisabled}
                         error={!!error?.message}
                         label={label}
-                        message={error ? error?.message : ''}
+                        message={error ? error?.message : hint}
                         onBlur={onBlur}
                         onChange={event => {
                             onChange(event);

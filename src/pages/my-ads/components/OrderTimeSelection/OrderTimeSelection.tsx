@@ -5,7 +5,8 @@ import { OrderTimeTooltipModal } from '@/components/Modals';
 import { getOrderTimeCompletionList, getOrderTimeInfoMessage } from '@/constants';
 import { LabelPairedChevronDownMdRegularIcon, LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Button, Dropdown, Text, Tooltip, useDevice } from '@deriv-com/ui';
+import { Dropdown, Text, TooltipMenuIcon, useDevice } from '@deriv-com/ui';
+import './OrderTimeSelection.scss';
 
 const OrderTimeSelection = () => {
     const { control } = useFormContext();
@@ -14,26 +15,25 @@ const OrderTimeSelection = () => {
     const { localize } = useTranslations();
 
     return (
-        <div className='my-4'>
+        <div className='order-time-selection'>
             <div className='flex items-center gap-[0.8rem]'>
                 <Text color='prominent' size={isMobile ? 'md' : 'sm'}>
                     <Localize i18n_default_text='Orders must be completed in' />
                 </Text>
                 <Text size='xs'>
-                    <Tooltip className='max-w-none' message={getOrderTimeInfoMessage(localize)} position='top'>
-                        <Button
-                            color='white'
-                            onClick={isMobile ? () => setIsModalOpen(true) : () => undefined}
-                            type='button'
-                            variant='contained'
-                        >
-                            <LabelPairedCircleInfoCaptionRegularIcon
-                                data-testid='dt_order_info_icon'
-                                height={24}
-                                width={24}
-                            />
-                        </Button>
-                    </Tooltip>
+                    <TooltipMenuIcon
+                        as='button'
+                        disableHover
+                        onClick={isMobile ? () => setIsModalOpen(true) : () => undefined}
+                        tooltipContent={getOrderTimeInfoMessage(localize)}
+                        type='button'
+                    >
+                        <LabelPairedCircleInfoCaptionRegularIcon
+                            data-testid='dt_order_info_icon'
+                            height={24}
+                            width={24}
+                        />
+                    </TooltipMenuIcon>
                 </Text>
             </div>
             <Controller
