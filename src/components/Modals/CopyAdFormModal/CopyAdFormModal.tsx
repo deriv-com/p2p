@@ -6,18 +6,26 @@ import './CopyAdFormModal.scss';
 
 type TCopyAdFormModalProps = {
     isModalOpen: boolean;
-    onRequestClose: () => void;
+    isValid: boolean;
+    onClickCancel: () => void;
+    onSubmit: () => void;
 };
 
-const CopyAdFormModal = ({ children, isModalOpen, onRequestClose }: PropsWithChildren<TCopyAdFormModalProps>) => {
+const CopyAdFormModal = ({
+    children,
+    isModalOpen,
+    isValid,
+    onClickCancel,
+    onSubmit,
+}: PropsWithChildren<TCopyAdFormModalProps>) => {
     return (
         <Modal ariaHideApp={false} className='copy-ad-form-modal' isOpen={isModalOpen}>
             <Modal.Header hideBorder hideCloseIcon>
                 <CopyAdFormHeader />
             </Modal.Header>
-            <Modal.Body>{children}</Modal.Body>
+            <Modal.Body className='copy-ad-form-modal__body'>{children}</Modal.Body>
             <Modal.Footer className='gap-[0.8rem]' hideBorder>
-                <CopyAdFormFooter onRequestClose={onRequestClose} />
+                <CopyAdFormFooter isValid={isValid} onClickCancel={onClickCancel} onSubmit={onSubmit} />
             </Modal.Footer>
         </Modal>
     );

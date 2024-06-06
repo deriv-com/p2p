@@ -1,7 +1,7 @@
 import { Controller, FormProvider, NonUndefined, useForm } from 'react-hook-form';
 import { TCountryListItem, TCurrency, THooks } from 'types';
 import { RATE_TYPE } from '@/constants';
-import { api } from '@/hooks';
+import { api, useFloatingRate } from '@/hooks';
 import { AdFormInput } from '@/pages/my-ads/components/AdFormInput';
 import { formatTime, getValidationRules, restrictDecimalPlace } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
@@ -10,19 +10,42 @@ import { FloatingRate } from '../FloatingRate';
 import CopyAdFormDisplayWrapper from './CopyAdFormDisplayWrapper';
 import './CopyAdForm.scss';
 
+type TSavedFormValues = {
+    amount: number;
+    maxOrder: string;
+    minOrder: string;
+    rateValue: string;
+};
+
 type TCopyAdFormProps = NonUndefined<THooks.AdvertiserAdverts.Get>[0] & {
+    formValues: TSavedFormValues;
+} & {
     isModalOpen: boolean;
+    onClickCancel: () => void;
+    onFormSubmit: (values: TSavedFormValues) => void;
     onRequestClose: () => void;
 };
 
-const CopyAdForm = ({ isModalOpen, onRequestClose, ...rest }: TCopyAdFormProps) => {
-    const methods = useForm({ mode: 'all' });
-    const { data: countryList = {} as TCountryListItem } = api.countryList.useGet();
-    const { control, getValues, handleSubmit, trigger } = methods;
-    const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+type TFormValues = {
+    amount: number;
+    'float-rate-offset-limit': string;
+    'max-order': string;
+    'min-order': string;
+    'rate-type-string': string;
+    'rate-value': string;
+};
+
+const CopyAdForm = ({
+    formValues,
+    isModalOpen,
+    onClickCancel,
+    onFormSubmit,
+    onRequestClose,
+    ...rest
+}: TCopyAdFormProps) => {
     const {
         account_currency: currency,
+        amount,
         description,
         eligible_countries: eligibleCountries = [],
         local_currency: localCurrency,
@@ -30,15 +53,46 @@ const CopyAdForm = ({ isModalOpen, onRequestClose, ...rest }: TCopyAdFormProps) 
         min_join_days: minJoinDays = 0,
         order_expiry_period: orderExpiryPeriod,
         payment_method_names: paymentMethodNames,
-        rate_type: rateType,
+        rate_display: rateDisplay,
         type,
     } = rest;
+    const { floatRateOffsetLimitString, rateType } = useFloatingRate();
+    const methods = useForm<TFormValues>({
+        defaultValues: {
+            amount: amount ?? formValues.amount,
+            'float-rate-offset-limit': floatRateOffsetLimitString,
+            'max-order': formValues.maxOrder,
+            'min-order': formValues.minOrder,
+            'rate-type-string': rateType,
+            'rate-value': formValues.rateValue ?? rateType === RATE_TYPE.FLOAT ? '-0.01' : rateDisplay,
+        },
+        mode: 'all',
+    });
 
-    const onSubmit = () => {};
+    const { data: countryList = {} as TCountryListItem } = api.countryList.useGet();
+    const {
+        control,
+        formState: { isValid },
+        getValues,
+        handleSubmit,
+        trigger,
+    } = methods;
+    const { localize } = useTranslations();
+    const { isMobile } = useDevice();
+
+    const onSubmit = () => {
+        onFormSubmit({
+            amount: getValues('amount'),
+            maxOrder: getValues('max-order'),
+            minOrder: getValues('min-order'),
+            rateValue: getValues('rate-value'),
+        });
+    };
+
     const labelSize = isMobile ? 'sm' : 'xs';
     const valueSize = isMobile ? 'md' : 'sm';
 
-    const triggerValidation = (fieldNames: string[]) => {
+    const triggerValidation = (fieldNames: (keyof TFormValues)[]) => {
         // Loop through the provided field names
         fieldNames.forEach(fieldName => {
             // Check if the field has a value
@@ -64,10 +118,16 @@ const CopyAdForm = ({ isModalOpen, onRequestClose, ...rest }: TCopyAdFormProps) 
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <CopyAdFormDisplayWrapper isModalOpen={isModalOpen} onRequestClose={onRequestClose}>
+                <CopyAdFormDisplayWrapper
+                    isModalOpen={isModalOpen}
+                    isValid={isValid}
+                    onClickCancel={onClickCancel}
+                    onRequestClose={onRequestClose}
+                    onSubmit={onSubmit}
+                >
                     <div className='copy-ad-form'>
                         <InlineMessage variant='info'>
-                            <Text size={isMobile ? 'xs' : '2xs'}>
+                            <Text size={isMobile ? 'sm' : '2xs'}>
                                 <Localize i18n_default_text='Review your settings and create a new ad. Every ad must have unique limits and rates.' />
                             </Text>
                         </InlineMessage>
@@ -83,7 +143,7 @@ const CopyAdForm = ({ isModalOpen, onRequestClose, ...rest }: TCopyAdFormProps) 
                                 )}
                             </Text>
                         </div>
-                        <div className='flex flex-col'>
+                        <div className='flex flex-col mt-[1.6rem]'>
                             <AdFormInput
                                 label={localize('Total amount')}
                                 name='amount'
@@ -151,7 +211,7 @@ const CopyAdForm = ({ isModalOpen, onRequestClose, ...rest }: TCopyAdFormProps) 
                             <Text color='less-prominent' size={labelSize}>
                                 <Localize i18n_default_text='Instructions' />
                             </Text>
-                            <Text size={valueSize}>{description ?? ''}</Text>
+                            <Text size={valueSize}>{description || '-'}</Text>
                         </div>
                         <div className='flex flex-col w-full mt-[1.6rem]'>
                             <Text color='less-prominent' size={labelSize}>
@@ -166,11 +226,11 @@ const CopyAdForm = ({ isModalOpen, onRequestClose, ...rest }: TCopyAdFormProps) 
                             <Text size={valueSize}>{paymentMethodNames?.join(', ') ?? '-'}</Text>
                         </div>
                         {hasCounterpartyConditions && (
-                            <>
+                            <div className='flex flex-col w-full mt-[1.6rem]'>
                                 <Text color='less-prominent' size='xs'>
                                     <Localize i18n_default_text='Counterparty conditions' />
                                 </Text>
-                                <Text as='ul' className='copy-advert-form__list' color='prominent' size='xs'>
+                                <Text as='ul' className='copy-advert-form__list' color='prominent' size='sm'>
                                     {minJoinDays > 0 && (
                                         <li>
                                             <Localize
@@ -193,22 +253,16 @@ const CopyAdForm = ({ isModalOpen, onRequestClose, ...rest }: TCopyAdFormProps) 
                                         <li>
                                             <Localize
                                                 components={[<strong key={0} />]}
-                                                i18n_default_text='Preferred countries <0>({{eligible_countries_display}})</0>'
+                                                i18n_default_text='Preferred countries <0>({{eligibleCountriesDisplay}})</0>'
                                                 values={{
-                                                    eligible_countries_display: getEligibleCountriesDisplay(),
+                                                    eligibleCountriesDisplay: getEligibleCountriesDisplay(),
                                                 }}
                                             />
                                         </li>
                                     )}
                                 </Text>
-                            </>
+                            </div>
                         )}
-                        <div className='flex flex-col w-full mt-[1.6rem]'>
-                            <Text color='less-prominent' size={labelSize}>
-                                <Localize i18n_default_text='Counterparty conditions' />
-                            </Text>
-                            <Text size={valueSize}>{''}</Text>
-                        </div>
                     </div>
                 </CopyAdFormDisplayWrapper>
             </form>
