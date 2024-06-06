@@ -49,6 +49,19 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useQueryString: jest.fn().mockReturnValue({ queryString: { advertId: '' } }),
 }));
 
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        advertiser: {
+            useGetInfo: jest.fn(() => ({
+                data: {
+                    balance_available: 1000,
+                },
+            })),
+        },
+    },
+}));
+
 const mockProps = {
     currency: 'usd' as TCurrency,
     getCurrentStep: jest.fn(() => 1),
