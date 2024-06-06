@@ -1,11 +1,11 @@
 .advertiser {
     position: absolute;
-    top: 8rem;
+    top: 12rem;
     background-color: #fff;
     width: 95.2rem;
 
     @include mobile {
-        top: 4rem;
+        top: 8rem;
         overflow: overlay;
         height: calc(100vh - 4rem);
         width: 100%;
