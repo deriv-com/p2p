@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
-import { AppFooter, AppHeader } from '@/components';
+import { AppFooter, AppHeader, DerivIframe } from '@/components';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
 import AppContent from './routes/AppContent';
@@ -18,6 +18,7 @@ const App = () => {
         <BrowserRouter>
             <QueryParamProvider adapter={ReactRouter5Adapter}>
                 <TranslationProvider defaultLang='EN' i18nInstance={i18nInstance}>
+                    <DerivIframe />
                     <AppHeader />
                     <AppContent />
                     {isDesktop && <AppFooter />}
