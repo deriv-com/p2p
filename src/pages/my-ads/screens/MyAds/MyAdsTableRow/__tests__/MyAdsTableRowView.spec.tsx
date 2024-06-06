@@ -110,6 +110,10 @@ jest.mock('@/components/Modals', () => ({
     ShareAdsModal: () => <div>ShareAdsModal</div>,
 }));
 
+jest.mock('@/components/CopyAdForm', () => ({
+    CopyAdForm: () => <div>CopyAdForm</div>,
+}));
+
 jest.mock('../MyAdsTableRow', () => {
     return jest.fn().mockImplementation(({ onClickIcon }) => {
         return (
@@ -119,6 +123,7 @@ jest.mock('../MyAdsTableRow', () => {
                 <button onClick={() => onClickIcon('delete')}>Delete Icon</button>
                 <button onClick={() => onClickIcon('activate')}>Activate Icon</button>
                 <button onClick={() => onClickIcon('deactivate')}>Deactivate Icon</button>
+                <button onClick={() => onClickIcon('copy')}>Copy Icon</button>
             </div>
         );
     });

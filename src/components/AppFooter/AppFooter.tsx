@@ -18,6 +18,7 @@ import './AppFooter.scss';
 
 const AppFooter = () => {
     const { currentLang = 'EN', localize, switchLanguage } = useTranslations();
+
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
 
     const openLanguageSettingModal = () => showModal('DesktopLanguagesModal');

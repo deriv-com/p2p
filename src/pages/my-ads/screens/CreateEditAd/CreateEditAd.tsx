@@ -101,6 +101,7 @@ const CreateEditAd = () => {
             min_completion_rate?: number;
             min_join_days?: number;
             min_order_amount: number;
+            order_expiry_period: number;
             payment_method_ids?: TMutatePayload['payment_method_ids'];
             payment_method_names?: TMutatePayload['payment_method_names'];
             rate: number;
@@ -112,6 +113,7 @@ const CreateEditAd = () => {
             eligible_countries: getValues('preferred-countries'),
             max_order_amount: Number(getValues('max-order')),
             min_order_amount: Number(getValues('min-order')),
+            order_expiry_period: Number(getValues('order-completion-time')),
             rate: Number(getValues('rate-value')),
             rate_type: rateType,
             type: getValues('ad-type'),

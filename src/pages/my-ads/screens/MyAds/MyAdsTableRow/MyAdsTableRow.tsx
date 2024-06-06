@@ -32,7 +32,10 @@ type TProps = {
     showModal: (value: string) => void;
 };
 
-type TMyAdsTableProps = Omit<TMyAdsTableRowRendererProps, 'balanceAvailable' | 'dailyBuyLimit' | 'dailySellLimit'> &
+type TMyAdsTableProps = Omit<
+    TMyAdsTableRowRendererProps,
+    'advertiserPaymentMethods' | 'balanceAvailable' | 'dailyBuyLimit' | 'dailySellLimit'
+> &
     TProps;
 
 const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps) => {

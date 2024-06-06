@@ -4,4 +4,21 @@
     @include mobile {
         margin: 0 1.6rem;
     }
+
+    &__full-page-modal {
+        position: absolute;
+        top: -6rem;
+        z-index: 2;
+        height: calc(100vh - 9rem);
+
+        & .mobile-wrapper__body {
+            margin-top: 1.6rem;
+        }
+
+        & .mobile-wrapper__footer {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: flex-end;
+        }
+    }
 }

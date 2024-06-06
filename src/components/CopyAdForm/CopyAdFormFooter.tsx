@@ -1,23 +1,26 @@
 import { Localize } from '@deriv-com/translations';
-import { Button } from '@deriv-com/ui';
+import { Button, useDevice } from '@deriv-com/ui';
 
 type TCopyAdFormFooterProps = {
-    onRequestClose: () => void;
+    isValid: boolean;
+    onClickCancel: () => void;
+    onSubmit: () => void;
 };
-const CopyAdFormFooter = ({ onRequestClose }: TCopyAdFormFooterProps) => {
+const CopyAdFormFooter = ({ isValid, onClickCancel, onSubmit }: TCopyAdFormFooterProps) => {
+    const { isMobile } = useDevice();
     return (
         <>
             <Button
                 className='border-2'
                 color='black'
-                onClick={onRequestClose}
+                onClick={onClickCancel}
                 size='lg'
-                textSize='sm'
+                textSize={isMobile ? 'md' : 'sm'}
                 variant='outlined'
             >
                 <Localize i18n_default_text='Cancel' />
             </Button>
-            <Button size='lg' textSize='sm'>
+            <Button disabled={!isValid} onClick={onSubmit} size='lg' textSize={isMobile ? 'md' : 'sm'}>
                 <Localize i18n_default_text='Create ad' />
             </Button>
         </>
