@@ -57,14 +57,15 @@ const CopyAdForm = ({
         type,
     } = rest;
     const { floatRateOffsetLimitString, rateType } = useFloatingRate();
+
     const methods = useForm<TFormValues>({
         defaultValues: {
-            amount: amount ?? formValues.amount,
+            amount: formValues.amount || (amount ?? 0),
             'float-rate-offset-limit': floatRateOffsetLimitString,
             'max-order': formValues.maxOrder,
             'min-order': formValues.minOrder,
             'rate-type-string': rateType,
-            'rate-value': formValues.rateValue ?? rateType === RATE_TYPE.FLOAT ? '-0.01' : rateDisplay,
+            'rate-value': formValues.rateValue || (rateType === RATE_TYPE.FLOAT ? '-0.01' : rateDisplay),
         },
         mode: 'all',
     });
