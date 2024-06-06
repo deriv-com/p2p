@@ -1,6 +1,7 @@
 import { memo, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { TCurrency } from 'types';
+import { CopyAdForm } from '@/components';
 import {
     AdErrorTooltipModal,
     AdRateSwitchModal,
@@ -70,6 +71,10 @@ const MyAdsTableRowView = ({
             case AD_ACTION.ACTIVATE:
                 mutate({ id, is_active: 1 });
                 break;
+            case AD_ACTION.COPY: {
+                showModal('CopyAdForm');
+                break;
+            }
             case AD_ACTION.DEACTIVATE:
                 mutate({ id, is_active: 0 });
                 break;
@@ -148,6 +153,7 @@ const MyAdsTableRowView = ({
                     onRequestClose={hideModal}
                 />
             )}
+            {!!isModalOpenFor('CopyAdForm') && <CopyAdForm isModalOpen onRequestClose={hideModal} {...rest} />}
         </>
     );
 };

@@ -1,0 +1,31 @@
+.copy-ad-form-modal {
+    max-height: calc(100vh - 15rem);
+    & .floating-rate {
+        &__field {
+            flex-direction: column;
+
+            & .deriv-input__container {
+                width: 100%;
+                margin-top: 1.6rem;
+            }
+
+            & .input-field__prefix {
+                right: 45%;
+
+                @include desktop {
+                    top: 50%;
+                }
+            }
+        }
+
+        &__mkt-rate {
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        &__hint {
+            padding-inline-start: 1rem;
+        }
+    }
+}
