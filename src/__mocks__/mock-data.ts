@@ -1,4 +1,4 @@
-import { TAdvertType, TType01 } from 'types';
+import { TAdvertType, TPaymentFieldType, TType01, TWalletType } from 'types';
 
 export const mockAdvertValues = {
     account_currency: 'USD',
@@ -93,3 +93,35 @@ export const mockAdvertValues = {
     type: 'sell' as 'buy' | 'sell',
     visibility_status: ['advertiser_temp_ban'] as TAdvertType['visibility_status'],
 };
+
+export const mockAdvertiserPaymentMethods = [
+    {
+        display_name: 'Other',
+        fields: {
+            account: {
+                display_name: 'Account ID / phone number / email',
+                required: 0,
+                type: 'text' as TPaymentFieldType,
+                value: 'adfg',
+            },
+            instructions: {
+                display_name: 'Instructions',
+                required: 0,
+                type: 'memo' as TPaymentFieldType,
+                value: 'rtbnrt',
+            },
+            name: {
+                display_name: 'Payment method name',
+                required: 1,
+                type: 'text' as TPaymentFieldType,
+                value: 'wrtnwrtn',
+            },
+        },
+        id: '89',
+        is_enabled: 1 as TType01,
+        method: 'other',
+        type: 'other' as TWalletType,
+        used_by_adverts: ['194'],
+        used_by_orders: null,
+    },
+];

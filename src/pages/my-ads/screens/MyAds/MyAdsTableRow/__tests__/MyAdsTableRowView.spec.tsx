@@ -1,3 +1,4 @@
+import { mockAdvertiserPaymentMethods } from '@/__mocks__/mock-data';
 import { MY_ADS_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useModalManager } from '@/hooks/custom-hooks';
@@ -24,6 +25,7 @@ const mockProps = {
         recommended_count: null,
         total_completion_rate: null,
     },
+    advertiserPaymentMethods: mockAdvertiserPaymentMethods,
     amount: 22,
     amount_display: '22.00',
     balanceAvailable: 0,
