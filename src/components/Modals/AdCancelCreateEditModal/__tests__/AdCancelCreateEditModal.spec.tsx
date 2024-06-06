@@ -49,4 +49,11 @@ describe('AdCancelCreateEditModal', () => {
         await userEvent.click(button);
         expect(mockProps.onRequestClose).toHaveBeenCalledTimes(1);
     });
+    it('should call the resetValues function on clicking cancel button if provided', async () => {
+        const resetValues = jest.fn();
+        render(<AdCancelCreateEditModal {...mockProps} resetValues={resetValues} />);
+        const button = screen.getByRole('button', { name: 'Cancel' });
+        await userEvent.click(button);
+        expect(resetValues).toHaveBeenCalledTimes(1);
+    });
 });

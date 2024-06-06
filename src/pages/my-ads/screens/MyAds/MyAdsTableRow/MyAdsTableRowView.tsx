@@ -141,6 +141,15 @@ const MyAdsTableRowView = ({
         hideModal();
     };
 
+    const clearValues = () => {
+        setFormValues({
+            amount: 0,
+            maxOrder: '',
+            minOrder: '',
+            rateValue: '',
+        });
+    };
+
     useEffect(() => {
         if (isCreateSuccess) {
             if (shouldNotShowArchiveMessageAgain !== 'true') {
@@ -148,12 +157,7 @@ const MyAdsTableRowView = ({
             } else if (shouldNotShowArchiveMessageAgain === 'true') {
                 invalidate('p2p_advertiser_adverts');
             }
-            setFormValues({
-                amount: 0,
-                maxOrder: '',
-                minOrder: '',
-                rateValue: '',
-            });
+            clearValues();
         } else if (isCreateError) {
             showModal('AdCreateEditErrorModal');
         }
@@ -286,7 +290,7 @@ const MyAdsTableRowView = ({
                 />
             )}
             {!!isModalOpenFor('AdCancelCreateEditModal') && (
-                <AdCancelCreateEditModal isModalOpen onRequestClose={hideModal} />
+                <AdCancelCreateEditModal isModalOpen onRequestClose={hideModal} resetValues={clearValues} />
             )}
         </>
     );

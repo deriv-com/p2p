@@ -16,6 +16,7 @@ const CopyAdFormFooter = ({ isValid, onClickCancel, onSubmit }: TCopyAdFormFoote
                 onClick={onClickCancel}
                 size='lg'
                 textSize={isMobile ? 'md' : 'sm'}
+                type='button'
                 variant='outlined'
             >
                 <Localize i18n_default_text='Cancel' />
