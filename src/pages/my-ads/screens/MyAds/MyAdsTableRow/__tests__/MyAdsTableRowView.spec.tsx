@@ -103,6 +103,8 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+jest.mock('@/hooks/api/useInvalidateQuery', () => jest.fn(() => jest.fn()));
+
 jest.mock('@/components/Modals', () => ({
     AdErrorTooltipModal: () => <div>AdErrorTooltipModal</div>,
     AdRateSwitchModal: () => <div>AdRateSwitchModal</div>,

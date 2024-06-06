@@ -74,7 +74,7 @@ const CreateEditAd = () => {
             'rate-type-string': rateType,
             'rate-value': rateType === RATE_TYPE.FLOAT ? '-0.01' : '',
         },
-        mode: 'onBlur',
+        mode: 'all',
     });
 
     const {
