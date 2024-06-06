@@ -1,7 +1,7 @@
 const DerivIframe = () => (
     <iframe
         id='localstorage-sync'
-        sandbox='allow-scripts'
+        sandbox='allow-same-origin allow-scripts'
         src='../../../../localstorage-sync.html'
         style={{ display: 'none', visibility: 'hidden' }}
     />
