@@ -21,7 +21,7 @@ type TCopyAdFormProps = NonUndefined<THooks.AdvertiserAdverts.Get>[0] & {
     formValues: TSavedFormValues;
 } & {
     isModalOpen: boolean;
-    onClickCancel: () => void;
+    onClickCancel: (values: TSavedFormValues) => void;
     onFormSubmit: (values: TSavedFormValues) => void;
     onRequestClose: () => void;
 };
@@ -121,7 +121,14 @@ const CopyAdForm = ({
                 <CopyAdFormDisplayWrapper
                     isModalOpen={isModalOpen}
                     isValid={isValid}
-                    onClickCancel={onClickCancel}
+                    onClickCancel={() =>
+                        onClickCancel({
+                            amount: getValues('amount'),
+                            maxOrder: getValues('max-order'),
+                            minOrder: getValues('min-order'),
+                            rateValue: getValues('rate-value'),
+                        })
+                    }
                     onRequestClose={onRequestClose}
                     onSubmit={onSubmit}
                 >
@@ -227,10 +234,10 @@ const CopyAdForm = ({
                         </div>
                         {hasCounterpartyConditions && (
                             <div className='flex flex-col w-full mt-[1.6rem]'>
-                                <Text color='less-prominent' size='xs'>
+                                <Text color='less-prominent' size={labelSize}>
                                     <Localize i18n_default_text='Counterparty conditions' />
                                 </Text>
-                                <Text as='ul' className='copy-advert-form__list' color='prominent' size='sm'>
+                                <Text as='ul' size={valueSize}>
                                     {minJoinDays > 0 && (
                                         <li>
                                             <Localize

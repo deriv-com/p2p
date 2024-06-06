@@ -97,8 +97,19 @@ jest.mock('@/hooks/custom-hooks', () => {
 jest.mock('@/hooks', () => ({
     api: {
         advert: {
+            useCreate: jest.fn().mockReturnValue({ error: null, isError: false, isSuccess: false, mutate: jest.fn() }),
             useDelete: jest.fn().mockReturnValue({ error: null, isError: false, mutate: jest.fn() }),
             useUpdate: jest.fn().mockReturnValue({ error: null, isError: false, mutate: jest.fn() }),
+        },
+        paymentMethods: {
+            useGet: jest.fn().mockReturnValue({ data: [] }),
+        },
+        settings: {
+            useSettings: jest.fn(() => ({
+                data: {
+                    localCurrency: 'USD',
+                },
+            })),
         },
     },
 }));
@@ -106,6 +117,9 @@ jest.mock('@/hooks', () => ({
 jest.mock('@/hooks/api/useInvalidateQuery', () => jest.fn(() => jest.fn()));
 
 jest.mock('@/components/Modals', () => ({
+    AdCancelCreateEditModal: () => <div>AdCancelCreateEditModal</div>,
+    AdCreateEditErrorModal: () => <div>AdCreateEditErrorModal</div>,
+    AdCreateEditSuccessModal: () => <div>AdCreateEditSuccessModal</div>,
     AdErrorTooltipModal: () => <div>AdErrorTooltipModal</div>,
     AdRateSwitchModal: () => <div>AdRateSwitchModal</div>,
     AdVisibilityErrorModal: () => <div>AdVisibilityErrorModal</div>,
@@ -116,6 +130,11 @@ jest.mock('@/components/Modals', () => ({
 
 jest.mock('@/components/CopyAdForm', () => ({
     CopyAdForm: () => <div>CopyAdForm</div>,
+}));
+
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: () => ({ isMobile: false }),
 }));
 
 jest.mock('../MyAdsTableRow', () => {
