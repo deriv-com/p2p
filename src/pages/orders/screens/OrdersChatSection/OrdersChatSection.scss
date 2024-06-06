@@ -10,10 +10,10 @@
 
     &__full-page {
         position: absolute;
-        top: 5rem;
+        top: 8rem;
         left: 0;
         z-index: 1;
-        height: calc(100vh - 6rem);
+        height: calc(100vh - 9rem);
 
         & .mobile-wrapper {
             &__body {

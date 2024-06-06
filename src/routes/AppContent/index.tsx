@@ -4,7 +4,7 @@ import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
-import { Loader, Tab, Tabs } from '@deriv-com/ui';
+import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
 import Router from '../Router';
 import { routes } from '../routes-config';
 import './index.scss';
@@ -16,6 +16,7 @@ const tabRoutesConfiguration = routes.filter(
 const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
+    const { isDesktop } = useDevice();
     const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
 
     const getActiveTab = (pathname: string) => {
@@ -70,10 +71,19 @@ const AppContent = () => {
             }}
         >
             <div className='app-content'>
+                <Text
+                    align='center'
+                    as='div'
+                    className='app-content__title p-2'
+                    size={isDesktop ? 'xl' : 'lg'}
+                    weight='bold'
+                >
+                    Deriv P2P
+                </Text>
                 {(isLoadingActiveAccount || !activeAccountData) && !isEndpointRoute ? (
                     <Loader />
                 ) : (
-                    <>
+                    <div className='app-content__body'>
                         <Tabs
                             activeTab={activeTab}
                             className='app-content__tabs'
@@ -88,7 +98,7 @@ const AppContent = () => {
                             ))}
                         </Tabs>
                         <Router />
-                    </>
+                    </div>
                 )}
             </div>
         </AdvertiserInfoStateProvider>
