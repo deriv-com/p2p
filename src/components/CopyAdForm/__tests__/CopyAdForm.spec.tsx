@@ -19,17 +19,40 @@ const mockProps = {
     onRequestClose: jest.fn(),
 };
 
+const mockTriggerFunction = jest.fn();
+jest.mock('react-hook-form', () => ({
+    ...jest.requireActual('react-hook-form'),
+    Controller: ({
+        control,
+        defaultValue,
+        name,
+        render,
+    }: {
+        control: string;
+        defaultValue: object;
+        name: string;
+        render: (param: object) => void;
+    }) =>
+        render({
+            field: { control, name, onBlur: jest.fn(), onChange: jest.fn(), value: defaultValue },
+            fieldState: { error: null },
+        }),
+    useForm: () => ({
+        control: 'mockedControl',
+        formState: {
+            dirtyFields: { amount: true },
+            isDirty: false,
+            isValid: true,
+        },
+        getValues: jest.fn(() => 'mockedValues'),
+        handleSubmit: jest.fn(),
+        trigger: mockTriggerFunction,
+    }),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: () => ({ isMobile: false }),
-}));
-
-jest.mock('@/pages/my-ads/components/AdFormInput', () => ({
-    AdFormInput: () => <div>AdFormInput</div>,
-}));
-
-jest.mock('@/pages/my-ads/components/AdFormTextArea', () => ({
-    AdFormTextArea: () => <div>AdFormTextArea</div>,
 }));
 
 jest.mock('@/hooks/custom-hooks', () => {
@@ -68,5 +91,12 @@ describe('CopyAdForm', () => {
         const button = screen.getByRole('button', { name: 'Create ad' });
         await userEvent.click(button);
         expect(mockProps.onFormSubmit).toHaveBeenCalled();
+    });
+    it('should handle the trigger validation', async () => {
+        render(<CopyAdForm {...mockProps} />);
+        await userEvent.type(screen.getByPlaceholderText('Max order'), '200');
+        const element = screen.getByPlaceholderText('Total amount');
+        await userEvent.type(element, '100');
+        expect(mockTriggerFunction).toHaveBeenCalled();
     });
 });
