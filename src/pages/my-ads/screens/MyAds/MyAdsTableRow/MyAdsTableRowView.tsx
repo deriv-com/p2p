@@ -197,7 +197,8 @@ const MyAdsTableRowView = ({
         createAd(payload as TMutatePayload);
     };
 
-    const onClickCancel = () => {
+    const onClickCancel = (values: TFormValues) => {
+        setFormValues(values);
         showModal('AdCancelCreateEditModal');
     };
 
