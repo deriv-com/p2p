@@ -1,4 +1,3 @@
-// import { ReactNode } from 'react';
 import { mockAdvertiserAdvertValues, mockCountryList } from '@/__mocks__/mock-data';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
