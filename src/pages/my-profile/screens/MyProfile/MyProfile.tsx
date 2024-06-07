@@ -8,6 +8,7 @@ import {
     usePoiPoaStatus,
     useQueryString,
 } from '@/hooks/custom-hooks';
+import { getLocalizedTabs } from '@/utils/tabs';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader, Tab, Tabs, useDevice } from '@deriv-com/ui';
 import { MyProfileAdDetails } from '../MyProfileAdDetails';
@@ -64,7 +65,7 @@ const MyProfile = () => {
         <div className='my-profile'>
             <ProfileContent />
             <Tabs
-                activeTab={(currentTab !== 'default' && currentTab) || 'Stats'}
+                activeTab={getLocalizedTabs(localize)[(currentTab !== 'default' && currentTab) || 'Stats']}
                 className='my-profile__tabs'
                 onChange={index => {
                     setQueryString({

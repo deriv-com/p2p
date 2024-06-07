@@ -1,5 +1,6 @@
 import { ORDERS_STATUS } from '@/constants/orders';
 import { useQueryString } from '@/hooks/custom-hooks';
+import { getLocalizedTabs } from '@/utils/tabs';
 import { useTranslations } from '@deriv-com/translations';
 import { Tab, Tabs, useDevice } from '@deriv-com/ui';
 import './OrdersTableHeader.scss';
@@ -17,7 +18,7 @@ const OrdersTableHeader = ({ activeTab }: TOrdersTableHeaderProps) => {
         <div className='orders-table-header' data-testid='dt_orders_table_header'>
             <Tabs
                 TitleFontSize={isMobile ? 'md' : 'sm'}
-                activeTab={activeTab}
+                activeTab={getLocalizedTabs(localize)[activeTab]}
                 onChange={(index: number) =>
                     setQueryString({
                         tab: index === 0 ? ORDERS_STATUS.ACTIVE_ORDERS : ORDERS_STATUS.PAST_ORDERS,
