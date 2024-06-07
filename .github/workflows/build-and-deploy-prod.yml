@@ -6,7 +6,7 @@ on:
       - production_*
 
 concurrency:
-    group: cloudflare-pages-build-staging
+    group: cloudflare-pages-build-production
     cancel-in-progress: true
 
 jobs:
