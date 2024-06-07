@@ -222,77 +222,75 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     }, [error?.error.message, isError]);
 
     return (
-        <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <BuySellFormDisplayWrapper
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <BuySellFormDisplayWrapper
+                accountCurrency={account_currency as TCurrency}
+                isBuy={isBuy}
+                isHidden={isHidden}
+                isModalOpen={isModalOpen}
+                isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
+                onRequestClose={onRequestClose}
+                onSubmit={onSubmit}
+            >
+                {/* TODO: Remove the below banner when implementing real time exchange changes */}
+                {rate_type === RATE_TYPE.FLOAT && !shouldDisableField && (
+                    <div className='px-[2.4rem] mt-[2.4rem]'>
+                        <InlineMessage variant='info'>
+                            <Text size={isMobile ? 'xs' : '2xs'}>
+                                <Localize i18n_default_text='If the market rate changes from the rate shown here, we won’t be able to process your order.' />
+                            </Text>
+                        </InlineMessage>
+                    </div>
+                )}
+                {errorMessage && (
+                    <div className='px-[2.4rem] mt-[2.4rem]'>
+                        <InlineMessage variant='error'>
+                            <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
+                        </InlineMessage>
+                    </div>
+                )}
+                <BuySellData
                     accountCurrency={account_currency as TCurrency}
+                    expiryPeriod={order_expiry_period ?? 3600}
+                    instructions={description ?? '-'}
                     isBuy={isBuy}
-                    isHidden={isHidden}
-                    isModalOpen={isModalOpen}
-                    isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
-                    onRequestClose={onRequestClose}
-                    onSubmit={onSubmit}
-                >
-                    {/* TODO: Remove the below banner when implementing real time exchange changes */}
-                    {rate_type === RATE_TYPE.FLOAT && !shouldDisableField && (
-                        <div className='px-[2.4rem] mt-[2.4rem]'>
-                            <InlineMessage variant='info'>
-                                <Text size={isMobile ? 'xs' : '2xs'}>
-                                    <Localize i18n_default_text='If the market rate changes from the rate shown here, we won’t be able to process your order.' />
-                                </Text>
-                            </InlineMessage>
-                        </div>
-                    )}
-                    {errorMessage && (
-                        <div className='px-[2.4rem] mt-[2.4rem]'>
-                            <InlineMessage variant='error'>
-                                <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
-                            </InlineMessage>
-                        </div>
-                    )}
-                    <BuySellData
-                        accountCurrency={account_currency as TCurrency}
-                        expiryPeriod={order_expiry_period ?? 3600}
-                        instructions={description ?? '-'}
-                        isBuy={isBuy}
-                        localCurrency={local_currency as TCurrency}
-                        name={advertiser_details?.name ?? ''}
-                        paymentMethodNames={payment_method_names}
-                        paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
-                        rate={displayEffectiveRate}
-                        ref={scrollRef}
+                    localCurrency={local_currency as TCurrency}
+                    name={advertiser_details?.name ?? ''}
+                    paymentMethodNames={payment_method_names}
+                    paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
+                    rate={displayEffectiveRate}
+                    ref={scrollRef}
+                />
+                <LightDivider />
+                {isBuy && payment_method_names && payment_method_names?.length > 0 && (
+                    <BuySellPaymentSection
+                        availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
+                        onSelectPaymentMethodCard={onSelectPaymentMethodCard}
+                        selectedPaymentMethodIds={selectedPaymentMethods}
+                        setIsHidden={setIsHidden}
                     />
-                    <LightDivider />
-                    {isBuy && payment_method_names && payment_method_names?.length > 0 && (
-                        <BuySellPaymentSection
-                            availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
-                            onSelectPaymentMethodCard={onSelectPaymentMethodCard}
-                            selectedPaymentMethodIds={selectedPaymentMethods}
-                            setIsHidden={setIsHidden}
-                        />
+                )}
+                <BuySellAmount
+                    accountCurrency={account_currency as TCurrency}
+                    amount={initialAmount}
+                    calculatedRate={calculatedRate}
+                    control={control as unknown as Control<FieldValues>}
+                    isBuy={isBuy}
+                    isDisabled={shouldDisableField}
+                    localCurrency={local_currency as TCurrency}
+                    maxLimit={getAdvertiserMaxLimit(
+                        isBuy,
+                        Number(daily_buy_limit) - Number(daily_buy),
+                        Number(daily_sell_limit) - Number(daily_sell),
+                        max_order_amount_limit_display ?? '0'
                     )}
-                    <BuySellAmount
-                        accountCurrency={account_currency as TCurrency}
-                        amount={initialAmount}
-                        calculatedRate={calculatedRate}
-                        control={control as unknown as Control<FieldValues>}
-                        isBuy={isBuy}
-                        isDisabled={shouldDisableField}
-                        localCurrency={local_currency as TCurrency}
-                        maxLimit={getAdvertiserMaxLimit(
-                            isBuy,
-                            Number(daily_buy_limit) - Number(daily_buy),
-                            Number(daily_sell_limit) - Number(daily_sell),
-                            max_order_amount_limit_display ?? '0'
-                        )}
-                        minLimit={min_order_amount_limit_display ?? '0'}
-                        paymentMethodNames={payment_method_names}
-                        setValue={setValue as unknown as (name: string, value: string) => void}
-                        trigger={trigger as unknown as () => Promise<boolean>}
-                    />
-                </BuySellFormDisplayWrapper>
-            </form>
-        </>
+                    minLimit={min_order_amount_limit_display ?? '0'}
+                    paymentMethodNames={payment_method_names}
+                    setValue={setValue as unknown as (name: string, value: string) => void}
+                    trigger={trigger as unknown as () => Promise<boolean>}
+                />
+            </BuySellFormDisplayWrapper>
+        </form>
     );
 };
 
