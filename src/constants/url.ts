@@ -1,4 +1,4 @@
-import { URLConstants } from '@deriv-com/utils';
+import { LocalStorageConstants, LocalStorageUtils, URLConstants, URLUtils } from '@deriv-com/utils';
 
 export const BUY_SELL_URL = '/buy-sell';
 export const ORDERS_URL = '/orders';
@@ -12,3 +12,14 @@ export const ACCOUNT_LIMITS = `${URLConstants.derivAppProduction}/account/accoun
 export const DERIV_COM = URLConstants.derivComProduction;
 export const HELP_CENTRE = `${URLConstants.derivComProduction}/help-centre/`;
 export const RESPONSIBLE = `${URLConstants.derivComProduction}/responsible/`;
+
+export const getOauthUrl = () => {
+    const appId = LocalStorageUtils.getValue(LocalStorageConstants.configAppId);
+    const serverUrl = localStorage.getItem(LocalStorageConstants.configServerURL.toString());
+    const oauthUrl =
+        appId && serverUrl
+            ? `https://${serverUrl}/oauth2/authorize?app_id=${appId}&l=EN&&brand=deriv`
+            : URLUtils.getOauthURL();
+
+    return oauthUrl;
+};
