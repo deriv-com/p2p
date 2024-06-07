@@ -1,5 +1,7 @@
 .copy-ad-form-modal {
     max-height: calc(100vh - 15rem);
+    width: 44rem;
+
     & .floating-rate {
         &__field {
             flex-direction: column;
@@ -44,9 +46,5 @@
                 margin-bottom: 1rem;
             }
         }
-    }
-
-    &__body {
-        width: 44rem;
     }
 }

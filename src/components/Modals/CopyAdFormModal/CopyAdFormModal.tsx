@@ -23,7 +23,7 @@ const CopyAdFormModal = ({
             <Modal.Header hideBorder hideCloseIcon>
                 <CopyAdFormHeader />
             </Modal.Header>
-            <Modal.Body className='copy-ad-form-modal__body'>{children}</Modal.Body>
+            <Modal.Body>{children}</Modal.Body>
             <Modal.Footer className='gap-[0.8rem]' hideBorder>
                 <CopyAdFormFooter isValid={isValid} onClickCancel={onClickCancel} onSubmit={onSubmit} />
             </Modal.Footer>
