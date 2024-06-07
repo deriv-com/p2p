@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
+import { TAdvertiserStats } from 'types';
 import { AdvertiserName, AdvertiserNameToggle } from '@/components';
-import { useAdvertiserStats } from '@/hooks/custom-hooks';
 import { getCurrentRoute } from '@/utils';
 import { useDevice } from '@deriv-com/ui';
 import { ProfileBalance } from './ProfileBalance';
@@ -8,14 +8,14 @@ import { ProfileStats } from './ProfileStats';
 import './ProfileContent.scss';
 
 type TProfileContentProps = {
+    data: TAdvertiserStats;
     id?: string;
     setAdvertiserName?: (name: string) => void;
     setShowOverlay?: Dispatch<SetStateAction<boolean>>;
 };
 
-const ProfileContent = ({ id, setAdvertiserName, setShowOverlay }: TProfileContentProps) => {
+const ProfileContent = ({ data, setAdvertiserName, setShowOverlay }: TProfileContentProps) => {
     const { isMobile } = useDevice();
-    const { data } = useAdvertiserStats(id);
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
     useEffect(() => {
