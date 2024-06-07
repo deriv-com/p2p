@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import './MyProfileStatsItem.scss';
 
@@ -39,6 +40,7 @@ const MyProfileStatsItem = ({
                 {shouldShowDuration && (
                     <button className='my-profile-stats__item--inactive' onClick={() => onClickLabel(false)}>
                         <Text
+                            className='italic'
                             color={!hasClickedLifetime && shouldShowLifetime ? 'red' : 'less-prominent'}
                             size={textSize}
                         >
@@ -52,8 +54,12 @@ const MyProfileStatsItem = ({
                             |{' '}
                         </Text>
                         <button className='my-profile-stats__item--inactive' onClick={() => onClickLabel(true)}>
-                            <Text color={hasClickedLifetime ? 'red' : 'less-prominent'} size={textSize}>
-                                lifetime
+                            <Text
+                                className='italic'
+                                color={hasClickedLifetime ? 'red' : 'less-prominent'}
+                                size={textSize}
+                            >
+                                <Localize i18n_default_text='lifetime' />
                             </Text>
                         </button>
                     </>

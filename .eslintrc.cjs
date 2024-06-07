@@ -1,6 +1,6 @@
 module.exports = {
     extends: ['@deriv-com/eslint-config-deriv', 'eslint:recommended', 'plugin:react/recommended'],
-    plugins: ['simple-import-sort','sort-destructure-keys', 'typescript-sort-keys' ], 
+    plugins: ['simple-import-sort', 'sort-destructure-keys', 'typescript-sort-keys'],
     rules: {
         'global-require': 'off',
         '@typescript-eslint/array-type': 'error',

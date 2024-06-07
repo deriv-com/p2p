@@ -5,6 +5,7 @@ import { ErrorModal, LoadingModal } from '@/components/Modals';
 import { ADVERT_TYPE, BUY_SELL, BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, useQueryString } from '@/hooks/custom-hooks';
+import { useTranslations } from '@deriv-com/translations';
 import { Tab, Tabs } from '@deriv-com/ui';
 import { AdvertsTableRenderer } from './AdvertsTableRenderer';
 import './AdvertiserAdvertsTable.scss';
@@ -16,6 +17,7 @@ type TAdvertiserAdvertsTableProps = {
 const TABS = [ADVERT_TYPE.BUY, ADVERT_TYPE.SELL];
 
 const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) => {
+    const { localize } = useTranslations();
     const [advertId, setAdvertId] = useState<string | undefined>(undefined);
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const location = useLocation();
@@ -75,8 +77,8 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
     return (
         <div className='advertiser-adverts-table'>
             <Tabs activeTab={activeTab} className='lg:w-80 lg:mt-10' onChange={setActiveTab} variant='secondary'>
-                <Tab className='text-xs' title='Buy' />
-                <Tab title='Sell' />
+                <Tab className='text-xs' title={localize('Buy')} />
+                <Tab title={localize('Sell')} />
             </Tabs>
             <AdvertsTableRenderer
                 data={data}
@@ -90,9 +92,9 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
             {isModalOpenFor('ErrorModal') && (
                 <ErrorModal
                     isModalOpen
-                    message='It’s either deleted or no longer active.'
+                    message={localize('It’s either deleted or no longer active.')}
                     onRequestClose={hideModal}
-                    title='This ad is unavailable'
+                    title={localize('This ad is unavailable')}
                 />
             )}
             {isModalOpenFor('LoadingModal') && <LoadingModal isModalOpen />}

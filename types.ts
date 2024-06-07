@@ -5,6 +5,7 @@ import { api } from '@/hooks';
 import { useSendbirdServiceToken } from '@/hooks/api/account';
 import { useAdvertiserStats, useSendbird } from '@/hooks/custom-hooks';
 import { useExchangeRates } from '@deriv-com/api-hooks';
+import { useTranslations } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 import { CurrencyConstants } from '@deriv-com/utils';
 
@@ -216,3 +217,5 @@ export type TTextSize = ComponentProps<typeof Text>['size'];
 
 export type TActiveChannel = ReturnType<typeof useSendbird>['activeChatChannel'];
 export type TChatMessages = NonNullable<ReturnType<typeof useSendbird>['messages']>;
+
+export type TLocalize = ReturnType<typeof useTranslations>['localize'];

@@ -1,11 +1,12 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { TCurrency, TExchangeRate } from 'types';
+import { TCurrency, TLocalize } from 'types';
 import { PaymentMethodLabel, PopoverDropdown } from '@/components';
 import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
 import { useFloatingRate } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, shouldShowTooltipIcon } from '@/utils';
 import { useExchangeRates } from '@deriv-com/api-hooks';
+import { useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import { AdStatus, AdType, AlertComponent, ProgressIndicator } from '../../../components';
@@ -14,12 +15,16 @@ import './MyAdsTableRow.scss';
 
 const BASE_CURRENCY = 'USD';
 
-const getList = (isActive = false) => [
-    { label: 'Edit', value: 'edit' },
-    { label: 'Copy', value: 'copy' },
-    { label: 'Share', value: 'share' },
-    { label: `${isActive ? 'Deactivate' : 'Activate'}`, value: `${isActive ? 'deactivate' : 'activate'}` },
-    { label: 'Delete', value: 'delete' },
+const getList = (localize: TLocalize, isActive = false) => [
+    { label: localize('Edit'), value: 'edit' },
+    // TODO: to be added when copy ads feature is released
+    // { label: localize('Copy'), value: 'copy' },
+    { label: localize('Share'), value: 'share' },
+    {
+        label: `${isActive ? localize('Deactivate') : localize('Activate')}`,
+        value: `${isActive ? 'deactivate' : 'activate'}`,
+    },
+    { label: localize('Delete'), value: 'delete' },
 ];
 
 type TProps = {
@@ -32,8 +37,9 @@ type TMyAdsTableProps = Omit<TMyAdsTableRowRendererProps, 'balanceAvailable' | '
     TProps;
 
 const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps) => {
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
-    const { subscribeRates } = useExchangeRates();
+    const { data: exchangeRatesData, subscribeRates } = useExchangeRates();
 
     const {
         account_currency: accountCurrency = '',
@@ -60,16 +66,25 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
 
     const isFloatingRate = rateType === RATE_TYPE.FLOAT;
 
-    const exchangeRateRef = useRef<TExchangeRate | null>(null);
+    const exchangeRateRef = useRef<number | undefined>(undefined);
 
     useEffect(() => {
         if (localCurrency) {
-            exchangeRateRef.current = subscribeRates({
+            subscribeRates({
                 base_currency: BASE_CURRENCY,
                 target_currencies: [localCurrency],
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localCurrency]);
+
+    useEffect(() => {
+        const rate = exchangeRatesData?.exchange_rates?.rates?.[localCurrency ?? ''];
+        if (typeof rate === 'number') {
+            exchangeRateRef.current = rate;
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [exchangeRatesData]);
 
     const [showAlertIcon, setShowAlertIcon] = useState(false);
     const isAdvertListed = isListed && !isBarred;
@@ -79,11 +94,12 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
     const isRowDisabled = !isActive || isBarred || !isListed;
     const isAdActive = !!isActive && !isBarred;
 
-    const exchangeRate = exchangeRateRef.current?.rates?.[localCurrency ?? ''];
+    const exchangeRate = exchangeRateRef.current;
     const enableActionPoint = currentRateType !== rateType;
 
     useEffect(() => {
         setShowAlertIcon(enableActionPoint || shouldShowTooltipIcon(visibilityStatus) || !isListed);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [enableActionPoint, isListed, shouldShowTooltipIcon]);
 
     const { displayEffectiveRate } = generateEffectiveRate({
@@ -125,7 +141,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                         <AdStatus isActive={isAdActive} />
                         {showAlertIcon && <AlertComponent onClick={() => showModal('AdErrorTooltipModal')} />}
                         <PopoverDropdown
-                            dropdownList={getList(isAdActive)}
+                            dropdownList={getList(localize, isAdActive)}
                             onClick={handleClick}
                             tooltipMessage='Manage ad'
                         />
@@ -216,7 +232,11 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
             </div>
             <div className='my-ads-table-row__actions'>
                 <AdStatus isActive={isAdActive} />
-                <PopoverDropdown dropdownList={getList(isAdActive)} onClick={handleClick} tooltipMessage='Manage ad' />
+                <PopoverDropdown
+                    dropdownList={getList(localize, isAdActive)}
+                    onClick={handleClick}
+                    tooltipMessage='Manage ad'
+                />
                 {showAlertIcon && <AlertComponent onClick={() => showModal('AdErrorTooltipModal')} />}
             </div>
         </div>

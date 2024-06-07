@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { RadioGroupFilterModal } from '@/components/Modals';
-import { ADVERT_TYPE, BUY_SELL, SORT_BY_LIST } from '@/constants';
+import { ADVERT_TYPE, BUY_SELL, getSortByList } from '@/constants';
 import { api } from '@/hooks';
 import { useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { TSortByValues } from '@/utils';
+import { useTranslations } from '@deriv-com/translations';
 import { BuySellHeader } from '../BuySellHeader';
 import { BuySellTableRenderer } from './BuySellTableRenderer';
 import './BuySellTable.scss';
@@ -11,6 +12,7 @@ import './BuySellTable.scss';
 const TABS = [ADVERT_TYPE.BUY, ADVERT_TYPE.SELL];
 
 const BuySellTable = () => {
+    const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { data: p2pSettingsData } = api.settings.useSettings();
     const { queryString, setQueryString } = useQueryString();
@@ -77,7 +79,7 @@ const BuySellTable = () => {
             {isModalOpenFor('RadioGroupFilterModal') && (
                 <RadioGroupFilterModal
                     isModalOpen
-                    list={SORT_BY_LIST}
+                    list={getSortByList(localize)}
                     onRequestClose={hideModal}
                     onToggle={onToggle}
                     selected={sortDropdownValue as string}

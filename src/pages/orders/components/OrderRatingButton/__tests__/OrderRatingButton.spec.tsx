@@ -3,6 +3,7 @@ import OrderRatingButton from '../OrderRatingButton';
 
 const mockProps = {
     buttonLabel: 'Test label',
+    onClick: jest.fn(),
 };
 
 jest.mock('@deriv-com/ui', () => ({

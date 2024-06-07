@@ -1,20 +1,32 @@
 .my-profile-counterparties-header {
     display: grid;
     gap: 1.6rem;
-    margin-top: 2.4rem;
+    margin: 2.4rem 0;
     grid-template-columns: repeat(3, 1fr);
+
+    & .deriv-input {
+        height: 4.2rem;
+
+        &__right-content {
+            display: flex;
+            align-items: center;
+        }
+
+        &__left-content {
+            display: flex;
+            align-items: center;
+        }
+    }
+    .search {
+        max-width: 28rem;
+
+        @include mobile {
+            max-width: 100%;
+        }
+    }
 
     @include mobile {
         display: flex;
-        margin: 2.4rem 0;
-
-        .search {
-            max-width: 28rem;
-
-            @include mobile {
-                max-width: 100%;
-            }
-        }
     }
 
     &__sort-icon {

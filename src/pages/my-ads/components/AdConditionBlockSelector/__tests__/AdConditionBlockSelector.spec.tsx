@@ -9,7 +9,7 @@ jest.mock('@deriv-com/ui', () => ({
 
 jest.mock('@/constants', () => ({
     ...jest.requireActual('@/constants'),
-    AD_CONDITION_CONTENT: {
+    getAdConditionContent: () => ({
         completionRates: {
             description: 'description',
             options: [
@@ -20,7 +20,7 @@ jest.mock('@/constants', () => ({
             ],
             title: 'title',
         },
-    },
+    }),
 }));
 describe('AdConditionBlockSelector', () => {
     it('should render the component as expected', () => {

@@ -88,6 +88,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useIsAdvertiser: jest.fn(() => true),
     useIsAdvertiserBarred: jest.fn(() => false),
     useModalManager: jest.fn(() => mockUseModalManager),
+    usePoiPoaStatus: jest.fn(() => ({ data: { isPoaVerified: true, isPoiVerified: true } })),
     useQueryString: jest.fn(() => ({ queryString: {}, setQueryString: jest.fn() })),
 }));
 
@@ -221,7 +222,7 @@ describe('<AdvertiserAdvertsTable />', () => {
 
         render(<AdvertiserAdvertsTable advertiserId='222' />);
 
-        expect(screen.getByText('ErrorModal')).toBeInTheDocument();
+        expect(screen.getAllByText('ErrorModal')).toHaveLength(2);
     });
 
     it('should show ErrorModal if advert is not active and visible, and error is undefined', () => {
@@ -239,7 +240,7 @@ describe('<AdvertiserAdvertsTable />', () => {
 
         render(<AdvertiserAdvertsTable advertiserId='222' />);
 
-        expect(screen.getByText('ErrorModal')).toBeInTheDocument();
+        expect(screen.getAllByText('ErrorModal')).toHaveLength(2);
     });
 
     it('should call history.push if the advertiser is barred', () => {

@@ -10,12 +10,18 @@ const mockProps = {
 };
 
 jest.mock('@deriv-com/api-hooks', () => ({
+    ...jest.requireActual('@deriv-com/api-hooks'),
     useGetSettings: jest.fn(() => ({ email: 'test@gmail.com' })),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: false })),
+    useDevice: jest.fn(() => ({ isMobile: true })),
+}));
+
+jest.mock('@/utils', () => ({
+    ...jest.requireActual('@/utils'),
+    getCurrentRoute: jest.fn(() => ''),
 }));
 
 describe('AdvertiserName', () => {

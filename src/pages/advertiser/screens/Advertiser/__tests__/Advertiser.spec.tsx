@@ -31,6 +31,9 @@ jest.mock('@/hooks', () => ({
             })),
         },
     },
+    useModalManager: jest.fn(() => ({
+        showModal: jest.fn(),
+    })),
 }));
 
 jest.mock('@deriv-com/ui', () => ({

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { TCurrency, TExchangeRate, THooks, TPaymentMethod } from 'types';
+import { TCurrency, THooks, TPaymentMethod } from 'types';
 import { BUY_SELL, ORDERS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
@@ -14,6 +14,7 @@ import {
     setDecimalPlaces,
 } from '@/utils';
 import { useExchangeRates } from '@deriv-com/api-hooks';
+import { Localize } from '@deriv-com/translations';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
 import { LightDivider } from '../LightDivider';
 import { BuySellAmount } from './BuySellAmount';
@@ -47,12 +48,14 @@ const getAdvertiserMaxLimit = (
 const BASE_CURRENCY = 'USD';
 
 const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProps) => {
-    const { subscribeRates } = useExchangeRates();
+    const { data: exchangeRatesData, subscribeRates } = useExchangeRates();
     const { data: advertInfo } = api.advert.useGet({ id: advertId });
-    const { data: orderCreatedInfo, isSuccess, mutate } = api.order.useCreate();
+    const { data: orderCreatedInfo, error, isError, isSuccess, mutate } = api.order.useCreate();
     const { data: paymentMethods } = api.paymentMethods.useGet();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { data } = api.advertiser.useGetInfo() || {};
+    const [errorMessage, setErrorMessage] = useState('');
+    const scrollRef = useRef<HTMLDivElement>(null);
     const {
         balance_available = '',
         daily_buy = 0,
@@ -67,7 +70,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const [calculatedRate, setCalculatedRate] = useState('0');
     const [initialAmount, setInitialAmount] = useState('0');
 
-    const exchangeRateRef = useRef<TExchangeRate | null>(null);
+    const exchangeRateRef = useRef<number | undefined>(undefined);
 
     const {
         account_currency,
@@ -96,7 +99,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
 
     useEffect(() => {
         if (local_currency) {
-            exchangeRateRef.current = subscribeRates({
+            subscribeRates({
                 base_currency: BASE_CURRENCY,
                 target_currencies: [local_currency],
             });
@@ -104,8 +107,17 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [local_currency]);
 
+    useEffect(() => {
+        const rate = exchangeRatesData?.exchange_rates?.rates?.[local_currency];
+        if (typeof rate === 'number') {
+            exchangeRateRef.current = rate;
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [exchangeRatesData]);
+
     const { displayEffectiveRate, effectiveRate } = generateEffectiveRate({
-        exchangeRate: exchangeRateRef.current?.rates?.[local_currency],
+        exchangeRate: exchangeRateRef.current,
         localCurrency: local_currency as TCurrency,
         marketRate: Number(effective_rate),
         price: Number(price_display),
@@ -200,6 +212,13 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         }
     }, [isSuccess, orderCreatedInfo, history, onRequestClose]);
 
+    useEffect(() => {
+        if (isError && error?.error.message) {
+            setErrorMessage(error?.error.message);
+            scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+    }, [error?.error.message, isError]);
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <BuySellFormDisplayWrapper
@@ -210,13 +229,20 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 onRequestClose={onRequestClose}
                 onSubmit={onSubmit}
             >
+                {/* TODO: Remove the below banner when implementing real time exchange changes */}
                 {rate_type === RATE_TYPE.FLOAT && !shouldDisableField && (
                     <div className='px-[2.4rem] mt-[2.4rem]'>
                         <InlineMessage variant='info'>
                             <Text size={isMobile ? 'xs' : '2xs'}>
-                                If the market rate changes from the rate shown here, we won’t be able to process your
-                                order.
+                                <Localize i18n_default_text='If the market rate changes from the rate shown here, we won’t be able to process your order.' />
                             </Text>
+                        </InlineMessage>
+                    </div>
+                )}
+                {errorMessage && (
+                    <div className='px-[2.4rem] mt-[2.4rem]'>
+                        <InlineMessage variant='error'>
+                            <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
                         </InlineMessage>
                     </div>
                 )}
@@ -230,6 +256,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     paymentMethodNames={payment_method_names}
                     paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
                     rate={displayEffectiveRate}
+                    ref={scrollRef}
                 />
                 <LightDivider />
                 {isBuy && payment_method_names && payment_method_names?.length > 0 && (

@@ -3,10 +3,12 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { TCurrency } from 'types';
 import { FloatingRate, RadioGroup } from '@/components';
 import { BUY_SELL, RATE_TYPE } from '@/constants';
+import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { getValidationRules, restrictDecimalPlace } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
+import { FormatUtils } from '@deriv-com/utils';
 import { AdFormController } from '../AdFormController';
 import { AdFormInput } from '../AdFormInput';
 import { AdFormTextArea } from '../AdFormTextArea';
@@ -25,6 +27,8 @@ type TAdTypeSectionProps = {
 
 const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }: TAdTypeSectionProps) => {
     const { queryString } = useQueryString();
+    const { data: advertiserInfo } = api.advertiser.useGetInfo();
+    const { balance_available: balanceAvailable } = advertiserInfo || {};
     const { localize } = useTranslations();
     const { advertId = '' } = queryString;
     const isEdit = !!advertId;
@@ -84,8 +88,8 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                                     selected={value}
                                     textSize={textSize}
                                 >
-                                    <RadioGroup.Item label='Buy USD' value={BUY_SELL.BUY} />
-                                    <RadioGroup.Item label='Sell USD' value={BUY_SELL.SELL} />
+                                    <RadioGroup.Item label={localize('Buy USD')} value={BUY_SELL.BUY} />
+                                    <RadioGroup.Item label={localize('Sell USD')} value={BUY_SELL.SELL} />
                                 </RadioGroup>
                             </div>
                         );
@@ -95,8 +99,18 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
             )}
             <div className='flex flex-col lg:flex-row lg:gap-[1.6rem]'>
                 <AdFormInput
+                    hint={
+                        isSell ? (
+                            localize('Your Deriv P2P balance is {{balance}} {{currency}}', {
+                                balance: FormatUtils.formatMoney(balanceAvailable ?? 0, { currency }),
+                                currency,
+                            })
+                        ) : (
+                            <div />
+                        )
+                    }
                     isDisabled={isEdit}
-                    label='Total amount'
+                    label={localize('Total amount')}
                     name='amount'
                     rightPlaceholder={
                         <Text color='general' size={textSize}>
@@ -122,11 +136,11 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                                 />
                             );
                         }}
-                        rules={{ validate: getValidationRules('rate-value', getValues, localize) }}
+                        rules={{ validate: getValidationRules('rate-value', getValues) }}
                     />
                 ) : (
                     <AdFormInput
-                        label='Fixed rate'
+                        label={localize('Fixed rate')}
                         name='rate-value'
                         rightPlaceholder={
                             <Text color='general' size={textSize}>
@@ -138,7 +152,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
             </div>
             <div className='flex flex-col lg:flex-row lg:gap-[1.6rem]'>
                 <AdFormInput
-                    label='Min order'
+                    label={localize('Min order')}
                     name='min-order'
                     rightPlaceholder={
                         <Text color='general' size={textSize}>
@@ -148,7 +162,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                     triggerValidationFunction={() => triggerValidation(['amount', 'max-order'])}
                 />
                 <AdFormInput
-                    label='Max order'
+                    label={localize('Max order')}
                     name='max-order'
                     rightPlaceholder={
                         <Text color='general' size={textSize}>
@@ -159,12 +173,17 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                 />
             </div>
             {isSell && (
-                <AdFormTextArea field='Contact details' label='Your contact details' name='contact-details' required />
+                <AdFormTextArea
+                    field='Contact details'
+                    label={localize('Your contact details')}
+                    name='contact-details'
+                    required
+                />
             )}
             <AdFormTextArea
                 field='Instructions'
-                hint='This information will be visible to everyone'
-                label='Instructions(optional)'
+                hint={localize('This information will be visible to everyone')}
+                label={localize('Instructions(optional)')}
                 name='instructions'
             />
             <AdFormController {...props} isNextButtonDisabled={!isValid} onCancel={onCancel} />

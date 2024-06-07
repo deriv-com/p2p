@@ -13,9 +13,6 @@ jest.mock('../OrderDetailsCardHeader', () => ({
 jest.mock('../OrderDetailsCardInfo', () => ({
     OrderDetailsCardInfo: () => <div>OrderDetailsCardInfo</div>,
 }));
-jest.mock('../OrderDetailsCardReview', () => ({
-    OrderDetailsCardReview: () => <div>OrderDetailsCardReview</div>,
-}));
 jest.mock('../OrderDetailsCardFooter', () => ({
     OrderDetailsCardFooter: () => <div>OrderDetailsCardFooter</div>,
 }));
@@ -29,7 +26,6 @@ describe('<OrderDetailsCard />', () => {
         render(<OrderDetailsCard {...mockProps} />);
         expect(screen.getByText('OrderDetailsCardHeader')).toBeInTheDocument();
         expect(screen.getByText('OrderDetailsCardInfo')).toBeInTheDocument();
-        expect(screen.getByText('OrderDetailsCardReview')).toBeInTheDocument();
         expect(screen.getByText('OrderDetailsCardFooter')).toBeInTheDocument();
     });
 

@@ -1,6 +1,6 @@
 .mobile-wrapper {
     @include mobile {
-        height: calc(100vh - 4rem);
+        height: calc(100vh - 8rem);
         width: 100vw;
         border-radius: 0;
         display: grid;

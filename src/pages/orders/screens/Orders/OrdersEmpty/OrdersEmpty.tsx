@@ -4,7 +4,11 @@ import { DerivLightOrderIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
 
-const OrdersEmpty = () => {
+type TOrdersEmptyProps = {
+    isPast?: boolean;
+};
+
+const OrdersEmpty = ({ isPast = false }: TOrdersEmptyProps) => {
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'lg' : 'md';
     const history = useHistory();
@@ -12,14 +16,20 @@ const OrdersEmpty = () => {
         <div className='lg:p-0 py-16 px-[1.6rem]'>
             <ActionScreen
                 actionButtons={
-                    <Button onClick={() => history.push(BUY_SELL_URL)} size='lg' textSize={isMobile ? 'md' : 'sm'}>
-                        Buy/Sell
-                    </Button>
+                    isPast ? undefined : (
+                        <Button onClick={() => history.push(BUY_SELL_URL)} size='lg' textSize={isMobile ? 'md' : 'sm'}>
+                            <Localize i18n_default_text='Buy/Sell' />
+                        </Button>
+                    )
                 }
                 icon={<DerivLightOrderIcon height='128px' width='128px' />}
                 title={
                     <Text size={textSize} weight='bold'>
-                        <Localize i18n_default_text='You have no orders.' />
+                        {isPast ? (
+                            <Localize i18n_default_text='No orders found.' />
+                        ) : (
+                            <Localize i18n_default_text='You have no orders.' />
+                        )}
                     </Text>
                 }
             />

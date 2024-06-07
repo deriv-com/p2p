@@ -1,5 +1,6 @@
 import { MouseEventHandler } from 'react';
 import { useQueryString } from '@/hooks/custom-hooks';
+import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 import './AdFormController.scss';
 
@@ -36,7 +37,7 @@ const AdFormController = ({
                 type='button'
                 variant='outlined'
             >
-                {onCancel ? 'Cancel' : 'Previous'}
+                {onCancel ? <Localize i18n_default_text='Cancel' /> : <Localize i18n_default_text='Previous' />}
             </Button>
             {getCurrentStep() < getTotalSteps() ? (
                 <Button
@@ -47,11 +48,11 @@ const AdFormController = ({
                     type='button'
                     variant='contained'
                 >
-                    Next
+                    <Localize i18n_default_text='Next' />
                 </Button>
             ) : (
                 <Button size='lg' textSize={textSize}>
-                    {`${isEdit ? 'Save changes' : 'Post ad'}`}
+                    {isEdit ? <Localize i18n_default_text='Save changes' /> : <Localize i18n_default_text='Post ad' />}
                 </Button>
             )}
         </div>

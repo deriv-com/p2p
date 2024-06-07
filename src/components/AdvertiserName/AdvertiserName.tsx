@@ -1,24 +1,29 @@
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { UserAvatar } from '@/components';
 import { getCurrentRoute } from '@/utils';
-import { LabelPairedEllipsisVerticalLgRegularIcon } from '@deriv/quill-icons';
 import { useGetSettings } from '@deriv-com/api-hooks';
 import { Text, useDevice } from '@deriv-com/ui';
 import AdvertiserNameBadges from './AdvertiserNameBadges';
 import AdvertiserNameStats from './AdvertiserNameStats';
 import AdvertiserNameToggle from './AdvertiserNameToggle';
+import BlockDropdown from './BlockDropdown';
 import './AdvertiserName.scss';
 
-const AdvertiserName = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
+type TAdvertiserNameProps = {
+    advertiserStats: DeepPartial<TAdvertiserStats>;
+    onClickBlocked?: () => void;
+};
+
+const AdvertiserName = ({ advertiserStats, onClickBlocked }: TAdvertiserNameProps) => {
     const { data } = useGetSettings();
-    const { isDesktop } = useDevice();
+    const { isMobile } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
     const name = advertiserStats?.name || data?.email;
 
     return (
         <div className='advertiser-name' data-testid='dt_advertiser_name'>
-            <UserAvatar nickname={name!} size={isDesktop ? 64 : 42} textSize='lg' />
+            <UserAvatar nickname={name ?? ''} size={isMobile ? 42 : 64} textSize='lg' />
             <div className='advertiser-name__details'>
                 <div className='flex items-center gap-3'>
                     <Text size='md' weight='bold'>
@@ -33,8 +38,10 @@ const AdvertiserName = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                 <AdvertiserNameStats advertiserStats={advertiserStats} />
                 <AdvertiserNameBadges advertiserStats={advertiserStats} />
             </div>
-            {isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={advertiserStats} />}
-            {isDesktop && !isMyProfile && <LabelPairedEllipsisVerticalLgRegularIcon className='cursor-pointer' />}
+            {!isMobile && isMyProfile && <AdvertiserNameToggle advertiserInfo={advertiserStats} />}
+            {!isMobile && !isMyProfile && !advertiserStats?.is_blocked && (
+                <BlockDropdown id={advertiserStats?.id} onClickBlocked={onClickBlocked} />
+            )}
         </div>
     );
 };

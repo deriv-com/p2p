@@ -1,5 +1,6 @@
 import { FullPageMobileWrapper } from '@/components';
 import { useQueryString } from '@/hooks/custom-hooks';
+import { Localize } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 import MyProfileStats from './MyProfileStats';
 
@@ -15,7 +16,7 @@ const MyProfileStatsMobile = () => {
             }
             renderHeader={() => (
                 <Text lineHeight='xs' size='lg' weight='bold'>
-                    Stats
+                    <Localize i18n_default_text='Stats' />
                 </Text>
             )}
         >

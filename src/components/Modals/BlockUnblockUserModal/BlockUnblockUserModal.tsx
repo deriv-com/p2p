@@ -1,8 +1,7 @@
-import Modal from 'react-modal';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { api } from '@/hooks';
 import { Localize } from '@deriv-com/translations';
-import { Button, Text } from '@deriv-com/ui';
-import { customStyles } from '../helpers';
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './BlockUnblockUserModal.scss';
 
 type TBlockUnblockUserModalProps = {
@@ -10,7 +9,9 @@ type TBlockUnblockUserModalProps = {
     id: string;
     isBlocked: boolean;
     isModalOpen: boolean;
+    onClickBlocked?: () => void;
     onRequestClose: () => void;
+    setErrorMessage?: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const BlockUnblockUserModal = ({
@@ -18,10 +19,30 @@ const BlockUnblockUserModal = ({
     id,
     isBlocked,
     isModalOpen,
+    onClickBlocked,
     onRequestClose,
+    setErrorMessage,
 }: TBlockUnblockUserModalProps) => {
-    const { mutate: blockAdvertiser } = api.counterparty.useBlock();
-    const { mutate: unblockAdvertiser } = api.counterparty.useUnblock();
+    const { isMobile } = useDevice();
+    const {
+        mutate: blockAdvertiser,
+        mutation: { error, isSuccess },
+    } = api.counterparty.useBlock();
+    const {
+        mutate: unblockAdvertiser,
+        mutation: { error: unblockError, isSuccess: unblockIsSuccess },
+    } = api.counterparty.useUnblock();
+
+    useEffect(() => {
+        if (isSuccess || unblockIsSuccess) {
+            onClickBlocked?.();
+            onRequestClose();
+        } else if (error || unblockError) {
+            setErrorMessage?.(error?.error.message || unblockError?.error.message);
+            onRequestClose();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isSuccess, onClickBlocked, unblockIsSuccess, unblockError, error, setErrorMessage]);
 
     const getModalTitle = () => (isBlocked ? `Unblock ${advertiserName}?` : `Block ${advertiserName}?`);
 
@@ -44,8 +65,6 @@ const BlockUnblockUserModal = ({
         } else {
             blockAdvertiser([parseInt(id)]);
         }
-
-        onRequestClose();
     };
 
     return (
@@ -55,15 +74,18 @@ const BlockUnblockUserModal = ({
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
             shouldCloseOnOverlayClick={false}
-            style={customStyles}
         >
-            <Text as='p' weight='bold'>
-                {getModalTitle()}
-            </Text>
-            <Text as='p' className='block-unblock-user-modal__text' size='sm'>
-                {getModalContent()}
-            </Text>
-            <div className='block-unblock-user-modal__footer'>
+            <Modal.Header className='px-[1.6rem] lg:px-[2.4rem]' hideBorder hideCloseIcon>
+                <Text as='p' size={isMobile ? 'lg' : 'md'} weight='bold'>
+                    {getModalTitle()}
+                </Text>
+            </Modal.Header>
+            <Modal.Body>
+                <Text as='p' className='px-[1.6rem] lg:px-[2.4rem]' size={isMobile ? 'md' : 'sm'}>
+                    {getModalContent()}
+                </Text>
+            </Modal.Body>
+            <Modal.Footer className='gap-[0.8rem] lg:px-[2.4rem] px-[1.6rem]' hideBorder>
                 <Button
                     className='border-2'
                     color='black'
@@ -72,12 +94,12 @@ const BlockUnblockUserModal = ({
                     textSize='sm'
                     variant='outlined'
                 >
-                    Cancel
+                    <Localize i18n_default_text='Cancel' />
                 </Button>
                 <Button onClick={onClickBlockUnblock} size='lg' textSize='sm'>
-                    {isBlocked ? 'Unblock' : 'Block'}
+                    {isBlocked ? <Localize i18n_default_text='Unblock' /> : <Localize i18n_default_text='Block' />}
                 </Button>
-            </div>
+            </Modal.Footer>
         </Modal>
     );
 };

@@ -78,7 +78,7 @@
 
         @include mobile {
             overflow: auto;
-            height: calc(100vh - 14rem);
+            height: calc(100vh - 12rem);
             padding-bottom: 8rem;
         }
     }
@@ -112,6 +112,9 @@
             }
 
             & .deriv-dropdown {
+                & .deriv-dropdown__items {
+                    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.24);
+                }
                 & .deriv-input {
                     height: 4rem;
                     align-items: center;

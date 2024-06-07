@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import './AdStatus.scss';
 
@@ -19,7 +20,7 @@ const AdStatus = ({ isActive = false }: TAdStatusProps) => {
             size={isMobile ? 'md' : 'sm'}
             weight='bold'
         >
-            {isActive ? 'Active' : 'Inactive'}
+            {isActive ? <Localize i18n_default_text='Active' /> : <Localize i18n_default_text='Inactive' />}
         </Text>
     );
 };

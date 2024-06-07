@@ -28,6 +28,17 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+const mockUseModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn(),
+    showModal: jest.fn(),
+};
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    useIsAdvertiserBarred: jest.fn(() => false),
+    useModalManager: jest.fn(() => mockUseModalManager),
+}));
+
 jest.mock('@/components/Modals/BlockUnblockUserModal', () => ({
     BlockUnblockUserModal: () => <div>BlockUnblockUserModal</div>,
 }));

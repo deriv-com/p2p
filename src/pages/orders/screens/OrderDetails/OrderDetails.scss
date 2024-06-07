@@ -1,11 +1,11 @@
 .order-details {
     overflow: overlay;
-    height: calc(100vh - 28rem);
+    height: calc(100vh - 22rem);
 
     @include mobile {
         position: absolute;
-        top: 4rem;
-        height: calc(100vh - 3.5rem);
+        top: 8rem;
+        height: calc(100vh - 8rem);
 
         & .mobile-wrapper {
             &__header {

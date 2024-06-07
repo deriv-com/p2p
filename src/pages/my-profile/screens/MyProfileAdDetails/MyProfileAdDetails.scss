@@ -4,11 +4,6 @@
     align-items: flex-end;
     gap: 2.4rem;
 
-    &__header {
-        font-size: 1.6rem;
-        font-weight: 800;
-    }
-
     @include mobile {
         padding: 2rem;
     }
@@ -21,6 +16,21 @@
     &__mobile-wrapper {
         position: absolute;
         top: 4rem;
-        height: calc(100vh - 8rem);
+        height: calc(100vh - 4rem);
+    }
+
+    & .deriv-textarea {
+        &__footer {
+            & .deriv-text {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    &__button {
+        &--submitting {
+            //TODO: add this variant to deriv-com/ui
+            background-color: #4bb4b3 !important;
+        }
     }
 }

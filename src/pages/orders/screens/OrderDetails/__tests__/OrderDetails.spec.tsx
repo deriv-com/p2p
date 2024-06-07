@@ -210,6 +210,17 @@ describe('<OrderDetails />', () => {
         expect(mockHistoryPush).toHaveBeenCalledWith('/buy-sell');
     });
 
+    it('should push to PastOrders tab if from is PastOrders', async () => {
+        mockState = { from: 'PastOrders' };
+
+        render(<OrderDetails />);
+
+        const backButton = screen.getByTestId('dt_page_return_btn');
+        await userEvent.click(backButton);
+
+        expect(mockHistoryPush).toHaveBeenCalledWith('/orders?tab=Past+orders');
+    });
+
     it('should show error message if isError is true', () => {
         (mockUseGet as jest.Mock).mockReturnValue({
             ...mockUseGet(),

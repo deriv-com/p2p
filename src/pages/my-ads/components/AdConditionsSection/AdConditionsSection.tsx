@@ -2,6 +2,7 @@ import { MouseEventHandler } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { TCountryListItem, TCurrency } from 'types';
 import { AD_CONDITION_TYPES } from '@/constants';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { AdConditionBlockSelector } from '../AdConditionBlockSelector';
 import { AdFormController } from '../AdFormController';
@@ -51,10 +52,10 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
             />
             <div className='flex flex-col my-[2.4rem]'>
                 <Text color='prominent' size={labelSize}>
-                    Counterparty conditions (optional)
+                    <Localize i18n_default_text='Counterparty conditions (optional)' />
                 </Text>
                 <Text color='less-prominent' size={labelSize}>
-                    Only users who match these criteria will see your ad.
+                    <Localize i18n_default_text='Only users who match these criteria will see your ad.' />
                 </Text>
             </div>
             <AdConditionBlockSelector

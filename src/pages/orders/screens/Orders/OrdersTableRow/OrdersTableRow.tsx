@@ -1,17 +1,22 @@
+import { MouseEvent } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { DeepPartial, THooks } from 'types';
+import { StarRating } from '@/components';
+import { RatingModal } from '@/components/Modals';
 import { ORDERS_STATUS, ORDERS_URL } from '@/constants';
 import { api } from '@/hooks';
-import { useExtendedOrderDetails, useQueryString } from '@/hooks/custom-hooks';
+import { useExtendedOrderDetails, useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderRatingButton, OrderStatusTag, OrderTimer } from '@/pages/orders/components';
-import { getDistanceToServerTime } from '@/utils';
+import { getDistanceToServerTime, isOrderSeen } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './OrdersTableRow.scss';
 
 const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>) => {
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const { queryString } = useQueryString();
     const history = useHistory();
@@ -23,17 +28,21 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
         orderDetails: props as ExtendedOrderDetails,
         serverTime,
     });
+    const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
 
     const distance = getDistanceToServerTime(orderDetails.orderExpiryMilliseconds, serverTime?.server_time_moment);
 
     const {
         account_currency: accountCurrency,
         amount_display: amountDisplay,
+        client_details: clientDetails,
         id,
         isCompletedOrder,
+        isOrderReviewable,
         local_currency: localCurrency,
         price_display: priceDisplay,
         purchaseTime,
+        review_details: reviewDetails,
         shouldHighlightAlert,
         shouldHighlightDanger,
         shouldHighlightDisabled,
@@ -43,11 +52,24 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
     const isBuyOrderForUser = orderDetails.isBuyOrderForUser;
     const transactionAmount = `${Number(priceDisplay).toFixed(2)} ${localCurrency}`;
     const offerAmount = `${amountDisplay} ${accountCurrency}`;
-    const showOrderDetails = () => history.push(`${ORDERS_URL}/${id}`, { from: 'Orders' });
+    const showOrderDetails = () => {
+        if (!isModalOpenFor('RatingModal'))
+            history.push(`${ORDERS_URL}/${id}`, { from: isPast ? 'PastOrders' : 'Orders' });
+    };
+
+    const onClickRatingButton = (event: MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        showModal('RatingModal');
+    };
 
     if (isMobile) {
         return (
-            <div className='flex flex-col' onClick={showOrderDetails}>
+            <div
+                className={clsx('orders-table-row', {
+                    'orders-table-row--unseen': !!activeAccount?.loginid && !isOrderSeen(id, activeAccount.loginid),
+                })}
+                onClick={showOrderDetails}
+            >
                 <div className='flex justify-between'>
                     <Text size='sm' weight='bold'>
                         <OrderStatusTag
@@ -59,7 +81,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
                         />
                     </Text>
                     {!isPast && (
-                        <div className='flex items-center gap-5'>
+                        <div className='orders-table-row__timer-wrapper'>
                             <OrderTimer distance={distance} />
                             <Button
                                 className='h-full p-0'
@@ -75,22 +97,41 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
                             </Button>
                         </div>
                     )}
-                    {isCompletedOrder && <OrderRatingButton />}
+                    {isCompletedOrder && !reviewDetails?.rating && (
+                        <OrderRatingButton isDisabled={!isOrderReviewable} onClick={onClickRatingButton} />
+                    )}
+                    {reviewDetails?.rating && <StarRating isReadonly ratingValue={reviewDetails?.rating} />}
                 </div>
                 <div className='flex gap-1'>
                     <Text size='2xl' weight='bold'>
-                        {`${isBuyOrderForUser ? 'Buy' : 'Sell'} ${offerAmount}`}
+                        {`${isBuyOrderForUser ? localize('Buy') : localize('Sell')} ${offerAmount}`}
                     </Text>
                 </div>
                 <Text color='less-prominent' size='sm'>
                     {purchaseTime}
                 </Text>
+                {!!isModalOpenFor('RatingModal') && (
+                    <RatingModal
+                        isBuyOrder={isBuyOrderForUser}
+                        isModalOpen
+                        isRecommended={clientDetails.is_recommended}
+                        isRecommendedPreviously={!clientDetails.has_not_been_recommended}
+                        onRequestClose={hideModal}
+                        orderId={id}
+                    />
+                )}
             </div>
         );
     }
 
     return (
-        <div className={clsx('orders-table-row', { 'orders-table-row--inactive': isPast })} onClick={showOrderDetails}>
+        <div
+            className={clsx('orders-table-row', {
+                'orders-table-row--inactive': isPast,
+                'orders-table-row--unseen': !!activeAccount?.loginid && !isOrderSeen(id, activeAccount.loginid),
+            })}
+            onClick={showOrderDetails}
+        >
             {isPast && <Text size='sm'>{purchaseTime}</Text>}
             <Text size='sm'>{isBuyOrderForUser ? 'Buy' : 'Sell'}</Text>
             <Text size='sm'>{id}</Text>
@@ -107,7 +148,22 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
             <Text size='sm'>{isBuyOrderForUser ? transactionAmount : offerAmount}</Text>
             <Text size='sm'>{isBuyOrderForUser ? offerAmount : transactionAmount}</Text>
             {!isPast && <OrderTimer distance={distance} />}
-            {isCompletedOrder && <OrderRatingButton />}
+            {isCompletedOrder && !reviewDetails?.rating && (
+                <OrderRatingButton isDisabled={!isOrderReviewable} onClick={onClickRatingButton} />
+            )}
+            {reviewDetails?.rating && (
+                <StarRating className='ml-8' isReadonly ratingValue={reviewDetails?.rating} starsScale={0.8} />
+            )}
+            {!!isModalOpenFor('RatingModal') && (
+                <RatingModal
+                    isBuyOrder={isBuyOrderForUser}
+                    isModalOpen
+                    isRecommended={clientDetails.is_recommended}
+                    isRecommendedPreviously={!clientDetails.has_not_been_recommended}
+                    onRequestClose={hideModal}
+                    orderId={id}
+                />
+            )}
         </div>
     );
 };

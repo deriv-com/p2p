@@ -6,5 +6,6 @@ export * from './counterparty';
 export * from './country';
 export * from './order';
 export * from './order-dispute';
+export * from './order-review';
 export * from './payment-method';
 export * from './settings';
