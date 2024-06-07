@@ -95,61 +95,71 @@ const useExtendedOrderDetails = ({
                     : localize('Your payment details'),
                 resultString: this.isBuyOrder
                     ? localize("You've received {{currency}} {{displayAmount}}", {
-                          currency: this.account_currency,
-                          displayAmount: this.amount_display,
+                          currency: this.p2p_order_info?.account_currency,
+                          displayAmount: this.p2p_order_info?.amount_display,
                       })
                     : localize('You sold {{currency}} {{displayAmount}}', {
-                          currency: this.account_currency,
-                          displayAmount: this.amount_display,
+                          currency: this.p2p_order_info?.account_currency,
+                          displayAmount: this.p2p_order_info?.amount_display,
                       }),
                 rightSendOrReceive: this.isBuyOrder ? localize('Receive') : localize('Send'),
             };
         },
         get displayPaymentAmount() {
-            return removeTrailingZeros(
-                FormatUtils.formatMoney(
-                    Number(this.amount_display) * Number(roundOffDecimal(this.rate, setDecimalPlaces(this.rate, 6))),
-                    { currency: this.local_currency as TCurrency }
-                )
-            );
+            if (this.p2p_order_info?.rate) {
+                return removeTrailingZeros(
+                    FormatUtils.formatMoney(
+                        Number(this.p2p_order_info?.amount_display) *
+                            Number(
+                                roundOffDecimal(
+                                    this.p2p_order_info?.rate,
+                                    setDecimalPlaces(this.p2p_order_info?.rate, 6)
+                                )
+                            ),
+                        { currency: this.p2p_order_info?.local_currency as TCurrency }
+                    )
+                );
+            }
+            return '';
         },
         get hasReviewDetails() {
             return !!this.review_details;
         },
         get hasTimerExpired() {
             const serverTimeAmount = serverTime?.server_time_moment;
-            const expiryTimeMoment = toMoment(this.expiry_time);
+            const expiryTimeMoment = toMoment(this.p2p_order_info?.expiry_time);
             return serverTimeAmount?.isAfter(expiryTimeMoment) ?? false;
         },
         get isActiveOrder() {
             return !this.isInactiveOrder;
         },
         get isBuyerCancelledOrder() {
-            return this.status === ORDERS_STATUS.CANCELLED;
+            return this.p2p_order_info?.status === ORDERS_STATUS.CANCELLED;
         },
         get isBuyerConfirmedOrder() {
-            return this.status === ORDERS_STATUS.BUYER_CONFIRMED;
+            return this.p2p_order_info?.status === ORDERS_STATUS.BUYER_CONFIRMED;
         },
         get isBuyOrder() {
-            return this.type === BUY_SELL.BUY;
+            return this.p2p_order_info?.type === BUY_SELL.BUY;
         },
         get isBuyOrderForUser() {
             return (this.isBuyOrder && !this.isMyAd) || (this.isSellOrder && this.isMyAd);
         },
         get isCompletedOrder() {
+            if (this.p2p_order_info) return this.p2p_order_info?.status === ORDERS_STATUS.COMPLETED;
             return this.status === ORDERS_STATUS.COMPLETED;
         },
         get isDisputeCompletedOrder() {
-            return this.status === ORDERS_STATUS.DISPUTE_COMPLETED;
+            return this.p2p_order_info?.status === ORDERS_STATUS.DISPUTE_COMPLETED;
         },
         get isDisputedOrder() {
-            return this.status === ORDERS_STATUS.DISPUTED;
+            return this.p2p_order_info?.status === ORDERS_STATUS.DISPUTED;
         },
         get isDisputeRefundedOrder() {
-            return this.status === ORDERS_STATUS.DISPUTE_REFUNDED;
+            return this.p2p_order_info?.status === ORDERS_STATUS.DISPUTE_REFUNDED;
         },
         get isExpiredOrder() {
-            return this.status === ORDERS_STATUS.TIMED_OUT;
+            return this.p2p_order_info?.status === ORDERS_STATUS.TIMED_OUT;
         },
         get isExpiredOrOngoingTimerExpired() {
             return this.isExpiredOrder || (this.isOngoingOrder && this.hasTimerExpired);
@@ -170,17 +180,17 @@ const useExtendedOrderDetails = ({
             return this.isBuyerConfirmedOrder || this.isBuyerCancelledOrder;
         },
         get isOrderReviewable() {
-            return this.is_reviewable;
+            return !!this.is_reviewable;
         },
         get isPendingOrder() {
-            return this.status === ORDERS_STATUS.PENDING;
+            return this.p2p_order_info?.status === ORDERS_STATUS.PENDING;
         },
         get isRefundedOrder() {
-            return this.status === ORDERS_STATUS.REFUNDED;
+            return this.p2p_order_info?.status === ORDERS_STATUS.REFUNDED;
         },
 
         get isSellOrder() {
-            return this.type === BUY_SELL.SELL;
+            return this.p2p_order_info?.type === BUY_SELL.SELL;
         },
         get labels() {
             if (this.isMyAd) {
@@ -206,41 +216,42 @@ const useExtendedOrderDetails = ({
                     : localize("Seller's payment details"),
                 resultString: this.isBuyOrder
                     ? localize('You sold {{currency}} {{displayAmount}}', {
-                          currency: this.account_currency,
-                          displayAmount: this.amount_display,
+                          currency: this.p2p_order_info?.account_currency,
+                          displayAmount: this.p2p_order_info?.amount_display,
                       })
                     : localize("You've received {{currency}} {{displayAmount}}", {
-                          currency: this.account_currency,
-                          displayAmount: this.amount_display,
+                          currency: this.p2p_order_info?.account_currency,
+                          displayAmount: this.p2p_order_info?.amount_display,
                       }),
                 rightSendOrReceive: this.isBuyOrder ? localize('Send') : localize('Receive'),
             };
         },
         get orderExpiryMilliseconds() {
-            return convertToMillis(this.expiry_time ?? 0);
+            return convertToMillis(this.p2p_order_info?.expiry_time ?? 0);
         },
         get otherUserDetails() {
             return this.isMyAd ? this.client_details : this.advertiser_details;
         },
         get purchaseTime() {
             return getFormattedDateString(
-                new Date(convertToMillis(this.created_time ?? 0)),
+                new Date(convertToMillis(this.p2p_order_info?.created_time ?? 0)),
                 true,
                 false,
                 this.isInactiveOrder
             );
         },
         get rateAmount() {
+            if (!this.p2p_order_info?.rate) return '';
             return removeTrailingZeros(
-                FormatUtils.formatMoney(this.rate, {
-                    currency: this.local_currency as TCurrency,
-                    decimalPlaces: setDecimalPlaces(this.rate, 6),
+                FormatUtils.formatMoney(this.p2p_order_info?.rate, {
+                    currency: this.p2p_order_info?.local_currency as TCurrency,
+                    decimalPlaces: setDecimalPlaces(this.p2p_order_info?.rate, 6),
                 })
             );
         },
         get remainingSeconds() {
             const serverTimeAmount = serverTime?.server_time_moment;
-            const expiryTimeMoment = toMoment(this.expiry_time);
+            const expiryTimeMoment = toMoment(this.p2p_order_info?.expiry_time);
             return expiryTimeMoment.diff(serverTimeAmount, 'seconds');
         },
         get shouldHighlightAlert() {
