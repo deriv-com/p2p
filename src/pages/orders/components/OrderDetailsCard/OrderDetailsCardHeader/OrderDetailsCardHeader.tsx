@@ -11,11 +11,10 @@ const OrderDetailsCardHeader = () => {
     const {
         displayPaymentAmount,
         hasTimerExpired,
-        id,
         isBuyerConfirmedOrder,
         isPendingOrder,
-        local_currency: localCurrency,
         orderExpiryMilliseconds,
+        p2p_order_info,
         shouldHighlightAlert,
         shouldHighlightDanger,
         shouldHighlightSuccess,
@@ -42,11 +41,11 @@ const OrderDetailsCardHeader = () => {
                 </Text>
                 {!hasTimerExpired && (isPendingOrder || isBuyerConfirmedOrder) && (
                     <Text size={isMobile ? '2xl' : 'xl'}>
-                        {displayPaymentAmount} {localCurrency}
+                        {displayPaymentAmount} {p2p_order_info?.local_currency}
                     </Text>
                 )}
                 <Text color='less-prominent' size={textSize}>
-                    <Localize i18n_default_text='Order ID {{id}}' values={{ id }} />
+                    <Localize i18n_default_text='Order ID {{id}}' values={{ id: p2p_order_info?.id }} />
                 </Text>
             </div>
             {shouldShowOrderTimer && (
