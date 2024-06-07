@@ -34,7 +34,11 @@ const OrderDetails = () => {
     });
     const { isBuyOrderForUser, shouldShowLostFundsBanner } = orderDetails;
     const { isMobile } = useDevice();
-    const { sendFile, userId, ...rest } = useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
+    const { sendFile, userId, ...rest } = useSendbird(
+        orderDetails?.p2p_order_info?.id,
+        !!error,
+        orderDetails?.p2p_order_info?.chat_channel_url ?? ''
+    );
     const { localize } = useTranslations();
 
     const headerText = isBuyOrderForUser ? localize('Buy USD order') : localize('Sell USD order');
@@ -48,6 +52,8 @@ const OrderDetails = () => {
             history.push(`${ORDERS_URL}?tab=Past+orders`);
         else if ((location.state as { from: string })?.from === 'BuySell') history.push(BUY_SELL_URL);
         else history.goBack();
+
+        unsubscribe();
     };
 
     const onChatReturn = () => {
@@ -59,10 +65,6 @@ const OrderDetails = () => {
         subscribe({
             id: orderId,
         });
-
-        return () => {
-            unsubscribe();
-        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orderId]);
 
@@ -76,6 +78,8 @@ const OrderDetails = () => {
             }
         }
     }, [orderId, activeAccount?.loginid]);
+
+    // console.log(orderDetails);
 
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 

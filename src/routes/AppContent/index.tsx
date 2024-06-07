@@ -26,7 +26,7 @@ const AppContent = () => {
 
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
-    const { subscribe: subscribeP2PSettings } = api.settings.useSettings();
+    const { isActive, subscribe: subscribeP2PSettings } = api.settings.useSettings();
     const {
         error,
         isActive: isSubscribed,
@@ -40,18 +40,19 @@ const AppContent = () => {
         if (activeAccountData) {
             subscribeP2PSettings({});
         }
-    }, [activeAccountData, subscribeP2PSettings]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeAccountData]);
 
     useEffect(() => {
-        subscribeAdvertiserInfo({});
-    }, [subscribeAdvertiserInfo]);
+        if (isActive) subscribeAdvertiserInfo({});
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isActive]);
 
     // Need this to subscribe to advertiser info after user has created an advertiser.
     // setHasCreatedAdvertiser is triggered inside of NicknameModal.
     useEffect(() => {
         if (hasCreatedAdvertiser) {
             // Need to pass params to subscribeAdvertiserInfo to trigger the subscription.
-            // @ts-expect-error - passthrough is not a valid parameter
             subscribeAdvertiserInfo({ passthrough: { createdNickname: 'nickname' } });
         }
     }, [hasCreatedAdvertiser, subscribeAdvertiserInfo]);
@@ -80,7 +81,7 @@ const AppContent = () => {
                 >
                     Deriv P2P
                 </Text>
-                {(isLoadingActiveAccount || !activeAccountData) && !isEndpointRoute ? (
+                {isLoadingActiveAccount && !isEndpointRoute ? (
                     <Loader />
                 ) : (
                     <div className='app-content__body'>
