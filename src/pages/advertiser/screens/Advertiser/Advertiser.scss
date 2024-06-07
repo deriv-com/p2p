@@ -10,4 +10,10 @@
         height: calc(100vh - 4rem);
         width: 100%;
     }
+
+    & .page-return {
+        @include mobile {
+            padding: 0.5rem 1.6rem;
+        }
+    }
 }
