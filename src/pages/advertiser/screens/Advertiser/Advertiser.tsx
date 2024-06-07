@@ -48,6 +48,7 @@ const Advertiser = () => {
                         />
                     ),
                 })}
+                size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />
             <AdvertiserBlockOverlay
