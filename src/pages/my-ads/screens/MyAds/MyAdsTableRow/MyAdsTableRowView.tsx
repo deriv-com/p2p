@@ -266,7 +266,6 @@ const MyAdsTableRowView = ({
                     formValues={formValues}
                     isModalOpen
                     onFormSubmit={onSubmit}
-                    onRequestClose={hideModal}
                     {...rest}
                     onClickCancel={onClickCancel}
                 />

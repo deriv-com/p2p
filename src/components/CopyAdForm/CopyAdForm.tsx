@@ -23,7 +23,6 @@ type TCopyAdFormProps = NonUndefined<THooks.AdvertiserAdverts.Get>[0] & {
     isModalOpen: boolean;
     onClickCancel: (values: TSavedFormValues) => void;
     onFormSubmit: (values: TSavedFormValues) => void;
-    onRequestClose: () => void;
 };
 
 type TFormValues = {
@@ -35,14 +34,7 @@ type TFormValues = {
     'rate-value': string;
 };
 
-const CopyAdForm = ({
-    formValues,
-    isModalOpen,
-    onClickCancel,
-    onFormSubmit,
-    onRequestClose,
-    ...rest
-}: TCopyAdFormProps) => {
+const CopyAdForm = ({ formValues, isModalOpen, onClickCancel, onFormSubmit, ...rest }: TCopyAdFormProps) => {
     const {
         account_currency: currency,
         amount,
@@ -130,7 +122,6 @@ const CopyAdForm = ({
                             rateValue: getValues('rate-value'),
                         })
                     }
-                    onRequestClose={onRequestClose}
                     onSubmit={onSubmit}
                 >
                     <div className='copy-ad-form'>

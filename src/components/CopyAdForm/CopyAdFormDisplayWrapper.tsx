@@ -8,7 +8,6 @@ type TCopyAdFormDisplayWrapperProps = {
     isModalOpen: boolean;
     isValid: boolean;
     onClickCancel: () => void;
-    onRequestClose: () => void;
     onSubmit: () => void;
 };
 const CopyAdFormDisplayWrapper = ({
@@ -16,7 +15,6 @@ const CopyAdFormDisplayWrapper = ({
     isModalOpen,
     isValid,
     onClickCancel,
-    onRequestClose,
     onSubmit,
 }: PropsWithChildren<TCopyAdFormDisplayWrapperProps>) => {
     const { isMobile } = useDevice();
@@ -25,7 +23,6 @@ const CopyAdFormDisplayWrapper = ({
         return (
             <FullPageMobileWrapper
                 className='copy-ad-form__full-page-modal'
-                onBack={onRequestClose}
                 renderFooter={() => (
                     <CopyAdFormFooter isValid={isValid} onClickCancel={onClickCancel} onSubmit={onSubmit} />
                 )}

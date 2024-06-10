@@ -6,7 +6,6 @@ const mockProps = {
     isModalOpen: true,
     isValid: true,
     onClickCancel: jest.fn(),
-    onRequestClose: jest.fn(),
     onSubmit: jest.fn(),
 };
 
