@@ -9,7 +9,6 @@ import './ProfileContent.scss';
 
 type TProfileContentProps = {
     data: TAdvertiserStats;
-    id?: string;
     setAdvertiserName?: (name: string) => void;
     setShowOverlay?: Dispatch<SetStateAction<boolean>>;
 };
