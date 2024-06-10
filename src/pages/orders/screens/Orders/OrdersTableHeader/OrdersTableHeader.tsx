@@ -1,3 +1,4 @@
+import { DatePicker } from '@/components';
 import { ORDERS_STATUS } from '@/constants/orders';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { getLocalizedTabs } from '@/utils/tabs';
@@ -30,6 +31,7 @@ const OrdersTableHeader = ({ activeTab }: TOrdersTableHeaderProps) => {
                 <Tab title={localize('Active orders')} />
                 <Tab title={localize('Past orders')} />
             </Tabs>
+            <DatePicker defaultValue='' label='dafds' onDateChange={value => console.log(value)} />
         </div>
     );
 };
