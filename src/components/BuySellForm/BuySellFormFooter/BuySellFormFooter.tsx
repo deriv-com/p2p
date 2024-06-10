@@ -1,3 +1,4 @@
+import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 
 type TBuySellFormFooterProps = {
@@ -17,7 +18,7 @@ const BuySellFormFooter = ({ isDisabled, onClickCancel, onSubmit }: TBuySellForm
                 textSize={isMobile ? 'md' : 'sm'}
                 variant='outlined'
             >
-                Cancel
+                <Localize i18n_default_text='Cancel' />
             </Button>
             <Button
                 disabled={isDisabled}
@@ -26,7 +27,7 @@ const BuySellFormFooter = ({ isDisabled, onClickCancel, onSubmit }: TBuySellForm
                 textSize={isMobile ? 'md' : 'sm'}
                 type='submit'
             >
-                Confirm
+                <Localize i18n_default_text='Confirm' />
             </Button>
         </div>
     );

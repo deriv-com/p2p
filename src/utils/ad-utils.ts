@@ -79,7 +79,11 @@ export const getValidationRules = (
             };
         case 'rate-value':
             return {
-                validation_1: value => requiredValidation(value, 'Fixed rate'),
+                validation_1: value =>
+                    requiredValidation(
+                        value,
+                        getValues('rate-type-string') === RATE_TYPE.FIXED ? 'Fixed rate' : 'Floating rate'
+                    ),
                 validation_2: value => !isNaN(Number(value)) || localize('Enter a valid amount'),
                 validation_3: value => {
                     if (getValues('rate-type-string') === RATE_TYPE.FIXED) {
