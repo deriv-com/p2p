@@ -41,6 +41,7 @@ const MyProfile = () => {
     useEffect(() => {
         const isPoaPoiVerified = (!isP2PPoaRequired || isPoaVerified) && isPoiVerified;
         if (isPoaPoiVerified && !isAdvertiser) showModal('NicknameModal');
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAdvertiser, isP2PPoaRequired, isPoaVerified, isPoiVerified]);
 
     if (isLoading && !advertiserStats) {
@@ -62,7 +63,7 @@ const MyProfile = () => {
 
     return (
         <div className='my-profile'>
-            <ProfileContent />
+            <ProfileContent data={advertiserStats} />
             <Tabs
                 activeTab={(currentTab !== 'default' && currentTab) || 'Stats'}
                 className='my-profile__tabs'
