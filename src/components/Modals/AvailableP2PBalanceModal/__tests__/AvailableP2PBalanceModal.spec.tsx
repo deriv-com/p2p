@@ -20,7 +20,7 @@ describe('AvailableP2PBalanceModal', () => {
     it('should perform callback to onRequestClose when Ok button is clicked', async () => {
         render(<MockApp />);
         const okBtn = screen.getByRole('button', {
-            name: 'Ok',
+            name: 'OK',
         });
         await userEvent.click(okBtn);
         expect(mockOnRequestClose).toBeCalled();
