@@ -66,8 +66,6 @@ const useOrderInfo = () => {
         };
     }, [data]);
 
-    // console.log(data);
-
     return {
         /** The 'p2p_order_info' response. */
         data: modified_data,

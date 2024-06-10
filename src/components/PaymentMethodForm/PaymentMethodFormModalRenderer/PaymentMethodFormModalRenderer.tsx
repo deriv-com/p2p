@@ -44,7 +44,7 @@ const PaymentMethodFormModalRenderer = ({
         <>
             {!!isModalOpenFor('PaymentMethodErrorModal') && (
                 <PaymentMethodErrorModal
-                    errorMessage={String(createError?.error?.message || updateError?.error?.message)}
+                    errorMessage={String(createError?.message || updateError?.message)}
                     isModalOpen={!!isModalOpenFor('PaymentMethodErrorModal')}
                     onConfirm={() => {
                         onResetFormState();

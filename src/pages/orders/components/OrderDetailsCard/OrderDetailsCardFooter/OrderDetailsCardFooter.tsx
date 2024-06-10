@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import {
     EmailLinkBlockedModal,
     EmailLinkVerifiedModal,
@@ -24,17 +24,17 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     const [showRatingModal, setShowRatingModal] = useState(false);
     const { orderDetails } = useOrderDetails();
     const {
-        id,
         isBuyOrderForUser,
         isCompletedOrder,
+        p2p_order_info,
         shouldShowCancelAndPaidButton,
         shouldShowComplainAndReceivedButton,
         shouldShowOnlyComplainButton,
         shouldShowOnlyReceivedButton,
-        verification_next_request: verificationNextRequest,
         // verification_token_expiry: verificationTokenExpiry,
     } = orderDetails;
 
+    const { orderId: id } = useParams<{ orderId: string }>();
     const { isMobile } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { data, error, isError, isSuccess, mutate, reset } = api.order.useConfirm();
@@ -45,7 +45,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
 
     const handleModalDisplay = (code?: string) => {
         if (isError) {
-            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && verificationNextRequest) {
+            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && p2p_order_info?.verification_next_request) {
                 showModal('EmailVerificationModal');
             } else if (
                 code === ERROR_CODES.INVALID_VERIFICATION_TOKEN ||
@@ -103,16 +103,18 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     }, [verificationCode]);
 
     useEffect(() => {
-        handleModalDisplay(error?.error?.code);
+        // @ts-expect-error types are not correct from api-hooks
+        handleModalDisplay(error?.code);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-        error?.error,
+        // @ts-expect-error types are not correct from api-hooks
+        error?.code,
         isBuyOrderForUser,
         isError,
         isSuccess,
-        verificationNextRequest,
+        p2p_order_info?.verification_next_request,
         data?.is_dry_run_successful,
-        orderDetails?.status,
+        orderDetails?.p2p_order_info?.status,
     ]);
 
     // TODO: Uncomment this block when implementing email link has expired modal
@@ -229,14 +231,15 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             {!!isModalOpenFor('EmailVerificationModal') && (
                 <EmailVerificationModal
                     isModalOpen
-                    nextRequestTime={verificationNextRequest!}
+                    nextRequestTime={p2p_order_info!.verification_next_request!}
                     onRequestClose={hideModal}
                     onResendEmail={() => mutate({ id })}
                 />
             )}
             {!!isModalOpenFor('InvalidVerificationLinkModal') && (
                 <InvalidVerificationLinkModal
-                    error={error?.error}
+                    // @ts-expect-error types are not correct from api-hooks
+                    error={error}
                     isModalOpen
                     mutate={() => mutate({ id })}
                     onRequestClose={() => {
@@ -247,7 +250,8 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             )}
             {!!isModalOpenFor('EmailLinkBlockedModal') && (
                 <EmailLinkBlockedModal
-                    errorMessage={error?.error.message}
+                    // @ts-expect-error types are not correct from api-hooks
+                    errorMessage={error?.message}
                     isModalOpen
                     onRequestClose={hideAndClearSearchParams}
                 />

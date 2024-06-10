@@ -54,16 +54,22 @@ const MyAdsTableRowView = ({
     } = rest;
 
     useEffect(() => {
-        if (isError && error?.error?.message) {
+        // @ts-expect-error types are not correct from api-hooks
+        if (isError && error?.message) {
             showModal('MyAdsDeleteModal');
         }
-    }, [error?.error?.message, isError]);
+        // @ts-expect-error types are not correct from api-hooks
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [error?.message, isError]);
 
     useEffect(() => {
-        if (isErrorUpdate && updateError?.error?.message) {
+        // @ts-expect-error types are not correct from api-hooks
+        if (isErrorUpdate && updateError?.message) {
             showModal('ErrorModal');
         }
-    }, [updateError?.error?.message]);
+        // @ts-expect-error types are not correct from api-hooks
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updateError?.message]);
 
     const onClickIcon = (action: string) => {
         switch (action) {
@@ -117,9 +123,11 @@ const MyAdsTableRowView = ({
             )}
             {!!isModalOpenFor('MyAdsDeleteModal') && (
                 <MyAdsDeleteModal
-                    error={error?.error?.message}
+                    // @ts-expect-error types are not correct from api-hooks
+                    error={error?.message}
                     id={id}
-                    isModalOpen={!!isModalOpenFor('MyAdsDeleteModal') || !!error?.error?.message}
+                    // @ts-expect-error types are not correct from api-hooks
+                    isModalOpen={!!isModalOpenFor('MyAdsDeleteModal') || !!error?.message}
                     onClickDelete={onClickDelete}
                     onRequestClose={hideModal}
                 />
@@ -137,7 +145,8 @@ const MyAdsTableRowView = ({
                 />
             )}
             {!!isModalOpenFor('ErrorModal') && (
-                <ErrorModal isModalOpen message={updateError?.error?.message} onRequestClose={hideModal} />
+                // @ts-expect-error types are not correct from api-hooks
+                <ErrorModal isModalOpen message={updateError?.message} onRequestClose={hideModal} />
             )}
             {!!isModalOpenFor('AdVisibilityErrorModal') && (
                 <AdVisibilityErrorModal
