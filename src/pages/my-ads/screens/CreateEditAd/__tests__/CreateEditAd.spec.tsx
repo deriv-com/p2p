@@ -206,6 +206,8 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: () => ({ isMobile: false }),
 }));
 
+jest.mock('@/hooks/api/useInvalidateQuery', () => jest.fn(() => jest.fn()));
+
 describe('CreateEditAd', () => {
     it('should render the create edit ad component', () => {
         render(<CreateEditAd />);

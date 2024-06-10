@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TCurrency } from 'types';
 import { MY_ADS_URL } from '@/constants';
+import useInvalidateQuery from '@/hooks/api/useInvalidateQuery';
 import { Localize } from '@deriv-com/translations';
 import { Button, Checkbox, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdCreateEditSuccessModal.scss';
@@ -24,6 +25,7 @@ const AdCreateEditSuccessModal = ({
     visibilityStatus,
 }: TAdCreateEditSuccessModalProps) => {
     const { isMobile } = useDevice();
+    const invalidate = useInvalidateQuery();
     const history = useHistory();
     const [isChecked, setIsChecked] = useState(false);
     const textSize = isMobile ? 'md' : 'sm';
@@ -43,6 +45,7 @@ const AdCreateEditSuccessModal = ({
         } else {
             history.push(MY_ADS_URL);
         }
+        invalidate('p2p_advertiser_adverts');
         onRequestClose();
     };
     return (
