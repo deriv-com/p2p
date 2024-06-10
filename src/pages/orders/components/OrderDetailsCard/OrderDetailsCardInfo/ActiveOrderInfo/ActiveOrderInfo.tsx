@@ -28,7 +28,7 @@ const ActiveOrderInfo = () => {
                 <LightDivider />
                 <PaymentMethodAccordion
                     paymentDetails={labels.paymentDetails}
-                    paymentInfo={paymentInfo}
+                    paymentInfo={paymentInfo || ''}
                     paymentMethodDetails={paymentMethodDetails}
                 />
                 <LightDivider />

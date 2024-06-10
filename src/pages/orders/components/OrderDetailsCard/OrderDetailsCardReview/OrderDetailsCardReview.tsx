@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { StarRating } from '@/components';
 import { RatingModal } from '@/components/Modals';
 import { api } from '@/hooks';
@@ -18,14 +17,14 @@ type TOrderDetailsCardReviewProps = {
 
 const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderDetailsCardReviewProps) => {
     const { orderDetails } = useOrderDetails();
-    const { orderId: id } = useParams<{ orderId: string }>();
     const {
         client_details: clientDetails,
+        completion_time: completionTime,
         hasReviewDetails,
+        id,
         is_reviewable: isReviewable,
         isBuyOrderForUser,
         isCompletedOrder,
-        p2p_order_info: p2pOrderInfo,
         review_details: reviewDetails,
     } = orderDetails;
     const { data: p2pSettingsData } = api.settings.useSettings();
@@ -39,10 +38,10 @@ const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderD
     }, [showModal, showRatingModal]);
 
     useEffect(() => {
-        if (p2pOrderInfo?.completion_time && p2pSettingsData?.review_period) {
-            setRemainingReviewTime(getDateAfterHours(p2pOrderInfo?.completion_time, p2pSettingsData.review_period));
+        if (completionTime && p2pSettingsData?.review_period) {
+            setRemainingReviewTime(getDateAfterHours(completionTime, p2pSettingsData.review_period));
         }
-    }, [p2pOrderInfo?.completion_time, p2pSettingsData?.review_period]);
+    }, [completionTime, p2pSettingsData?.review_period]);
 
     if (isCompletedOrder && !hasReviewDetails)
         return (

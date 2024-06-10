@@ -5,10 +5,12 @@ import { ActiveOrderInfo } from './ActiveOrderInfo';
 const OrderDetailsCardInfo = () => {
     const { orderDetails } = useOrderDetails();
     const {
+        account_currency: accountCurrency,
+        amount_display: amountDisplay,
         displayPaymentAmount,
         labels,
+        local_currency: localCurrency,
         otherUserDetails,
-        p2p_order_info: p2pOrderInfo,
         purchaseTime,
         rateAmount,
     } = orderDetails;
@@ -20,14 +22,14 @@ const OrderDetailsCardInfo = () => {
             text: labels.counterpartyRealNameLabel,
             value: `${otherUserDetails.first_name} ${otherUserDetails.last_name}`,
         },
-        { text: labels.leftSendOrReceive, value: `${displayPaymentAmount} ${p2pOrderInfo?.local_currency}` },
+        { text: labels.leftSendOrReceive, value: `${displayPaymentAmount} ${localCurrency}` },
         {
             text: labels.rightSendOrReceive,
-            value: `${p2pOrderInfo?.amount_display} ${p2pOrderInfo?.account_currency}`,
+            value: `${amountDisplay} ${accountCurrency}`,
         },
         {
-            text: `Rate (1 ${p2pOrderInfo?.account_currency})`,
-            value: `${rateAmount} ${p2pOrderInfo?.local_currency}`,
+            text: `Rate (1 ${accountCurrency})`,
+            value: `${rateAmount} ${localCurrency}`,
         },
         { text: 'Time', value: purchaseTime },
     ];

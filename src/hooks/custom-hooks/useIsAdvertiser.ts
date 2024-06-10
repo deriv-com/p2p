@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck error types are not correct from api-hooks
+// TODO: fix error types from api-hooks
 import { useEffect, useState } from 'react';
 import { ERROR_CODES } from '@/constants';
 import { isEmptyObject } from '@/utils';
@@ -12,7 +15,6 @@ const useIsAdvertiser = (): boolean => {
     const [isAdvertiser, setIsAdvertiser] = useState(!error && !isEmptyObject(data));
 
     useEffect(() => {
-        // @ts-expect-error types are not correct from api-hooks
         if (error && error?.code === ERROR_CODES.ADVERTISER_NOT_FOUND) {
             setIsAdvertiser(false);
         } else if (!error && !isEmptyObject(data)) {

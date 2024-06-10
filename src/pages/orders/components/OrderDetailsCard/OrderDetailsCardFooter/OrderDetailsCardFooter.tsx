@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
     EmailLinkBlockedModal,
     EmailLinkVerifiedModal,
@@ -24,17 +24,16 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     const [showRatingModal, setShowRatingModal] = useState(false);
     const { orderDetails } = useOrderDetails();
     const {
+        id,
         isBuyOrderForUser,
         isCompletedOrder,
-        p2p_order_info: p2pOrderInfo,
         shouldShowCancelAndPaidButton,
         shouldShowComplainAndReceivedButton,
         shouldShowOnlyComplainButton,
         shouldShowOnlyReceivedButton,
-        // verification_token_expiry: verificationTokenExpiry,
+        verification_token_expiry: verificationTokenExpiry,
     } = orderDetails;
 
-    const { orderId: id } = useParams<{ orderId: string }>();
     const { isMobile } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { data, error, isError, isSuccess, mutate, reset } = api.order.useConfirm();
@@ -45,7 +44,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
 
     const handleModalDisplay = (code?: string) => {
         if (isError) {
-            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && p2pOrderInfo?.verification_next_request) {
+            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && verificationTokenExpiry) {
                 showModal('EmailVerificationModal');
             } else if (
                 code === ERROR_CODES.INVALID_VERIFICATION_TOKEN ||
@@ -112,9 +111,9 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
         isBuyOrderForUser,
         isError,
         isSuccess,
-        p2pOrderInfo?.verification_next_request,
+        verificationTokenExpiry,
         data?.is_dry_run_successful,
-        p2pOrderInfo?.status,
+        orderDetails.status,
     ]);
 
     // TODO: Uncomment this block when implementing email link has expired modal
@@ -231,7 +230,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             {!!isModalOpenFor('EmailVerificationModal') && (
                 <EmailVerificationModal
                     isModalOpen
-                    nextRequestTime={p2pOrderInfo!.verification_next_request!}
+                    nextRequestTime={verificationTokenExpiry!}
                     onRequestClose={hideModal}
                     onResendEmail={() => mutate({ id })}
                 />
