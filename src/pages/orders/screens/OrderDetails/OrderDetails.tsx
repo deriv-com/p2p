@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck error types are not correct from api-hooks
+// TODO: fix error types from api-hooks
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
@@ -34,11 +37,7 @@ const OrderDetails = () => {
     });
     const { isBuyOrderForUser, shouldShowLostFundsBanner } = orderDetails;
     const { isMobile } = useDevice();
-    const { sendFile, userId, ...rest } = useSendbird(
-        orderDetails?.p2p_order_info?.id,
-        !!error,
-        orderDetails?.p2p_order_info?.chat_channel_url ?? ''
-    );
+    const { sendFile, userId, ...rest } = useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
     const { localize } = useTranslations();
     const { data: activeAccountData } = api.account.useActiveAccount();
 
@@ -84,7 +83,6 @@ const OrderDetails = () => {
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 
     // TODO: replace with proper error screen once design is ready
-    // @ts-expect-error types are not correct from api-hooks
     if (error) return <Text>{error?.message}</Text>;
 
     if (isMobile) {

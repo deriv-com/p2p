@@ -22,7 +22,7 @@ const useOrderInfo = () => {
         } = data.p2p_order_info;
 
         return {
-            ...data,
+            ...data.p2p_order_info,
             advert_details: {
                 ...advert_details,
                 /** Indicates if this is block trade advert or not. */

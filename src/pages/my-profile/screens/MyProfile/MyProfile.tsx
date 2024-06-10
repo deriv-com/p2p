@@ -55,7 +55,7 @@ const MyProfile = () => {
     if (isMobile) {
         return (
             <div className='my-profile'>
-                <MyProfileMobile />
+                <MyProfileMobile data={advertiserStats} />
                 {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
             </div>
         );
