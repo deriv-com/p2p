@@ -226,8 +226,10 @@ const CreateEditAd = () => {
                 </form>
             </FormProvider>
             <AdCreateEditErrorModal
-                errorCode={(error?.error?.code || updateError?.error?.code) as TErrorCodes}
-                errorMessage={(error?.error?.message || updateError?.error?.message) ?? 'Something’s not right'}
+                // @ts-expect-error types are not correct from api-hooks
+                errorCode={(error?.code || updateError?.code) as TErrorCodes}
+                // @ts-expect-error types are not correct from api-hooks
+                errorMessage={(error?.message || updateError?.message) ?? 'Something’s not right'}
                 isModalOpen={!!isModalOpenFor('AdCreateEditErrorModal')}
                 onRequestClose={hideModal}
             />

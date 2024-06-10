@@ -40,6 +40,7 @@ const OrderDetails = () => {
         orderDetails?.p2p_order_info?.chat_channel_url ?? ''
     );
     const { localize } = useTranslations();
+    const { data: activeAccountData } = api.account.useActiveAccount();
 
     const headerText = isBuyOrderForUser ? localize('Buy USD order') : localize('Sell USD order');
     const warningMessage = localize(
@@ -62,11 +63,12 @@ const OrderDetails = () => {
     };
 
     useEffect(() => {
-        subscribe({
-            id: orderId,
-        });
+        if (activeAccountData)
+            subscribe({
+                id: orderId,
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [orderId]);
+    }, [activeAccountData, orderId]);
 
     useEffect(() => {
         if (orderId && activeAccount?.loginid) {
@@ -79,12 +81,11 @@ const OrderDetails = () => {
         }
     }, [orderId, activeAccount?.loginid]);
 
-    // console.log(orderDetails);
-
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 
     // TODO: replace with proper error screen once design is ready
-    if (error) return <Text>{error?.error?.message}</Text>;
+    // @ts-expect-error types are not correct from api-hooks
+    if (error) return <Text>{error?.message}</Text>;
 
     if (isMobile) {
         return (
