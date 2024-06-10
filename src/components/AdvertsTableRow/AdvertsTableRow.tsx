@@ -167,14 +167,14 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         {payment_method_names ? (
                             payment_method_names.map((method: string, idx: number) => (
                                 <PaymentMethodLabel
-                                    color={textColor}
+                                    color='general'
                                     key={idx}
                                     paymentMethodName={method}
-                                    size={isMobile ? 'sm' : 'xs'}
+                                    size={isMobile ? 'xs' : 'sm'}
                                 />
                             ))
                         ) : (
-                            <PaymentMethodLabel color={textColor} paymentMethodName='-' />
+                            <PaymentMethodLabel color='general' paymentMethodName='-' />
                         )}
                     </div>
                 </Container>

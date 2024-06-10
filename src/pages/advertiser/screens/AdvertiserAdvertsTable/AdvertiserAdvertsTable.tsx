@@ -5,6 +5,7 @@ import { ErrorModal, LoadingModal } from '@/components/Modals';
 import { ADVERT_TYPE, BUY_SELL, BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, useQueryString } from '@/hooks/custom-hooks';
+import { getLocalizedTabs } from '@/utils/tabs';
 import { useTranslations } from '@deriv-com/translations';
 import { Tab, Tabs } from '@deriv-com/ui';
 import { AdvertsTableRenderer } from './AdvertsTableRenderer';
@@ -76,7 +77,12 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
 
     return (
         <div className='advertiser-adverts-table'>
-            <Tabs activeTab={activeTab} className='lg:w-80 lg:mt-10' onChange={setActiveTab} variant='secondary'>
+            <Tabs
+                activeTab={getLocalizedTabs(localize)[activeTab]}
+                className='lg:w-80 lg:mt-10'
+                onChange={setActiveTab}
+                variant='secondary'
+            >
                 <Tab className='text-xs' title={localize('Buy')} />
                 <Tab title={localize('Sell')} />
             </Tabs>

@@ -56,6 +56,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const { data } = api.advertiser.useGetInfo() || {};
     const [errorMessage, setErrorMessage] = useState('');
     const scrollRef = useRef<HTMLDivElement>(null);
+    const [isHidden, setIsHidden] = useState(false);
     const {
         balance_available = '',
         daily_buy = 0,
@@ -154,6 +155,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         getValues,
         handleSubmit,
         setValue,
+        trigger,
     } = useForm({
         defaultValues: {
             amount: min_order_amount_limit ?? 1,
@@ -224,6 +226,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
             <BuySellFormDisplayWrapper
                 accountCurrency={account_currency as TCurrency}
                 isBuy={isBuy}
+                isHidden={isHidden}
                 isModalOpen={isModalOpen}
                 isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
                 onRequestClose={onRequestClose}
@@ -264,6 +267,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                         availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
                         onSelectPaymentMethodCard={onSelectPaymentMethodCard}
                         selectedPaymentMethodIds={selectedPaymentMethods}
+                        setIsHidden={setIsHidden}
                     />
                 )}
                 <BuySellAmount
@@ -283,6 +287,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     minLimit={min_order_amount_limit_display ?? '0'}
                     paymentMethodNames={payment_method_names}
                     setValue={setValue as unknown as (name: string, value: string) => void}
+                    trigger={trigger as unknown as () => Promise<boolean>}
                 />
             </BuySellFormDisplayWrapper>
         </form>

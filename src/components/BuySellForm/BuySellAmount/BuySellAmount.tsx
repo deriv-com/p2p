@@ -20,6 +20,7 @@ type TBuySellAmountProps = {
     minLimit: string;
     paymentMethodNames?: string[];
     setValue: ReturnType<typeof useForm>['setValue'];
+    trigger: ReturnType<typeof useForm>['trigger'];
 };
 const BuySellAmount = ({
     accountCurrency,
@@ -33,6 +34,7 @@ const BuySellAmount = ({
     minLimit,
     paymentMethodNames,
     setValue,
+    trigger,
 }: TBuySellAmountProps) => {
     const { isMobile } = useDevice();
     const labelSize = isMobile ? 'sm' : 'xs';
@@ -52,7 +54,8 @@ const BuySellAmount = ({
     useEffect(() => {
         setInputValue(minLimit);
         setValue('amount', minLimit);
-    }, [minLimit, setValue]);
+        trigger('amount');
+    }, [minLimit, setValue, trigger]);
 
     return (
         <div className='flex flex-col gap-[2rem] py-[1.6rem]'>
