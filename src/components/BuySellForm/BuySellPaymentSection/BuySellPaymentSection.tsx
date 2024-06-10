@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { Dispatch, SetStateAction, useCallback, useReducer } from 'react';
 import { TPaymentMethod, TSelectedPaymentMethod } from 'types';
 import { LightDivider, PaymentMethodForm } from '@/components';
 import { useModalManager } from '@/hooks';
@@ -12,12 +12,14 @@ type TBuySellPaymentSectionProps = {
     availablePaymentMethods: (TPaymentMethod & { isAvailable?: boolean })[];
     onSelectPaymentMethodCard?: (paymentMethodId: number) => void;
     selectedPaymentMethodIds: number[];
+    setIsHidden?: Dispatch<SetStateAction<boolean>>;
 };
 
 const BuySellPaymentSection = ({
     availablePaymentMethods,
     onSelectPaymentMethodCard,
     selectedPaymentMethodIds,
+    setIsHidden,
 }: TBuySellPaymentSectionProps) => {
     const { isMobile } = useDevice();
     const sortedList = sortPaymentMethodsWithAvailability(availablePaymentMethods);
@@ -61,6 +63,7 @@ const BuySellPaymentSection = ({
                             key={index}
                             medium
                             onClickAdd={() => {
+                                setIsHidden?.(true);
                                 showModal('PaymentMethodForm', { shouldStackModals: false });
                                 handleAddPaymentMethod(paymentMethod?.display_name, paymentMethod);
                             }}
@@ -76,7 +79,10 @@ const BuySellPaymentSection = ({
                 <PaymentMethodForm
                     displayModal={!isMobile && !!isModalOpenFor('PaymentMethodForm')}
                     formState={formState}
-                    onRequestClose={hideModal}
+                    onRequestClose={() => {
+                        hideModal();
+                        setIsHidden?.(false);
+                    }}
                     onResetFormState={handleResetFormState}
                 />
             )}
