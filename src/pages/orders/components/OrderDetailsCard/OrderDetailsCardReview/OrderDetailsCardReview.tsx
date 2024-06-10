@@ -25,7 +25,7 @@ const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderD
         is_reviewable: isReviewable,
         isBuyOrderForUser,
         isCompletedOrder,
-        p2p_order_info,
+        p2p_order_info: p2pOrderInfo,
         review_details: reviewDetails,
     } = orderDetails;
     const { data: p2pSettingsData } = api.settings.useSettings();
@@ -39,10 +39,10 @@ const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderD
     }, [showModal, showRatingModal]);
 
     useEffect(() => {
-        if (p2p_order_info?.completion_time && p2pSettingsData?.review_period) {
-            setRemainingReviewTime(getDateAfterHours(p2p_order_info?.completion_time, p2pSettingsData.review_period));
+        if (p2pOrderInfo?.completion_time && p2pSettingsData?.review_period) {
+            setRemainingReviewTime(getDateAfterHours(p2pOrderInfo?.completion_time, p2pSettingsData.review_period));
         }
-    }, [p2p_order_info?.completion_time, p2pSettingsData?.review_period]);
+    }, [p2pOrderInfo?.completion_time, p2pSettingsData?.review_period]);
 
     if (isCompletedOrder && !hasReviewDetails)
         return (

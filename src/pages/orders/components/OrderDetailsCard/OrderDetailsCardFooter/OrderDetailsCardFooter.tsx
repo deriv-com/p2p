@@ -26,7 +26,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     const {
         isBuyOrderForUser,
         isCompletedOrder,
-        p2p_order_info,
+        p2p_order_info: p2pOrderInfo,
         shouldShowCancelAndPaidButton,
         shouldShowComplainAndReceivedButton,
         shouldShowOnlyComplainButton,
@@ -45,7 +45,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
 
     const handleModalDisplay = (code?: string) => {
         if (isError) {
-            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && p2p_order_info?.verification_next_request) {
+            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && p2pOrderInfo?.verification_next_request) {
                 showModal('EmailVerificationModal');
             } else if (
                 code === ERROR_CODES.INVALID_VERIFICATION_TOKEN ||
@@ -112,9 +112,9 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
         isBuyOrderForUser,
         isError,
         isSuccess,
-        p2p_order_info?.verification_next_request,
+        p2pOrderInfo?.verification_next_request,
         data?.is_dry_run_successful,
-        orderDetails?.p2p_order_info?.status,
+        p2pOrderInfo?.status,
     ]);
 
     // TODO: Uncomment this block when implementing email link has expired modal
@@ -231,7 +231,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             {!!isModalOpenFor('EmailVerificationModal') && (
                 <EmailVerificationModal
                     isModalOpen
-                    nextRequestTime={p2p_order_info!.verification_next_request!}
+                    nextRequestTime={p2pOrderInfo!.verification_next_request!}
                     onRequestClose={hideModal}
                     onResendEmail={() => mutate({ id })}
                 />
