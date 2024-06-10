@@ -159,6 +159,7 @@ const CreateEditAd = () => {
         } else if (isError || isUpdateError) {
             showModal('AdCreateEditErrorModal');
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, history, shouldNotShowArchiveMessageAgain, isError, isUpdateSuccess, isUpdateError]);
 
     const setInitialAdRate = () => {
@@ -195,6 +196,7 @@ const CreateEditAd = () => {
                 setValue('payment-method', paymentMethodKeys);
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [setValue, paymentMethodList, countryList]
     );
 

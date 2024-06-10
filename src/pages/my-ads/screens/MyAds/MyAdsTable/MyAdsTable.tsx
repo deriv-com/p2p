@@ -65,6 +65,7 @@ const MyAdsTable = () => {
         if (isAdvertiser) {
             get();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAdvertiser]);
 
     if (isLoading && isFetching) return <Loader />;
