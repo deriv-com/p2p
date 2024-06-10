@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck error types are not correct from api-hooks
+// TODO: fix error types from api-hooks
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BUY_SELL_URL } from '@/constants';
