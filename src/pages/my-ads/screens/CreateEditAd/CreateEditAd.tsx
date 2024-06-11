@@ -51,6 +51,7 @@ const CreateEditAd = () => {
     const { order_payment_period: orderPaymentPeriod } = p2pSettings ?? {};
     const { data: createResponse, error, isError, isSuccess, mutate } = api.advert.useCreate();
     const {
+        data: updateResponse,
         error: updateError,
         isError: isUpdateError,
         isSuccess: isUpdateSuccess,
@@ -241,11 +242,9 @@ const CreateEditAd = () => {
             />
             <AdCreateEditSuccessModal
                 advertsArchivePeriod={orderPaymentPeriod}
-                currency={createResponse?.account_currency as TCurrency}
+                data={isEdit ? updateResponse : createResponse}
                 isModalOpen={!!isModalOpenFor('AdCreateEditSuccessModal')}
-                limit={createResponse?.max_order_amount_limit_display ?? ''}
                 onRequestClose={hideModal}
-                visibilityStatus={createResponse?.visibility_status?.[0] ?? ''}
             />
             <AdCancelCreateEditModal
                 isModalOpen={!!isModalOpenFor('AdCancelCreateEditModal')}

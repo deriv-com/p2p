@@ -1,16 +1,18 @@
 import { TCurrency } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import AdCreateEditSuccessModal from '../AdCreateEditSuccessModal';
+import AdCreateEditSuccessModal, { TAdCreateEditSuccessModalProps } from '../AdCreateEditSuccessModal';
 
 const mockProps = {
     advertsArchivePeriod: 7,
-    currency: 'USD' as TCurrency,
+    data: {
+        account_currency: 'USD' as TCurrency,
+        max_order_amount_limit_display: '1000',
+        visibility_status: '',
+    },
     isModalOpen: true,
-    limit: '1000',
     onRequestClose: jest.fn(),
-    visibilityStatus: '',
-};
+} as unknown as TAdCreateEditSuccessModalProps;
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
