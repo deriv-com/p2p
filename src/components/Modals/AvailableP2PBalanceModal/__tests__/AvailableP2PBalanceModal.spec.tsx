@@ -17,10 +17,10 @@ describe('AvailableP2PBalanceModal', () => {
         render(<MockApp />);
         expect(screen.getByTestId('dt_available_p2p_balance_modal')).toBeInTheDocument();
     });
-    it('should perform callback to onRequestClose when Ok button is clicked', async () => {
+    it('should perform callback to onRequestClose when OK button is clicked', async () => {
         render(<MockApp />);
         const okBtn = screen.getByRole('button', {
-            name: 'Ok',
+            name: 'OK',
         });
         await userEvent.click(okBtn);
         expect(mockOnRequestClose).toBeCalled();

@@ -48,7 +48,7 @@ describe('ProfileBalance', () => {
         await userEvent.click(balanceInfoIcon);
         expect(screen.getByTestId('dt_available_p2p_balance_modal')).toBeInTheDocument();
         const okButton = screen.getByRole('button', {
-            name: 'Ok',
+            name: 'OK',
         });
         await userEvent.click(okButton);
         expect(screen.queryByTestId('dt_available_p2p_balance_modal')).not.toBeInTheDocument();
