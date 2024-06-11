@@ -31,9 +31,7 @@ describe('useIsAdvertiser', () => {
             ...mockUseGetInfo,
             data: {},
             error: {
-                error: {
-                    code: 'AdvertiserNotFound',
-                },
+                code: 'AdvertiserNotFound',
             },
         });
 

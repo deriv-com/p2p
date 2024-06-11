@@ -259,9 +259,7 @@ describe('<OrderDetailsCardFooter />', () => {
 
         mockUseConfirm.mockReturnValue({
             error: {
-                error: {
-                    code: 'OrderEmailVerificationRequired',
-                },
+                code: 'OrderEmailVerificationRequired',
             },
             isError: true,
             mutate: jest.fn(),
@@ -292,10 +290,8 @@ describe('<OrderDetailsCardFooter />', () => {
     it('should show InvalidVerificationLinkModal if ExcessiveVerificationRequests error is returned while pressing I’ve received payment button', async () => {
         mockUseConfirm.mockReturnValue({
             error: {
-                error: {
-                    code: 'ExcessiveVerificationRequests',
-                    message: 'Please wait for 59 seconds before requesting another email.',
-                },
+                code: 'ExcessiveVerificationRequests',
+                message: 'Please wait for 59 seconds before requesting another email.',
             },
             isError: true,
             mutate: jest.fn(),
@@ -338,10 +334,8 @@ describe('<OrderDetailsCardFooter />', () => {
                 is_dry_run_successful: false,
             },
             error: {
-                error: {
-                    code: 'InvalidVerificationToken',
-                    message: 'The link that you used appears to be invalid. Please check and try again.',
-                },
+                code: 'InvalidVerificationToken',
+                message: 'The link that you used appears to be invalid. Please check and try again.',
             },
             isError: true,
             mutate: jest.fn(),
@@ -375,11 +369,9 @@ describe('<OrderDetailsCardFooter />', () => {
                 is_dry_run_successful: false,
             },
             error: {
-                error: {
-                    code: 'ExcessiveVerificationFailures',
-                    message:
-                        'It looks like you’ve made too many attempts to confirm this order. Please try again after 30 minutes.',
-                },
+                code: 'ExcessiveVerificationFailures',
+                message:
+                    'It looks like you’ve made too many attempts to confirm this order. Please try again after 30 minutes.',
             },
             isError: true,
             mutate: jest.fn(),
@@ -466,9 +458,7 @@ describe('<OrderDetailsCardFooter />', () => {
         });
         mockUseConfirm.mockReturnValue({
             error: {
-                error: {
-                    code: 'OrderConfirmCompleted',
-                },
+                code: 'OrderConfirmCompleted',
             },
             isError: true,
             mutate: jest.fn(),

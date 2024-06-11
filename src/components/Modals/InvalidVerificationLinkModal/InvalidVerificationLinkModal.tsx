@@ -34,8 +34,8 @@ const InvalidVerificationLinkModal = ({
             onRequestClose={onRequestClose}
         >
             <Modal.Body
-                className={clsx('flex flex-col items-center gap-[2.4rem] p-[2.4rem]', {
-                    'py-0 px-[1.4rem] gap-[1.4rem]': isExcessiveErrorMobile,
+                className={clsx('flex flex-col items-center gap-[2.4rem] p-[2.4rem] lg:pb-[2.4rem] pb-0', {
+                    'px-[1.4rem] gap-[1.4rem]': isExcessiveErrorMobile,
                 })}
             >
                 <DerivLightIcEmailVerificationLinkInvalidIcon height={iconSize} width={iconSize} />

@@ -23,8 +23,14 @@ const OrderDetailsCardInfo = () => {
             value: `${otherUserDetails.first_name} ${otherUserDetails.last_name}`,
         },
         { text: labels.leftSendOrReceive, value: `${displayPaymentAmount} ${localCurrency}` },
-        { text: labels.rightSendOrReceive, value: `${amountDisplay} ${accountCurrency}` },
-        { text: `Rate (1 ${accountCurrency})`, value: `${rateAmount} ${localCurrency}` },
+        {
+            text: labels.rightSendOrReceive,
+            value: `${amountDisplay} ${accountCurrency}`,
+        },
+        {
+            text: `Rate (1 ${accountCurrency})`,
+            value: `${rateAmount} ${localCurrency}`,
+        },
         { text: 'Time', value: purchaseTime },
     ];
 
