@@ -1,0 +1,19 @@
+.orders-date-selection {
+    @include desktop {
+        display: flex;
+        flex-direction: row;
+        gap: 0.8rem;
+        padding: 0.4rem 0;
+        align-items: center;
+    }
+
+    @include mobile {
+        margin-top: 1.6rem;
+    }
+
+    &__input {
+        input {
+            padding-left: 1rem;
+        }
+    }
+}
