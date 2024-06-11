@@ -155,6 +155,8 @@ const CreateEditAd = () => {
                     limit: createResponse?.max_order_amount_limit_display,
                     visibilityStatus: createResponse?.visibility_status[0],
                 });
+            } else {
+                history.push(MY_ADS_URL);
             }
         } else if (isError || isUpdateError) {
             showModal('AdCreateEditErrorModal');
