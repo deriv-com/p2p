@@ -56,7 +56,7 @@ export namespace THooks {
         export type Get = NonNullable<ReturnType<typeof api.advert.useGet>['data']>;
         export type GetList = NonNullable<ReturnType<typeof api.advert.useGetList>['data']>;
         export type Create = NonNullable<ReturnType<typeof api.advert.useCreate>['mutate']>;
-        export type Update = NonNullable<ReturnType<typeof api.advert.useUpdate>['data']>;
+        export type Update = NonNullable<ReturnType<typeof api.advert.useUpdate>['mutate']>;
         export type Delete = NonNullable<ReturnType<typeof api.advert.useDelete>['data']>;
     }
     export namespace Advertiser {

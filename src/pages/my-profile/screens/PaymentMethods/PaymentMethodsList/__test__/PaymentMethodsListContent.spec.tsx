@@ -250,14 +250,12 @@ describe('PaymentMethodsListContent', () => {
         (mockUseDelete as jest.Mock).mockReturnValue({
             ...mockUseDeleteResponse,
             error: {
+                code: 'AuthorizationRequired',
                 echo_req: {
                     delete: [101, 102],
                     p2p_advertiser_payment_methods: 1,
                 },
-                error: {
-                    code: 'AuthorizationRequired',
-                    message: 'Please log in.',
-                },
+                message: 'Please log in.',
                 msg_type: 'p2p_advertiser_payment_methods',
             },
             isError: true,

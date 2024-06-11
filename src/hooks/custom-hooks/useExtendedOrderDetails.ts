@@ -106,12 +106,16 @@ const useExtendedOrderDetails = ({
             };
         },
         get displayPaymentAmount() {
-            return removeTrailingZeros(
-                FormatUtils.formatMoney(
-                    Number(this.amount_display) * Number(roundOffDecimal(this.rate, setDecimalPlaces(this.rate, 6))),
-                    { currency: this.local_currency as TCurrency }
-                )
-            );
+            if (this.rate) {
+                return removeTrailingZeros(
+                    FormatUtils.formatMoney(
+                        Number(this.amount_display) *
+                            Number(roundOffDecimal(this.rate, setDecimalPlaces(this.rate, 6))),
+                        { currency: this.local_currency as TCurrency }
+                    )
+                );
+            }
+            return '';
         },
         get hasReviewDetails() {
             return !!this.review_details;
@@ -170,7 +174,7 @@ const useExtendedOrderDetails = ({
             return this.isBuyerConfirmedOrder || this.isBuyerCancelledOrder;
         },
         get isOrderReviewable() {
-            return this.is_reviewable;
+            return !!this.is_reviewable;
         },
         get isPendingOrder() {
             return this.status === ORDERS_STATUS.PENDING;
@@ -231,6 +235,7 @@ const useExtendedOrderDetails = ({
             );
         },
         get rateAmount() {
+            if (!this.rate) return '';
             return removeTrailingZeros(
                 FormatUtils.formatMoney(this.rate, {
                     currency: this.local_currency as TCurrency,

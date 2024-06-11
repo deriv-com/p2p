@@ -103,10 +103,12 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     }, [verificationCode]);
 
     useEffect(() => {
-        handleModalDisplay(error?.error?.code);
+        // @ts-expect-error types are not correct from api-hooks
+        handleModalDisplay(error?.code);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-        error?.error,
+        // @ts-expect-error types are not correct from api-hooks
+        error?.code,
         isBuyOrderForUser,
         isError,
         isSuccess,
@@ -236,7 +238,8 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             )}
             {!!isModalOpenFor('InvalidVerificationLinkModal') && (
                 <InvalidVerificationLinkModal
-                    error={error?.error}
+                    // @ts-expect-error types are not correct from api-hooks
+                    error={error}
                     isModalOpen
                     mutate={() => mutate({ id })}
                     onRequestClose={() => {
@@ -247,7 +250,8 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             )}
             {!!isModalOpenFor('EmailLinkBlockedModal') && (
                 <EmailLinkBlockedModal
-                    errorMessage={error?.error.message}
+                    // @ts-expect-error types are not correct from api-hooks
+                    errorMessage={error?.message}
                     isModalOpen
                     onRequestClose={hideAndClearSearchParams}
                 />
