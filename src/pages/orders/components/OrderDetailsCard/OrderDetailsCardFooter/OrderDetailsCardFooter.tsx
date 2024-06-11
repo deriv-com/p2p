@@ -31,7 +31,8 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
         shouldShowComplainAndReceivedButton,
         shouldShowOnlyComplainButton,
         shouldShowOnlyReceivedButton,
-        verification_token_expiry: verificationTokenExpiry,
+        verification_next_request: verificationNextRequest,
+        // verification_token_expiry: verificationTokenExpiry,
     } = orderDetails;
 
     const { isMobile } = useDevice();
@@ -44,7 +45,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
 
     const handleModalDisplay = (code?: string) => {
         if (isError) {
-            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && verificationTokenExpiry) {
+            if (code === ERROR_CODES.ORDER_EMAIL_VERIFICATION_REQUIRED && verificationNextRequest) {
                 showModal('EmailVerificationModal');
             } else if (
                 code === ERROR_CODES.INVALID_VERIFICATION_TOKEN ||
@@ -111,9 +112,9 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
         isBuyOrderForUser,
         isError,
         isSuccess,
-        verificationTokenExpiry,
+        verificationNextRequest,
         data?.is_dry_run_successful,
-        orderDetails.status,
+        orderDetails?.status,
     ]);
 
     // TODO: Uncomment this block when implementing email link has expired modal
@@ -230,7 +231,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             {!!isModalOpenFor('EmailVerificationModal') && (
                 <EmailVerificationModal
                     isModalOpen
-                    nextRequestTime={verificationTokenExpiry!}
+                    nextRequestTime={verificationNextRequest!}
                     onRequestClose={hideModal}
                     onResendEmail={() => mutate({ id })}
                 />
