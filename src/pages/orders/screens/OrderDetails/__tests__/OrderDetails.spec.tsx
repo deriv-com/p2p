@@ -225,7 +225,7 @@ describe('<OrderDetails />', () => {
         (mockUseGet as jest.Mock).mockReturnValue({
             ...mockUseGet(),
             data: {},
-            error: { error: { message: 'error message' } },
+            error: { code: 'code', message: 'error message' },
             isLoading: false,
         });
 
