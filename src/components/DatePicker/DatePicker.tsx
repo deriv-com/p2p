@@ -2,8 +2,8 @@ import { ComponentProps, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import Calendar, { CalendarProps } from 'react-calendar';
 import { useOnClickOutside } from 'usehooks-ts';
+import { customFormatShortWeekday, unixToDateString } from '@/utils';
 import DateTextField from '../DateTextField/DateTextField';
-import { customFormatShortWeekday, unixToDateString } from './utils';
 import 'react-calendar/dist/Calendar.css';
 import './DatePicker.scss';
 

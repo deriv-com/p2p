@@ -4,11 +4,11 @@ import { LabelPairedCalendarRangeMdRegularIcon, LegacyCalendarDateFrom1pxIcon } 
 import { Input } from '@deriv-com/ui';
 import './DateTextField.scss';
 
-export interface TFlowFieldProps extends ComponentProps<typeof Input> {
+type TDateTextFieldProps = ComponentProps<typeof Input> & {
     alignedRight?: boolean;
-}
+};
 
-const DateTextField = ({ alignedRight = false, label, value, ...rest }: TFlowFieldProps) => {
+const DateTextField = ({ alignedRight = false, label, value, ...rest }: TDateTextFieldProps) => {
     return (
         <div className='date-text-field__input'>
             <Input
