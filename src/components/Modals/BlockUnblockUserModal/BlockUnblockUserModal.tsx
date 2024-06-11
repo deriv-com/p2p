@@ -38,7 +38,8 @@ const BlockUnblockUserModal = ({
             onClickBlocked?.();
             onRequestClose();
         } else if (error || unblockError) {
-            setErrorMessage?.(error?.error.message || unblockError?.error.message);
+            // @ts-expect-error types are not correct from api-hooks
+            setErrorMessage?.(error?.message || unblockError?.message);
             onRequestClose();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

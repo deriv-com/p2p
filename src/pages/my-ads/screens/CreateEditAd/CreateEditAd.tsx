@@ -51,6 +51,7 @@ const CreateEditAd = () => {
     const { order_payment_period: orderPaymentPeriod } = p2pSettings ?? {};
     const { data: createResponse, error, isError, isSuccess, mutate } = api.advert.useCreate();
     const {
+        data: updateResponse,
         error: updateError,
         isError: isUpdateError,
         isSuccess: isUpdateSuccess,
@@ -74,7 +75,7 @@ const CreateEditAd = () => {
             'rate-type-string': rateType,
             'rate-value': rateType === RATE_TYPE.FLOAT ? '-0.01' : '',
         },
-        mode: 'onBlur',
+        mode: 'all',
     });
 
     const {
@@ -101,6 +102,7 @@ const CreateEditAd = () => {
             min_completion_rate?: number;
             min_join_days?: number;
             min_order_amount: number;
+            order_expiry_period: number;
             payment_method_ids?: TMutatePayload['payment_method_ids'];
             payment_method_names?: TMutatePayload['payment_method_names'];
             rate: number;
@@ -112,6 +114,7 @@ const CreateEditAd = () => {
             eligible_countries: getValues('preferred-countries'),
             max_order_amount: Number(getValues('max-order')),
             min_order_amount: Number(getValues('min-order')),
+            order_expiry_period: Number(getValues('order-completion-time')),
             rate: Number(getValues('rate-value')),
             rate_type: rateType,
             type: getValues('ad-type'),
@@ -153,10 +156,13 @@ const CreateEditAd = () => {
                     limit: createResponse?.max_order_amount_limit_display,
                     visibilityStatus: createResponse?.visibility_status[0],
                 });
+            } else {
+                history.push(MY_ADS_URL);
             }
         } else if (isError || isUpdateError) {
             showModal('AdCreateEditErrorModal');
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, history, shouldNotShowArchiveMessageAgain, isError, isUpdateSuccess, isUpdateError]);
 
     const setInitialAdRate = () => {
@@ -193,6 +199,7 @@ const CreateEditAd = () => {
                 setValue('payment-method', paymentMethodKeys);
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [setValue, paymentMethodList, countryList]
     );
 
@@ -226,18 +233,18 @@ const CreateEditAd = () => {
                 </form>
             </FormProvider>
             <AdCreateEditErrorModal
-                errorCode={(error?.error?.code || updateError?.error?.code) as TErrorCodes}
-                errorMessage={(error?.error?.message || updateError?.error?.message) ?? 'Something’s not right'}
+                // @ts-expect-error types are not correct from api-hooks
+                errorCode={(error?.code || updateError?.code) as TErrorCodes}
+                // @ts-expect-error types are not correct from api-hooks
+                errorMessage={(error?.message || updateError?.message) ?? 'Something’s not right'}
                 isModalOpen={!!isModalOpenFor('AdCreateEditErrorModal')}
                 onRequestClose={hideModal}
             />
             <AdCreateEditSuccessModal
                 advertsArchivePeriod={orderPaymentPeriod}
-                currency={createResponse?.account_currency as TCurrency}
+                data={isEdit ? updateResponse : createResponse}
                 isModalOpen={!!isModalOpenFor('AdCreateEditSuccessModal')}
-                limit={createResponse?.max_order_amount_limit_display ?? ''}
                 onRequestClose={hideModal}
-                visibilityStatus={createResponse?.visibility_status?.[0] ?? ''}
             />
             <AdCancelCreateEditModal
                 isModalOpen={!!isModalOpenFor('AdCancelCreateEditModal')}

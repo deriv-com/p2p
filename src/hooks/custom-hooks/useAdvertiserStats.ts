@@ -31,7 +31,8 @@ const useAdvertiserStats = (advertiserId?: string) => {
         if (advertiserId) {
             subscribe({ id: advertiserId });
         }
-    }, [advertiserId, subscribe]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [advertiserId]);
 
     useEffect(() => {
         return () => {
@@ -130,6 +131,7 @@ const useAdvertiserStats = (advertiserId?: string) => {
         isIdle,
         isLoading,
         isSubscribed,
+        unsubscribe,
     };
 };
 

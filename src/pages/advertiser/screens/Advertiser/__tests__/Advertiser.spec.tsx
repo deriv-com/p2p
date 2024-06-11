@@ -36,6 +36,13 @@ jest.mock('@/hooks', () => ({
     })),
 }));
 
+jest.mock('@/hooks/custom-hooks', () => ({
+    useAdvertiserStats: jest.fn(() => ({
+        data: {},
+        unsubscribe: jest.fn(),
+    })),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),
