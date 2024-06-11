@@ -91,6 +91,7 @@ jest.mock('@/hooks/custom-hooks', () => {
             reachedTargetDate: false,
         }),
         useModalManager: jest.fn().mockReturnValue(modalManager),
+        useQueryString: jest.fn().mockReturnValue({ queryString: { formAction: 'create' } }),
     };
 });
 
