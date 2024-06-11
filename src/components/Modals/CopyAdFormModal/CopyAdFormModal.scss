@@ -1,0 +1,50 @@
+.copy-ad-form-modal {
+    max-height: calc(100vh - 15rem);
+    width: 44rem;
+
+    & .floating-rate {
+        &__field {
+            flex-direction: column;
+            @include desktop {
+                margin-top: -1.6rem;
+            }
+
+            & .deriv-input__container {
+                width: 100%;
+                margin-top: 1.6rem;
+            }
+
+            & .input-field__prefix {
+                right: 45%;
+
+                @include desktop {
+                    top: 46%;
+                }
+            }
+
+            & .deriv-input__field {
+                @include desktop {
+                    padding-right: 50%;
+                }
+            }
+        }
+        &__error-message {
+            padding-inline-start: unset;
+            margin-bottom: 1rem;
+        }
+
+        &__mkt-rate {
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        &__hint {
+            padding-inline-start: 1rem;
+
+            @include desktop {
+                margin-bottom: 1rem;
+            }
+        }
+    }
+}

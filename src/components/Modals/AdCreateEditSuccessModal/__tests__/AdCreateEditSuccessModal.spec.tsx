@@ -24,6 +24,8 @@ jest.mock('react-router-dom', () => ({
     }),
 }));
 
+jest.mock('@/hooks/api/useInvalidateQuery', () => jest.fn(() => jest.fn()));
+
 describe('AdCreateEditSuccessModal', () => {
     it('should render with passed props', () => {
         render(<AdCreateEditSuccessModal {...mockProps} />);
