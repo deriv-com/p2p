@@ -18,9 +18,13 @@ const DateTextField = ({ alignedRight = false, label, value, ...rest }: TFlowFie
                 })}
                 islabelAnimationDisabled
                 label={value ? '' : label}
-                leftPlaceholder={!alignedRight && <LegacyCalendarDateFrom1pxIcon iconSize='xs' />}
+                leftPlaceholder={
+                    !alignedRight && <LegacyCalendarDateFrom1pxIcon data-testid='dt_calendar_icon_left' iconSize='xs' />
+                }
                 readOnly
-                rightPlaceholder={alignedRight && <LabelPairedCalendarRangeMdRegularIcon />}
+                rightPlaceholder={
+                    alignedRight && <LabelPairedCalendarRangeMdRegularIcon data-testid='dt_calendar_icon_right' />
+                }
                 value={value}
                 wrapperClassName='w-full'
             />
