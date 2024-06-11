@@ -86,7 +86,6 @@ const DatePicker = ({
                     data-testid='dt_datepicker_container'
                 >
                     <Calendar
-                        activeStartDate={new Date()}
                         formatShortWeekday={customFormatShortWeekday}
                         maxDate={maxDate}
                         minDate={minDate}
