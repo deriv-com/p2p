@@ -13,7 +13,7 @@ const MyAds = () => {
     if (!isPoaVerified || !isPoiVerified) return <Verification />;
 
     return (
-        <div className={clsx('flex flex-col', isMobile ? 'h-[calc(100vh-12rem)]' : 'h-full')}>
+        <div className={clsx('flex flex-col', isMobile ? 'h-[calc(100vh-8rem)]' : 'h-full')}>
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             <MyAdsTable />
         </div>

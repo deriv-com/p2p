@@ -1,3 +1,4 @@
+import { TAdvertiserStats } from 'types';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import ProfileContent from '../ProfileContent';
@@ -21,18 +22,15 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
-jest.mock('@/hooks/custom-hooks', () => ({
-    useAdvertiserStats: jest.fn(() => ({
-        data: {
-            isAddressVerified: false,
-            isIdentityVerified: false,
-            totalOrders: 10,
-        },
-        isLoading: false,
-    })),
-}));
-
 const mockUseDevice = useDevice as jest.Mock;
+
+const mockProps = {
+    data: {
+        isAddressVerified: false,
+        isIdentityVerified: false,
+        totalOrders: 10,
+    } as TAdvertiserStats,
+};
 
 describe('ProfileContent', () => {
     it('should render the advertiser name and profile balance if location is my-profile', () => {
@@ -42,7 +40,7 @@ describe('ProfileContent', () => {
             },
             writable: true,
         });
-        render(<ProfileContent />);
+        render(<ProfileContent {...mockProps} />);
         expect(screen.getByText('AdvertiserName')).toBeInTheDocument();
         expect(screen.getByText('ProfileBalance')).toBeInTheDocument();
     });
@@ -54,7 +52,7 @@ describe('ProfileContent', () => {
             },
             writable: true,
         });
-        render(<ProfileContent />);
+        render(<ProfileContent {...mockProps} />);
         expect(screen.getByText('AdvertiserName')).toBeInTheDocument();
         expect(screen.getByText('ProfileStats')).toBeInTheDocument();
     });
@@ -70,7 +68,7 @@ describe('ProfileContent', () => {
         mockUseDevice.mockReturnValue({
             isMobile: true,
         });
-        render(<ProfileContent />);
+        render(<ProfileContent {...mockProps} />);
         expect(screen.getByText('AdvertiserNameToggle')).toBeInTheDocument();
     });
 });

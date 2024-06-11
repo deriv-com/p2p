@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck error types are not correct from api-hooks
+// TODO: fix error types from api-hooks
 import { useEffect, useState } from 'react';
 import { ERROR_CODES } from '@/constants';
 import { isEmptyObject } from '@/utils';
