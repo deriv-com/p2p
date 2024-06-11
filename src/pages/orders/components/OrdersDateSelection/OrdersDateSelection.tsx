@@ -31,11 +31,11 @@ const OrdersDateSelection = ({ fromDate, setFromDate, setToDate, toDate }: TOrde
                 <Input
                     className='orders-date-selection__input'
                     islabelAnimationDisabled
-                    label='All time'
+                    label={localize('All time')}
                     leftPlaceholder={<LabelPairedCalendarRangeMdRegularIcon />}
                     onClick={() => setIsDateSelectionOpen(true)}
                     readOnly
-                    value={fromDate && toDate ? `${fromDate} - ${toDate}` : 'All time'}
+                    value={fromDate && toDate ? `${fromDate} - ${toDate}` : localize('All time')}
                 />
                 {isDateSelectionOpen && (
                     <OrdersDateSelectionFullPage
