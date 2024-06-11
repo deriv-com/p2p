@@ -26,7 +26,11 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
     return (
         <div className='popover-dropdown' ref={ref}>
             {isAdvertiserBarred ? (
-                <LabelPairedEllipsisVerticalMdRegularIcon className='popover-dropdown__icon' fill='#999999' />
+                <LabelPairedEllipsisVerticalMdRegularIcon
+                    className='popover-dropdown__icon'
+                    data-testid='dt_popover_dropdown_icon'
+                    fill='#999999'
+                />
             ) : (
                 <Tooltip message={tooltipMessage} position='bottom' triggerAction='hover'>
                     <LabelPairedEllipsisVerticalMdRegularIcon
