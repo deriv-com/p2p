@@ -80,7 +80,7 @@ const OrderDetails = () => {
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 
     // TODO: replace with proper error screen once design is ready
-    if (error) return <Text>{error?.error?.message}</Text>;
+    if (error) return <Text>{error?.message}</Text>;
 
     if (isMobile) {
         return (
