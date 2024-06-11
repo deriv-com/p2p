@@ -4,6 +4,7 @@ import { FilterModal } from '@/components/Modals';
 import { getSortByList } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
 import { TSortByValues } from '@/utils';
+import { getLocalizedTabs } from '@/utils/tabs';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Tab, Tabs, useDevice } from '@deriv-com/ui';
@@ -53,7 +54,7 @@ const BuySellHeader = ({
         >
             <Tabs
                 TitleFontSize={isMobile ? 'md' : 'sm'}
-                activeTab={activeTab}
+                activeTab={getLocalizedTabs(localize)[activeTab]}
                 onChange={setActiveTab}
                 variant='primary'
                 wrapperClassName='buy-sell-header__tabs'
