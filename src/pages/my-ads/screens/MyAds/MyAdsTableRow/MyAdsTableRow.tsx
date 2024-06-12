@@ -224,12 +224,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
             </Text>
             <div className='flex flex-wrap gap-2'>
                 {paymentMethodNames?.map(paymentMethod => (
-                    <PaymentMethodLabel
-                        color={adPauseColor}
-                        key={paymentMethod}
-                        paymentMethodName={paymentMethod}
-                        size='xs'
-                    />
+                    <PaymentMethodLabel color={adPauseColor} key={paymentMethod} paymentMethodName={paymentMethod} />
                 ))}
             </div>
             <div className='my-ads-table-row__actions'>
