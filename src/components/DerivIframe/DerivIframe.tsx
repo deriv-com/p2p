@@ -3,7 +3,7 @@ import { URLConstants } from '@deriv-com/utils';
 const DerivIframe = () => {
     const getAllowedLocalStorageOrigin = () => {
         if (/^staging-p2p\.deriv\.com$/i.test(window.location.hostname)) {
-            return 'https://staging-p2p.deriv.com';
+            return URLConstants.derivP2pStaging;
         } else if (/^p2p\.deriv\.com$/i.test(window.location.hostname)) {
             return URLConstants.derivP2pProduction;
         }
