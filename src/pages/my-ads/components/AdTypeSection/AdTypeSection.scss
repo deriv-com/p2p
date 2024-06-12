@@ -1,7 +1,4 @@
 .ad-type-section {
-    &--edit {
-        padding-top: 2.4rem;
-    }
     @include desktop {
         & .radio-group {
             margin-top: 0;
@@ -11,9 +8,9 @@
         padding: 0 1.6rem;
         overflow: auto;
         max-height: calc(100vh - 27rem);
+    }
 
-        &--edit {
-            padding-top: 2.4rem;
-        }
+    &--edit {
+        padding-top: 2.4rem;
     }
 }
