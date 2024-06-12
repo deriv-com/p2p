@@ -16,7 +16,7 @@ const ServerTime = () => {
             disableHover
             tooltipContent={localFormat}
         >
-            <Text size='xs'>{UTCFormat}</Text>
+            <Text className='text-[12px]'>{UTCFormat}</Text>
         </TooltipMenuIcon>
     );
 };

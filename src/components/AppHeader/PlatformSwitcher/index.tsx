@@ -1,13 +1,11 @@
 import { useTranslations } from '@deriv-com/translations';
-import { PlatformSwitcher as UIPlatformSwitcher, PlatformSwitcherItem, useDevice } from '@deriv-com/ui';
+import { PlatformSwitcher as UIPlatformSwitcher, PlatformSwitcherItem } from '@deriv-com/ui';
 import { platformsConfig } from '../HeaderConfig';
 import './PlatformSwitcher.scss';
 
 export const PlatformSwitcher = () => {
     const { localize } = useTranslations();
-    const { isDesktop } = useDevice();
 
-    if (!isDesktop) return null;
     return (
         <UIPlatformSwitcher
             bottomLinkLabel={localize('Looking for CFDs? Go to Trader’s Hub')}
@@ -19,7 +17,7 @@ export const PlatformSwitcher = () => {
             {platformsConfig.map(({ active, description, href, icon }) => (
                 <PlatformSwitcherItem
                     active={active}
-                    description={localize(description)}
+                    description={localize('{{description}}', { description })}
                     href={href}
                     icon={icon}
                     key={description}
