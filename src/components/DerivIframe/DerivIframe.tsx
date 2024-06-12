@@ -1,7 +1,16 @@
 import { URLConstants } from '@deriv-com/utils';
 
 const DerivIframe = () => {
-    const origin = URLConstants.derivP2pProduction;
+    const getAllowedLocalStorageOrigin = () => {
+        if (/^staging-p2p\.deriv\.com$/i.test(window.location.hostname)) {
+            return URLConstants.derivP2pStaging;
+        } 
+       
+         return URLConstants.derivP2pProduction;
+    };
+
+    const origin = getAllowedLocalStorageOrigin();
+
     return (
         <iframe
             id='localstorage-sync'
