@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { DeepPartial } from 'react-hook-form';
 import { useLocalStorage } from 'usehooks-ts';
-import { useP2PAdvertiserInfo } from '@deriv-com/api-hooks';
+import { useP2PAdvertiserInfo, useSubscribe } from '@deriv-com/api-hooks';
 
 type TP2PAdvertiserInfo = ReturnType<typeof useP2PAdvertiserInfo>['data'] & {
     has_basic_verification: boolean;
@@ -16,7 +16,7 @@ type TP2PAdvertiserInfo = ReturnType<typeof useP2PAdvertiserInfo>['data'] & {
 
 /** This custom hook returns information about the given advertiser ID */
 const useAdvertiserInfo = (id?: string) => {
-    const { data, error, subscribe, ...rest } = useP2PAdvertiserInfo() ?? {};
+    const { data, error, subscribe, ...rest } = useSubscribe('p2p_advertiser_info') ?? {};
 
     /**
      * Use different local storage key for each advertiser, one to keep the current user's info, the other to keep the advertiser's info
@@ -33,7 +33,7 @@ const useAdvertiserInfo = (id?: string) => {
     // Add additional information to the p2p_advertiser_info data
     useEffect(() => {
         if (data) {
-            const advertiser_info = data;
+            const advertiser_info = data.p2p_advertiser_info;
 
             if (!advertiser_info) return;
 

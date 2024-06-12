@@ -71,7 +71,7 @@ function createChatMessage(sendbirdMessage: BaseMessage): ChatMessage {
     };
 }
 
-const useSendbird = (orderId: string, isErrorOrderInfo: boolean, chatChannelUrl: string) => {
+const useSendbird = (orderId: string | undefined, isErrorOrderInfo: boolean, chatChannelUrl: string) => {
     const sendbirdApiRef = useRef<ReturnType<typeof SendbirdChat.init<GroupChannelModule[]>>>();
 
     const [isChatLoading, setIsChatLoading] = useState(false);
