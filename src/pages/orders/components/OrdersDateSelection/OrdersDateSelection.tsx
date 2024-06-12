@@ -18,13 +18,6 @@ const OrdersDateSelection = ({ fromDate, setFromDate, setToDate, toDate }: TOrde
     const { localize } = useTranslations();
     const [isDateSelectionOpen, setIsDateSelectionOpen] = useState(false);
 
-    const getMaxDate = () => {
-        if (toDate) {
-            return new Date(toDate);
-        }
-        return new Date();
-    };
-
     if (isMobile) {
         return (
             <div className='orders-date-selection'>
@@ -54,7 +47,7 @@ const OrdersDateSelection = ({ fromDate, setFromDate, setToDate, toDate }: TOrde
         <div className='orders-date-selection'>
             <DatePicker
                 label={localize('Date from')}
-                maxDate={getMaxDate()}
+                maxDate={toDate ? new Date(toDate) : new Date()}
                 name='from-date'
                 onDateChange={setFromDate}
                 showLabel

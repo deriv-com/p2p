@@ -57,9 +57,9 @@ const DatePicker = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedDate]);
 
+    // To not display the date value when today's date is selected.
     const getValue = () => {
-        const isToday = selectedDate !== null && selectedDate.getDate() === new Date().getDate();
-        if (selectedDate !== null && selectedDate !== new Date() && (!isToday || showLabel)) {
+        if (selectedDate && (showLabel || selectedDate.getDate() !== new Date().getDate())) {
             return unixToDateString(selectedDate, displayFormat);
         }
         return '';
