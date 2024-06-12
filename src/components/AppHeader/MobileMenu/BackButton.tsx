@@ -7,10 +7,10 @@ type TBackButton = {
 };
 
 export const BackButton = ({ buttonText, onClick }: TBackButton) => (
-    <button className='flex items-center w-full pt-[20px] p-[32px]' onClick={onClick}>
+    <button className='flex items-center w-full pt-[2rem] p-[3.2rem]' onClick={onClick}>
         <LegacyChevronLeft1pxIcon iconSize='xs' />
 
-        <Text className='text-[16px] ml-[16px]' weight='bold'>
+        <Text className='text-[1.6rem] ml-[1.6rem]' weight='bold'>
             {buttonText}
         </Text>
     </button>
