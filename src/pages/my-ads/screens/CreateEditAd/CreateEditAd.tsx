@@ -8,6 +8,7 @@ import { api } from '@/hooks';
 import { useFloatingRate, useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { Loader } from '@deriv-com/ui';
 import { AdWizard } from '../../components';
+import './CreateEditAd.scss';
 
 const getSteps = (isEdit = false) => {
     const text = isEdit ? 'Edit' : 'Set';
@@ -221,7 +222,7 @@ const CreateEditAd = () => {
     return (
         <>
             <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form className='create-edit-ad' onSubmit={handleSubmit(onSubmit)}>
                     <AdWizard
                         countryList={countryList as TCountryListItem}
                         currency={activeAccount?.currency as TCurrency}

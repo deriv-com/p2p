@@ -94,7 +94,7 @@ const Wizard = <T extends ReactNode>({
 
     return (
         <div className={clsx('wizard', className)}>
-            {nav && isValidElement(nav) && cloneElement(nav, properties)}
+            {isValidElement(nav) && nav}
             {childrenWithProps}
         </div>
     );

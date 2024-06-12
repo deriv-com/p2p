@@ -1,0 +1,6 @@
+.create-edit-ad {
+    @include desktop {
+        max-height: calc(100vh - 19rem);
+        overflow-y: auto;
+    }
+}
