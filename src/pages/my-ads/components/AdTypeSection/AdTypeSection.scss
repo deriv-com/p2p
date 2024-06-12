@@ -1,4 +1,9 @@
 .ad-type-section {
+    @include desktop {
+        & .radio-group {
+            margin-top: 0;
+        }
+    }
     @include mobile {
         padding: 0 1.6rem;
         overflow: auto;

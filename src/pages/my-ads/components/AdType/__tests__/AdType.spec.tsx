@@ -7,6 +7,11 @@ const mockProps = {
     floatRate: '1.23',
 };
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: () => ({ isDesktop: true }),
+}));
+
 describe('AdType', () => {
     it('should render the component as expected', () => {
         render(<AdType {...mockProps} />);
