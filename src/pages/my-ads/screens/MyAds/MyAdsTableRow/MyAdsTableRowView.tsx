@@ -16,7 +16,7 @@ import {
 import { AD_ACTION, MY_ADS_URL } from '@/constants';
 import { api } from '@/hooks';
 import useInvalidateQuery from '@/hooks/api/useInvalidateQuery';
-import { useFloatingRate, useModalManager } from '@/hooks/custom-hooks';
+import { useFloatingRate, useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { getPaymentMethodObjects, getVisibilityErrorCodes } from '@/utils';
 import { TMyAdsTableRowRendererProps } from '../MyAdsTable/MyAdsTable';
 import MyAdsTableRow from './MyAdsTableRow';
@@ -56,7 +56,7 @@ const MyAdsTableRowView = ({
         mutate: createAd,
     } = api.advert.useCreate();
     const { rateType: currentRateType, reachedTargetDate } = useFloatingRate();
-    const { error: updateError, isError: isErrorUpdate, mutate } = api.advert.useUpdate();
+    const { data: updateResponse, error: updateError, isError: isErrorUpdate, mutate } = api.advert.useUpdate();
     const { error, isError, mutate: deleteAd } = api.advert.useDelete();
     const shouldNotShowArchiveMessageAgain = localStorage.getItem('should_not_show_auto_archive_message_again');
     const [formValues, setFormValues] = useState<TFormValues>({
@@ -71,6 +71,7 @@ const MyAdsTableRowView = ({
     const advertiserPaymentMethodObjects = getPaymentMethodObjects(
         advertiserPaymentMethods as THooks.AdvertiserPaymentMethods.Get
     );
+    const { queryString } = useQueryString();
 
     const createAdvisibilityStatus = (location.state as TState)?.visibilityStatus;
 
@@ -97,16 +98,22 @@ const MyAdsTableRowView = ({
     } = rest;
 
     useEffect(() => {
-        if (isError && error?.error?.message) {
+        // @ts-expect-error types are not correct from api-hooks
+        if (isError && error?.message) {
             showModal('MyAdsDeleteModal');
         }
-    }, [error?.error?.message, isError]);
+        // @ts-expect-error types are not correct from api-hooks
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [error?.message, isError]);
 
     useEffect(() => {
-        if (isErrorUpdate && updateError?.error?.message) {
+        // @ts-expect-error types are not correct from api-hooks
+        if (isErrorUpdate && updateError?.message) {
             showModal('ErrorModal');
         }
-    }, [updateError?.error?.message]);
+        // @ts-expect-error types are not correct from api-hooks
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updateError?.message]);
 
     const onClickIcon = (action: string) => {
         switch (action) {
@@ -230,9 +237,11 @@ const MyAdsTableRowView = ({
             )}
             {!!isModalOpenFor('MyAdsDeleteModal') && (
                 <MyAdsDeleteModal
-                    error={error?.error?.message}
+                    // @ts-expect-error types are not correct from api-hooks
+                    error={error?.message}
                     id={id}
-                    isModalOpen={!!isModalOpenFor('MyAdsDeleteModal') || !!error?.error?.message}
+                    // @ts-expect-error types are not correct from api-hooks
+                    isModalOpen={!!isModalOpenFor('MyAdsDeleteModal') || !!error?.message}
                     onClickDelete={onClickDelete}
                     onRequestClose={hideModal}
                 />
@@ -250,7 +259,8 @@ const MyAdsTableRowView = ({
                 />
             )}
             {!!isModalOpenFor('ErrorModal') && (
-                <ErrorModal isModalOpen message={updateError?.error?.message} onRequestClose={hideModal} />
+                // @ts-expect-error types are not correct from api-hooks
+                <ErrorModal isModalOpen message={updateError?.message} onRequestClose={hideModal} />
             )}
             {!!isModalOpenFor('AdVisibilityErrorModal') && (
                 <AdVisibilityErrorModal
@@ -281,11 +291,9 @@ const MyAdsTableRowView = ({
             {!!isModalOpenFor('AdCreateEditSuccessModal') && (
                 <AdCreateEditSuccessModal
                     advertsArchivePeriod={orderPaymentPeriod}
-                    currency={createResponse?.account_currency as TCurrency}
+                    data={queryString.formAction === 'edit' ? updateResponse : createResponse}
                     isModalOpen
-                    limit={createResponse?.max_order_amount_limit_display ?? ''}
                     onRequestClose={() => hideModal({ shouldHideAllModals: true })}
-                    visibilityStatus={createResponse?.visibility_status?.[0] ?? ''}
                 />
             )}
             {!!isModalOpenFor('AdCancelCreateEditModal') && (

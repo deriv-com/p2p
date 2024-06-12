@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { DeepPartial } from 'react-hook-form';
 import { useLocalStorage } from 'usehooks-ts';
-import { useP2PSettings } from '@deriv-com/api-hooks';
+import { useP2PSettings, useSubscribe } from '@deriv-com/api-hooks';
 
 type TP2PSettings =
     | (ReturnType<typeof useP2PSettings>['data'] & {
@@ -31,12 +31,12 @@ type TCurrencyListItem = {
 };
 
 const useSettings = () => {
-    const { data, ...rest } = useP2PSettings();
+    const { data, ...rest } = useSubscribe('p2p_settings');
     const [p2pSettings, setP2PSettings] = useLocalStorage<DeepPartial<TP2PSettings>>('p2p_settings', {});
 
     useEffect(() => {
         if (data) {
-            const p2p_settings_data = data;
+            const p2p_settings_data = data.p2p_settings;
 
             if (!p2p_settings_data) return undefined;
 

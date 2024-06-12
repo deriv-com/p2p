@@ -81,14 +81,14 @@ export const MenuItems: MenuItemsConfig[] = [
         label: "Trader's Hub",
     },
     {
-        as: 'button',
-        href: 'https://app.deriv.com/appstore/traders-hub',
+        as: 'a',
+        href: 'https://app.deriv.com/appstore/reports',
         icon: <ReportsLogo iconSize='xs' />,
         label: 'Reports',
     },
     {
-        as: 'button',
-        href: 'https://app.deriv.com/appstore/traders-hub',
+        as: 'a',
+        href: 'https://app.deriv.com/appstore/cashier',
         icon: <CashierLogo iconSize='xs' />,
         label: 'Cashier',
     },
