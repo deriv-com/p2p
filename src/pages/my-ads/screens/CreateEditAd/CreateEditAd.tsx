@@ -204,7 +204,7 @@ const CreateEditAd = () => {
     );
 
     useEffect(() => {
-        if (advertInfo && isEdit) {
+        if (advertInfo && advertInfo.id === advertId && isEdit) {
             setFormValues(advertInfo as NonUndefinedValues<THooks.Advert.Get>);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
