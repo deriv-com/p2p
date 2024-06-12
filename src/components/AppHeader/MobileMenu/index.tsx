@@ -11,7 +11,6 @@ import { MenuHeader } from './MenuHeader';
 import { ToggleButton } from './ToggleButton';
 
 // TODO the design inside LanguageSwitcher dose not match the production => change from ui side
-// TODO hide hover of platformswitcher in tablet view
 
 export const MobileMenu = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -30,7 +29,7 @@ export const MobileMenu = () => {
         <>
             <ToggleButton onClick={openDrawer} />
 
-            <Drawer isOpen={isDrawerOpen} onCloseDrawer={closeDrawer} width='295px'>
+            <Drawer isOpen={isDrawerOpen} onCloseDrawer={closeDrawer} width='29.5rem'>
                 <Drawer.Header onCloseDrawer={closeDrawer}>
                     <MenuHeader
                         hideLanguageSetting={isLanguageSettingVisible}
@@ -56,7 +55,7 @@ export const MobileMenu = () => {
                     )}
                 </Drawer.Content>
 
-                <Drawer.Footer className='justify-center h-[40px]'>
+                <Drawer.Footer className='justify-center h-[4rem]'>
                     <ServerTime />
                     <NetworkStatus />
                 </Drawer.Footer>

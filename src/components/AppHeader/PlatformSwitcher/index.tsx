@@ -1,7 +1,6 @@
 import { useTranslations } from '@deriv-com/translations';
 import { PlatformSwitcher as UIPlatformSwitcher, PlatformSwitcherItem } from '@deriv-com/ui';
 import { platformsConfig } from '../HeaderConfig';
-import './PlatformSwitcher.scss';
 
 export const PlatformSwitcher = () => {
     const { localize } = useTranslations();
@@ -10,7 +9,7 @@ export const PlatformSwitcher = () => {
         <UIPlatformSwitcher
             bottomLinkLabel={localize('Looking for CFDs? Go to Trader’s Hub')}
             buttonProps={{
-                className: 'app-header__platform-switcher',
+                className: 'hover:bg-transparent xl:hover:bg-[#e6e9e9] px-[1.6rem]',
                 icon: platformsConfig[0].buttonIcon,
             }}
         >

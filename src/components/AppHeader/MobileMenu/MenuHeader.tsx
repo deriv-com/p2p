@@ -17,15 +17,15 @@ export const MenuHeader = ({ hideLanguageSetting, openLanguageSetting }: TMenuHe
     );
 
     return (
-        <div className='flex items-center justify-between w-full pr-[16px] pl-[4px]'>
-            <Text className='text-[16px]' weight='bold'>
+        <div className='flex items-center justify-between w-full pr-[1.6rem] pl-[0.4rem]'>
+            <Text className='text-[1.6rem]' weight='bold'>
                 {localize('Menu')}
             </Text>
 
             {!hideLanguageSetting && (
                 <button className='flex items-center' onClick={openLanguageSetting}>
                     {countryIcon}
-                    <Text className='ml-[4px] text-[12px]' weight='bold'>
+                    <Text className='ml-[0.4rem] text-[1.2rem]' weight='bold'>
                         {currentLang}
                     </Text>
                 </button>
