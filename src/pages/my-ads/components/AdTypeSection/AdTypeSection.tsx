@@ -106,7 +106,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                                 currency,
                             })
                         ) : (
-                            <div />
+                            <span />
                         )
                     }
                     isDisabled={isEdit}
