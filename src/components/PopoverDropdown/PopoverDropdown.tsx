@@ -25,12 +25,12 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
 
     return (
         <div className='popover-dropdown' ref={ref}>
-            <TooltipMenuIcon as='button' tooltipContent={tooltipMessage}>
-                <LabelPairedEllipsisVerticalLgBoldIcon
-                    className='popover-dropdown__icon'
-                    data-testid='dt_popover_dropdown_icon'
-                    onClick={() => setVisible(prevState => !prevState)}
-                />
+            <TooltipMenuIcon
+                as='button'
+                onClick={() => setVisible(prevState => !prevState)}
+                tooltipContent={tooltipMessage}
+            >
+                <LabelPairedEllipsisVerticalLgBoldIcon data-testid='dt_popover_dropdown_icon' />
             </TooltipMenuIcon>
             {visible && (
                 <div className='popover-dropdown__list'>

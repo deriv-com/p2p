@@ -200,14 +200,15 @@ const CreateEditAd = () => {
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [setValue, paymentMethodList, countryList]
+        [paymentMethodList, countryList]
     );
 
     useEffect(() => {
         if (advertInfo && isEdit) {
             setFormValues(advertInfo as NonUndefinedValues<THooks.Advert.Get>);
         }
-    }, [advertInfo, isEdit, setFormValues]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [advertInfo, isEdit]);
 
     if ((isLoading && isEdit) || (isEdit && !advertInfo)) {
         return <Loader />;
