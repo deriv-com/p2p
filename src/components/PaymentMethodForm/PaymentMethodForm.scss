@@ -23,6 +23,17 @@
             & .deriv-input__container {
                 width: 100%;
             }
+
+            & .payment-method-form__fields {
+                & .payment-method-form__field-wrapper {
+                    & .deriv-input__container {
+                        & .deriv-input__right-content {
+                            display: flex;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
         }
 
         @include mobile {
