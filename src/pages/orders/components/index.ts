@@ -3,6 +3,7 @@ export * from './ChatFooter';
 export * from './ChatHeader';
 export * from './ChatMessages';
 export * from './OrderRatingButton';
+export * from './OrdersDateSelection';
 export * from './OrderStatusTag';
 export * from './OrderTimer';
 export * from './TextAreaWithIcon';

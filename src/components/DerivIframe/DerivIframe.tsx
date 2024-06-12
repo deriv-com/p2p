@@ -4,9 +4,9 @@ const DerivIframe = () => {
     const getAllowedLocalStorageOrigin = () => {
         if (/^staging-p2p\.deriv\.com$/i.test(window.location.hostname)) {
             return URLConstants.derivP2pStaging;
-        } 
-       
-         return URLConstants.derivP2pProduction;
+        }
+
+        return URLConstants.derivP2pProduction;
     };
 
     const origin = getAllowedLocalStorageOrigin();
