@@ -69,6 +69,16 @@
         width: 100%;
         font-size: 1.4rem;
     }
+    .deriv-input__right-content {
+        display: flex;
+        align-items: center;
+
+        & .deriv-dropdown__button {
+            &--active {
+                transform: none;
+            }
+        }
+    }
 
     &__form {
         display: flex;
@@ -99,6 +109,9 @@
         cursor: pointer;
         color: #ffffff;
         font-size: large;
+        rect {
+            fill: #999;
+        }
     }
 
     &__field {
@@ -126,6 +139,10 @@
                 &__items--xs {
                     max-height: 20rem;
                 }
+            }
+            & .deriv-input__right-content {
+                display: flex;
+                align-items: center;
             }
         }
     }

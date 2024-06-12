@@ -1,4 +1,5 @@
 import { MouseEventHandler } from 'react';
+import clsx from 'clsx';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TCurrency } from 'types';
 import { FloatingRate, RadioGroup } from '@/components';
@@ -69,7 +70,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
     };
 
     return (
-        <div className='ad-type-section'>
+        <div className={clsx('ad-type-section', { 'ad-type-section--edit': isEdit })}>
             {!isEdit && (
                 <Controller
                     control={control}

@@ -37,6 +37,7 @@ type FormValues = {
 };
 
 type TMutatePayload = Parameters<THooks.Advert.Create>[0];
+type TFormValuesInfo = NonUndefinedValues<THooks.Advert.Get>;
 
 const CreateEditAd = () => {
     const { queryString } = useQueryString();
@@ -166,33 +167,33 @@ const CreateEditAd = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, history, shouldNotShowArchiveMessageAgain, isError, isUpdateSuccess, isUpdateError]);
 
-    const setInitialAdRate = () => {
-        if (rateType !== advertInfo?.rate_type) {
+    const setInitialAdRate = (formValues: TFormValuesInfo) => {
+        if (rateType !== formValues?.rate_type) {
             if (rateType === RATE_TYPE.FLOAT) {
-                return advertInfo?.is_buy ? '-0.01' : '+0.01';
+                return formValues?.is_buy ? '-0.01' : '+0.01';
             }
             return '';
         }
-        return advertInfo?.rate;
+        return formValues?.rate;
     };
 
     const setFormValues = useCallback(
-        (advertInfo: NonUndefinedValues<THooks.Advert.Get>) => {
-            setValue('ad-type', advertInfo.type);
-            setValue('amount', advertInfo.amount.toString());
-            setValue('instructions', advertInfo.description);
-            setValue('max-order', advertInfo.max_order_amount.toString());
-            setValue('min-completion-rate', advertInfo.min_completion_rate?.toString() ?? '');
-            setValue('min-join-days', advertInfo.min_join_days?.toString() ?? '');
-            setValue('min-order', advertInfo.min_order_amount.toString());
-            setValue('rate-value', setInitialAdRate() as string);
-            setValue('preferred-countries', advertInfo.eligible_countries ?? Object.keys(countryList as object));
-            setValue('order-completion-time', `${advertInfo.order_expiry_period}`);
-            if (advertInfo.type === 'sell') {
-                setValue('contact-details', advertInfo.contact_info);
-                setValue('payment-method', Object.keys(advertInfo.payment_method_details ?? {}).map(Number));
+        (formValues: TFormValuesInfo) => {
+            setValue('ad-type', formValues.type);
+            setValue('amount', formValues.amount.toString());
+            setValue('instructions', formValues.description);
+            setValue('max-order', formValues.max_order_amount.toString());
+            setValue('min-completion-rate', formValues.min_completion_rate?.toString() ?? '');
+            setValue('min-join-days', formValues.min_join_days?.toString() ?? '');
+            setValue('min-order', formValues.min_order_amount.toString());
+            setValue('rate-value', setInitialAdRate(formValues) as string);
+            setValue('preferred-countries', formValues.eligible_countries ?? Object.keys(countryList as object));
+            setValue('order-completion-time', `${formValues.order_expiry_period}`);
+            if (formValues.type === 'sell') {
+                setValue('contact-details', formValues.contact_info);
+                setValue('payment-method', Object.keys(formValues.payment_method_details ?? {}).map(Number));
             } else {
-                const paymentMethodNames = advertInfo?.payment_method_names;
+                const paymentMethodNames = formValues?.payment_method_names;
                 const paymentMethodKeys =
                     paymentMethodNames?.map(
                         name => paymentMethodList.find(method => method.display_name === name)?.id ?? ''
@@ -201,14 +202,15 @@ const CreateEditAd = () => {
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [setValue, paymentMethodList, countryList]
+        [paymentMethodList, countryList]
     );
 
     useEffect(() => {
-        if (advertInfo && isEdit) {
-            setFormValues(advertInfo as NonUndefinedValues<THooks.Advert.Get>);
+        if (advertInfo && advertInfo.id === advertId && isEdit) {
+            setFormValues(advertInfo as TFormValuesInfo);
         }
-    }, [advertInfo, isEdit, setFormValues]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [advertInfo, isEdit]);
 
     if ((isLoading && isEdit) || (isEdit && !advertInfo)) {
         return <Loader />;
