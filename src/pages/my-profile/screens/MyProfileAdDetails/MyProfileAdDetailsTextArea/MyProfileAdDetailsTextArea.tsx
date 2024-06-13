@@ -1,4 +1,5 @@
 import { Controller, useForm } from 'react-hook-form';
+import { VALID_SYMBOLS_PATTERN } from '@/constants';
 import { useTranslations } from '@deriv-com/translations';
 import { TextArea, useDevice } from '@deriv-com/ui';
 
@@ -14,7 +15,7 @@ const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProp
         message: localize(
             "Contact details can only include letters, numbers, spaces, and any of these symbols: -+.,'#@():;"
         ),
-        value: /^[a-zA-Z0-9.@_\-+.,'#@():;\s]*$/,
+        value: VALID_SYMBOLS_PATTERN,
     };
 
     return (
