@@ -59,7 +59,7 @@ export const MobileMenu = () => {
                     )}
                 </Drawer.Content>
 
-                <Drawer.Footer className='justify-center h-[4rem]'>
+                <Drawer.Footer className='justify-center h-16'>
                     <ServerTime />
                     <NetworkStatus />
                 </Drawer.Footer>

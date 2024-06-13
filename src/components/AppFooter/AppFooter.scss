@@ -2,7 +2,7 @@
     height: 3.6rem;
     display: flex;
     flex-direction: row-reverse;
-    padding: 0 10px;
+    padding: 0 1rem;
     align-items: center;
     position: fixed;
     bottom: 0;
@@ -55,7 +55,7 @@
         }
 
         @include mobile {
-            margin-left: 12px;
+            margin-left: 1.2rem;
         }
     }
 
