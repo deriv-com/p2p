@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
 import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
-import { LabelPairedEllipsisVerticalMdRegularIcon } from '@deriv/quill-icons';
-import { Button, Text, Tooltip, useDevice } from '@deriv-com/ui';
+import { LabelPairedEllipsisVerticalLgBoldIcon } from '@deriv/quill-icons';
+import { Button, Text, TooltipMenuIcon, useDevice } from '@deriv-com/ui';
 import './PopoverDropdown.scss';
 
 type TItem = {
@@ -26,19 +26,15 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
     return (
         <div className='popover-dropdown' ref={ref}>
             {isAdvertiserBarred ? (
-                <LabelPairedEllipsisVerticalMdRegularIcon
-                    className='popover-dropdown__icon'
-                    data-testid='dt_popover_dropdown_icon'
-                    fill='#999999'
-                />
+                <LabelPairedEllipsisVerticalLgBoldIcon data-testid='dt_popover_dropdown_icon' fill='#999999' />
             ) : (
-                <Tooltip message={tooltipMessage} position='bottom' triggerAction='hover'>
-                    <LabelPairedEllipsisVerticalMdRegularIcon
-                        className='popover-dropdown__icon'
-                        data-testid='dt_popover_dropdown_icon'
-                        onClick={() => setVisible(prevState => !prevState)}
-                    />
-                </Tooltip>
+                <TooltipMenuIcon
+                    as='button'
+                    onClick={() => setVisible(prevState => !prevState)}
+                    tooltipContent={tooltipMessage}
+                >
+                    <LabelPairedEllipsisVerticalLgBoldIcon data-testid='dt_popover_dropdown_icon' />
+                </TooltipMenuIcon>
             )}
             {visible && (
                 <div className='popover-dropdown__list'>

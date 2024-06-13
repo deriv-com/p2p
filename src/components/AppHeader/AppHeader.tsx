@@ -23,7 +23,7 @@ const AppHeader = () => {
             <Wrapper variant='left'>
                 <AppLogo />
                 <MobileMenu />
-                <PlatformSwitcher />
+                {isDesktop && <PlatformSwitcher />}
                 <MenuItems />
             </Wrapper>
             <Wrapper variant='right'>
