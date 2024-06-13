@@ -2,7 +2,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { AppFooter, AppHeader, DerivIframe } from '@/components';
-// import { useRedirectToOauth } from '@/hooks';
+import { useRedirectToOauth } from '@/hooks';
 import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
@@ -14,9 +14,9 @@ const i18nInstance = initializeI18n({
 
 const App = () => {
     const { isDesktop } = useDevice();
-    // const { redirectToOauth } = useRedirectToOauth();
+    const { redirectToOauth } = useRedirectToOauth();
 
-    // redirectToOauth();
+    redirectToOauth();
 
     return (
         <BrowserRouter>
