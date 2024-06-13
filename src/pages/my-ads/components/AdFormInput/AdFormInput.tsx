@@ -15,7 +15,7 @@ type TAdFormInputProps = ComponentProps<typeof Input> & {
 };
 
 const AdFormInput = ({
-    hint = <div />,
+    hint = <span />,
     isDisabled = false,
     label,
     name,

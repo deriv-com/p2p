@@ -7,6 +7,7 @@ export * from './BuySellForm';
 export * from './Checklist';
 export * from './Clipboard';
 export * from './CopyAdForm';
+export * from './DatePicker';
 export * from './DerivIframe';
 export * from './FileDropzone';
 export * from './FloatingRate';
