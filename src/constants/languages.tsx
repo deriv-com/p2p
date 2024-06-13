@@ -1,4 +1,5 @@
 import {
+    FlagArabLeagueIcon,
     FlagFranceIcon,
     FlagGermanyIcon,
     FlagItalyIcon,
@@ -8,7 +9,6 @@ import {
     FlagSpainIcon,
     FlagThailandIcon,
     FlagTurkeyIcon,
-    FlagUnitedArabEmiratesIcon,
     FlagUnitedKingdomIcon,
     FlagVietnamIcon,
 } from '@deriv/quill-icons';
@@ -24,9 +24,9 @@ export const LANGUAGES = [
     {
         code: 'AR',
         displayName: 'العربية',
-        icon: <FlagUnitedArabEmiratesIcon height={24} width={36} />,
-        placeholderIcon: <FlagUnitedArabEmiratesIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagUnitedArabEmiratesIcon height={14.67} width={22} />,
+        icon: <FlagArabLeagueIcon height={24} width={36} />,
+        placeholderIcon: <FlagArabLeagueIcon height={12} width={18} />,
+        placeholderIconInMobile: <FlagArabLeagueIcon height={14.67} width={22} />,
     },
     {
         code: 'ES',
