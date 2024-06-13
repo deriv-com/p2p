@@ -1,3 +1,4 @@
+import { TAdvertiserStats } from 'types';
 import { MobileTabs, ProfileContent } from '@/components';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { MyProfileAdDetails } from '../MyProfileAdDetails';
@@ -5,7 +6,11 @@ import { MyProfileCounterparties } from '../MyProfileCounterparties';
 import MyProfileStatsMobile from '../MyProfileStats/MyProfileStatsMobile';
 import { PaymentMethods } from '../PaymentMethods';
 
-const MyProfileMobile = () => {
+type TMyProfileMobileProps = {
+    data: TAdvertiserStats;
+};
+
+const MyProfileMobile = ({ data }: TMyProfileMobileProps) => {
     const { queryString, setQueryString } = useQueryString();
     const currentTab = queryString.tab;
 
@@ -24,7 +29,7 @@ const MyProfileMobile = () => {
 
     return (
         <>
-            <ProfileContent />
+            <ProfileContent data={data} />
             <MobileTabs
                 onChangeTab={clickedTab =>
                     setQueryString({

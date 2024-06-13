@@ -8,9 +8,10 @@ import './AdCancelCreateEditModal.scss';
 type TAdCancelCreateEditModalProps = {
     isModalOpen: boolean;
     onRequestClose: () => void;
+    resetValues?: () => void;
 };
 
-const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose }: TAdCancelCreateEditModalProps) => {
+const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose, resetValues }: TAdCancelCreateEditModalProps) => {
     const { isMobile } = useDevice();
     const history = useHistory();
     const { queryString } = useQueryString();
@@ -46,7 +47,10 @@ const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose }: TAdCancelCreat
                 <Button
                     className='border-2'
                     color='black'
-                    onClick={() => history.push(MY_ADS_URL)}
+                    onClick={() => {
+                        resetValues?.();
+                        history.push(MY_ADS_URL);
+                    }}
                     size='lg'
                     textSize={textSize}
                     variant='outlined'

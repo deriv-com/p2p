@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactNode } from 'react';
 import clsx from 'clsx';
-import { LabelPairedArrowLeftLgBoldIcon } from '@deriv/quill-icons';
+import { LabelPairedArrowLeftLgBoldIcon, StandaloneXmarkBoldIcon } from '@deriv/quill-icons';
 import './FullPageMobileWrapper.scss';
 
 type TFullPageMobileWrapperProps = {
@@ -10,6 +10,7 @@ type TFullPageMobileWrapperProps = {
     renderHeader?: () => ReactNode;
     shouldFixedFooter?: boolean;
     shouldShowBackIcon?: boolean;
+    shouldShowCloseIcon?: boolean;
 };
 
 const FullPageMobileWrapper = ({
@@ -20,6 +21,7 @@ const FullPageMobileWrapper = ({
     renderHeader,
     shouldFixedFooter = true,
     shouldShowBackIcon = true,
+    shouldShowCloseIcon = false,
 }: PropsWithChildren<TFullPageMobileWrapperProps>) => {
     return (
         <div
@@ -37,6 +39,11 @@ const FullPageMobileWrapper = ({
                         <LabelPairedArrowLeftLgBoldIcon data-testid='dt_mobile_wrapper_button' onClick={onBack} />
                     )}
                     {renderHeader()}
+                    {shouldShowCloseIcon && (
+                        <div className='absolute right-[1.6rem]'>
+                            <StandaloneXmarkBoldIcon data-testid='dt_mobile_wrapper_button' onClick={onBack} />
+                        </div>
+                    )}
                 </div>
             )}
             <div className='mobile-wrapper__body'>{children}</div>
