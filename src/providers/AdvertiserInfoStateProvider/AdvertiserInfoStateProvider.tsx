@@ -1,8 +1,7 @@
 import { createContext, PropsWithChildren, useContext } from 'react';
-import { TSocketError } from 'types';
 
 type TContextValue = {
-    error: TSocketError<'p2p_advertiser_info'> | undefined;
+    error: { code: string; message: string } | undefined;
     isIdle: boolean;
     isLoading: boolean;
     isSubscribed: boolean;

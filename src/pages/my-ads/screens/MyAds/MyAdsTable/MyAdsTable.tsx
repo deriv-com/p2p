@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { NonUndefined } from 'react-hook-form';
 import { THooks } from 'types';
 import { Table } from '@/components';
@@ -10,7 +10,10 @@ import MyAdsTableRowView from '../MyAdsTableRow/MyAdsTableRowView';
 import MyAdsDisplayWrapper from './MyAdsDisplayWrapper';
 import './MyAdsTable.scss';
 
+type TAdvertiserPaymentMethods = THooks.AdvertiserPaymentMethods.Get;
+
 export type TMyAdsTableRowRendererProps = NonUndefined<THooks.AdvertiserAdverts.Get>[0] & {
+    advertiserPaymentMethods: TAdvertiserPaymentMethods;
     balanceAvailable: number;
     dailyBuyLimit: string;
     dailySellLimit: string;
@@ -56,6 +59,14 @@ const MyAdsTable = () => {
         is_listed_boolean: isListed,
     } = advertiserInfo || {};
     const { mutate: updateAds } = api.advertiser.useUpdate();
+    const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
+
+    useEffect(() => {
+        if (isAdvertiser) {
+            get();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAdvertiser]);
 
     if (isLoading && isFetching) return <Loader />;
 
@@ -75,6 +86,7 @@ const MyAdsTable = () => {
                     rowRender={(rowData: unknown) => (
                         <MyAdsTableRowRenderer
                             {...(rowData as TMyAdsTableRowRendererProps)}
+                            advertiserPaymentMethods={advertiserPaymentMethods as TAdvertiserPaymentMethods}
                             balanceAvailable={balanceAvailable ?? 0}
                             dailyBuyLimit={dailyBuyLimit ?? ''}
                             dailySellLimit={dailySellLimit ?? ''}

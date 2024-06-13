@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useP2PAdvertiserPaymentMethods } from '@deriv-com/api-hooks';
 
 /** A custom hook that returns the list of P2P Advertiser Payment Methods */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useAdvertiserPaymentMethods = () => {
     const { data, ...rest } = useP2PAdvertiserPaymentMethods();
 

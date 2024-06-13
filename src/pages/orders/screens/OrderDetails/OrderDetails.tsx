@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck error types are not correct from api-hooks
+// TODO: fix error types from api-hooks
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
@@ -36,6 +39,7 @@ const OrderDetails = () => {
     const { isMobile } = useDevice();
     const { sendFile, userId, ...rest } = useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
     const { localize } = useTranslations();
+    const { data: activeAccountData } = api.account.useActiveAccount();
 
     const headerText = isBuyOrderForUser ? localize('Buy USD order') : localize('Sell USD order');
     const warningMessage = localize(
@@ -48,6 +52,8 @@ const OrderDetails = () => {
             history.push(`${ORDERS_URL}?tab=Past+orders`);
         else if ((location.state as { from: string })?.from === 'BuySell') history.push(BUY_SELL_URL);
         else history.goBack();
+
+        unsubscribe();
     };
 
     const onChatReturn = () => {
@@ -56,15 +62,12 @@ const OrderDetails = () => {
     };
 
     useEffect(() => {
-        subscribe({
-            id: orderId,
-        });
-
-        return () => {
-            unsubscribe();
-        };
+        if (activeAccountData)
+            subscribe({
+                id: orderId,
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [orderId]);
+    }, [activeAccountData, orderId]);
 
     useEffect(() => {
         if (orderId && activeAccount?.loginid) {
@@ -80,7 +83,7 @@ const OrderDetails = () => {
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 
     // TODO: replace with proper error screen once design is ready
-    if (error) return <Text>{error?.error?.message}</Text>;
+    if (error) return <Text>{error?.message}</Text>;
 
     if (isMobile) {
         return (

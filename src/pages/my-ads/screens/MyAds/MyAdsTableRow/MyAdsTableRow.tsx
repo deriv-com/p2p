@@ -6,7 +6,7 @@ import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
 import { useFloatingRate } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, shouldShowTooltipIcon } from '@/utils';
 import { useExchangeRates } from '@deriv-com/api-hooks';
-import { useTranslations } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import { AdStatus, AdType, AlertComponent, ProgressIndicator } from '../../../components';
@@ -17,8 +17,7 @@ const BASE_CURRENCY = 'USD';
 
 const getList = (localize: TLocalize, isActive = false) => [
     { label: localize('Edit'), value: 'edit' },
-    // TODO: to be added when copy ads feature is released
-    // { label: localize('Copy'), value: 'copy' },
+    { label: localize('Copy'), value: 'copy' },
     { label: localize('Share'), value: 'share' },
     {
         label: `${isActive ? localize('Deactivate') : localize('Activate')}`,
@@ -33,7 +32,10 @@ type TProps = {
     showModal: (value: string) => void;
 };
 
-type TMyAdsTableProps = Omit<TMyAdsTableRowRendererProps, 'balanceAvailable' | 'dailyBuyLimit' | 'dailySellLimit'> &
+type TMyAdsTableProps = Omit<
+    TMyAdsTableRowRendererProps,
+    'advertiserPaymentMethods' | 'balanceAvailable' | 'dailyBuyLimit' | 'dailySellLimit'
+> &
     TProps;
 
 const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps) => {
@@ -131,7 +133,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                 })}
             >
                 <Text color='less-prominent' size='sm'>
-                    {`Ad ID ${id} `}
+                    <Localize i18n_default_text='Ad ID {{id}}' values={{ id }} />
                 </Text>
                 <div className='my-ads-table-row__line__type-and-status'>
                     <Text color={adPauseColor} size='lg' weight='bold'>
@@ -143,7 +145,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                         <PopoverDropdown
                             dropdownList={getList(localize, isAdActive)}
                             onClick={handleClick}
-                            tooltipMessage='Manage ad'
+                            tooltipMessage={localize('Manage ad')}
                         />
                     </div>
                 </div>
@@ -152,7 +154,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                         {`${FormatUtils.formatMoney(amountDealt, { currency: accountCurrency as TCurrency })}`}{' '}
                         {accountCurrency}
                         &nbsp;
-                        {advertType === 'Buy' ? 'Bought' : 'Sold'}
+                        {advertType === 'Buy' ? localize('Bought') : localize('Sold')}
                     </Text>
                     <Text color='less-prominent' size='sm'>
                         {amountDisplay} {accountCurrency}
@@ -165,10 +167,10 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                 />
                 <div className='my-ads-table-row__line-details'>
                     <Text color='less-prominent' size='sm'>
-                        Limits
+                        <Localize i18n_default_text='Limits' />
                     </Text>
                     <Text color='less-prominent' size='sm'>
-                        {`Rate (1 ${accountCurrency})`}
+                        <Localize i18n_default_text='Rate (1 {{accountCurrency}})' values={{ accountCurrency }} />
                     </Text>
                 </div>
                 <div className='my-ads-table-row__line-details'>
@@ -222,12 +224,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
             </Text>
             <div className='flex flex-wrap gap-2'>
                 {paymentMethodNames?.map(paymentMethod => (
-                    <PaymentMethodLabel
-                        color={adPauseColor}
-                        key={paymentMethod}
-                        paymentMethodName={paymentMethod}
-                        size='xs'
-                    />
+                    <PaymentMethodLabel color={adPauseColor} key={paymentMethod} paymentMethodName={paymentMethod} />
                 ))}
             </div>
             <div className='my-ads-table-row__actions'>
@@ -235,7 +232,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                 <PopoverDropdown
                     dropdownList={getList(localize, isAdActive)}
                     onClick={handleClick}
-                    tooltipMessage='Manage ad'
+                    tooltipMessage={localize('Manage ad')}
                 />
                 {showAlertIcon && <AlertComponent onClick={() => showModal('AdErrorTooltipModal')} />}
             </div>
