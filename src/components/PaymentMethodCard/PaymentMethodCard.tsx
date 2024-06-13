@@ -63,6 +63,7 @@ const PaymentMethodCard = ({
                         isEditable={isEditable}
                         isSelectable={!isEditable && toAdd}
                         isSelected={isSelected}
+                        medium={medium}
                         onDeletePaymentMethod={onDeletePaymentMethod}
                         onEditPaymentMethod={onEditPaymentMethod}
                         onSelectPaymentMethod={() => onSelectPaymentMethodCard?.(Number(paymentMethod.id))}
