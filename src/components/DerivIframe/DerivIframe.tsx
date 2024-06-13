@@ -2,10 +2,12 @@ import { URLConstants } from '@deriv-com/utils';
 
 const DerivIframe = () => {
     const getAllowedLocalStorageOrigin = () => {
-        if (/^staging-p2p\.deriv\.com$/i.test(window.location.hostname)) {
+        const hostName = window.location.hostname;
+        if (/^staging-p2p\.deriv\.com$/i.test(hostName)) {
             return URLConstants.derivP2pStaging;
+        } else if (/^localhost$/i.test(hostName)) {
+            return window.location.origin;
         }
-
         return URLConstants.derivP2pProduction;
     };
 
