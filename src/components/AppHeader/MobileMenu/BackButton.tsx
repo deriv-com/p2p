@@ -1,6 +1,5 @@
-import { useDevice } from '@/hooks';
 import { LegacyChevronLeft1pxIcon } from '@deriv/quill-icons';
-import { Text } from '@deriv-com/ui';
+import { Text, useDevice } from '@deriv-com/ui';
 
 type TBackButton = {
     buttonText: string;
