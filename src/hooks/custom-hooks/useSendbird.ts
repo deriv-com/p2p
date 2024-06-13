@@ -74,7 +74,7 @@ function createChatMessage(sendbirdMessage: BaseMessage): ChatMessage {
 const useSendbird = (orderId: string | undefined, isErrorOrderInfo: boolean, chatChannelUrl: string) => {
     const sendbirdApiRef = useRef<ReturnType<typeof SendbirdChat.init<GroupChannelModule[]>>>();
 
-    const [isChatLoading, setIsChatLoading] = useState(false);
+    const [isChatLoading, setIsChatLoading] = useState(true);
     const [isFileUploading, setIsFileUploading] = useState(false);
     const [isChatError, setIsChatError] = useState(false);
     const [user, setUser] = useState<User | null>(null);
