@@ -29,7 +29,7 @@ const OrdersChatSection = ({ isInactive, onReturn, otherUserDetails, ...sendBird
 
     if (isError) {
         return (
-            <div className='orders-chat-section flex flex-col justify-center items-center h-[70vh]'>
+            <div className='orders-chat-section'>
                 <ChatError onClickRetry={refreshChat} />
             </div>
         );
@@ -57,7 +57,7 @@ const OrdersChatSection = ({ isInactive, onReturn, otherUserDetails, ...sendBird
         );
     }
     return (
-        <div className='orders-chat-section flex flex-col justify-center items-center h-[60vh]'>
+        <div className='orders-chat-section'>
             {isChatLoading ? (
                 <Loader isFullScreen={false} />
             ) : (

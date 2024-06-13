@@ -143,7 +143,7 @@ const OrderDetails = () => {
                             <Text size='2xs'>{warningMessage}</Text>
                         </InlineMessage>
                     )}
-                    <div className='grid grid-cols-none lg:grid-cols-2 lg:gap-14'>
+                    <div className='grid grid-cols-none lg:grid-cols-2 lg:gap-14 h-full'>
                         <OrderDetailsCard sendFile={sendFile} />
                         <OrdersChatSection
                             isInactive={!!orderDetails?.isInactiveOrder}

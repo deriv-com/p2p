@@ -1,4 +1,4 @@
-import { ComponentType, SVGAttributes } from 'react';
+import { ComponentType, memo, SVGAttributes } from 'react';
 import { CHAT_MESSAGE_STATUS } from '@/constants';
 import { useSendbird } from '@/hooks/custom-hooks';
 import { ReactComponent as MessageDeliveredIcon } from '../../../../public/ic-message-delivered.svg';
@@ -37,4 +37,4 @@ const ChatMessageReceipt = ({ chatChannel, message, userId }: TChatMessageReceip
     return <Icon data-testid='dt_chat_message_receipt_icon' />;
 };
 
-export default ChatMessageReceipt;
+export default memo(ChatMessageReceipt);
