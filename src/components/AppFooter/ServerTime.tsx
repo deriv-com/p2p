@@ -1,12 +1,13 @@
 import { DATE_TIME_FORMAT_WITH_GMT, DATE_TIME_FORMAT_WITH_OFFSET } from '@/constants';
 import { useSyncedTime } from '@/hooks';
 import { epochToLocal, epochToUTC } from '@/utils';
-import { Text, TooltipMenuIcon } from '@deriv-com/ui';
+import { Text, TooltipMenuIcon, useDevice } from '@deriv-com/ui';
 
 const ServerTime = () => {
     const time = useSyncedTime();
     const UTCFormat = epochToUTC(time, DATE_TIME_FORMAT_WITH_GMT);
     const localFormat = epochToLocal(time, DATE_TIME_FORMAT_WITH_OFFSET);
+    const { isMobile } = useDevice();
 
     return (
         <TooltipMenuIcon
@@ -16,7 +17,7 @@ const ServerTime = () => {
             disableHover
             tooltipContent={localFormat}
         >
-            <Text size='xs'>{UTCFormat}</Text>
+            <Text size={isMobile ? 'sm' : 'xs'}>{UTCFormat}</Text>
         </TooltipMenuIcon>
     );
 };
