@@ -4,7 +4,7 @@
     border-radius: 8px;
 
     @include mobile {
-        max-width: calc(100% - 3.2rem);
+        max-width: calc(100vw - 3.2rem);
     }
 
     &__body {
