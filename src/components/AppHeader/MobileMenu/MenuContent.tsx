@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useDevice } from '@/hooks';
-import { MenuItem, Submenu, Text } from '@deriv-com/ui';
+import { MenuItem, Submenu, Text, useDevice } from '@deriv-com/ui';
 import { PlatformSwitcher } from '../PlatformSwitcher';
 import { MobileMenuConfig, TSubmenuSection } from './MobileMenuConfig';
 import { SubmenuContent } from './SubmenuContent';

@@ -1,7 +1,7 @@
 import { DATE_TIME_FORMAT_WITH_GMT, DATE_TIME_FORMAT_WITH_OFFSET } from '@/constants';
-import { useDevice, useSyncedTime } from '@/hooks';
+import { useSyncedTime } from '@/hooks';
 import { epochToLocal, epochToUTC } from '@/utils';
-import { Text, TooltipMenuIcon } from '@deriv-com/ui';
+import { Text, TooltipMenuIcon, useDevice } from '@deriv-com/ui';
 
 const ServerTime = () => {
     const time = useSyncedTime();
