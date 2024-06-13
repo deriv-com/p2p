@@ -50,7 +50,7 @@ export const MobileMenu = () => {
                                 isOpen
                                 languages={LANGUAGES}
                                 onClose={hideModal}
-                                onLanguageSwitch={code => switchLanguage(code)}
+                                onLanguageSwitch={switchLanguage}
                                 selectedLanguage={currentLang}
                             />
                         </>
