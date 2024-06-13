@@ -14,12 +14,12 @@ export const MenuContent = () => {
     return (
         <div className='flex flex-col h-full'>
             {!isSubmenuOpen && (
-                <div className='flex items-center justify-center h-[7.1rem] border-b border-[#f2f3f4]'>
+                <div className='flex items-center justify-center h-28 border-b border-[#f2f3f4]'>
                     <PlatformSwitcher />
                 </div>
             )}
 
-            <div className='relative h-full pt-[1rem]'>
+            <div className='relative h-full pt-4'>
                 {data.map((item, index) => (
                     <div className='pl-[4.8rem] pr-[1.6rem] border-b border-[#f2f3f4]' key={index}>
                         {item.map(({ LeftComponent, RightComponent, as, href, label, onClick, submenu }) => {
