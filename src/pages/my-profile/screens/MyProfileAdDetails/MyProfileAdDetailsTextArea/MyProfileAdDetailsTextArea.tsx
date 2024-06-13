@@ -1,5 +1,6 @@
 import { Controller, useForm } from 'react-hook-form';
 import { VALID_SYMBOLS_PATTERN } from '@/constants';
+import { getTextFieldError } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { TextArea, useDevice } from '@deriv-com/ui';
 
@@ -33,9 +34,7 @@ const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProp
                 )}
                 rules={{
                     pattern: {
-                        message: localize(
-                            "Contact details can only include letters, numbers, spaces, and any of these symbols: -+.,'#@():;"
-                        ),
+                        message: getTextFieldError('Contact details'),
                         value: VALID_SYMBOLS_PATTERN,
                     },
                 }}
@@ -59,9 +58,7 @@ const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProp
                 )}
                 rules={{
                     pattern: {
-                        message: localize(
-                            "Instructions can only include letters, numbers, spaces, and any of these symbols: -+.,'#@():;"
-                        ),
+                        message: getTextFieldError('Instructions'),
                         value: VALID_SYMBOLS_PATTERN,
                     },
                 }}
