@@ -11,12 +11,6 @@ const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProp
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'md' : 'sm';
-    const pattern = {
-        message: localize(
-            "Contact details can only include letters, numbers, spaces, and any of these symbols: -+.,'#@():;"
-        ),
-        value: VALID_SYMBOLS_PATTERN,
-    };
 
     return (
         <>
@@ -37,7 +31,14 @@ const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProp
                         value={value}
                     />
                 )}
-                rules={{ pattern }}
+                rules={{
+                    pattern: {
+                        message: localize(
+                            "Contact details can only include letters, numbers, spaces, and any of these symbols: -+.,'#@():;"
+                        ),
+                        value: VALID_SYMBOLS_PATTERN,
+                    },
+                }}
             />
             <Controller
                 control={control}
@@ -56,7 +57,14 @@ const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProp
                         value={value}
                     />
                 )}
-                rules={{ pattern }}
+                rules={{
+                    pattern: {
+                        message: localize(
+                            "Instructions can only include letters, numbers, spaces, and any of these symbols: -+.,'#@():;"
+                        ),
+                        value: VALID_SYMBOLS_PATTERN,
+                    },
+                }}
             />
         </>
     );
