@@ -23,6 +23,8 @@ export const MenuContent = () => {
                 {data.map((item, index) => (
                     <div className='pl-[4.8rem] pr-[1.6rem] border-b border-[#f2f3f4]' key={index}>
                         {item.map(({ LeftComponent, RightComponent, as, href, label, onClick, submenu }) => {
+                            const textSize = isMobile ? 'md' : 'sm';
+
                             if (as === 'a') {
                                 return (
                                     <MenuItem
@@ -33,7 +35,7 @@ export const MenuContent = () => {
                                         key={label}
                                         leftComponent={<LeftComponent className='mr-[1.6rem]' height={16} width={16} />}
                                     >
-                                        <Text size={isMobile ? 'md' : 'sm'}>{label}</Text>
+                                        <Text size={textSize}>{label}</Text>
                                     </MenuItem>
                                 );
                             }
@@ -52,7 +54,7 @@ export const MenuContent = () => {
                                     }}
                                     rightComponent={RightComponent}
                                 >
-                                    <Text className='mr-auto' size={isMobile ? 'md' : 'sm'}>
+                                    <Text className='mr-auto' size={textSize}>
                                         {label}
                                     </Text>
                                 </MenuItem>
