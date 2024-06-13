@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDevice } from '@/hooks';
 import { MenuItem, Submenu, Text } from '@deriv-com/ui';
 import { PlatformSwitcher } from '../PlatformSwitcher';
 import { MobileMenuConfig, TSubmenuSection } from './MobileMenuConfig';
@@ -7,6 +8,7 @@ import { SubmenuContent } from './SubmenuContent';
 export const MenuContent = () => {
     const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
     const [renderSubmenuFor, setRenderSubmenuFor] = useState<TSubmenuSection>('accountSettings');
+    const { isMobile } = useDevice();
 
     const data = MobileMenuConfig().menuConfig;
 
@@ -32,7 +34,7 @@ export const MenuContent = () => {
                                         key={label}
                                         leftComponent={<LeftComponent className='mr-[1.6rem]' height={16} width={16} />}
                                     >
-                                        <Text className='text-[1.4rem]'>{label}</Text>
+                                        <Text size={isMobile ? 'md' : 'sm'}>{label}</Text>
                                     </MenuItem>
                                 );
                             }
@@ -51,7 +53,9 @@ export const MenuContent = () => {
                                     }}
                                     rightComponent={RightComponent}
                                 >
-                                    <Text className='text-[1.4rem] mr-auto'>{label}</Text>
+                                    <Text className='mr-auto' size={isMobile ? 'md' : 'sm'}>
+                                        {label}
+                                    </Text>
                                 </MenuItem>
                             );
                         })}
