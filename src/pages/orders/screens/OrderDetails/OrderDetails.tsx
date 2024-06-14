@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck error types are not correct from api-hooks
-// TODO: fix error types from api-hooks
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
@@ -143,7 +140,7 @@ const OrderDetails = () => {
                             <Text size='2xs'>{warningMessage}</Text>
                         </InlineMessage>
                     )}
-                    <div className='grid grid-cols-none lg:grid-cols-2 lg:gap-14'>
+                    <div className='grid grid-cols-none lg:grid-cols-2 lg:gap-14 h-full'>
                         <OrderDetailsCard sendFile={sendFile} />
                         <OrdersChatSection
                             isInactive={!!orderDetails?.isInactiveOrder}

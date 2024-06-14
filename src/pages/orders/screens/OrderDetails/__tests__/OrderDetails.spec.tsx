@@ -70,6 +70,9 @@ jest.mock('@/hooks/custom-hooks', () => ({
         },
     }),
     useSendbird: () => ({
+        activeChatChannel: {
+            isFrozen: false,
+        },
         isOnline: true,
         lastOnlineTime: 123546789,
         nickname: 'John Doe',

@@ -48,10 +48,9 @@ describe('PopoverDropdown', () => {
         expect(mockProps.onClick).toHaveBeenCalledWith('value 1');
     });
 
-    it('should disable the button if advertiser is barred', async () => {
+    it('should disable the icon if advertiser is barred', async () => {
         mockUseIsAdvertiserBarred.mockReturnValue(true);
         render(<PopoverDropdown {...mockProps} />);
-        await userEvent.click(screen.getByTestId('dt_popover_dropdown_icon'));
-        expect(screen.getByRole('button', { name: 'label 1' })).toBeDisabled();
+        expect(screen.getByTestId('dt_popover_dropdown_icon')).not.toHaveProperty('onClick');
     });
 });

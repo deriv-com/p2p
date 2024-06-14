@@ -1,21 +1,22 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// import userEvent from '@testing-library/user-event';
 import MyProfileAdDetails from '../MyProfileAdDetails';
 
-const mockUseAdvertiserInfo = {
+const mockUseAdvertiserInfo: { data: object | undefined; isLoading: boolean } = {
     data: {},
     isLoading: true,
 };
 
 const mockMutateAdvertiser = jest.fn();
+const mockReset = jest.fn();
 const mockUseUpdateAdvertiser = {
     data: {
         contact_info: '',
         default_advert_description: '',
     },
-    isLoading: false,
+    isSuccess: false,
     mutate: mockMutateAdvertiser,
+    reset: mockReset,
 };
 const mockUseDevice = {
     isMobile: false,
@@ -42,6 +43,8 @@ jest.mock('@/hooks', () => ({
         },
     },
 }));
+
+const user = userEvent.setup({ delay: null });
 
 describe('MyProfileBalance', () => {
     it('should render initial default details when user has not updated their details yet', () => {
@@ -79,6 +82,7 @@ describe('MyProfileBalance', () => {
             contact_info: '0123456789',
             default_advert_description: 'mock description',
         };
+
         render(<MyProfileAdDetails />);
         const contactTextBoxNode = screen.getByTestId('dt_profile_ad_details_contact');
         const descriptionTextBoxNode = screen.getByTestId('dt_profile_ad_details_description');
@@ -87,15 +91,17 @@ describe('MyProfileBalance', () => {
         });
         // tests by default if not edited, button should be disabled
         expect(submitBtn).toBeDisabled();
-        await userEvent.type(contactTextBoxNode, '0');
-        await userEvent.type(descriptionTextBoxNode, ' here');
+        await user.type(contactTextBoxNode, '0');
+        await user.type(descriptionTextBoxNode, ' here');
         expect(submitBtn).toBeEnabled();
 
-        await userEvent.click(submitBtn);
+        await user.click(submitBtn);
         expect(mockMutateAdvertiser).toHaveBeenCalledWith({
             contact_info: '01234567890',
             default_advert_description: 'mock description here',
         });
+
+        mockUseUpdateAdvertiser.isSuccess = true;
     });
     it('should render mobile screen', async () => {
         mockUseDevice.isMobile = true;
@@ -106,9 +112,15 @@ describe('MyProfileBalance', () => {
         expect(descriptionTextBoxNode).toBeInTheDocument();
 
         const goBackBtn = screen.getByTestId('dt_mobile_wrapper_button');
-        await userEvent.click(goBackBtn);
+        await user.click(goBackBtn);
         expect(mockSetQueryString).toHaveBeenCalledWith({
             tab: 'default',
         });
+    });
+    it('should show Loader when isLoading is true and advertiserInfo is undefined', () => {
+        mockUseAdvertiserInfo.isLoading = true;
+        mockUseAdvertiserInfo.data = undefined;
+        render(<MyProfileAdDetails />);
+        expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });
 });

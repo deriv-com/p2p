@@ -25,13 +25,17 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
 
     return (
         <div className='popover-dropdown' ref={ref}>
-            <TooltipMenuIcon
-                as='button'
-                onClick={() => setVisible(prevState => !prevState)}
-                tooltipContent={tooltipMessage}
-            >
-                <LabelPairedEllipsisVerticalLgBoldIcon data-testid='dt_popover_dropdown_icon' />
-            </TooltipMenuIcon>
+            {isAdvertiserBarred ? (
+                <LabelPairedEllipsisVerticalLgBoldIcon data-testid='dt_popover_dropdown_icon' fill='#999999' />
+            ) : (
+                <TooltipMenuIcon
+                    as='button'
+                    onClick={() => setVisible(prevState => !prevState)}
+                    tooltipContent={tooltipMessage}
+                >
+                    <LabelPairedEllipsisVerticalLgBoldIcon data-testid='dt_popover_dropdown_icon' />
+                </TooltipMenuIcon>
+            )}
             {visible && (
                 <div className='popover-dropdown__list'>
                     {dropdownList.map(item => (

@@ -121,7 +121,6 @@ const PaymentMethodsListContent = ({
             })}
             {actionType === 'DELETE' && isDeleteError && (
                 <PaymentMethodErrorModal
-                    // @ts-expect-error types are not correct from api-hooks
                     errorMessage={String(deleteError?.message)}
                     isModalOpen={isModalOpen}
                     onConfirm={() => {
