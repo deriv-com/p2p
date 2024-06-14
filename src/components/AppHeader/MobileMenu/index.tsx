@@ -46,6 +46,7 @@ export const MobileMenu = () => {
                                 onClose={hideModal}
                                 onLanguageSwitch={switchLanguage}
                                 selectedLanguage={currentLang}
+                                wrapperClassName='px-[0.8rem]'
                             />
                         </>
                     ) : (
