@@ -38,7 +38,6 @@ const BlockUnblockUserModal = ({
             onClickBlocked?.();
             onRequestClose();
         } else if (error || unblockError) {
-            // @ts-expect-error types are not correct from api-hooks
             setErrorMessage?.(error?.message || unblockError?.message);
             onRequestClose();
         }
