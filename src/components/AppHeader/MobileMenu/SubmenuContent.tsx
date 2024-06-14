@@ -1,3 +1,6 @@
+import { ComponentProps } from 'react';
+import { IconTypes } from '@deriv/quill-icons';
+import { Text, useDevice } from '@deriv-com/ui';
 import { BackButton } from './BackButton';
 import { MobileMenuConfig, TSubmenuSection } from './MobileMenuConfig';
 
@@ -6,146 +9,65 @@ type TSubmenuContent = {
     renderContentFor: TSubmenuSection;
 };
 
-export const SubmenuContent = ({ onBackClick, renderContentFor }: TSubmenuContent) => {
-    const data = MobileMenuConfig().submenuConfig[renderContentFor];
+type TMenuItem = {
+    Icon: IconTypes;
+    fontWeight: ComponentProps<typeof Text>['weight'];
+    label: string;
+};
+
+const MenuItem = ({ Icon, fontWeight, label }: TMenuItem) => {
+    const { isMobile } = useDevice();
 
     return (
-        <div className='pb-[32px]'>
+        <>
+            <Icon iconSize='xs' />
+            <Text className='ml-[1.6rem]' size={isMobile ? 'md' : 'sm'} weight={fontWeight}>
+                {label}
+            </Text>
+        </>
+    );
+};
+
+export const SubmenuContent = ({ onBackClick, renderContentFor }: TSubmenuContent) => {
+    const data = MobileMenuConfig().submenuConfig[renderContentFor];
+    const { isMobile } = useDevice();
+
+    return (
+        <div className='pb-14'>
             <BackButton buttonText={data.title} onClick={onBackClick} />
 
-            {/* <div className='flex items-center pt-[20px] pl-[32px]'>
-                <LegacyChevronLeft1pxIcon iconSize='xs' />
-                <Text className='text-[16px] ml-[16px]' weight='bold'>
-                    {localize('Cashier')}
-                </Text>
-            </div>
+            <ul className='pl-[4.8rem] pr-[1.6rem]'>
+                {data.items.map(({ Icon, href, label, subItems }) => {
+                    const hasSubItems = subItems?.length;
 
-            <ul className='pl-[48px] pr-[16px] pt-[32px]'>
-                <li className='flex items-center h-[56px]'>
-                    <LegacyDepositIcon iconSize='xs' />
-                    <Text className='text-[14px] ml-[16px]'>{localize('Deposit')}</Text>
-                </li>
+                    if (hasSubItems) {
+                        return (
+                            <li className='pl-[0.8rem] pb-[3.3rem]' key={label}>
+                                <div className='flex items-center'>
+                                    <MenuItem Icon={Icon} fontWeight='bold' label={label} />
+                                </div>
 
-                <li className='flex items-center h-[56px]'>
-                    <LegacyWithdrawalIcon iconSize='xs' />
-                    <Text className='text-[14px] ml-[16px]'>{localize('Withdrawal')}</Text>
-                </li>
-
-                <li className='flex items-center h-[56px]'>
-                    <LegacyTransferIcon iconSize='xs' />
-                    <Text className='text-[14px] ml-[16px]'>{localize('Transfer')}</Text>
-                </li>
-
-                <li className='flex items-center h-[56px]'>
-                    <LegacyDerivP2pIcon iconSize='xs' />
-                    <Text className='text-[14px] ml-[16px]'>{localize('Deriv P2P')}</Text>
-                </li>
+                                <ul className='pl-[4.8rem]'>
+                                    {subItems.map(item => (
+                                        <li className='mt-[1.7rem]' key={item.text}>
+                                            <a href={item.href}>
+                                                <Text size={isMobile ? 'md' : 'sm'}>{item.text}</Text>
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                        );
+                    }
+                    return (
+                        <li key={label}>
+                            <a className='flex items-center h-[5.6rem]' href={href}>
+                                <MenuItem Icon={Icon} fontWeight='normal' label={label} />
+                            </a>
+                        </li>
+                    );
+                })}
             </ul>
-
-            <div className='flex items-center pt-[20px] pl-[32px]'>
-                <LegacyChevronLeft1pxIcon iconSize='xs' />
-                <Text className='text-[16px] ml-[16px]' weight='bold'>
-                    {localize('Account Settings')}
-                </Text>
-            </div>
-
-            <ul className='pl-[56px]'>
-                <li className='pt-[32px]'>
-                    <div className='flex items-center'>
-                        <LegacyProfileSmIcon iconSize='xs' />
-                        <Text className='text-[14px] ml-[16px]' weight='bold'>
-                            {localize('Profile')}
-                        </Text>
-                    </div>
-
-                    <ul className='pl-[48px]'>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Personal details')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Languages')}</Text>
-                        </li>
-                    </ul>
-                </li>
-
-                <li className='pt-[32px]'>
-                    <div className='flex items-center'>
-                        <LegacyAssessmentIcon iconSize='xs' />
-                        <Text className='text-[14px] ml-[16px]' weight='bold'>
-                            {localize('Assessments')}
-                        </Text>
-                    </div>
-
-                    <ul className='pl-[48px]'>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Trading assessment')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Financial assessment')}</Text>
-                        </li>
-                    </ul>
-                </li>
-
-                <li className='pt-[32px]'>
-                    <div className='flex items-center'>
-                        <LegacyVerificationIcon iconSize='xs' />
-                        <Text className='text-[14px] ml-[16px]' weight='bold'>
-                            {localize('Verification')}
-                        </Text>
-                    </div>
-
-                    <ul className='pl-[48px]'>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Proof of identity')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Proof of address')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Proof of ownership')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Proof of income')}</Text>
-                        </li>
-                    </ul>
-                </li>
-
-                <li className='pt-[32px]'>
-                    <div className='flex items-center'>
-                        <LegacySecurityIcon iconSize='xs' />
-                        <Text className='text-[14px] ml-[16px]' weight='bold'>
-                            {localize('Security and safety')}
-                        </Text>
-                    </div>
-
-                    <ul className='pl-[48px]'>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Email and passwords')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Self exclusion')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Account limits')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Login history')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('API token')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Connected apps')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Two-factor authentication')}</Text>
-                        </li>
-                        <li className='mt-[16px]'>
-                            <Text className='text-[14px]'>{localize('Close your account')}</Text>
-                        </li>
-                    </ul>
-                </li>
-            </ul> */}
         </div>
     );
 };
