@@ -1,42 +1,43 @@
-import { ComponentProps } from 'react';
-import { IconTypes } from '@deriv/quill-icons';
-import { Text, useDevice } from '@deriv-com/ui';
-import { BackButton } from './BackButton';
-import { MobileMenuConfig, TSubmenuSection } from './MobileMenuConfig';
+// import { ComponentProps } from 'react';
+// import { IconTypes } from '@deriv/quill-icons';
+// import { Text, useDevice } from '@deriv-com/ui';
+// import { BackButton } from './BackButton';
+// import { MobileMenuConfig, TSubmenuSection } from './MobileMenuConfig';
 
-type TSubmenuContent = {
-    onBackClick: () => void;
-    renderContentFor: TSubmenuSection;
-};
+// type TSubmenuContent = {
+//     onBackClick: () => void;
+//     renderContentFor: TSubmenuSection;
+// };
 
-type TMenuItem = {
-    Icon: IconTypes;
-    fontWeight: ComponentProps<typeof Text>['weight'];
-    label: string;
-};
+// type TMenuItem = {
+//     Icon: IconTypes;
+//     fontWeight: ComponentProps<typeof Text>['weight'];
+//     label: string;
+// };
 
-const MenuItem = ({ Icon, fontWeight, label }: TMenuItem) => {
-    const { isMobile } = useDevice();
+// const MenuItem = ({ Icon, fontWeight, label }: TMenuItem) => {
+//     const { isMobile } = useDevice();
 
-    return (
-        <>
-            <Icon iconSize='xs' />
-            <Text className='ml-[1.6rem]' size={isMobile ? 'md' : 'sm'} weight={fontWeight}>
-                {label}
-            </Text>
-        </>
-    );
-};
+//     return (
+//         <>
+//             <Icon iconSize='xs' />
+//             <Text className='ml-[1.6rem]' size={isMobile ? 'md' : 'sm'} weight={fontWeight}>
+//                 {label}
+//             </Text>
+//         </>
+//     );
+// };
 
-export const SubmenuContent = ({ onBackClick, renderContentFor }: TSubmenuContent) => {
-    const data = MobileMenuConfig().submenuConfig[renderContentFor];
-    const { isMobile } = useDevice();
+// export const SubmenuContent = ({ onBackClick, renderContentFor }: TSubmenuContent) => {
+export const SubmenuContent = () => {
+    // const data = MobileMenuConfig().submenuConfig[renderContentFor];
+    // const { isMobile } = useDevice();
 
     return (
         <div className='pb-14'>
-            <BackButton buttonText={data.title} onClick={onBackClick} />
+            {/* <BackButton buttonText={data.title} onClick={onBackClick} /> */}
 
-            <ul className='pl-[4.8rem] pr-[1.6rem]'>
+            {/* <ul className='pl-[4.8rem] pr-[1.6rem]'>
                 {data.items.map(({ Icon, href, label, subItems }) => {
                     const hasSubItems = subItems?.length;
 
@@ -67,7 +68,7 @@ export const SubmenuContent = ({ onBackClick, renderContentFor }: TSubmenuConten
                         </li>
                     );
                 })}
-            </ul>
+            </ul> */}
         </div>
     );
 };
