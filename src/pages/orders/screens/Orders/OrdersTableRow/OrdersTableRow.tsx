@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck types returned from order details need to be fixed
-// TODO: fix types returned from order details
 import { MouseEvent } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
