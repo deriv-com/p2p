@@ -98,20 +98,16 @@ const MyAdsTableRowView = ({
     } = rest;
 
     useEffect(() => {
-        // @ts-expect-error types are not correct from api-hooks
         if (isError && error?.message) {
             showModal('MyAdsDeleteModal');
         }
-        // @ts-expect-error types are not correct from api-hooks
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [error?.message, isError]);
 
     useEffect(() => {
-        // @ts-expect-error types are not correct from api-hooks
         if (isErrorUpdate && updateError?.message) {
             showModal('ErrorModal');
         }
-        // @ts-expect-error types are not correct from api-hooks
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateError?.message]);
 
@@ -237,10 +233,8 @@ const MyAdsTableRowView = ({
             )}
             {!!isModalOpenFor('MyAdsDeleteModal') && (
                 <MyAdsDeleteModal
-                    // @ts-expect-error types are not correct from api-hooks
                     error={error?.message}
                     id={id}
-                    // @ts-expect-error types are not correct from api-hooks
                     isModalOpen={!!isModalOpenFor('MyAdsDeleteModal') || !!error?.message}
                     onClickDelete={onClickDelete}
                     onRequestClose={hideModal}
@@ -259,7 +253,6 @@ const MyAdsTableRowView = ({
                 />
             )}
             {!!isModalOpenFor('ErrorModal') && (
-                // @ts-expect-error types are not correct from api-hooks
                 <ErrorModal isModalOpen message={updateError?.message} onRequestClose={hideModal} />
             )}
             {!!isModalOpenFor('AdVisibilityErrorModal') && (
@@ -282,8 +275,8 @@ const MyAdsTableRowView = ({
             )}
             {!!isModalOpenFor('AdCreateEditErrorModal') && (
                 <AdCreateEditErrorModal
-                    errorCode={createError?.error?.code as TErrorCodes}
-                    errorMessage={createError?.error?.message ?? 'Something’s not right'}
+                    errorCode={createError?.code as TErrorCodes}
+                    errorMessage={createError?.message ?? 'Something’s not right'}
                     isModalOpen
                     onRequestClose={hideModal}
                 />
