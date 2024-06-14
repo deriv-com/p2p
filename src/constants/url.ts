@@ -31,7 +31,7 @@ export const getOauthUrl = () => {
         );
         localStorage.setItem(
             LocalStorageConstants.configAppId,
-            AppIDConstants.domainAppId[hostname as keyof typeof AppIDConstants.domainAppId]
+            `https://${AppIDConstants.domainAppId[hostname as keyof typeof AppIDConstants.domainAppId]}`
         );
     }
 
