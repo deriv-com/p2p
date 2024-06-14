@@ -2,6 +2,14 @@
     width: 100%;
     background-color: #fff;
 
+    input[type='search']::-webkit-search-cancel-button {
+        display: none;
+    }
+
+    rect {
+        fill: #999;
+    }
+
     .deriv-input {
         padding: 6px 8px;
         font-size: 1.4rem;
@@ -29,6 +37,11 @@
 
         &__label {
             left: 3rem;
+        }
+
+        &__right-content {
+            display: flex;
+            align-items: center;
         }
     }
 }

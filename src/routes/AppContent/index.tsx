@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck error types are not correct from api-hooks
-// TODO: fix error types from api-hooks
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BUY_SELL_URL } from '@/constants';
@@ -54,10 +51,7 @@ const AppContent = () => {
     // Need this to subscribe to advertiser info after user has created an advertiser.
     // setHasCreatedAdvertiser is triggered inside of NicknameModal.
     useEffect(() => {
-        if (hasCreatedAdvertiser) {
-            // Need to pass params to subscribeAdvertiserInfo to trigger the subscription.
-            subscribeAdvertiserInfo({ passthrough: { createdNickname: 'nickname' } });
-        }
+        if (hasCreatedAdvertiser) subscribeAdvertiserInfo({});
     }, [hasCreatedAdvertiser, subscribeAdvertiserInfo]);
 
     useEffect(() => {

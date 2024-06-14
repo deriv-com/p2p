@@ -5,6 +5,7 @@
         align-items: center;
         grid-template-columns: 1fr 1.5fr 2fr 3fr 1.5fr 1.5fr 1.5fr;
         cursor: pointer;
+        min-height: 7.3rem;
     }
 
     @include mobile {
