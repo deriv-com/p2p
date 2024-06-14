@@ -272,15 +272,16 @@ const useSendbird = (orderId: string | undefined, isErrorOrderInfo: boolean, cha
 
     useEffect(() => {
         // if the user has not created a chat URL for the order yet, create one using p2p_create_chat endpoint
-        if (orderId && !chatChannelUrl) {
+        // chatChannelUrl is received from order details, hence check if chat url was already created using p2p_create_chat
+        if (!chatChannel?.url && sendbirdServiceToken?.app_id && orderId) {
+            initialiseChat();
+        } else if (orderId && !chatChannelUrl && !chatChannel?.url) {
             createChat({
                 order_id: orderId,
             });
-        } else if (sendbirdServiceToken?.app_id) {
-            initialiseChat();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [orderId, chatChannelUrl, sendbirdServiceToken?.app_id]);
+    }, [orderId, chatChannelUrl, chatChannel?.url, sendbirdServiceToken?.app_id]);
 
     return {
         activeChatChannel: chatChannel,

@@ -143,6 +143,11 @@
             & .deriv-input__right-content {
                 display: flex;
                 align-items: center;
+                & .deriv-dropdown__button {
+                    &--active {
+                        transform: none;
+                    }
+                }
             }
         }
     }
