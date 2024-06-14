@@ -47,7 +47,8 @@ type TSubmenu = {
         href?: string;
         label: string;
         subItems?: {
-            href: string;
+            href?: string;
+            onClick?: ComponentProps<'button'>['onClick'];
             text: string;
         }[];
     }[];
