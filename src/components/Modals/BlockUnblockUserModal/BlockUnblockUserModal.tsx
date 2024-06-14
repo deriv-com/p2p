@@ -44,6 +44,7 @@ const BlockUnblockUserModal = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, onClickBlocked, unblockIsSuccess, unblockError, error, setErrorMessage]);
 
+    const textSize = isMobile ? 'md' : 'sm';
     const getModalTitle = () => (isBlocked ? `Unblock ${advertiserName}?` : `Block ${advertiserName}?`);
 
     const getModalContent = () =>
@@ -81,7 +82,7 @@ const BlockUnblockUserModal = ({
                 </Text>
             </Modal.Header>
             <Modal.Body>
-                <Text as='p' className='px-[1.6rem] lg:px-[2.4rem]' size={isMobile ? 'md' : 'sm'}>
+                <Text as='p' className='px-[1.6rem] lg:px-[2.4rem]' size={textSize}>
                     {getModalContent()}
                 </Text>
             </Modal.Body>
@@ -91,12 +92,12 @@ const BlockUnblockUserModal = ({
                     color='black'
                     onClick={onRequestClose}
                     size='lg'
-                    textSize='sm'
+                    textSize={textSize}
                     variant='outlined'
                 >
                     <Localize i18n_default_text='Cancel' />
                 </Button>
-                <Button onClick={onClickBlockUnblock} size='lg' textSize='sm'>
+                <Button onClick={onClickBlockUnblock} size='lg' textSize={textSize}>
                     {isBlocked ? <Localize i18n_default_text='Unblock' /> : <Localize i18n_default_text='Block' />}
                 </Button>
             </Modal.Footer>
