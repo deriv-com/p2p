@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 import { ACCOUNT_LIMITS, HELP_CENTRE, RESPONSIBLE } from '@/constants';
 import {
     BrandDerivLogoCoralIcon,
@@ -9,7 +9,6 @@ import {
     LegacyChartsIcon,
     LegacyChevronRight1pxIcon,
     LegacyDepositIcon,
-    LegacyDerivP2pIcon,
     LegacyHelpCentreIcon,
     LegacyHomeOldIcon,
     LegacyLiveChatOutlineIcon,
@@ -23,6 +22,7 @@ import {
     LegacyWhatsappIcon,
     LegacyWithdrawalIcon,
 } from '@deriv/quill-icons';
+import { useAuthData } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { ToggleSwitch } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
@@ -36,13 +36,15 @@ type TMenuConfig = {
     href?: string;
     label: string;
     onClick?: () => void;
+    removeBorderBottom?: boolean;
     submenu?: TSubmenuSection;
+    target?: ComponentProps<'a'>['target'];
 }[];
 
 type TSubmenu = {
     items: {
+        Icon: IconTypes;
         href?: string;
-        icon: IconTypes;
         label: string;
         subItems?: {
             href: string;
@@ -60,6 +62,7 @@ type TSubmenuConfig = {
 
 export const MobileMenuConfig = () => {
     const { localize } = useTranslations();
+    const { logout } = useAuthData();
 
     const menuConfig: TMenuConfig[] = [
         [
@@ -121,13 +124,12 @@ export const MobileMenuConfig = () => {
                 label: localize('Responsible trading'),
                 LeftComponent: LegacyResponsibleTradingIcon,
             },
-        ],
-        [
             {
                 as: 'a',
                 href: URLConstants.whatsApp,
                 label: localize('WhatsApp'),
                 LeftComponent: LegacyWhatsappIcon,
+                target: '_blank',
             },
             {
                 as: 'button',
@@ -140,6 +142,8 @@ export const MobileMenuConfig = () => {
                 as: 'button',
                 label: localize('Log out'),
                 LeftComponent: LegacyLogout1pxIcon,
+                onClick: logout,
+                removeBorderBottom: true,
             },
         ],
     ];
@@ -148,20 +152,26 @@ export const MobileMenuConfig = () => {
         accountSettings: {
             items: [
                 {
-                    icon: LegacyProfileSmIcon,
+                    Icon: LegacyProfileSmIcon,
                     label: localize('Profile'),
                     subItems: [
                         {
                             href: `${URLConstants.derivAppProduction}/account/personal-details`,
                             text: localize('Personal details'),
                         },
+                        {
+                            text: localize('Languages'),
+                        },
                     ],
                 },
                 {
-                    icon: LegacyAssessmentIcon,
+                    Icon: LegacyAssessmentIcon,
                     label: localize('Assessments'),
                     subItems: [
-                        // { text: localize('Trading assessment') },
+                        {
+                            href: `${URLConstants.derivAppProduction}/account/trading-assessment`,
+                            text: localize('Trading assessment'),
+                        },
                         {
                             href: `${URLConstants.derivAppProduction}/account/financial-assessment`,
                             text: localize('Financial assessment'),
@@ -169,7 +179,7 @@ export const MobileMenuConfig = () => {
                     ],
                 },
                 {
-                    icon: LegacyVerificationIcon,
+                    Icon: LegacyVerificationIcon,
                     label: localize('Verification'),
                     subItems: [
                         {
@@ -180,12 +190,18 @@ export const MobileMenuConfig = () => {
                             href: `${URLConstants.derivAppProduction}/account/proof-of-address`,
                             text: localize('Proof of address'),
                         },
-                        // { text: localize('Proof of ownership') },
-                        // { text: localize('Proof of income') },
+                        {
+                            href: `${URLConstants.derivAppProduction}/account/proof-of-ownership`,
+                            text: localize('Proof of ownership'),
+                        },
+                        {
+                            href: `${URLConstants.derivAppProduction}/account/proof-of-income`,
+                            text: localize('Proof of income'),
+                        },
                     ],
                 },
                 {
-                    icon: LegacySecurityIcon,
+                    Icon: LegacySecurityIcon,
                     label: localize('Security and safety'),
                     subItems: [
                         {
@@ -234,23 +250,18 @@ export const MobileMenuConfig = () => {
             items: [
                 {
                     href: `${URLConstants.derivAppProduction}/cashier/deposit`,
-                    icon: LegacyDepositIcon,
+                    Icon: LegacyDepositIcon,
                     label: localize('Deposit'),
                 },
                 {
                     href: `${URLConstants.derivAppProduction}/cashier/withdrawal`,
-                    icon: LegacyWithdrawalIcon,
+                    Icon: LegacyWithdrawalIcon,
                     label: localize('Withdrawal'),
                 },
                 {
                     href: `${URLConstants.derivAppProduction}/cashier/account-transfer`,
-                    icon: LegacyTransferIcon,
+                    Icon: LegacyTransferIcon,
                     label: localize('Transfer'),
-                },
-                {
-                    href: `${URLConstants.derivAppProduction}/cashier/p2p/buy-sell`,
-                    icon: LegacyDerivP2pIcon,
-                    label: localize('Deriv P2P'),
                 },
             ],
             section: 'cashier',
