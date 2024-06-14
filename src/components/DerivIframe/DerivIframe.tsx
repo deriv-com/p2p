@@ -1,18 +1,5 @@
-// import { URLConstants } from '@deriv-com/utils';
-
 const DerivIframe = () => {
-    // const getAllowedLocalStorageOrigin = () => {
-    //     const hostName = window.location.hostname;
-    //     if (/^staging-p2p\.deriv\.com$/i.test(hostName)) {
-    //         return URLConstants.derivP2pStaging;
-    //     } else if (/^localhost$/i.test(hostName)) {
-    //         return window.location.origin;
-    //     }
-
-    //     return URLConstants.derivP2pProduction;
-    // };
-
-    const origin = 'https://shayan-test-auth-fai.p2p-standalone.pages.dev';
+    const origin = window.location.origin;
 
     return (
         <iframe
