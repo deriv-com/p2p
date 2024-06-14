@@ -6,10 +6,10 @@ import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './InvalidVerificationLinkModal.scss';
 
 type TInvalidVerificationLinkModalProps = {
-    error?: {
+    error: {
         code: string;
         message: string;
-    };
+    } | null;
     isModalOpen: boolean;
     mutate: () => void;
     onRequestClose: () => void;

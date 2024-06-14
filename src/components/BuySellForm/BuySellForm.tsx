@@ -215,13 +215,10 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     }, [isSuccess, orderCreatedInfo, history, onRequestClose]);
 
     useEffect(() => {
-        // @ts-expect-error types are not correct from api-hooks
         if (isError && error?.message) {
-            // @ts-expect-error types are not correct from api-hooks
             setErrorMessage(error?.message);
             scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
-        // @ts-expect-error types are not correct from api-hooks
     }, [error?.message, isError]);
 
     return (
