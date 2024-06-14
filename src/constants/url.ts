@@ -1,4 +1,4 @@
-import { LocalStorageConstants, LocalStorageUtils, URLConstants, URLUtils } from '@deriv-com/utils';
+import { AppIDConstants, LocalStorageConstants, LocalStorageUtils, URLConstants, URLUtils } from '@deriv-com/utils';
 
 export const BUY_SELL_URL = '/buy-sell';
 export const ORDERS_URL = '/orders';
@@ -13,9 +13,33 @@ export const DERIV_COM = URLConstants.derivComProduction;
 export const HELP_CENTRE = `${URLConstants.derivComProduction}/help-centre/`;
 export const RESPONSIBLE = `${URLConstants.derivComProduction}/responsible/`;
 
+const SocketURL = {
+    [URLConstants.derivP2pProduction]: 'blue.derivws.com',
+    [URLConstants.derivP2pStaging]: 'red.derivws.com',
+};
+
 export const getOauthUrl = () => {
+    const hostname = window.location.origin;
+
+    // since we don't have official app_id for staging,
+    // we will use the red server with app_id=62019 for the staging-p2p.deriv.com for now
+    // to fix the login issue
+    if (hostname === URLConstants.derivP2pStaging) {
+        localStorage.setItem(
+            LocalStorageConstants.configServerURL.toString(),
+            SocketURL[hostname as keyof typeof SocketURL]
+        );
+        localStorage.setItem(
+            LocalStorageConstants.configAppId,
+            AppIDConstants.domainAppId[hostname as keyof typeof AppIDConstants.domainAppId]
+        );
+    }
+
+    const storedServerUrl = localStorage.getItem(LocalStorageConstants.configServerURL.toString());
+    const serverUrl = /qa/.test(storedServerUrl || '') ? storedServerUrl : 'oauth.deriv.com';
+
     const appId = LocalStorageUtils.getValue(LocalStorageConstants.configAppId);
-    const serverUrl = localStorage.getItem(LocalStorageConstants.configServerURL.toString());
+
     const oauthUrl =
         appId && serverUrl
             ? `https://${serverUrl}/oauth2/authorize?app_id=${appId}&l=EN&&brand=deriv`
