@@ -31,7 +31,7 @@ const PaymentMethodForm = ({
 }: TPaymentMethodFormProps) => {
     const {
         control,
-        formState: { isDirty, isSubmitting, isValid },
+        formState: { dirtyFields, isDirty, isSubmitting, isValid },
         handleSubmit,
         reset,
     } = useForm({ mode: 'all' });
@@ -63,8 +63,9 @@ const PaymentMethodForm = ({
         }));
         return listItems || [];
     }, [availablePaymentMethods]);
+
     const handleGoBack = () => {
-        if (isDirty) {
+        if (Object.keys(dirtyFields).length) {
             setIsError(true);
         } else {
             onResetFormState();

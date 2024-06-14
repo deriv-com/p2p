@@ -21,8 +21,21 @@
 
     & .deriv-textarea {
         &__footer {
+            justify-content: space-between;
+
             & .deriv-text {
                 font-size: 1.2rem;
+                margin-top: -0.5rem;
+                margin-left: 1rem;
+
+                @include mobile {
+                    margin-top: -0.2rem;
+                    line-height: 1.4rem;
+                }
+
+                &:only-child {
+                    margin-left: auto;
+                }
             }
         }
     }
