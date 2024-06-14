@@ -14,17 +14,17 @@ export const HELP_CENTRE = `${URLConstants.derivComProduction}/help-centre/`;
 export const RESPONSIBLE = `${URLConstants.derivComProduction}/responsible/`;
 
 const SocketURL = {
-    'p2p.deriv.com': 'blue.derivws.com',
-    'staging-p2p.deriv.com': 'red.derivws.com',
+    [URLConstants.derivP2pProduction]: 'blue.derivws.com',
+    [URLConstants.derivP2pStaging]: 'red.derivws.com',
 };
 
 export const getOauthUrl = () => {
-    const hostname = window.location.hostname;
+    const hostname = window.location.origin;
 
     // since we don't have official app_id for staging,
     // we will use the red server with app_id=62019 for the staging-p2p.deriv.com for now
     // to fix the login issue
-    if (hostname === 'staging-p2p.deriv.com') {
+    if (hostname === URLConstants.derivP2pStaging) {
         localStorage.setItem(
             LocalStorageConstants.configServerURL.toString(),
             SocketURL[hostname as keyof typeof SocketURL]
@@ -35,7 +35,8 @@ export const getOauthUrl = () => {
         );
     }
 
-    const serverUrl = localStorage.getItem(LocalStorageConstants.configServerURL.toString());
+    const storedServerUrl = localStorage.getItem(LocalStorageConstants.configServerURL.toString());
+    const serverUrl = /qa/.test(storedServerUrl || '') ? storedServerUrl : 'oauth.deriv.com';
 
     const appId = LocalStorageUtils.getValue(LocalStorageConstants.configAppId);
 
