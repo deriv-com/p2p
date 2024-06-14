@@ -10,15 +10,6 @@ import { MenuContent } from './MenuContent';
 import { MenuHeader } from './MenuHeader';
 import { ToggleButton } from './ToggleButton';
 
-// TODO the design inside LanguageSwitcher does not match the production => change from ui side
-// TODO fix platformswitcher issue in the tablet
-// TODO Dark theme logic
-// TODO livechat logic
-
-// TODO adding language to the sidemenu>accountsettings
-// TODO add disable condition to the accountsettings menu
-// TODO new badge for passkey
-
 export const MobileMenu = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const { currentLang = 'EN', localize, switchLanguage } = useTranslations();
