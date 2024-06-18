@@ -5,11 +5,7 @@ import FilterModal from '../FilterModal';
 
 const mockProps = {
     isModalOpen: true,
-    isToggled: true,
     onRequestClose: jest.fn(),
-    onToggle: jest.fn(),
-    selectedPaymentMethods: [],
-    setSelectedPaymentMethods: jest.fn(),
 };
 
 let mockData: { display_name: string; id: string }[] | undefined = [
@@ -31,6 +27,17 @@ jest.mock('@/hooks', () => ({
             })),
         },
     },
+}));
+
+const mockStore = {
+    selectedPaymentMethods: [],
+    setSelectedPaymentMethods: jest.fn(),
+    setShouldUseClientLimits: jest.fn(),
+    shouldUseClientLimits: true,
+};
+
+jest.mock('@/store', () => ({
+    useStore: jest.fn(() => mockStore),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -92,8 +99,8 @@ describe('<FilterModal />', () => {
         await user.click(toggleSwitch);
         await user.click(applyButton);
 
-        expect(mockProps.setSelectedPaymentMethods).toHaveBeenCalled();
-        expect(mockProps.onToggle).toHaveBeenCalled();
+        expect(mockStore.setSelectedPaymentMethods).toHaveBeenCalled();
+        expect(mockStore.setShouldUseClientLimits).toHaveBeenCalled();
         expect(mockProps.onRequestClose).toHaveBeenCalled();
     });
 
@@ -108,7 +115,7 @@ describe('<FilterModal />', () => {
 
         await user.click(resetButton);
 
-        expect(mockProps.setSelectedPaymentMethods).toHaveBeenCalled();
+        expect(mockStore.setSelectedPaymentMethods).toHaveBeenCalled();
         expect(toggleSwitch).toBeChecked();
     });
 
@@ -252,7 +259,7 @@ describe('<FilterModal />', () => {
         await user.click(alipayCheckbox);
         await user.click(alipayCheckbox);
 
-        expect(mockProps.setSelectedPaymentMethods).toHaveBeenCalled();
+        expect(mockStore.setSelectedPaymentMethods).toHaveBeenCalled();
     });
 
     it('should populate the payment methods list with the data from the API', async () => {
