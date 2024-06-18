@@ -10,7 +10,7 @@ import { MenuContent } from './MenuContent';
 import { MenuHeader } from './MenuHeader';
 import { ToggleButton } from './ToggleButton';
 
-export const MobileMenu = () => {
+const MobileMenu = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const { currentLang = 'EN', localize, switchLanguage } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
@@ -62,3 +62,5 @@ export const MobileMenu = () => {
         </>
     );
 };
+
+export default MobileMenu;
