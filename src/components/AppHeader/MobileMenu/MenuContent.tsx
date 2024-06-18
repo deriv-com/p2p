@@ -22,6 +22,7 @@ export const MenuContent = () => {
                             className={clsx('pl-[4.8rem] pr-[1.6rem]', {
                                 'border-b border-[#f2f3f4]': !removeBorderBottom,
                             })}
+                            data-testid='dt_menu_item'
                             key={index}
                         >
                             {item.map(({ LeftComponent, RightComponent, as, href, label, onClick, target }) => {
