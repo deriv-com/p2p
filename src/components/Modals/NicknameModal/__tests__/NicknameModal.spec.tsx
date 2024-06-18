@@ -1,5 +1,4 @@
 import { api } from '@/hooks';
-import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NicknameModal from '../NicknameModal';
@@ -8,7 +7,6 @@ const mockedMutate = jest.fn();
 const mockedReset = jest.fn();
 const mockedUseAdvertiserCreate = api.advertiser.useCreate as jest.MockedFunction<typeof api.advertiser.useCreate>;
 const mockPush = jest.fn();
-const mockUseAdvertiserInfoState = useAdvertiserInfoState as jest.MockedFunction<typeof useAdvertiserInfoState>;
 
 jest.mock('lodash', () => ({
     ...jest.requireActual('lodash'),
@@ -44,10 +42,12 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
-jest.mock('@/providers/AdvertiserInfoStateProvider', () => ({
-    useAdvertiserInfoState: jest.fn().mockReturnValue({
-        setHasCreatedAdvertiser: jest.fn(),
-    }),
+const mockStore = {
+    setHasCreatedAdvertiser: jest.fn(),
+};
+
+jest.mock('@/store', () => ({
+    useStore: jest.fn(() => mockStore),
 }));
 
 const mockProps = {
@@ -78,7 +78,7 @@ describe('NicknameModal', () => {
         expect(mockedMutate).toHaveBeenCalledWith({
             name: 'Nahida',
         });
-        expect(mockUseAdvertiserInfoState().setHasCreatedAdvertiser).toHaveBeenCalledWith(true);
+        expect(mockStore.setHasCreatedAdvertiser).toHaveBeenCalledWith(true);
     });
     it('should invoke reset when there is an error from creating advertiser', async () => {
         (mockedUseAdvertiserCreate as jest.Mock).mockImplementationOnce(() => ({

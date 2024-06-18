@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { debounce } from 'lodash';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { useShallow } from 'zustand/react/shallow';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useStore } from '@/store';
@@ -33,9 +32,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
 
     const history = useHistory();
     const { error: createError, isError, isSuccess, mutate, reset } = api.advertiser.useCreate();
-    const { setHasCreatedAdvertiser } = useStore(
-        useShallow(state => ({ setHasCreatedAdvertiser: state.setHasCreatedAdvertiser }))
-    );
+    const { setHasCreatedAdvertiser } = useStore();
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'md' : 'sm';
     const debouncedReset = debounce(reset, 3000);
