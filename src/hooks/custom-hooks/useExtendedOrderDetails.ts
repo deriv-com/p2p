@@ -8,6 +8,7 @@ import {
     setDecimalPlaces,
     toMoment,
 } from '@/utils';
+import { useTranslations } from '@deriv-com/translations';
 import { FormatUtils } from '@deriv-com/utils';
 
 type TOrder = THooks.Order.Get;
@@ -72,30 +73,49 @@ const useExtendedOrderDetails = ({
     orderDetails: TOrder;
     serverTime: TServerTime;
 }): { data: ExtendedOrderDetails } => {
+    const { localize } = useTranslations();
     const extendedOrderDetails: ExtendedOrderDetails = {
         ...orderDetails,
         // Derived properties
         get counterpartyAdStatusString() {
             return {
-                contactDetails: this.isBuyOrder ? "Seller's contact details" : 'Your contact details',
-                counterpartyNicknameLabel: this.isBuyOrder ? "Seller's nickname" : "Buyer's nickname",
-                counterpartyRealNameLabel: this.isBuyOrder ? "Seller's real name" : "Buyer's real name",
-                instructions: this.isBuyOrder ? "Seller's instructions" : "Buyer's instructions",
-                leftSendOrReceive: this.isBuyOrder ? 'Send' : 'Receive',
-                paymentDetails: this.isBuyOrder ? "Seller's payment details" : 'Your payment details',
+                contactDetails: this.isBuyOrder
+                    ? localize("Seller's contact details")
+                    : localize('Your contact details'),
+                counterpartyNicknameLabel: this.isBuyOrder
+                    ? localize("Seller's nickname")
+                    : localize("Buyer's nickname"),
+                counterpartyRealNameLabel: this.isBuyOrder
+                    ? localize("Seller's real name")
+                    : localize("Buyer's real name"),
+                instructions: this.isBuyOrder ? localize("Seller's instructions") : localize("Buyer's instructions"),
+                leftSendOrReceive: this.isBuyOrder ? localize('Send') : localize('Receive'),
+                paymentDetails: this.isBuyOrder
+                    ? localize("Seller's payment details")
+                    : localize('Your payment details'),
                 resultString: this.isBuyOrder
-                    ? `You've received ${this.amount_display} ${this.account_currency}`
-                    : `You sold ${this.amount_display}${this.account_currency}`,
-                rightSendOrReceive: this.isBuyOrder ? 'Receive' : 'Send',
+                    ? localize("You've received {{currency}} {{displayAmount}}", {
+                          currency: this.account_currency,
+                          displayAmount: this.amount_display,
+                      })
+                    : localize('You sold {{currency}} {{displayAmount}}', {
+                          currency: this.account_currency,
+                          displayAmount: this.amount_display,
+                      }),
+                rightSendOrReceive: this.isBuyOrder ? localize('Receive') : localize('Send'),
             };
         },
         get displayPaymentAmount() {
-            return removeTrailingZeros(
-                FormatUtils.formatMoney(
-                    Number(this.amount_display) * Number(roundOffDecimal(this.rate, setDecimalPlaces(this.rate, 6))),
-                    { currency: this.local_currency as TCurrency }
-                )
-            );
+            if (this.rate) {
+                return removeTrailingZeros(
+                    FormatUtils.formatMoney(
+                        Number(this.amount_display) *
+                            Number(roundOffDecimal(this.rate, setDecimalPlaces(this.rate, 6))),
+                        { currency: this.local_currency as TCurrency }
+                    )
+                );
+            }
+            return '';
         },
         get hasReviewDetails() {
             return !!this.review_details;
@@ -154,7 +174,7 @@ const useExtendedOrderDetails = ({
             return this.isBuyerConfirmedOrder || this.isBuyerCancelledOrder;
         },
         get isOrderReviewable() {
-            return this.is_reviewable;
+            return !!this.is_reviewable;
         },
         get isPendingOrder() {
             return this.status === ORDERS_STATUS.PENDING;
@@ -174,16 +194,30 @@ const useExtendedOrderDetails = ({
         },
         get myAdStatusString() {
             return {
-                contactDetails: this.isBuyOrder ? 'Your contact details' : "Seller's contact details",
-                counterpartyNicknameLabel: this.isBuyOrder ? "Buyer's nickname" : "Seller's nickname",
-                counterpartyRealNameLabel: this.isBuyOrder ? "Buyer's real name" : "Seller's real name",
+                contactDetails: this.isBuyOrder
+                    ? localize('Your contact details')
+                    : localize("Seller's contact details"),
+                counterpartyNicknameLabel: this.isBuyOrder
+                    ? localize("Buyer's nickname")
+                    : localize("Seller's nickname"),
+                counterpartyRealNameLabel: this.isBuyOrder
+                    ? localize("Buyer's real name")
+                    : localize("Seller's real name"),
                 instructions: 'Your instructions',
-                leftSendOrReceive: this.isBuyOrder ? 'Receive' : 'Send',
-                paymentDetails: this.isBuyOrder ? 'Your payment details' : "Seller's payment details",
+                leftSendOrReceive: this.isBuyOrder ? localize('Receive') : localize('Send'),
+                paymentDetails: this.isBuyOrder
+                    ? localize('Your payment details')
+                    : localize("Seller's payment details"),
                 resultString: this.isBuyOrder
-                    ? `You sold ${this.amount_display}${this.account_currency}`
-                    : `You've received ${this.amount_display} ${this.account_currency}`,
-                rightSendOrReceive: this.isBuyOrder ? 'Send' : 'Receive',
+                    ? localize('You sold {{currency}} {{displayAmount}}', {
+                          currency: this.account_currency,
+                          displayAmount: this.amount_display,
+                      })
+                    : localize("You've received {{currency}} {{displayAmount}}", {
+                          currency: this.account_currency,
+                          displayAmount: this.amount_display,
+                      }),
+                rightSendOrReceive: this.isBuyOrder ? localize('Send') : localize('Receive'),
             };
         },
         get orderExpiryMilliseconds() {
@@ -201,6 +235,7 @@ const useExtendedOrderDetails = ({
             );
         },
         get rateAmount() {
+            if (!this.rate) return '';
             return removeTrailingZeros(
                 FormatUtils.formatMoney(this.rate, {
                     currency: this.local_currency as TCurrency,
@@ -285,8 +320,8 @@ const useExtendedOrderDetails = ({
             return this.isBuyOrder ? waitMessage : confirmMessage;
         },
         get statusForPendingOrder() {
-            const waitMessage = 'Wait for payment';
-            const payMessage = 'Pay now';
+            const waitMessage = localize('Wait for payment');
+            const payMessage = localize('Pay now');
             if (this.isMyAd) {
                 return this.isBuyOrder ? waitMessage : payMessage;
             }
@@ -294,19 +329,19 @@ const useExtendedOrderDetails = ({
         },
         get statusString() {
             if (this.isCompletedOrder || this.isDisputeCompletedOrder) {
-                return 'Completed';
+                return localize('Completed');
             }
             if (this.isBuyerCancelledOrder) {
-                return 'Cancelled';
+                return localize('Cancelled');
             }
             if (this.isRefundedOrder || this.isDisputeRefundedOrder) {
-                return 'Expired';
+                return localize('Expired');
             }
             if (this.isDisputedOrder) {
-                return 'Under dispute';
+                return localize('Under dispute');
             }
             if (this.isExpiredOrder || this.hasTimerExpired) {
-                return 'Expired';
+                return localize('Expired');
             }
             if (this.isPendingOrder) {
                 return this.statusForPendingOrder;
@@ -314,7 +349,7 @@ const useExtendedOrderDetails = ({
             if (this.isBuyerConfirmedOrder) {
                 return this.statusForBuyerConfirmedOrder;
             }
-            return 'Unknown';
+            return localize('Unknown');
         },
     };
 

@@ -35,6 +35,7 @@ const mockUseModalManager = {
 };
 
 jest.mock('@/hooks/custom-hooks', () => ({
+    useIsAdvertiserBarred: jest.fn(() => false),
     useModalManager: jest.fn(() => mockUseModalManager),
 }));
 
@@ -77,6 +78,6 @@ describe('MyProfileCounterpartiesTable', () => {
             searchValue: 'test',
         };
         render(<MyProfileCounterpartiesTable {...newProps} />);
-        expect(screen.getByText('There are no matching name')).toBeInTheDocument();
+        expect(screen.getByText('There are no matching name.')).toBeInTheDocument();
     });
 });

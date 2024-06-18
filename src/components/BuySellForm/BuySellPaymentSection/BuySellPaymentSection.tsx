@@ -1,9 +1,10 @@
-import { useCallback, useReducer } from 'react';
+import { Dispatch, SetStateAction, useCallback, useReducer } from 'react';
 import { TPaymentMethod, TSelectedPaymentMethod } from 'types';
 import { LightDivider, PaymentMethodForm } from '@/components';
 import { useModalManager } from '@/hooks';
 import { advertiserPaymentMethodsReducer } from '@/reducers';
 import { sortPaymentMethodsWithAvailability } from '@/utils';
+import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { PaymentMethodCard } from '../../PaymentMethodCard';
 
@@ -11,12 +12,14 @@ type TBuySellPaymentSectionProps = {
     availablePaymentMethods: (TPaymentMethod & { isAvailable?: boolean })[];
     onSelectPaymentMethodCard?: (paymentMethodId: number) => void;
     selectedPaymentMethodIds: number[];
+    setIsHidden?: Dispatch<SetStateAction<boolean>>;
 };
 
 const BuySellPaymentSection = ({
     availablePaymentMethods,
     onSelectPaymentMethodCard,
     selectedPaymentMethodIds,
+    setIsHidden,
 }: TBuySellPaymentSectionProps) => {
     const { isMobile } = useDevice();
     const sortedList = sortPaymentMethodsWithAvailability(availablePaymentMethods);
@@ -45,19 +48,22 @@ const BuySellPaymentSection = ({
         <>
             <div className='flex px-[1.6rem] lg:px-[2.4rem] flex-col py-[1.6rem]'>
                 <Text color='less-prominent' size={isMobile ? 'sm' : 'xs'}>
-                    Receive payment to
+                    <Localize i18n_default_text='Receive payment to' />
                 </Text>
                 <Text size={isMobile ? 'md' : 'sm'}>
-                    {sortedList && sortedList.length > 0
-                        ? 'You may choose up to 3.'
-                        : 'To place an order, add one of the advertiser’s preferred payment methods:'}
+                    {sortedList && sortedList.length > 0 ? (
+                        <Localize i18n_default_text='You may choose up to 3.' />
+                    ) : (
+                        <Localize i18n_default_text='To place an order, add one of the advertiser’s preferred payment methods:' />
+                    )}
                 </Text>
                 <div className='flex gap-[0.8rem] flex-wrap'>
-                    {sortedList?.map(paymentMethod => (
+                    {sortedList?.map((paymentMethod, index) => (
                         <PaymentMethodCard
-                            key={paymentMethod?.id}
+                            key={index}
                             medium
                             onClickAdd={() => {
+                                setIsHidden?.(true);
                                 showModal('PaymentMethodForm', { shouldStackModals: false });
                                 handleAddPaymentMethod(paymentMethod?.display_name, paymentMethod);
                             }}
@@ -73,7 +79,10 @@ const BuySellPaymentSection = ({
                 <PaymentMethodForm
                     displayModal={!isMobile && !!isModalOpenFor('PaymentMethodForm')}
                     formState={formState}
-                    onRequestClose={hideModal}
+                    onRequestClose={() => {
+                        hideModal();
+                        setIsHidden?.(false);
+                    }}
                     onResetFormState={handleResetFormState}
                 />
             )}

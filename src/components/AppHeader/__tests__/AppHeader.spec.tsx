@@ -1,4 +1,7 @@
 import { ReactNode } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
+import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -81,7 +84,13 @@ describe('<AppHeader/>', () => {
     });
 
     it('should render the header and handle login when there are no P2P accounts', async () => {
-        render(<AppHeader />);
+        render(
+            <BrowserRouter>
+                <QueryParamProvider adapter={ReactRouter5Adapter}>
+                    <AppHeader />
+                </QueryParamProvider>
+            </BrowserRouter>
+        );
         await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
 
         expect(window.open).toHaveBeenCalledWith(expect.any(String), '_self');
@@ -90,7 +99,27 @@ describe('<AppHeader/>', () => {
     it('should render the desktop header and manage account actions when logged in', async () => {
         mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
 
-        render(<AppHeader />);
+        Object.defineProperty(window, 'matchMedia', {
+            value: jest.fn().mockImplementation(query => ({
+                addEventListener: jest.fn(),
+                addListener: jest.fn(), // Deprecated
+                dispatchEvent: jest.fn(),
+                matches: false,
+                media: query,
+                onchange: null,
+                removeEventListener: jest.fn(),
+                removeListener: jest.fn(), // Deprecated
+            })),
+            writable: true,
+        });
+
+        render(
+            <BrowserRouter>
+                <QueryParamProvider adapter={ReactRouter5Adapter}>
+                    <AppHeader />
+                </QueryParamProvider>
+            </BrowserRouter>
+        );
         const logoutButton = screen.getByRole('button', { name: 'Logout' });
         const { logout } = mockUseAuthData();
         expect(logoutButton).toBeInTheDocument();

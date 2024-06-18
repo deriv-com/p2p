@@ -23,14 +23,6 @@
         }
     }
 
-    .wizard__main-step {
-        padding-top: 1rem;
-        @include desktop {
-            max-height: calc(100vh - 35rem);
-            overflow-y: auto;
-        }
-    }
-
     .form-progress {
         background-color: #f2f3f4;
         margin-top: 2rem;

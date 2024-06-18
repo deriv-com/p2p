@@ -70,6 +70,9 @@ jest.mock('@/hooks/custom-hooks', () => ({
         },
     }),
     useSendbird: () => ({
+        activeChatChannel: {
+            isFrozen: false,
+        },
         isOnline: true,
         lastOnlineTime: 123546789,
         nickname: 'John Doe',
@@ -225,7 +228,7 @@ describe('<OrderDetails />', () => {
         (mockUseGet as jest.Mock).mockReturnValue({
             ...mockUseGet(),
             data: {},
-            error: { error: { message: 'error message' } },
+            error: { message: 'error message' },
             isLoading: false,
         });
 

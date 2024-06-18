@@ -8,11 +8,12 @@
             height: calc(100vh - 35rem) !important;
 
             @include mobile {
-                height: calc(100vh - 17rem) !important;
+                height: calc(100vh - 20rem) !important;
             }
 
             &__row {
                 border-bottom: 1px solid #f2f3f4;
+                padding: 0;
             }
         }
     }

@@ -71,7 +71,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                                 data-testid='dt_nickname_modal_input'
                                 error={!!error?.message || isError}
                                 label={localize('Your nickname')}
-                                message={createError?.error?.message || error?.message}
+                                message={createError?.message || error?.message}
                                 onBlur={onBlur}
                                 onChange={onChange}
                                 value={value}

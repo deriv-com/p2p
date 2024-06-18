@@ -3,7 +3,7 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { PageReturn, ProfileContent } from '@/components';
 import BlockDropdown from '@/components/AdvertiserName/BlockDropdown';
 import { BUY_SELL_URL, MY_PROFILE_URL } from '@/constants';
-import { api, useModalManager } from '@/hooks';
+import { api, useAdvertiserStats, useModalManager } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
 import { AdvertiserAdvertsTable } from '../AdvertiserAdvertsTable';
@@ -25,18 +25,21 @@ const Advertiser = () => {
     const history = useHistory();
     const location = useLocation();
 
+    const { data, unsubscribe } = useAdvertiserStats(id);
+
     return (
         <div className='advertiser'>
             <PageReturn
                 className='lg:mt-0'
                 hasBorder={isMobile}
-                onClick={() =>
+                onClick={() => {
                     history.push(
                         (location.state as { from: string })?.from === 'MyProfile'
                             ? `${MY_PROFILE_URL}?tab=My+counterparties`
                             : BUY_SELL_URL
-                    )
-                }
+                    );
+                    unsubscribe();
+                }}
                 pageTitle={localize('Advertiser’s page')}
                 {...(isMobile && {
                     rightPlaceHolder: (
@@ -48,6 +51,7 @@ const Advertiser = () => {
                         />
                     ),
                 })}
+                size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />
             <AdvertiserBlockOverlay
@@ -57,7 +61,7 @@ const Advertiser = () => {
                 onClickUnblock={() => showModal('BlockUnblockUserModal')}
                 setShowOverlay={setShowOverlay}
             >
-                <ProfileContent id={id} setAdvertiserName={setAdvertiserName} setShowOverlay={setShowOverlay} />
+                <ProfileContent data={data} setAdvertiserName={setAdvertiserName} setShowOverlay={setShowOverlay} />
                 <AdvertiserAdvertsTable advertiserId={advertiserId} />
             </AdvertiserBlockOverlay>
         </div>

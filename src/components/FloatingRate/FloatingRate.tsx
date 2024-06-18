@@ -55,7 +55,7 @@ const FloatingRate = ({
 
     const marketRate = overrideExchangeRate ? Number(overrideExchangeRate) : exchangeRateRef.current ?? 1;
     const os = mobileOSDetect();
-    const marketFeed = value ? percentOf(marketRate, Number(value)) : marketRate;
+    const marketFeed = value ? percentOf(marketRate, Number(value) || 0) : marketRate;
     const decimalPlace = setDecimalPlaces(marketFeed, 6);
     const textSize = isMobile ? 'sm' : 'xs';
 

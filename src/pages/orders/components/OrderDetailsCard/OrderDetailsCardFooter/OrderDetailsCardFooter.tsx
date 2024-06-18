@@ -103,10 +103,10 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     }, [verificationCode]);
 
     useEffect(() => {
-        handleModalDisplay(error?.error?.code);
+        handleModalDisplay(error?.code);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-        error?.error,
+        error?.code,
         isBuyOrderForUser,
         isError,
         isSuccess,
@@ -169,7 +169,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                 </div>
             )}
             {shouldShowComplainAndReceivedButton && (
-                <div className='justify-between'>
+                <div className='flex justify-end w-full'>
                     <Button
                         className='border-2'
                         color='primary-light'
@@ -236,7 +236,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             )}
             {!!isModalOpenFor('InvalidVerificationLinkModal') && (
                 <InvalidVerificationLinkModal
-                    error={error?.error}
+                    error={error}
                     isModalOpen
                     mutate={() => mutate({ id })}
                     onRequestClose={() => {
@@ -247,7 +247,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             )}
             {!!isModalOpenFor('EmailLinkBlockedModal') && (
                 <EmailLinkBlockedModal
-                    errorMessage={error?.error.message}
+                    errorMessage={error?.message}
                     isModalOpen
                     onRequestClose={hideAndClearSearchParams}
                 />

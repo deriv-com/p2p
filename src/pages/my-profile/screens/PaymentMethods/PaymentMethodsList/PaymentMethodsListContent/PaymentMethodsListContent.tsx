@@ -121,7 +121,7 @@ const PaymentMethodsListContent = ({
             })}
             {actionType === 'DELETE' && isDeleteError && (
                 <PaymentMethodErrorModal
-                    errorMessage={String(deleteError?.error?.message)}
+                    errorMessage={String(deleteError?.message)}
                     isModalOpen={isModalOpen}
                     onConfirm={() => {
                         setIsModalOpen(false);

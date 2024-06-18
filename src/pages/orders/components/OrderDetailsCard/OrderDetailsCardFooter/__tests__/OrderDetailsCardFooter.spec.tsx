@@ -259,9 +259,7 @@ describe('<OrderDetailsCardFooter />', () => {
 
         mockUseConfirm.mockReturnValue({
             error: {
-                error: {
-                    code: 'OrderEmailVerificationRequired',
-                },
+                code: 'OrderEmailVerificationRequired',
             },
             isError: true,
             mutate: jest.fn(),
@@ -292,10 +290,8 @@ describe('<OrderDetailsCardFooter />', () => {
     it('should show InvalidVerificationLinkModal if ExcessiveVerificationRequests error is returned while pressing I’ve received payment button', async () => {
         mockUseConfirm.mockReturnValue({
             error: {
-                error: {
-                    code: 'ExcessiveVerificationRequests',
-                    message: 'Please wait for 59 seconds before requesting another email.',
-                },
+                code: 'ExcessiveVerificationRequests',
+                message: 'Please wait for 59 seconds before requesting another email.',
             },
             isError: true,
             mutate: jest.fn(),
@@ -314,7 +310,7 @@ describe('<OrderDetailsCardFooter />', () => {
         expect(screen.getByText('Please wait for 59 seconds before requesting another email.')).toBeInTheDocument();
     });
 
-    it('should call history.replace, hideModal and reset when clicking on OK button in InvalidVerificationLinkModal', async () => {
+    it('should call mutate when clicking on Get new link button in InvalidVerificationLinkModal', async () => {
         modalManager.isModalOpenFor.mockImplementation(
             (modalName: string) => modalName === 'InvalidVerificationLinkModal'
         );
@@ -324,12 +320,10 @@ describe('<OrderDetailsCardFooter />', () => {
         const paymentButton = screen.getByRole('button', { name: 'I’ve received payment' });
         await userEvent.click(paymentButton);
 
-        const okButton = screen.getByRole('button', { name: 'OK' });
+        const okButton = screen.getByRole('button', { name: 'Get new link' });
         await userEvent.click(okButton);
 
-        expect(modalManager.hideModal).toHaveBeenCalled();
-        expect(mockUseHistory().replace).toHaveBeenCalled();
-        expect(mockUseConfirm().reset).toHaveBeenCalled();
+        expect(mockUseConfirm().mutate).toHaveBeenCalled();
     });
 
     it('should show InvalidVerificationLinkModal if InvalidVerificationToken error is returned when code param is in the URL', async () => {
@@ -340,10 +334,8 @@ describe('<OrderDetailsCardFooter />', () => {
                 is_dry_run_successful: false,
             },
             error: {
-                error: {
-                    code: 'InvalidVerificationToken',
-                    message: 'The link that you used appears to be invalid. Please check and try again.',
-                },
+                code: 'InvalidVerificationToken',
+                message: 'The link that you used appears to be invalid. Please check and try again.',
             },
             isError: true,
             mutate: jest.fn(),
@@ -377,11 +369,9 @@ describe('<OrderDetailsCardFooter />', () => {
                 is_dry_run_successful: false,
             },
             error: {
-                error: {
-                    code: 'ExcessiveVerificationFailures',
-                    message:
-                        'It looks like you’ve made too many attempts to confirm this order. Please try again after 30 minutes.',
-                },
+                code: 'ExcessiveVerificationFailures',
+                message:
+                    'It looks like you’ve made too many attempts to confirm this order. Please try again after 30 minutes.',
             },
             isError: true,
             mutate: jest.fn(),
@@ -468,9 +458,7 @@ describe('<OrderDetailsCardFooter />', () => {
         });
         mockUseConfirm.mockReturnValue({
             error: {
-                error: {
-                    code: 'OrderConfirmCompleted',
-                },
+                code: 'OrderConfirmCompleted',
             },
             isError: true,
             mutate: jest.fn(),

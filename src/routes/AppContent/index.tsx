@@ -4,7 +4,7 @@ import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
-import { Loader, Tab, Tabs } from '@deriv-com/ui';
+import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
 import Router from '../Router';
 import { routes } from '../routes-config';
 import './index.scss';
@@ -16,6 +16,7 @@ const tabRoutesConfiguration = routes.filter(
 const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
+    const { isDesktop } = useDevice();
     const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
 
     const getActiveTab = (pathname: string) => {
@@ -25,7 +26,7 @@ const AppContent = () => {
 
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
-    const { subscribe: subscribeP2PSettings } = api.settings.useSettings();
+    const { isActive, subscribe: subscribeP2PSettings } = api.settings.useSettings();
     const {
         error,
         isActive: isSubscribed,
@@ -39,20 +40,18 @@ const AppContent = () => {
         if (activeAccountData) {
             subscribeP2PSettings({});
         }
-    }, [activeAccountData, subscribeP2PSettings]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeAccountData]);
 
     useEffect(() => {
-        subscribeAdvertiserInfo({});
-    }, [subscribeAdvertiserInfo]);
+        if (isActive) subscribeAdvertiserInfo({});
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isActive]);
 
     // Need this to subscribe to advertiser info after user has created an advertiser.
     // setHasCreatedAdvertiser is triggered inside of NicknameModal.
     useEffect(() => {
-        if (hasCreatedAdvertiser) {
-            // Need to pass params to subscribeAdvertiserInfo to trigger the subscription.
-            // @ts-expect-error - passthrough is not a valid parameter
-            subscribeAdvertiserInfo({ passthrough: { createdNickname: 'nickname' } });
-        }
+        if (hasCreatedAdvertiser) subscribeAdvertiserInfo({});
     }, [hasCreatedAdvertiser, subscribeAdvertiserInfo]);
 
     useEffect(() => {
@@ -70,10 +69,19 @@ const AppContent = () => {
             }}
         >
             <div className='app-content'>
-                {(isLoadingActiveAccount || !activeAccountData) && !isEndpointRoute ? (
+                <Text
+                    align='center'
+                    as='div'
+                    className='app-content__title p-2'
+                    size={isDesktop ? 'xl' : 'lg'}
+                    weight='bold'
+                >
+                    Deriv P2P
+                </Text>
+                {isLoadingActiveAccount && !isEndpointRoute ? (
                     <Loader />
                 ) : (
-                    <>
+                    <div className='app-content__body'>
                         <Tabs
                             activeTab={activeTab}
                             className='app-content__tabs'
@@ -88,7 +96,7 @@ const AppContent = () => {
                             ))}
                         </Tabs>
                         <Router />
-                    </>
+                    </div>
                 )}
             </div>
         </AdvertiserInfoStateProvider>

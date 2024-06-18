@@ -31,7 +31,7 @@ const OrderDetailsCancelModal = ({ id, isModalOpen, onRequestClose }: TOrderDeta
             <Modal.Body className='flex flex-col gap-2 lg:px-[2.4rem] px-[1.6rem]'>
                 <Text className='whitespace-pre-line' size='sm'>
                     <Localize
-                        i18n_default_text='If you cancel your order {{cancellationLimit}} times in {{cancellationCountPeriod}} hours, you will be blocked from using Deriv P2P for {{cancellationBlockDuration}} hours.\n{{cancellationRemaining}} cancellations remaining.'
+                        i18n_default_text='If you cancel your order {{cancellationLimit}} times in {{cancellationCountPeriod}} hours, you will be blocked from using Deriv P2P for {{cancellationBlockDuration}} hours. <br /> ({{cancellationRemaining}} cancellations remaining.)'
                         values={{
                             cancellationBlockDuration: data?.cancellation_block_duration,
                             cancellationCountPeriod: data?.cancellation_count_period,

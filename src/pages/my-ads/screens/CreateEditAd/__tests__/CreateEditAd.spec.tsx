@@ -75,6 +75,13 @@ jest.mock('@/hooks', () => ({
                 mutate: jest.fn(),
             }),
         },
+        advertiser: {
+            useGetInfo: jest.fn(() => ({
+                data: {
+                    balance_available: 1000,
+                },
+            })),
+        },
         countryList: {
             useGet: () => ({
                 data: {
@@ -198,6 +205,8 @@ jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: () => ({ isMobile: false }),
 }));
+
+jest.mock('@/hooks/api/useInvalidateQuery', () => jest.fn(() => jest.fn()));
 
 describe('CreateEditAd', () => {
     it('should render the create edit ad component', () => {

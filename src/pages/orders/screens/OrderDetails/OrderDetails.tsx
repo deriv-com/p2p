@@ -6,6 +6,7 @@ import { api } from '@/hooks';
 import { useExtendedOrderDetails, useSendbird } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
+import { isOrderSeen } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
@@ -35,6 +36,7 @@ const OrderDetails = () => {
     const { isMobile } = useDevice();
     const { sendFile, userId, ...rest } = useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
     const { localize } = useTranslations();
+    const { data: activeAccountData } = api.account.useActiveAccount();
 
     const headerText = isBuyOrderForUser ? localize('Buy USD order') : localize('Sell USD order');
     const warningMessage = localize(
@@ -47,6 +49,8 @@ const OrderDetails = () => {
             history.push(`${ORDERS_URL}?tab=Past+orders`);
         else if ((location.state as { from: string })?.from === 'BuySell') history.push(BUY_SELL_URL);
         else history.goBack();
+
+        unsubscribe();
     };
 
     const onChatReturn = () => {
@@ -55,20 +59,28 @@ const OrderDetails = () => {
     };
 
     useEffect(() => {
-        subscribe({
-            id: orderId,
-        });
-
-        return () => {
-            unsubscribe();
-        };
+        if (activeAccountData)
+            subscribe({
+                id: orderId,
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [orderId]);
+    }, [activeAccountData, orderId]);
+
+    useEffect(() => {
+        if (orderId && activeAccount?.loginid) {
+            const loginId = activeAccount.loginid;
+            if (!isOrderSeen(orderId, loginId)) {
+                const orderIdsMap = JSON.parse(localStorage.getItem('order_ids') || '{}');
+                orderIdsMap[loginId] = [...(orderIdsMap[loginId] || []), orderId];
+                localStorage.setItem('order_ids', JSON.stringify(orderIdsMap));
+            }
+        }
+    }, [orderId, activeAccount?.loginid]);
 
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 
     // TODO: replace with proper error screen once design is ready
-    if (error) return <Text>{error?.error?.message}</Text>;
+    if (error) return <Text>{error?.message}</Text>;
 
     if (isMobile) {
         return (
@@ -128,7 +140,7 @@ const OrderDetails = () => {
                             <Text size='2xs'>{warningMessage}</Text>
                         </InlineMessage>
                     )}
-                    <div className='grid grid-cols-none lg:grid-cols-2 lg:gap-14'>
+                    <div className='grid grid-cols-none lg:grid-cols-2 lg:gap-14 h-full'>
                         <OrderDetailsCard sendFile={sendFile} />
                         <OrdersChatSection
                             isInactive={!!orderDetails?.isInactiveOrder}

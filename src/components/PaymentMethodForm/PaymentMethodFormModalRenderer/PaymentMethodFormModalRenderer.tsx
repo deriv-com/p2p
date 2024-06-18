@@ -6,12 +6,12 @@ import { useTranslations } from '@deriv-com/translations';
 
 type TPaymentMethodFormModalRendererProps = {
     actionType: TFormState['actionType'];
-    createError: TSocketError<'p2p_advertiser_payment_methods'> | null;
+    createError: TSocketError<'p2p_advertiser_payment_methods'>['error'] | null;
     isCreateSuccessful: boolean;
     isUpdateSuccessful: boolean;
     onResetFormState: () => void;
     setIsError: (isError: boolean) => void;
-    updateError: TSocketError<'p2p_advertiser_payment_methods'> | null;
+    updateError: TSocketError<'p2p_advertiser_payment_methods'>['error'] | null;
 };
 
 const PaymentMethodFormModalRenderer = ({
@@ -44,7 +44,7 @@ const PaymentMethodFormModalRenderer = ({
         <>
             {!!isModalOpenFor('PaymentMethodErrorModal') && (
                 <PaymentMethodErrorModal
-                    errorMessage={String(createError?.error?.message || updateError?.error?.message)}
+                    errorMessage={String(createError?.message || updateError?.message)}
                     isModalOpen={!!isModalOpenFor('PaymentMethodErrorModal')}
                     onConfirm={() => {
                         onResetFormState();

@@ -71,7 +71,7 @@ function createChatMessage(sendbirdMessage: BaseMessage): ChatMessage {
     };
 }
 
-const useSendbird = (orderId: string, isErrorOrderInfo: boolean, chatChannelUrl: string) => {
+const useSendbird = (orderId: string | undefined, isErrorOrderInfo: boolean, chatChannelUrl: string) => {
     const sendbirdApiRef = useRef<ReturnType<typeof SendbirdChat.init<GroupChannelModule[]>>>();
 
     const [isChatLoading, setIsChatLoading] = useState(false);
@@ -174,7 +174,10 @@ const useSendbird = (orderId: string, isErrorOrderInfo: boolean, chatChannelUrl:
             .onSucceeded(sentMessage => {
                 const idx = messages?.findIndex(msg => msg.id === messageToSendId);
                 if (sentMessage.isUserMessage()) {
-                    setMessages(previousMessages => previousMessages.splice(idx, 1, createChatMessage(sentMessage)));
+                    setMessages(previousMessages => {
+                        previousMessages.splice(idx, 1, createChatMessage(sentMessage));
+                        return previousMessages;
+                    });
                 }
             })
             .onFailed(() => {
@@ -269,15 +272,16 @@ const useSendbird = (orderId: string, isErrorOrderInfo: boolean, chatChannelUrl:
 
     useEffect(() => {
         // if the user has not created a chat URL for the order yet, create one using p2p_create_chat endpoint
-        if (orderId && !chatChannelUrl) {
+        // chatChannelUrl is received from order details, hence check if chat url was already created using p2p_create_chat
+        if (!chatChannel?.url && sendbirdServiceToken?.app_id && orderId) {
+            initialiseChat();
+        } else if (orderId && !chatChannelUrl && !chatChannel?.url) {
             createChat({
                 order_id: orderId,
             });
-        } else if (sendbirdServiceToken?.app_id) {
-            initialiseChat();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [orderId, chatChannelUrl, sendbirdServiceToken?.app_id]);
+    }, [orderId, chatChannelUrl, chatChannel?.url, sendbirdServiceToken?.app_id]);
 
     return {
         activeChatChannel: chatChannel,
