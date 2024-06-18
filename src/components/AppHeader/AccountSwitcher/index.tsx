@@ -1,18 +1,22 @@
-import { api } from '@/hooks';
+import { useActiveAccount } from '@/hooks/api/account';
 import { CurrencyUsdIcon } from '@deriv/quill-icons';
 import { AccountSwitcher as UIAccountSwitcher } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 
-export const AccountSwitcher = () => {
-    const { data } = api.account.useActiveAccount();
+type TActiveAccount = NonNullable<ReturnType<typeof useActiveAccount>['data']>;
+type AccountSwitcherProps = {
+    account: TActiveAccount;
+};
+
+export const AccountSwitcher = ({ account }: AccountSwitcherProps) => {
     const activeAccount = {
-        balance: FormatUtils.formatMoney(data?.balance ?? 0),
-        currency: data?.currency || 'USD',
-        currencyLabel: data?.currency || 'US Dollar',
+        balance: FormatUtils.formatMoney(account?.balance ?? 0),
+        currency: account?.currency || 'USD',
+        currencyLabel: account?.currency || 'US Dollar',
         icon: <CurrencyUsdIcon iconSize='sm' />,
         isActive: true,
-        isVirtual: Boolean(data?.is_virtual),
-        loginid: data?.loginid || '',
+        isVirtual: Boolean(account?.is_virtual),
+        loginid: account?.loginid || '',
     };
-    return data && <UIAccountSwitcher activeAccount={activeAccount} buttonClassName='mr-4' isDisabled />;
+    return account && <UIAccountSwitcher activeAccount={activeAccount} buttonClassName='mr-4' isDisabled />;
 };

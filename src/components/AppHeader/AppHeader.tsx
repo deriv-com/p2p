@@ -1,4 +1,5 @@
 import { getOauthUrl } from '@/constants';
+import { api } from '@/hooks';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
@@ -9,12 +10,14 @@ import { MenuItems } from './MenuItems';
 import { MobileMenu } from './MobileMenu';
 import { Notifications } from './Notifications';
 import { PlatformSwitcher } from './PlatformSwitcher';
+import { AccountsInfoLoader } from './SkeletonLoader';
 import './AppHeader.scss';
 
 // TODO: handle local storage values not updating after changing local storage values
 const AppHeader = () => {
     const { isDesktop } = useDevice();
     const { activeLoginid, logout } = useAuthData();
+    const { data: activeAccount } = api.account.useActiveAccount();
     const { localize } = useTranslations();
     const oauthUrl = getOauthUrl();
 
@@ -27,7 +30,9 @@ const AppHeader = () => {
                 <MenuItems />
             </Wrapper>
             <Wrapper variant='right'>
-                {activeLoginid ? (
+                {!activeAccount ? (
+                    <AccountsInfoLoader is_logged_in is_mobile={!isDesktop} speed={3} />
+                ) : activeLoginid ? (
                     <>
                         <Notifications />
                         {isDesktop && (
@@ -43,7 +48,7 @@ const AppHeader = () => {
                                 <StandaloneCircleUserRegularIcon fill='#626262' />
                             </TooltipMenuIcon>
                         )}
-                        <AccountSwitcher />
+                        <AccountSwitcher account={activeAccount} />
                         <Button className='mr-6' onClick={logout} size='md'>
                             <Text size='sm' weight='bold'>
                                 {localize('Logout')}
