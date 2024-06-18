@@ -1,9 +1,10 @@
 import clsx from 'clsx';
+import { useShallow } from 'zustand/react/shallow';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
 import { getSortByList } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
-import { TSortByValues } from '@/utils';
+import { useStore } from '@/store';
 import { getLocalizedTabs } from '@/utils/tabs';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
@@ -13,37 +14,24 @@ import './BuySellHeader.scss';
 
 type TBuySellHeaderProps = {
     activeTab: string;
-    selectedCurrency: string;
-    selectedPaymentMethods: string[];
     setActiveTab: (tab: number) => void;
     setIsFilterModalOpen: () => void;
     setSearchValue: (value: string) => void;
-    setSelectedCurrency: (value: string) => void;
-    setSelectedPaymentMethods: (value: string[]) => void;
-    setShouldUseClientLimits: (value: boolean) => void;
-    setSortDropdownValue: (value: TSortByValues) => void;
-    shouldUseClientLimits: boolean;
-    sortDropdownValue: TSortByValues;
 };
 
-const BuySellHeader = ({
-    activeTab,
-    selectedCurrency,
-    selectedPaymentMethods,
-    setActiveTab,
-    setIsFilterModalOpen,
-    setSearchValue,
-    setSelectedCurrency,
-    setSelectedPaymentMethods,
-    setShouldUseClientLimits,
-    setSortDropdownValue,
-    shouldUseClientLimits,
-    sortDropdownValue,
-}: TBuySellHeaderProps) => {
+const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearchValue }: TBuySellHeaderProps) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const isAdvertiserBarred = useIsAdvertiserBarred();
+    const { filteredCurrency, setFilteredCurrency, setSortByValue, sortByValue } = useStore(
+        useShallow(state => ({
+            filteredCurrency: state.filteredCurrency,
+            setFilteredCurrency: state.setFilteredCurrency,
+            setSortByValue: state.setSortByValue,
+            sortByValue: state.sortByValue,
+        }))
+    );
 
     return (
         <div
@@ -64,7 +52,7 @@ const BuySellHeader = ({
             </Tabs>
             <div className='buy-sell-header__row'>
                 <div className='flex flex-row-reverse lg:flex-row gap-4'>
-                    <CurrencyDropdown selectedCurrency={selectedCurrency} setSelectedCurrency={setSelectedCurrency} />
+                    <CurrencyDropdown selectedCurrency={filteredCurrency} setSelectedCurrency={setFilteredCurrency} />
                     <div className='buy-sell-header__row-search'>
                         <Search
                             name='search-nickname'
@@ -75,9 +63,9 @@ const BuySellHeader = ({
                 </div>
                 <SortDropdown
                     list={getSortByList(localize)}
-                    onSelect={setSortDropdownValue}
+                    onSelect={setSortByValue}
                     setIsFilterModalOpen={setIsFilterModalOpen}
-                    value={sortDropdownValue}
+                    value={sortByValue}
                 />
                 <Button
                     className='!border-[#d6dadb] border-[1px] lg:p-0 lg:h-16 lg:w-16 h-[3.2rem] w-[3.2rem]'
@@ -96,16 +84,7 @@ const BuySellHeader = ({
                     variant='outlined'
                 />
             </div>
-            {isModalOpenFor('FilterModal') && (
-                <FilterModal
-                    isModalOpen
-                    isToggled={shouldUseClientLimits}
-                    onRequestClose={hideModal}
-                    onToggle={setShouldUseClientLimits}
-                    selectedPaymentMethods={selectedPaymentMethods}
-                    setSelectedPaymentMethods={setSelectedPaymentMethods}
-                />
-            )}
+            {isModalOpenFor('FilterModal') && <FilterModal isModalOpen onRequestClose={hideModal} />}
         </div>
     );
 };

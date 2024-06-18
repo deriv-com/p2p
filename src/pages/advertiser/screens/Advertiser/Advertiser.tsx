@@ -5,7 +5,7 @@ import BlockDropdown from '@/components/AdvertiserName/BlockDropdown';
 import { BUY_SELL_URL, MY_PROFILE_URL } from '@/constants';
 import { api, useAdvertiserStats, useModalManager } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
-import { useDevice } from '@deriv-com/ui';
+import { Loader, useDevice } from '@deriv-com/ui';
 import { AdvertiserAdvertsTable } from '../AdvertiserAdvertsTable';
 import { AdvertiserBlockOverlay } from '../AdvertiserBlockOverlay';
 import './Advertiser.scss';
@@ -25,7 +25,9 @@ const Advertiser = () => {
     const history = useHistory();
     const location = useLocation();
 
-    const { data, unsubscribe } = useAdvertiserStats(id);
+    const { data, isLoading, unsubscribe } = useAdvertiserStats(id);
+
+    if (isLoading) return <Loader />;
 
     return (
         <div className='advertiser'>
