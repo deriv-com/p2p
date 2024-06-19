@@ -91,7 +91,7 @@ describe('<AppHeader/>', () => {
                 </QueryParamProvider>
             </BrowserRouter>
         );
-        const loaderElement = screen.getByTestId('accounts-info-loader');
+        const loaderElement = screen.getByTestId('dt_accounts_info_loader');
 
         expect(loaderElement).toBeInTheDocument();
     });
