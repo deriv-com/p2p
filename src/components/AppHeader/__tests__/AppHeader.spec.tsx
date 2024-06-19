@@ -83,7 +83,7 @@ describe('<AppHeader/>', () => {
         jest.clearAllMocks();
     });
 
-    it('should render the header and handle login when there are no P2P accounts', async () => {
+    it('should show loader when active account data is not fetched yet', async () => {
         render(
             <BrowserRouter>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>
@@ -91,14 +91,20 @@ describe('<AppHeader/>', () => {
                 </QueryParamProvider>
             </BrowserRouter>
         );
-        await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
+        const loaderElement = screen.getByTestId('accounts-info-loader');
 
-        expect(window.open).toHaveBeenCalledWith(expect.any(String), '_self');
+        expect(loaderElement).toBeInTheDocument();
     });
 
     it('should render the desktop header and manage account actions when logged in', async () => {
         mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
-
+        jest.mock('@/hooks', () => ({
+            api: {
+                account: {
+                    useActiveAccount: () => ({ data: { currency: 'USD' } }),
+                },
+            },
+        }));
         Object.defineProperty(window, 'matchMedia', {
             value: jest.fn().mockImplementation(query => ({
                 addEventListener: jest.fn(),

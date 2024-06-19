@@ -1,5 +1,7 @@
+/* eslint-disable no-console */
 import { getOauthUrl } from '@/constants';
 import { api } from '@/hooks';
+import { getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
@@ -16,14 +18,16 @@ import './AppHeader.scss';
 // TODO: handle local storage values not updating after changing local storage values
 const AppHeader = () => {
     const { isDesktop } = useDevice();
+    const isEndpointPage = getCurrentRoute() === 'endpoint';
     const { activeLoginid, logout } = useAuthData();
     const { data: activeAccount } = api.account.useActiveAccount();
     const { localize } = useTranslations();
     const oauthUrl = getOauthUrl();
 
     const renderAccountSection = () => {
-        if (!activeAccount) {
-            return <AccountsInfoLoader is_logged_in is_mobile={!isDesktop} speed={3} />;
+        if (!isEndpointPage && !activeAccount) {
+            console.log('here:', isEndpointPage, activeAccount);
+            return <AccountsInfoLoader isLoggedIn isMobile={!isDesktop} speed={3} />;
         }
 
         if (activeLoginid) {
@@ -33,7 +37,7 @@ const AppHeader = () => {
                     {isDesktop && (
                         <TooltipMenuIcon
                             as='a'
-                            className='pr-3 border-r-[1px] h-[32px]'
+                            className='pr-3 border-r-[0.1rem] h-[3.2rem]'
                             disableHover
                             href='https://app.deriv.com/account/personal-details'
                             tooltipContainerClassName='z-20'
@@ -43,7 +47,7 @@ const AppHeader = () => {
                             <StandaloneCircleUserRegularIcon fill='#626262' />
                         </TooltipMenuIcon>
                     )}
-                    <AccountSwitcher account={activeAccount} />
+                    <AccountSwitcher account={activeAccount!} />
                     <Button className='mr-6' onClick={logout} size='md'>
                         <Text size='sm' weight='bold'>
                             {localize('Logout')}
