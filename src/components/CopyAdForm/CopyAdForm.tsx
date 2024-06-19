@@ -216,7 +216,7 @@ const CopyAdForm = ({ formValues, isModalOpen, onClickCancel, onFormSubmit, ...r
                             <Text color='less-prominent' size={labelSize}>
                                 <Localize i18n_default_text='Order must be completed in' />
                             </Text>
-                            <Text size={valueSize}>{formatTime(orderExpiryPeriod ?? 3600)}</Text>
+                            <Text size={valueSize}>{formatTime(orderExpiryPeriod ?? 3600, localize)}</Text>
                         </div>
                         <div className='flex flex-col w-full mt-[1.6rem]'>
                             <Text color='less-prominent' size={labelSize}>
