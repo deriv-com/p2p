@@ -2,6 +2,13 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyAdsToggle from '../MyAdsToggle';
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => ({
+        isMobile: false,
+    })),
+}));
+
 const mockProps = {
     isPaused: false,
     onClickToggle: jest.fn(),
