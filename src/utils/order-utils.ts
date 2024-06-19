@@ -1,3 +1,6 @@
+import { TLocalize, TOrderExpiryOptions } from 'types';
+import { formatTime } from './time';
+
 /**
  * The below function checks if the order was visited by the user, by checking if the order id is present in the order_ids array in the local storage.
  * @param orderId - The order id to check if it was visited.
@@ -6,4 +9,13 @@
 export const isOrderSeen = (orderId: string, loginId: string) => {
     const orderIdsMap = JSON.parse(localStorage.getItem('order_ids') || '{}');
     return (orderIdsMap[loginId] || []).includes(orderId);
+};
+
+export const getOrderTimeCompletionList = (localize: TLocalize, orderExpiryOptions: TOrderExpiryOptions) => {
+    return (
+        orderExpiryOptions?.map(option => ({
+            text: formatTime(option as number, localize),
+            value: `${option}`,
+        })) ?? []
+    );
 };

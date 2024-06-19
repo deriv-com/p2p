@@ -219,3 +219,7 @@ export type TActiveChannel = ReturnType<typeof useSendbird>['activeChatChannel']
 export type TChatMessages = NonNullable<ReturnType<typeof useSendbird>['messages']>;
 
 export type TLocalize = ReturnType<typeof useTranslations>['localize'];
+
+export type TOrderExpiryOptions = NonNullable<
+    NonNullable<ReturnType<typeof api.settings.useSettings>>['data']
+>['order_expiry_options'];

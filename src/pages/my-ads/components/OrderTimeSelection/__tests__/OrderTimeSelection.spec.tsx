@@ -22,25 +22,26 @@ jest.mock('react-hook-form', () => ({
     }),
 }));
 
+const mockProps = { orderExpiryOptions: [900, 1800, 3600] };
 describe('OrderTimeSelection', () => {
     it('should render the order time selection component', () => {
-        render(<OrderTimeSelection />);
+        render(<OrderTimeSelection {...mockProps} />);
         expect(screen.getByText('Orders must be completed in')).toBeInTheDocument();
     });
     it('should handle the dropdown click', async () => {
-        render(<OrderTimeSelection />);
+        render(<OrderTimeSelection {...mockProps} />);
         await userEvent.click(screen.getByRole('combobox'));
         expect(screen.getByRole('listbox')).toBeInTheDocument();
         expect(screen.getByText('1 hour')).toBeInTheDocument();
     });
     it('should not do anything on clicking info icon in desktop view', async () => {
-        render(<OrderTimeSelection />);
+        render(<OrderTimeSelection {...mockProps} />);
         await userEvent.click(screen.getByTestId('dt_order_info_icon'));
         expect(screen.queryByRole('button', { name: 'Ok' })).not.toBeInTheDocument();
     });
     it('should handle the modal open in mobile view', async () => {
         mockUseDevice.mockReturnValue({ isMobile: true });
-        render(<OrderTimeSelection />);
+        render(<OrderTimeSelection {...mockProps} />);
         await userEvent.click(screen.getByTestId('dt_order_info_icon'));
         const okButton = screen.getByRole('button', { name: 'Ok' });
         expect(okButton).toBeInTheDocument();

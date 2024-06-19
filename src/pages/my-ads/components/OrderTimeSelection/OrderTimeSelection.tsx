@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { MutableOption } from 'types';
+import { TOrderExpiryOptions } from 'types';
 import { OrderTimeTooltipModal } from '@/components/Modals';
-import { getOrderTimeCompletionList, getOrderTimeInfoMessage } from '@/constants';
+import { getOrderTimeInfoMessage } from '@/constants';
+import { getOrderTimeCompletionList } from '@/utils';
 import { LabelPairedChevronDownMdRegularIcon, LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Dropdown, Text, TooltipMenuIcon, useDevice } from '@deriv-com/ui';
 import './OrderTimeSelection.scss';
 
-const OrderTimeSelection = () => {
+const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrderExpiryOptions }) => {
     const { control } = useFormContext();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { isMobile } = useDevice();
@@ -43,7 +44,7 @@ const OrderTimeSelection = () => {
                     <Dropdown
                         className='items-center h-16'
                         dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
-                        list={getOrderTimeCompletionList(localize) as unknown as MutableOption[]}
+                        list={getOrderTimeCompletionList(localize, orderExpiryOptions)}
                         name='order-completion-time'
                         onSelect={onChange}
                         value={value}
