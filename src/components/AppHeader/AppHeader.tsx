@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { getOauthUrl } from '@/constants';
 import { api } from '@/hooks';
 import { getCurrentRoute } from '@/utils';
@@ -26,7 +25,6 @@ const AppHeader = () => {
 
     const renderAccountSection = () => {
         if (!isEndpointPage && !activeAccount) {
-            console.log('here:', isEndpointPage, activeAccount);
             return <AccountsInfoLoader isLoggedIn isMobile={!isDesktop} speed={3} />;
         }
 
