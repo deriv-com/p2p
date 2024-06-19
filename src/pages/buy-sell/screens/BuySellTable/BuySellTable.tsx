@@ -4,7 +4,7 @@ import { RadioGroupFilterModal } from '@/components/Modals';
 import { ADVERT_TYPE, BUY_SELL, getSortByList } from '@/constants';
 import { api } from '@/hooks';
 import { useModalManager, useQueryString } from '@/hooks/custom-hooks';
-import { useStore } from '@/store';
+import { useBuySellFiltersStore } from '@/store';
 import { TSortByValues } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { BuySellHeader } from '../BuySellHeader';
@@ -27,7 +27,7 @@ const BuySellTable = () => {
         setSortByValue,
         shouldUseClientLimits,
         sortByValue,
-    } = useStore(
+    } = useBuySellFiltersStore(
         useShallow(state => ({
             filteredCurrency: state.filteredCurrency,
             selectedPaymentMethods: state.selectedPaymentMethods,

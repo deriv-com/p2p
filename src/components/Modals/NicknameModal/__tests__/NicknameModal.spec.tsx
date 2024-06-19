@@ -1,6 +1,6 @@
 import { StoreApi } from 'zustand';
 import { api } from '@/hooks';
-import { useStore } from '@/store';
+import { useUserInfoStore } from '@/store';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NicknameModal from '../NicknameModal';
@@ -48,13 +48,13 @@ const mockStore = {
     setHasCreatedAdvertiser: jest.fn(),
 };
 
-jest.mock('@/store/useStore');
+jest.mock('@/store/useUserInfoStore');
 
 type TMockStore = {
     setHasCreatedAdvertiser: (value: boolean) => void;
 };
 
-const mockedUseStore = useStore as unknown as jest.Mock<StoreApi<TMockStore>>;
+const mockeduseUserInfoStore = useUserInfoStore as unknown as jest.Mock<StoreApi<TMockStore>>;
 
 const mockProps = {
     isModalOpen: true,
@@ -65,7 +65,7 @@ const user = userEvent.setup({ delay: null });
 
 describe('NicknameModal', () => {
     beforeEach(() => {
-        mockedUseStore.mockImplementation(selector => selector(mockStore));
+        mockeduseUserInfoStore.mockImplementation(selector => selector(mockStore));
     });
     it('should render title and description correctly', () => {
         render(<NicknameModal {...mockProps} />);

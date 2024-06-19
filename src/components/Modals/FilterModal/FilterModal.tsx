@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { api } from '@/hooks';
-import { useStore } from '@/store';
+import { useBuySellFiltersStore } from '@/store';
 import { LabelPairedChevronRightLgRegularIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Modal, Text, ToggleSwitch, useDevice } from '@deriv-com/ui';
@@ -20,7 +20,7 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const { selectedPaymentMethods, setSelectedPaymentMethods, setShouldUseClientLimits, shouldUseClientLimits } =
-        useStore(
+        useBuySellFiltersStore(
             useShallow(state => ({
                 selectedPaymentMethods: state.selectedPaymentMethods,
                 setSelectedPaymentMethods: state.setSelectedPaymentMethods,

@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { useStore } from '@/store';
+import { useUserInfoStore } from '@/store';
 import { daysSince, isEmptyObject } from '@/utils';
 import { useGetSettings } from '@deriv-com/api-hooks';
 import { api } from '..';
@@ -26,7 +26,7 @@ const useAdvertiserStats = (advertiserId?: string) => {
     const { data, isLoading: isLoadingInfo, subscribe, unsubscribe } = api.advertiser.useGetInfo(advertiserId);
     const { data: settings, isSuccess: isSuccessSettings } = useGetSettings();
     const { data: authenticationStatus, isSuccess: isSuccessAuthenticationStatus } = api.account.useAuthentication();
-    const { userInfoState } = useStore(useShallow(state => ({ userInfoState: state.userInfoState })));
+    const { userInfoState } = useUserInfoStore(useShallow(state => ({ userInfoState: state.userInfoState })));
     const { error, isActive: isSubscribed, isIdle, isLoading } = userInfoState || {};
 
     useEffect(() => {
