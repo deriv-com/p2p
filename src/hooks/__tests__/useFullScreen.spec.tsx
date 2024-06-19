@@ -25,7 +25,7 @@ describe('useFullScreen', () => {
         expect(removeEventListenerSpy).toHaveBeenCalledWith('MSFullscreenChange', expect.any(Function), false);
     });
 
-    it('calls requestFullscreen when trying to enter fullscreen', () => {
+    it('should call requestFullscreen when trying to enter fullscreen', () => {
         const requestFullscreenMock = jest.fn();
         document.documentElement.requestFullscreen = requestFullscreenMock;
         const { result } = renderHook(() => useFullScreen());
@@ -37,7 +37,7 @@ describe('useFullScreen', () => {
         expect(requestFullscreenMock).toHaveBeenCalled();
     });
 
-    it('cleans up event listeners on unmount', () => {
+    it('should clean up event listeners on unmount', () => {
         const removeEventListenerSpy = jest.spyOn(document, 'removeEventListener');
         const { unmount } = renderHook(() => useFullScreen());
 
