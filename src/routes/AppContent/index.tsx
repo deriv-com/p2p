@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
-import { useStore } from '@/store';
+import { useUserInfoStore } from '@/store';
 import { getCurrentRoute } from '@/utils';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
 import Router from '../Router';
@@ -19,7 +19,7 @@ const AppContent = () => {
     const location = useLocation();
     const { isDesktop } = useDevice();
     const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
-    const { hasCreatedAdvertiser, setHasCreatedAdvertiser, setUserInfoState } = useStore(
+    const { hasCreatedAdvertiser, setHasCreatedAdvertiser, setUserInfoState } = useUserInfoStore(
         useShallow(state => ({
             hasCreatedAdvertiser: state.hasCreatedAdvertiser,
             setHasCreatedAdvertiser: state.setHasCreatedAdvertiser,

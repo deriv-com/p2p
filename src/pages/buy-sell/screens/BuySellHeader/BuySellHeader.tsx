@@ -4,7 +4,7 @@ import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
 import { getSortByList } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
-import { useStore } from '@/store';
+import { useBuySellFiltersStore } from '@/store';
 import { getLocalizedTabs } from '@/utils/tabs';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
@@ -24,7 +24,7 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const isAdvertiserBarred = useIsAdvertiserBarred();
-    const { filteredCurrency, setFilteredCurrency, setSortByValue, sortByValue } = useStore(
+    const { filteredCurrency, setFilteredCurrency, setSortByValue, sortByValue } = useBuySellFiltersStore(
         useShallow(state => ({
             filteredCurrency: state.filteredCurrency,
             setFilteredCurrency: state.setFilteredCurrency,

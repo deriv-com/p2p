@@ -38,7 +38,7 @@ const mockStore = {
 };
 
 jest.mock('@/store', () => ({
-    useStore: jest.fn(() => mockStore),
+    useBuySellFiltersStore: jest.fn(() => mockStore),
 }));
 
 const mockUseModalManager = {
