@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { api } from '@/hooks';
 
-export type TUserInfoStates = {
+type TUserInfoStates = {
     hasCreatedAdvertiser: boolean;
     userInfoState:
         | {
@@ -14,7 +14,7 @@ export type TUserInfoStates = {
         | undefined;
 };
 
-export type TUserInfoActions = {
+type TUserInfoActions = {
     setHasCreatedAdvertiser: (hasCreatedAdvertiser: boolean) => void;
     setUserInfoState: (userInfoState: TUserInfoStates['userInfoState']) => void;
 };
