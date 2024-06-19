@@ -21,6 +21,50 @@ const AppHeader = () => {
     const { localize } = useTranslations();
     const oauthUrl = getOauthUrl();
 
+    const renderAccountSection = () => {
+        if (!activeAccount) {
+            return <AccountsInfoLoader is_logged_in is_mobile={!isDesktop} speed={3} />;
+        }
+
+        if (activeLoginid) {
+            return (
+                <>
+                    <Notifications />
+                    {isDesktop && (
+                        <TooltipMenuIcon
+                            as='a'
+                            className='pr-3 border-r-[1px] h-[32px]'
+                            disableHover
+                            href='https://app.deriv.com/account/personal-details'
+                            tooltipContainerClassName='z-20'
+                            tooltipContent={localize('Manage account settings')}
+                            tooltipPosition='bottom'
+                        >
+                            <StandaloneCircleUserRegularIcon fill='#626262' />
+                        </TooltipMenuIcon>
+                    )}
+                    <AccountSwitcher account={activeAccount} />
+                    <Button className='mr-6' onClick={logout} size='md'>
+                        <Text size='sm' weight='bold'>
+                            {localize('Logout')}
+                        </Text>
+                    </Button>
+                </>
+            );
+        }
+
+        return (
+            <Button
+                className='w-36'
+                color='primary-light'
+                onClick={() => window.open(oauthUrl, '_self')}
+                variant='ghost'
+            >
+                <Text weight='bold'>{localize('Log in')}</Text>
+            </Button>
+        );
+    };
+
     return (
         <Header className={!isDesktop ? 'h-[40px]' : ''}>
             <Wrapper variant='left'>
@@ -29,43 +73,7 @@ const AppHeader = () => {
                 {isDesktop && <PlatformSwitcher />}
                 <MenuItems />
             </Wrapper>
-            <Wrapper variant='right'>
-                {!activeAccount ? (
-                    <AccountsInfoLoader is_logged_in is_mobile={!isDesktop} speed={3} />
-                ) : activeLoginid ? (
-                    <>
-                        <Notifications />
-                        {isDesktop && (
-                            <TooltipMenuIcon
-                                as='a'
-                                className='pr-3 border-r-[1px] h-[32px]'
-                                disableHover
-                                href='https://app.deriv.com/account/personal-details'
-                                tooltipContainerClassName='z-20'
-                                tooltipContent={localize('Manage account settings')}
-                                tooltipPosition='bottom'
-                            >
-                                <StandaloneCircleUserRegularIcon fill='#626262' />
-                            </TooltipMenuIcon>
-                        )}
-                        <AccountSwitcher account={activeAccount} />
-                        <Button className='mr-6' onClick={logout} size='md'>
-                            <Text size='sm' weight='bold'>
-                                {localize('Logout')}
-                            </Text>
-                        </Button>
-                    </>
-                ) : (
-                    <Button
-                        className='w-36'
-                        color='primary-light'
-                        onClick={() => window.open(oauthUrl, '_self')}
-                        variant='ghost'
-                    >
-                        <Text weight='bold'>{localize('Log in')}</Text>
-                    </Button>
-                )}
-            </Wrapper>
+            <Wrapper variant='right'>{renderAccountSection()}</Wrapper>
         </Header>
     );
 };
