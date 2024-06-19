@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
+import { useActiveAccount } from '@/hooks/api/account';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -20,7 +21,7 @@ jest.mock('@deriv-com/api-hooks', () => ({
             },
         ],
     })),
-    useAuthData: jest.fn(() => ({ activeLoginid: null, logout: jest.fn() })),
+    useAuthData: jest.fn(() => ({ activeLoginid: null, error: null, logout: jest.fn() })),
     useBalance: jest.fn(() => ({
         data: {
             balance: {
@@ -76,6 +77,21 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
 
+const mockUseActiveAccountValues = {
+    data: undefined,
+} as ReturnType<typeof useActiveAccount>;
+
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({
+                ...mockUseActiveAccountValues,
+            })),
+        },
+    },
+}));
+
 describe('<AppHeader/>', () => {
     window.open = jest.fn();
 
@@ -98,13 +114,10 @@ describe('<AppHeader/>', () => {
 
     it('should render the desktop header and manage account actions when logged in', async () => {
         mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
-        jest.mock('@/hooks', () => ({
-            api: {
-                account: {
-                    useActiveAccount: () => ({ data: { currency: 'USD' } }),
-                },
-            },
-        }));
+        mockUseActiveAccountValues.data = {
+            currency: 'USD',
+        } as ReturnType<typeof useActiveAccount>['data'];
+
         Object.defineProperty(window, 'matchMedia', {
             value: jest.fn().mockImplementation(query => ({
                 addEventListener: jest.fn(),
