@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { TSortByValues } from '@/utils';
 
-export type TBuySellFiltersState = {
+type TBuySellFiltersState = {
     filteredCurrency: string;
     hasCreatedAdvertiser: boolean;
     selectedPaymentMethods: string[];
@@ -10,7 +10,7 @@ export type TBuySellFiltersState = {
     sortByValue: TSortByValues;
 };
 
-export type TBuySellFiltersAction = {
+type TBuySellFiltersAction = {
     setFilteredCurrency: (filteredCurrency: string) => void;
     setHasCreatedAdvertiser: (hasCreatedAdvertiser: boolean) => void;
     setSelectedPaymentMethods: (selectedPaymentMethods: string[]) => void;
