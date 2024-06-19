@@ -1,12 +1,12 @@
 import { act, renderHook } from '@testing-library/react';
 import { useFullScreen } from '../custom-hooks';
 
-describe('useFullScreen hook', () => {
+describe('useFullScreen', () => {
     afterEach(() => {
         jest.restoreAllMocks();
     });
 
-    it('adds and removes fullscreen event listeners', () => {
+    it('should add and remove fullscreen event listeners', () => {
         const addEventListenerSpy = jest.spyOn(document, 'addEventListener');
         const removeEventListenerSpy = jest.spyOn(document, 'removeEventListener');
 
