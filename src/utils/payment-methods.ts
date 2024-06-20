@@ -21,7 +21,7 @@ export const sortPaymentMethods = (paymentMethodsList: THooks.AdvertiserPaymentM
     return paymentMethodsList?.sort((i, j) => getPaymentMethodOrder(i.method) - getPaymentMethodOrder(j.method));
 };
 
-type TGetPaymentMethodObjects = THooks.AdvertiserPaymentMethods.Get | THooks.PaymentMethods.Get;
+export type TGetPaymentMethodObjects = THooks.AdvertiserPaymentMethods.Get | THooks.PaymentMethods.Get;
 type TField = Extract<keyof TGetPaymentMethodObjects[0], 'display_name' | 'id'>;
 /**
  * Retrieves the payment method objects.
