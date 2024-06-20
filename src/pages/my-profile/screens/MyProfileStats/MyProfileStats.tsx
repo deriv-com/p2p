@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { api } from '@/hooks';
 import { useAdvertiserStats } from '@/hooks/custom-hooks';
-import { numberToCurrencyText } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader } from '@deriv-com/ui';
+import { FormatUtils } from '@deriv-com/utils';
 import MyProfileStatsItem from './MyProfileStatsItem';
 import './MyProfileStats.scss';
 
@@ -66,8 +66,8 @@ const MyProfileStats = ({ advertiserId }: TMyProfileStatsProps) => {
                 testId='dt_profile_stats_trade_volume'
                 value={
                     shouldShowTradeVolumeLifetime
-                        ? numberToCurrencyText(tradeVolumeLifetime)
-                        : numberToCurrencyText(tradeVolume)
+                        ? FormatUtils.formatMoney(tradeVolumeLifetime)
+                        : FormatUtils.formatMoney(tradeVolume)
                 }
             />
             <MyProfileStatsItem

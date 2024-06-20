@@ -1,10 +1,9 @@
 import { MutableOption } from 'types';
 import { Search } from '@/components';
 import { getCounterpartiesDropdownList } from '@/constants';
-import { useDevice } from '@/hooks/custom-hooks';
 import { LabelPairedChevronDownMdRegularIcon, LegacySort1pxIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Button, Dropdown, Text } from '@deriv-com/ui';
+import { Button, Dropdown, Text, useDevice } from '@deriv-com/ui';
 import './MyProfileCounterpartiesHeader.scss';
 
 type MyProfileCounterpartiesHeaderProps = {
