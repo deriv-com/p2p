@@ -1,0 +1,51 @@
+import { Localize } from '@deriv-com/translations';
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
+import './LeaveFilterModal.scss';
+
+type TLeaveFilterModalProps = {
+    isModalOpen: boolean;
+    onClickCancel: () => void;
+    onRequestClose: () => void;
+};
+
+const LeaveFilterModal = ({ isModalOpen, onClickCancel, onRequestClose }: TLeaveFilterModalProps) => {
+    const { isMobile } = useDevice();
+    const textSize = isMobile ? 'md' : 'sm';
+    return (
+        <Modal
+            ariaHideApp={false}
+            className='leave-filter-modal'
+            isOpen={isModalOpen}
+            shouldCloseOnOverlayClick={false}
+        >
+            <Modal.Header className='leave-filter-modal__header' hideBorder hideCloseIcon>
+                <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
+                    <Localize i18n_default_text='Leave page?' />
+                </Text>
+            </Modal.Header>
+
+            <Modal.Body className='leave-filter-modal__body'>
+                <Text size={textSize}>
+                    <Localize i18n_default_text='Are you sure you want to leave this page? Changes made will not be saved.' />
+                </Text>
+            </Modal.Body>
+            <Modal.Footer className='leave-filter-modal__footer' hideBorder>
+                <Button
+                    className='border-2'
+                    color='black'
+                    onClick={onClickCancel}
+                    size='lg'
+                    textSize={textSize}
+                    variant='outlined'
+                >
+                    <Localize i18n_default_text='Cancel' />
+                </Button>
+                <Button onClick={onRequestClose} size='lg' textSize={textSize}>
+                    <Localize i18n_default_text='Leave page' />
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+export default LeaveFilterModal;
