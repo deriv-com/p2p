@@ -118,8 +118,12 @@ describe('<OrderDetailsConfirmModal />', () => {
         });
     });
 
-    it('should handle confirm button click', async () => {
+    it('should handle confirm button click when file is uploaded', async () => {
         render(<OrderDetailsConfirmModal {...mockProps} />);
+        const file = new File(['test'], 'test.png', { type: 'image/png' });
+        const fileInput = screen.getByTestId('dt_file_upload_input') as HTMLInputElement;
+
+        await userEvent.upload(fileInput, file);
 
         const button = screen.getByRole('button', { name: 'Confirm' });
         await userEvent.click(button);
@@ -134,5 +138,23 @@ describe('<OrderDetailsConfirmModal />', () => {
         await userEvent.click(button);
 
         expect(mockProps.onCancel).toHaveBeenCalled();
+    });
+
+    it('should disable the confirm button if no file is uploaded', async () => {
+        render(<OrderDetailsConfirmModal {...mockProps} />);
+
+        const button = screen.getByRole('button', { name: 'Confirm' });
+        expect(button).toBeDisabled();
+    });
+
+    it('should disable the confirm button if file is not supported', async () => {
+        render(<OrderDetailsConfirmModal {...mockProps} />);
+
+        const blob = new Blob([new Array(6 * 1024 * 1024).join('a')], { type: 'image/png' });
+        const file = new File([blob], 'test.png');
+        await userEvent.upload(screen.getByTestId('dt_file_upload_input'), file);
+
+        const button = screen.getByRole('button', { name: 'Confirm' });
+        expect(button).toBeDisabled();
     });
 });

@@ -106,6 +106,7 @@ const OrderDetailsConfirmModal = ({
                     </Text>
                 </Button>
                 <Button
+                    disabled={!documentFile.files.length || !!documentFile.errorMessage}
                     onClick={() => {
                         sendFile(documentFile.files[0]);
                         onConfirm();
