@@ -1,3 +1,4 @@
+import { TLocalize } from 'types';
 import { Checklist } from '@/components';
 import { usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { DerivLightIcCashierSendEmailIcon } from '@deriv/quill-icons';
@@ -6,7 +7,7 @@ import { Loader, Text, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
 import './Verification.scss';
 
-const getPoiAction = (status: string | undefined, localize: (key: string) => string) => {
+const getPoiAction = (status: string | undefined, localize: TLocalize) => {
     switch (status) {
         case 'pending':
             return localize('Identity verification in progress.');
@@ -19,7 +20,7 @@ const getPoiAction = (status: string | undefined, localize: (key: string) => str
     }
 };
 
-const getPoaAction = (status: string | undefined, localize: (key: string) => string) => {
+const getPoaAction = (status: string | undefined, localize: TLocalize) => {
     switch (status) {
         case 'pending':
             return localize('Address verification in progress.');
