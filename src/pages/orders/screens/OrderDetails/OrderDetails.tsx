@@ -6,10 +6,11 @@ import { api } from '@/hooks';
 import { useExtendedOrderDetails, useSendbird } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
-import { isOrderSeen } from '@/utils';
+import { isOrderSeen, TOrderIdsMap } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
+import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { OrderDetailsCard } from '../../components/OrderDetailsCard';
 import { OrderDetailsCardFooter } from '../../components/OrderDetailsCard/OrderDetailsCardFooter';
 import { OrdersChatSection } from '../OrdersChatSection';
@@ -70,9 +71,9 @@ const OrderDetails = () => {
         if (orderId && activeAccount?.loginid) {
             const loginId = activeAccount.loginid;
             if (!isOrderSeen(orderId, loginId)) {
-                const orderIdsMap = JSON.parse(localStorage.getItem('order_ids') || '{}');
+                const orderIdsMap = LocalStorageUtils.getValue<TOrderIdsMap>(LocalStorageConstants.p2pOrderIds) || {};
                 orderIdsMap[loginId] = [...(orderIdsMap[loginId] || []), orderId];
-                localStorage.setItem('order_ids', JSON.stringify(orderIdsMap));
+                LocalStorageUtils.setValue<TOrderIdsMap>(LocalStorageConstants.p2pOrderIds, orderIdsMap);
             }
         }
     }, [orderId, activeAccount?.loginid]);
