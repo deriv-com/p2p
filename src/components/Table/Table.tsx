@@ -1,7 +1,7 @@
 import { memo, useLayoutEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { useDevice, useFetchMore } from '@/hooks/custom-hooks';
-import { Text } from '@deriv-com/ui';
+import { useFetchMore } from '@/hooks/custom-hooks';
+import { Text, useDevice } from '@deriv-com/ui';
 import { ColumnDef, getCoreRowModel, getGroupedRowModel, GroupingState, useReactTable } from '@tanstack/react-table';
 import './Table.scss';
 

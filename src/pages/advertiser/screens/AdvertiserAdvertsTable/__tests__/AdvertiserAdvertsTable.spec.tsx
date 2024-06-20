@@ -1,6 +1,7 @@
 import { DeepPartial, THooks } from 'types';
 import { api } from '@/hooks';
 import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
+import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AdvertiserAdvertsTable from '../AdvertiserAdvertsTable';
@@ -77,6 +78,13 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(),
+}));
+
+const mockUseDevice = useDevice as jest.Mock;
+
 const mockUseModalManager = {
     hideModal: jest.fn(),
     isModalOpenFor: jest.fn(),
@@ -118,6 +126,7 @@ describe('<AdvertiserAdvertsTable />', () => {
     });
 
     it('should show the AdvertsTableRenderer component if data is not empty', () => {
+        mockUseDevice.mockReturnValue({ isDesktop: true });
         mockUseGetAdvertList = {
             ...mockUseGetAdvertList,
             data: [

@@ -1,8 +1,8 @@
 import { Checklist } from '@/components';
-import { useDevice, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import { usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { DerivLightIcCashierSendEmailIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Loader, Text } from '@deriv-com/ui';
+import { Loader, Text, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
 import './Verification.scss';
 
