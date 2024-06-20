@@ -1,6 +1,5 @@
-import { useDevice } from '@/hooks/custom-hooks';
 import { LabelPairedArrowRightLgBoldIcon, LabelPairedCheckMdBoldIcon } from '@deriv/quill-icons';
-import { Button, Text } from '@deriv-com/ui';
+import { Button, Text, useDevice } from '@deriv-com/ui';
 import './Checklist.scss';
 
 type TChecklistItem = {

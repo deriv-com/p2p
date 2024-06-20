@@ -20,6 +20,13 @@ jest.mock('@/hooks/custom-hooks', () => ({
     usePoiPoaStatus: jest.fn(() => mockUsePoiPoaStatusData),
 }));
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => ({
+        isMobile: false,
+    })),
+}));
+
 describe('<Verification />', () => {
     beforeAll(() => {
         Object.defineProperty(window, 'location', {
