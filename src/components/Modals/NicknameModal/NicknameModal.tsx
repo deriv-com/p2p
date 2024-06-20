@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { BUY_SELL_URL } from '@/constants';

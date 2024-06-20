@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import clsx from 'clsx';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { FullPageMobileWrapper } from '@/components';
 import { api } from '@/hooks';
