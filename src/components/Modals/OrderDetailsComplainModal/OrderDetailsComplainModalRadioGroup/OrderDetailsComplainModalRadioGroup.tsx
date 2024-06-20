@@ -1,3 +1,4 @@
+import { TLocalize } from 'types';
 import { RadioGroup } from '@/components';
 import { useTranslations } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
@@ -9,7 +10,7 @@ type TOrderDetailsComplainModalRadioGroupProps = {
     onCheckboxChange: (reason: string) => void;
 };
 
-const getRadioItems = (isBuyOrderForUser: boolean, localize: (key: string) => string) => {
+const getRadioItems = (isBuyOrderForUser: boolean, localize: TLocalize) => {
     const radioItems = [
         {
             label: isBuyOrderForUser

@@ -1,4 +1,4 @@
-import { THooks } from 'types';
+import { THooks, TLocalize } from 'types';
 import { LabelPairedEllipsisVerticalXlRegularIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Checkbox, Dropdown } from '@deriv-com/ui';
@@ -20,7 +20,7 @@ type TPaymentMethodCardHeaderProps = {
     type: THooks.AdvertiserPaymentMethods.Get[number]['type'];
 };
 
-const getActions = (localize: (key: string) => string) => [
+const getActions = (localize: TLocalize) => [
     {
         text: localize('Edit'),
         value: 'edit',
