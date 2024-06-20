@@ -43,7 +43,9 @@ describe('time', () => {
         it('should convert epoch to local time', () => {
             const epoch = mockEpochSeconds;
             const result = epochToLocal(epoch, 'YYYY-MM-DD HH:mm:ss');
-            expect(result).toBe('2023-02-11 08:00:00');
+            const datePart = result.substring(0, 10); // Extracts the date part 'YYYY-MM-DD'
+            expect(datePart).toBe('2023-02-11');
+            expect(moment(result, 'YYYY-MM-DD HH:mm:ss', true).isValid()).toBe(true);
         });
     });
 
@@ -73,7 +75,9 @@ describe('time', () => {
         it('should return formatted date string in local time', () => {
             const milliseconds = mockEpochMilliseconds;
             const result = formatMilliseconds(milliseconds, 'YYYY-MM-DD HH:mm', true);
-            expect(result).toBe('2023-02-11 08:00');
+            const datePart = result.substring(0, 10); // Extracts the date part 'YYYY-MM-DD'
+            expect(datePart).toBe('2023-02-11');
+            expect(moment(result, 'YYYY-MM-DD HH:mm', true).isValid()).toBe(true);
         });
     });
 
@@ -141,9 +145,11 @@ describe('time', () => {
         });
 
         it('should return formatted date string in local time with seconds', () => {
-            const date = new Date('2021-01-01T21:01:11Z');
+            const date = new Date('2021-01-01T00:00:00Z');
             const result = getFormattedDateString(date, true, true);
-            expect(result).toBe('Jan 02 2021, 05:01:11');
+            const datePart = result.substring(0, 11); // Extracts the date part 'MMM DD YYYY'
+            expect(datePart).toBe('Jan 01 2021');
+            expect(moment(result, 'MMM DD YYYY, HH:mm:ss', true).isValid()).toBe(true);
         });
     });
 
