@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { ENDPOINT } from '@/constants';
+import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { render, screen } from '@testing-library/react';
 import Endpoint from '../Endpoint';
 
@@ -33,7 +34,7 @@ describe('Endpoint component', () => {
 
     it('renders correctly when server URL is set in localStorage', () => {
         const serverURL = 'https://example.com';
-        localStorage.setItem('config.server_url', serverURL);
+        LocalStorageUtils.setValue<string>(LocalStorageConstants.configAppId, serverURL);
 
         render(
             <BrowserRouter>
