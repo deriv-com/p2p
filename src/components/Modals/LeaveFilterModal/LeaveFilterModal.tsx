@@ -4,11 +4,10 @@ import './LeaveFilterModal.scss';
 
 type TLeaveFilterModalProps = {
     isModalOpen: boolean;
-    onClickCancel: () => void;
-    onRequestClose: () => void;
+    onRequestClose: (shouldHide?: boolean) => void;
 };
 
-const LeaveFilterModal = ({ isModalOpen, onClickCancel, onRequestClose }: TLeaveFilterModalProps) => {
+const LeaveFilterModal = ({ isModalOpen, onRequestClose }: TLeaveFilterModalProps) => {
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'md' : 'sm';
     return (
@@ -33,14 +32,14 @@ const LeaveFilterModal = ({ isModalOpen, onClickCancel, onRequestClose }: TLeave
                 <Button
                     className='border-2'
                     color='black'
-                    onClick={onClickCancel}
+                    onClick={() => onRequestClose(false)}
                     size='lg'
                     textSize={textSize}
                     variant='outlined'
                 >
                     <Localize i18n_default_text='Cancel' />
                 </Button>
-                <Button onClick={onRequestClose} size='lg' textSize={textSize}>
+                <Button onClick={() => onRequestClose(true)} size='lg' textSize={textSize}>
                     <Localize i18n_default_text='Leave page' />
                 </Button>
             </Modal.Footer>

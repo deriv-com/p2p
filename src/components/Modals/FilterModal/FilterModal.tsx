@@ -87,9 +87,11 @@ const FilterModal = ({
         }
     }, [data, paymentMethods]);
 
-    const closeCancelModal = () => {
-        setIsHidden(false);
-        hideModal({ shouldHideAllModals: true });
+    const closeCancelModal = (hideAll = false) => {
+        hideModal({ shouldHideAllModals: hideAll });
+        if (!hideAll) {
+            setIsHidden(false);
+        }
     };
 
     const onClickClose = () => {
@@ -132,14 +134,7 @@ const FilterModal = ({
                     showPaymentMethods={showPaymentMethods}
                 />
                 {isModalOpenFor('LeaveFilterModal') && (
-                    <LeaveFilterModal
-                        isModalOpen
-                        onClickCancel={() => {
-                            hideModal();
-                            setIsHidden(false);
-                        }}
-                        onRequestClose={closeCancelModal}
-                    />
+                    <LeaveFilterModal isModalOpen onRequestClose={closeCancelModal} />
                 )}
             </FullPageMobileWrapper>
         );
@@ -181,16 +176,7 @@ const FilterModal = ({
                     />
                 </Modal.Footer>
             </Modal>
-            {isModalOpenFor('LeaveFilterModal') && (
-                <LeaveFilterModal
-                    isModalOpen
-                    onClickCancel={() => {
-                        hideModal();
-                        setIsHidden(false);
-                    }}
-                    onRequestClose={closeCancelModal}
-                />
-            )}
+            {isModalOpenFor('LeaveFilterModal') && <LeaveFilterModal isModalOpen onRequestClose={closeCancelModal} />}
         </>
     );
 };
