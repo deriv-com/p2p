@@ -1,5 +1,4 @@
 import { MouseEvent, useEffect, useRef } from 'react';
-import html2canvas from 'html2canvas';
 import { Clipboard } from '@/components';
 import { ADVERTISER_URL, BUY_SELL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
@@ -65,6 +64,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
         if (divRef.current) {
             const p2pLogo = divRef.current.querySelector('.share-ads-card__qr-icon');
             if (p2pLogo) {
+                const { default: html2canvas } = await import('html2canvas');
                 const canvas = await html2canvas(divRef.current, { allowTaint: true, useCORS: true });
                 const screenshot = canvas.toDataURL('image/png', 1.0);
                 const fileName = `${type}_${id}.png`;
