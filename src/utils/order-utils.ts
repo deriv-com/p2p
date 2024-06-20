@@ -11,6 +11,12 @@ export const isOrderSeen = (orderId: string, loginId: string) => {
     return (orderIdsMap[loginId] || []).includes(orderId);
 };
 
+/**
+ * The below function formats the list to be displayed in the order expiry time dropdown.
+ * @param {TLocalize} localize
+ * @param {TOrderExpiryOptions} orderExpiryOptions - The order expiry options received from the p2p_settings API.
+ * @returns
+ */
 export const getOrderTimeCompletionList = (localize: TLocalize, orderExpiryOptions: TOrderExpiryOptions) => {
     return (
         orderExpiryOptions?.map(option => ({

@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { useDevice } from '@/hooks/custom-hooks';
-import { Text, ToggleSwitch } from '@deriv-com/ui';
+import { Localize } from '@deriv-com/translations';
+import { Text, ToggleSwitch, useDevice } from '@deriv-com/ui';
 
 type TMyAdsToggleProps = {
     isPaused: boolean;
@@ -11,7 +11,7 @@ const MyAdsToggle = ({ isPaused, onClickToggle }: TMyAdsToggleProps) => {
     return (
         <div className={clsx('flex gap-[1.6rem] items-center', { 'justify-end w-full': isMobile })}>
             <Text color={isPaused ? 'success' : 'less-prominent'} size={isMobile ? 'md' : 'sm'}>
-                Hide my ads
+                <Localize i18n_default_text='Hide my ads' />
             </Text>
             <ToggleSwitch onChange={onClickToggle} value={isPaused} />
         </div>
