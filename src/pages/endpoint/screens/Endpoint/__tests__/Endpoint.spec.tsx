@@ -19,11 +19,11 @@ describe('<Endpoint />', () => {
         const appIdInput = screen.getByTestId('dt_endpoint_app_id_input');
         const submitButton = screen.getByRole('button', { name: 'Submit' });
 
-        await userEvent.type(serverUrlInput, 'https://example.com');
+        await userEvent.type(serverUrlInput, 'qa10.deriv.dev');
         await userEvent.type(appIdInput, '123');
         await userEvent.click(submitButton);
 
-        expect(localStorage.getItem('config.server_url')).toBe('https://example.com');
-        expect(localStorage.getItem('config.app_id')).toBe('123');
+        expect(JSON.parse(localStorage.getItem('config.server_url') || '')).toBe('qa10.deriv.dev');
+        expect(JSON.parse(localStorage.getItem('config.app_id') || '')).toBe('123');
     });
 });
