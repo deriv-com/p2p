@@ -14,7 +14,3 @@ export type TTextColors =
     | 'success'
     | 'warning'
     | 'white';
-
-export type TOrderIdsMap = {
-    [key: string]: string[];
-};

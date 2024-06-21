@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Controller, useForm } from 'react-hook-form';
 import { Button, Input, Text } from '@deriv-com/ui';
 import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
