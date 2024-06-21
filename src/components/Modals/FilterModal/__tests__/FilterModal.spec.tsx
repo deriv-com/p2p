@@ -23,6 +23,12 @@ let mockData: { display_name: string; id: string }[] | undefined = [
     },
 ];
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+
 jest.mock('@/hooks', () => ({
     api: {
         paymentMethods: {
@@ -31,6 +37,7 @@ jest.mock('@/hooks', () => ({
             })),
         },
     },
+    useModalManager: jest.fn(() => mockModalManager),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -307,7 +314,7 @@ describe('<FilterModal />', () => {
         const paymentMethodsText = screen.getByText('Payment methods');
         await user.click(paymentMethodsText);
 
-        const backButton = screen.getByTestId('dt_mobile_wrapper_button');
+        const backButton = screen.getAllByTestId('dt_mobile_wrapper_button')[0];
         await user.click(backButton);
 
         expect(screen.getByText('Filter')).toBeInTheDocument();
