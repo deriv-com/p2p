@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ENDPOINT } from '@/constants';
 import { Text } from '@deriv-com/ui';
+import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 
 const Endpoint = () => {
-    const serverURL = localStorage.getItem('config.server_url');
+    const serverURL = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
 
     if (serverURL) {
         return (

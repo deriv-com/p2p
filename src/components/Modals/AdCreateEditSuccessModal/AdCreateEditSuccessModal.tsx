@@ -5,6 +5,7 @@ import { api } from '@/hooks';
 import useInvalidateQuery from '@/hooks/api/useInvalidateQuery';
 import { Localize } from '@deriv-com/translations';
 import { Button, Checkbox, Modal, Text, useDevice } from '@deriv-com/ui';
+import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import './AdCreateEditSuccessModal.scss';
 
 export type TAdCreateEditSuccessModalProps = {
@@ -30,7 +31,7 @@ const AdCreateEditSuccessModal = ({
     }, []);
 
     const onClickOk = () => {
-        localStorage.setItem('should_not_show_auto_archive_message_again', JSON.stringify(isChecked));
+        LocalStorageUtils.setValue<boolean>(LocalStorageConstants.p2pArchiveMessage, isChecked);
         if (data?.visibility_status && data?.account_currency && data.max_order_amount_limit_display) {
             history.push(MY_ADS_URL, {
                 currency: data.account_currency,
