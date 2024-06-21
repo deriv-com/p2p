@@ -18,6 +18,7 @@ import { api } from '@/hooks';
 import useInvalidateQuery from '@/hooks/api/useInvalidateQuery';
 import { useFloatingRate, useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { getPaymentMethodObjects, getVisibilityErrorCodes } from '@/utils';
+import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { TMyAdsTableRowRendererProps } from '../MyAdsTable/MyAdsTable';
 import MyAdsTableRow from './MyAdsTableRow';
 
@@ -58,7 +59,9 @@ const MyAdsTableRowView = ({
     const { rateType: currentRateType, reachedTargetDate } = useFloatingRate();
     const { data: updateResponse, error: updateError, isError: isErrorUpdate, mutate } = api.advert.useUpdate();
     const { error, isError, mutate: deleteAd } = api.advert.useDelete();
-    const shouldNotShowArchiveMessageAgain = localStorage.getItem('should_not_show_auto_archive_message_again');
+    const shouldNotShowArchiveMessageAgain = LocalStorageUtils.getValue<boolean>(
+        LocalStorageConstants.p2pArchiveMessage
+    );
     const [formValues, setFormValues] = useState<TFormValues>({
         amount: 0,
         maxOrder: '',
@@ -155,9 +158,9 @@ const MyAdsTableRowView = ({
 
     useEffect(() => {
         if (isCreateSuccess) {
-            if (shouldNotShowArchiveMessageAgain !== 'true') {
+            if (shouldNotShowArchiveMessageAgain) {
                 showModal('AdCreateEditSuccessModal');
-            } else if (shouldNotShowArchiveMessageAgain === 'true') {
+            } else {
                 invalidate('p2p_advertiser_adverts');
             }
             clearValues();

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Text } from '@deriv-com/ui';
+import { Text, useDevice } from '@deriv-com/ui';
 import { FilterModalPaymentMethods } from '../FilterModalPaymentMethods';
 
 type TFilterModalContentProps = {
@@ -20,6 +20,8 @@ const FilterModalContent = ({
     setPaymentMethods,
     showPaymentMethods,
 }: TFilterModalContentProps) => {
+    const { isMobile } = useDevice();
+    const textSize = isMobile ? 'md' : 'sm';
     return (
         <>
             {showPaymentMethods ? (
@@ -41,8 +43,8 @@ const FilterModalContent = ({
                             onClick={option.onClick}
                         >
                             <div className='flex flex-col'>
-                                <Text size='sm'>{option.text}</Text>
-                                <Text color='less-prominent' size='sm'>
+                                <Text size={textSize}>{option.text}</Text>
+                                <Text color='less-prominent' size={textSize}>
                                     {option.subtext}
                                 </Text>
                             </div>

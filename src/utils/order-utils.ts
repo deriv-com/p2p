@@ -1,4 +1,5 @@
-import { TLocalize, TOrderExpiryOptions } from 'types';
+import { TLocalize, TOrderExpiryOptions, TOrderIdsMap } from 'types';
+import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { formatTime } from './time';
 
 /**
@@ -6,8 +7,10 @@ import { formatTime } from './time';
  * @param orderId - The order id to check if it was visited.
  * @returns {boolean} Returns true if the order was visited, false otherwise.
  */
+
 export const isOrderSeen = (orderId: string, loginId: string) => {
-    const orderIdsMap = JSON.parse(localStorage.getItem('order_ids') || '{}');
+    const orderIdsMap = LocalStorageUtils.getValue<TOrderIdsMap>(LocalStorageConstants.p2pOrderIds) || {};
+
     return (orderIdsMap[loginId] || []).includes(orderId);
 };
 

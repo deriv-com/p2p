@@ -223,3 +223,7 @@ export type TLocalize = ReturnType<typeof useTranslations>['localize'];
 export type TOrderExpiryOptions = NonNullable<
     NonNullable<ReturnType<typeof api.settings.useSettings>>['data']
 >['order_expiry_options'];
+
+export type TOrderIdsMap = {
+    [key: string]: string[];
+};

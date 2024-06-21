@@ -8,6 +8,7 @@ import { api } from '@/hooks';
 import { useFloatingRate, useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader } from '@deriv-com/ui';
+import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { AdWizard } from '../../components';
 import './CreateEditAd.scss';
 
@@ -95,7 +96,9 @@ const CreateEditAd = () => {
         }
     }, [countryList, getValues, setValue]);
 
-    const shouldNotShowArchiveMessageAgain = localStorage.getItem('should_not_show_auto_archive_message_again');
+    const shouldNotShowArchiveMessageAgain = LocalStorageUtils.getValue<boolean>(
+        LocalStorageConstants.p2pArchiveMessage
+    );
 
     const onSubmit = () => {
         type TPayload = {
@@ -152,7 +155,7 @@ const CreateEditAd = () => {
 
     useEffect(() => {
         if (isSuccess || isUpdateSuccess) {
-            if (shouldNotShowArchiveMessageAgain !== 'true') {
+            if (!shouldNotShowArchiveMessageAgain) {
                 showModal('AdCreateEditSuccessModal');
             } else if (createResponse?.visibility_status) {
                 history.push(MY_ADS_URL, {
