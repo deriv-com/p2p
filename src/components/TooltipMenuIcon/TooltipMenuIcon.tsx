@@ -17,6 +17,7 @@ type TTooltipMenuIcon<T extends AsElement> = ComponentProps<T> & {
     tooltipPosition?: TooltipProps['placement'];
 };
 
+// TODO replace this with deriv/ui
 const TooltipMenuIcon = <T extends AsElement>({
     as,
     children,
