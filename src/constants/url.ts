@@ -22,26 +22,26 @@ export const getOauthUrl = () => {
     const origin = window.location.origin;
     const hostname = window.location.hostname;
 
-    const existingAppId = LocalStorageUtils.getValue(LocalStorageConstants.configAppId);
-    const existingServerUrl = LocalStorageUtils.getValue(LocalStorageConstants.configServerURL);
+    const existingAppId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
+    const existingServerUrl = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
     // since we don't have official app_id for staging,
     // we will use the red server with app_id=62019 for the staging-p2p.deriv.com for now
     // to fix the login issue
     if (!/localhost/.test(origin) && (!existingAppId || !existingServerUrl)) {
-        localStorage.setItem(
-            LocalStorageConstants.configServerURL.toString(),
+        LocalStorageUtils.setValue<string>(
+            LocalStorageConstants.configServerURL,
             SocketURL[origin as keyof typeof SocketURL]
         );
-        localStorage.setItem(
+        LocalStorageUtils.setValue<string>(
             LocalStorageConstants.configAppId,
             `${AppIDConstants.domainAppId[hostname as keyof typeof AppIDConstants.domainAppId]}`
         );
     }
 
-    const storedServerUrl = LocalStorageUtils.getValue(LocalStorageConstants.configServerURL);
+    const storedServerUrl = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
     const serverUrl = /qa/.test(String(storedServerUrl)) ? storedServerUrl : 'oauth.deriv.com';
 
-    const appId = LocalStorageUtils.getValue(LocalStorageConstants.configAppId);
+    const appId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
 
     const oauthUrl =
         appId && serverUrl

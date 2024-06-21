@@ -9,4 +9,13 @@
         z-index: 1;
         height: calc(100vh - 8rem);
     }
+
+    & .mobile-wrapper {
+        &__header {
+            gap: 0;
+            span {
+                margin: 0 auto;
+            }
+        }
+    }
 }

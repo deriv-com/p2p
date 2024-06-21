@@ -12,8 +12,8 @@ const Endpoint = () => {
         reset,
     } = useForm({
         defaultValues: {
-            appId: LocalStorageUtils.getValue(LocalStorageConstants.configAppId) || '',
-            serverUrl: localStorage.getItem(LocalStorageConstants.configServerURL.toString()) || '',
+            appId: LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId) || '',
+            serverUrl: LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL) || '',
         },
         mode: 'onChange',
     });
@@ -64,9 +64,11 @@ const Endpoint = () => {
                     className='w-40'
                     disabled={!isDirty || !isValid}
                     onClick={handleSubmit(() => {
-                        // Can't use LocalStorageUtils.setValue because it will place "" around the value
-                        localStorage.setItem(LocalStorageConstants.configServerURL, getValues('serverUrl'));
-                        localStorage.setItem(LocalStorageConstants.configAppId, getValues('appId'));
+                        LocalStorageUtils.setValue<string>(
+                            LocalStorageConstants.configServerURL,
+                            getValues('serverUrl')
+                        );
+                        LocalStorageUtils.setValue<string>(LocalStorageConstants.configAppId, getValues('appId'));
                         reset({
                             appId: getValues('appId'),
                             serverUrl: getValues('serverUrl'),
