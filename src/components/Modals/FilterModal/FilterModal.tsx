@@ -146,7 +146,7 @@ const FilterModal = ({
                 ariaHideApp={false}
                 className={clsx('filter-modal', { hidden: isHidden })}
                 isOpen={isModalOpen}
-                onRequestClose={onRequestClose}
+                onRequestClose={onClickClose}
                 style={{ overlay: { background: isHidden ? 'transparent' : 'rgba(0, 0, 0, 0.72)', zIndex: 9999 } }}
             >
                 <Modal.Header onRequestClose={onClickClose}>

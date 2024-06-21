@@ -1,11 +1,5 @@
 .leave-filter-modal {
-    width: 44rem;
-    height: unset;
-    border-radius: 8px;
-
-    @include mobile {
-        max-width: 34rem;
-    }
+    @include default-modal;
 
     &__header {
         @include mobile {
