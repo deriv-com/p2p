@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TOrderExpiryOptions } from 'types';
 import { OrderTimeTooltipModal } from '@/components/Modals';
@@ -10,10 +10,21 @@ import { Dropdown, Text, TooltipMenuIcon, useDevice } from '@deriv-com/ui';
 import './OrderTimeSelection.scss';
 
 const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrderExpiryOptions }) => {
-    const { control } = useFormContext();
+    const { control, getValues, setValue } = useFormContext();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { isMobile } = useDevice();
     const { localize } = useTranslations();
+
+    // remove the existing selection from input field if the existing value is not present in the dropdown
+    useEffect(() => {
+        if (
+            orderExpiryOptions &&
+            !orderExpiryOptions.find(option => option === Number(getValues('order-completion-time')))
+        ) {
+            setValue('order-completion-time', `${Math.max(...(orderExpiryOptions as number[]))}`);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [orderExpiryOptions]);
 
     return (
         <div className='order-time-selection'>
