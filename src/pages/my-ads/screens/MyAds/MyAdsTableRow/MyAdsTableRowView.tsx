@@ -158,9 +158,9 @@ const MyAdsTableRowView = ({
 
     useEffect(() => {
         if (isCreateSuccess) {
-            if (!shouldNotShowArchiveMessageAgain) {
+            if (shouldNotShowArchiveMessageAgain) {
                 showModal('AdCreateEditSuccessModal');
-            } else if (shouldNotShowArchiveMessageAgain) {
+            } else {
                 invalidate('p2p_advertiser_adverts');
             }
             clearValues();

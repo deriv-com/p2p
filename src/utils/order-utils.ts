@@ -1,5 +1,5 @@
+import { TOrderIdsMap } from 'types';
 import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
-import { TOrderIdsMap } from './types';
 
 /**
  * The below function checks if the order was visited by the user, by checking if the order id is present in the order_ids array in the local storage.
