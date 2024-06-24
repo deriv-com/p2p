@@ -1,7 +1,7 @@
 import { ACCOUNT_LIMITS } from '@/constants';
 import { LegacyAccountLimitsIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '@deriv-com/ui';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 
 const AccountLimits = () => {
     const { localize } = useTranslations();

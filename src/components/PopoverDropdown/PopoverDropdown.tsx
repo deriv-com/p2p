@@ -2,7 +2,8 @@ import { useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
 import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
 import { LabelPairedEllipsisVerticalLgBoldIcon } from '@deriv/quill-icons';
-import { Button, Text, TooltipMenuIcon, useDevice } from '@deriv-com/ui';
+import { Button, Text, useDevice } from '@deriv-com/ui';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 import './PopoverDropdown.scss';
 
 type TItem = {
