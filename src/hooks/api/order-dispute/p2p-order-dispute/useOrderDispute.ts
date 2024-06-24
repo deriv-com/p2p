@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useP2pOrderDispute } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
@@ -33,42 +33,9 @@ const useOrderDispute = () => {
         [_mutate]
     );
 
-    const modified_data = useMemo(() => {
-        const p2p_order_dispute = data;
-
-        if (!p2p_order_dispute) return undefined;
-
-        return {
-            ...p2p_order_dispute,
-            advert_details: {
-                ...p2p_order_dispute.advert_details,
-                /** Indicates if this is block trade advert or not. */
-                is_block_trade: Boolean(p2p_order_dispute.advert_details.block_trade),
-            },
-            advertiser_details: {
-                ...p2p_order_dispute.advertiser_details,
-                /** Indicates if the advertiser is currently online. */
-                is_online: Boolean(p2p_order_dispute.advertiser_details.is_online),
-            },
-            client_details: {
-                ...p2p_order_dispute.client_details,
-                /** Indicates if the client is currently online. */
-                is_online: Boolean(p2p_order_dispute.advertiser_details.is_online),
-            },
-            /** Indicates if the order is created for the advert of the current client, */
-            is_incoming: Boolean(p2p_order_dispute.is_incoming),
-            /** Indicates if a review can be given */
-            is_reviewable: Boolean(p2p_order_dispute.is_reviewable),
-            /** Indicates if the latest order changes have been seen by the current client */
-            is_seen: Boolean(p2p_order_dispute.is_seen),
-            /** Indicates that the seller in the process of confirming the order. */
-            is_verification_pending: Boolean(p2p_order_dispute.verification_pending),
-        };
-    }, [data]);
-
     return {
         /** Data returned after disputing an order */
-        data: modified_data,
+        data,
         /** mutate function to dispute an order */
         mutate,
         ...rest,
