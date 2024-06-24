@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { MutableOption } from 'types';
 import { OrderTimeTooltipModal } from '@/components/Modals';
+import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { getOrderTimeCompletionList, getOrderTimeInfoMessage } from '@/constants';
 import { LabelPairedChevronDownMdRegularIcon, LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Dropdown, Text, TooltipMenuIcon, useDevice } from '@deriv-com/ui';
+import { Dropdown, Text, useDevice } from '@deriv-com/ui';
 import './OrderTimeSelection.scss';
 
 const OrderTimeSelection = () => {
