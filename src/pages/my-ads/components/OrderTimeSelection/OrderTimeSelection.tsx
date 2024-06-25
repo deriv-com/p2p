@@ -4,7 +4,7 @@ import { TOrderExpiryOptions } from 'types';
 import { OrderTimeTooltipModal } from '@/components/Modals';
 import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { getOrderTimeInfoMessage } from '@/constants';
-import { getOrderTimeCompletionList } from '@/utils';
+import { formatTime, getOrderTimeCompletionList } from '@/utils';
 import { LabelPairedChevronDownMdRegularIcon, LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Dropdown, Text, useDevice } from '@deriv-com/ui';
@@ -20,12 +20,29 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
     useEffect(() => {
         if (
             orderExpiryOptions &&
-            !orderExpiryOptions.find(option => option === Number(getValues('order-completion-time')))
+            !orderExpiryOptions.find(option => option === Number(getValues('order-completion-time'))) &&
+            getValues('form-type') !== 'edit'
         ) {
             setValue('order-completion-time', `${Math.max(...(orderExpiryOptions as number[]))}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orderExpiryOptions]);
+
+    const getOptions = () => {
+        const options = getOrderTimeCompletionList(localize, orderExpiryOptions);
+        if (
+            getValues('form-type') === 'edit' &&
+            !options.some(option => option.value === getValues('order-completion-time'))
+        )
+            return [
+                {
+                    text: formatTime(Number(getValues('order-completion-time')), localize),
+                    value: getValues('order-completion-time'),
+                },
+                ...options,
+            ];
+        return options;
+    };
 
     return (
         <div className='order-time-selection'>
@@ -56,9 +73,10 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
                     <Dropdown
                         className='items-center h-16'
                         dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
-                        list={getOrderTimeCompletionList(localize, orderExpiryOptions)}
+                        list={getOptions()}
                         name='order-completion-time'
                         onSelect={onChange}
+                        shouldClearValue
                         value={value}
                         variant='comboBox'
                     />
