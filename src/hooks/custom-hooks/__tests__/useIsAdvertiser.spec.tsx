@@ -3,7 +3,6 @@ import { renderHook } from '@testing-library/react';
 import useIsAdvertiser from '../useIsAdvertiser';
 
 jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
     api: {
         advertiser: {
             useGetInfo: jest.fn().mockReturnValue({
