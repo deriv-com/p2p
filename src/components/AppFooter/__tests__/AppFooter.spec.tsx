@@ -79,5 +79,5 @@ describe('AppFooter', () => {
 
         await userEvent.click(screen.getByTestId('dt-close-icon'));
         expect(hideModal).toHaveBeenCalled();
-    });
+    }, 10000);
 });

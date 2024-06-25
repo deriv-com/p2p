@@ -4,7 +4,8 @@ import { getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
-import { Button, Header, Text, TooltipMenuIcon, useDevice, Wrapper } from '@deriv-com/ui';
+import { Button, Header, Text, useDevice, Wrapper } from '@deriv-com/ui';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 import { AccountSwitcher } from './AccountSwitcher';
 import { AppLogo } from './AppLogo';
 import { MenuItems } from './MenuItems';
@@ -38,7 +39,6 @@ const AppHeader = () => {
                             className='pr-3 border-r-[0.1rem] h-[3.2rem]'
                             disableHover
                             href='https://app.deriv.com/account/personal-details'
-                            tooltipContainerClassName='z-20'
                             tooltipContent={localize('Manage account settings')}
                             tooltipPosition='bottom'
                         >
