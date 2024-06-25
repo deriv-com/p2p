@@ -10,7 +10,7 @@ const useCopyToClipboard = (): [boolean, copyFn, setterFn] => {
 
     const copyToClipboard = async (text: string) => {
         try {
-            copy(text);
+            await copy(text);
             setIsCopied(true);
             return true;
         } catch (error) {
