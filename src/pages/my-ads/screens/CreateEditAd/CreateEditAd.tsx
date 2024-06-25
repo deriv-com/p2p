@@ -27,6 +27,7 @@ type FormValues = {
     amount: string;
     'contact-details': string;
     'float-rate-offset-limit': string;
+    'form-type': 'create' | 'edit';
     instructions: string;
     'max-order': string;
     'min-completion-rate': string;
@@ -188,6 +189,7 @@ const CreateEditAd = () => {
 
     const setFormValues = useCallback(
         (formValues: TFormValuesInfo) => {
+            setValue('form-type', 'edit');
             setValue('ad-type', formValues.type);
             setValue('amount', formValues.amount.toString());
             setValue('instructions', formValues.description);
