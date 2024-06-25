@@ -16,6 +16,7 @@ export * from './EmailLinkVerifiedModal';
 export * from './EmailVerificationModal';
 export * from './ErrorModal';
 export * from './FilterModal';
+export * from './GuideModal';
 export * from './InvalidVerificationLinkModal';
 export * from './LeaveFilterModal';
 export * from './LoadingModal';

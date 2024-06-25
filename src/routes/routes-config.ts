@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { ADVERTISER_URL, BUY_SELL_URL, MY_ADS_URL, MY_PROFILE_URL, ORDERS_URL } from '@/constants';
+import { ADVERTISER_URL, BUY_SELL_URL, GUIDE_URL, MY_ADS_URL, MY_PROFILE_URL, ORDERS_URL } from '@/constants';
 
 const BuySell = lazy(() => import('@/pages/buy-sell').then(module => ({ default: module.BuySell })));
 const Orders = lazy(() => import('@/pages/orders').then(module => ({ default: module.Orders })));
@@ -13,6 +13,7 @@ const CreateEditAd = lazy(() =>
 const MyProfile = lazy(() => import('@/pages/my-profile').then(module => ({ default: module.MyProfile })));
 const Advertiser = lazy(() => import('@/pages/advertiser').then(module => ({ default: module.Advertiser })));
 const Endpoint = lazy(() => import('@/pages/endpoint').then(module => ({ default: module.Endpoint })));
+const Guide = lazy(() => import('@/pages/guide').then(module => ({ default: module.Guide })));
 const P2PRedirectHandler = lazy(() => import('./P2PRedirectHandler'));
 
 export const routes = [
@@ -57,6 +58,11 @@ export const routes = [
         component: Endpoint,
         name: 'Endpoint',
         path: '/endpoint',
+    },
+    {
+        component: Guide,
+        name: 'Guide',
+        path: GUIDE_URL,
     },
     {
         component: P2PRedirectHandler,

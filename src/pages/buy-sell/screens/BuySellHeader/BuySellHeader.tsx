@@ -1,13 +1,19 @@
 import clsx from 'clsx';
+import { useHistory } from 'react-router-dom';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
-import { getSortByList } from '@/constants';
+import { getSortByList, GUIDE_URL } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
 import { TSortByValues } from '@/utils';
 import { getLocalizedTabs } from '@/utils/tabs';
-import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
+import {
+    LabelPairedBarsFilterMdBoldIcon,
+    LabelPairedBarsFilterSmBoldIcon,
+    LabelPairedBookCircleQuestionLgRegularIcon,
+} from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Tab, Tabs, useDevice } from '@deriv-com/ui';
+import { LocalStorageUtils } from '@deriv-com/utils';
 import { CurrencyDropdown, SortDropdown } from '../../components';
 import './BuySellHeader.scss';
 
@@ -40,10 +46,12 @@ const BuySellHeader = ({
     shouldUseClientLimits,
     sortDropdownValue,
 }: TBuySellHeaderProps) => {
+    const history = useHistory();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const isAdvertiserBarred = useIsAdvertiserBarred();
+    const isGuideVisible = LocalStorageUtils.getValue('should_show_guide') === true;
 
     return (
         <div
@@ -52,16 +60,21 @@ const BuySellHeader = ({
             })}
             data-testid='dt_buy_sell_header'
         >
-            <Tabs
-                TitleFontSize={isMobile ? 'md' : 'sm'}
-                activeTab={getLocalizedTabs(localize)[activeTab]}
-                onChange={setActiveTab}
-                variant='primary'
-                wrapperClassName='buy-sell-header__tabs'
-            >
-                <Tab title={localize('Buy')} />
-                <Tab title={localize('Sell')} />
-            </Tabs>
+            <div className='buy-sell-header__row justify-between'>
+                <Tabs
+                    TitleFontSize={isMobile ? 'md' : 'sm'}
+                    activeTab={getLocalizedTabs(localize)[activeTab]}
+                    onChange={setActiveTab}
+                    variant='primary'
+                    wrapperClassName='buy-sell-header__tabs'
+                >
+                    <Tab title={localize('Buy')} />
+                    <Tab title={localize('Sell')} />
+                </Tabs>
+                {isMobile && isGuideVisible && (
+                    <LabelPairedBookCircleQuestionLgRegularIcon onClick={() => history.push(GUIDE_URL)} />
+                )}
+            </div>
             <div className='buy-sell-header__row'>
                 <div className='flex flex-row-reverse lg:flex-row gap-4'>
                     <CurrencyDropdown selectedCurrency={selectedCurrency} setSelectedCurrency={setSelectedCurrency} />
