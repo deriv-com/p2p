@@ -1,7 +1,7 @@
 import { RESPONSIBLE } from '@/constants';
 import { LegacyResponsibleTradingIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '@deriv-com/ui';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 
 const ResponsibleTrading = () => {
     const { localize } = useTranslations();

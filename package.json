@@ -15,7 +15,8 @@
     },
     "dependencies": {
         "@babel/preset-env": "^7.24.5",
-        "@deriv-com/api-hooks": "1.2.0",
+        "@chakra-ui/react": "^2.8.2",
+        "@deriv-com/api-hooks": "^1.2.0",
         "@deriv-com/translations": "^1.2.4",
         "@deriv-com/ui": "^1.28.3",
         "@deriv-com/utils": "^0.0.26",
