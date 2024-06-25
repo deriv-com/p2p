@@ -61,13 +61,11 @@ jest.mock('@/hooks/custom-hooks', () => {
     };
 });
 
-jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
-    api: {
-        countryList: {
-            useGet: jest.fn(() => ({ data: mockCountryList })),
-        },
-    },
+jest.mock('@deriv-com/api-hooks', () => ({
+    ...jest.requireActual('@deriv-com/api-hooks'),
+    useP2PCountryList: jest.fn(() => ({
+        data: mockCountryList,
+    })),
 }));
 
 describe('CopyAdForm', () => {

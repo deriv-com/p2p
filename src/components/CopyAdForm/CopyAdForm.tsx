@@ -1,9 +1,10 @@
 import { Controller, FormProvider, NonUndefined, useForm } from 'react-hook-form';
 import { TCountryListItem, TCurrency, THooks } from 'types';
 import { RATE_TYPE } from '@/constants';
-import { api, useFloatingRate } from '@/hooks';
+import { useFloatingRate } from '@/hooks';
 import { AdFormInput } from '@/pages/my-ads/components/AdFormInput';
 import { formatTime, getValidationRules, restrictDecimalPlace } from '@/utils';
+import { useP2PCountryList } from '@deriv-com/api-hooks';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
 import { FloatingRate } from '../FloatingRate';
@@ -62,7 +63,9 @@ const CopyAdForm = ({ formValues, isModalOpen, onClickCancel, onFormSubmit, ...r
         mode: 'all',
     });
 
-    const { data: countryList = {} as TCountryListItem } = api.countryList.useGet();
+    const { data: countryList = {} as TCountryListItem } = useP2PCountryList({
+        refetchOnWindowFocus: false,
+    });
     const {
         control,
         formState: { isValid },
