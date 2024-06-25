@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { useSyncedTime } from '../custom-hooks';
+import useSyncedTime from '../useSyncedTime';
 
 const initialTime = Math.floor(Date.now() / 1000);
 

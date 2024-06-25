@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { useFullScreen } from '../custom-hooks';
+import useFullScreen from '../useFullScreen';
 
 describe('useFullScreen', () => {
     afterEach(() => {
