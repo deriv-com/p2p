@@ -6,6 +6,7 @@ import { AdCancelCreateEditModal, AdCreateEditErrorModal, AdCreateEditSuccessMod
 import { MY_ADS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useFloatingRate, useModalManager, useQueryString } from '@/hooks/custom-hooks';
+import { useP2PCountryList } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader } from '@deriv-com/ui';
 import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
@@ -48,7 +49,9 @@ const CreateEditAd = () => {
     const { data: advertInfo, isLoading } = api.advert.useGet({ id: advertId ?? undefined }, !!advertId, false);
     const isEdit = !!advertId;
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
-    const { data: countryList = {} as TCountryListItem } = api.countryList.useGet();
+    const { data: countryList = {} as TCountryListItem } = useP2PCountryList({
+        refetchOnWindowFocus: false,
+    });
     const { data: paymentMethodList = [] } = api.paymentMethods.useGet();
     const { floatRateOffsetLimitString, rateType } = useFloatingRate();
     const { data: activeAccount } = api.account.useActiveAccount();

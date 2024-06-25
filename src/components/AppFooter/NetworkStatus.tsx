@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import clsx from 'clsx';
 import { useNetworkStatus } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '@deriv-com/ui';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 
 const statusConfigs = {
     blinking: {
