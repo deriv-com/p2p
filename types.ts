@@ -187,7 +187,7 @@ export type TCurrency = CurrencyConstants.Currency;
 
 export type TExchangeRate = ReturnType<typeof useExchangeRates>['exchangeRates'];
 
-export type MutableOption = { text?: React.ReactNode; value?: string | undefined };
+export type MutableOption = { text?: JSX.Element | string; value?: string | undefined };
 
 export type TErrorCodes = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
 
