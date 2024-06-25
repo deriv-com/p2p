@@ -27,7 +27,7 @@ export const getOauthUrl = () => {
     // since we don't have official app_id for staging,
     // we will use the red server with app_id=62019 for the staging-p2p.deriv.com for now
     // to fix the login issue
-    if (!/localhost/.test(origin) && (!existingAppId || !existingServerUrl)) {
+    if (origin === URLConstants.derivP2pStaging && (!existingAppId || !existingServerUrl)) {
         LocalStorageUtils.setValue<string>(
             LocalStorageConstants.configServerURL,
             SocketURL[origin as keyof typeof SocketURL]
