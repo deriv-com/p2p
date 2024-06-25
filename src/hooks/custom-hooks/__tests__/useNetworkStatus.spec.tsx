@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react';
 import useNavigatorOnline from '../useNavigatorOnline';
 import useNetworkStatus from '../useNetworkStatus';
 
-jest.mock('../custom-hooks/useNavigatorOnline');
+jest.mock('../useNavigatorOnline');
 
 describe('useNetworkStatus', () => {
     it('initializes as online', () => {
