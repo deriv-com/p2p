@@ -14,8 +14,8 @@ const AdvertiserNameToggle = memo(({ advertiserInfo, onToggle }: TAdvertiserName
     const { mutate: advertiserUpdate } = api.advertiser.useUpdate();
 
     useEffect(() => {
-        setShouldShowRealName(advertiserInfo?.should_show_name || false);
-    }, [advertiserInfo?.should_show_name]);
+        setShouldShowRealName(advertiserInfo?.shouldShowName || false);
+    }, [advertiserInfo?.shouldShowName]);
 
     const onToggleShowRealName = () => {
         advertiserUpdate({

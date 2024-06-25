@@ -29,7 +29,7 @@ const AdvertiserName = ({ advertiserStats, onClickBlocked }: TAdvertiserNameProp
                     <Text size='md' weight='bold'>
                         {name}
                     </Text>
-                    {(advertiserStats?.should_show_name || !isMyProfile) && (
+                    {(advertiserStats?.shouldShowName || !isMyProfile) && (
                         <Text color='less-prominent' size='sm'>
                             ({advertiserStats?.fullName})
                         </Text>
