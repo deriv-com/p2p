@@ -1,23 +1,32 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { BUY_SELL_URL } from '@/constants';
-import { api } from '@/hooks';
+import { GuideModal } from '@/components/Modals';
+import { BUY_SELL_URL, GUIDE_URL } from '@/constants';
+import { api, useModalManager } from '@/hooks';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
+import { LabelPairedBookCircleQuestionLgRegularIcon } from '@deriv/quill-icons';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
+import { LocalStorageUtils } from '@deriv-com/utils';
 import Router from '../Router';
 import { routes } from '../routes-config';
 import './index.scss';
 
 const tabRoutesConfiguration = routes.filter(
-    route => route.name !== 'Advertiser' && route.name !== 'Endpoint' && route.name !== 'P2PRedirectHandler'
+    route =>
+        route.name !== 'Advertiser' &&
+        route.name !== 'Endpoint' &&
+        route.name !== 'Guide' &&
+        route.name !== 'P2PRedirectHandler'
 );
 
 const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
+    const isGuideVisible = LocalStorageUtils.getValue('should_show_guide') === true;
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -38,8 +47,13 @@ const AppContent = () => {
 
     useEffect(() => {
         if (activeAccountData) {
+            if (LocalStorageUtils.getValue('should_show_guide') === null) {
+                LocalStorageUtils.setValue<boolean>('should_show_guide', true);
+                showModal('GuideModal');
+            }
             subscribeP2PSettings({});
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeAccountData]);
 
@@ -95,6 +109,13 @@ const AppContent = () => {
                                 <Tab key={route.name} title={route.name!} />
                             ))}
                         </Tabs>
+                        {isDesktop && isGuideVisible && (
+                            <LabelPairedBookCircleQuestionLgRegularIcon
+                                className='app-content__guide-icon'
+                                onClick={() => history.push(GUIDE_URL)}
+                            />
+                        )}
+                        {isModalOpenFor('GuideModal') && <GuideModal isModalOpen onRequestClose={hideModal} />}
                         <Router />
                     </div>
                 )}
