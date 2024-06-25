@@ -4,7 +4,7 @@ import { AD_CONDITION_TYPES, ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
 import { useSendbirdServiceToken } from '@/hooks/api/account';
 import { useAdvertiserStats, useSendbird } from '@/hooks/custom-hooks';
-import { useExchangeRates } from '@deriv-com/api-hooks';
+import { useExchangeRates, useP2PCountryList } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 import { CurrencyConstants } from '@deriv-com/utils';
@@ -93,7 +93,7 @@ export namespace THooks {
         export type Get = NonNullable<ReturnType<typeof api.settings.useSettings>['data']>;
     }
     export namespace Country {
-        export type Get = NonNullable<ReturnType<typeof api.countryList.useGet>['data']>;
+        export type Get = NonNullable<ReturnType<typeof useP2PCountryList>['data']>;
     }
 }
 export type TOrders = NonNullable<ReturnType<typeof api.order.useGetList>['data']>;

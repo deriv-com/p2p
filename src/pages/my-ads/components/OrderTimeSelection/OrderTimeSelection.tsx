@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TOrderExpiryOptions } from 'types';
 import { OrderTimeTooltipModal } from '@/components/Modals';
+import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { getOrderTimeInfoMessage } from '@/constants';
 import { getOrderTimeCompletionList } from '@/utils';
 import { LabelPairedChevronDownMdRegularIcon, LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Dropdown, Text, TooltipMenuIcon, useDevice } from '@deriv-com/ui';
+import { Dropdown, Text, useDevice } from '@deriv-com/ui';
 import './OrderTimeSelection.scss';
 
 const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrderExpiryOptions }) => {

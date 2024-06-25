@@ -1,7 +1,7 @@
 import { useFullScreen } from '@/hooks';
 import { LegacyFullscreen1pxIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '@deriv-com/ui';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 
 const FullScreen = () => {
     const { toggleFullScreenMode } = useFullScreen();

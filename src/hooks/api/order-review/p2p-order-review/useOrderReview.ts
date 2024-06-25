@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useP2POrderReview } from '@deriv-com/api-hooks';
 import useInvalidateQuery from '../../useInvalidateQuery';
 
@@ -34,23 +34,9 @@ const useOrderReview = () => {
         [_mutate]
     );
 
-    const modified_data = useMemo(() => {
-        const p2p_order_review = data;
-
-        if (!p2p_order_review) return undefined;
-
-        return {
-            ...p2p_order_review,
-            // Flag to check if the advertiser has not been recommended yet
-            has_not_been_recommended: p2p_order_review.recommended === null,
-            // Flag to check if the advertiser is recommended
-            is_recommended: Boolean(p2p_order_review.recommended),
-        };
-    }, [data]);
-
     return {
         /** Data returned after a review was created for the order */
-        data: modified_data,
+        data,
         /** mutate function to create a review for a specified order */
         mutate,
         ...rest,
