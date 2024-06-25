@@ -508,7 +508,7 @@ describe('useExtendedOrderDetails', () => {
         });
 
         it('should return the correct time if created_time is defined', () => {
-            mockData.orderDetails.created_time = 1627584000;
+            mockData.orderDetails.created_time = 1627650000;
 
             const { result } = renderHook(() => useExtendedOrderDetails(mockData));
 
