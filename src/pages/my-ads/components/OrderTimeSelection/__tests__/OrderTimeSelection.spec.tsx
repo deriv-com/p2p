@@ -19,6 +19,8 @@ jest.mock('react-hook-form', () => ({
         }),
     useFormContext: () => ({
         control: 'mockedControl',
+        getValues: jest.fn(),
+        setValue: jest.fn(),
     }),
 }));
 
