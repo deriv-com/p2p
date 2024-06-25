@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react';
-import { useNavigatorOnline, useNetworkStatus } from '../custom-hooks';
+import useNavigatorOnline from '../useNavigatorOnline';
+import useNetworkStatus from '../useNetworkStatus';
 
 jest.mock('../custom-hooks/useNavigatorOnline');
 
