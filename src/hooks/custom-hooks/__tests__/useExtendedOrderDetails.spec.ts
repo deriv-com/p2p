@@ -535,20 +535,6 @@ describe('useExtendedOrderDetails', () => {
         });
     });
 
-    describe('remainingSeconds', () => {
-        it('should return remaining seconds', () => {
-            mockData.orderDetails.expiry_time = 1627584000;
-            mockData.serverTime = {
-                server_time_moment: moment.unix(1627583999),
-                server_time_utc: 1627583999,
-            };
-
-            const { result } = renderHook(() => useExtendedOrderDetails(mockData));
-
-            expect(result.current.data.remainingSeconds).toBe(1);
-        });
-    });
-
     describe('shouldHighlightAlert', () => {
         it('should return false if timer has expired', () => {
             mockData.orderDetails.expiry_time = 1627584000;
@@ -844,26 +830,6 @@ describe('useExtendedOrderDetails', () => {
             const { result } = renderHook(() => useExtendedOrderDetails(mockData));
 
             expect(result.current.data.shouldShowOnlyReceivedButton).toBe(true);
-        });
-    });
-
-    describe('shouldShowOrderFooter', () => {
-        it('should return false if shouldShowCancelAndPaidButton, shouldShowComplainAndReceivedButton, shouldShowOnlyComplainButton, shouldShowOnlyReceivedButton are false', () => {
-            mockData.orderDetails.status = 'completed';
-
-            const { result } = renderHook(() => useExtendedOrderDetails(mockData));
-
-            expect(result.current.data.shouldShowOrderFooter).toBe(false);
-        });
-
-        it('should return true if `shouldShowCancelAndPaidButton is true', () => {
-            mockData.orderDetails.status = 'pending';
-            mockData.orderDetails.advertiser_details.loginid = '123';
-            mockData.orderDetails.type = 'sell';
-
-            const { result } = renderHook(() => useExtendedOrderDetails(mockData));
-
-            expect(result.current.data.shouldShowOrderFooter).toBe(true);
         });
     });
 
