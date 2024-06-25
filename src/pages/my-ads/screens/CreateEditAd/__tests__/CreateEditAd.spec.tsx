@@ -82,38 +82,6 @@ jest.mock('@/hooks', () => ({
                 },
             })),
         },
-        countryList: {
-            useGet: () => ({
-                data: {
-                    af: {
-                        country_name: 'Afghanistan',
-                        cross_border_ads_enabled: 1,
-                        fixed_rate_adverts: 'enabled',
-                        float_rate_adverts: 'disabled',
-                        float_rate_offset_limit: 10,
-                        local_currency: 'AFN',
-                        payment_methods: {
-                            alipay: {
-                                display_name: 'Alipay',
-                                fields: {
-                                    account: {
-                                        display_name: 'Alipay ID',
-                                        required: 1,
-                                        type: 'text',
-                                    },
-                                    instructions: {
-                                        display_name: 'Instructions',
-                                        required: 0,
-                                        type: 'memo',
-                                    },
-                                },
-                                type: 'ewallet',
-                            },
-                        },
-                    },
-                },
-            }),
-        },
         paymentMethods: {
             useGet: () => ({
                 data: [
@@ -182,6 +150,40 @@ jest.mock('@/hooks', () => ({
             }),
         },
     },
+}));
+
+jest.mock('@deriv-com/api-hooks', () => ({
+    ...jest.requireActual('@deriv-com/api-hooks'),
+    useP2PCountryList: jest.fn(() => ({
+        data: {
+            af: {
+                country_name: 'Afghanistan',
+                cross_border_ads_enabled: 1,
+                fixed_rate_adverts: 'enabled',
+                float_rate_adverts: 'disabled',
+                float_rate_offset_limit: 10,
+                local_currency: 'AFN',
+                payment_methods: {
+                    alipay: {
+                        display_name: 'Alipay',
+                        fields: {
+                            account: {
+                                display_name: 'Alipay ID',
+                                required: 1,
+                                type: 'text',
+                            },
+                            instructions: {
+                                display_name: 'Instructions',
+                                required: 0,
+                                type: 'memo',
+                            },
+                        },
+                        type: 'ewallet',
+                    },
+                },
+            },
+        },
+    })),
 }));
 
 jest.mock('@/hooks/custom-hooks', () => {
