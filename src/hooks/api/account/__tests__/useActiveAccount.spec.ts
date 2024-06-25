@@ -124,7 +124,7 @@ describe('useActiveAccount', () => {
         });
     });
 
-    it('should return balance as 0 if balance dta is not available', () => {
+    it('should return balance as 0 if balance data is not available', () => {
         mockUseAccountList.mockReturnValue({ data: mockAccountList });
         mockUseAuthData.mockReturnValue({ activeLoginid: 'CR00001' });
         mockUseBalance.mockReturnValue({ data: {} });
