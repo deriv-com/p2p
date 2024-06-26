@@ -1,7 +1,7 @@
 import { useGetAccountStatus } from '@deriv-com/api-hooks';
 import { QueryObserverResult } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
-import usePoiPoaStatus from '../custom-hooks/usePoiPoaStatus';
+import usePoiPoaStatus from '../usePoiPoaStatus';
 
 const mockUseGetAccountStatus = useGetAccountStatus as jest.MockedFunction<typeof useGetAccountStatus>;
 
