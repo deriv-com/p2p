@@ -28,15 +28,15 @@ const useAdvertiserUpdate = () => {
 
     const mutate = useCallback((payload: TPayload) => _mutate(payload), [_mutate]);
 
-    const modified_data = useMemo(() => {
-        const p2p_advertiser_update = data;
-        if (!p2p_advertiser_update) return undefined;
+    const modifiedData = useMemo(() => {
+        const p2pAdvertiserUpdate = data;
+        if (!p2pAdvertiserUpdate) return undefined;
 
         const { basic_verification, full_verification, is_approved, is_listed, is_online, show_name } =
-            p2p_advertiser_update;
+            p2pAdvertiserUpdate;
 
         return {
-            ...p2p_advertiser_update,
+            ...p2pAdvertiserUpdate,
             /** The approval status of the advertiser. */
             is_approved: Boolean(is_approved),
             /** Indicating whether the advertiser's identity has been verified. */
@@ -54,7 +54,7 @@ const useAdvertiserUpdate = () => {
 
     return {
         /** Returns latest information of the advertiser from p2p_advertiser endpoint */
-        data: modified_data,
+        data: modifiedData,
         /** Sends a request to update the information of the P2P advertiser for the current account. Can only be used by an approved P2P advertiser. */
         mutate,
         ...rest,
