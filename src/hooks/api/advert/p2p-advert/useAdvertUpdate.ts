@@ -29,25 +29,16 @@ const useAdvertUpdate = () => {
 
     const mutate = useCallback((payload: TPayload) => _mutate(payload), [_mutate]);
 
-    const modified_data = useMemo(() => {
-        const p2p_advert_update = data;
-        if (!p2p_advert_update) return undefined;
+    const memoizedData = useMemo(() => {
+        if (!data) return undefined;
 
         return {
-            ...p2p_advert_update,
-            /** The activation status of the advert. */
-            is_active: Boolean(p2p_advert_update.is_active),
-            /** Indicates if this is block trade advert or not. */
-            is_block_trade: Boolean(p2p_advert_update.block_trade),
-            /** Indicates that the advert has been deleted. */
-            is_deleted: Boolean(p2p_advert_update.deleted),
-            /** Indicates that this advert will appear on the main advert list. */
-            is_visible: Boolean(p2p_advert_update.is_visible),
+            ...data,
         };
     }, [data]);
 
     return {
-        data: modified_data,
+        data: memoizedData,
         mutate,
         ...rest,
     };
