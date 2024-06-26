@@ -7,23 +7,23 @@ const useActiveAccount = () => {
     const { data, ...rest } = useAccountList();
     const { activeLoginid } = useAuthData();
     const { data: balanceData } = api.account.useBalance();
-    const active_account = useMemo(
+    const activeAccount = useMemo(
         () => data?.find(account => account.loginid === activeLoginid),
         [activeLoginid, data]
     );
 
-    const modified_account = useMemo(() => {
-        return active_account
+    const modifiedAccount = useMemo(() => {
+        return activeAccount
             ? {
-                  ...active_account,
-                  balance: balanceData?.accounts?.[active_account?.loginid]?.balance ?? 0,
+                  ...activeAccount,
+                  balance: balanceData?.accounts?.[activeAccount?.loginid]?.balance ?? 0,
               }
             : undefined;
-    }, [active_account, balanceData]);
+    }, [activeAccount, balanceData]);
 
     return {
         /** User's current active account. */
-        data: modified_account,
+        data: modifiedAccount,
         ...rest,
     };
 };
