@@ -58,7 +58,7 @@ describe('useAdvertiserStats', () => {
 
     it('should return default values if the data is not ready but isSubscribed and isSuccess are true', () => {
         mockUseGetInfo.data = {
-            is_approved_boolean: false,
+            isApprovedBoolean: false,
         };
         mockUseAdvertiserInfoState.isSubscribed = true;
         mockUseGetSettings.isSuccess = true;
@@ -83,11 +83,11 @@ describe('useAdvertiserStats', () => {
             dailyAvailableSellLimit: 0,
             daysSinceJoined: 0,
             fullName: ' ',
-            has_basic_verification: undefined,
-            has_full_verification: undefined,
-            is_approved_boolean: false,
+            hasBasicVerification: undefined,
+            hasFullVerification: undefined,
             isAddressVerified: false,
             isAdvertiser: false,
+            isApprovedBoolean: false,
             isEligibleForLimitUpgrade: false,
             isIdentityVerified: false,
             partner_count: undefined,
@@ -119,9 +119,9 @@ describe('useAdvertiserStats', () => {
             daily_buy_limit: 100,
             daily_sell: 50,
             daily_sell_limit: 100,
-            has_basic_verification: true,
-            has_full_verification: true,
-            is_approved_boolean: true,
+            hasBasicVerification: true,
+            hasFullVerification: true,
+            isApprovedBoolean: true,
             partner_count: 10,
             release_time_avg: 180,
             sell_completion_rate: 0.5,
@@ -172,11 +172,11 @@ describe('useAdvertiserStats', () => {
             dailyAvailableSellLimit: 50,
             daysSinceJoined: 0,
             fullName: 'John Doe',
-            has_basic_verification: true,
-            has_full_verification: true,
-            is_approved_boolean: true,
+            hasBasicVerification: true,
+            hasFullVerification: true,
             isAddressVerified: true,
             isAdvertiser: true,
+            isApprovedBoolean: true,
             isEligibleForLimitUpgrade: true,
             isIdentityVerified: true,
             partner_count: 10,

@@ -5,7 +5,7 @@ const mockProps = {
     advertiserStats: {
         fullName: 'Jane Doe',
         name: 'Jane',
-        should_show_name: true,
+        shouldShowName: true,
     },
 };
 
