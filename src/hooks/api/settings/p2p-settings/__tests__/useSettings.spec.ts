@@ -65,17 +65,17 @@ describe('useSettings', () => {
                     value: 'IDR',
                 },
             ],
-            float_rate_offset_limit_string: '1.00',
-            is_cross_border_ads_enabled: true,
-            is_disabled: false,
-            is_payment_methods_enabled: true,
+            floatRateOffsetLimitString: '1.00',
+            isCrossBorderAdsEnabled: true,
+            isDisabled: false,
+            isPaymentMethodsEnabled: true,
             localCurrency: 'IDR',
-            rate_type: 'float',
-            reached_target_date: true,
+            rateType: 'float',
+            reachedTargetDate: true,
         });
     });
 
-    it('should return reached_target_date as false if fixed_rate_adverts_end_date is undefined', () => {
+    it('should return reachedTargetDate as false if fixed_rate_adverts_end_date is undefined', () => {
         mockUseSubscribe.mockReturnValue({
             data: {
                 p2p_settings: {
@@ -86,10 +86,10 @@ describe('useSettings', () => {
         });
 
         const { result } = renderHook(() => useSettings());
-        expect(result?.current?.data?.reached_target_date).toBeFalsy();
+        expect(result?.current?.data?.reachedTargetDate).toBeFalsy();
     });
 
-    it('should return float_rate_offset_limit_string as 1.23 if float_rate_offset_limit decimal is more than 2', () => {
+    it('should return floatRateOffsetLimitString as 1.23 if float_rate_offset_limit decimal is more than 2', () => {
         mockUseSubscribe.mockReturnValue({
             data: {
                 p2p_settings: {
@@ -100,10 +100,10 @@ describe('useSettings', () => {
         });
 
         const { result } = renderHook(() => useSettings());
-        expect(result?.current?.data?.float_rate_offset_limit_string).toBe('1.23');
+        expect(result?.current?.data?.floatRateOffsetLimitString).toBe('1.23');
     });
 
-    it('should return rate_type as fixed if float_rate_adverts is disabled', () => {
+    it('should return rateType as fixed if float_rate_adverts is disabled', () => {
         mockUseSubscribe.mockReturnValue({
             data: {
                 p2p_settings: {
@@ -114,6 +114,6 @@ describe('useSettings', () => {
         });
 
         const { result } = renderHook(() => useSettings());
-        expect(result?.current?.data?.rate_type).toBe('fixed');
+        expect(result?.current?.data?.rateType).toBe('fixed');
     });
 });
