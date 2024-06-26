@@ -89,7 +89,7 @@ describe('useSettings', () => {
         expect(result?.current?.data?.reachedTargetDate).toBeFalsy();
     });
 
-    it('should return floatRateOffsetLimitString as 1.23 if float_rate_offset_limit decimal is more than 2', () => {
+    it('should round float_rate_offset_limit to 2 decimal places if float_rate_offset_limit decimal places are more than 2', () => {
         mockUseSubscribe.mockReturnValue({
             data: {
                 p2p_settings: {
