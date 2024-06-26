@@ -26,21 +26,21 @@ const useOrderConfirm = () => {
         },
     });
 
-    const modified_data = useMemo(() => {
-        const p2p_order_confirm = data;
+    const modifiedData = useMemo(() => {
+        const p2pOrderConfirmed = data;
 
-        if (!p2p_order_confirm) return undefined;
+        if (!p2pOrderConfirmed) return undefined;
 
         return {
-            ...p2p_order_confirm,
+            ...p2pOrderConfirmed,
             /** Indicates whether a dry run was successful or not (for dry run confirmations) **/
-            is_dry_run_successful: Boolean(p2p_order_confirm.dry_run),
+            isDryRunSuccessful: Boolean(p2pOrderConfirmed.dry_run),
         };
     }, [data]);
 
     return {
         /** Order confirmation details **/
-        data: modified_data,
+        data: modifiedData,
         ...rest,
     };
 };
