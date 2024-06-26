@@ -331,7 +331,7 @@ describe('<OrderDetailsCardFooter />', () => {
 
         mockUseConfirm.mockReturnValue({
             data: {
-                is_dry_run_successful: false,
+                isDryRunSuccessful: false,
             },
             error: {
                 code: 'InvalidVerificationToken',
@@ -366,7 +366,7 @@ describe('<OrderDetailsCardFooter />', () => {
     it('should show EmailLinkBlockedModal if ExcessiveVerificationFailures error is returned when code param is in the URL', async () => {
         mockUseConfirm.mockReturnValue({
             data: {
-                is_dry_run_successful: false,
+                isDryRunSuccessful: false,
             },
             error: {
                 code: 'ExcessiveVerificationFailures',
@@ -390,12 +390,12 @@ describe('<OrderDetailsCardFooter />', () => {
         ).toBeInTheDocument();
     });
 
-    it('should show EmailLinkVerifiedModal if is_dry_run_successful is true and code param is in the URL', async () => {
+    it('should show EmailLinkVerifiedModal if isDryRunSuccessful is true and code param is in the URL', async () => {
         mockUseLocation.mockReturnValue({ pathname: '/orders/11', search: '?action=p2p_order_confirm&code=123' });
 
         mockUseConfirm.mockReturnValue({
             data: {
-                is_dry_run_successful: true,
+                isDryRunSuccessful: true,
             },
             error: null,
             isError: false,

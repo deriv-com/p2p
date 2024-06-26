@@ -58,7 +58,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                 // Clear search params if user tries to use verification link to a completed order
                 history.replace({ pathname: location.pathname, search: '' });
             }
-        } else if (isSuccess && verificationCode && data?.is_dry_run_successful) {
+        } else if (isSuccess && verificationCode && data?.isDryRunSuccessful) {
             showModal('EmailLinkVerifiedModal');
         } else if (isSuccess && !isBuyOrderForUser && orderDetails?.statusString === 'Completed') {
             setShowRatingModal(true);
@@ -111,7 +111,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
         isError,
         isSuccess,
         verificationNextRequest,
-        data?.is_dry_run_successful,
+        data?.isDryRunSuccessful,
         orderDetails?.status,
     ]);
 
