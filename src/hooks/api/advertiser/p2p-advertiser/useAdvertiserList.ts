@@ -21,7 +21,7 @@ const useAdvertiserList = (payload?: THookPayload) => {
     });
 
     // Add additional information to the 'p2p_advertiser_list' data
-    const modified_data = useMemo(() => {
+    const modifiedData = useMemo(() => {
         if (!data?.length) return undefined;
 
         return data.map(advertiser => ({
@@ -47,7 +47,7 @@ const useAdvertiserList = (payload?: THookPayload) => {
 
     return {
         /** P2P advertiser list */
-        data: modified_data,
+        data: modifiedData,
         ...rest,
     };
 };
