@@ -73,6 +73,7 @@ const mockProps = {
     goToNextStep: jest.fn(),
     goToPreviousStep: jest.fn(),
     localCurrency: 'IDR' as TCurrency,
+    orderExpiryOptions: [900, 1800],
     rateType: 'fixed',
 };
 
