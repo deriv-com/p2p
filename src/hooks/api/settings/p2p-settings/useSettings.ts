@@ -12,13 +12,13 @@ type TP2PSettings =
               text: string;
               value: string;
           }[];
-          float_rate_offset_limit_string: string;
-          is_cross_border_ads_enabled: boolean;
-          is_disabled: boolean;
-          is_payment_methods_enabled: boolean;
+          floatRateOffsetLimitString: string;
+          isCrossBorderAdsEnabled: boolean;
+          isDisabled: boolean;
+          isPaymentMethodsEnabled: boolean;
           localCurrency?: string;
-          rate_type: 'fixed' | 'float';
-          reached_target_date: boolean;
+          rateType: 'fixed' | 'float';
+          reachedTargetDate: boolean;
       })
     | undefined;
 
@@ -40,7 +40,7 @@ const useSettings = () => {
 
             if (!p2pSettingsData) return undefined;
 
-            const reached_target_date = () => {
+            const reachedTargetDate = () => {
                 if (!p2pSettingsData?.fixed_rate_adverts_end_date) return false;
 
                 const currentDate = new Date(new Date().getTime()).setUTCHours(23, 59, 59, 999);
@@ -76,22 +76,22 @@ const useSettings = () => {
                 /** Modified list of local_currencies */
                 currencyList,
                 /** Indicates the maximum rate offset for floating rate adverts. */
-                float_rate_offset_limit_string:
+                floatRateOffsetLimitString:
                     p2pSettingsData?.float_rate_offset_limit?.toString().split('.')?.[1]?.length > 2
                         ? (p2pSettingsData.float_rate_offset_limit - 0.005).toFixed(2)
                         : p2pSettingsData.float_rate_offset_limit.toFixed(2),
                 /** Indicates if the cross border ads feature is enabled. */
-                is_cross_border_ads_enabled: Boolean(p2pSettingsData?.cross_border_ads_enabled),
+                isCrossBorderAdsEnabled: Boolean(p2pSettingsData?.cross_border_ads_enabled),
                 /** Indicates if the P2P service is unavailable. */
-                is_disabled: Boolean(p2pSettingsData?.disabled),
+                isDisabled: Boolean(p2pSettingsData?.disabled),
                 /** Indicates if the payment methods feature is enabled. */
-                is_payment_methods_enabled: Boolean(p2pSettingsData?.payment_methods_enabled),
+                isPaymentMethodsEnabled: Boolean(p2pSettingsData?.payment_methods_enabled),
                 /** Indicates the default local currency */
                 localCurrency,
                 /** Indicates if the current rate type is floating or fixed rates */
-                rate_type: (p2pSettingsData?.float_rate_adverts === 'enabled' ? 'float' : 'fixed') as 'fixed' | 'float',
+                rateType: (p2pSettingsData?.float_rate_adverts === 'enabled' ? 'float' : 'fixed') as 'fixed' | 'float',
                 /** Indicates if the fixed rate adverts end date has been reached. */
-                reached_target_date: reached_target_date(),
+                reachedTargetDate: reachedTargetDate(),
             });
         }
     }, [data, setP2PSettings]);
