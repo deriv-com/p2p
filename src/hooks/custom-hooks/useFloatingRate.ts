@@ -17,7 +17,7 @@ const useFloatingRate = (): TReturnType => {
     return {
         fixedRateAdvertsEndDate,
         floatRateOffsetLimitString,
-        rateType: data?.rateType ?? RATE_TYPE.FLOAT,
+        rateType: data?.rateType ?? RATE_TYPE.FIXED,
         reachedTargetDate,
     };
 };
