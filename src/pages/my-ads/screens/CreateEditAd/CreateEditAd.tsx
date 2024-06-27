@@ -1,23 +1,24 @@
 import { useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { NonUndefinedValues, TCountryListItem, TCurrency, TErrorCodes, THooks } from 'types';
+import { NonUndefinedValues, TCountryListItem, TCurrency, TErrorCodes, THooks, TLocalize } from 'types';
 import { AdCancelCreateEditModal, AdCreateEditErrorModal, AdCreateEditSuccessModal } from '@/components/Modals';
 import { MY_ADS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useFloatingRate, useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { useP2PCountryList } from '@deriv-com/api-hooks';
+import { useTranslations } from '@deriv-com/translations';
 import { Loader } from '@deriv-com/ui';
 import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { AdWizard } from '../../components';
 import './CreateEditAd.scss';
 
-const getSteps = (isEdit = false) => {
-    const text = isEdit ? 'Edit' : 'Set';
+const getSteps = (localize: TLocalize, isEdit = false) => {
+    const text = isEdit ? localize('Edit') : localize('Set');
     const steps = [
-        { header: { title: `${text} ad type and amount` } },
-        { header: { title: `${text} payment details` } },
-        { header: { title: `${text} ad conditions` } },
+        { header: { title: localize('{{text}} ad type and amount', { text }) } },
+        { header: { title: localize('{{text}} payment details', { text }) } },
+        { header: { title: localize('{{text}} ad conditions', { text }) } },
     ];
     return steps;
 };
@@ -26,6 +27,7 @@ type FormValues = {
     amount: string;
     'contact-details': string;
     'float-rate-offset-limit': string;
+    'form-type': 'create' | 'edit';
     instructions: string;
     'max-order': string;
     'min-completion-rate': string;
@@ -43,6 +45,7 @@ type TFormValuesInfo = NonUndefinedValues<THooks.Advert.Get>;
 
 const CreateEditAd = () => {
     const { queryString } = useQueryString();
+    const { localize } = useTranslations();
     const { advertId = '' } = queryString;
     const { data: advertInfo, isLoading } = api.advert.useGet({ id: advertId ?? undefined }, !!advertId, false);
     const isEdit = !!advertId;
@@ -54,7 +57,8 @@ const CreateEditAd = () => {
     const { floatRateOffsetLimitString, rateType } = useFloatingRate();
     const { data: activeAccount } = api.account.useActiveAccount();
     const { data: p2pSettings } = api.settings.useSettings();
-    const { order_payment_period: orderPaymentPeriod } = p2pSettings ?? {};
+    const { adverts_archive_period: advertsArchivePeriod, order_expiry_options: orderExpiryOptions = [] } =
+        p2pSettings ?? {};
     const { data: createResponse, error, isError, isSuccess, mutate } = api.advert.useCreate();
     const {
         data: updateResponse,
@@ -75,7 +79,7 @@ const CreateEditAd = () => {
             'min-completion-rate': '',
             'min-join-days': '',
             'min-order': '',
-            'order-completion-time': `${orderPaymentPeriod ? (orderPaymentPeriod * 60).toString() : '3600'}`,
+            'order-completion-time': `${orderExpiryOptions.length > 0 ? Math.max(...(orderExpiryOptions as number[])) : '3600'}`,
             'payment-method': [],
             'preferred-countries': Object.keys(countryList as object),
             'rate-type-string': rateType,
@@ -185,6 +189,7 @@ const CreateEditAd = () => {
 
     const setFormValues = useCallback(
         (formValues: TFormValuesInfo) => {
+            setValue('form-type', 'edit');
             setValue('ad-type', formValues.type);
             setValue('amount', formValues.amount.toString());
             setValue('instructions', formValues.description);
@@ -236,8 +241,9 @@ const CreateEditAd = () => {
                         currency={activeAccount?.currency as TCurrency}
                         localCurrency={p2pSettings?.localCurrency as TCurrency}
                         onCancel={onClickCancel}
+                        orderExpiryOptions={orderExpiryOptions}
                         rateType={rateType}
-                        steps={getSteps(isEdit)}
+                        steps={getSteps(localize, isEdit)}
                     />
                 </form>
             </FormProvider>
@@ -248,7 +254,7 @@ const CreateEditAd = () => {
                 onRequestClose={hideModal}
             />
             <AdCreateEditSuccessModal
-                advertsArchivePeriod={orderPaymentPeriod}
+                advertsArchivePeriod={advertsArchivePeriod}
                 data={isEdit ? updateResponse : createResponse}
                 isModalOpen={!!isModalOpenFor('AdCreateEditSuccessModal')}
                 onRequestClose={hideModal}

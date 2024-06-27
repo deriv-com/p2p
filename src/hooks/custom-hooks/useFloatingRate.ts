@@ -10,15 +10,14 @@ type TReturnType = {
 
 const useFloatingRate = (): TReturnType => {
     const { data } = api.settings.useSettings();
-    const isFloatingRateEnabled = data?.float_rate_adverts === 'enabled';
     const fixedRateAdvertsEndDate = data?.fixed_rate_adverts_end_date ?? '';
-    const reachedTargetDate = data?.reached_target_date ?? false;
-    const floatRateOffsetLimitString = data?.float_rate_offset_limit_string ?? '';
+    const reachedTargetDate = data?.reachedTargetDate ?? false;
+    const floatRateOffsetLimitString = data?.floatRateOffsetLimitString ?? '';
 
     return {
         fixedRateAdvertsEndDate,
         floatRateOffsetLimitString,
-        rateType: isFloatingRateEnabled ? RATE_TYPE.FLOAT : RATE_TYPE.FIXED,
+        rateType: data?.rateType ?? RATE_TYPE.FIXED,
         reachedTargetDate,
     };
 };
