@@ -51,7 +51,7 @@ const BuySellHeader = ({
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const isAdvertiserBarred = useIsAdvertiserBarred();
-    const isGuideVisible = LocalStorageUtils.getValue('should_show_guide') === true;
+    const isGuideVisible = LocalStorageUtils.getValue('should_show_p2p_guide') === true;
 
     return (
         <div

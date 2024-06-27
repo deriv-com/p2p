@@ -18,7 +18,7 @@ const Guide = () => {
     const { isDesktop } = useDevice();
 
     useEffect(() => {
-        LocalStorageUtils.setValue<boolean>('should_show_guide', false);
+        LocalStorageUtils.setValue<boolean>('should_show_p2p_guide', false);
     }, []);
 
     return (
