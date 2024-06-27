@@ -1,3 +1,5 @@
+import { useHistory } from 'react-router-dom';
+import { GUIDE_URL } from '@/constants';
 import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text } from '@deriv-com/ui';
 import './GuideModal.scss';
@@ -8,6 +10,13 @@ type TGuideModalProps = {
 };
 
 const GuideModal = ({ isModalOpen, onRequestClose }: TGuideModalProps) => {
+    const history = useHistory();
+
+    const onGetStarted = () => {
+        history.push(GUIDE_URL);
+        onRequestClose();
+    };
+
     return (
         <Modal className='guide-modal' isOpen={isModalOpen} shouldCloseOnOverlayClick={false}>
             <Modal.Header hideBorder onRequestClose={onRequestClose}>
@@ -21,7 +30,7 @@ const GuideModal = ({ isModalOpen, onRequestClose }: TGuideModalProps) => {
                 </Text>
             </Modal.Body>
             <Modal.Footer hideBorder>
-                <Button className='mt-[1.6rem]' color='black' onClick={onRequestClose}>
+                <Button className='mt-[1.6rem]' color='black' onClick={onGetStarted} rounded='md'>
                     <Localize i18n_default_text='Get Started' />
                 </Button>
             </Modal.Footer>

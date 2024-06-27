@@ -26,7 +26,7 @@ const AppContent = () => {
     const { isDesktop } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
-    const isGuideVisible = LocalStorageUtils.getValue('should_show_guide') === true;
+    const isGuideVisible = LocalStorageUtils.getValue('should_show_p2p_guide') === true;
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -47,8 +47,8 @@ const AppContent = () => {
 
     useEffect(() => {
         if (activeAccountData) {
-            if (LocalStorageUtils.getValue('should_show_guide') === null) {
-                LocalStorageUtils.setValue<boolean>('should_show_guide', true);
+            if (LocalStorageUtils.getValue('should_show_p2p_guide') === null) {
+                LocalStorageUtils.setValue<boolean>('should_show_p2p_guide', true);
                 showModal('GuideModal');
             }
             subscribeP2PSettings({});
