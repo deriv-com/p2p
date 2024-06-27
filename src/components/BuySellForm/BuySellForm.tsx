@@ -13,7 +13,6 @@ import {
     roundOffDecimal,
     setDecimalPlaces,
 } from '@/utils';
-import { useExchangeRates } from '@deriv-com/api-hooks';
 import { Localize } from '@deriv-com/translations';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
 import { LightDivider } from '../LightDivider';
@@ -45,10 +44,7 @@ const getAdvertiserMaxLimit = (
     return maxOrderAmountLimitDisplay;
 };
 
-const BASE_CURRENCY = 'USD';
-
 const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProps) => {
-    const { data: exchangeRatesData, subscribeRates } = useExchangeRates();
     const { data: advertInfo } = api.advert.useGet({ id: advertId });
     const { data: orderCreatedInfo, error, isError, isSuccess, mutate } = api.order.useCreate();
     const { data: paymentMethods } = api.paymentMethods.useGet();
@@ -71,8 +67,6 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const [calculatedRate, setCalculatedRate] = useState('0');
     const [initialAmount, setInitialAmount] = useState('0');
 
-    const exchangeRateRef = useRef<number | undefined>(undefined);
-
     const {
         account_currency,
         advertiser_details,
@@ -91,6 +85,8 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         type,
     } = advertInfo || {};
 
+    const { exchangeRate } = api.exchangeRates.useGet(local_currency);
+
     useEffect(() => {
         if (isAdvertiser) {
             get();
@@ -98,27 +94,8 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAdvertiser]);
 
-    useEffect(() => {
-        if (local_currency) {
-            subscribeRates({
-                base_currency: BASE_CURRENCY,
-                target_currencies: [local_currency],
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [local_currency]);
-
-    useEffect(() => {
-        const rate = exchangeRatesData?.exchange_rates?.rates?.[local_currency];
-        if (typeof rate === 'number') {
-            exchangeRateRef.current = rate;
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [exchangeRatesData]);
-
     const { displayEffectiveRate, effectiveRate } = generateEffectiveRate({
-        exchangeRate: exchangeRateRef.current,
+        exchangeRate,
         localCurrency: local_currency as TCurrency,
         marketRate: Number(effective_rate),
         price: Number(price_display),
