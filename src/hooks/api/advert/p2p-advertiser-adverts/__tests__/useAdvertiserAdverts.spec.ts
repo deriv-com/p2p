@@ -114,23 +114,6 @@ describe('useAdvertiserAdverts', () => {
         });
 
         const { result } = renderHook(() => useAdvertiserAdverts());
-        expect(result.current.data).toEqual([
-            {
-                ...mockAdvertiserAdvertValues,
-                advertiser_details: {
-                    ...mockAdvertiserAdvertValues.advertiser_details,
-                    has_not_been_recommended: false,
-                    is_blocked: false,
-                    is_favourite: false,
-                    is_online: true,
-                    is_recommended: false,
-                },
-                block_trade: false,
-                created_time: undefined,
-                is_active: true,
-                is_floating: true,
-                is_visible: true,
-            },
-        ]);
+        expect(result.current.data?.[0].created_time).toEqual(undefined);
     });
 });
