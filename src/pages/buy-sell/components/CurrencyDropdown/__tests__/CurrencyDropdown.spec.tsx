@@ -16,7 +16,7 @@ jest.mock('@/hooks', () => ({
         settings: {
             useSettings: () => ({
                 data: {
-                    currency_list: [
+                    currencyList: [
                         {
                             display_name: 'BOB',
                             has_adverts: 1,

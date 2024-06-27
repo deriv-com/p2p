@@ -1,6 +1,6 @@
 import { MouseEventHandler, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { TCurrency } from 'types';
+import { TCurrency, TOrderExpiryOptions } from 'types';
 import { BUY_SELL } from '@/constants';
 import { AdFormController } from '../AdFormController';
 import { AdPaymentSelection } from '../AdPaymentSelection';
@@ -14,10 +14,17 @@ type TAdPaymentDetailsSection = {
     goToNextStep: MouseEventHandler<HTMLButtonElement>;
     goToPreviousStep: () => void;
     localCurrency?: TCurrency;
+    orderExpiryOptions: TOrderExpiryOptions;
     rateType: string;
 };
 
-const AdPaymentDetailsSection = ({ currency, localCurrency, rateType, ...props }: TAdPaymentDetailsSection) => {
+const AdPaymentDetailsSection = ({
+    currency,
+    localCurrency,
+    orderExpiryOptions,
+    rateType,
+    ...props
+}: TAdPaymentDetailsSection) => {
     const {
         formState: { errors, isValid },
         getValues,
@@ -51,7 +58,7 @@ const AdPaymentDetailsSection = ({ currency, localCurrency, rateType, ...props }
                 rateType={rateType}
                 type={getValues('ad-type')}
             />
-            <OrderTimeSelection />
+            <OrderTimeSelection orderExpiryOptions={orderExpiryOptions} />
             <AdPaymentSelection
                 isSellAdvert={isSellAdvert}
                 onSelectPaymentMethod={onSelectPaymentMethod}

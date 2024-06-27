@@ -16,6 +16,7 @@ import {
 
 const mockEpochSeconds = Date.UTC(2023, 1, 11) / 1000; // Feb 11, 2023 in seconds
 const mockEpochMilliseconds = mockEpochSeconds * 1000; // Feb 11, 2023 in milliseconds
+const mockFn = jest.fn(text => text);
 
 describe('time', () => {
     describe('convertToMillis', () => {
@@ -83,31 +84,31 @@ describe('time', () => {
 
     describe('formatTime', () => {
         it('should return empty string if minutes is 0', () => {
-            const result = formatTime(0);
+            const result = formatTime(0, mockFn);
             expect(result).toBe('');
         });
 
         it('should return remaining minute text if hours is 0 and remaining minutes is 1', () => {
             const minutes = 60;
-            const result = formatTime(minutes);
+            const result = formatTime(minutes, mockFn);
             expect(result).toBe('1 minute');
         });
 
         it('should return remaining minutes and minutes text if hours is 0', () => {
             const minutes = 30 * 60;
-            const result = formatTime(minutes);
+            const result = formatTime(minutes, mockFn);
             expect(result).toBe('30 minutes');
         });
 
         it('should return hours and hours text if remaining minutes is 0', () => {
             const minutes = 120 * 60;
-            const result = formatTime(minutes);
+            const result = formatTime(minutes, mockFn);
             expect(result).toBe('2 hours');
         });
 
         it('should return hours, hours text, remaining minutes, and minutes text', () => {
             const minutes = 90 * 60;
-            const result = formatTime(minutes);
+            const result = formatTime(minutes, mockFn);
             expect(result).toBe('1 hour 30 minutes');
         });
     });

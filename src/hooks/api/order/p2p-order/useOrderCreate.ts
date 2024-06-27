@@ -22,7 +22,7 @@ const useOrderCreate = () => {
         },
     });
 
-    const modified_data = useMemo(() => {
+    const modifiedData = useMemo(() => {
         if (!data) return undefined;
 
         const { advert_details, advertiser_details, client_details, is_incoming, is_reviewable, is_seen } = data;
@@ -55,7 +55,7 @@ const useOrderCreate = () => {
 
     return {
         /** The 'p2p_order_create' response. */
-        data: modified_data,
+        data: modifiedData,
         ...rest,
     };
 };

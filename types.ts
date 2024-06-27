@@ -185,7 +185,7 @@ export type WithRequiredProperty<T, Key extends keyof T> = T & {
 
 export type TCurrency = CurrencyConstants.Currency;
 
-export type MutableOption = { text?: React.ReactNode; value?: string | undefined };
+export type MutableOption = { text?: JSX.Element | string; value?: string | undefined };
 
 export type TErrorCodes = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
 
@@ -217,6 +217,10 @@ export type TActiveChannel = ReturnType<typeof useSendbird>['activeChatChannel']
 export type TChatMessages = NonNullable<ReturnType<typeof useSendbird>['messages']>;
 
 export type TLocalize = ReturnType<typeof useTranslations>['localize'];
+
+export type TOrderExpiryOptions = NonNullable<
+    NonNullable<ReturnType<typeof api.settings.useSettings>>['data']
+>['order_expiry_options'];
 
 export type TOrderIdsMap = {
     [key: string]: string[];

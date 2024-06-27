@@ -1,4 +1,4 @@
-import { isOrderSeen } from '../order-utils';
+import { getOrderTimeCompletionList, isOrderSeen } from '../order-utils';
 
 let mockValues: string | undefined = JSON.stringify({
     user123: ['order1', 'order2'],
@@ -11,6 +11,9 @@ Object.defineProperty(window, 'localStorage', {
     },
 });
 
+const mockFn = jest.fn((text, args) => {
+    return text.replace(/{{(.*?)}}/g, (_: string, match: string) => args[match.trim()]);
+});
 describe('isOrderSeen', () => {
     afterEach(() => {
         jest.restoreAllMocks();
@@ -51,5 +54,27 @@ describe('isOrderSeen', () => {
         const result = isOrderSeen(orderId, loginId);
 
         expect(result).toBe(false);
+    });
+});
+
+describe('getOrderTimeCompletionList', () => {
+    it('should return empty array if orderExpiryOptions is not present', () => {
+        const orderExpiryOptions = undefined;
+
+        const result = getOrderTimeCompletionList(mockFn, orderExpiryOptions);
+
+        expect(result).toEqual([]);
+    });
+
+    it('should return formatted list if orderExpiryOptions is present', () => {
+        const orderExpiryOptions = [900, 2700, 3600];
+
+        const result = getOrderTimeCompletionList(mockFn, orderExpiryOptions);
+
+        expect(result).toEqual([
+            { text: '15 minutes', value: '900' },
+            { text: '45 minutes', value: '2700' },
+            { text: '1 hour', value: '3600' },
+        ]);
     });
 });
