@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { LANGUAGES } from '@/constants';
 import { useTranslations } from '@deriv-com/translations';
-import { Text, TooltipMenuIcon } from '@deriv-com/ui';
+import { Text } from '@deriv-com/ui';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 
 type TLanguageSettings = {
     openLanguageSettingModal: () => void;

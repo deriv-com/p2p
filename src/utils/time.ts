@@ -1,4 +1,5 @@
 import moment, { Moment } from 'moment';
+import { TLocalize } from 'types';
 
 /**
  * Function that converts a numerical epoch value into a Moment instance
@@ -30,13 +31,13 @@ export const daysSince = (date: string): number =>
  * @param {number} minutes - The time in minutes (convert to epoch time before passing)
  * @returns {string} formatted time string e.g. 1 hour 30 minutes
  */
-export const formatTime = (minutes: number): string => {
+export const formatTime = (minutes: number, localize: TLocalize) => {
     if (!minutes) return '';
     const timeInMinutes = minutes / 60;
     const hours = Math.floor(timeInMinutes / 60);
     const remainingMinutes = timeInMinutes % 60;
-    const hoursText = hours === 1 ? 'hour' : 'hours';
-    const minutesText = remainingMinutes === 1 ? 'minute' : 'minutes';
+    const hoursText = hours === 1 ? localize('hour') : localize('hours');
+    const minutesText = remainingMinutes === 1 ? localize('minute') : localize('minutes');
 
     if (hours === 0) {
         return `${remainingMinutes} ${minutesText}`;

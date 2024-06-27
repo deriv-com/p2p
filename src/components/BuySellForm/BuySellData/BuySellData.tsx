@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import { THooks } from 'types';
 import { PaymentMethodWithIcon } from '@/components';
 import { formatTime } from '@/utils';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import './BuySellData.scss';
 
@@ -34,6 +34,7 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
         },
         ref
     ) => {
+        const { localize } = useTranslations();
         const { isMobile } = useDevice();
         const labelSize = isMobile ? 'sm' : 'xs';
         const valueSize = isMobile ? 'md' : 'sm';
@@ -89,7 +90,7 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
                     <Text color='less-prominent' size={labelSize}>
                         <Localize i18n_default_text='Orders must be completed in' />
                     </Text>
-                    <Text size={valueSize}>{formatTime(expiryPeriod)}</Text>
+                    <Text size={valueSize}>{formatTime(expiryPeriod, localize)}</Text>
                 </div>
             </div>
         );

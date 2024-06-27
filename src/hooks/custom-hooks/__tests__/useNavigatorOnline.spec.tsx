@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { useNavigatorOnline } from '../custom-hooks';
+import useNavigatorOnline from '../useNavigatorOnline';
 
 describe('useNavigatorOnline', () => {
     it('initializes as true when browser is online', () => {

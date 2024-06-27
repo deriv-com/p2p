@@ -30,6 +30,7 @@ const mockProps = {
     currency: 'usd' as TCurrency,
     localCurrency: 'usd' as TCurrency,
     onCancel: jest.fn(),
+    orderExpiryOptions: [900, 1800],
     rateType: 'float',
     steps: [{ header: { title: 'step 1' } }, { header: { title: 'step 2' } }, { header: { title: 'step 3' } }],
 };

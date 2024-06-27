@@ -56,7 +56,7 @@ const MyAdsTable = () => {
         blocked_until: blockedUntil,
         daily_buy_limit: dailyBuyLimit,
         daily_sell_limit: dailySellLimit,
-        is_listed_boolean: isListed,
+        isListedBoolean: isListed,
     } = advertiserInfo || {};
     const { mutate: updateAds } = api.advertiser.useUpdate();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();

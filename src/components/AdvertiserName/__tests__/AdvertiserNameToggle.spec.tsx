@@ -5,7 +5,7 @@ import AdvertiserNameToggle from '../AdvertiserNameToggle';
 const mockProps = {
     advertiserInfo: {
         fullName: 'Jane Doe',
-        should_show_name: false,
+        shouldShowName: false,
     },
     onToggle: jest.fn(),
 };

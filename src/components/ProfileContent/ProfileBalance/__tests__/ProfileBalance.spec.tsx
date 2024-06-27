@@ -12,7 +12,7 @@ let mockAdvertiserStatsProp = {
         fullName: 'Jane Doe',
         isEligibleForLimitUpgrade: false,
         name: 'Jane',
-        should_show_name: false,
+        shouldShowName: false,
     },
 };
 const mockUseActiveAccount = {
