@@ -41,11 +41,6 @@ jest.mock('use-query-params', () => ({
     useQueryParams: jest.fn().mockReturnValue([{}, jest.fn()]),
 }));
 
-jest.mock('@deriv-com/api-hooks', () => ({
-    ...jest.requireActual('@deriv-com/api-hooks'),
-    useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
-}));
-
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),
@@ -71,6 +66,11 @@ jest.mock('@/hooks', () => ({
         },
         advertiserPaymentMethods: {
             useGet: jest.fn(() => ({ data: [] })),
+        },
+        exchangeRates: {
+            useGet: jest.fn(() => ({
+                exchangeRate: 1,
+            })),
         },
         paymentMethods: {
             useGet: jest.fn(() => ({ data: [] })),

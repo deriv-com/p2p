@@ -1,19 +1,17 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { TCurrency, TLocalize } from 'types';
 import { PaymentMethodLabel, PopoverDropdown } from '@/components';
 import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
+import { api } from '@/hooks';
 import { useFloatingRate } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, shouldShowTooltipIcon } from '@/utils';
-import { useExchangeRates } from '@deriv-com/api-hooks';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import { AdStatus, AdType, AlertComponent, ProgressIndicator } from '../../../components';
 import { TMyAdsTableRowRendererProps } from '../MyAdsTable/MyAdsTable';
 import './MyAdsTableRow.scss';
-
-const BASE_CURRENCY = 'USD';
 
 const getList = (localize: TLocalize, isActive = false) => [
     { label: localize('Edit'), value: 'edit' },
@@ -41,7 +39,6 @@ type TMyAdsTableProps = Omit<
 const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps) => {
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
-    const { data: exchangeRatesData, subscribeRates } = useExchangeRates();
 
     const {
         account_currency: accountCurrency = '',
@@ -52,7 +49,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
         is_active: isActive,
         isBarred,
         isListed,
-        local_currency: localCurrency,
+        local_currency: localCurrency = '',
         max_order_amount_display: maxOrderAmountDisplay,
         min_order_amount_display: minOrderAmountDisplay,
         onClickIcon,
@@ -66,27 +63,9 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
         visibility_status: visibilityStatus = [],
     } = rest;
 
+    const { exchangeRate } = api.exchangeRates.useGet(localCurrency);
+
     const isFloatingRate = rateType === RATE_TYPE.FLOAT;
-
-    const exchangeRateRef = useRef<number | undefined>(undefined);
-
-    useEffect(() => {
-        if (localCurrency) {
-            subscribeRates({
-                base_currency: BASE_CURRENCY,
-                target_currencies: [localCurrency],
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [localCurrency]);
-
-    useEffect(() => {
-        const rate = exchangeRatesData?.exchange_rates?.rates?.[localCurrency ?? ''];
-        if (typeof rate === 'number') {
-            exchangeRateRef.current = rate;
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [exchangeRatesData]);
 
     const [showAlertIcon, setShowAlertIcon] = useState(false);
     const isAdvertListed = isListed && !isBarred;
@@ -96,7 +75,6 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
     const isRowDisabled = !isActive || isBarred || !isListed;
     const isAdActive = !!isActive && !isBarred;
 
-    const exchangeRate = exchangeRateRef.current;
     const enableActionPoint = currentRateType !== rateType;
 
     useEffect(() => {
