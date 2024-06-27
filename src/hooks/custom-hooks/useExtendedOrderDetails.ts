@@ -47,7 +47,6 @@ export interface ExtendedOrderDetails extends TOrder {
     otherUserDetails: TUserDetails;
     purchaseTime: string;
     rateAmount: string;
-    remainingSeconds: number;
     shouldHighlightAlert: boolean;
     shouldHighlightDanger: boolean;
     shouldHighlightDisabled: boolean;
@@ -57,7 +56,6 @@ export interface ExtendedOrderDetails extends TOrder {
     shouldShowLostFundsBanner: boolean;
     shouldShowOnlyComplainButton: boolean;
     shouldShowOnlyReceivedButton: boolean;
-    shouldShowOrderFooter: boolean;
     shouldShowOrderTimer: boolean;
     statusForBuyerConfirmedOrder: string;
     statusForPendingOrder: string;
@@ -243,11 +241,6 @@ const useExtendedOrderDetails = ({
                 })
             );
         },
-        get remainingSeconds() {
-            const serverTimeAmount = serverTime?.server_time_moment;
-            const expiryTimeMoment = toMoment(this.expiry_time);
-            return expiryTimeMoment.diff(serverTimeAmount, 'seconds');
-        },
         get shouldHighlightAlert() {
             if (this.hasTimerExpired) return false;
             if (this.isMyAd) {
@@ -298,14 +291,6 @@ const useExtendedOrderDetails = ({
                 return (!this.isIncomingOrder && this.isSellOrder) || (this.isIncomingOrder && this.isBuyOrder);
             }
             return this.isBuyerConfirmedOrder && (this.isBuyOrder ? this.isMyAd : !this.isMyAd);
-        },
-        get shouldShowOrderFooter() {
-            return (
-                this.shouldShowCancelAndPaidButton ||
-                this.shouldShowComplainAndReceivedButton ||
-                this.shouldShowOnlyComplainButton ||
-                this.shouldShowOnlyReceivedButton
-            );
         },
         get shouldShowOrderTimer() {
             if (this.isFinalisedOrder) return false;

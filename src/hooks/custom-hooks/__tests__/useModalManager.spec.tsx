@@ -3,8 +3,8 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { useDevice } from '@deriv-com/ui';
 import { act, renderHook } from '@testing-library/react';
-import useModalManager from '../custom-hooks/useModalManager';
-import useQueryString from '../custom-hooks/useQueryString';
+import useModalManager from '../useModalManager';
+import useQueryString from '../useQueryString';
 
 const mockReplace = jest.fn();
 

@@ -1,9 +1,8 @@
+import { api } from '@/hooks';
 import { renderHook } from '@testing-library/react';
-import useIsAdvertiser from '../custom-hooks/useIsAdvertiser';
-import { api } from '..';
+import useIsAdvertiser from '../useIsAdvertiser';
 
 jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
     api: {
         advertiser: {
             useGetInfo: jest.fn().mockReturnValue({

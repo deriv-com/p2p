@@ -1,7 +1,7 @@
 import { HELP_CENTRE } from '@/constants';
 import { LegacyHelpCentreIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '@deriv-com/ui';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 
 const HelpCentre = () => {
     const { localize } = useTranslations();

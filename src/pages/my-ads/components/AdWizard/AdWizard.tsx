@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TCountryListItem, TCurrency, TStep } from 'types';
+import { TCountryListItem, TCurrency, TOrderExpiryOptions, TStep } from 'types';
 import { FormProgress, Wizard } from '@/components';
 import { LabelPairedXmarkLgBoldIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
@@ -15,11 +15,12 @@ type TAdWizardNav = {
     currency: TCurrency;
     localCurrency?: TCurrency;
     onCancel: () => void;
+    orderExpiryOptions: TOrderExpiryOptions;
     rateType: string;
     steps: TStep[];
 };
 
-const AdWizard = ({ countryList, onCancel, steps, ...rest }: TAdWizardNav) => {
+const AdWizard = ({ countryList, onCancel, orderExpiryOptions, steps, ...rest }: TAdWizardNav) => {
     const { isDesktop } = useDevice();
     const [currentStep, setCurrentStep] = useState(0);
     const wizardProps = {
@@ -69,7 +70,7 @@ const AdWizard = ({ countryList, onCancel, steps, ...rest }: TAdWizardNav) => {
             onStepChange={step => setCurrentStep(step.activeStep - 1)}
         >
             <AdTypeSection onCancel={onCancel} {...wizardProps} {...rest} />
-            <AdPaymentDetailsSection {...wizardProps} {...rest} />
+            <AdPaymentDetailsSection {...wizardProps} {...rest} orderExpiryOptions={orderExpiryOptions} />
             <AdConditionsSection {...wizardProps} countryList={countryList} {...rest} />
         </Wizard>
     );

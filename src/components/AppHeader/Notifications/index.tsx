@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { LegacyNotificationIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { Notifications as UINotifications, TooltipMenuIcon, useDevice } from '@deriv-com/ui';
+import { Notifications as UINotifications, useDevice } from '@deriv-com/ui';
 
 export const Notifications = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +15,6 @@ export const Notifications = () => {
                 className={isDesktop ? 'mr-4 pl-2 border-l-[1px] h-[32px]' : ''}
                 disableHover
                 onClick={() => setIsOpen(!isOpen)}
-                tooltipContainerClassName='z-20'
                 tooltipContent={localize('View notifications')}
                 tooltipPosition='bottom'
             >

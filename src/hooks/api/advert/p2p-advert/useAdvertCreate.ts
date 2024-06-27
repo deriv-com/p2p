@@ -33,24 +33,16 @@ const useAdvertCreate = () => {
 
     const mutate = useCallback((payload: TPayload) => _mutate(payload), [_mutate]);
 
-    const modified_data = useMemo(() => {
+    const memoizedData = useMemo(() => {
         if (!data) return undefined;
 
         return {
             ...data,
-            /** Indicates if this is block trade advert or not. */
-            block_trade: Boolean(data?.block_trade),
-            /** The advert creation time in epoch. */
-            created_time: data?.created_time ? new Date(data?.created_time) : undefined,
-            /** The activation status of the advert. */
-            is_active: Boolean(data?.is_active),
-            /** Indicates that this advert will appear on the main advert list. */
-            is_visible: Boolean(data?.is_visible),
         };
     }, [data]);
 
     return {
-        data: modified_data,
+        data: memoizedData,
         mutate,
         ...rest,
     };
