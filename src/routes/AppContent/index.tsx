@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useShallow } from 'zustand/react/shallow';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
-import { useUserInfoStore } from '@/store';
+import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
 import Router from '../Router';
@@ -19,13 +18,6 @@ const AppContent = () => {
     const location = useLocation();
     const { isDesktop } = useDevice();
     const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
-    const { hasCreatedAdvertiser, setHasCreatedAdvertiser, setUserInfoState } = useUserInfoStore(
-        useShallow(state => ({
-            hasCreatedAdvertiser: state.hasCreatedAdvertiser,
-            setHasCreatedAdvertiser: state.setHasCreatedAdvertiser,
-            setUserInfoState: state.setUserInfoState,
-        }))
-    );
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -33,6 +25,7 @@ const AppContent = () => {
     };
 
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
+    const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
     const { isActive, subscribe: subscribeP2PSettings } = api.settings.useSettings();
     const {
         error,
@@ -59,8 +52,7 @@ const AppContent = () => {
     // setHasCreatedAdvertiser is triggered inside of NicknameModal.
     useEffect(() => {
         if (hasCreatedAdvertiser) {
-            // @ts-expect-error passthrough value is not defined in the type
-            subscribeAdvertiserInfo({ passthrough: { id: 'nickname' } });
+            subscribeAdvertiserInfo({});
             setHasCreatedAdvertiser(false);
         }
     }, [hasCreatedAdvertiser, setHasCreatedAdvertiser, subscribeAdvertiserInfo]);
@@ -69,51 +61,50 @@ const AppContent = () => {
         setActiveTab(getActiveTab(location.pathname));
     }, [location]);
 
-    useEffect(() => {
-        if (isSubscribed)
-            setUserInfoState({
+    return (
+        <AdvertiserInfoStateProvider
+            value={{
                 error,
-                isActive: isSubscribed,
                 isIdle,
                 isLoading,
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSubscribed]);
-
-    return (
-        <div className='app-content'>
-            <Text
-                align='center'
-                as='div'
-                className='app-content__title p-2'
-                size={isDesktop ? 'xl' : 'lg'}
-                weight='bold'
-            >
-                Deriv P2P
-            </Text>
-            {isLoadingActiveAccount && !isEndpointRoute ? (
-                <Loader />
-            ) : (
-                <>
-                    <div className='app-content__body'>
-                        <Tabs
-                            activeTab={activeTab}
-                            className='app-content__tabs'
-                            onChange={index => {
-                                setActiveTab(tabRoutesConfiguration[index].name);
-                                history.push(tabRoutesConfiguration[index].path);
-                            }}
-                            variant='secondary'
-                        >
-                            {tabRoutesConfiguration.map(route => (
-                                <Tab key={route.name} title={route.name!} />
-                            ))}
-                        </Tabs>
-                        <Router />
-                    </div>
-                </>
-            )}
-        </div>
+                isSubscribed,
+                setHasCreatedAdvertiser,
+            }}
+        >
+            <div className='app-content'>
+                <Text
+                    align='center'
+                    as='div'
+                    className='app-content__title p-2'
+                    size={isDesktop ? 'xl' : 'lg'}
+                    weight='bold'
+                >
+                    Deriv P2P
+                </Text>
+                {isLoadingActiveAccount && !isEndpointRoute ? (
+                    <Loader />
+                ) : (
+                    <>
+                        <div className='app-content__body'>
+                            <Tabs
+                                activeTab={activeTab}
+                                className='app-content__tabs'
+                                onChange={index => {
+                                    setActiveTab(tabRoutesConfiguration[index].name);
+                                    history.push(tabRoutesConfiguration[index].path);
+                                }}
+                                variant='secondary'
+                            >
+                                {tabRoutesConfiguration.map(route => (
+                                    <Tab key={route.name} title={route.name!} />
+                                ))}
+                            </Tabs>
+                            <Router />
+                        </div>
+                    </>
+                )}
+            </div>
+        </AdvertiserInfoStateProvider>
     );
 };
 

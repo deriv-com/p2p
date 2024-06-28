@@ -43,7 +43,7 @@ const mockStore = {
     shouldUseClientLimits: true,
 };
 
-jest.mock('@/store', () => ({
+jest.mock('@/stores', () => ({
     useBuySellFiltersStore: jest.fn(() => mockStore),
 }));
 

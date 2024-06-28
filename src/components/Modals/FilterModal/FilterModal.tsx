@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useShallow } from 'zustand/react/shallow';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { api, useModalManager } from '@/hooks';
-import { useBuySellFiltersStore } from '@/store';
+import { useBuySellFiltersStore } from '@/stores';
 import { LabelPairedChevronRightLgRegularIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Modal, Text, ToggleSwitch, useDevice } from '@deriv-com/ui';

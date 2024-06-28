@@ -37,7 +37,7 @@ const mockStore = {
     sortByValue: 'rate',
 };
 
-jest.mock('@/store', () => ({
+jest.mock('@/stores', () => ({
     useBuySellFiltersStore: jest.fn(() => mockStore),
 }));
 
