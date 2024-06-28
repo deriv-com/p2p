@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { RadioGroupFilterModal } from '@/components/Modals';
 import { ADVERT_TYPE, BUY_SELL, getSortByList } from '@/constants';
 import { api } from '@/hooks';
 import { useModalManager, useQueryString } from '@/hooks/custom-hooks';
+import { useBuySellFiltersStore } from '@/store';
 import { TSortByValues } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { BuySellHeader } from '../BuySellHeader';
@@ -18,11 +20,25 @@ const BuySellTable = () => {
     const { queryString, setQueryString } = useQueryString();
     const activeTab = queryString.tab || ADVERT_TYPE.BUY;
 
-    const [selectedCurrency, setSelectedCurrency] = useState<string>(p2pSettingsData?.localCurrency || '');
-    const [sortDropdownValue, setSortDropdownValue] = useState<TSortByValues>('rate');
+    const {
+        filteredCurrency,
+        selectedPaymentMethods,
+        setFilteredCurrency,
+        setSortByValue,
+        shouldUseClientLimits,
+        sortByValue,
+    } = useBuySellFiltersStore(
+        useShallow(state => ({
+            filteredCurrency: state.filteredCurrency,
+            selectedPaymentMethods: state.selectedPaymentMethods,
+            setFilteredCurrency: state.setFilteredCurrency,
+            setSortByValue: state.setSortByValue,
+            shouldUseClientLimits: state.shouldUseClientLimits,
+            sortByValue: state.sortByValue,
+        }))
+    );
+
     const [searchValue, setSearchValue] = useState<string>('');
-    const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<string[]>([]);
-    const [shouldUseClientLimits, setShouldUseClientLimits] = useState<boolean>(true);
 
     const {
         data,
@@ -32,14 +48,14 @@ const BuySellTable = () => {
     } = api.advert.useGetList({
         advertiser_name: searchValue,
         counterparty_type: activeTab === ADVERT_TYPE.BUY ? BUY_SELL.BUY : BUY_SELL.SELL,
-        local_currency: selectedCurrency,
+        local_currency: filteredCurrency,
         payment_method: selectedPaymentMethods.length > 0 ? selectedPaymentMethods : undefined,
-        sort_by: sortDropdownValue,
+        sort_by: sortByValue,
         use_client_limits: shouldUseClientLimits ? 1 : 0,
     });
 
     const onToggle = (value: string) => {
-        setSortDropdownValue(value as TSortByValues);
+        setSortByValue(value as TSortByValues);
         hideModal();
     };
 
@@ -50,24 +66,17 @@ const BuySellTable = () => {
     };
 
     useEffect(() => {
-        if (p2pSettingsData?.localCurrency) setSelectedCurrency(p2pSettingsData.localCurrency);
-    }, [p2pSettingsData?.localCurrency]);
+        if (p2pSettingsData?.localCurrency && filteredCurrency === '')
+            setFilteredCurrency(p2pSettingsData.localCurrency);
+    }, [filteredCurrency, p2pSettingsData?.localCurrency, setFilteredCurrency]);
 
     return (
         <div className='buy-sell-table h-full w-full relative flex flex-col'>
             <BuySellHeader
                 activeTab={activeTab}
-                selectedCurrency={selectedCurrency}
-                selectedPaymentMethods={selectedPaymentMethods}
                 setActiveTab={setActiveTab}
                 setIsFilterModalOpen={() => showModal('RadioGroupFilterModal')}
                 setSearchValue={setSearchValue}
-                setSelectedCurrency={setSelectedCurrency}
-                setSelectedPaymentMethods={setSelectedPaymentMethods}
-                setShouldUseClientLimits={setShouldUseClientLimits}
-                setSortDropdownValue={setSortDropdownValue}
-                shouldUseClientLimits={shouldUseClientLimits}
-                sortDropdownValue={sortDropdownValue}
             />
             <BuySellTableRenderer
                 data={data}
@@ -82,7 +91,7 @@ const BuySellTable = () => {
                     list={getSortByList(localize)}
                     onRequestClose={hideModal}
                     onToggle={onToggle}
-                    selected={sortDropdownValue as string}
+                    selected={sortByValue as string}
                 />
             )}
         </div>
