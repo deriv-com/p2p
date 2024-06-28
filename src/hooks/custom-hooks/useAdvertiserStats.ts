@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
-import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
+import { useShallow } from 'zustand/react/shallow';
+import { useUserInfoStore } from '@/store';
 import { daysSince, isEmptyObject } from '@/utils';
 import { useGetSettings } from '@deriv-com/api-hooks';
 import { api } from '..';
@@ -22,10 +23,11 @@ const toAdvertiserMinutes = (duration?: number | null) => {
  * @param advertiserId - ID of the advertiser stats to reveal. If not provided, by default it will return the user's own stats.
  */
 const useAdvertiserStats = (advertiserId?: string) => {
-    const { data, subscribe, unsubscribe } = api.advertiser.useGetInfo(advertiserId);
+    const { data, isLoading: isLoadingInfo, subscribe, unsubscribe } = api.advertiser.useGetInfo(advertiserId);
     const { data: settings, isSuccess: isSuccessSettings } = useGetSettings();
     const { data: authenticationStatus, isSuccess: isSuccessAuthenticationStatus } = api.account.useAuthentication();
-    const { error, isIdle, isLoading, isSubscribed } = useAdvertiserInfoState();
+    const { userInfoState } = useUserInfoStore(useShallow(state => ({ userInfoState: state.userInfoState })));
+    const { error, isActive: isSubscribed, isIdle, isLoading } = userInfoState || {};
 
     useEffect(() => {
         if (advertiserId) {
@@ -129,7 +131,7 @@ const useAdvertiserStats = (advertiserId?: string) => {
         data: transformedData,
         error,
         isIdle,
-        isLoading,
+        isLoading: advertiserId ? isLoadingInfo : isLoading,
         isSubscribed,
         unsubscribe,
     };
