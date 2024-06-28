@@ -3,6 +3,7 @@ export * from './advert';
 export * from './advertiser';
 export * from './chat';
 export * from './counterparty';
+export * from './exchange-rates';
 export * from './order';
 export * from './order-dispute';
 export * from './order-review';

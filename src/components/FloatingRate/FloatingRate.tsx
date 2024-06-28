@@ -1,8 +1,7 @@
-import { ChangeEvent, FocusEvent, useEffect, useRef } from 'react';
+import { ChangeEvent, FocusEvent } from 'react';
 import { TCurrency } from 'types';
 import { api } from '@/hooks';
 import { mobileOSDetect, percentOf, removeTrailingZeros, roundOffDecimal, setDecimalPlaces } from '@/utils';
-import { useExchangeRates } from '@deriv-com/api-hooks';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
@@ -28,32 +27,13 @@ const FloatingRate = ({
     onChange,
     value,
 }: TFloatingRate) => {
-    const { data: exchangeRateData, subscribeRates } = useExchangeRates();
+    const { exchangeRate } = api.exchangeRates.useGet(localCurrency);
     const { isMobile } = useDevice();
 
     const { data: p2pSettings } = api.settings.useSettings();
     const overrideExchangeRate = p2pSettings?.override_exchange_rate;
-    const exchangeRateRef = useRef<number | undefined>(undefined);
 
-    useEffect(() => {
-        if (localCurrency) {
-            subscribeRates({
-                base_currency: 'USD',
-                target_currencies: [localCurrency],
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [localCurrency]);
-
-    useEffect(() => {
-        const rate = exchangeRateData?.exchange_rates?.rates?.[localCurrency];
-        if (typeof rate === 'number') {
-            exchangeRateRef.current = rate;
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [exchangeRateData]);
-
-    const marketRate = overrideExchangeRate ? Number(overrideExchangeRate) : exchangeRateRef.current ?? 1;
+    const marketRate = overrideExchangeRate ? Number(overrideExchangeRate) : exchangeRate ?? 1;
     const os = mobileOSDetect();
     const marketFeed = value ? percentOf(marketRate, Number(value) || 0) : marketRate;
     const decimalPlace = setDecimalPlaces(marketFeed, 6);

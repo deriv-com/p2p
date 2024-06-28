@@ -1,4 +1,4 @@
-import { Fragment, memo, useEffect, useRef } from 'react';
+import { Fragment, memo } from 'react';
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
 import { TAdvertsTableRowRenderer, TCurrency } from 'types';
@@ -9,16 +9,12 @@ import { api } from '@/hooks';
 import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
-import { useExchangeRates } from '@deriv-com/api-hooks';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './AdvertsTableRow.scss';
 
-const BASE_CURRENCY = 'USD';
-
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const { data: exchangeRateData, subscribeRates } = useExchangeRates();
     const { isMobile } = useDevice();
     const history = useHistory();
     const location = useLocation();
@@ -29,8 +25,6 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { data: poiPoaData } = usePoiPoaStatus();
     const { isPoaVerified, isPoiVerified } = poiPoaData || {};
     const { localize } = useTranslations();
-
-    const exchangeRateRef = useRef<number | undefined>(undefined);
 
     const {
         account_currency,
@@ -49,30 +43,14 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         rate_type,
     } = props;
 
-    useEffect(() => {
-        if (local_currency) {
-            subscribeRates({
-                base_currency: BASE_CURRENCY,
-                target_currencies: [local_currency],
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [local_currency]);
-
-    useEffect(() => {
-        const rate = exchangeRateData?.exchange_rates?.rates?.[local_currency];
-        if (typeof rate === 'number') {
-            exchangeRateRef.current = rate;
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [exchangeRateData]);
+    const { exchangeRate } = api.exchangeRates.useGet(local_currency);
 
     const Container = isMobile ? 'div' : Fragment;
 
     const { completed_orders_count, id, is_online, name, rating_average, rating_count } = advertiser_details || {};
 
     const { displayEffectiveRate } = generateEffectiveRate({
-        exchangeRate: exchangeRateRef.current,
+        exchangeRate,
         localCurrency: local_currency as TCurrency,
         marketRate: Number(effective_rate),
         price: Number(price_display),

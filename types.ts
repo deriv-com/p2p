@@ -4,7 +4,7 @@ import { AD_CONDITION_TYPES, ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
 import { useSendbirdServiceToken } from '@/hooks/api/account';
 import { useAdvertiserStats, useSendbird } from '@/hooks/custom-hooks';
-import { useExchangeRates, useP2PCountryList } from '@deriv-com/api-hooks';
+import { useP2PCountryList } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 import { CurrencyConstants } from '@deriv-com/utils';
@@ -184,8 +184,6 @@ export type WithRequiredProperty<T, Key extends keyof T> = T & {
 };
 
 export type TCurrency = CurrencyConstants.Currency;
-
-export type TExchangeRate = ReturnType<typeof useExchangeRates>['exchangeRates'];
 
 export type MutableOption = { text?: JSX.Element | string; value?: string | undefined };
 
