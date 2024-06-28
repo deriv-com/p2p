@@ -3,6 +3,13 @@ import { useExchangeRates } from '@deriv-com/api-hooks';
 
 const BASE_CURRENCY = 'USD';
 
+/**
+ * A custom hook that returns the exchange rate for the given target currency.
+ *
+ * @param {string} targetCurrency - The target currency to get the exchange rate for.
+ *
+ * @example const { exchangeRate } = useP2PExchangeRates('IDR');
+ */
 const useP2PExchangeRates = (targetCurrency: string) => {
     const { data, subscribeRates, ...rest } = useExchangeRates();
     const [exchangeRate, setExchangeRate] = useState<number | undefined>(undefined);
