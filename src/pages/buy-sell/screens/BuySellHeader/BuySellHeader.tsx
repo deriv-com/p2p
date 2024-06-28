@@ -4,7 +4,7 @@ import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
 import { getSortByList } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
-import { useBuySellFiltersStore } from '@/store';
+import { useBuySellFiltersStore } from '@/stores';
 import { getLocalizedTabs } from '@/utils/tabs';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';

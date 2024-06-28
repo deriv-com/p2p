@@ -27,8 +27,6 @@ const Advertiser = () => {
 
     const { data, isLoading, unsubscribe } = useAdvertiserStats(id);
 
-    if (isLoading) return <Loader />;
-
     return (
         <div className='advertiser'>
             <PageReturn
@@ -56,16 +54,20 @@ const Advertiser = () => {
                 size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />
-            <AdvertiserBlockOverlay
-                advertiserName={advertiserName}
-                id={id}
-                isOverlayVisible={showOverlay}
-                onClickUnblock={() => showModal('BlockUnblockUserModal')}
-                setShowOverlay={setShowOverlay}
-            >
-                <ProfileContent data={data} setAdvertiserName={setAdvertiserName} setShowOverlay={setShowOverlay} />
-                <AdvertiserAdvertsTable advertiserId={advertiserId} />
-            </AdvertiserBlockOverlay>
+            {isLoading ? (
+                <Loader className='mt-0 lg:mt-80' />
+            ) : (
+                <AdvertiserBlockOverlay
+                    advertiserName={advertiserName}
+                    id={id}
+                    isOverlayVisible={showOverlay}
+                    onClickUnblock={() => showModal('BlockUnblockUserModal')}
+                    setShowOverlay={setShowOverlay}
+                >
+                    <ProfileContent data={data} setAdvertiserName={setAdvertiserName} setShowOverlay={setShowOverlay} />
+                    <AdvertiserAdvertsTable advertiserId={advertiserId} />
+                </AdvertiserBlockOverlay>
+            )}
         </div>
     );
 };

@@ -4,7 +4,7 @@ import { RadioGroupFilterModal } from '@/components/Modals';
 import { ADVERT_TYPE, BUY_SELL, getSortByList } from '@/constants';
 import { api } from '@/hooks';
 import { useModalManager, useQueryString } from '@/hooks/custom-hooks';
-import { useBuySellFiltersStore } from '@/store';
+import { useBuySellFiltersStore } from '@/stores';
 import { TSortByValues } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { BuySellHeader } from '../BuySellHeader';

@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useShallow } from 'zustand/react/shallow';
-import { useUserInfoStore } from '@/store';
+import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { daysSince, isEmptyObject } from '@/utils';
 import { useGetSettings } from '@deriv-com/api-hooks';
 import { api } from '..';
@@ -26,15 +25,15 @@ const useAdvertiserStats = (advertiserId?: string) => {
     const { data, isLoading: isLoadingInfo, subscribe, unsubscribe } = api.advertiser.useGetInfo(advertiserId);
     const { data: settings, isSuccess: isSuccessSettings } = useGetSettings();
     const { data: authenticationStatus, isSuccess: isSuccessAuthenticationStatus } = api.account.useAuthentication();
-    const { userInfoState } = useUserInfoStore(useShallow(state => ({ userInfoState: state.userInfoState })));
-    const { error, isActive: isSubscribed, isIdle, isLoading } = userInfoState || {};
+    const { data: activeAccountData } = api.account.useActiveAccount();
+    const { error, isIdle, isLoading, isSubscribed } = useAdvertiserInfoState();
 
     useEffect(() => {
-        if (advertiserId) {
+        if (advertiserId && activeAccountData) {
             subscribe({ id: advertiserId });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [advertiserId]);
+    }, [advertiserId, activeAccountData]);
 
     useEffect(() => {
         return () => {
