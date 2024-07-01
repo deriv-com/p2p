@@ -1,19 +1,14 @@
 import clsx from 'clsx';
-import { useHistory } from 'react-router-dom';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
-import { getSortByList, GUIDE_URL } from '@/constants';
+import { getSortByList } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
+import { GuideTooltip } from '@/pages/guide/components';
 import { TSortByValues } from '@/utils';
 import { getLocalizedTabs } from '@/utils/tabs';
-import {
-    LabelPairedBarsFilterMdBoldIcon,
-    LabelPairedBarsFilterSmBoldIcon,
-    LabelPairedBookCircleQuestionLgRegularIcon,
-} from '@deriv/quill-icons';
+import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Tab, Tabs, useDevice } from '@deriv-com/ui';
-import { LocalStorageUtils } from '@deriv-com/utils';
 import { CurrencyDropdown, SortDropdown } from '../../components';
 import './BuySellHeader.scss';
 
@@ -46,12 +41,10 @@ const BuySellHeader = ({
     shouldUseClientLimits,
     sortDropdownValue,
 }: TBuySellHeaderProps) => {
-    const history = useHistory();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const isAdvertiserBarred = useIsAdvertiserBarred();
-    const isGuideVisible = LocalStorageUtils.getValue('should_show_p2p_guide') === true;
 
     return (
         <div
@@ -71,9 +64,7 @@ const BuySellHeader = ({
                     <Tab title={localize('Buy')} />
                     <Tab title={localize('Sell')} />
                 </Tabs>
-                {isMobile && isGuideVisible && (
-                    <LabelPairedBookCircleQuestionLgRegularIcon onClick={() => history.push(GUIDE_URL)} />
-                )}
+                {isMobile && <GuideTooltip />}
             </div>
             <div className='buy-sell-header__row'>
                 <div className='flex flex-row-reverse lg:flex-row gap-4'>

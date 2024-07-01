@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { PageReturn } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
@@ -16,6 +17,13 @@ const Guide = () => {
     const history = useHistory();
     const { localize } = useTranslations();
     const { isDesktop } = useDevice();
+    const guideSections = [
+        { className: 'p-[2.4rem]', component: <GettingStarted /> },
+        { className: 'p-[2.4rem]', component: <Awareness /> },
+        { component: <Videos /> },
+        { component: <Blog /> },
+        { component: <FAQs /> },
+    ];
 
     useEffect(() => {
         LocalStorageUtils.setValue<boolean>('should_show_p2p_guide', false);
@@ -36,21 +44,14 @@ const Guide = () => {
                 <Text as='div' size={isDesktop ? 'lg' : 'md'} weight='bold'>
                     <Localize i18n_default_text='Get started with P2P' />
                 </Text>
-                <div className='guide__content-section p-[2.4rem]'>
-                    <GettingStarted />
-                </div>
-                <div className='guide__content-section p-[2.4rem]'>
-                    <Awareness />
-                </div>
-                <div className='guide__content-section'>
-                    <Videos />
-                </div>
-                <div className='guide__content-section'>
-                    <Blog />
-                </div>
-                <div className='guide__content-section'>
-                    <FAQs />
-                </div>
+                {guideSections.map((section, idx) => {
+                    const { className, component } = section;
+                    return (
+                        <div className={clsx('guide__content-section', className)} key={idx}>
+                            {component}
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
