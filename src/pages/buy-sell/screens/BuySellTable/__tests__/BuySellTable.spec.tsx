@@ -36,11 +36,6 @@ jest.mock('react-router-dom', () => ({
     })),
 }));
 
-jest.mock('@deriv-com/api-hooks', () => ({
-    ...jest.requireActual('@deriv-com/api-hooks'),
-    useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
-}));
-
 jest.mock('@/components/BuySellForm', () => ({
     BuySellForm: jest.fn(() => <div>BuySellForm</div>),
 }));
@@ -61,6 +56,11 @@ jest.mock('@/hooks', () => ({
         },
         advertiserPaymentMethods: {
             useGet: jest.fn(() => ({ data: [] })),
+        },
+        exchangeRates: {
+            useGet: jest.fn(() => ({
+                exchangeRate: 1,
+            })),
         },
         paymentMethods: {
             useGet: jest.fn(() => ({ data: [] })),

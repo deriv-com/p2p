@@ -97,6 +97,11 @@ jest.mock('@/hooks', () => ({
         advertiserPaymentMethods: {
             useGet: jest.fn(() => mockAdvertiserPaymentMethods),
         },
+        exchangeRates: {
+            useGet: jest.fn(() => ({
+                exchangeRate: 1,
+            })),
+        },
         order: {
             useCreate: jest.fn(() => mockUseCreate),
         },
@@ -112,12 +117,6 @@ jest.mock('@/hooks', () => ({
 
 jest.mock('@/hooks/custom-hooks', () => ({
     useIsAdvertiser: jest.fn(() => true),
-}));
-
-jest.mock('@deriv-com/api-hooks', () => ({
-    useExchangeRates: jest.fn(() => ({
-        subscribeRates: jest.fn(),
-    })),
 }));
 
 jest.mock('@deriv-com/ui', () => ({

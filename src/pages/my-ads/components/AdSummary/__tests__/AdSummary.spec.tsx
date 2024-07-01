@@ -11,11 +11,6 @@ const mockProps = {
     type: 'buy',
 };
 
-jest.mock('@deriv-com/api-hooks', () => ({
-    ...jest.requireActual('@deriv-com/api-hooks'),
-    useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
-}));
-
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn().mockReturnValue({
@@ -35,6 +30,11 @@ jest.mock('@/hooks/custom-hooks', () => ({
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
+        exchangeRates: {
+            useGet: jest.fn(() => ({
+                exchangeRate: 1,
+            })),
+        },
         settings: {
             useSettings: () => ({
                 data: {

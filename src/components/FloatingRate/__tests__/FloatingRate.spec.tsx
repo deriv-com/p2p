@@ -10,14 +10,14 @@ jest.mock('@deriv-com/ui', () => ({
     }),
 }));
 
-jest.mock('@deriv-com/api-hooks', () => ({
-    ...jest.requireActual('@deriv-com/api-hooks'),
-    useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
-}));
-
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
+        exchangeRates: {
+            useGet: jest.fn(() => ({
+                exchangeRate: 1,
+            })),
+        },
         settings: {
             useSettings: jest.fn(() => ({
                 data: {

@@ -9,9 +9,7 @@ type TCreateAdvertiserPayload = Parameters<ReturnType<typeof useP2PAdvertiserCre
  * To create an advertiser, specify the following payload arguments in the `mutate` call:
  * @example
  *  mutate({
-        payload: {
-            name: 'John Doe',
-        }
+        name: 'John Doe',
     });
  *
 */
@@ -34,7 +32,7 @@ const useAdvertiserCreate = () => {
         [_mutate]
     );
 
-    const modified_data = useMemo(() => {
+    const modifiedData = useMemo(() => {
         const advertiser = data;
 
         if (!advertiser) return undefined;
@@ -59,7 +57,7 @@ const useAdvertiserCreate = () => {
     }, [data]);
 
     return {
-        data: modified_data,
+        data: modifiedData,
         mutate,
         ...rest,
     };
