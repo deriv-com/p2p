@@ -96,7 +96,7 @@ const AppContent = () => {
                                 variant='secondary'
                             >
                                 {tabRoutesConfiguration.map(route => (
-                                    <Tab key={route.name} title={route.name!} />
+                                    <Tab key={route.name} title={route.name} />
                                 ))}
                             </Tabs>
                             <Router />
