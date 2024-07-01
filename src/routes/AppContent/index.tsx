@@ -101,7 +101,7 @@ const AppContent = () => {
                                 <Tab key={route.name} title={route.name!} />
                             ))}
                         </Tabs>
-                        {isDesktop && <GuideTooltip />}
+                        {isDesktop && !isEndpointRoute && <GuideTooltip />}
                         <Router />
                     </div>
                 )}

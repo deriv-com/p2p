@@ -18,11 +18,11 @@ const Guide = () => {
     const { localize } = useTranslations();
     const { isDesktop } = useDevice();
     const guideSections = [
-        { className: 'p-[2.4rem]', component: <GettingStarted /> },
-        { className: 'p-[2.4rem]', component: <Awareness /> },
-        { component: <Videos /> },
-        { component: <Blog /> },
-        { component: <FAQs /> },
+        { className: 'p-[2.4rem]', component: <GettingStarted />, title: 'Getting Started' },
+        { className: 'p-[2.4rem]', component: <Awareness />, title: 'Awareness' },
+        { component: <Videos />, title: 'Videos' },
+        { component: <Blog />, title: 'Blog' },
+        { component: <FAQs />, title: 'FAQs' },
     ];
 
     useEffect(() => {
@@ -44,10 +44,10 @@ const Guide = () => {
                 <Text as='div' size={isDesktop ? 'lg' : 'md'} weight='bold'>
                     <Localize i18n_default_text='Get started with P2P' />
                 </Text>
-                {guideSections.map((section, idx) => {
-                    const { className, component } = section;
+                {guideSections.map(section => {
+                    const { className, component, title } = section;
                     return (
-                        <div className={clsx('guide__content-section', className)} key={idx}>
+                        <div className={clsx('guide__content-section', className)} key={title}>
                             {component}
                         </div>
                     );
