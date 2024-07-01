@@ -2,11 +2,6 @@ import { HOW_TO_USE_DERIV_P2P_URL } from '@/constants';
 import { render, screen } from '@testing-library/react';
 import VideoPlayerModal from '../VideoPlayerModal';
 
-jest.mock('@deriv-com/ui', () => ({
-    ...jest.requireActual('@deriv-com/ui'),
-    useDevice: () => ({ isMobile: false }),
-}));
-
 const mockProps = {
     isModalOpen: true,
     onRequestClose: jest.fn(),

@@ -22,7 +22,7 @@ const FAQs = () => {
                     <Localize i18n_default_text='Learn more' />
                 </Text>
             </div>
-            <Accordion title='How to register for Deriv P2P?' variant='underline'>
+            <Accordion defaultOpen title='How to register for Deriv P2P?' variant='underline'>
                 <Text as='div' className='mb-[0.5rem]' lineHeight='xl' size='sm'>
                     <Localize
                         components={[

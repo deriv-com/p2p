@@ -53,9 +53,9 @@ export const getOauthUrl = () => {
 };
 
 export const INTRODUCING_DERIV_P2P_URL =
-    'https://player.vimeo.com/video/715973569?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&controls=0&byline=0#t=';
+    'https://player.vimeo.com/video/715973569?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
 
 export const HOW_TO_USE_DERIV_P2P_URL =
-    'https://player.vimeo.com/video/715982928?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&controls=0&byline=0#t=';
+    'https://player.vimeo.com/video/715982928?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
 
 export const HOW_TO_PROTECT_YOURSELF_URL = 'https://blog.deriv.com/posts/how-to-protect-yourself-on-p2p-platforms/';
