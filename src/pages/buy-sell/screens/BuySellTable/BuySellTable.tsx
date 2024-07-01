@@ -91,7 +91,7 @@ const BuySellTable = () => {
                     list={getSortByList(localize)}
                     onRequestClose={hideModal}
                     onToggle={onToggle}
-                    selected={sortByValue as string}
+                    selected={sortByValue}
                 />
             )}
         </div>
