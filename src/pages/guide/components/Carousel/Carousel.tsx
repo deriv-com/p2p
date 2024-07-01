@@ -2,11 +2,20 @@ import { ReactNode, useRef, useState } from 'react';
 import clsx from 'clsx';
 import debounce from 'lodash/debounce';
 import { useDevice } from '@deriv-com/ui';
+import { GuideCard } from '../GuideCard';
 import './Carousel.scss';
+
+type TCarouselItem = {
+    className?: string;
+    description: ReactNode;
+    icon: ReactNode;
+    id: number;
+    title: ReactNode;
+};
 
 type TCarouselProps = {
     isControlVisible?: boolean;
-    items: ReactNode[];
+    items: TCarouselItem[];
 };
 
 const Carousel = ({ isControlVisible = true, items }: TCarouselProps) => {
@@ -26,27 +35,27 @@ const Carousel = ({ isControlVisible = true, items }: TCarouselProps) => {
     return (
         <div className='carousel'>
             <div className='carousel__container' onScroll={onScroll} ref={scrollRef}>
-                {items.map((item, index) => {
+                {items.map(item => {
                     return (
-                        <div className='carousel__item' key={index}>
-                            {item}
+                        <div className='carousel__item' key={item.id}>
+                            <GuideCard {...item} />
                         </div>
                     );
                 })}
             </div>
             {isMobile && isControlVisible && (
                 <div className='flex justify-center'>
-                    {items.map((_item: ReactNode, index: number) => {
+                    {items.map((item: TCarouselItem, index: number) => {
                         return (
                             <div
                                 className={clsx('carousel__control mr-2', {
                                     'carousel__control--active': currentIndex === index,
                                 })}
                                 data-testid='dt_carousel_control'
-                                key={index}
+                                key={item.id}
                                 onClick={() => {
                                     const clientWidth = scrollRef.current?.clientWidth ?? 0;
-                                    scrollRef.current?.scrollTo({ left: clientWidth * index });
+                                    scrollRef.current?.scrollTo?.({ left: clientWidth * index });
                                 }}
                             />
                         );
