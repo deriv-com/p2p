@@ -59,7 +59,7 @@ const DatePicker = ({
 
     // To not display the date value when today's date is selected.
     const getValue = () => {
-        if (selectedDate && (showLabel || selectedDate.getDate() !== new Date().getDate())) {
+        if (selectedDate && (showLabel || selectedDate.toDateString() !== new Date().toDateString())) {
             return unixToDateString(selectedDate, displayFormat);
         }
         return '';
