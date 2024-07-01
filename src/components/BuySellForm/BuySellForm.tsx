@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { TCurrency, THooks, TPaymentMethod } from 'types';
-import { BUY_SELL, ORDERS_URL, RATE_TYPE } from '@/constants';
+import { BUY_SELL, ERROR_CODES, ORDERS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
-import { useIsAdvertiser } from '@/hooks/custom-hooks';
+import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
 import {
     generateEffectiveRate,
     getPaymentMethodObjects,
@@ -13,9 +13,11 @@ import {
     roundOffDecimal,
     setDecimalPlaces,
 } from '@/utils';
-import { Localize } from '@deriv-com/translations';
+import { useTranslations } from '@deriv-com/translations';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
+import { FormatUtils } from '@deriv-com/utils';
 import { LightDivider } from '../LightDivider';
+import { ErrorModal, RateFluctuationModal } from '../Modals';
 import { BuySellAmount } from './BuySellAmount';
 import { BuySellData } from './BuySellData';
 import BuySellFormDisplayWrapper from './BuySellFormDisplayWrapper';
@@ -45,8 +47,10 @@ const getAdvertiserMaxLimit = (
 };
 
 const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProps) => {
+    const { localize } = useTranslations();
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { data: advertInfo } = api.advert.useGet({ id: advertId });
-    const { data: orderCreatedInfo, error, isError, isSuccess, mutate } = api.order.useCreate();
+    const { data: orderCreatedInfo, error, isError, isSuccess, mutate, reset } = api.order.useCreate();
     const { data: paymentMethods } = api.paymentMethods.useGet();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { data } = api.advertiser.useGetInfo() || {};
@@ -65,7 +69,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
 
     const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<number[]>([]);
     const [calculatedRate, setCalculatedRate] = useState('0');
-    const [initialAmount, setInitialAmount] = useState('0');
+    const [buySellAmount, setBuySellAmount] = useState('0');
 
     const {
         account_currency,
@@ -86,6 +90,10 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     } = advertInfo || {};
 
     const { exchangeRate } = api.exchangeRates.useGet(local_currency);
+
+    const [hasRateChanged, setHasRateChanged] = useState(false);
+    const [currentEffectiveRate, setCurrentEffectiveRate] = useState(0);
+    const [inputValue, setInputValue] = useState(min_order_amount_limit_display ?? '0');
 
     useEffect(() => {
         if (isAdvertiser) {
@@ -143,8 +151,12 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     });
 
     const onSubmit = () => {
-        //TODO: error handling after implementation of exchange rate
-        const rateValue = rate_type === RATE_TYPE.FIXED ? null : effectiveRate;
+        if (hasRateChanged && !isModalOpenFor('RateFluctuationModal')) {
+            setIsHidden(true);
+            showModal('RateFluctuationModal', { shouldStackModals: false });
+            return;
+        }
+        const rateValue = rate_type === RATE_TYPE.FIXED ? null : currentEffectiveRate;
         const payload: TPayload = {
             advert_id: id as string,
             amount: Number(getValues('amount')),
@@ -178,11 +190,11 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     };
 
     useEffect(() => {
-        if (effectiveRate) {
+        if (effectiveRate && !isModalOpenFor('RateFluctuationModal')) {
             setCalculatedRate(removeTrailingZeros(roundOffDecimal(effectiveRate, setDecimalPlaces(effectiveRate, 6))));
-            setInitialAmount(removeTrailingZeros((min_order_amount_limit ?? 1 * Number(calculatedRate)).toString()));
+            setCurrentEffectiveRate(effectiveRate);
         }
-    }, [calculatedRate, effectiveRate, min_order_amount_limit]);
+    }, [calculatedRate, effectiveRate, isModalOpenFor, min_order_amount_limit]);
 
     useEffect(() => {
         if (isSuccess && orderCreatedInfo) {
@@ -193,81 +205,124 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
 
     useEffect(() => {
         if (isError && error?.message) {
-            setErrorMessage(error?.message);
-            scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            if (error.code === ERROR_CODES.ORDER_CREATE_FAIL_RATE_SLIPPAGE) {
+                setIsHidden(true);
+                showModal('ErrorModal', { shouldStackModals: false });
+            } else {
+                setErrorMessage(error?.message);
+                scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
         }
-    }, [error?.message, isError]);
+    }, [error?.code, error?.message, isError, showModal]);
+
+    useEffect(() => {
+        if (effectiveRate !== currentEffectiveRate && currentEffectiveRate !== 0) {
+            setHasRateChanged(true);
+        }
+    }, [currentEffectiveRate, effectiveRate]);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <BuySellFormDisplayWrapper
-                accountCurrency={account_currency as TCurrency}
-                isBuy={isBuy}
-                isHidden={isHidden}
-                isModalOpen={isModalOpen}
-                isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
-                onRequestClose={onRequestClose}
-                onSubmit={onSubmit}
-            >
-                {/* TODO: Remove the below banner when implementing real time exchange changes */}
-                {rate_type === RATE_TYPE.FLOAT && !shouldDisableField && (
-                    <div className='px-[2.4rem] mt-[2.4rem]'>
-                        <InlineMessage variant='info'>
-                            <Text size={isMobile ? 'xs' : '2xs'}>
-                                <Localize i18n_default_text='If the market rate changes from the rate shown here, we won’t be able to process your order.' />
-                            </Text>
-                        </InlineMessage>
-                    </div>
-                )}
-                {errorMessage && (
-                    <div className='px-[2.4rem] mt-[2.4rem]'>
-                        <InlineMessage variant='error'>
-                            <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
-                        </InlineMessage>
-                    </div>
-                )}
-                <BuySellData
+        <>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <BuySellFormDisplayWrapper
                     accountCurrency={account_currency as TCurrency}
-                    expiryPeriod={order_expiry_period ?? 3600}
-                    instructions={description ?? '-'}
                     isBuy={isBuy}
-                    localCurrency={local_currency as TCurrency}
-                    name={advertiser_details?.name ?? ''}
-                    paymentMethodNames={payment_method_names}
-                    paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
-                    rate={displayEffectiveRate}
-                    ref={scrollRef}
-                />
-                <LightDivider />
-                {isBuy && payment_method_names && payment_method_names?.length > 0 && (
-                    <BuySellPaymentSection
-                        availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
-                        onSelectPaymentMethodCard={onSelectPaymentMethodCard}
-                        selectedPaymentMethodIds={selectedPaymentMethods}
-                        setIsHidden={setIsHidden}
+                    isHidden={isHidden}
+                    isModalOpen={isModalOpen}
+                    isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
+                    onRequestClose={onRequestClose}
+                    onSubmit={onSubmit}
+                >
+                    {errorMessage && (
+                        <div className='px-[2.4rem] mt-[2.4rem]'>
+                            <InlineMessage variant='error'>
+                                <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
+                            </InlineMessage>
+                        </div>
+                    )}
+                    <BuySellData
+                        accountCurrency={account_currency as TCurrency}
+                        expiryPeriod={order_expiry_period ?? 3600}
+                        instructions={description ?? '-'}
+                        isBuy={isBuy}
+                        localCurrency={local_currency as TCurrency}
+                        name={advertiser_details?.name ?? ''}
+                        paymentMethodNames={payment_method_names}
+                        paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
+                        rate={displayEffectiveRate}
+                        ref={scrollRef}
+                    />
+                    <LightDivider />
+                    {isBuy && payment_method_names && payment_method_names?.length > 0 && (
+                        <BuySellPaymentSection
+                            availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
+                            onSelectPaymentMethodCard={onSelectPaymentMethodCard}
+                            selectedPaymentMethodIds={selectedPaymentMethods}
+                            setIsHidden={setIsHidden}
+                        />
+                    )}
+                    <BuySellAmount
+                        accountCurrency={account_currency as TCurrency}
+                        buySellAmount={buySellAmount}
+                        calculatedRate={calculatedRate}
+                        control={control as unknown as Control<FieldValues>}
+                        inputValue={inputValue}
+                        isBuy={isBuy}
+                        isDisabled={shouldDisableField}
+                        localCurrency={local_currency as TCurrency}
+                        maxLimit={getAdvertiserMaxLimit(
+                            isBuy,
+                            Number(daily_buy_limit) - Number(daily_buy),
+                            Number(daily_sell_limit) - Number(daily_sell),
+                            max_order_amount_limit_display ?? '0'
+                        )}
+                        minLimit={min_order_amount_limit_display ?? '0'}
+                        paymentMethodNames={payment_method_names}
+                        setBuySellAmount={setBuySellAmount}
+                        setInputValue={setInputValue}
+                        setValue={setValue as unknown as (name: string, value: string) => void}
+                        trigger={trigger as unknown as () => Promise<boolean>}
+                    />
+                </BuySellFormDisplayWrapper>
+                {isModalOpenFor('RateFluctuationModal') && (
+                    <RateFluctuationModal
+                        isModalOpen
+                        onContinue={() => {
+                            handleSubmit(onSubmit)();
+                        }}
+                        onRequestClose={() => {
+                            hideModal();
+                            setIsHidden(false);
+                            setHasRateChanged(false);
+                        }}
+                        values={{
+                            currency: account_currency ?? '',
+                            inputAmount: FormatUtils.formatMoney(Number(inputValue), {
+                                currency: local_currency as TCurrency,
+                            }),
+                            localCurrency: local_currency,
+                            receivedAmount: buySellAmount,
+                        }}
                     />
                 )}
-                <BuySellAmount
-                    accountCurrency={account_currency as TCurrency}
-                    amount={initialAmount}
-                    calculatedRate={calculatedRate}
-                    control={control as unknown as Control<FieldValues>}
-                    isBuy={isBuy}
-                    isDisabled={shouldDisableField}
-                    localCurrency={local_currency as TCurrency}
-                    maxLimit={getAdvertiserMaxLimit(
-                        isBuy,
-                        Number(daily_buy_limit) - Number(daily_buy),
-                        Number(daily_sell_limit) - Number(daily_sell),
-                        max_order_amount_limit_display ?? '0'
-                    )}
-                    minLimit={min_order_amount_limit_display ?? '0'}
-                    paymentMethodNames={payment_method_names}
-                    setValue={setValue as unknown as (name: string, value: string) => void}
-                    trigger={trigger as unknown as () => Promise<boolean>}
-                />
-            </BuySellFormDisplayWrapper>
-        </form>
+                {isModalOpenFor('ErrorModal') && (
+                    <ErrorModal
+                        buttonText={localize('Create new order')}
+                        hideCloseIcon
+                        isModalOpen
+                        message={error?.message}
+                        onRequestClose={() => {
+                            setIsHidden(false);
+                            setHasRateChanged(false);
+                            hideModal({ shouldHidePreviousModal: true });
+                            reset();
+                        }}
+                        textSize='md'
+                        title={localize('Order unsuccessful')}
+                    />
+                )}
+            </form>
+        </>
     );
 };
 

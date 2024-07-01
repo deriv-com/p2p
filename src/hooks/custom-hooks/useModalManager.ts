@@ -14,6 +14,7 @@ type TShowModalOptions = {
 
 type THideModalOptions = {
     shouldHideAllModals?: boolean;
+    shouldHidePreviousModal?: boolean;
 };
 
 const MODAL_QUERY_SEPARATOR = ',';
@@ -85,6 +86,18 @@ export default function useModalManager(config?: TUseModalManagerConfig) {
                     actions.set(key, false);
                     deleteQueryString('modal');
                 });
+            } else if (options?.shouldHidePreviousModal) {
+                const currentModalId = modalIds.pop();
+                if (currentModalId) {
+                    actions.set(currentModalId, false);
+                    if (modalIds.length === 0) {
+                        deleteQueryString('modal');
+                    } else {
+                        setQueryString({
+                            modal: modalIds.join(MODAL_QUERY_SEPARATOR),
+                        });
+                    }
+                }
             } else {
                 const currentModalId = modalIds.pop();
                 const previousModalId = modalIds.slice(-1)[0];

@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TCurrency } from 'types';
 import { LightDivider } from '@/components';
@@ -10,36 +10,40 @@ import './BuySellAmount.scss';
 
 type TBuySellAmountProps = {
     accountCurrency: string;
-    amount: string;
+    buySellAmount: string;
     calculatedRate: string;
     control: ReturnType<typeof useForm>['control'];
+    inputValue: string;
     isBuy: boolean;
     isDisabled: boolean;
     localCurrency: TCurrency;
     maxLimit: string;
     minLimit: string;
     paymentMethodNames?: string[];
+    setBuySellAmount: (value: string) => void;
+    setInputValue: (value: string) => void;
     setValue: ReturnType<typeof useForm>['setValue'];
     trigger: ReturnType<typeof useForm>['trigger'];
 };
 const BuySellAmount = ({
     accountCurrency,
-    amount,
+    buySellAmount,
     calculatedRate,
     control,
+    inputValue,
     isBuy,
     isDisabled,
     localCurrency,
     maxLimit,
     minLimit,
     paymentMethodNames,
+    setBuySellAmount,
+    setInputValue,
     setValue,
     trigger,
 }: TBuySellAmountProps) => {
     const { isMobile } = useDevice();
     const labelSize = isMobile ? 'sm' : 'xs';
-    const [inputValue, setInputValue] = useState(minLimit);
-    const [buySellAmount, setBuySellAmount] = useState(amount);
 
     useEffect(() => {
         setBuySellAmount(
@@ -47,7 +51,7 @@ const BuySellAmount = ({
                 currency: localCurrency,
             })
         );
-    }, [calculatedRate, inputValue, localCurrency]);
+    }, [calculatedRate, inputValue, localCurrency, setBuySellAmount]);
 
     // This is needed as minLimit can be passed as the default 0 on first time render
     // causing the amount to be 0
@@ -55,7 +59,7 @@ const BuySellAmount = ({
         setInputValue(minLimit);
         setValue('amount', minLimit);
         trigger('amount');
-    }, [minLimit, setValue, trigger]);
+    }, [minLimit, setInputValue, setValue, trigger]);
 
     return (
         <div className='flex flex-col gap-[2rem] py-[1.6rem]'>
