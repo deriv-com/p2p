@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { GuideModal } from '@/components/Modals';
-import { BUY_SELL_URL, GUIDE_URL } from '@/constants';
-import { api, useModalManager } from '@/hooks';
+import { BUY_SELL_URL } from '@/constants';
+import { api } from '@/hooks';
+import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
-import { LabelPairedBookCircleQuestionLgRegularIcon } from '@deriv/quill-icons';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
-import { LocalStorageUtils } from '@deriv-com/utils';
 import Router from '../Router';
 import { routes } from '../routes-config';
 import './index.scss';
@@ -24,9 +22,7 @@ const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
-    const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
-    const isGuideVisible = LocalStorageUtils.getValue('should_show_p2p_guide') === true;
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -47,10 +43,6 @@ const AppContent = () => {
 
     useEffect(() => {
         if (activeAccountData) {
-            if (LocalStorageUtils.getValue('should_show_p2p_guide') === null) {
-                LocalStorageUtils.setValue<boolean>('should_show_p2p_guide', true);
-                showModal('GuideModal');
-            }
             subscribeP2PSettings({});
         }
 
@@ -109,13 +101,7 @@ const AppContent = () => {
                                 <Tab key={route.name} title={route.name!} />
                             ))}
                         </Tabs>
-                        {isDesktop && isGuideVisible && (
-                            <LabelPairedBookCircleQuestionLgRegularIcon
-                                className='app-content__guide-icon'
-                                onClick={() => history.push(GUIDE_URL)}
-                            />
-                        )}
-                        {isModalOpenFor('GuideModal') && <GuideModal isModalOpen onRequestClose={hideModal} />}
+                        {isDesktop && <GuideTooltip />}
                         <Router />
                     </div>
                 )}

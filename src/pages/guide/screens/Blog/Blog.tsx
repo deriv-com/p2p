@@ -1,4 +1,6 @@
-import { HOW_TO_PROTECT_YOURSELF_IMAGE_URL, HOW_TO_PROTECT_YOURSELF_URL } from '@/constants';
+//TODO: Replace this with Quill icon once ready
+import { ReactComponent as BlogIcon } from '@/assets/blog.svg';
+import { HOW_TO_PROTECT_YOURSELF_URL } from '@/constants';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { Carousel, GuideCard } from '../../components';
@@ -24,12 +26,11 @@ const Blog = () => {
                             </div>
                         }
                         icon={
-                            //TODO: Replace this with Quill icon once ready
-                            <img
+                            <BlogIcon
                                 onClick={() => {
                                     window.location.href = HOW_TO_PROTECT_YOURSELF_URL;
                                 }}
-                                src={HOW_TO_PROTECT_YOURSELF_IMAGE_URL}
+                                preserveAspectRatio='none'
                             />
                         }
                         key={0}

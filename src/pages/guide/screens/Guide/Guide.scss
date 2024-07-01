@@ -58,6 +58,10 @@
 
             &--link {
                 color: #ff444f;
+
+                @include desktop {
+                    cursor: pointer;
+                }
             }
 
             &--tab {
