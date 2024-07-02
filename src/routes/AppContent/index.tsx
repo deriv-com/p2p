@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
+import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
@@ -10,7 +11,11 @@ import { routes } from '../routes-config';
 import './index.scss';
 
 const tabRoutesConfiguration = routes.filter(
-    route => route.name !== 'Advertiser' && route.name !== 'Endpoint' && route.name !== 'P2PRedirectHandler'
+    route =>
+        route.name !== 'Advertiser' &&
+        route.name !== 'Endpoint' &&
+        route.name !== 'Guide' &&
+        route.name !== 'P2PRedirectHandler'
 );
 
 const AppContent = () => {
@@ -40,6 +45,7 @@ const AppContent = () => {
         if (activeAccountData) {
             subscribeP2PSettings({});
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeAccountData]);
 
@@ -51,8 +57,11 @@ const AppContent = () => {
     // Need this to subscribe to advertiser info after user has created an advertiser.
     // setHasCreatedAdvertiser is triggered inside of NicknameModal.
     useEffect(() => {
-        if (hasCreatedAdvertiser) subscribeAdvertiserInfo({});
-    }, [hasCreatedAdvertiser, subscribeAdvertiserInfo]);
+        if (hasCreatedAdvertiser) {
+            subscribeAdvertiserInfo({});
+            setHasCreatedAdvertiser(false);
+        }
+    }, [hasCreatedAdvertiser, setHasCreatedAdvertiser, subscribeAdvertiserInfo]);
 
     useEffect(() => {
         setActiveTab(getActiveTab(location.pathname));
@@ -92,9 +101,10 @@ const AppContent = () => {
                             variant='secondary'
                         >
                             {tabRoutesConfiguration.map(route => (
-                                <Tab key={route.name} title={route.name!} />
+                                <Tab key={route.name} title={route.name} />
                             ))}
                         </Tabs>
+                        {isDesktop && !isEndpointRoute && <GuideTooltip />}
                         <Router />
                     </div>
                 )}
