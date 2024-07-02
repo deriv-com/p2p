@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { useShallow } from 'zustand/react/shallow';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { api, useModalManager } from '@/hooks';
+import { useBuySellFiltersStore } from '@/stores';
 import { LabelPairedChevronRightLgRegularIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Modal, Text, ToggleSwitch, useDevice } from '@deriv-com/ui';
@@ -12,29 +14,28 @@ import './FilterModal.scss';
 
 type TFilterModalProps = {
     isModalOpen: boolean;
-    isToggled: boolean;
     onRequestClose: () => void;
-    onToggle: (value: boolean) => void;
-    selectedPaymentMethods: string[];
-    setSelectedPaymentMethods: (value: string[]) => void;
 };
 
-const FilterModal = ({
-    isModalOpen,
-    isToggled,
-    onRequestClose,
-    onToggle,
-    selectedPaymentMethods,
-    setSelectedPaymentMethods,
-}: TFilterModalProps) => {
+const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { data } = api.paymentMethods.useGet();
     const { localize } = useTranslations();
-    const [showPaymentMethods, setShowPaymentMethods] = useState<boolean>(false);
-    const [isMatching, setIsMatching] = useState<boolean>(isToggled);
-    const [paymentMethods, setPaymentMethods] = useState<string[]>(selectedPaymentMethods);
-    const [paymentMethodNames, setPaymentMethodNames] = useState<string>('All');
     const { isMobile } = useDevice();
+    const { selectedPaymentMethods, setSelectedPaymentMethods, setShouldUseClientLimits, shouldUseClientLimits } =
+        useBuySellFiltersStore(
+            useShallow(state => ({
+                selectedPaymentMethods: state.selectedPaymentMethods,
+                setSelectedPaymentMethods: state.setSelectedPaymentMethods,
+                setShouldUseClientLimits: state.setShouldUseClientLimits,
+                shouldUseClientLimits: state.shouldUseClientLimits,
+            }))
+        );
+
+    const [showPaymentMethods, setShowPaymentMethods] = useState(false);
+    const [isMatching, setIsMatching] = useState(shouldUseClientLimits);
+    const [paymentMethods, setPaymentMethods] = useState<string[]>(selectedPaymentMethods);
+    const [paymentMethodNames, setPaymentMethodNames] = useState('All');
     const [isHidden, setIsHidden] = useState(false);
 
     const filterOptions = [
@@ -54,7 +55,7 @@ const FilterModal = ({
     const sortedSelectedPaymentMethods = [...selectedPaymentMethods].sort((a, b) => a.localeCompare(b));
     const sortedPaymentMethods = [...paymentMethods].sort((a, b) => a.localeCompare(b));
     const hasSamePaymentMethods = JSON.stringify(sortedSelectedPaymentMethods) === JSON.stringify(sortedPaymentMethods);
-    const hasSameMatching = isToggled === isMatching;
+    const hasSameMatching = shouldUseClientLimits === isMatching;
     const hasSameFilters = hasSamePaymentMethods && hasSameMatching;
     const headerText = showPaymentMethods ? localize('Payment methods') : localize('Filter');
 
@@ -63,7 +64,7 @@ const FilterModal = ({
             setShowPaymentMethods(false);
         } else {
             setSelectedPaymentMethods(paymentMethods);
-            onToggle(isMatching);
+            setShouldUseClientLimits(isMatching);
             onRequestClose();
         }
     };
