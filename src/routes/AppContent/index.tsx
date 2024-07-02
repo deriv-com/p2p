@@ -84,24 +84,22 @@ const AppContent = () => {
                 {isLoadingActiveAccount && !isEndpointRoute ? (
                     <Loader />
                 ) : (
-                    <>
-                        <div className='app-content__body'>
-                            <Tabs
-                                activeTab={activeTab}
-                                className='app-content__tabs'
-                                onChange={index => {
-                                    setActiveTab(tabRoutesConfiguration[index].name);
-                                    history.push(tabRoutesConfiguration[index].path);
-                                }}
-                                variant='secondary'
-                            >
-                                {tabRoutesConfiguration.map(route => (
-                                    <Tab key={route.name} title={route.name} />
-                                ))}
-                            </Tabs>
-                            <Router />
-                        </div>
-                    </>
+                    <div className='app-content__body'>
+                        <Tabs
+                            activeTab={activeTab}
+                            className='app-content__tabs'
+                            onChange={index => {
+                                setActiveTab(tabRoutesConfiguration[index].name);
+                                history.push(tabRoutesConfiguration[index].path);
+                            }}
+                            variant='secondary'
+                        >
+                            {tabRoutesConfiguration.map(route => (
+                                <Tab key={route.name} title={route.name} />
+                            ))}
+                        </Tabs>
+                        <Router />
+                    </div>
                 )}
             </div>
         </AdvertiserInfoStateProvider>

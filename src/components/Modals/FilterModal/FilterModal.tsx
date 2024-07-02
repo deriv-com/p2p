@@ -32,10 +32,10 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
             }))
         );
 
-    const [showPaymentMethods, setShowPaymentMethods] = useState<boolean>(false);
-    const [isMatching, setIsMatching] = useState<boolean>(shouldUseClientLimits);
+    const [showPaymentMethods, setShowPaymentMethods] = useState(false);
+    const [isMatching, setIsMatching] = useState(shouldUseClientLimits);
     const [paymentMethods, setPaymentMethods] = useState<string[]>(selectedPaymentMethods);
-    const [paymentMethodNames, setPaymentMethodNames] = useState<string>('All');
+    const [paymentMethodNames, setPaymentMethodNames] = useState('All');
     const [isHidden, setIsHidden] = useState(false);
 
     const filterOptions = [
