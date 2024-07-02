@@ -1,9 +1,10 @@
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Accordion, Text, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
 
 const FAQs = () => {
     const { isDesktop } = useDevice();
+    const { localize } = useTranslations();
 
     return (
         <div>
@@ -22,7 +23,7 @@ const FAQs = () => {
                     <Localize i18n_default_text='Learn more' />
                 </Text>
             </div>
-            <Accordion defaultOpen title='How to register for Deriv P2P?' variant='underline'>
+            <Accordion defaultOpen title={localize('How to register for Deriv P2P?')} variant='underline'>
                 <Text as='div' className='mb-[0.5rem]' lineHeight='xl' size='sm'>
                     <Localize
                         components={[
@@ -39,12 +40,15 @@ const FAQs = () => {
                     <Localize i18n_default_text='Once your submitted document has been approved, go to Cashier > Deriv P2P to register your Deriv P2P account.' />
                 </Text>
             </Accordion>
-            <Accordion title='Why is my Deriv P2P balance different from my Deriv account balance?' variant='underline'>
+            <Accordion
+                title={localize('Why is my Deriv P2P balance different from my Deriv account balance?')}
+                variant='underline'
+            >
                 <Text size='sm'>
                     <Localize i18n_default_text='Your Deriv P2P balance may not include all deposits made to your Deriv account. Deposits via credit and debit cards (including Maestro and Diners Club), ZingPay, Skrill, Neteller, and Direct Banking Nigeria will not be available in Deriv P2P.' />
                 </Text>
             </Accordion>
-            <Accordion title='How secure is Deriv P2P?' variant='underline'>
+            <Accordion title={localize('How secure is Deriv P2P?')} variant='underline'>
                 <Text as='div' className='mb-[0.5rem]' lineHeight='xl' size='sm'>
                     <Localize i18n_default_text='Here are some of the ways we ensure that Deriv P2P is as secure as possible:' />
                 </Text>
@@ -67,7 +71,7 @@ const FAQs = () => {
                     <Localize i18n_default_text='Dual-layer verification is applied to every Deriv P2P transaction as an extra layer of security before funds are released.' />
                 </Text>
             </Accordion>
-            <Accordion title='Can I increase my daily buy or sell limit on Deriv P2P?' variant='underline'>
+            <Accordion title={localize('Can I increase my daily buy or sell limit on Deriv P2P?')} variant='underline'>
                 <Text as='div' className='mb-[0.5rem]' lineHeight='xl' size='sm'>
                     <Localize i18n_default_text="Yes, as long as you pass our checks. Initially, you'll start with a 500 USD limit for buy and sell orders." />
                 </Text>
@@ -85,7 +89,7 @@ const FAQs = () => {
                 </Text>
             </Accordion>
             <Accordion
-                title="What should I do if I have a dispute with the trader I'm dealing with?"
+                title={localize("What should I do if I have a dispute with the trader I'm dealing with?")}
                 variant='underline'
             >
                 <Text as='div' className='mb-[0.5rem]' lineHeight='xl' size='sm'>
