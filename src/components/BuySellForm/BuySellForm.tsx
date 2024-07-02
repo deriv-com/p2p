@@ -250,6 +250,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                         paymentMethodNames={payment_method_names}
                         paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
                         rate={displayEffectiveRate}
+                        rateType={rate_type}
                         ref={scrollRef}
                     />
                     <LightDivider />
