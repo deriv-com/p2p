@@ -281,14 +281,14 @@ describe('useSendbird', () => {
                             handler(message); // Simulate invoking onSucceeded with mock message
                             return {
                                 onFailed: () => {},
-                                onPending: () => {}, // Implement other methods as needed
+                                onPending: () => {},
                                 onSucceeded: () => {},
                             };
                         };
 
                         return {
                             onFailed: () => {},
-                            onPending: () => {}, // Implement other methods as needed
+                            onPending: () => {},
                             onSucceeded,
                         };
                     }),
@@ -316,7 +316,7 @@ describe('useSendbird', () => {
                     getMessagesByTimestamp: jest.fn().mockReturnValue(mockRetrievedMessages),
                     sendFileMessage: mockFn.mockImplementation(({ file, fileName, fileSize, mimeType }) => {
                         const sentMessage = {
-                            channelUrl: 'mockChannelUrl', // Example channelUrl
+                            channelUrl: 'mockChannelUrl',
                             file,
                             fileName,
                             fileSize,
@@ -326,8 +326,6 @@ describe('useSendbird', () => {
 
                         // Simulate onPending callback
                         const onPending = (handler: () => void) => {
-                            // Simulate setIsFileUploading(true);
-                            // Example: setIsFileUploading(true);
                             handler(); // Call the handler
                             return { onFailed, onPending, onSucceeded };
                         };
@@ -335,11 +333,11 @@ describe('useSendbird', () => {
                         // Simulate onSucceeded callback
                         const onSucceeded = (
                             handler: (arg0: {
-                                channelUrl: string; // Example channelUrl
+                                channelUrl: string;
                                 file: File;
                                 fileName: string;
                                 fileSize: number;
-                                isFileMessage: () => boolean; // Mocking isFileMessage for success case
+                                isFileMessage: () => boolean;
                                 mimeType: string;
                             }) => void
                         ) => {
