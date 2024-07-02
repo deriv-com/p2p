@@ -22,17 +22,18 @@ const toAdvertiserMinutes = (duration?: number | null) => {
  * @param advertiserId - ID of the advertiser stats to reveal. If not provided, by default it will return the user's own stats.
  */
 const useAdvertiserStats = (advertiserId?: string) => {
-    const { data, subscribe, unsubscribe } = api.advertiser.useGetInfo(advertiserId);
+    const { data, isLoading: isLoadingInfo, subscribe, unsubscribe } = api.advertiser.useGetInfo(advertiserId);
     const { data: settings, isSuccess: isSuccessSettings } = useGetSettings();
     const { data: authenticationStatus, isSuccess: isSuccessAuthenticationStatus } = api.account.useAuthentication();
+    const { data: activeAccountData } = api.account.useActiveAccount();
     const { error, isIdle, isLoading, isSubscribed } = useAdvertiserInfoState();
 
     useEffect(() => {
-        if (advertiserId) {
+        if (advertiserId && activeAccountData) {
             subscribe({ id: advertiserId });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [advertiserId]);
+    }, [advertiserId, activeAccountData]);
 
     useEffect(() => {
         return () => {
@@ -129,7 +130,7 @@ const useAdvertiserStats = (advertiserId?: string) => {
         data: transformedData,
         error,
         isIdle,
-        isLoading,
+        isLoading: advertiserId ? isLoadingInfo : isLoading,
         isSubscribed,
         unsubscribe,
     };

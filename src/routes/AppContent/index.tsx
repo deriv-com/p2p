@@ -57,8 +57,11 @@ const AppContent = () => {
     // Need this to subscribe to advertiser info after user has created an advertiser.
     // setHasCreatedAdvertiser is triggered inside of NicknameModal.
     useEffect(() => {
-        if (hasCreatedAdvertiser) subscribeAdvertiserInfo({});
-    }, [hasCreatedAdvertiser, subscribeAdvertiserInfo]);
+        if (hasCreatedAdvertiser) {
+            subscribeAdvertiserInfo({});
+            setHasCreatedAdvertiser(false);
+        }
+    }, [hasCreatedAdvertiser, setHasCreatedAdvertiser, subscribeAdvertiserInfo]);
 
     useEffect(() => {
         setActiveTab(getActiveTab(location.pathname));
@@ -98,7 +101,7 @@ const AppContent = () => {
                             variant='secondary'
                         >
                             {tabRoutesConfiguration.map(route => (
-                                <Tab key={route.name} title={route.name!} />
+                                <Tab key={route.name} title={route.name} />
                             ))}
                         </Tabs>
                         {isDesktop && !isEndpointRoute && <GuideTooltip />}
