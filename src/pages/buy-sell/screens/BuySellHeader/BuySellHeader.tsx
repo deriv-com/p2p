@@ -4,7 +4,9 @@ import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
 import { getSortByList } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
+import { GuideTooltip } from '@/pages/guide/components';
 import { useBuySellFiltersStore } from '@/stores';
+import { TSortByValues } from '@/utils';
 import { getLocalizedTabs } from '@/utils/tabs';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
@@ -40,16 +42,19 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
             })}
             data-testid='dt_buy_sell_header'
         >
-            <Tabs
-                TitleFontSize={isMobile ? 'md' : 'sm'}
-                activeTab={getLocalizedTabs(localize)[activeTab]}
-                onChange={setActiveTab}
-                variant='primary'
-                wrapperClassName='buy-sell-header__tabs'
-            >
-                <Tab title={localize('Buy')} />
-                <Tab title={localize('Sell')} />
-            </Tabs>
+            <div className='buy-sell-header__row justify-between'>
+                <Tabs
+                    TitleFontSize={isMobile ? 'md' : 'sm'}
+                    activeTab={getLocalizedTabs(localize)[activeTab]}
+                    onChange={setActiveTab}
+                    variant='primary'
+                    wrapperClassName='buy-sell-header__tabs'
+                >
+                    <Tab title={localize('Buy')} />
+                    <Tab title={localize('Sell')} />
+                </Tabs>
+                {isMobile && <GuideTooltip />}
+            </div>
             <div className='buy-sell-header__row'>
                 <div className='flex flex-row-reverse lg:flex-row gap-4'>
                     <CurrencyDropdown selectedCurrency={filteredCurrency} setSelectedCurrency={setFilteredCurrency} />

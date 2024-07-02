@@ -1,5 +1,6 @@
 .app-content {
     &__body {
+        position: relative;
         overflow: hidden;
         height: calc(100vh - 10rem);
 
