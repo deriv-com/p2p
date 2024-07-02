@@ -38,6 +38,9 @@ jest.mock('@deriv-com/api-hooks', () => ({
 jest.mock('@/hooks', () => ({
     api: {
         account: {
+            useActiveAccount: jest.fn(() => ({
+                data: { currency: 'USD' },
+            })),
             useAuthentication: jest.fn(() => mockUseAuthentication),
         },
         advertiser: {

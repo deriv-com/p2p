@@ -19,7 +19,7 @@ type TRadioGroup = TItemWrapper & {
     name: string;
     onToggle: (e: ChangeEvent<HTMLInputElement>) => void;
     required?: boolean;
-    selected: string;
+    selected?: string;
     textSize?: ComponentProps<typeof Text>['size'];
 };
 

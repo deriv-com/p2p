@@ -7,7 +7,7 @@ type TRadioGroupFilterModalProps = {
     list: readonly { text: string; value: string }[];
     onRequestClose: () => void;
     onToggle: (value: string) => void;
-    selected: string;
+    selected?: string;
 };
 
 const RadioGroupFilterModal = ({
