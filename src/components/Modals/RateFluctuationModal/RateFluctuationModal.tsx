@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './RateFluctuationModal.scss';
@@ -17,6 +18,7 @@ type TRateFluctuationModalProps = {
 const RateFluctuationModal = ({ isModalOpen, onContinue, onRequestClose, values }: TRateFluctuationModalProps) => {
     const { isMobile } = useDevice();
     const buttonText = isMobile ? 'md' : 'sm';
+    const valuesRef = useRef<TRateFluctuationModalProps['values'] | undefined>(values);
 
     return (
         <Modal className='rate-fluctuation-modal' isOpen={isModalOpen}>
@@ -31,10 +33,10 @@ const RateFluctuationModal = ({ isModalOpen, onContinue, onRequestClose, values 
                         components={[<strong key={0} />, <strong key={1} />]}
                         i18n_default_text='You are creating an order to buy <0>{{currency}} {{amount}}</0> for <1>{{localCurrency}} {{receivedAmount}}</1>.'
                         values={{
-                            amount: values.inputAmount,
-                            currency: values.currency,
-                            localCurrency: values.localCurrency,
-                            receivedAmount: values.receivedAmount,
+                            amount: valuesRef?.current?.inputAmount,
+                            currency: valuesRef?.current?.currency,
+                            localCurrency: valuesRef?.current?.localCurrency,
+                            receivedAmount: valuesRef?.current?.receivedAmount,
                         }}
                     />
                 </Text>

@@ -1,9 +1,8 @@
-import clsx from 'clsx';
 import { useShallow } from 'zustand/react/shallow';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
 import { getSortByList } from '@/constants';
-import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
+import { useModalManager } from '@/hooks/custom-hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { useBuySellFiltersStore } from '@/stores';
 import { getLocalizedTabs } from '@/utils/tabs';
@@ -24,7 +23,6 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
-    const isAdvertiserBarred = useIsAdvertiserBarred();
     const { filteredCurrency, setFilteredCurrency, setSortByValue, sortByValue } = useBuySellFiltersStore(
         useShallow(state => ({
             filteredCurrency: state.filteredCurrency,
@@ -35,12 +33,7 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
     );
 
     return (
-        <div
-            className={clsx('buy-sell-header', {
-                'buy-sell-header--has-border': isMobile && !isAdvertiserBarred,
-            })}
-            data-testid='dt_buy_sell_header'
-        >
+        <div className='buy-sell-header' data-testid='dt_buy_sell_header'>
             <div className='buy-sell-header__row justify-between'>
                 <Tabs
                     TitleFontSize={isMobile ? 'md' : 'sm'}
