@@ -5,7 +5,7 @@ import BlockDropdown from '@/components/AdvertiserName/BlockDropdown';
 import { BUY_SELL_URL, MY_PROFILE_URL } from '@/constants';
 import { api, useAdvertiserStats, useModalManager } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
-import { useDevice } from '@deriv-com/ui';
+import { Loader, useDevice } from '@deriv-com/ui';
 import { AdvertiserAdvertsTable } from '../AdvertiserAdvertsTable';
 import { AdvertiserBlockOverlay } from '../AdvertiserBlockOverlay';
 import './Advertiser.scss';
@@ -25,7 +25,7 @@ const Advertiser = () => {
     const history = useHistory();
     const location = useLocation();
 
-    const { data, unsubscribe } = useAdvertiserStats(id);
+    const { data, isLoading, unsubscribe } = useAdvertiserStats(id);
 
     return (
         <div className='advertiser'>
@@ -54,16 +54,20 @@ const Advertiser = () => {
                 size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />
-            <AdvertiserBlockOverlay
-                advertiserName={advertiserName}
-                id={id}
-                isOverlayVisible={showOverlay}
-                onClickUnblock={() => showModal('BlockUnblockUserModal')}
-                setShowOverlay={setShowOverlay}
-            >
-                <ProfileContent data={data} setAdvertiserName={setAdvertiserName} setShowOverlay={setShowOverlay} />
-                <AdvertiserAdvertsTable advertiserId={advertiserId} />
-            </AdvertiserBlockOverlay>
+            {isLoading ? (
+                <Loader className='mt-0 lg:mt-80' />
+            ) : (
+                <AdvertiserBlockOverlay
+                    advertiserName={advertiserName}
+                    id={id}
+                    isOverlayVisible={showOverlay}
+                    onClickUnblock={() => showModal('BlockUnblockUserModal')}
+                    setShowOverlay={setShowOverlay}
+                >
+                    <ProfileContent data={data} setAdvertiserName={setAdvertiserName} setShowOverlay={setShowOverlay} />
+                    <AdvertiserAdvertsTable advertiserId={advertiserId} />
+                </AdvertiserBlockOverlay>
+            )}
         </div>
     );
 };

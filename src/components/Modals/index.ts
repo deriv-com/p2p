@@ -31,3 +31,4 @@ export * from './RadioGroupFilterModal';
 export * from './RateFluctuationModal';
 export * from './RatingModal';
 export * from './ShareAdsModal';
+export * from './VideoPlayerModal';
