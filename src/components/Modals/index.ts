@@ -30,3 +30,4 @@ export * from './PreferredCountriesModal';
 export * from './RadioGroupFilterModal';
 export * from './RatingModal';
 export * from './ShareAdsModal';
+export * from './VideoPlayerModal';

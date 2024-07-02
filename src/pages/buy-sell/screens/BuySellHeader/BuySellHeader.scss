@@ -34,10 +34,6 @@
     }
 
     &__tabs {
-        @include mobile {
-            padding: 1.6rem;
-        }
-
         & .derivs-primary-tabs {
             height: 4rem;
             width: 18rem;
@@ -55,6 +51,7 @@
         display: flex;
         flex-direction: row;
         gap: 1rem;
+        align-items: center;
 
         @include mobile {
             width: 100%;
