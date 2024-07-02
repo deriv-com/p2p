@@ -6,7 +6,6 @@ import { getSortByList } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { useBuySellFiltersStore } from '@/stores';
-import { TSortByValues } from '@/utils';
 import { getLocalizedTabs } from '@/utils/tabs';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
