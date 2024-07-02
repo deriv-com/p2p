@@ -1,5 +1,5 @@
 import { Localize } from '@deriv-com/translations';
-import { Button, Modal, Text } from '@deriv-com/ui';
+import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './RateFluctuationModal.scss';
 
 type TRateFluctuationModalProps = {
@@ -15,6 +15,9 @@ type TRateFluctuationModalProps = {
 };
 
 const RateFluctuationModal = ({ isModalOpen, onContinue, onRequestClose, values }: TRateFluctuationModalProps) => {
+    const { isMobile } = useDevice();
+    const buttonText = isMobile ? 'md' : 'sm';
+
     return (
         <Modal className='rate-fluctuation-modal' isOpen={isModalOpen}>
             <Modal.Header className='p-0 h-fit' hideBorder hideCloseIcon>
@@ -22,7 +25,7 @@ const RateFluctuationModal = ({ isModalOpen, onContinue, onRequestClose, values 
                     <Localize i18n_default_text='Attention: Rate fluctuation' />
                 </Text>
             </Modal.Header>
-            <Modal.Body className='flex flex-col gap-[2.4rem]'>
+            <Modal.Body className='flex flex-col gap-[1.6rem] lg:gap-[2.4rem]'>
                 <Text size='sm'>
                     <Localize
                         components={[<strong key={0} />, <strong key={1} />]}
@@ -48,12 +51,12 @@ const RateFluctuationModal = ({ isModalOpen, onContinue, onRequestClose, values 
                     color='black'
                     onClick={onRequestClose}
                     size='lg'
-                    textSize='md'
+                    textSize={buttonText}
                     variant='outlined'
                 >
                     <Localize i18n_default_text='Cancel' />
                 </Button>
-                <Button onClick={onContinue} size='lg' textSize='md'>
+                <Button onClick={onContinue} size='lg' textSize={buttonText}>
                     <Localize i18n_default_text='Continue with order' />
                 </Button>
             </Modal.Footer>
