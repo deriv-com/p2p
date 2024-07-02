@@ -92,8 +92,8 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const { exchangeRate } = api.exchangeRates.useGet(local_currency);
 
     const [hasRateChanged, setHasRateChanged] = useState(false);
-    const [currentEffectiveRate, setCurrentEffectiveRate] = useState(0);
     const [inputValue, setInputValue] = useState(min_order_amount_limit_display ?? '0');
+    const finalEffectiveRate = useRef<number | undefined>(undefined);
 
     useEffect(() => {
         if (isAdvertiser) {
@@ -156,7 +156,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
             showModal('RateFluctuationModal', { shouldStackModals: false });
             return;
         }
-        const rateValue = rate_type === RATE_TYPE.FIXED ? null : currentEffectiveRate;
+        const rateValue = rate_type === RATE_TYPE.FIXED ? null : finalEffectiveRate.current;
         const payload: TPayload = {
             advert_id: id as string,
             amount: Number(getValues('amount')),
@@ -190,11 +190,10 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     };
 
     useEffect(() => {
-        if (effectiveRate && !isModalOpenFor('RateFluctuationModal')) {
+        if (effectiveRate) {
             setCalculatedRate(removeTrailingZeros(roundOffDecimal(effectiveRate, setDecimalPlaces(effectiveRate, 6))));
-            setCurrentEffectiveRate(effectiveRate);
         }
-    }, [calculatedRate, effectiveRate, isModalOpenFor, min_order_amount_limit]);
+    }, [calculatedRate, effectiveRate, min_order_amount_limit]);
 
     useEffect(() => {
         if (isSuccess && orderCreatedInfo) {
@@ -220,10 +219,13 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     }, [error?.code, error?.message, hideModal, isError, isModalOpenFor, showModal]);
 
     useEffect(() => {
-        if (effectiveRate !== currentEffectiveRate && currentEffectiveRate !== 0) {
-            setHasRateChanged(true);
-        }
-    }, [currentEffectiveRate, effectiveRate]);
+        if (effectiveRate !== finalEffectiveRate.current && finalEffectiveRate.current) setHasRateChanged(true);
+    }, [effectiveRate]);
+
+    // This makes sure the final effective rate in the p2p_order_create payload is not updated when the rate fluctuation modal is open
+    useEffect(() => {
+        if (!isModalOpenFor('RateFluctuationModal')) finalEffectiveRate.current = effectiveRate;
+    }, [effectiveRate, hasRateChanged, isModalOpenFor]);
 
     return (
         <>
@@ -312,7 +314,9 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 )}
                 {isModalOpenFor('ErrorModal') && (
                     <ErrorModal
+                        bodyClassName='py-0 lg:py-4'
                         buttonText={localize('Create new order')}
+                        buttonTextSize={isMobile ? 'md' : 'sm'}
                         hideCloseIcon
                         isModalOpen
                         message={error?.message}
@@ -322,7 +326,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                             hideModal({ shouldHidePreviousModals: true });
                             reset();
                         }}
-                        textSize='md'
+                        textSize='sm'
                         title={localize('Order unsuccessful')}
                     />
                 )}
