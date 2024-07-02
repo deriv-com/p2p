@@ -209,11 +209,15 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 setIsHidden(true);
                 showModal('ErrorModal', { shouldStackModals: false });
             } else {
+                if (isModalOpenFor('RateFluctuationModal')) {
+                    hideModal();
+                    setIsHidden(false);
+                }
                 setErrorMessage(error?.message);
                 scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
             }
         }
-    }, [error?.code, error?.message, isError, showModal]);
+    }, [error?.code, error?.message, hideModal, isError, isModalOpenFor, showModal]);
 
     useEffect(() => {
         if (effectiveRate !== currentEffectiveRate && currentEffectiveRate !== 0) {
@@ -234,7 +238,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     onSubmit={onSubmit}
                 >
                     {errorMessage && (
-                        <div className='px-[2.4rem] mt-[2.4rem]'>
+                        <div className='px-[1.6rem] lg:px-[2.4rem] mt-[1.6rem] lg:mt-[2.4rem]'>
                             <InlineMessage variant='error'>
                                 <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
                             </InlineMessage>
@@ -315,7 +319,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                         onRequestClose={() => {
                             setIsHidden(false);
                             setHasRateChanged(false);
-                            hideModal({ shouldHidePreviousModal: true });
+                            hideModal({ shouldHidePreviousModals: true });
                             reset();
                         }}
                         textSize='md'
