@@ -12,7 +12,7 @@ jest.mock('../../../useInvalidateQuery', () => () => mockUseInvalidateQuery);
 const mockUseP2PAdvertiserPaymentMethods = useP2PAdvertiserPaymentMethods as jest.Mock;
 
 describe('useDeleteAdvertiserPaymentMethods', () => {
-    it('should call the mutate of useP2PAdvertiserPaymentMethods delete function is called', () => {
+    it('should call the mutate of useP2PAdvertiserPaymentMethods when delete function is called', () => {
         const mockMutate = jest.fn();
 
         mockUseP2PAdvertiserPaymentMethods.mockReturnValueOnce({
