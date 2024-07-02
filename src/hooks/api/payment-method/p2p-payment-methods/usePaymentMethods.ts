@@ -9,15 +9,15 @@ const usePaymentMethods = (enabled = true) => {
     });
 
     // Modify the data to add additional information.
-    const modified_data = useMemo(() => {
-        const p2p_payment_methods = data;
+    const modifiedData = useMemo(() => {
+        const p2pPaymentMethods = data;
 
-        if (!p2p_payment_methods) return undefined;
+        if (!p2pPaymentMethods) return undefined;
 
-        return Object.keys(p2p_payment_methods).map((key: string) => {
-            const payment_method = p2p_payment_methods[key];
+        return Object.keys(p2pPaymentMethods).map((key: string) => {
+            const paymentMethod = p2pPaymentMethods[key];
             return {
-                ...payment_method,
+                ...paymentMethod,
                 /** Payment method id */
                 id: key,
             };
@@ -25,7 +25,7 @@ const usePaymentMethods = (enabled = true) => {
     }, [data]);
 
     return {
-        data: modified_data,
+        data: modifiedData,
         ...rest,
     };
 };
