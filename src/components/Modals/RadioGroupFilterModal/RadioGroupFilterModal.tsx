@@ -1,5 +1,4 @@
 import { RadioGroup } from '@/components';
-import { TSortByValues } from '@/utils';
 import { Modal } from '@deriv-com/ui';
 import './RadioGroupFilterModal.scss';
 
@@ -8,7 +7,7 @@ type TRadioGroupFilterModalProps = {
     list: readonly { text: string; value: string }[];
     onRequestClose: () => void;
     onToggle: (value: string) => void;
-    selected: TSortByValues | string;
+    selected?: string;
 };
 
 const RadioGroupFilterModal = ({
