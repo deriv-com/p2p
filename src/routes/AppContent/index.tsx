@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
@@ -67,6 +68,55 @@ const AppContent = () => {
         setActiveTab(getActiveTab(location.pathname));
     }, [location]);
 
+    const isP2pBlocked = activeAccountData && (activeAccountData.is_virtual || activeAccountData.currency !== 'USD');
+
+    // TODO: move to utils
+    const getType = () => {
+        const cryptolist = ['BTC', 'ETH', 'LTC', 'BCH', 'USDT'];
+        const typeMap: {
+            [key: string]: () => boolean;
+        } = {
+            crypto: () => cryptolist.includes(activeAccountData?.currency ?? ''),
+            demo: () => activeAccountData?.is_virtual === 1,
+            nonUSD: () => activeAccountData?.currency !== 'USD',
+        };
+
+        const type = Object.keys(typeMap).find(key => typeMap[key]());
+        return type;
+    };
+
+    const getComponent = () => {
+        let content = null;
+
+        if (isLoadingActiveAccount && !isEndpointRoute) {
+            content = <Loader />;
+        } else if (isP2pBlocked && !isEndpointRoute) {
+            content = <BlockedScenarios type={getType() ?? 'demo'} />;
+        } else {
+            content = (
+                <div className='app-content__body'>
+                    <Tabs
+                        activeTab={activeTab}
+                        className='app-content__tabs'
+                        onChange={index => {
+                            setActiveTab(tabRoutesConfiguration[index].name);
+                            history.push(tabRoutesConfiguration[index].path);
+                        }}
+                        variant='secondary'
+                    >
+                        {tabRoutesConfiguration.map(route => (
+                            <Tab key={route.name} title={route.name} />
+                        ))}
+                    </Tabs>
+                    {isDesktop && !isEndpointRoute && <GuideTooltip />}
+                    <Router />
+                </div>
+            );
+        }
+
+        return content;
+    };
+
     return (
         <AdvertiserInfoStateProvider
             value={{
@@ -87,27 +137,7 @@ const AppContent = () => {
                 >
                     Deriv P2P
                 </Text>
-                {isLoadingActiveAccount && !isEndpointRoute ? (
-                    <Loader />
-                ) : (
-                    <div className='app-content__body'>
-                        <Tabs
-                            activeTab={activeTab}
-                            className='app-content__tabs'
-                            onChange={index => {
-                                setActiveTab(tabRoutesConfiguration[index].name);
-                                history.push(tabRoutesConfiguration[index].path);
-                            }}
-                            variant='secondary'
-                        >
-                            {tabRoutesConfiguration.map(route => (
-                                <Tab key={route.name} title={route.name} />
-                            ))}
-                        </Tabs>
-                        {isDesktop && !isEndpointRoute && <GuideTooltip />}
-                        <Router />
-                    </div>
-                )}
+                {getComponent()}
             </div>
         </AdvertiserInfoStateProvider>
     );
