@@ -4,8 +4,10 @@ import clsx from 'clsx';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { TCurrency, THooks, TPaymentMethod } from 'types';
+import { ErrorModal, RateFluctuationModal } from '@/components/Modals';
 import { BUY_SELL, ERROR_CODES, ORDERS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
+import useInvalidateQuery from '@/hooks/api/useInvalidateQuery';
 import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
 import {
     generateEffectiveRate,
@@ -18,7 +20,6 @@ import { useTranslations } from '@deriv-com/translations';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import { LightDivider } from '../LightDivider';
-import { ErrorModal, RateFluctuationModal } from '../Modals';
 import { BuySellAmount } from './BuySellAmount';
 import { BuySellData } from './BuySellData';
 import BuySellFormDisplayWrapper from './BuySellFormDisplayWrapper';
@@ -67,6 +68,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     } = data || {};
 
     const isAdvertiser = useIsAdvertiser();
+    const invalidate = useInvalidateQuery();
 
     const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<number[]>([]);
     const [calculatedRate, setCalculatedRate] = useState('0');
@@ -195,6 +197,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const onCloseBuySellForm = () => {
         onRequestClose();
         unsubscribe();
+        invalidate('p2p_advert_list');
     };
 
     useEffect(() => {
@@ -257,121 +260,117 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     }, [effectiveRate, hasRateChanged, isModalOpenFor]);
 
     return (
-        <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <BuySellFormDisplayWrapper
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <BuySellFormDisplayWrapper
+                accountCurrency={account_currency as TCurrency}
+                isBuy={isBuy}
+                isHidden={isHidden}
+                isModalOpen={isModalOpen}
+                isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
+                onRequestClose={onCloseBuySellForm}
+                onSubmit={onSubmit}
+            >
+                {errorMessage && (
+                    <div className='px-[1.6rem] lg:px-[2.4rem] mt-[1.6rem] lg:mt-[2.4rem]'>
+                        <InlineMessage variant='error'>
+                            <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
+                        </InlineMessage>
+                    </div>
+                )}
+                <BuySellData
                     accountCurrency={account_currency as TCurrency}
+                    expiryPeriod={order_expiry_period ?? 3600}
+                    instructions={description ?? '-'}
                     isBuy={isBuy}
-                    isHidden={isHidden}
-                    isModalOpen={isModalOpen}
-                    isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
-                    onRequestClose={onCloseBuySellForm}
-                    onSubmit={onSubmit}
-                >
-                    {errorMessage && (
-                        <div className='px-[1.6rem] lg:px-[2.4rem] mt-[1.6rem] lg:mt-[2.4rem]'>
-                            <InlineMessage variant='error'>
-                                <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
-                            </InlineMessage>
-                        </div>
-                    )}
-                    <BuySellData
-                        accountCurrency={account_currency as TCurrency}
-                        expiryPeriod={order_expiry_period ?? 3600}
-                        instructions={description ?? '-'}
-                        isBuy={isBuy}
-                        localCurrency={local_currency as TCurrency}
-                        name={advertiser_details?.name ?? ''}
-                        paymentMethodNames={payment_method_names}
-                        paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
-                        rate={displayEffectiveRate}
-                        rateType={rate_type}
-                        ref={scrollRef}
+                    localCurrency={local_currency as TCurrency}
+                    name={advertiser_details?.name ?? ''}
+                    paymentMethodNames={payment_method_names}
+                    paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
+                    rate={displayEffectiveRate}
+                    rateType={rate_type}
+                    ref={scrollRef}
+                />
+                <LightDivider />
+                {isBuy && payment_method_names && payment_method_names?.length > 0 && (
+                    <BuySellPaymentSection
+                        availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
+                        onSelectPaymentMethodCard={onSelectPaymentMethodCard}
+                        selectedPaymentMethodIds={selectedPaymentMethods}
+                        setIsHidden={setIsHidden}
                     />
-                    <LightDivider />
-                    {isBuy && payment_method_names && payment_method_names?.length > 0 && (
-                        <BuySellPaymentSection
-                            availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
-                            onSelectPaymentMethodCard={onSelectPaymentMethodCard}
-                            selectedPaymentMethodIds={selectedPaymentMethods}
-                            setIsHidden={setIsHidden}
-                        />
+                )}
+                <BuySellAmount
+                    accountCurrency={account_currency as TCurrency}
+                    buySellAmount={buySellAmount}
+                    calculatedRate={calculatedRate}
+                    control={control as unknown as Control<FieldValues>}
+                    inputValue={inputValue}
+                    isBuy={isBuy}
+                    isDisabled={shouldDisableField}
+                    localCurrency={local_currency as TCurrency}
+                    maxLimit={getAdvertiserMaxLimit(
+                        isBuy,
+                        Number(daily_buy_limit) - Number(daily_buy),
+                        Number(daily_sell_limit) - Number(daily_sell),
+                        max_order_amount_limit_display ?? '0'
                     )}
-                    <BuySellAmount
-                        accountCurrency={account_currency as TCurrency}
-                        buySellAmount={buySellAmount}
-                        calculatedRate={calculatedRate}
-                        control={control as unknown as Control<FieldValues>}
-                        inputValue={inputValue}
-                        isBuy={isBuy}
-                        isDisabled={shouldDisableField}
-                        localCurrency={local_currency as TCurrency}
-                        maxLimit={getAdvertiserMaxLimit(
-                            isBuy,
-                            Number(daily_buy_limit) - Number(daily_buy),
-                            Number(daily_sell_limit) - Number(daily_sell),
-                            max_order_amount_limit_display ?? '0'
-                        )}
-                        minLimit={min_order_amount_limit_display ?? '0'}
-                        paymentMethodNames={payment_method_names}
-                        setBuySellAmount={setBuySellAmount}
-                        setInputValue={setInputValue}
-                        setValue={setValue as unknown as (name: string, value: string) => void}
-                        trigger={trigger as unknown as () => Promise<boolean>}
-                    />
-                </BuySellFormDisplayWrapper>
-                {isModalOpenFor('RateFluctuationModal') && (
-                    <RateFluctuationModal
-                        isModalOpen
-                        onContinue={() => {
-                            handleSubmit(onSubmit)();
-                        }}
-                        onRequestClose={() => {
+                    minLimit={min_order_amount_limit_display ?? '0'}
+                    paymentMethodNames={payment_method_names}
+                    setBuySellAmount={setBuySellAmount}
+                    setInputValue={setInputValue}
+                    setValue={setValue as unknown as (name: string, value: string) => void}
+                    trigger={trigger as unknown as () => Promise<boolean>}
+                />
+            </BuySellFormDisplayWrapper>
+            {isModalOpenFor('RateFluctuationModal') && (
+                <RateFluctuationModal
+                    isModalOpen
+                    onContinue={handleSubmit(onSubmit)}
+                    onRequestClose={() => {
+                        hideModal();
+                        setIsHidden(false);
+                        setHasRateChanged(false);
+                    }}
+                    values={{
+                        currency: account_currency ?? '',
+                        inputAmount: FormatUtils.formatMoney(Number(inputValue), {
+                            currency: local_currency as TCurrency,
+                        }),
+                        localCurrency: local_currency,
+                        receivedAmount: buySellAmount,
+                    }}
+                />
+            )}
+            {isModalOpenFor('ErrorModal') && (
+                <ErrorModal
+                    bodyClassName={clsx({ 'py-0 lg:py-4': !hasCounterpartyRateChanged })}
+                    buttonText={hasCounterpartyRateChanged ? localize('Try again') : localize('Create new order')}
+                    buttonTextSize={isMobile ? 'md' : 'sm'}
+                    hideCloseIcon
+                    isModalOpen
+                    message={
+                        hasCounterpartyRateChanged
+                            ? localize('The advertiser changed the rate before you confirmed the order.')
+                            : error?.message
+                    }
+                    onRequestClose={() => {
+                        if (hasCounterpartyRateChanged) {
                             hideModal();
-                            setIsHidden(false);
-                            setHasRateChanged(false);
-                        }}
-                        values={{
-                            currency: account_currency ?? '',
-                            inputAmount: FormatUtils.formatMoney(Number(inputValue), {
-                                currency: local_currency as TCurrency,
-                            }),
-                            localCurrency: local_currency,
-                            receivedAmount: buySellAmount,
-                        }}
-                    />
-                )}
-                {isModalOpenFor('ErrorModal') && (
-                    <ErrorModal
-                        bodyClassName={clsx({ 'py-0 lg:py-4': !hasCounterpartyRateChanged })}
-                        buttonText={hasCounterpartyRateChanged ? localize('Try again') : localize('Create new order')}
-                        buttonTextSize={isMobile ? 'md' : 'sm'}
-                        hideCloseIcon
-                        isModalOpen
-                        message={
-                            hasCounterpartyRateChanged
-                                ? localize('The advertiser changed the rate before you confirmed the order.')
-                                : error?.message
+                            setHasCounterpartyRateChanged(false);
+                            counterpartyRateRef.current = undefined;
+                        } else {
+                            hideModal({ shouldHidePreviousModals: true });
+                            reset();
                         }
-                        onRequestClose={() => {
-                            if (hasCounterpartyRateChanged) {
-                                hideModal();
-                                setHasCounterpartyRateChanged(false);
-                                counterpartyRateRef.current = undefined;
-                            } else {
-                                hideModal({ shouldHidePreviousModals: true });
-                                reset();
-                            }
-                            setHasRateChanged(false);
-                            setIsHidden(false);
-                        }}
-                        showTitle={!hasCounterpartyRateChanged}
-                        textSize='sm'
-                        title={localize('Order unsuccessful')}
-                    />
-                )}
-            </form>
-        </>
+                        setHasRateChanged(false);
+                        setIsHidden(false);
+                    }}
+                    showTitle={!hasCounterpartyRateChanged}
+                    textSize='sm'
+                    title={localize('Order unsuccessful')}
+                />
+            )}
+        </form>
     );
 };
 

@@ -21,7 +21,7 @@ const RateFluctuationModal = ({ isModalOpen, onContinue, onRequestClose, values 
     const valuesRef = useRef<TRateFluctuationModalProps['values'] | undefined>(values);
 
     return (
-        <Modal className='rate-fluctuation-modal' isOpen={isModalOpen}>
+        <Modal ariaHideApp={false} className='rate-fluctuation-modal' isOpen={isModalOpen}>
             <Modal.Header className='p-0 h-fit' hideBorder hideCloseIcon>
                 <Text weight='bold'>
                     <Localize i18n_default_text='Attention: Rate fluctuation' />
