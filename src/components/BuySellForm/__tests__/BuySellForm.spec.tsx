@@ -94,6 +94,10 @@ const mockAdvertInfo = {
     unsubscribe: jest.fn(),
 };
 
+const mockInvalidate = jest.fn();
+
+jest.mock('@/hooks/api/useInvalidateQuery', () => () => mockInvalidate);
+
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
