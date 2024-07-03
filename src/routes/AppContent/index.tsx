@@ -6,6 +6,7 @@ import { api } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
+import { getBlockedType } from '@/utils/account';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
 import Router from '../Router';
 import { routes } from '../routes-config';
@@ -23,7 +24,7 @@ const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
-    const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
+    const { data: activeAccountData, isFetched, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -70,29 +71,14 @@ const AppContent = () => {
 
     const isP2pBlocked = activeAccountData && (activeAccountData.is_virtual || activeAccountData.currency !== 'USD');
 
-    // TODO: move to utils
-    const getType = () => {
-        const cryptolist = ['BTC', 'ETH', 'LTC', 'BCH', 'USDT'];
-        const typeMap: {
-            [key: string]: () => boolean;
-        } = {
-            crypto: () => cryptolist.includes(activeAccountData?.currency ?? ''),
-            demo: () => activeAccountData?.is_virtual === 1,
-            nonUSD: () => activeAccountData?.currency !== 'USD',
-        };
-
-        const type = Object.keys(typeMap).find(key => typeMap[key]());
-        return type;
-    };
-
     const getComponent = () => {
         let content = null;
 
-        if (isLoadingActiveAccount && !isEndpointRoute) {
+        if ((isLoadingActiveAccount || !isFetched) && !isEndpointRoute) {
             content = <Loader />;
         } else if (isP2pBlocked && !isEndpointRoute) {
-            content = <BlockedScenarios type={getType() ?? 'demo'} />;
-        } else {
+            content = <BlockedScenarios type={getBlockedType(activeAccountData) ?? 'demo'} />;
+        } else if (isFetched) {
             content = (
                 <div className='app-content__body'>
                     <Tabs

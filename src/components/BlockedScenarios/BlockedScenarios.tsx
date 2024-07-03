@@ -15,6 +15,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     const { isDesktop } = useDevice();
 
     const buttonTextSize = isDesktop ? 'sm' : 'md';
+    const iconSize = isDesktop ? 128 : 96;
     const blockedScenarios: TBlockedScenariosObject = {
         crypto: {
             actionButtons: (
@@ -23,11 +24,11 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                 </Button>
             ),
             description: (
-                <Text>
+                <Text align='center'>
                     <Localize i18n_default_text='Please switch to your USD account to access the Deriv P2P marketplace.' />
                 </Text>
             ),
-            icon: <P2pUnavailable />,
+            icon: <P2pUnavailable height={iconSize} width={iconSize} />,
             title: (
                 <Text weight='bold'>
                     <Localize i18n_default_text='Crypto is not supported for Deriv P2P!' />
@@ -41,11 +42,11 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                 </Button>
             ),
             description: (
-                <Text>
+                <Text align='center'>
                     <Localize i18n_default_text='Please switch to Real USD account to access the Deriv P2P marketplace.' />
                 </Text>
             ),
-            icon: <P2pUnavailable />,
+            icon: <P2pUnavailable height={iconSize} width={iconSize} />,
             title: (
                 <Text weight='bold'>
                     <Localize i18n_default_text='You are using a demo account' />
@@ -59,11 +60,11 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                 </Button>
             ),
             description: (
-                <Text>
+                <Text align='center'>
                     <Localize i18n_default_text='Please create a Real USD account to access the Deriv P2P marketplace.' />
                 </Text>
             ),
-            icon: <P2pUnavailable />,
+            icon: <P2pUnavailable height={iconSize} width={iconSize} />,
             title: (
                 <Text weight='bold'>
                     <Localize i18n_default_text='You have no Real USD account' />
@@ -72,7 +73,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         },
     };
     return (
-        <div className='pt-[2.4rem] mt-[2.4rem]'>
+        <div className='pt-[2.4rem] m-[2.4rem]'>
             <ActionScreen
                 actionButtons={blockedScenarios[type].actionButtons}
                 description={blockedScenarios[type].description}
