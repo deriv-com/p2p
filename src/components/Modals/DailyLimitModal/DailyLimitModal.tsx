@@ -1,8 +1,7 @@
-import Modal from 'react-modal';
+import clsx from 'clsx';
 import { api } from '@/hooks';
 import { Localize } from '@deriv-com/translations';
-import { Button, Loader, Text, useDevice } from '@deriv-com/ui';
-import { customStyles } from '../helpers';
+import { Button, Loader, Modal, Text, useDevice } from '@deriv-com/ui';
 import './DailyLimitModal.scss';
 
 type TDailyLimitModalProps = {
@@ -14,84 +13,101 @@ type TDailyLimitModalProps = {
 const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitModalProps) => {
     const { data, error, isPending: isLoading, isSuccess, mutate } = api.advertiser.useUpdate();
     const { daily_buy_limit, daily_sell_limit } = data ?? {};
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
+    const headerTextSize = isDesktop ? 'md' : 'lg';
 
-    const getModalContent = () => {
-        //TODO: modal header title to be moved out if needed according to implementation, can be moved to a separate getheader, getcontent, getfooter functions
-        if (isLoading) {
-            return <Loader />;
-        } else if (isSuccess) {
-            return (
+    const modalContent = {
+        default: {
+            body: (
+                <Localize i18n_default_text='You won’t be able to change your buy and sell limits again after this. Do you want to continue?' />
+            ),
+            footer: (
                 <>
-                    <Text color='prominent' weight='bold'>
-                        <Localize
-                            i18n_default_text='
-                        Success! '
-                        />
-                    </Text>
-                    <Text as='p' className='daily-limit-modal__text' color='prominent' size='sm'>
-                        <Localize
-                            i18n_default_text={`Your daily limits have been increased to ${daily_buy_limit} ${currency} (buy) and ${daily_sell_limit} ${currency} (sell).`}
-                        />
-                    </Text>
-                    <div className='daily-limit-modal__footer'>
-                        <Button onClick={onRequestClose} size='lg' textSize='sm'>
-                            <Localize i18n_default_text='Ok' />
-                        </Button>
-                    </div>
-                </>
-            );
-        } else if (error) {
-            return (
-                <>
-                    <Text color='prominent' weight='bold'>
-                        <Localize i18n_default_text='An internal error occurred' />
-                    </Text>
-                    <Text as='p' className='daily-limit-modal__text' color='prominent' size='sm'>
-                        <Localize i18n_default_text='Sorry, we’re unable to increase your limits right now. Please try again in a few minutes.' />
-                    </Text>
-                    <div className='daily-limit-modal__footer'>
-                        <Button onClick={onRequestClose} size='lg' textSize='sm'>
-                            <Localize i18n_default_text='Ok' />
-                        </Button>
-                    </div>
-                </>
-            );
-        }
-        return (
-            <>
-                <Text color='prominent' weight='bold'>
-                    <Localize i18n_default_text='Are you sure?' />
-                </Text>
-                <Text as='p' className='daily-limit-modal__text' color='prominent' size={isMobile ? 'md' : 'sm'}>
-                    <Localize
-                        i18n_default_text='
-                    You won’t be able to change your buy and sell limits again after this. Do you want to continue?'
-                    />
-                </Text>
-                <div className='daily-limit-modal__footer'>
-                    <Button onClick={onRequestClose} size='lg' textSize='sm' variant='outlined'>
+                    <Button
+                        className='border-2'
+                        color='black'
+                        onClick={onRequestClose}
+                        size='lg'
+                        textSize={textSize}
+                        variant='outlined'
+                    >
                         <Localize i18n_default_text='No' />
                     </Button>
-                    <Button onClick={() => mutate({ upgrade_limits: 1 })} size='lg' textSize='sm'>
+                    <Button onClick={() => mutate({ upgrade_limits: 1 })} size='lg' textSize={textSize}>
                         <Localize i18n_default_text='Yes, continue' />
                     </Button>
-                </div>
-            </>
-        );
+                </>
+            ),
+            header: <Localize i18n_default_text='Are you sure?' />,
+        },
+        error: {
+            body: (
+                <Localize i18n_default_text='Sorry, we’re unable to increase your limits right now. Please try again in a few minutes.' />
+            ),
+            footer: (
+                <Button onClick={onRequestClose} size='lg' textSize={textSize}>
+                    <Localize i18n_default_text='Ok' />
+                </Button>
+            ),
+            header: <Localize i18n_default_text='An internal error occurred' />,
+        },
+        loading: {
+            body: <Loader isFullScreen={false} />,
+            footer: null,
+            header: null,
+        },
+        success: {
+            body: (
+                <Localize
+                    i18n_default_text='Your daily limits have been increased to {{daily_buy_limit}} {{currency}} (buy) and {{daily_sell_limit}} {{currency}} (sell).'
+                    values={{ currency, daily_buy_limit, daily_sell_limit }}
+                />
+            ),
+            footer: (
+                <Button onClick={onRequestClose} size='lg' textSize={textSize}>
+                    <Localize i18n_default_text='Ok' />
+                </Button>
+            ),
+            header: <Localize i18n_default_text='Success!' />,
+        },
+    };
+
+    const getModalContent = () => {
+        if (isLoading) {
+            return modalContent.loading;
+        } else if (isSuccess) {
+            return modalContent.success;
+        } else if (error) {
+            return modalContent.error;
+        }
+        return modalContent.default;
     };
 
     return (
-        // TODO: below modal will be rewritten to use @deriv/ui modal
         <Modal
             ariaHideApp={false}
             className='daily-limit-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
-            style={customStyles}
+            shouldCloseOnOverlayClick={false}
             testId='dt_daily_limit_modal'
         >
-            {getModalContent()}
+            {!isLoading && (
+                <Modal.Header hideBorder hideCloseIcon>
+                    <Text color='prominent' size={headerTextSize} weight='bold'>
+                        {getModalContent().header}
+                    </Text>
+                </Modal.Header>
+            )}
+            <Modal.Body className={clsx('py-[0.8rem] px-[2.4rem]', { 'mx-auto py-[2.4rem]': isLoading })}>
+                <Text size={textSize}>{getModalContent().body}</Text>
+            </Modal.Body>
+            {!isLoading && (
+                <Modal.Footer className='gap-[0.8rem] px-[1.6rem]' hideBorder>
+                    {getModalContent().footer}
+                </Modal.Footer>
+            )}
         </Modal>
     );
 };
