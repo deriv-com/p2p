@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { useEffect, useRef, useState } from 'react';
+import clsx from 'clsx';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { TCurrency, THooks, TPaymentMethod } from 'types';
@@ -49,7 +50,7 @@ const getAdvertiserMaxLimit = (
 const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProps) => {
     const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const { data: advertInfo } = api.advert.useGet({ id: advertId });
+    const { data: advertInfo, subscribe, unsubscribe } = api.advert.useSubscribe();
     const { data: orderCreatedInfo, error, isError, isSuccess, mutate, reset } = api.order.useCreate();
     const { data: paymentMethods } = api.paymentMethods.useGet();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
@@ -91,9 +92,11 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
 
     const { exchangeRate } = api.exchangeRates.useGet(local_currency);
 
+    const [hasCounterpartyRateChanged, setHasCounterpartyRateChanged] = useState(false);
     const [hasRateChanged, setHasRateChanged] = useState(false);
     const [inputValue, setInputValue] = useState(min_order_amount_limit_display ?? '0');
-    const finalEffectiveRate = useRef<number | undefined>(undefined);
+    const finalEffectiveRateRef = useRef<number | undefined>(undefined);
+    const counterpartyRateRef = useRef<number | undefined>(undefined);
 
     useEffect(() => {
         if (isAdvertiser) {
@@ -156,7 +159,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
             showModal('RateFluctuationModal', { shouldStackModals: false });
             return;
         }
-        const rateValue = rate_type === RATE_TYPE.FIXED ? null : finalEffectiveRate.current;
+        const rateValue = rate_type === RATE_TYPE.FIXED ? null : finalEffectiveRateRef.current;
         const payload: TPayload = {
             advert_id: id as string,
             amount: Number(getValues('amount')),
@@ -189,6 +192,16 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         }
     };
 
+    const onCloseBuySellForm = () => {
+        onRequestClose();
+        unsubscribe();
+    };
+
+    useEffect(() => {
+        if (advertId) subscribe({ id: advertId });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [advertId]);
+
     useEffect(() => {
         if (effectiveRate) {
             setCalculatedRate(removeTrailingZeros(roundOffDecimal(effectiveRate, setDecimalPlaces(effectiveRate, 6))));
@@ -198,9 +211,10 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     useEffect(() => {
         if (isSuccess && orderCreatedInfo) {
             history.push(`${ORDERS_URL}/${orderCreatedInfo.id}`, { from: 'BuySell' });
-            onRequestClose();
+            onCloseBuySellForm();
         }
-    }, [isSuccess, orderCreatedInfo, history, onRequestClose]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isSuccess, orderCreatedInfo, history]);
 
     useEffect(() => {
         if (isError && error?.message) {
@@ -218,13 +232,28 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         }
     }, [error?.code, error?.message, hideModal, isError, isModalOpenFor, showModal]);
 
+    // This handles the case when counterparty changes the rate before the user confirms the order
     useEffect(() => {
-        if (effectiveRate !== finalEffectiveRate.current && finalEffectiveRate.current) setHasRateChanged(true);
+        if (rate && !counterpartyRateRef.current) counterpartyRateRef.current = rate;
+
+        if (
+            counterpartyRateRef.current &&
+            counterpartyRateRef.current !== rate &&
+            !isModalOpenFor('RateFluctuationModal')
+        ) {
+            setIsHidden(true);
+            setHasCounterpartyRateChanged(true);
+            showModal('ErrorModal');
+        }
+    }, [isModalOpenFor, rate, showModal]);
+
+    useEffect(() => {
+        if (effectiveRate !== finalEffectiveRateRef.current && finalEffectiveRateRef.current) setHasRateChanged(true);
     }, [effectiveRate]);
 
     // This makes sure the final effective rate in the p2p_order_create payload is not updated when the rate fluctuation modal is open
     useEffect(() => {
-        if (!isModalOpenFor('RateFluctuationModal')) finalEffectiveRate.current = effectiveRate;
+        if (!isModalOpenFor('RateFluctuationModal')) finalEffectiveRateRef.current = effectiveRate;
     }, [effectiveRate, hasRateChanged, isModalOpenFor]);
 
     return (
@@ -236,7 +265,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     isHidden={isHidden}
                     isModalOpen={isModalOpen}
                     isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
-                    onRequestClose={onRequestClose}
+                    onRequestClose={onCloseBuySellForm}
                     onSubmit={onSubmit}
                 >
                     {errorMessage && (
@@ -314,18 +343,29 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 )}
                 {isModalOpenFor('ErrorModal') && (
                     <ErrorModal
-                        bodyClassName='py-0 lg:py-4'
-                        buttonText={localize('Create new order')}
+                        bodyClassName={clsx({ 'py-0 lg:py-4': !hasCounterpartyRateChanged })}
+                        buttonText={hasCounterpartyRateChanged ? localize('Try again') : localize('Create new order')}
                         buttonTextSize={isMobile ? 'md' : 'sm'}
                         hideCloseIcon
                         isModalOpen
-                        message={error?.message}
+                        message={
+                            hasCounterpartyRateChanged
+                                ? localize('The advertiser changed the rate before you confirmed the order.')
+                                : error?.message
+                        }
                         onRequestClose={() => {
-                            setIsHidden(false);
+                            if (hasCounterpartyRateChanged) {
+                                hideModal();
+                                setHasCounterpartyRateChanged(false);
+                                counterpartyRateRef.current = undefined;
+                            } else {
+                                hideModal({ shouldHidePreviousModals: true });
+                                reset();
+                            }
                             setHasRateChanged(false);
-                            hideModal({ shouldHidePreviousModals: true });
-                            reset();
+                            setIsHidden(false);
                         }}
+                        showTitle={!hasCounterpartyRateChanged}
                         textSize='sm'
                         title={localize('Order unsuccessful')}
                     />
