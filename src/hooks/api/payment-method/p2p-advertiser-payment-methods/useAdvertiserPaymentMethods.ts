@@ -6,16 +6,16 @@ const useAdvertiserPaymentMethods = () => {
     const { data, ...rest } = useP2PAdvertiserPaymentMethods();
 
     // Modify the response to add additional information
-    const modified_data = useMemo(() => {
-        const payment_methods = data;
+    const modifiedData = useMemo(() => {
+        const paymentMethods = data;
 
-        if (!payment_methods) return undefined;
+        if (!paymentMethods) return undefined;
 
-        return Object.keys(payment_methods).map(key => {
-            const payment_method = payment_methods[key];
+        return Object.keys(paymentMethods).map(key => {
+            const paymentMethod = paymentMethods[key];
 
             return {
-                ...payment_method,
+                ...paymentMethod,
                 /** The id of payment method */
                 id: key,
             };
@@ -24,7 +24,7 @@ const useAdvertiserPaymentMethods = () => {
 
     return {
         /** The list of P2P Advertiser Payment Methods */
-        data: modified_data,
+        data: modifiedData,
         ...rest,
     };
 };
