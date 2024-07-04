@@ -45,11 +45,11 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
-let mockIsMobile = false;
+let mockIsMobile = true;
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: mockIsMobile })),
+    useDevice: jest.fn(() => ({ isDesktop: mockIsMobile })),
 }));
 const mockProps = {
     selectedCurrency: 'IDR',
