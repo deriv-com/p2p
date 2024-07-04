@@ -90,7 +90,7 @@ describe('<CurrencyDropdown />', () => {
         expect(screen.queryByText('BOB')).not.toBeInTheDocument();
     });
 
-    it('should show Pnreferred currency text and hide list if user clicks on arrow icon when isMobile is true', async () => {
+    it('should show Preferred currency text and hide list if user clicks on arrow icon when isMobile is true', async () => {
         mockIsDesktop = false;
         render(<CurrencyDropdown {...mockProps} />, { wrapper });
 
