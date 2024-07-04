@@ -14,7 +14,7 @@ const OrderDetailsCardInfo = () => {
         purchaseTime,
         rateAmount,
     } = orderDetails;
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     const clientDetails = [
         { text: labels.counterpartyNicknameLabel, value: otherUserDetails.name },
@@ -39,10 +39,10 @@ const OrderDetailsCardInfo = () => {
             <div className='grid grid-cols-2 grid-rows-3 gap-y-6 p-[1.6rem]'>
                 {clientDetails.map(detail => (
                     <div className='flex flex-col' key={detail.text}>
-                        <Text color='less-prominent' size={isMobile ? 'sm' : 'xs'} weight='500'>
+                        <Text color='less-prominent' size={isDesktop ? 'xs' : 'sm'} weight='500'>
                             {detail.text}
                         </Text>
-                        <Text size={isMobile ? 'md' : 'sm'}>{detail.value}</Text>
+                        <Text size={isDesktop ? 'sm' : 'md'}>{detail.value}</Text>
                     </div>
                 ))}
             </div>

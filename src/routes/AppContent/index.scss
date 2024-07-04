@@ -3,6 +3,7 @@
         position: relative;
         overflow: hidden;
         height: calc(100vh - 10rem);
+        margin: auto;
 
         @include desktop {
             max-width: 952px;
@@ -11,20 +12,27 @@
             margin-bottom: 0;
         }
 
-        @include mobile {
-            width: 100vw;
+        @include mobile-or-tablet-screen {
+            max-width: 60rem;
             height: 100vh;
         }
     }
 
     &__tabs {
-        width: fit-content;
+        @include desktop {
+            width: fit-content;
+        }
+
+        @include mobile-or-tablet-screen {
+            width: 100%;
+        }
+
         & button {
-            padding: 0 3rem;
-            white-space: nowrap;
             height: 40px;
-            @include mobile {
-                width: calc(100vw / 4);
+
+            @include desktop {
+                padding: 0 3rem;
+                white-space: nowrap;
             }
 
             & > span {

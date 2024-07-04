@@ -12,7 +12,7 @@ import './Advertiser.scss';
 
 const Advertiser = () => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { showModal } = useModalManager();
     const { advertiserId } = useParams<{ advertiserId: string }>();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
@@ -31,7 +31,7 @@ const Advertiser = () => {
         <div className='advertiser'>
             <PageReturn
                 className='lg:mt-0'
-                hasBorder={isMobile}
+                hasBorder={!isDesktop}
                 onClick={() => {
                     history.push(
                         (location.state as { from: string })?.from === 'MyProfile'
@@ -41,7 +41,7 @@ const Advertiser = () => {
                     unsubscribe();
                 }}
                 pageTitle={localize('Advertiser’s page')}
-                {...(isMobile && {
+                {...(!isDesktop && {
                     rightPlaceHolder: (
                         <BlockDropdown
                             id={advertiserId}
@@ -51,7 +51,7 @@ const Advertiser = () => {
                         />
                     ),
                 })}
-                size={isMobile ? 'lg' : 'md'}
+                size={isDesktop ? 'md' : 'lg'}
                 weight='bold'
             />
             {isLoading ? (

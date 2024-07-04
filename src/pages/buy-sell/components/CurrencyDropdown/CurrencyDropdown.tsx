@@ -17,7 +17,7 @@ type TCurrencyDropdownProps = {
 
 const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDropdownProps) => {
     const { data } = api.settings.useSettings();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const [showCurrencySelector, setShowCurrencySelector] = useState<boolean>(false);
 
     const currencySelectorRef = useRef<HTMLDivElement>(null);
@@ -43,7 +43,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
         setSelectedCurrency(currency);
     };
 
-    if (showCurrencySelector && isMobile)
+    if (showCurrencySelector && !isDesktop)
         return (
             <FullPageMobileWrapper
                 className='currency-dropdown__full-page-modal'
@@ -75,7 +75,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
                 <Text
                     className='currency-dropdown__dropdown-text'
                     color='less-prominent'
-                    size={isMobile ? 'xs' : '2xs'}
+                    size={isDesktop ? '2xs' : 'xs'}
                 >
                     <Localize i18n_default_text='Currency' />
                 </Text>

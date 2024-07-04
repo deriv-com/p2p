@@ -10,8 +10,8 @@ type TMyProfileAdDetailsTextAreaProps = {
 
 const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProps) => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
 
     return (
         <>

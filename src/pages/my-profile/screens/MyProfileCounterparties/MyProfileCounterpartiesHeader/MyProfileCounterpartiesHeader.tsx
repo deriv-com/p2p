@@ -19,7 +19,7 @@ const MyProfileCounterpartiesHeader = ({
     setDropdownValue,
     setSearchValue,
 }: MyProfileCounterpartiesHeaderProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { localize } = useTranslations();
     return (
         <div className='my-profile-counterparties__content-header'>
@@ -28,15 +28,7 @@ const MyProfileCounterpartiesHeader = ({
             </Text>
             <div className='my-profile-counterparties-header'>
                 <Search name='counterparties-search' onSearch={setSearchValue} placeholder='Search by nickname' />
-                {isMobile ? (
-                    <Button
-                        className='my-profile-counterparties-header__sort-icon'
-                        color='black'
-                        icon={<LegacySort1pxIcon iconSize='xs' />}
-                        onClick={onClickFilter}
-                        variant='outlined'
-                    />
-                ) : (
+                {isDesktop ? (
                     <Dropdown
                         dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
                         label={localize('Filter by')}
@@ -45,6 +37,14 @@ const MyProfileCounterpartiesHeader = ({
                         name='counterparty-filter'
                         onSelect={value => setDropdownValue(value as string)}
                         value={dropdownValue}
+                    />
+                ) : (
+                    <Button
+                        className='my-profile-counterparties-header__sort-icon'
+                        color='black'
+                        icon={<LegacySort1pxIcon iconSize='xs' />}
+                        onClick={onClickFilter}
+                        variant='outlined'
                     />
                 )}
             </div>

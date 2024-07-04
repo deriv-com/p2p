@@ -35,7 +35,7 @@
         border-right: none;
     }
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         &:nth-child(even) {
             border-right: none;
         }

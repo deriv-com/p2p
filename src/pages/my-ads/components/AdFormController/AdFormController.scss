@@ -5,7 +5,7 @@
     border-top: 1px solid #f2f3f4;
     padding: 2rem 0;
     margin-top: 2.4rem;
-    @include mobile {
+    @include mobile-or-tablet-screen {
         position: absolute;
         bottom: 0;
         right: 0;

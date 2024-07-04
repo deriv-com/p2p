@@ -6,14 +6,14 @@
         right: 33%;
         top: 1rem;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             right: 45%;
         }
     }
     .deriv-input {
         position: relative;
         border-radius: 4px 0px 0px 4px;
-        @include mobile {
+        @include mobile-or-tablet-screen {
             border-radius: 4px 4px 0px 0px;
         }
 

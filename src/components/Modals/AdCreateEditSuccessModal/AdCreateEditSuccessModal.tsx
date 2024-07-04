@@ -21,11 +21,11 @@ const AdCreateEditSuccessModal = ({
     isModalOpen,
     onRequestClose,
 }: TAdCreateEditSuccessModalProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const invalidate = useInvalidateQuery();
     const history = useHistory();
     const [isChecked, setIsChecked] = useState(false);
-    const textSize = isMobile ? 'md' : 'sm';
+    const textSize = isDesktop ? 'sm' : 'md';
     const onToggleCheckbox = useCallback(() => {
         setIsChecked(prevState => !prevState);
     }, []);

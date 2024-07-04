@@ -29,8 +29,8 @@ const RatingModal = ({
     const [isYesSelected, setIsYesSelected] = useState(false);
     const { mutate } = api.orderReview.useReview();
 
-    const { isMobile } = useDevice();
-    const buttonTextSize = isMobile ? 'sm' : 'xs';
+    const { isDesktop } = useDevice();
+    const buttonTextSize = isDesktop ? 'xs' : 'sm';
 
     const handleSelectYes = () => {
         if (isNoSelected) {
@@ -141,7 +141,7 @@ const RatingModal = ({
                         onRequestClose();
                     }}
                     size='lg'
-                    textSize={isMobile ? 'md' : 'sm'}
+                    textSize={isDesktop ? 'sm' : 'md'}
                     variant={rating ? 'contained' : 'outlined'}
                 >
                     {rating ? <Localize i18n_default_text='Done' /> : <Localize i18n_default_text='Skip' />}

@@ -10,7 +10,7 @@ type TOrderTimer = {
 };
 const OrderTimer = ({ distance }: TOrderTimer) => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const [timeLeft, { startCountdown }] = useCountdown({
         countStart: distance / 1000,
         intervalMs: 1000,
@@ -23,7 +23,7 @@ const OrderTimer = ({ distance }: TOrderTimer) => {
     }, [distance, startCountdown]);
 
     return (
-        <Text className='order-timer' size={isMobile ? 'sm' : 'xs'}>
+        <Text className='order-timer' size={isDesktop ? 'xs' : 'sm'}>
             {timeLeft > 0 ? millisecondsToTimer(timeLeft * 1000) : localize('expired')}
         </Text>
     );

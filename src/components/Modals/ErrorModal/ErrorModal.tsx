@@ -19,8 +19,8 @@ const ErrorModal = ({
     showTitle = true,
     title,
 }: TErrorModalProps) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     return (
         <Modal ariaHideApp={false} className='error-modal' isOpen={isModalOpen} shouldCloseOnOverlayClick={false}>
             {showTitle && (

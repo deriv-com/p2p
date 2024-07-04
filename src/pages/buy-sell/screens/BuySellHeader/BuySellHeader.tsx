@@ -23,7 +23,7 @@ type TBuySellHeaderProps = {
 const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearchValue }: TBuySellHeaderProps) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const { filteredCurrency, setFilteredCurrency, setSortByValue, sortByValue } = useBuySellFiltersStore(
         useShallow(state => ({
@@ -37,13 +37,13 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
     return (
         <div
             className={clsx('buy-sell-header', {
-                'buy-sell-header--has-border': isMobile && !isAdvertiserBarred,
+                'buy-sell-header--has-border': !isDesktop && !isAdvertiserBarred,
             })}
             data-testid='dt_buy_sell_header'
         >
             <div className='buy-sell-header__row justify-between'>
                 <Tabs
-                    TitleFontSize={isMobile ? 'md' : 'sm'}
+                    TitleFontSize={isDesktop ? 'sm' : 'md'}
                     activeTab={getLocalizedTabs(localize)[activeTab]}
                     onChange={setActiveTab}
                     variant='primary'
@@ -52,7 +52,7 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
                     <Tab title={localize('Buy')} />
                     <Tab title={localize('Sell')} />
                 </Tabs>
-                {isMobile && <GuideTooltip />}
+                {!isDesktop && <GuideTooltip />}
             </div>
             <div className='buy-sell-header__row'>
                 <div className='flex flex-row-reverse lg:flex-row gap-4'>
@@ -61,7 +61,7 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
                         <Search
                             name='search-nickname'
                             onSearch={setSearchValue}
-                            placeholder={isMobile ? localize('Search') : localize('Search by nickname')}
+                            placeholder={isDesktop ? localize('Search by nickname') : localize('Search')}
                         />
                     </div>
                 </div>
@@ -75,13 +75,13 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
                     className='!border-[#d6dadb] border-[1px] lg:p-0 lg:h-16 lg:w-16 h-[3.2rem] w-[3.2rem]'
                     color='black'
                     icon={
-                        isMobile ? (
+                        isDesktop ? (
+                            <LabelPairedBarsFilterMdBoldIcon />
+                        ) : (
                             <LabelPairedBarsFilterSmBoldIcon
                                 className='absolute'
                                 data-testid='dt_buy_sell_header_filter_button'
                             />
-                        ) : (
-                            <LabelPairedBarsFilterMdBoldIcon />
                         )
                     }
                     onClick={() => showModal('FilterModal')}

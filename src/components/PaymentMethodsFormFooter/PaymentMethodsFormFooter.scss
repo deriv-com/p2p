@@ -5,7 +5,7 @@
     background: #fff;
     margin-top: 2rem;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         margin-top: 0;
         width: 100%;
         padding: 1.6rem 2.4rem;

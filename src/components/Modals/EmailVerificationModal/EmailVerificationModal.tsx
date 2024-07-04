@@ -50,9 +50,9 @@ const EmailVerificationModal = ({
     onResendEmail,
 }: TEmailVerificationModalProps) => {
     const [shouldShowReasons, setShouldShowReasons] = useState<boolean>(false);
-    const { isMobile } = useDevice();
-    const emailIconSize = isMobile ? 100 : 128;
-    const reasonIconSize = isMobile ? 32 : 36;
+    const { isDesktop } = useDevice();
+    const emailIconSize = isDesktop ? 128 : 100;
+    const reasonIconSize = isDesktop ? 36 : 32;
 
     const timeNow = Date.now() / 1000;
 
@@ -86,7 +86,7 @@ const EmailVerificationModal = ({
                 <Text align='center' weight='bold'>
                     <Localize i18n_default_text='Has the buyer paid you?' />
                 </Text>
-                <Text align='center' size={isMobile ? 'sm' : 'md'}>
+                <Text align='center' size={isDesktop ? 'md' : 'sm'}>
                     <Localize
                         components={[<strong key={0} />]}
                         i18n_default_text='Releasing funds before receiving payment may result in losses. Check your email and follow the instructions <0>within 10 minutes</0> to release the funds.'

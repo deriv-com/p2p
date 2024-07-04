@@ -33,7 +33,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
     const { localize } = useTranslations();
     const { advertId = '' } = queryString;
     const isEdit = !!advertId;
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const {
         control,
         formState: { isValid },
@@ -44,7 +44,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
     } = useFormContext();
 
     const isSell = watch('ad-type') === BUY_SELL.SELL;
-    const textSize = isMobile ? 'md' : 'sm';
+    const textSize = isDesktop ? 'sm' : 'md';
 
     const onChangeAdTypeHandler = (userInput: 'buy' | 'sell') => {
         setValue('ad-type', userInput);

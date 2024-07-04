@@ -35,10 +35,10 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
         // verification_token_expiry: verificationTokenExpiry,
     } = orderDetails;
 
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { data, error, isError, isSuccess, mutate, reset } = api.order.useConfirm();
-    const textSize = isMobile ? 'md' : 'sm';
+    const textSize = isDesktop ? 'sm' : 'md';
 
     const history = useHistory();
     const location = useLocation();

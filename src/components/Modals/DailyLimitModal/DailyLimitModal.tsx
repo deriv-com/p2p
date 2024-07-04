@@ -14,7 +14,7 @@ type TDailyLimitModalProps = {
 const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitModalProps) => {
     const { data, error, isPending: isLoading, isSuccess, mutate } = api.advertiser.useUpdate();
     const { daily_buy_limit, daily_sell_limit } = data ?? {};
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     const getModalContent = () => {
         //TODO: modal header title to be moved out if needed according to implementation, can be moved to a separate getheader, getcontent, getfooter functions
@@ -63,7 +63,7 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
                 <Text color='prominent' weight='bold'>
                     <Localize i18n_default_text='Are you sure?' />
                 </Text>
-                <Text as='p' className='daily-limit-modal__text' color='prominent' size={isMobile ? 'md' : 'sm'}>
+                <Text as='p' className='daily-limit-modal__text' color='prominent' size={isDesktop ? 'sm' : 'md'}>
                     <Localize
                         i18n_default_text='
                     You won’t be able to change your buy and sell limits again after this. Do you want to continue?'

@@ -37,7 +37,7 @@ const MODAL_QUERY_SEPARATOR = ',';
  */
 export default function useModalManager(config?: TUseModalManagerConfig) {
     const { deleteQueryString, queryString, setQueryString } = useQueryString();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     const [isModalOpenScopes, actions] = useMap();
 
@@ -54,7 +54,7 @@ export default function useModalManager(config?: TUseModalManagerConfig) {
                 const currentModal = modalKeys.slice(-1)[0];
                 actions.setAll([]);
                 modalKeys.forEach(modalKey => {
-                    actions.set(modalKey, isMobile);
+                    actions.set(modalKey, !isDesktop);
                 });
                 actions.set(currentModal, true);
             }
@@ -129,7 +129,7 @@ export default function useModalManager(config?: TUseModalManagerConfig) {
             } else {
                 // set the previous modal open state to false if shouldStackModals is false, otherwise set it to true (default true for mobile)
                 // set the new modal open state to true
-                actions.set(currentModalId, options?.shouldStackModals || isMobile);
+                actions.set(currentModalId, options?.shouldStackModals || !isDesktop);
             }
             actions.set(modalId, true);
             // push the state of the new modal to the hash

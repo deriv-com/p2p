@@ -19,7 +19,7 @@ const FilterModalFooter = ({
     paymentMethods,
     showPaymentMethods,
 }: TFilterModalFooterProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     return (
         <div className='filter-modal-footer'>
@@ -27,20 +27,20 @@ const FilterModalFooter = ({
                 className='mr-[0.8rem] border-2 !border-[#999]'
                 color='black'
                 disabled={showPaymentMethods && paymentMethods.length === 0}
-                isFullWidth={isMobile}
+                isFullWidth={!isDesktop}
                 onClick={onResetClear}
                 size='lg'
-                textSize={isMobile ? 'md' : 'sm'}
+                textSize={isDesktop ? 'sm' : 'md'}
                 variant='outlined'
             >
                 {showPaymentMethods ? <Localize i18n_default_text='Clear' /> : <Localize i18n_default_text='Reset' />}
             </Button>
             <Button
                 disabled={(showPaymentMethods && hasSamePaymentMethods) || (!showPaymentMethods && hasSameFilters)}
-                isFullWidth={isMobile}
+                isFullWidth={!isDesktop}
                 onClick={onApplyConfirm}
                 size='lg'
-                textSize={isMobile ? 'md' : 'sm'}
+                textSize={isDesktop ? 'sm' : 'md'}
             >
                 {showPaymentMethods ? <Localize i18n_default_text='Confirm' /> : <Localize i18n_default_text='Apply' />}
             </Button>
