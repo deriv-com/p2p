@@ -28,6 +28,7 @@ export * from './OrderTimeTooltipModal';
 export * from './PaymentMethods';
 export * from './PreferredCountriesModal';
 export * from './RadioGroupFilterModal';
+export * from './RateFluctuationModal';
 export * from './RatingModal';
 export * from './ShareAdsModal';
 export * from './VideoPlayerModal';
