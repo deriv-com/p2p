@@ -1,0 +1,25 @@
+.page-404 {
+    position: absolute;
+    top: 1rem;
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 0.8rem;
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+
+        @include mobile {
+            align-items: center;
+        }
+    }
+
+    @include mobile {
+        flex-wrap: wrap;
+        padding: 1.6rem;
+        height: calc(100vh - 7.4rem);
+    }
+}

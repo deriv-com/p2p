@@ -1,6 +1,7 @@
 import { FC, Suspense } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { TCurrency } from 'types';
+import { Page404 } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
 import { Loader } from '@deriv-com/ui';
 import { routes } from './routes-config';
@@ -26,10 +27,10 @@ type TRoutesWithSubRoutes = {
 const RouteWithSubRoutes = (route: TRoutesWithSubRoutes) => {
     return (
         <Switch>
-            {route.routes?.map(subRoute => (
-                <Route key={subRoute.path} path={subRoute.path} render={props => <subRoute.component {...props} />} />
-            ))}
-            <Route path={route.path} render={props => <route.component {...props} />} />
+            {/* Render subroutes recursively with any number of nested routes */}
+            {route.routes?.map(subRoute => <RouteWithSubRoutes key={subRoute.path} {...subRoute} />)}
+            <Route component={route.component} exact path={route.path} />
+            <Route component={Page404} />
         </Switch>
     );
 };
@@ -41,9 +42,8 @@ const Router: FC = () => {
                 {routes.map(route => (
                     <RouteWithSubRoutes key={route.path} {...route} />
                 ))}
-                {/* TODO: Add 404 page here once ready */}
-                <Redirect exact from='/*' to={BUY_SELL_URL} />
                 <Redirect exact from='/' to={BUY_SELL_URL} />
+                <Route component={Page404} />
             </Switch>
         </Suspense>
     );
