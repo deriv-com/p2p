@@ -14,6 +14,7 @@ type TShowModalOptions = {
 
 type THideModalOptions = {
     shouldHideAllModals?: boolean;
+    shouldHidePreviousModals?: boolean;
 };
 
 const MODAL_QUERY_SEPARATOR = ',';
@@ -79,12 +80,30 @@ export default function useModalManager(config?: TUseModalManagerConfig) {
         const modalHash = queryString.modal;
 
         if (modalHash) {
-            const modalIds = modalHash.split(MODAL_QUERY_SEPARATOR);
+            let modalIds = modalHash.split(MODAL_QUERY_SEPARATOR);
             if (options?.shouldHideAllModals) {
                 isModalOpenScopes.forEach((_, key) => {
                     actions.set(key, false);
                     deleteQueryString('modal');
                 });
+            } else if (options?.shouldHidePreviousModals) {
+                if (modalIds.length > 1) {
+                    const firstModalId = modalIds.shift();
+                    modalIds.forEach(modalId => {
+                        actions.set(modalId, false); // Hide each modal except the first
+                    });
+                    modalIds = [firstModalId ?? '']; // Reset modalIds to only contain the first modal ID
+
+                    setQueryString({
+                        modal: firstModalId,
+                    });
+                } else if (modalIds.length === 1) {
+                    setQueryString({
+                        modal: modalIds[0],
+                    });
+                } else {
+                    deleteQueryString('modal');
+                }
             } else {
                 const currentModalId = modalIds.pop();
                 const previousModalId = modalIds.slice(-1)[0];
