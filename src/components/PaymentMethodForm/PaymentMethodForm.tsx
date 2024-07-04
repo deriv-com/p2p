@@ -38,8 +38,20 @@ const PaymentMethodForm = ({
     const [isError, setIsError] = useState(false);
     const { actionType, selectedPaymentMethod, title = '' } = rest.formState;
     const { data: availablePaymentMethods } = api.paymentMethods.useGet();
-    const { create, error: createError, isSuccess: isCreateSuccessful } = api.advertiserPaymentMethods.useCreate();
-    const { error: updateError, isSuccess: isUpdateSuccessful, update } = api.advertiserPaymentMethods.useUpdate();
+    const {
+        create,
+        error: createError,
+        isError: isCreateError,
+        isSuccess: isCreateSuccessful,
+        reset: resetCreate,
+    } = api.advertiserPaymentMethods.useCreate();
+    const {
+        error: updateError,
+        isError: isUpdateError,
+        isSuccess: isUpdateSuccessful,
+        reset: resetUpdate,
+        update,
+    } = api.advertiserPaymentMethods.useUpdate();
 
     const { isMobile } = useDevice();
 
@@ -105,7 +117,7 @@ const PaymentMethodForm = ({
                     >
                         <Modal.Header hideBorder onRequestClose={handleGoBack}>
                             <PageReturn
-                                className='mb-0'
+                                className='my-0'
                                 hasBorder={isMobile}
                                 onClick={handleGoBack}
                                 pageTitle='Add payment method'
@@ -167,13 +179,15 @@ const PaymentMethodForm = ({
                         </Modal.Footer>
                     </form>
                 </Modal>
-                {isError && (
+                {(isError || isCreateError || isUpdateError) && (
                     <PaymentMethodFormModalRenderer
                         actionType={actionType}
                         createError={createError}
                         isCreateSuccessful={isCreateSuccessful}
                         isUpdateSuccessful={isUpdateSuccessful}
                         onResetFormState={onResetFormState}
+                        resetCreate={resetCreate}
+                        resetUpdate={resetUpdate}
                         setIsError={setIsError}
                         updateError={updateError}
                     />
@@ -249,13 +263,15 @@ const PaymentMethodForm = ({
                     />
                 )}
             </form>
-            {isError && (
+            {(isError || isCreateError || isUpdateError) && (
                 <PaymentMethodFormModalRenderer
                     actionType={actionType}
                     createError={createError}
                     isCreateSuccessful={isCreateSuccessful}
                     isUpdateSuccessful={isUpdateSuccessful}
                     onResetFormState={onResetFormState}
+                    resetCreate={resetCreate}
+                    resetUpdate={resetUpdate}
                     setIsError={setIsError}
                     updateError={updateError}
                 />
