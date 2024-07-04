@@ -50,7 +50,7 @@ jest.mock('@/stores', () => ({
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn().mockReturnValue({
-        isMobile: false,
+        isDesktop: true,
     }),
 }));
 

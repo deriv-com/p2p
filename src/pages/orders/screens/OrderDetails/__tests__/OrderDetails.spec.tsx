@@ -142,7 +142,7 @@ describe('<OrderDetails />', () => {
     });
 
     it('should render Mobile view if isMobile is true', () => {
-        mockUseDevice.mockReturnValue({ isMobile: true });
+        mockUseDevice.mockReturnValue({ isDesktop: false });
 
         render(<OrderDetails />);
 
@@ -191,7 +191,7 @@ describe('<OrderDetails />', () => {
     });
 
     it('should push to Orders URL if from is Orders', async () => {
-        mockUseDevice.mockReturnValue({ isMobile: false });
+        mockUseDevice.mockReturnValue({ isDesktop: true });
         mockState = { from: 'Orders' };
 
         render(<OrderDetails />);
