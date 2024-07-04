@@ -11,13 +11,13 @@
         & .payment-method-form {
             @include mobile {
                 background: #ffffff;
-                z-index: 1;
+                z-index: 2;
                 inset: 0;
-                top: 4rem;
+                top: 0;
 
                 &__form {
                     & .payment-methods-form-footer {
-                        bottom: 0;
+                        bottom: 7.4rem;
                     }
                 }
             }
