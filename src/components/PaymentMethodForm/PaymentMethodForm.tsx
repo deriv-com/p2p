@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { TAdvertiserPaymentMethod, TFormState, TSelectedPaymentMethod } from 'types';
 import { PageReturn, PaymentMethodField, PaymentMethodsFormFooter } from '@/components';
 import { api } from '@/hooks';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, useDevice } from '@deriv-com/ui';
 import { PaymentMethodFormAutocomplete } from './PaymentMethodFormAutocomplete';
 import { PaymentMethodFormModalRenderer } from './PaymentMethodFormModalRenderer';
@@ -29,6 +30,7 @@ const PaymentMethodForm = ({
     onResetFormState,
     ...rest
 }: TPaymentMethodFormProps) => {
+    const { localize } = useTranslations();
     const {
         control,
         formState: { dirtyFields, isDirty, isSubmitting, isValid },
@@ -85,6 +87,8 @@ const PaymentMethodForm = ({
         }
     };
 
+    const showPaymentMethodFormModal = isError || isCreateError || isUpdateError;
+
     if (displayModal) {
         return (
             <>
@@ -120,7 +124,7 @@ const PaymentMethodForm = ({
                                 className='my-0'
                                 hasBorder={isMobile}
                                 onClick={handleGoBack}
-                                pageTitle='Add payment method'
+                                pageTitle={localize('Add payment method')}
                                 size={isMobile ? 'lg' : 'md'}
                                 weight='bold'
                             />
@@ -173,13 +177,13 @@ const PaymentMethodForm = ({
                                     textSize='sm'
                                     variant='outlined'
                                 >
-                                    Cancel
+                                    <Localize i18n_default_text='Cancel' />
                                 </Button>
                             )}
                         </Modal.Footer>
                     </form>
                 </Modal>
-                {(isError || isCreateError || isUpdateError) && (
+                {showPaymentMethodFormModal && (
                     <PaymentMethodFormModalRenderer
                         actionType={actionType}
                         createError={createError}
@@ -220,7 +224,7 @@ const PaymentMethodForm = ({
                 className='py-[1.4rem] mb-0'
                 hasBorder={isMobile}
                 onClick={handleGoBack}
-                pageTitle={title}
+                pageTitle={title === '' ? localize('Add payment method') : title}
                 size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />
@@ -251,7 +255,7 @@ const PaymentMethodForm = ({
                         );
                     })}
                 </div>
-                {(isMobile || !!selectedPaymentMethod) && (
+                {!!selectedPaymentMethod && (
                     <PaymentMethodsFormFooter
                         actionType={actionType}
                         handleGoBack={handleGoBack}
@@ -263,7 +267,7 @@ const PaymentMethodForm = ({
                     />
                 )}
             </form>
-            {(isError || isCreateError || isUpdateError) && (
+            {showPaymentMethodFormModal && (
                 <PaymentMethodFormModalRenderer
                     actionType={actionType}
                     createError={createError}
