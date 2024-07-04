@@ -15,8 +15,14 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn().mockReturnValue({ isMobile: false }),
 }));
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
 jest.mock('@/hooks/custom-hooks', () => ({
     useAdvertiserStats: jest.fn(() => mockUseAdvertiserStats),
+    useModalManager: jest.fn(() => mockModalManager),
 }));
 
 jest.mock('@/hooks', () => ({
@@ -47,13 +53,7 @@ jest.mock('@/hooks', () => ({
 describe('ProfileDailyLimit', () => {
     it('should render the correct limits message', () => {
         render(<ProfileDailyLimit />);
-        const tokens = ['Want to increase your daily limits to (buy) and (sell)?', '100 USD ', '200 USD '];
-
-        expect(
-            screen.getByText((content, element) => {
-                return element?.tagName.toLowerCase() === 'span' && tokens.includes(content.trim());
-            })
-        ).toBeInTheDocument();
+        expect(screen.getByText(/Want to increase your daily limits/)).toBeInTheDocument();
     });
     it('should render limits modal when requested to increase limits', async () => {
         render(<ProfileDailyLimit />);
@@ -62,11 +62,6 @@ describe('ProfileDailyLimit', () => {
         });
         expect(screen.queryByTestId('dt_daily_limit_modal')).not.toBeInTheDocument();
         await userEvent.click(increaseLimitsBtn);
-        expect(screen.getByTestId('dt_daily_limit_modal')).toBeInTheDocument();
-
-        const noButton = screen.getByRole('button', { name: 'No' });
-        await userEvent.click(noButton);
-
-        expect(screen.queryByTestId('dt_daily_limit_modal')).not.toBeInTheDocument();
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('DailyLimitModal');
     });
 });
