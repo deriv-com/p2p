@@ -16,8 +16,8 @@ type TRateFluctuationModalProps = {
 };
 
 const RateFluctuationModal = ({ isModalOpen, onContinue, onRequestClose, values }: TRateFluctuationModalProps) => {
-    const { isMobile } = useDevice();
-    const buttonText = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const buttonText = !isDesktop ? 'md' : 'sm';
     const valuesRef = useRef<TRateFluctuationModalProps['values'] | undefined>(values);
 
     return (
