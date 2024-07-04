@@ -11,7 +11,7 @@ const Page404 = () => {
     return (
         <div className='page-404'>
             <div>
-                <img src={Icon404} />
+                <img alt='Page not found' src={Icon404} />
             </div>
             <div className='page-404__text'>
                 <Text size={isDesktop ? '2xl' : '2xl'} weight='bold'>
@@ -23,7 +23,12 @@ const Page404 = () => {
                 <Text className='mb-[1.6rem]'>
                     <Localize i18n_default_text='Error code: 404 page not found' />
                 </Text>
-                <Button className='w-fit m-[1rem]' onClick={() => history.push(BUY_SELL_URL)} size='lg' textSize='sm'>
+                <Button
+                    className='w-fit m-[1rem]'
+                    onClick={() => history.replace({ pathname: BUY_SELL_URL, search: '' })}
+                    size='lg'
+                    textSize='sm'
+                >
                     <Localize i18n_default_text='Return to Home' />
                 </Button>
             </div>
