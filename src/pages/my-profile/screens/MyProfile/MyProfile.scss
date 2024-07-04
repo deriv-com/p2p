@@ -4,10 +4,12 @@
     padding-top: 2.4rem;
     overflow-y: auto;
     max-height: calc(100vh - 19rem);
+    min-height: calc(100vh - 19rem);
 
     @include mobile {
         padding: 0;
         max-height: calc(100vh - 11rem);
+        min-height: calc(100vh - 11rem);
     }
 
     &__tabs {
