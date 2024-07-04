@@ -5,7 +5,7 @@ import MyProfileCounterpartiesHeader from '../MyProfileCounterpartiesHeader';
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({
-        isMobile: false,
+        isDesktop: true,
     })),
 }));
 const mockProps = {

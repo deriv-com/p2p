@@ -7,7 +7,7 @@ const mockOnClick = jest.fn();
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: true })),
+    useDevice: jest.fn(() => ({ isDesktop: false })),
 }));
 
 describe('BackButton Component', () => {

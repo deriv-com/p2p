@@ -304,7 +304,7 @@ describe('<FilterModal />', () => {
 
     it('should call onRequestClose if backButton is pressed on initial page in mobile', async () => {
         mockUseDevice.mockReturnValue({
-            isMobile: true,
+            isDesktop: false,
         });
 
         render(<FilterModal {...mockProps} />);
