@@ -10,6 +10,8 @@ type TPaymentMethodFormModalRendererProps = {
     isCreateSuccessful: boolean;
     isUpdateSuccessful: boolean;
     onResetFormState: () => void;
+    resetCreate: () => void;
+    resetUpdate: () => void;
     setIsError: (isError: boolean) => void;
     updateError: TSocketError<'p2p_advertiser_payment_methods'>['error'] | null;
 };
@@ -20,6 +22,8 @@ const PaymentMethodFormModalRenderer = ({
     isCreateSuccessful,
     isUpdateSuccessful,
     onResetFormState,
+    resetCreate,
+    resetUpdate,
     setIsError,
     updateError,
 }: TPaymentMethodFormModalRendererProps) => {
@@ -27,15 +31,13 @@ const PaymentMethodFormModalRenderer = ({
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
 
     useEffect(() => {
-        if (
+        if (createError || updateError) {
+            showModal('PaymentMethodErrorModal');
+        } else if (
             (actionType === 'ADD' && (!isCreateSuccessful || !createError)) ||
             (actionType === 'EDIT' && (!isUpdateSuccessful || !updateError))
         ) {
             showModal('PaymentMethodModal');
-        }
-
-        if (createError || updateError) {
-            showModal('PaymentMethodErrorModal');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [actionType, createError, isCreateSuccessful, isUpdateSuccessful, updateError]);
@@ -47,9 +49,10 @@ const PaymentMethodFormModalRenderer = ({
                     errorMessage={String(createError?.message || updateError?.message)}
                     isModalOpen={!!isModalOpenFor('PaymentMethodErrorModal')}
                     onConfirm={() => {
-                        onResetFormState();
                         setIsError(false);
-                        hideModal({ shouldHideAllModals: true });
+                        hideModal();
+                        if (createError) resetCreate();
+                        if (updateError) resetUpdate();
                     }}
                     title={localize('Something’s not right')}
                 />
