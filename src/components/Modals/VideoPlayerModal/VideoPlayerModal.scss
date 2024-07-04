@@ -4,7 +4,7 @@
     width: 64rem;
     height: 38rem;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         width: calc(100vw - 3.2rem);
         height: 23rem;
     }

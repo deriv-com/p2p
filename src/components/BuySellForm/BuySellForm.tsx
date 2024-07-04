@@ -118,7 +118,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     });
 
     const history = useHistory();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const isBuy = type === BUY_SELL.BUY;
 
     const shouldDisableField =
@@ -213,7 +213,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 {rate_type === RATE_TYPE.FLOAT && !shouldDisableField && (
                     <div className='px-[2.4rem] mt-[2.4rem]'>
                         <InlineMessage variant='info'>
-                            <Text size={isMobile ? 'xs' : '2xs'}>
+                            <Text size={isDesktop ? '2xs' : 'xs'}>
                                 <Localize i18n_default_text='If the market rate changes from the rate shown here, we won’t be able to process your order.' />
                             </Text>
                         </InlineMessage>
@@ -222,7 +222,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 {errorMessage && (
                     <div className='px-[2.4rem] mt-[2.4rem]'>
                         <InlineMessage variant='error'>
-                            <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
+                            <Text size={isDesktop ? '2xs' : 'xs'}>{errorMessage}</Text>
                         </InlineMessage>
                     </div>
                 )}

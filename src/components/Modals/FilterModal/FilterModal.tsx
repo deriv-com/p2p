@@ -21,7 +21,7 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { data } = api.paymentMethods.useGet();
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { selectedPaymentMethods, setSelectedPaymentMethods, setShouldUseClientLimits, shouldUseClientLimits } =
         useBuySellFiltersStore(
             useShallow(state => ({
@@ -105,7 +105,7 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
         }
     };
 
-    if (isMobile && isModalOpen) {
+    if (!isDesktop && isModalOpen) {
         return (
             <FullPageMobileWrapper
                 className='filter-modal'

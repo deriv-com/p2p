@@ -13,7 +13,7 @@ import './OrderTimeSelection.scss';
 const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrderExpiryOptions }) => {
     const { control, getValues, setValue } = useFormContext();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { localize } = useTranslations();
 
     // remove the existing selection from input field if the existing value is not present in the dropdown
@@ -47,14 +47,14 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
     return (
         <div className='order-time-selection'>
             <div className='flex items-center gap-[0.8rem]'>
-                <Text color='prominent' size={isMobile ? 'md' : 'sm'}>
+                <Text color='prominent' size={isDesktop ? 'sm' : 'md'}>
                     <Localize i18n_default_text='Orders must be completed in' />
                 </Text>
                 <Text size='xs'>
                     <TooltipMenuIcon
                         as='button'
                         disableHover
-                        onClick={isMobile ? () => setIsModalOpen(true) : () => undefined}
+                        onClick={isDesktop ? () => undefined : () => setIsModalOpen(true)}
                         tooltipContent={getOrderTimeInfoMessage(localize)}
                         type='button'
                     >

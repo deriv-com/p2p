@@ -11,7 +11,7 @@ import './ProfileBalance.scss';
 
 const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
     const { data: activeAccount } = api.account.useActiveAccount();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const [shouldShowAvailableBalanceModal, setShouldShowAvailableBalanceModal] = useState(false);
 
     const currency = activeAccount?.currency || 'USD';
@@ -37,7 +37,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
         ]
     );
 
-    const labelSize = isMobile ? 'md' : 'sm';
+    const labelSize = isDesktop ? 'sm' : 'md';
 
     return (
         <>
@@ -48,7 +48,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
             <div className='profile-balance'>
                 <div className='profile-balance__amount' data-testid='dt_available_balance_amount'>
                     <div>
-                        <Text color='less-prominent' size={isMobile ? 'xs' : 'sm'}>
+                        <Text color='less-prominent' size={isDesktop ? 'sm' : 'xs'}>
                             <Localize i18n_default_text='Available Deriv P2P Balance' />
                         </Text>
                         <LabelPairedCircleInfoMdRegularIcon
@@ -57,7 +57,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                             onClick={() => setShouldShowAvailableBalanceModal(true)}
                         />
                     </div>
-                    <Text size={isMobile ? '2xl' : 'xl'} weight='bold'>
+                    <Text size={isDesktop ? 'xl' : '2xl'} weight='bold'>
                         {FormatUtils.formatMoney(advertiserStats?.balance_available || 0)} USD
                     </Text>
                 </div>

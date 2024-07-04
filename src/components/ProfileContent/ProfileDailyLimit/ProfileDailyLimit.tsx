@@ -7,7 +7,7 @@ import './ProfileDailyLimit.scss';
 
 const ProfileDailyLimit = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { data: advertiserStats } = useAdvertiserStats();
     const { data: activeAccount } = api.account.useActiveAccount();
 
@@ -28,7 +28,7 @@ const ProfileDailyLimit = () => {
                 <Button
                     onClick={() => setIsModalOpen(true)}
                     size='sm'
-                    textSize={isMobile ? 'sm' : 'xs'}
+                    textSize={isDesktop ? 'xs' : 'sm'}
                     variant='ghost'
                 >
                     Increase my limits

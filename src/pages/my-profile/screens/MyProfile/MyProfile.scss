@@ -5,7 +5,7 @@
     overflow-y: auto;
     max-height: calc(100vh - 19rem);
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         padding: 0;
         max-height: calc(100vh - 11rem);
     }

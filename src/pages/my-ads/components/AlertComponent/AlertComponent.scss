@@ -9,7 +9,7 @@
     span {
         display: flex;
     }
-    @include mobile {
+    @include mobile-or-tablet-screen {
         position: unset;
         margin-top: -0.4rem;
         margin-left: 1rem;

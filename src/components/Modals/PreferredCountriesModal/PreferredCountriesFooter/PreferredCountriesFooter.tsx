@@ -8,8 +8,8 @@ type TPreferredCountriesFooterProps = {
 };
 
 const PreferredCountriesFooter = ({ isDisabled, onClickApply, onClickClear }: TPreferredCountriesFooterProps) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     return (
         <div className='flex gap-[0.8rem] w-full'>
             <Button
