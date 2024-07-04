@@ -131,7 +131,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     });
 
     const history = useHistory();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const isBuy = type === BUY_SELL.BUY;
 
     const shouldDisableField =
@@ -273,7 +273,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 {errorMessage && (
                     <div className='px-[1.6rem] lg:px-[2.4rem] mt-[1.6rem] lg:mt-[2.4rem]'>
                         <InlineMessage variant='error'>
-                            <Text size={isMobile ? 'xs' : '2xs'}>{errorMessage}</Text>
+                            <Text size={!isDesktop ? 'xs' : '2xs'}>{errorMessage}</Text>
                         </InlineMessage>
                     </div>
                 )}
@@ -345,7 +345,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 <ErrorModal
                     bodyClassName={clsx({ 'py-0 lg:py-4': !hasCounterpartyRateChanged })}
                     buttonText={hasCounterpartyRateChanged ? localize('Try again') : localize('Create new order')}
-                    buttonTextSize={isMobile ? 'md' : 'sm'}
+                    buttonTextSize={!isDesktop ? 'md' : 'sm'}
                     hideCloseIcon
                     isModalOpen
                     message={

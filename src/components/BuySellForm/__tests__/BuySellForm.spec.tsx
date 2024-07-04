@@ -135,7 +135,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: false })),
+    useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
 
 const mockUseDevice = useDevice as jest.Mock;
@@ -200,14 +200,14 @@ describe('BuySellForm', () => {
     });
     it('should render the form as expected in mobile view', () => {
         mockUseDevice.mockReturnValue({
-            isMobile: true,
+            isDesktop: false,
         });
         render(<BuySellForm {...mockProps} />);
         expect(screen.getByText('Buy USD')).toBeInTheDocument();
     });
     it("should handle onsubmit when form is submitted and it's valid", async () => {
         mockUseDevice.mockReturnValue({
-            isMobile: false,
+            isDesktop: true,
         });
         render(<BuySellForm {...mockProps} />);
         const confirmButton = screen.getByRole('button', { name: 'Confirm' });
