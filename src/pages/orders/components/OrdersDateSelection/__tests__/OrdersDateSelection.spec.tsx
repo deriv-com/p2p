@@ -5,7 +5,7 @@ import OrdersDateSelection from '../OrdersDateSelection';
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: false })),
+    useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
 
 const mockProps = {

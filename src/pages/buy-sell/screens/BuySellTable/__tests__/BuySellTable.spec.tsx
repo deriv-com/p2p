@@ -237,7 +237,7 @@ describe('<BuySellTable />', () => {
     });
 
     it('should render the RadioGroupFilterModal when the filter button is clicked', async () => {
-        mockUseDevice.mockReturnValue({ isMobile: true });
+        mockUseDevice.mockReturnValue({ isDesktop: false });
         mockUseModalManager.isModalOpenFor.mockImplementation(modal_name => modal_name === 'RadioGroupFilterModal');
         render(<BuySellTable />);
 
