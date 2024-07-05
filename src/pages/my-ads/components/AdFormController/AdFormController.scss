@@ -7,10 +7,11 @@
     margin-top: 2.4rem;
     @include mobile-or-tablet-screen {
         position: absolute;
-        bottom: 0;
+        bottom: 7.5rem;
         right: 0;
         width: 100%;
         padding: 1.6rem;
         background: #ffffff;
+        z-index: 1;
     }
 }
