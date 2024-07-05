@@ -17,6 +17,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
 
     const buttonTextSize = isDesktop ? 'sm' : 'md';
 
+    // TODO: change redirection when account switcher is implemented
     const openDerivApp = () => {
         window.open(URLConstants.derivAppProduction, '_blank')?.focus();
     };
