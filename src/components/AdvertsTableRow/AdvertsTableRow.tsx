@@ -27,40 +27,47 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { localize } = useTranslations();
 
     const {
-        account_currency,
-        advertiser_details,
-        counterparty_type,
-        effective_rate,
+        account_currency: accountCurrency,
+        advertiser_details: advertiserDetails,
+        counterparty_type: counterpartyType,
+        effective_rate: effectiveRate,
         eligibility_status: eligibilityStatus = [],
         id: advertId,
         is_eligible: isEligible,
-        local_currency = '',
-        max_order_amount_limit_display,
-        min_order_amount_limit_display,
-        payment_method_names,
-        price_display,
+        local_currency: localCurrency = '',
+        max_order_amount_limit_display: maxOrderAmountLimitDisplay,
+        min_order_amount_limit_display: minOrderAmountLimitDisplay,
+        payment_method_names: paymentMethodNames,
+        price_display: priceDisplay,
         rate,
-        rate_type,
+        rate_type: rateType,
     } = props;
 
-    const { exchangeRate } = api.exchangeRates.useGet(local_currency);
+    const { exchangeRate } = api.exchangeRates.useGet(localCurrency);
 
     const Container = isDesktop ? Fragment : 'div';
 
-    const { completed_orders_count, id, is_online, name, rating_average, rating_count } = advertiser_details || {};
+    const {
+        completed_orders_count: completedOrdersCount,
+        id,
+        is_online: isOnline,
+        name,
+        rating_average: ratingAverage,
+        rating_count: ratingCount,
+    } = advertiserDetails || {};
 
     const { displayEffectiveRate } = generateEffectiveRate({
         exchangeRate,
-        localCurrency: local_currency as TCurrency,
-        marketRate: Number(effective_rate),
-        price: Number(price_display),
+        localCurrency: localCurrency as TCurrency,
+        marketRate: Number(effectiveRate),
+        price: Number(priceDisplay),
         rate,
-        rateType: rate_type,
+        rateType,
     });
-    const hasRating = !!rating_average && !!rating_count;
-    const isBuyAdvert = counterparty_type === BUY_SELL.BUY;
+    const hasRating = !!ratingAverage && !!ratingCount;
+    const isBuyAdvert = counterpartyType === BUY_SELL.BUY;
     const isMyAdvert = data?.id === id;
-    const ratingAverageDecimal = rating_average ? Number(rating_average).toFixed(1) : null;
+    const ratingAverageDecimal = ratingAverage ? Number(ratingAverage).toFixed(1) : null;
     const textColor = isDesktop ? 'general' : 'less-prominent';
     const size = isDesktop ? 'sm' : 'md';
     const buttonTextSize = isDesktop ? 'xs' : 'md';
@@ -80,11 +87,11 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         onClick={() =>
                             isAdvertiserBarred
                                 ? undefined
-                                : history.push(`${ADVERTISER_URL}/${id}?currency=${local_currency}`)
+                                : history.push(`${ADVERTISER_URL}/${id}?currency=${localCurrency}`)
                         }
                     >
                         <UserAvatar
-                            isOnline={is_online}
+                            isOnline={isOnline}
                             nickname={name || ''}
                             showOnlineStatus
                             size={isDesktop ? 24 : 32}
@@ -99,7 +106,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                 <Text size={size} weight={isDesktop ? 400 : 'bold'}>
                                     {name}
                                 </Text>
-                                <Badge tradeCount={completed_orders_count} />
+                                <Badge tradeCount={completedOrdersCount} />
                             </div>
                             <div className='flex items-center'>
                                 {hasRating ? (
@@ -114,7 +121,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                             starsScale={isDesktop ? 0.9 : 0.7}
                                         />
                                         <Text className='lg:ml-[-0.5rem] ml-[-2.5rem]' color='less-prominent' size='xs'>
-                                            ({rating_count})
+                                            ({ratingCount})
                                         </Text>
                                     </>
                                 ) : (
@@ -134,16 +141,16 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     )}
                     <Container {...(!isDesktop && { className: 'flex flex-col-reverse mb-7' })}>
                         <Text color={textColor} size='sm'>
-                            {!isDesktop && 'Limits:'} {min_order_amount_limit_display}-{max_order_amount_limit_display}{' '}
-                            {account_currency}
+                            {!isDesktop && 'Limits:'} {minOrderAmountLimitDisplay}-{maxOrderAmountLimitDisplay}{' '}
+                            {accountCurrency}
                         </Text>
                         <Text className='text-wrap w-[90%]' color='success' size={size} weight='bold'>
-                            {displayEffectiveRate} {local_currency}
+                            {displayEffectiveRate} {localCurrency}
                         </Text>
                     </Container>
                     <div className='flex flex-wrap gap-2'>
-                        {payment_method_names ? (
-                            payment_method_names.map((method: string, idx: number) => (
+                        {paymentMethodNames ? (
+                            paymentMethodNames.map((method: string, idx: number) => (
                                 <PaymentMethodLabel
                                     color='general'
                                     key={idx}
@@ -194,7 +201,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             size={size}
                             textSize={buttonTextSize}
                         >
-                            {isBuyAdvert ? 'Buy' : 'Sell'} {account_currency}
+                            {isBuyAdvert ? 'Buy' : 'Sell'} {accountCurrency}
                         </Button>
                     )}
                 </div>

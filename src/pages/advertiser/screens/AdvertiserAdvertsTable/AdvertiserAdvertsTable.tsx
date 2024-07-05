@@ -46,9 +46,9 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
 
     const setShowBuySellForm = useCallback(() => {
         if (advertInfo) {
-            const { is_active, is_buy, is_visible } = advertInfo;
-            if (is_active && is_visible) {
-                setActiveTab(is_buy ? 1 : 0);
+            const { is_active: isActive, is_buy: isBuy, is_visible: isVisible } = advertInfo;
+            if (isActive && isVisible) {
+                setActiveTab(isBuy ? 1 : 0);
                 showModal('BuySellForm', { shouldClearPreviousModals: true, shouldStackModals: false });
             } else {
                 showModal('ErrorModal', { shouldClearPreviousModals: true });
