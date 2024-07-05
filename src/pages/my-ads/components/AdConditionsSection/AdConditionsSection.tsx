@@ -8,6 +8,7 @@ import { AdConditionBlockSelector } from '../AdConditionBlockSelector';
 import { AdFormController } from '../AdFormController';
 import { AdSummary } from '../AdSummary';
 import { PreferredCountriesSelector } from '../PreferredCountriesSelector';
+import './AdCondtionsSection.scss';
 
 type TAdConditionsSection = {
     countryList: TCountryListItem;
@@ -41,7 +42,7 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
     const minJoinDays = watch('min-join-days');
     const minCompletionRate = watch('min-completion-rate');
     return (
-        <div className='flex flex-col p-[1.6rem] w-full lg:p-0'>
+        <div className='ad-conditions-section'>
             <AdSummary
                 currency={currency}
                 localCurrency={localCurrency as TCurrency}

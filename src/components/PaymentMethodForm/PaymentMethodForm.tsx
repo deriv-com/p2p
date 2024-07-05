@@ -1,8 +1,10 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
+import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
 import { TAdvertiserPaymentMethod, TFormState, TSelectedPaymentMethod } from 'types';
 import { PageReturn, PaymentMethodField, PaymentMethodsFormFooter } from '@/components';
 import { api } from '@/hooks';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, useDevice } from '@deriv-com/ui';
 import { PaymentMethodFormAutocomplete } from './PaymentMethodFormAutocomplete';
 import { PaymentMethodFormModalRenderer } from './PaymentMethodFormModalRenderer';
@@ -29,6 +31,7 @@ const PaymentMethodForm = ({
     onResetFormState,
     ...rest
 }: TPaymentMethodFormProps) => {
+    const { localize } = useTranslations();
     const {
         control,
         formState: { dirtyFields, isDirty, isSubmitting, isValid },
@@ -38,10 +41,24 @@ const PaymentMethodForm = ({
     const [isError, setIsError] = useState(false);
     const { actionType, selectedPaymentMethod, title = '' } = rest.formState;
     const { data: availablePaymentMethods } = api.paymentMethods.useGet();
-    const { create, error: createError, isSuccess: isCreateSuccessful } = api.advertiserPaymentMethods.useCreate();
-    const { error: updateError, isSuccess: isUpdateSuccessful, update } = api.advertiserPaymentMethods.useUpdate();
+    const {
+        create,
+        error: createError,
+        isError: isCreateError,
+        isSuccess: isCreateSuccessful,
+        reset: resetCreate,
+    } = api.advertiserPaymentMethods.useCreate();
+    const {
+        error: updateError,
+        isError: isUpdateError,
+        isSuccess: isUpdateSuccessful,
+        reset: resetUpdate,
+        update,
+    } = api.advertiserPaymentMethods.useUpdate();
 
     const { isDesktop } = useDevice();
+
+    const showPaymentMethodFormModal = isError || isCreateError || isUpdateError;
 
     useEffect(() => {
         if (isCreateSuccessful) {
@@ -78,7 +95,7 @@ const PaymentMethodForm = ({
             <>
                 <Modal
                     ariaHideApp={false}
-                    className='payment-method-form__modal'
+                    className={clsx('payment-method-form__modal', { hidden: showPaymentMethodFormModal })}
                     isOpen={displayModal}
                     onRequestClose={handleGoBack}
                     shouldCloseOnOverlayClick={false}
@@ -105,10 +122,10 @@ const PaymentMethodForm = ({
                     >
                         <Modal.Header hideBorder onRequestClose={handleGoBack}>
                             <PageReturn
-                                className='mb-0'
+                                className='my-0'
                                 hasBorder={!isDesktop}
                                 onClick={handleGoBack}
-                                pageTitle='Add payment method'
+                                pageTitle={localize('Add payment method')}
                                 size={isDesktop ? 'md' : 'lg'}
                                 weight='bold'
                             />
@@ -161,19 +178,21 @@ const PaymentMethodForm = ({
                                     textSize='sm'
                                     variant='outlined'
                                 >
-                                    Cancel
+                                    <Localize i18n_default_text='Cancel' />
                                 </Button>
                             )}
                         </Modal.Footer>
                     </form>
                 </Modal>
-                {isError && (
+                {showPaymentMethodFormModal && (
                     <PaymentMethodFormModalRenderer
                         actionType={actionType}
                         createError={createError}
                         isCreateSuccessful={isCreateSuccessful}
                         isUpdateSuccessful={isUpdateSuccessful}
                         onResetFormState={onResetFormState}
+                        resetCreate={resetCreate}
+                        resetUpdate={resetUpdate}
                         setIsError={setIsError}
                         updateError={updateError}
                     />
@@ -206,7 +225,7 @@ const PaymentMethodForm = ({
                 className='py-[1.4rem] mb-0'
                 hasBorder={!isDesktop}
                 onClick={handleGoBack}
-                pageTitle={title}
+                pageTitle={title === '' ? localize('Add payment method') : title}
                 size={isDesktop ? 'md' : 'lg'}
                 weight='bold'
             />
@@ -237,7 +256,7 @@ const PaymentMethodForm = ({
                         );
                     })}
                 </div>
-                {(!isDesktop || !!selectedPaymentMethod) && (
+                {!!selectedPaymentMethod && (
                     <PaymentMethodsFormFooter
                         actionType={actionType}
                         handleGoBack={handleGoBack}
@@ -249,13 +268,15 @@ const PaymentMethodForm = ({
                     />
                 )}
             </form>
-            {isError && (
+            {showPaymentMethodFormModal && (
                 <PaymentMethodFormModalRenderer
                     actionType={actionType}
                     createError={createError}
                     isCreateSuccessful={isCreateSuccessful}
                     isUpdateSuccessful={isUpdateSuccessful}
                     onResetFormState={onResetFormState}
+                    resetCreate={resetCreate}
+                    resetUpdate={resetUpdate}
                     setIsError={setIsError}
                     updateError={updateError}
                 />
