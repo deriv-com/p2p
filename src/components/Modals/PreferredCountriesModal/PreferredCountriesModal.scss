@@ -7,14 +7,19 @@
 
     &__full-page-modal {
         position: absolute;
-        top: 4rem;
+        top: 0;
         left: 0;
         background: #fff;
         z-index: 1;
-        height: calc(100vh - 8rem);
+        height: calc(100vh - 7.5rem);
 
-        & .mobile-wrapper__header {
-            padding: 1.4rem 1.6rem;
+        & .mobile-wrapper {
+            &__header {
+                padding: 1.4rem 1.6rem;
+            }
+            &__footer {
+                border-top: 0;
+            }
         }
     }
 }

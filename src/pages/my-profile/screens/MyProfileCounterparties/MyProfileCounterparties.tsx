@@ -16,7 +16,7 @@ const MyProfileCounterpartiesDisplayWrapper = ({ children }: PropsWithChildren<u
     if (!isDesktop) {
         return (
             <FullPageMobileWrapper
-                className='absolute top-16'
+                className='absolute top-0'
                 onBack={() =>
                     setQueryString({
                         tab: 'default',
