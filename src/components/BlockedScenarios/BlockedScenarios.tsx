@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom';
 import { ReactComponent as P2pUnavailable } from '@/assets/p2p-unavailable.svg';
 import { Localize } from '@deriv-com/translations';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
@@ -15,18 +14,18 @@ type TBlockedScenariosObject = {
 
 const BlockedScenarios = ({ type }: { type: string }) => {
     const { isDesktop } = useDevice();
-    const history = useHistory();
 
     const buttonTextSize = isDesktop ? 'sm' : 'md';
     const iconSize = isDesktop ? 128 : 120;
+
+    const openDerivApp = () => {
+        window.open(URLConstants.derivAppProduction, '_blank')?.focus();
+    };
+
     const blockedScenarios: TBlockedScenariosObject = {
         crypto: {
             actionButtons: (
-                <Button
-                    onClick={() => history.push(URLConstants.derivAppProduction)}
-                    size='lg'
-                    textSize={buttonTextSize}
-                >
+                <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
                     <Localize i18n_default_text='Switch to real USD account' />
                 </Button>
             ),
@@ -44,11 +43,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         },
         demo: {
             actionButtons: (
-                <Button
-                    onClick={() => history.push(URLConstants.derivAppProduction)}
-                    size='lg'
-                    textSize={buttonTextSize}
-                >
+                <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
                     <Localize i18n_default_text='Switch to real USD account' />
                 </Button>
             ),
@@ -66,11 +61,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         },
         nonUSD: {
             actionButtons: (
-                <Button
-                    onClick={() => history.push(URLConstants.derivAppProduction)}
-                    size='lg'
-                    textSize={buttonTextSize}
-                >
+                <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
                     <Localize i18n_default_text='Create real USD account' />
                 </Button>
             ),
