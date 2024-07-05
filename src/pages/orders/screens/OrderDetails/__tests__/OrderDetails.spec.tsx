@@ -33,7 +33,7 @@ jest.mock('@deriv-com/api-hooks', () => ({
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn().mockReturnValue({ isMobile: false }),
+    useDevice: jest.fn().mockReturnValue({ isDesktop: true }),
 }));
 
 jest.mock('@/hooks', () => ({
@@ -142,7 +142,7 @@ describe('<OrderDetails />', () => {
     });
 
     it('should render Mobile view if isMobile is true', () => {
-        mockUseDevice.mockReturnValue({ isMobile: true });
+        mockUseDevice.mockReturnValue({ isDesktop: false });
 
         render(<OrderDetails />);
 
@@ -191,7 +191,7 @@ describe('<OrderDetails />', () => {
     });
 
     it('should push to Orders URL if from is Orders', async () => {
-        mockUseDevice.mockReturnValue({ isMobile: false });
+        mockUseDevice.mockReturnValue({ isDesktop: true });
         mockState = { from: 'Orders' };
 
         render(<OrderDetails />);

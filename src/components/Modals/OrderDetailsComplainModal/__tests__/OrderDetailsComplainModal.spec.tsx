@@ -5,7 +5,7 @@ import OrderDetailsComplainModal from '../OrderDetailsComplainModal';
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn().mockReturnValue({ isMobile: false }),
+    useDevice: jest.fn().mockReturnValue({ isDesktop: true }),
 }));
 
 const mockUseDevice = useDevice as jest.Mock;

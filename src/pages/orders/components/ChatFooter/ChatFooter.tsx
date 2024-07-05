@@ -17,7 +17,7 @@ type TChatFooterProps = {
 };
 const ChatFooter = ({ isClosed, sendFile, sendMessage }: TChatFooterProps) => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const [value, setValue] = useState('');
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const textInputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -28,7 +28,7 @@ const ChatFooter = ({ isClosed, sendFile, sendMessage }: TChatFooterProps) => {
     if (isClosed) {
         return (
             <div className='flex justify-center lg:px-[2.4rem] lg:py-[1.6rem]'>
-                <Text size={isMobile ? 'md' : 'sm'}>
+                <Text size={isDesktop ? 'sm' : 'md'}>
                     <Localize i18n_default_text='This conversation is closed' />
                 </Text>
             </div>
@@ -51,7 +51,7 @@ const ChatFooter = ({ isClosed, sendFile, sendMessage }: TChatFooterProps) => {
     };
 
     const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-        if (event.key === 'Enter' && !isMobile) {
+        if (event.key === 'Enter' && isDesktop) {
             if (event.ctrlKey || event.metaKey) {
                 const element = event.currentTarget;
                 const { value } = element;

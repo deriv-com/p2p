@@ -2,7 +2,7 @@
     @include default-modal;
 
     &__header {
-        @include mobile {
+        @include mobile-or-tablet-screen {
             padding-left: 1.6rem;
         }
     }

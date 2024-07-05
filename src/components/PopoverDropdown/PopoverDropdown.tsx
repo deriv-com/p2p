@@ -21,7 +21,7 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
     const [visible, setVisible] = useState(false);
     const ref = useRef(null);
     useOnClickOutside(ref, () => setVisible(false));
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const isAdvertiserBarred = useIsAdvertiserBarred();
 
     return (
@@ -54,7 +54,7 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
                             <Text
                                 className='popover-dropdown__list-item__label'
                                 key={item.value}
-                                size={isMobile ? 'md' : 'sm'}
+                                size={isDesktop ? 'sm' : 'md'}
                             >
                                 {item.label}
                             </Text>

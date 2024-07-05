@@ -32,8 +32,8 @@ const AdCreateEditErrorModal = ({
     isModalOpen,
     onRequestClose,
 }: TAdCreateEditErrorModalProps) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     return (
         <Modal
             ariaHideApp={false}

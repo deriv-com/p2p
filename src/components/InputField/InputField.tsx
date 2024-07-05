@@ -16,7 +16,7 @@ type TInputField = {
 };
 
 const InputField = ({ decimalPointChange, isError, name = '', onBlur, onChange, type = '', value }: TInputField) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const [localValue, setLocalValue] = useState<string>();
     const intervalRef = useRef<ReturnType<typeof setInterval>>();
     const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
@@ -162,7 +162,7 @@ const InputField = ({ decimalPointChange, isError, name = '', onBlur, onChange, 
     return (
         <div className='input-field'>
             <div className='input-field__prefix'>
-                <Text size={isMobile ? 'md' : 'sm'}>%</Text>
+                <Text size={isDesktop ? 'sm' : 'md'}>%</Text>
             </div>
             <Input
                 autoComplete='off'

@@ -21,7 +21,7 @@ const MyProfileCounterpartiesTableRow = ({
     nickname,
     setErrorMessage,
 }: TMyProfileCounterpartiesTableRowProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const history = useHistory();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const isAdvertiserBarred = useIsAdvertiserBarred();
@@ -38,7 +38,7 @@ const MyProfileCounterpartiesTableRow = ({
                     }}
                 >
                     <UserAvatar className='h-[3rem] w-[3rem]' nickname={nickname} size={65} textSize='sm' />
-                    <Text size={isMobile ? 'md' : 'sm'}>{nickname}</Text>
+                    <Text size={isDesktop ? 'sm' : 'md'}>{nickname}</Text>
                 </div>
                 <Button
                     className='w-36 border-[1px]'

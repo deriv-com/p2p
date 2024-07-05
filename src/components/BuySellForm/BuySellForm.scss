@@ -3,7 +3,7 @@
     height: unset;
     border-radius: 8px;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         width: 100vw;
         height: 100vh;
         box-shadow: none;
@@ -19,7 +19,7 @@
             max-height: calc(100vh - 13rem);
             overflow: auto;
         }
-        @include mobile {
+        @include mobile-or-tablet-screen {
             height: unset;
             max-height: unset;
         }

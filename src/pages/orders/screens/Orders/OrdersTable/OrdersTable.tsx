@@ -69,7 +69,7 @@ type TOrdersTableProps = {
 };
 
 const OrdersTable = ({ data, isActive, isLoading, loadMoreOrders }: TOrdersTableProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     if (data?.length === 0 && !isLoading) {
         return <OrdersEmpty isPast={!isActive} />;
     }
@@ -81,7 +81,7 @@ const OrdersTable = ({ data, isActive, isLoading, loadMoreOrders }: TOrdersTable
                 <Loader />
             ) : (
                 <Table
-                    columns={isMobile ? [] : columns}
+                    columns={isDesktop ? columns : []}
                     data={data}
                     loadMoreFunction={loadMoreOrders}
                     renderHeader={headerRenderer}

@@ -23,7 +23,7 @@ type TOrdersChatSectionProps = {
 const OrdersChatSection = ({ isInactive, onReturn, otherUserDetails, ...sendBirdData }: TOrdersChatSectionProps) => {
     const { activeChatChannel, isChatLoading, isError, messages, refreshChat, sendFile, sendMessage, userId } =
         sendBirdData;
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { is_online: isOnline, last_online_time: lastOnlineTime, name } = otherUserDetails ?? {};
     const isChannelClosed = isInactive || !!activeChatChannel?.isFrozen;
 
@@ -35,7 +35,7 @@ const OrdersChatSection = ({ isInactive, onReturn, otherUserDetails, ...sendBird
         );
     }
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 className={clsx('orders-chat-section__full-page', {

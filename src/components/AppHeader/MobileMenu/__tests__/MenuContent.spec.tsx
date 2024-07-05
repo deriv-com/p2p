@@ -7,7 +7,7 @@ const mockSettingsButtonClick = jest.fn();
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: true })),
+    useDevice: jest.fn(() => ({ isDesktop: false })),
 }));
 
 jest.mock('@deriv-com/api-hooks', () => ({
@@ -91,7 +91,7 @@ describe('MenuContent Component', () => {
     });
 
     it('adjusts text size for desktop devices', () => {
-        (useDevice as jest.Mock).mockReturnValue({ isMobile: false });
+        (useDevice as jest.Mock).mockReturnValue({ isDesktop: true });
         render(<MenuContent />);
         const text = screen.getByText('Home');
         expect(text).toHaveClass('derivs-text__size--sm');
