@@ -11,9 +11,9 @@ import './MyProfileCounterparties.scss';
 
 const MyProfileCounterpartiesDisplayWrapper = ({ children }: PropsWithChildren<unknown>) => {
     const { setQueryString } = useQueryString();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 className='absolute top-0'

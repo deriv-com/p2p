@@ -4,8 +4,8 @@ import { PlatformSwitcher } from '../PlatformSwitcher';
 import { MobileMenuConfig } from './MobileMenuConfig';
 
 export const MenuContent = () => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
 
     return (
         <div className='flex flex-col h-full'>

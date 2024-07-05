@@ -4,7 +4,7 @@ import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 
 const RecommendationStatus = () => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { orderDetails } = useOrderDetails();
     const { review_details: reviewDetails } = orderDetails;
 
@@ -12,7 +12,7 @@ const RecommendationStatus = () => {
     if (reviewDetails?.recommended === null) return null;
 
     return (
-        <Text as='div' className='flex items-center gap-1' color='less-prominent' size={isMobile ? 'sm' : 'xs'}>
+        <Text as='div' className='flex items-center gap-1' color='less-prominent' size={isDesktop ? 'xs' : 'sm'}>
             {reviewDetails?.recommended ? (
                 <>
                     <StandaloneThumbsUpRegularIcon className='mb-[0.3rem]' fill='#4BB4B3' iconSize='sm' />

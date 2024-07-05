@@ -50,7 +50,7 @@ const MyProfileCounterpartiesTable = ({
         trade_partners: 1,
     });
     const [errorMessage, setErrorMessage] = useState<string | undefined>('');
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     useEffect(() => {
         if (data.length > 0) {
@@ -68,7 +68,7 @@ const MyProfileCounterpartiesTable = ({
     if (!isFetching && data.length === 0) {
         if (searchValue === '') return <MyProfileCounterpartiesEmpty />;
         return (
-            <Text className='pt-12' weight={isMobile ? 'normal' : 'bold'}>
+            <Text className='pt-12' weight={isDesktop ? 'bold' : 'normal'}>
                 <Localize i18n_default_text='There are no matching name.' />
             </Text>
         );
@@ -78,7 +78,7 @@ const MyProfileCounterpartiesTable = ({
         return (
             <div className='flex flex-col items-center lg:px-[11rem] px-[1.6rem]'>
                 <DerivLightIcBlockedAdvertisersBarredIcon height={128} width={128} />
-                <Text align='center' className='mt-[3rem]' size={isMobile ? 'lg' : 'md'} weight='bold'>
+                <Text align='center' className='mt-[3rem]' size={isDesktop ? 'md' : 'lg'} weight='bold'>
                     {errorMessage}
                 </Text>
             </div>

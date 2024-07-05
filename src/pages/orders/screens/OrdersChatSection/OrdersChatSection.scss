@@ -9,7 +9,7 @@
     min-height: 60vh;
     height: 100%;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         width: unset;
         border: unset;
     }

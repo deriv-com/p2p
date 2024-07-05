@@ -6,7 +6,7 @@ import { Text, useDevice } from '@deriv-com/ui';
 import './ProfileStats.scss';
 
 const ProfileStats = ({ advertiserStats }: { advertiserStats: Partial<TAdvertiserStats> }) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { localize } = useTranslations();
 
     const advertiserStatsList = useMemo(() => {
@@ -52,7 +52,7 @@ const ProfileStats = ({ advertiserStats }: { advertiserStats: Partial<TAdvertise
                 {advertiserStatsList.slice(0, 3).map(stat => (
                     <div
                         className={clsx('flex flex-col lg:gap-1 profile-stats__item-stat', {
-                            'border-r-[1px] border-solid border-r-[#ededed]': isMobile,
+                            'border-r-[1px] border-solid border-r-[#ededed]': !isDesktop,
                         })}
                         key={stat.value + stat.text}
                     >
@@ -69,7 +69,7 @@ const ProfileStats = ({ advertiserStats }: { advertiserStats: Partial<TAdvertise
                 {advertiserStatsList.slice(-3).map(stat => (
                     <div
                         className={clsx('flex flex-col lg:gap-1 profile-stats__item-stat', {
-                            'border-none': isMobile,
+                            'border-none': !isDesktop,
                         })}
                         key={stat.value + stat.text}
                     >

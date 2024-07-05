@@ -35,7 +35,7 @@ const OrderDetails = () => {
         serverTime,
     });
     const { isBuyOrderForUser, shouldShowLostFundsBanner } = orderDetails;
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { sendFile, userId, ...rest } = useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
     const { localize } = useTranslations();
     const { data: activeAccountData } = api.account.useActiveAccount();
@@ -84,7 +84,7 @@ const OrderDetails = () => {
     // TODO: replace with proper error screen once design is ready
     if (error) return <Text>{error?.message}</Text>;
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <OrderDetailsProvider value={{ isErrorOrderInfo: !!error, orderDetails }}>
                 {showChat ? (

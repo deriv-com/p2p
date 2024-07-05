@@ -25,7 +25,7 @@ const AdminMessage = () => (
 );
 
 const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMessagesProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     let currentDate = '';
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -93,7 +93,12 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMess
                     <Fragment key={chatMessage.id}>
                         {shouldRenderDate && (
                             <div className='chat-messages__date'>
-                                <Text align='center' color='less-prominent' size={isMobile ? 'md' : 'sm'} weight='bold'>
+                                <Text
+                                    align='center'
+                                    color='less-prominent'
+                                    size={isDesktop ? 'sm' : 'md'}
+                                    weight='bold'
+                                >
                                     {messageDate}
                                 </Text>
                             </div>
@@ -111,7 +116,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMess
                             )}
                             {messageType === CHAT_MESSAGE_TYPE.FILE && getMessageFormat(chatMessage, messageColor)}
                             <div className='chat-messages__item__timestamp'>
-                                <Text color='less-prominent' size={isMobile ? 'xs' : '2xs'}>
+                                <Text color='less-prominent' size={isDesktop ? '2xs' : 'xs'}>
                                     {formatMilliseconds(chatMessage.createdAt, 'HH:mm', true)}
                                 </Text>
                                 {isMyMessage && (

@@ -55,7 +55,7 @@ const PaymentMethodForm = ({
         update,
     } = api.advertiserPaymentMethods.useUpdate();
 
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     useEffect(() => {
         if (isCreateSuccessful) {
@@ -122,10 +122,10 @@ const PaymentMethodForm = ({
                         <Modal.Header hideBorder onRequestClose={handleGoBack}>
                             <PageReturn
                                 className='my-0'
-                                hasBorder={isMobile}
+                                hasBorder={!isDesktop}
                                 onClick={handleGoBack}
                                 pageTitle={localize('Add payment method')}
-                                size={isMobile ? 'lg' : 'md'}
+                                size={isDesktop ? 'md' : 'lg'}
                                 weight='bold'
                             />
                         </Modal.Header>
@@ -222,10 +222,10 @@ const PaymentMethodForm = ({
         <div className='payment-method-form'>
             <PageReturn
                 className='py-[1.4rem] mb-0'
-                hasBorder={isMobile}
+                hasBorder={!isDesktop}
                 onClick={handleGoBack}
                 pageTitle={title === '' ? localize('Add payment method') : title}
-                size={isMobile ? 'lg' : 'md'}
+                size={isDesktop ? 'md' : 'lg'}
                 weight='bold'
             />
             <form className='payment-method-form__form' onSubmit={handleFormSubmit}>

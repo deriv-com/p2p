@@ -35,8 +35,8 @@ const PaymentMethodsFormFooter = ({
     onSubmit,
     type = 'submit',
 }: TPaymentMethodsFormFooterProps) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
     return (

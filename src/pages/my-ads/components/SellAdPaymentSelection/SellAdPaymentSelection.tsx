@@ -14,7 +14,7 @@ type TSellAdPaymentSelectionProps = {
     selectedPaymentMethodIds: number[];
 };
 const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodIds }: TSellAdPaymentSelectionProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const isAdvertiser = useIsAdvertiser();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
@@ -71,7 +71,7 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
             </div>
             {isModalOpenFor('PaymentMethodForm') && (
                 <PaymentMethodForm
-                    displayModal={!isMobile && !!isModalOpenFor('PaymentMethodForm')}
+                    displayModal={isDesktop && !!isModalOpenFor('PaymentMethodForm')}
                     formState={formState}
                     onAdd={handleAddPaymentMethod}
                     onRequestClose={hideModal}

@@ -5,14 +5,14 @@
     padding: 1.6rem;
     align-items: center;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         grid-template-columns: 2fr 0.8fr;
     }
 
     &--advertiser {
         grid-template-columns: repeat(4, 1fr);
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             grid-template-columns: repeat(2, 1fr);
         }
     }

@@ -36,7 +36,7 @@ jest.mock('../OrdersTableHeader', () => ({
 }));
 
 jest.mock('@deriv-com/ui', () => ({
-    useDevice: () => ({ isMobile: false }),
+    useDevice: () => ({ isDesktop: true }),
 }));
 
 describe('Orders', () => {

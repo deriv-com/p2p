@@ -9,7 +9,7 @@ import { OrdersTableHeader } from './OrdersTableHeader';
 
 const Orders = () => {
     const { queryString } = useQueryString();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const currentTab = queryString.tab ?? ORDERS_STATUS.ACTIVE_ORDERS;
     const [fromDate, setFromDate] = useState<string | null>(null);
     const [toDate, setToDate] = useState<string | null>(null);
@@ -41,7 +41,7 @@ const Orders = () => {
                 setToDate={setToDate}
                 toDate={toDate}
             />
-            {isMobile && <Divider />}
+            {!isDesktop && <Divider />}
             <OrdersTable data={data} isActive={isActive} isLoading={isLoading} loadMoreOrders={loadMoreOrders} />
         </>
     );

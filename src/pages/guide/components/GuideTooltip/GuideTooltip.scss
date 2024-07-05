@@ -4,7 +4,7 @@
     padding: 1.6rem;
     width: 42rem;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         width: 38rem;
     }
 
@@ -36,7 +36,7 @@
             }
         }
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             position: relative;
         }
 

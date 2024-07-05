@@ -30,7 +30,7 @@ const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderD
     const { data: p2pSettingsData } = api.settings.useSettings();
     const [remainingReviewTime, setRemainingReviewTime] = useState<string | null>(null);
     const ratingAverageDecimals = reviewDetails ? Number(Number(reviewDetails.rating).toFixed(1)) : 0;
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
 
     useEffect(() => {
@@ -54,7 +54,7 @@ const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderD
                     onClick={() => showModal('RatingModal')}
                     variant='outlined'
                 >
-                    <Text size={isMobile ? 'sm' : 'xs'}>
+                    <Text size={isDesktop ? 'xs' : 'sm'}>
                         {isReviewable ? (
                             <Localize i18n_default_text='Rate this transaction' />
                         ) : (
@@ -62,7 +62,7 @@ const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderD
                         )}
                     </Text>
                 </Button>
-                <Text color='less-prominent' size={isMobile ? 'xs' : '2xs'}>
+                <Text color='less-prominent' size={isDesktop ? '2xs' : 'xs'}>
                     {isReviewable ? (
                         <Localize
                             i18n_default_text='You have until {{remainingReviewTime}} GMT to rate this transaction.'

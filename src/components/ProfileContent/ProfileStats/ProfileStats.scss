@@ -3,7 +3,7 @@
     grid-template-rows: 1fr 1fr;
     row-gap: 5rem;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: none;
         column-gap: 3rem;
@@ -15,7 +15,7 @@
         grid-template-columns: 1fr 1fr 1fr;
         column-gap: 2rem;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             display: flex;
             flex-direction: column;
             gap: 2rem;

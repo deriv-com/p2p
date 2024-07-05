@@ -3,7 +3,7 @@
     justify-content: space-around;
     margin: 2.5rem 0;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         margin: 2rem;
     }
 
@@ -24,7 +24,7 @@
         border-radius: 50%;
         margin-bottom: 0.5rem;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             width: fit-content;
         }
     }

@@ -16,7 +16,7 @@ import './AdvertiserNameStats.scss';
  * Use cases are to show this in My Profile and Advertiser page
  */
 const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
     const {
@@ -32,7 +32,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
     return (
         <div
             className={clsx('advertiser-name-stats', {
-                'gap-2': !isMyProfile && isMobile,
+                'gap-2': !isMyProfile && !isDesktop,
             })}
             data-testid='dt_advertiser_name_stats'
         >

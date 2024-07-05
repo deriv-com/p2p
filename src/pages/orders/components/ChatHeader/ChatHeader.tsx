@@ -8,12 +8,12 @@ type TChatHeaderProps = {
     nickname?: string;
 };
 const ChatHeader = ({ isOnline, lastOnlineTime, nickname }: TChatHeaderProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     return (
         <div className='chat-header flex gap-[1.6rem] w-full'>
             <UserAvatar isOnline={isOnline} nickname={nickname ?? ''} showOnlineStatus size={40} />
             <div className='flex flex-col'>
-                <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
+                <Text size={isDesktop ? 'md' : 'lg'} weight='bold'>
                     {nickname}
                 </Text>
                 <OnlineStatusLabel isOnline={isOnline} lastOnlineTime={lastOnlineTime ?? 0} />

@@ -28,7 +28,7 @@ const getMessage = (localize: TLocalize, count = 0) => {
 const BlockUserCount = ({ count }: TBlockUserCount) => {
     const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     return (
         <div className='block-user-count'>
             <Tooltip
@@ -40,7 +40,7 @@ const BlockUserCount = ({ count }: TBlockUserCount) => {
                     color='white'
                     data-testid='dt_block_user_count_button'
                     onClick={() => {
-                        isMobile ? showModal('BlockUserCountModal') : undefined;
+                        isDesktop ? undefined : showModal('BlockUserCountModal');
                     }}
                     variant='outlined'
                 >

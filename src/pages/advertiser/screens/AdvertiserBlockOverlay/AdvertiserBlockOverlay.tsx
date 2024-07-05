@@ -20,7 +20,7 @@ const AdvertiserBlockOverlay = ({
     isOverlayVisible,
     setShowOverlay,
 }: PropsWithChildren<TAdvertiserBlockOverlayProps>) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     if (isOverlayVisible) {
         return (
@@ -29,7 +29,7 @@ const AdvertiserBlockOverlay = ({
                     <DerivLightIcBlockIcon height={160} width={160} />
                     <Text
                         className='advertiser-block-overlay__wrapper-text'
-                        size={isMobile ? 'lg' : 'md'}
+                        size={isDesktop ? 'md' : 'lg'}
                         weight='bold'
                     >
                         <Localize i18n_default_text='You have blocked {{advertiserName}}' values={{ advertiserName }} />
@@ -39,7 +39,7 @@ const AdvertiserBlockOverlay = ({
                         color='black'
                         onClick={() => showModal('BlockUnblockUserModal')}
                         size='lg'
-                        textSize={isMobile ? 'md' : 'sm'}
+                        textSize={isDesktop ? 'sm' : 'md'}
                         variant='outlined'
                     >
                         <Localize i18n_default_text='Unblock' />

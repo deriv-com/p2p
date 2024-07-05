@@ -25,10 +25,10 @@ const BuySellFormDisplayWrapper = ({
     onRequestClose,
     onSubmit,
 }: PropsWithChildren<TBuySellFormDisplayWrapperProps>) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const currentRoute = getCurrentRoute();
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 className={clsx('buy-sell-form__full-page-modal', {
