@@ -94,7 +94,7 @@ module.exports = {
         {
             files: ['**/hooks/api/**/*.{js,jsx,ts,tsx}'],
             rules: {
-                camelcase: 'off', // Disable camelcase rule for files under 'hooks' folder
+                camelcase: 'off', // Disable camelcase rule for files under 'hooks/api' folder
             },
         },
     ],
