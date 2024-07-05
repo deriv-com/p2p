@@ -38,7 +38,7 @@ type TMyAdsTableProps = Omit<
 
 const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps) => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     const {
         account_currency: accountCurrency = '',
@@ -103,7 +103,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
         onClickIcon(action);
     };
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <div
                 className={clsx('my-ads-table-row__line', {

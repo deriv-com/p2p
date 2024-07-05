@@ -7,10 +7,10 @@ type TMyAdsToggleProps = {
     onClickToggle: () => void;
 };
 const MyAdsToggle = ({ isPaused, onClickToggle }: TMyAdsToggleProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     return (
-        <div className={clsx('flex gap-[1.6rem] items-center', { 'justify-end w-full': isMobile })}>
-            <Text color={isPaused ? 'success' : 'less-prominent'} size={isMobile ? 'md' : 'sm'}>
+        <div className={clsx('flex gap-[1.6rem] items-center', { 'justify-end w-full': !isDesktop })}>
+            <Text color={isPaused ? 'success' : 'less-prominent'} size={isDesktop ? 'sm' : 'md'}>
                 <Localize i18n_default_text='Hide my ads' />
             </Text>
             <ToggleSwitch onChange={onClickToggle} value={isPaused} />

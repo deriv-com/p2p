@@ -34,7 +34,7 @@ const getPoaAction = (status: string | undefined, localize: TLocalize) => {
 };
 
 const Verification = () => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { localize } = useTranslations();
     const { data, isLoading } = usePoiPoaStatus();
     const { isP2PPoaRequired, isPoaPending, isPoaVerified, isPoiPending, isPoiVerified, poaStatus, poiStatus } =
@@ -86,10 +86,10 @@ const Verification = () => {
     return (
         <div className='verification'>
             <DerivLightIcCashierSendEmailIcon className='verification__icon' height={128} width={128} />
-            <Text className='verification__text' size={isMobile ? 'lg' : 'md'} weight='bold'>
+            <Text className='verification__text' size={isDesktop ? 'md' : 'lg'} weight='bold'>
                 <Localize i18n_default_text='Verify your P2P account' />
             </Text>
-            <Text align='center' className='verification__text' size={isMobile ? 'lg' : 'sm'}>
+            <Text align='center' className='verification__text' size={isDesktop ? 'sm' : 'lg'}>
                 <Localize i18n_default_text='Verify your identity and address to use Deriv P2P.' />
             </Text>
             <Checklist items={checklistItems} />

@@ -7,7 +7,7 @@ const mockOnClick = jest.fn();
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: true })),
+    useDevice: jest.fn(() => ({ isDesktop: false })),
 }));
 
 describe('BackButton Component', () => {
@@ -29,7 +29,7 @@ describe('BackButton Component', () => {
     });
 
     it('uses a smaller text size for non-mobile devices', () => {
-        (useDevice as jest.Mock).mockReturnValue({ isMobile: false });
+        (useDevice as jest.Mock).mockReturnValue({ isDesktop: true });
         render(<BackButton buttonText='Go Back' onClick={mockOnClick} />);
         const textComponent = screen.getByText('Go Back');
         expect(textComponent).toHaveClass('derivs-text__size--md');

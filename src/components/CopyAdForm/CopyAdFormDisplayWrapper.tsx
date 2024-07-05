@@ -17,9 +17,9 @@ const CopyAdFormDisplayWrapper = ({
     onClickCancel,
     onSubmit,
 }: PropsWithChildren<TCopyAdFormDisplayWrapperProps>) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 className='copy-ad-form__full-page-modal'

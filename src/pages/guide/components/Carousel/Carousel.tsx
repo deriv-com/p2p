@@ -19,7 +19,7 @@ type TCarouselProps = {
 };
 
 const Carousel = ({ isControlVisible = true, items }: TCarouselProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const [currentIndex, setCurrentIndex] = useState(0);
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -43,7 +43,7 @@ const Carousel = ({ isControlVisible = true, items }: TCarouselProps) => {
                     );
                 })}
             </div>
-            {isMobile && isControlVisible && (
+            {!isDesktop && isControlVisible && (
                 <div className='flex justify-center'>
                     {items.map((item: TCarouselItem, index: number) => {
                         return (

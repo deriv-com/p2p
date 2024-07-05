@@ -2,7 +2,7 @@
     display: flex;
     padding: 1.6rem;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         border-top: 2px solid #f2f3f4;
     }
 }

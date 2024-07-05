@@ -12,12 +12,12 @@ type TAdCancelCreateEditModalProps = {
 };
 
 const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose, resetValues }: TAdCancelCreateEditModalProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const history = useHistory();
     const { queryString } = useQueryString();
     const { advertId = '' } = queryString;
     const isEdit = !!advertId;
-    const textSize = isMobile ? 'md' : 'sm';
+    const textSize = isDesktop ? 'sm' : 'md';
     return (
         <Modal
             ariaHideApp={false}

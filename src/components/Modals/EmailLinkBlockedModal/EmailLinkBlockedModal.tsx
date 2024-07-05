@@ -10,8 +10,8 @@ type TEmailLinkBlockedModalProps = {
 };
 
 const EmailLinkBlockedModal = ({ errorMessage, isModalOpen, onRequestClose }: TEmailLinkBlockedModalProps) => {
-    const { isMobile } = useDevice();
-    const iconSize = isMobile ? 96 : 128;
+    const { isDesktop } = useDevice();
+    const iconSize = isDesktop ? 128 : 96;
 
     return (
         <Modal

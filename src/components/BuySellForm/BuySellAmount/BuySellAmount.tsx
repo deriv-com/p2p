@@ -42,8 +42,8 @@ const BuySellAmount = ({
     setValue,
     trigger,
 }: TBuySellAmountProps) => {
-    const { isMobile } = useDevice();
-    const labelSize = isMobile ? 'sm' : 'xs';
+    const { isDesktop } = useDevice();
+    const labelSize = isDesktop ? 'xs' : 'sm';
 
     useEffect(() => {
         setBuySellAmount(
@@ -122,11 +122,11 @@ const BuySellAmount = ({
                         }}
                     />
                 </div>
-                {isMobile && <LightDivider />}
-                {!isMobile && (
+                {!isDesktop && <LightDivider />}
+                {isDesktop && (
                     <div className='buy-sell-amount__value'>
                         <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
-                        <Text size={isMobile ? 'md' : 'sm'} weight='bold'>
+                        <Text size='sm' weight='bold'>
                             {buySellAmount}&nbsp;{localCurrency}
                         </Text>
                     </div>
@@ -200,14 +200,16 @@ const BuySellAmount = ({
                     />
                 </div>
             )}
-            {isMobile && <LightDivider />}
-            {isMobile && (
-                <div className='buy-sell-amount__value'>
-                    <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
-                    <Text size={isMobile ? 'md' : 'sm'} weight='bold'>
-                        {buySellAmount} {localCurrency}
-                    </Text>
-                </div>
+            {!isDesktop && (
+                <>
+                    <LightDivider />
+                    <div className='buy-sell-amount__value'>
+                        <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
+                        <Text size='md' weight='bold'>
+                            {buySellAmount} {localCurrency}
+                        </Text>
+                    </div>
+                </>
             )}
         </div>
     );

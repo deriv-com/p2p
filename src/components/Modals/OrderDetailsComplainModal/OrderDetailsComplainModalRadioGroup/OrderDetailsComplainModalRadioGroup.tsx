@@ -44,7 +44,7 @@ const OrderDetailsComplainModalRadioGroup = ({
     isBuyOrderForUser,
     onCheckboxChange,
 }: TOrderDetailsComplainModalRadioGroupProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     const { localize } = useTranslations();
     return (
@@ -54,7 +54,7 @@ const OrderDetailsComplainModalRadioGroup = ({
             onToggle={event => onCheckboxChange(event.target.value)}
             required
             selected={disputeReason}
-            textSize={isMobile ? 'md' : 'sm'}
+            textSize={isDesktop ? 'sm' : 'md'}
         >
             {getRadioItems(isBuyOrderForUser, localize).map(item => (
                 <RadioGroup.Item hidden={item.hidden} key={item.label} label={item.label} value={item.value} />

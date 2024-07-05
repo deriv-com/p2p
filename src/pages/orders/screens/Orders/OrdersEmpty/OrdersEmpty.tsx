@@ -9,15 +9,15 @@ type TOrdersEmptyProps = {
 };
 
 const OrdersEmpty = ({ isPast = false }: TOrdersEmptyProps) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'lg' : 'md';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'md' : 'lg';
     const history = useHistory();
     return (
         <div className='lg:p-0 py-16 px-[1.6rem]'>
             <ActionScreen
                 actionButtons={
                     isPast ? undefined : (
-                        <Button onClick={() => history.push(BUY_SELL_URL)} size='lg' textSize={isMobile ? 'md' : 'sm'}>
+                        <Button onClick={() => history.push(BUY_SELL_URL)} size='lg' textSize={isDesktop ? 'sm' : 'md'}>
                             <Localize i18n_default_text='Buy/Sell' />
                         </Button>
                     )

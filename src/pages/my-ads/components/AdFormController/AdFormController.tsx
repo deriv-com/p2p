@@ -21,8 +21,8 @@ const AdFormController = ({
     isNextButtonDisabled,
     onCancel,
 }: TAdFormControllerProps) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     const { queryString } = useQueryString();
     const { advertId = '' } = queryString;
     const isEdit = !!advertId;

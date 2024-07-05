@@ -18,9 +18,9 @@ const PaymentMethodAccordion = ({
 }: TPaymentMethodAccordionProps) => {
     const [expandedIds, setExpandedIds] = useState<string[]>([]);
     const paymentMethodKeys = paymentMethodDetails ? Object.keys(paymentMethodDetails) : [];
-    const { isMobile } = useDevice();
-    const bigTextSize = isMobile ? 'md' : 'sm';
-    const smallTextSize = isMobile ? 'sm' : 'xs';
+    const { isDesktop } = useDevice();
+    const bigTextSize = isDesktop ? 'sm' : 'md';
+    const smallTextSize = isDesktop ? 'xs' : 'sm';
 
     return (
         <div className='flex flex-col p-[1.6rem] gap-2'>
