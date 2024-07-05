@@ -7,11 +7,11 @@ type TChatErrorProps = {
 };
 
 const ChatError = ({ onClickRetry }: TChatErrorProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     return (
         <div className='flex flex-col gap-[1.6rem] items-center'>
-            <Text size={isMobile ? 'lg' : 'md'}>
+            <Text size={isDesktop ? 'md' : 'lg'}>
                 <Localize i18n_default_text='Oops, something went wrong' />
             </Text>
             <Button className='w-fit' onClick={onClickRetry} variant='contained'>

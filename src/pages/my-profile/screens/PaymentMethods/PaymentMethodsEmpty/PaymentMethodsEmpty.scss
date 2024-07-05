@@ -4,7 +4,7 @@
     flex-direction: column;
     width: 100%;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         margin-top: 7rem;
         justify-content: center;
     }
@@ -17,7 +17,7 @@
     &__icon {
         margin: 2rem auto 0;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             margin: 11.2rem auto 0;
         }
     }

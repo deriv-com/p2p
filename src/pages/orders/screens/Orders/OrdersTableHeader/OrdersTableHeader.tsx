@@ -16,14 +16,14 @@ type TOrdersTableHeaderProps = {
 };
 
 const OrdersTableHeader = ({ activeTab, fromDate, setFromDate, setToDate, toDate }: TOrdersTableHeaderProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { setQueryString } = useQueryString();
     const { localize } = useTranslations();
 
     return (
         <div className='orders-table-header' data-testid='dt_orders_table_header'>
             <Tabs
-                TitleFontSize={isMobile ? 'md' : 'sm'}
+                TitleFontSize={isDesktop ? 'sm' : 'md'}
                 activeTab={getLocalizedTabs(localize)[activeTab]}
                 onChange={(index: number) =>
                     setQueryString({

@@ -73,7 +73,7 @@ const AppHeader = () => {
                 <AppLogo />
                 <MobileMenu />
                 {isDesktop && <PlatformSwitcher />}
-                <MenuItems />
+                {isDesktop && <MenuItems />}
             </Wrapper>
             <Wrapper variant='right'>{renderAccountSection()}</Wrapper>
         </Header>

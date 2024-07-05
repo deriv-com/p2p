@@ -13,8 +13,8 @@ const AdPaymentSelection = ({
     onSelectPaymentMethod,
     selectedPaymentMethods,
 }: TAdPaymentSectionProps) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
 
     return (
         <>

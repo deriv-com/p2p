@@ -23,8 +23,8 @@ const OrderDetailsCardHeader = () => {
         statusString,
     } = orderDetails;
 
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'sm' : 'xs';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'xs' : 'sm';
     const { data: serverTime } = api.account.useServerTime();
     const distance = getDistanceToServerTime(orderExpiryMilliseconds, serverTime?.server_time_moment);
     const getStatusColor = () => {
@@ -37,11 +37,11 @@ const OrderDetailsCardHeader = () => {
     return (
         <div className='flex justify-between p-[1.6rem]'>
             <div className='flex flex-col gap-1'>
-                <Text color={getStatusColor()} size={isMobile ? 'lg' : 'md'} weight='bold'>
+                <Text color={getStatusColor()} size={isDesktop ? 'md' : 'lg'} weight='bold'>
                     {statusString}
                 </Text>
                 {!hasTimerExpired && (isPendingOrder || isBuyerConfirmedOrder) && (
-                    <Text size={isMobile ? '2xl' : 'xl'}>
+                    <Text size={isDesktop ? 'xl' : '2xl'}>
                         {displayPaymentAmount} {localCurrency}
                     </Text>
                 )}

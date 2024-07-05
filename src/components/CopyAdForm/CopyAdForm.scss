@@ -1,7 +1,7 @@
 .copy-ad-form {
     margin: 0 2.4rem;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         margin: 0 1.6rem;
     }
 

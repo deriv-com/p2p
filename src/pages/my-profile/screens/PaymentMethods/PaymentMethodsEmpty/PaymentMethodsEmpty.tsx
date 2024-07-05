@@ -16,10 +16,10 @@ type TPaymentMethodsEmptyProps = {
  * @example <PaymentMethodsEmpty onAddPaymentMethod={onAddPaymentMethod} />
  * **/
 const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { setQueryString } = useQueryString();
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 className='payment-methods-empty__mobile'

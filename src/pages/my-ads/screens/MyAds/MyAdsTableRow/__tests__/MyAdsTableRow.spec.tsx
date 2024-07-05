@@ -72,7 +72,7 @@ const mockProps = {
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn().mockReturnValue({ isMobile: false }),
+    useDevice: jest.fn().mockReturnValue({ isDesktop: true }),
 }));
 
 jest.mock('@/hooks', () => ({

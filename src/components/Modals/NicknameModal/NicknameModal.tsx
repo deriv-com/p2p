@@ -33,8 +33,8 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
     const history = useHistory();
     const { error: createError, isError, isSuccess, mutate, reset } = api.advertiser.useCreate();
     const { setHasCreatedAdvertiser } = useAdvertiserInfoState();
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     const debouncedReset = debounce(reset, 3000);
     const currentRoute = getCurrentRoute();
 

@@ -7,7 +7,7 @@ type TCopyAdFormFooterProps = {
     onSubmit: () => void;
 };
 const CopyAdFormFooter = ({ isValid, onClickCancel, onSubmit }: TCopyAdFormFooterProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     return (
         <>
             <Button
@@ -15,13 +15,13 @@ const CopyAdFormFooter = ({ isValid, onClickCancel, onSubmit }: TCopyAdFormFoote
                 color='black'
                 onClick={onClickCancel}
                 size='lg'
-                textSize={isMobile ? 'md' : 'sm'}
+                textSize={isDesktop ? 'sm' : 'md'}
                 type='button'
                 variant='outlined'
             >
                 <Localize i18n_default_text='Cancel' />
             </Button>
-            <Button disabled={!isValid} onClick={onSubmit} size='lg' textSize={isMobile ? 'md' : 'sm'}>
+            <Button disabled={!isValid} onClick={onSubmit} size='lg' textSize={isDesktop ? 'sm' : 'md'}>
                 <Localize i18n_default_text='Create ad' />
             </Button>
         </>

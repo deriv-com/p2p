@@ -7,7 +7,7 @@
         &__content {
             height: calc(100vh - 35rem) !important;
 
-            @include mobile {
+            @include mobile-or-tablet-screen {
                 height: calc(100vh - 20rem) !important;
             }
 

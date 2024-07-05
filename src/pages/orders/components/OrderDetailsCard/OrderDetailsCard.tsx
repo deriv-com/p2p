@@ -6,7 +6,7 @@ import { OrderDetailsCardInfo } from './OrderDetailsCardInfo';
 import './OrderDetailsCard.scss';
 
 const OrderDetailsCard = ({ sendFile }: { sendFile: (file: File) => void }) => {
-    const { isDesktop, isTablet } = useDevice();
+    const { isDesktop } = useDevice();
 
     return (
         <div className='order-details-card'>
@@ -14,7 +14,7 @@ const OrderDetailsCard = ({ sendFile }: { sendFile: (file: File) => void }) => {
             <LightDivider />
             <OrderDetailsCardInfo />
             <LightDivider />
-            {(isDesktop || isTablet) && <OrderDetailsCardFooter sendFile={sendFile} />}
+            {isDesktop && <OrderDetailsCardFooter sendFile={sendFile} />}
         </div>
     );
 };

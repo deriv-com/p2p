@@ -12,11 +12,11 @@ type TAdConditionContentHeaderProps = {
 const AdConditionContentHeader = ({ type }: TAdConditionContentHeaderProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     return (
         <div className='flex gap-[0.8rem] items-center'>
-            <Text color='less-prominent' size={isMobile ? 'md' : 'sm'}>
+            <Text color='less-prominent' size={isDesktop ? 'sm' : 'md'}>
                 {getAdConditionContent(localize)[type]?.title}
             </Text>
             <Button

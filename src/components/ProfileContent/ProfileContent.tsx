@@ -14,7 +14,7 @@ type TProfileContentProps = {
 };
 
 const ProfileContent = ({ data, setAdvertiserName, setShowOverlay }: TProfileContentProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const ProfileContent = ({ data, setAdvertiserName, setShowOverlay }: TProfileCon
                 <AdvertiserName advertiserStats={data} onClickBlocked={() => setShowOverlay?.(true)} />
                 {isMyProfile ? <ProfileBalance advertiserStats={data} /> : <ProfileStats advertiserStats={data} />}
             </div>
-            {isMobile && isMyProfile && <AdvertiserNameToggle advertiserInfo={data} />}
+            {!isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={data} />}
         </>
     );
 };

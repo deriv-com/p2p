@@ -5,14 +5,14 @@ import { InlineMessage, useDevice } from '@deriv-com/ui';
 
 const TemporarilyBarredHint = () => {
     const { data } = api.advertiser.useGetInfo();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     if (!data.blocked_until) return null;
 
     return (
         <InlineMessage
             className='w-fit lg:mt-8 lg:mx-0 mt-6 mx-6'
-            iconPosition={isMobile ? 'top' : 'center'}
+            iconPosition={isDesktop ? 'center' : 'top'}
             variant='warning'
         >
             <Localize
