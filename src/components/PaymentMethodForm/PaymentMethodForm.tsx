@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
+import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
 import { TAdvertiserPaymentMethod, TFormState, TSelectedPaymentMethod } from 'types';
 import { PageReturn, PaymentMethodField, PaymentMethodsFormFooter } from '@/components';
@@ -57,6 +58,8 @@ const PaymentMethodForm = ({
 
     const { isDesktop } = useDevice();
 
+    const showPaymentMethodFormModal = isError || isCreateError || isUpdateError;
+
     useEffect(() => {
         if (isCreateSuccessful) {
             onResetFormState();
@@ -87,14 +90,12 @@ const PaymentMethodForm = ({
         }
     };
 
-    const showPaymentMethodFormModal = isError || isCreateError || isUpdateError;
-
     if (displayModal) {
         return (
             <>
                 <Modal
                     ariaHideApp={false}
-                    className='payment-method-form__modal'
+                    className={clsx('payment-method-form__modal', { hidden: showPaymentMethodFormModal })}
                     isOpen={displayModal}
                     onRequestClose={handleGoBack}
                     shouldCloseOnOverlayClick={false}
