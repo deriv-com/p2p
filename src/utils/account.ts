@@ -6,11 +6,11 @@ import { useActiveAccount } from '@/hooks/api/account';
  * @returns account type
  */
 export const getBlockedType = (activeAccountData: NonNullable<ReturnType<typeof useActiveAccount>['data']>) => {
-    const cryptolist = ['BTC', 'ETH', 'LTC', 'BCH', 'USDT'];
     const typeMap: {
         [key: string]: () => boolean;
     } = {
-        crypto: () => cryptolist.includes(activeAccountData?.currency ?? ''),
+        // @ts-expect-error - currency type is not defined. to be removed after updating the version
+        crypto: () => activeAccountData?.currency_type === 'crypto',
         demo: () => activeAccountData?.is_virtual === 1,
         nonUSD: () => activeAccountData?.currency !== 'USD',
     };

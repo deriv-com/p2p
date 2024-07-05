@@ -73,11 +73,11 @@ const AppContent = () => {
     const getComponent = () => {
         let content = null;
 
-        if ((isLoadingActiveAccount || !isFetched) && !isEndpointRoute) {
+        if ((isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
             content = <Loader />;
         } else if (isP2pBlocked && !isEndpointRoute) {
             content = <BlockedScenarios type={getBlockedType(activeAccountData) ?? 'demo'} />;
-        } else if (isFetched) {
+        } else if (isFetched && activeAccountData) {
             content = (
                 <div className='app-content__body'>
                     <Tabs
