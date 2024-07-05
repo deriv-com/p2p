@@ -8,7 +8,7 @@ const mockOpenLanguageSetting = jest.fn();
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: true })),
+    useDevice: jest.fn(() => ({ isDesktop: false })),
 }));
 
 jest.mock('@deriv-com/translations', () => ({
@@ -29,7 +29,7 @@ describe('MenuHeader component', () => {
     });
 
     it('renders "Menu" with "md" text size in desktop view', () => {
-        (useDevice as jest.Mock).mockReturnValue({ isMobile: false });
+        (useDevice as jest.Mock).mockReturnValue({ isDesktop: true });
         render(<MenuHeader hideLanguageSetting={false} openLanguageSetting={mockOpenLanguageSetting} />);
         expect(screen.getByText('Menu')).toHaveClass('derivs-text__size--md');
     });

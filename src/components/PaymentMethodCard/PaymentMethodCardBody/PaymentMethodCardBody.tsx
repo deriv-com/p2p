@@ -14,8 +14,8 @@ const PaymentMethodCardBody = ({
     const displayName = paymentMethod?.display_name;
     const modifiedDisplayName = displayName?.replace(/\s|-/gm, '');
     const isBankOrOther = modifiedDisplayName && ['BankTransfer', 'Other'].includes(modifiedDisplayName);
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     return (
         <div className='payment-method-card__body'>
             {isBankOrOther && !shouldShowPaymentMethodDisplayName ? null : <Text size={textSize}>{displayName}</Text>}

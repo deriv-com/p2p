@@ -28,7 +28,7 @@ const FloatingRate = ({
     value,
 }: TFloatingRate) => {
     const { exchangeRate } = api.exchangeRates.useGet(localCurrency);
-    const { isMobile } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
 
     const { data: p2pSettings } = api.settings.useSettings();
     const overrideExchangeRate = p2pSettings?.override_exchange_rate;
@@ -37,7 +37,7 @@ const FloatingRate = ({
     const os = mobileOSDetect();
     const marketFeed = value ? percentOf(marketRate, Number(value) || 0) : marketRate;
     const decimalPlace = setDecimalPlaces(marketFeed, 6);
-    const textSize = isMobile ? 'sm' : 'xs';
+    const textSize = isDesktop ? 'xs' : 'sm';
 
     // Input mask for formatting value on blur of floating rate field
     const onBlurHandler = (event: FocusEvent<HTMLInputElement>) => {
@@ -57,7 +57,7 @@ const FloatingRate = ({
     return (
         <div className='floating-rate'>
             <div className='floating-rate__field'>
-                <Text as='div' className='floating-rate__field--prefix' size={isMobile ? 'lg' : 'md'}>
+                <Text as='div' className='floating-rate__field--prefix' size={isDesktop ? 'md' : 'lg'}>
                     <Localize i18n_default_text='at' />
                 </Text>
                 <InputField

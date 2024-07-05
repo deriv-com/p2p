@@ -8,7 +8,7 @@ type TAdStatusProps = {
 };
 
 const AdStatus = ({ isActive = false }: TAdStatusProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     return (
         <Text
             align='center'
@@ -17,7 +17,7 @@ const AdStatus = ({ isActive = false }: TAdStatusProps) => {
                 'ad-status--inactive': !isActive,
             })}
             color={isActive ? 'success' : 'error'}
-            size={isMobile ? 'md' : 'sm'}
+            size={isDesktop ? 'sm' : 'md'}
             weight='bold'
         >
             {isActive ? <Localize i18n_default_text='Active' /> : <Localize i18n_default_text='Inactive' />}

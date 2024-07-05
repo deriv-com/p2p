@@ -39,9 +39,9 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
         ref
     ) => {
         const { localize } = useTranslations();
-        const { isMobile } = useDevice();
-        const labelSize = isMobile ? 'sm' : 'xs';
-        const valueSize = isMobile ? 'md' : 'sm';
+        const { isDesktop } = useDevice();
+        const labelSize = isDesktop ? 'xs' : 'sm';
+        const valueSize = isDesktop ? 'sm' : 'md';
         const paymentMethodTypes = paymentMethods?.reduce((acc: Record<string, string>, curr) => {
             if (curr.display_name && curr.type) {
                 acc[curr.display_name] = curr.type;

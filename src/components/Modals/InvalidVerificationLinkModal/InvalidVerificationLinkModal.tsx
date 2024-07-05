@@ -21,10 +21,10 @@ const InvalidVerificationLinkModal = ({
     mutate,
     onRequestClose,
 }: TInvalidVerificationLinkModalProps) => {
-    const { isMobile } = useDevice();
-    const iconSize = isMobile ? 96 : 128;
+    const { isDesktop } = useDevice();
+    const iconSize = isDesktop ? 128 : 96;
     const isInvalidVerification = error?.code === ERROR_CODES.INVALID_VERIFICATION_TOKEN;
-    const isExcessiveErrorMobile = !isInvalidVerification && isMobile;
+    const isExcessiveErrorMobile = !isInvalidVerification && !isDesktop;
 
     return (
         <Modal
@@ -50,7 +50,7 @@ const InvalidVerificationLinkModal = ({
                 })}
                 hideBorder
             >
-                <Button onClick={mutate} size={isMobile ? 'md' : 'lg'} textSize='sm'>
+                <Button onClick={mutate} size={isDesktop ? 'lg' : 'md'} textSize='sm'>
                     <Localize i18n_default_text='Get new link' />
                 </Button>
             </Modal.Footer>

@@ -16,7 +16,7 @@ type TInputProps = {
 
 const Input = forwardRef<HTMLInputElement, TInputProps>(
     ({ errorMessage, hasError, leadingIcon, onBlur, onChange, placeholder, value, ...props }, ref) => {
-        const { isMobile } = useDevice();
+        const { isDesktop } = useDevice();
 
         return (
             <div className='input'>
@@ -33,7 +33,7 @@ const Input = forwardRef<HTMLInputElement, TInputProps>(
                     {...props}
                 />
                 {hasError && (
-                    <Text className='input__error' color='error' size={isMobile ? 'sm' : 'xs'}>
+                    <Text className='input__error' color='error' size={isDesktop ? 'xs' : 'sm'}>
                         {errorMessage}
                     </Text>
                 )}

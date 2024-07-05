@@ -73,7 +73,7 @@ const mockData = [
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: false })),
+    useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
 
 jest.mock('@/components/Modals/RatingModal', () => ({

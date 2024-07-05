@@ -20,8 +20,8 @@ const PaymentMethodModal = ({
     secondaryButtonLabel,
     title,
 }: TPaymentMethodModalProps) => {
-    const { isMobile } = useDevice();
-    const buttonTextSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const buttonTextSize = isDesktop ? 'sm' : 'md';
 
     return (
         <Modal

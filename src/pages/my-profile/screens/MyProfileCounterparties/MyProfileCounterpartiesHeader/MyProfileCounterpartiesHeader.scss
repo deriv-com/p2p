@@ -14,7 +14,7 @@
         &__container {
             width: 20rem;
 
-            @include mobile {
+            @include mobile-or-tablet-screen {
                 width: 100%;
             }
         }
@@ -32,12 +32,12 @@
     .search {
         max-width: 20rem;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             max-width: 100%;
         }
     }
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         display: flex;
     }
 

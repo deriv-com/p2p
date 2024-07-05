@@ -82,8 +82,8 @@ const AdErrorTooltipModal = ({
     remainingAmount,
     visibilityStatus = [],
 }: TAdErrorTooltipModal) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     const getMultipleErrorMessages = (errorStatuses: string[]) =>
         errorStatuses.map((status, index) => (
             <div className='my-5' key={status}>

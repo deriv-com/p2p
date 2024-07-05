@@ -17,8 +17,8 @@ const AdRateSwitchModal = ({
     rateType,
     reachedEndDate,
 }: TAdRateSwitchModalProps) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     const isFloat = rateType === RATE_TYPE.FLOAT;
     return (
         <Modal

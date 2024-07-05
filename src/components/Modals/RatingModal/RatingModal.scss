@@ -17,7 +17,7 @@
     }
 
     &__stars {
-        @include mobile {
+        @include mobile-or-tablet-screen {
             width: 75%;
             display: flex;
             justify-content: center;

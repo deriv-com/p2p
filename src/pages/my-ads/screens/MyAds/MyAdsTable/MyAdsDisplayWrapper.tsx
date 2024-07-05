@@ -12,12 +12,12 @@ type TMyAdsDisplayWrapperProps = {
 };
 
 const MyAdsDisplayWrapper = ({ children, isPaused, onClickToggle }: PropsWithChildren<TMyAdsDisplayWrapperProps>) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const history = useHistory();
 
     const goToCreateAd = () => history.push(`${MY_ADS_URL}/adForm?formAction=create`);
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 renderFooter={() => (

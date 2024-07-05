@@ -17,7 +17,7 @@ import './OrdersTableRow.scss';
 
 const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>) => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { queryString } = useQueryString();
     const history = useHistory();
     const isPast = queryString.tab === ORDERS_STATUS.PAST_ORDERS;
@@ -62,7 +62,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
         showModal('RatingModal');
     };
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <div
                 className={clsx('orders-table-row', {
