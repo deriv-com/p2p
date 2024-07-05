@@ -22,8 +22,8 @@ type TComplainFooterProps = {
 
 type TDisputeReason = Parameters<THooks.OrderDispute.Dispute>[0]['dispute_reason'];
 const ComplainExplanation = () => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'sm' : 'xs';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'xs' : 'sm';
     return (
         <div className='order-details-complain-modal__explanation'>
             <Text size={textSize}>
@@ -40,8 +40,8 @@ const ComplainExplanation = () => {
 };
 
 const ComplainFooter = ({ disputeOrderRequest, disputeReason, onRequestClose }: TComplainFooterProps) => {
-    const { isMobile } = useDevice();
-    const buttonTextSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const buttonTextSize = isDesktop ? 'sm' : 'md';
     return (
         <div className='order-details-complain-modal__complain-footer'>
             <Button
@@ -68,7 +68,7 @@ const OrderDetailsComplainModal = ({
     isModalOpen,
     onRequestClose,
 }: TOrderDetailsComplainModal) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const [disputeReason, setDisputeReason] = useState('');
     const { isSuccess, mutate } = api.orderDispute.useDispute();
 
@@ -87,7 +87,7 @@ const OrderDetailsComplainModal = ({
 
     const onCheckboxChange = (reason: string) => setDisputeReason(reason);
 
-    if (isMobile && isModalOpen)
+    if (!isDesktop && isModalOpen)
         return (
             <FullPageMobileWrapper
                 className='order-details-complain-modal'

@@ -46,6 +46,12 @@ describe('PaymentMethodsEmpty', () => {
         expect(onAddPaymentMethod).toHaveBeenCalled();
     });
     it('should render the correct content when isMobile is false', () => {
+        (mockUseDevice as jest.Mock).mockReturnValueOnce({
+            isDesktop: true,
+            isMobile: false,
+            isTablet: false,
+            isTabletPortrait: false,
+        });
         const mockOnAddPaymentMethod = jest.fn();
         render(<PaymentMethodsEmpty onAddPaymentMethod={mockOnAddPaymentMethod} />);
         expect(screen.getByText('You haven’t added any payment methods yet')).toBeInTheDocument();

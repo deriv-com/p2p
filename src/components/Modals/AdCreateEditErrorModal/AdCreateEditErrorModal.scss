@@ -2,18 +2,18 @@
     height: fit-content;
     width: 44rem;
     border-radius: 8px;
-    @include mobile {
+    @include mobile-or-tablet-screen {
         max-width: calc(100vw - 3.2rem);
     }
 
     &__header {
-        @include mobile {
+        @include mobile-or-tablet-screen {
             padding: 1.6rem;
         }
     }
 
     &__footer {
-        @include mobile {
+        @include mobile-or-tablet-screen {
             padding-right: 1.6rem;
             padding-left: 1.6rem;
         }
@@ -22,7 +22,7 @@
     &__body {
         padding: 2.4rem;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             padding: 0.8rem 2.4rem;
         }
     }

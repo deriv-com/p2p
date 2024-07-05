@@ -14,8 +14,8 @@ const ActiveOrderInfo = () => {
         payment_info: paymentInfo,
         payment_method_details: paymentMethodDetails,
     } = orderDetails;
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
 
     const adDetails = [
         { text: labels.contactDetails, value: contactInfo || '-' },

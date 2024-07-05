@@ -14,11 +14,11 @@ type TOrdersDateSelectionProps = {
 };
 
 const OrdersDateSelection = ({ fromDate, setFromDate, setToDate, toDate }: TOrdersDateSelectionProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { localize } = useTranslations();
     const [isDateSelectionOpen, setIsDateSelectionOpen] = useState(false);
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <div className='orders-date-selection'>
                 <Input

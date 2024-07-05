@@ -27,7 +27,7 @@ const AdSummary = ({
     type,
 }: TAdSummaryProps) => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { queryString } = useQueryString();
     const adOption = queryString.formAction;
     const { data: p2pSettings } = api.settings.useSettings();
@@ -44,7 +44,7 @@ const AdSummary = ({
 
     const marketRate = overrideExchangeRate ? Number(overrideExchangeRate) : exchangeRate;
     const marketFeed = marketRateType === RATE_TYPE.FLOAT ? marketRate : null;
-    const summaryTextSize = isMobile ? 'md' : 'sm';
+    const summaryTextSize = isDesktop ? 'sm' : 'md';
 
     if (priceRate) {
         displayPriceRate = marketFeed ? roundOffDecimal(percentOf(marketFeed, priceRate), 6) : priceRate;

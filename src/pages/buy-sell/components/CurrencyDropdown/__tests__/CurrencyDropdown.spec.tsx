@@ -45,11 +45,11 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
-let mockIsMobile = false;
+let mockIsDesktop = true;
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: mockIsMobile })),
+    useDevice: jest.fn(() => ({ isDesktop: mockIsDesktop })),
 }));
 const mockProps = {
     selectedCurrency: 'IDR',
@@ -91,7 +91,7 @@ describe('<CurrencyDropdown />', () => {
     });
 
     it('should show Preferred currency text and hide list if user clicks on arrow icon when isMobile is true', async () => {
-        mockIsMobile = true;
+        mockIsDesktop = false;
         render(<CurrencyDropdown {...mockProps} />, { wrapper });
 
         const currencyDropdown = screen.getByText('IDR');

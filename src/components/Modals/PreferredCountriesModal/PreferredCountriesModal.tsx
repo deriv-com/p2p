@@ -23,10 +23,10 @@ const PreferredCountriesModal = ({
     selectedCountries,
     setSelectedCountries,
 }: TPreferredCountriesModalProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const [shouldDisplayFooter, setShouldDisplayFooter] = useState(true);
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 className='preferred-countries-modal__full-page-modal'

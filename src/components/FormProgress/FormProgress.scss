@@ -62,7 +62,7 @@
                 margin: 0 auto; /* this centers the line to the full width specified */
                 top: 1.7rem;
             }
-            @include mobile {
+            @include mobile-or-tablet-screen {
                 top: 0;
             }
         }

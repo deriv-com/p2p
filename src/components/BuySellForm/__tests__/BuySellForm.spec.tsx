@@ -1,4 +1,5 @@
 import { mockAdvertValues } from '@/__mocks__/mock-data';
+import { api } from '@/hooks';
 import { floatingPointValidator } from '@/utils';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
@@ -74,8 +75,11 @@ type TUseCreateData = {
 
 const mockUseCreate = {
     data: undefined as TUseCreateData | undefined,
+    error: undefined as { code: string; message: string } | undefined,
+    isError: false,
     isSuccess: false,
     mutate: jest.fn(),
+    reset: jest.fn(),
 };
 
 const mockModalManager = {
@@ -84,12 +88,21 @@ const mockModalManager = {
     showModal: jest.fn(),
 };
 
+const mockAdvertInfo = {
+    data: mockAdvertValues,
+    subscribe: jest.fn(),
+    unsubscribe: jest.fn(),
+};
+
+const mockInvalidate = jest.fn();
+
+jest.mock('@/hooks/api/useInvalidateQuery', () => () => mockInvalidate);
+
 jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
     api: {
         advert: {
-            useGet: jest.fn(() => ({
-                data: mockAdvertValues,
-            })),
+            useSubscribe: jest.fn(() => mockAdvertInfo),
         },
         advertiser: {
             useGetInfo: jest.fn(() => mockUseGetInfo),
@@ -111,17 +124,18 @@ jest.mock('@/hooks', () => ({
             })),
         },
     },
+}));
+
+const mockUseExchangeRates = api.exchangeRates.useGet as jest.Mock;
+
+jest.mock('@/hooks/custom-hooks', () => ({
     useIsAdvertiser: jest.fn(() => true),
     useModalManager: jest.fn(() => mockModalManager),
 }));
 
-jest.mock('@/hooks/custom-hooks', () => ({
-    useIsAdvertiser: jest.fn(() => true),
-}));
-
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: false })),
+    useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
 
 const mockUseDevice = useDevice as jest.Mock;
@@ -177,28 +191,23 @@ const mockProps = {
 };
 
 describe('BuySellForm', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     it('should render the form as expected', () => {
         render(<BuySellForm {...mockProps} />);
         expect(screen.getByText('Buy USD')).toBeInTheDocument();
     });
-    it('should render the inline message when rate type is float', () => {
-        render(<BuySellForm {...mockProps} />);
-        expect(
-            screen.getByText(
-                'If the market rate changes from the rate shown here, we won’t be able to process your order.'
-            )
-        ).toBeInTheDocument();
-    });
     it('should render the form as expected in mobile view', () => {
         mockUseDevice.mockReturnValue({
-            isMobile: true,
+            isDesktop: false,
         });
         render(<BuySellForm {...mockProps} />);
         expect(screen.getByText('Buy USD')).toBeInTheDocument();
     });
     it("should handle onsubmit when form is submitted and it's valid", async () => {
         mockUseDevice.mockReturnValue({
-            isMobile: false,
+            isDesktop: true,
         });
         render(<BuySellForm {...mockProps} />);
         const confirmButton = screen.getByRole('button', { name: 'Confirm' });
@@ -275,5 +284,92 @@ describe('BuySellForm', () => {
 
         expect(mockPush).toHaveBeenCalledWith('/orders/1', { from: 'BuySell' });
         expect(mockProps.onRequestClose).toHaveBeenCalled();
+    });
+    it('should show error modal when counterparty changes the rate', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'ErrorModal');
+        const { rerender } = render(<BuySellForm {...mockProps} />);
+        mockAdvertInfo.data.rate = 0.1;
+
+        rerender(<BuySellForm {...mockProps} />);
+
+        expect(screen.getByText('The advertiser changed the rate before you confirmed the order.')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Try again' })).toBeInTheDocument();
+    });
+    it('should hide the error modal when user clicks Try again', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'ErrorModal');
+        const { rerender } = render(<BuySellForm {...mockProps} />);
+        mockAdvertInfo.data.rate = 0.2;
+        rerender(<BuySellForm {...mockProps} />);
+
+        const tryAgainButton = screen.getByRole('button', { name: 'Try again' });
+        await userEvent.click(tryAgainButton);
+
+        expect(mockModalManager.hideModal).toHaveBeenCalled();
+        expect(
+            screen.queryByText('The advertiser changed the rate before you confirmed the order.')
+        ).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Try again' })).not.toBeInTheDocument();
+    });
+    it('should call showModal when exchange rate changes and user clicks Confirm', async () => {
+        mockAdvertValues.type = 'sell';
+        mockModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'TestModal');
+        const { rerender } = render(<BuySellForm {...mockProps} />);
+        mockUseExchangeRates.mockReturnValue({
+            exchangeRate: 0.1,
+        });
+        rerender(<BuySellForm {...mockProps} />);
+
+        const confirmButton = screen.queryAllByRole('button', { name: 'Confirm' })[0];
+        await userEvent.click(confirmButton);
+
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('RateFluctuationModal', { shouldStackModals: false });
+    });
+    it('should show RateFluctuationModal when exchange rate changes and user clicks Confirm', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'RateFluctuationModal');
+        const { rerender } = render(<BuySellForm {...mockProps} />);
+        mockUseExchangeRates.mockReturnValue({
+            exchangeRate: 0.2,
+        });
+        rerender(<BuySellForm {...mockProps} />);
+
+        expect(screen.getByText('Attention: Rate fluctuation')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Continue with order' })).toBeInTheDocument();
+    });
+    it('should call hideModal when the user clicks on Cancel in RateFluctuationModal', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'RateFluctuationModal');
+        render(<BuySellForm {...mockProps} />);
+
+        const cancelButton = screen.queryAllByRole('button', { name: 'Cancel' })[1];
+        await userEvent.click(cancelButton);
+
+        expect(mockModalManager.hideModal).toHaveBeenCalled();
+    });
+    it('should show slippage rate error if code returned from p2p_order_create is OrderCreateFailRateSlippage', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'ErrorModal');
+        mockUseCreate.error = { code: 'OrderCreateFailRateSlippage', message: 'Order slippage error' };
+        mockUseCreate.isError = true;
+        render(<BuySellForm {...mockProps} />);
+
+        expect(screen.getByText('Order slippage error')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Create new order' })).toBeInTheDocument();
+    });
+    it('should call hideModal and reset when user clicks on Create new order button in ErrorModal', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'ErrorModal');
+        mockUseCreate.error = { code: 'OrderCreateFailRateSlippage', message: 'Order slippage error' };
+        mockUseCreate.isError = true;
+        render(<BuySellForm {...mockProps} />);
+
+        const createNewOrderButton = screen.getByRole('button', { name: 'Create new order' });
+        await userEvent.click(createNewOrderButton);
+
+        expect(mockModalManager.hideModal).toHaveBeenCalledWith({ shouldHidePreviousModals: true });
+        expect(mockUseCreate.reset).toHaveBeenCalled();
+    });
+    it('should call hideModal if error is returned from p2p_order_create that isn’t slippage rate error and RateFluctuationModal is open', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'RateFluctuationModal');
+        mockUseCreate.error = { code: 'OrderAlreadyExists', message: 'order already exists' };
+        render(<BuySellForm {...mockProps} />);
+
+        expect(mockModalManager.hideModal).toHaveBeenCalled();
     });
 });

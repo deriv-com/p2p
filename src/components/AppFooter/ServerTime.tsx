@@ -8,7 +8,7 @@ const ServerTime = () => {
     const time = useSyncedTime();
     const UTCFormat = epochToUTC(time, DATE_TIME_FORMAT_WITH_GMT);
     const localFormat = epochToLocal(time, DATE_TIME_FORMAT_WITH_OFFSET);
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     return (
         <TooltipMenuIcon
@@ -18,7 +18,7 @@ const ServerTime = () => {
             disableHover
             tooltipContent={localFormat}
         >
-            <Text size={isMobile ? 'sm' : 'xs'}>{UTCFormat}</Text>
+            <Text size={isDesktop ? 'xs' : 'sm'}>{UTCFormat}</Text>
         </TooltipMenuIcon>
     );
 };

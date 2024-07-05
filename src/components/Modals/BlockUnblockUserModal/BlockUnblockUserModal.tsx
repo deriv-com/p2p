@@ -23,7 +23,7 @@ const BlockUnblockUserModal = ({
     onRequestClose,
     setErrorMessage,
 }: TBlockUnblockUserModalProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const {
         mutate: blockAdvertiser,
         mutation: { error, isSuccess },
@@ -44,7 +44,7 @@ const BlockUnblockUserModal = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, onClickBlocked, unblockIsSuccess, unblockError, error, setErrorMessage]);
 
-    const textSize = isMobile ? 'md' : 'sm';
+    const textSize = isDesktop ? 'sm' : 'md';
     const getModalTitle = () => (isBlocked ? `Unblock ${advertiserName}?` : `Block ${advertiserName}?`);
 
     const getModalContent = () =>
@@ -77,7 +77,7 @@ const BlockUnblockUserModal = ({
             shouldCloseOnOverlayClick={false}
         >
             <Modal.Header className='px-[1.6rem] lg:px-[2.4rem]' hideBorder hideCloseIcon>
-                <Text as='p' size={isMobile ? 'lg' : 'md'} weight='bold'>
+                <Text as='p' size={isDesktop ? 'md' : 'lg'} weight='bold'>
                     {getModalTitle()}
                 </Text>
             </Modal.Header>

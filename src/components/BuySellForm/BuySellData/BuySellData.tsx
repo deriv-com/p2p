@@ -1,9 +1,11 @@
 import { forwardRef } from 'react';
+import clsx from 'clsx';
 import { THooks } from 'types';
 import { PaymentMethodWithIcon } from '@/components';
+import { RATE_TYPE } from '@/constants';
 import { formatTime } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Text, useDevice } from '@deriv-com/ui';
+import { Text, Tooltip, useDevice } from '@deriv-com/ui';
 import './BuySellData.scss';
 
 type TBuySellDataProps = {
@@ -16,6 +18,7 @@ type TBuySellDataProps = {
     paymentMethodNames?: string[];
     paymentMethods: THooks.PaymentMethods.Get;
     rate: string;
+    rateType?: string;
 };
 
 type TType = THooks.AdvertiserPaymentMethods.Get[number]['type'];
@@ -31,19 +34,21 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
             paymentMethodNames,
             paymentMethods,
             rate,
+            rateType,
         },
         ref
     ) => {
         const { localize } = useTranslations();
-        const { isMobile } = useDevice();
-        const labelSize = isMobile ? 'sm' : 'xs';
-        const valueSize = isMobile ? 'md' : 'sm';
+        const { isDesktop } = useDevice();
+        const labelSize = isDesktop ? 'xs' : 'sm';
+        const valueSize = isDesktop ? 'sm' : 'md';
         const paymentMethodTypes = paymentMethods?.reduce((acc: Record<string, string>, curr) => {
             if (curr.display_name && curr.type) {
                 acc[curr.display_name] = curr.type;
             }
             return acc;
         }, {});
+        const isFloating = rateType === RATE_TYPE.FLOAT;
 
         return (
             <div className='p-[1.6rem] lg:px-[2.4rem]' ref={ref}>
@@ -55,7 +60,33 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
                         <Text size={valueSize}>{name}</Text>
                     </div>
                     <div className='flex flex-col w-full'>
-                        <Text color='less-prominent' size={labelSize}>{`Rate (1 ${accountCurrency})`}</Text>
+                        <div className={clsx({ 'lg:hover:mb-[2.2rem]': isFloating })}>
+                            <div
+                                className={clsx('flex items-center gap-2', {
+                                    'lg:hover:absolute': isFloating,
+                                })}
+                            >
+                                <Text color='less-prominent' size={labelSize}>{`Rate (1 ${accountCurrency})`}</Text>
+                                {isFloating && (
+                                    <Tooltip
+                                        className='w-72 mb-[-0.8rem] text-center'
+                                        message={
+                                            <Text size={labelSize}>
+                                                <Localize i18n_default_text='Floating exchange rate shifts with market fluctuations.' />
+                                            </Text>
+                                        }
+                                    >
+                                        <Text
+                                            as='div'
+                                            className='buy-sell-data__details__floating-badge'
+                                            size={labelSize}
+                                        >
+                                            <Localize i18n_default_text='Floating' />
+                                        </Text>
+                                    </Tooltip>
+                                )}
+                            </div>
+                        </div>
                         <Text size={valueSize}>
                             {rate} {localCurrency}
                         </Text>

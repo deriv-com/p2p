@@ -10,7 +10,7 @@ type TPaymentMethodErrorModalProps = {
 };
 
 const PaymentMethodErrorModal = ({ errorMessage, isModalOpen, onConfirm, title }: TPaymentMethodErrorModalProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     return (
         <Modal
@@ -27,7 +27,7 @@ const PaymentMethodErrorModal = ({ errorMessage, isModalOpen, onConfirm, title }
                 <Text size='sm'>{errorMessage}</Text>
             </Modal.Body>
             <Modal.Footer className='payment-method-error-modal__footer' hideBorder>
-                <Button onClick={onConfirm} size='lg' textSize={isMobile ? 'md' : 'sm'}>
+                <Button onClick={onConfirm} size='lg' textSize={isDesktop ? 'sm' : 'md'}>
                     <Localize i18n_default_text='Ok' />
                 </Button>
             </Modal.Footer>

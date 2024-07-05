@@ -28,8 +28,8 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
         setValue,
         watch,
     } = useFormContext();
-    const { isMobile } = useDevice();
-    const labelSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const labelSize = isDesktop ? 'sm' : 'md';
 
     const onClickBlockSelector = (value: number, type: string) => {
         if (type === AD_CONDITION_TYPES.JOINING_DATE) {
