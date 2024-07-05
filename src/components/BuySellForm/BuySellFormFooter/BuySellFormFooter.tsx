@@ -7,7 +7,7 @@ type TBuySellFormFooterProps = {
     onSubmit?: () => void;
 };
 const BuySellFormFooter = ({ isDisabled, onClickCancel, onSubmit }: TBuySellFormFooterProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     return (
         <div className='flex justify-end gap-[1rem]'>
             <Button
@@ -15,7 +15,7 @@ const BuySellFormFooter = ({ isDisabled, onClickCancel, onSubmit }: TBuySellForm
                 color='black'
                 onClick={onClickCancel}
                 size='lg'
-                textSize={isMobile ? 'md' : 'sm'}
+                textSize={isDesktop ? 'sm' : 'md'}
                 variant='outlined'
             >
                 <Localize i18n_default_text='Cancel' />
@@ -24,7 +24,7 @@ const BuySellFormFooter = ({ isDisabled, onClickCancel, onSubmit }: TBuySellForm
                 disabled={isDisabled}
                 onClick={() => onSubmit?.()}
                 size='lg'
-                textSize={isMobile ? 'md' : 'sm'}
+                textSize={isDesktop ? 'sm' : 'md'}
                 type='submit'
             >
                 <Localize i18n_default_text='Confirm' />

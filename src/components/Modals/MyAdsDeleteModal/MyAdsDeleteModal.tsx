@@ -14,8 +14,8 @@ type TMyAdsDeleteModalProps = {
 
 const MyAdsDeleteModal = ({ error, id, isModalOpen, onClickDelete, onRequestClose }: TMyAdsDeleteModalProps) => {
     const { data: advertInfo, isLoading: isLoadingInfo } = api.advert.useGet({ id });
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
 
     const hasActiveOrders = advertInfo?.active_orders && advertInfo?.active_orders > 0;
 

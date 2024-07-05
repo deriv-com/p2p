@@ -13,7 +13,7 @@ const mockProps = {
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn().mockReturnValue({
-        isMobile: false,
+        isDesktop: true,
     }),
 }));
 
@@ -49,7 +49,6 @@ const mockUseModalManager = {
 
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
-    useIsAdvertiserBarred: jest.fn(() => false),
     useModalManager: jest.fn(() => mockUseModalManager),
 }));
 

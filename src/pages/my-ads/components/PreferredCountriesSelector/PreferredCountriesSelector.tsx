@@ -15,7 +15,7 @@ type TPreferredCountriesSelectorProps = {
 
 const PreferredCountriesSelector = ({ countryList, type }: TPreferredCountriesSelectorProps) => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { getValues, setValue } = useFormContext();
     const countries = Object.keys(countryList).map(key => ({
         text: countryList[key]?.country_name,
@@ -41,7 +41,7 @@ const PreferredCountriesSelector = ({ countryList, type }: TPreferredCountriesSe
                 <Text
                     className='preferred-countries-selector__field__text'
                     color='less-prominent'
-                    size={isMobile ? 'md' : 'sm'}
+                    size={isDesktop ? 'sm' : 'md'}
                 >
                     {getSelectedCountriesText()}
                 </Text>

@@ -32,8 +32,8 @@ const OrderDetailsConfirmModal = ({
     const { orderDetails } = useOrderDetails();
     const { displayPaymentAmount, local_currency: localCurrency, otherUserDetails } = orderDetails ?? {};
     const { name } = otherUserDetails ?? {};
-    const { isMobile } = useDevice();
-    const buttonTextSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const buttonTextSize = isDesktop ? 'sm' : 'md';
 
     const handleAcceptedFiles = (files: File[]) => {
         if (files.length > 0) {
@@ -78,7 +78,7 @@ const OrderDetailsConfirmModal = ({
                     <Localize i18n_default_text=' We accept JPG, PDF, or PNG (up to 5MB).' />
                 </Text>
                 <InlineMessage className='mb-4' variant='warning'>
-                    <Text size={isMobile ? 'xs' : '2xs'}>
+                    <Text size={isDesktop ? '2xs' : 'xs'}>
                         <Localize i18n_default_text=' Sending forged documents will result in an immediate and permanent ban.' />
                     </Text>
                 </InlineMessage>

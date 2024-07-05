@@ -16,9 +16,9 @@ const CurrencySelector = ({ localCurrencies, onSelectItem, selectedCurrency }: T
     const { localize } = useTranslations();
     const [searchedCurrency, setSearchedCurrency] = useState<string>('');
     const [searchedCurrencies, setSearchedCurrencies] = useState(localCurrencies);
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
-    const textSize = isMobile ? 'md' : 'sm';
+    const textSize = isDesktop ? 'sm' : 'md';
 
     const searchCurrencies = (value: string) => {
         if (!value) {
@@ -77,10 +77,10 @@ const CurrencySelector = ({ localCurrencies, onSelectItem, selectedCurrency }: T
                     })
                 ) : (
                     <Text
-                        align={isMobile ? 'center' : 'left'}
+                        align={isDesktop ? 'left' : 'center'}
                         className='lg:mt-0 lg:p-4 mt-64 flex lg:justify-start justify-center'
                         size={textSize}
-                        weight={isMobile ? 'bold' : 'normal'}
+                        weight={isDesktop ? 'normal' : 'bold'}
                     >
                         <Localize
                             i18n_default_text='No results for "{{searchedCurrency}}".'

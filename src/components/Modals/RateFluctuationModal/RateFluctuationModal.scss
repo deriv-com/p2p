@@ -1,0 +1,12 @@
+.rate-fluctuation-modal {
+    display: flex;
+    padding: 2.4rem;
+    gap: 2.4rem;
+
+    @include default-modal;
+
+    @include mobile-or-tablet-screen {
+        padding: 1.6rem;
+        gap: 1.6rem;
+    }
+}

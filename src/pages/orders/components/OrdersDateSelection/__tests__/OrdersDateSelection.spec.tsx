@@ -5,7 +5,7 @@ import OrdersDateSelection from '../OrdersDateSelection';
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: false })),
+    useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
 
 const mockProps = {
@@ -22,7 +22,7 @@ describe('OrdersDateSelection', () => {
         expect(screen.getByText('Today')).toBeInTheDocument();
     });
     it('should render the date input section component on mobile', () => {
-        (useDevice as jest.Mock).mockReturnValue({ isMobile: true });
+        (useDevice as jest.Mock).mockReturnValue({ isDesktop: false });
         render(<OrdersDateSelection {...mockProps} />);
         expect(screen.getByText('All time')).toBeInTheDocument();
     });
@@ -46,7 +46,7 @@ describe('OrdersDateSelection', () => {
         expect(input).toHaveValue('2024-06-01 - 2024-06-04');
     });
     it('should show the selected dates when from Date and to Date are provided for desktop', async () => {
-        (useDevice as jest.Mock).mockReturnValue({ isMobile: false });
+        (useDevice as jest.Mock).mockReturnValue({ isDesktop: true });
         render(<OrdersDateSelection {...mockProps} fromDate='2024-06-01' toDate='2024-06-04' />);
         expect(screen.getByDisplayValue('Jun 01, 2024')).toBeInTheDocument();
         expect(screen.getByDisplayValue('Jun 04, 2024')).toBeInTheDocument();

@@ -134,6 +134,10 @@ describe('MyProfile', () => {
         expect(screen.getByText('NicknameModal')).toBeInTheDocument();
     });
     it('should render the tabs and correct screens', async () => {
+        (mockUseDevice as jest.Mock).mockReturnValue({
+            isDesktop: true,
+        });
+
         render(<MyProfile />);
         expect(screen.getByText('MyProfileStatsScreen')).toBeInTheDocument();
 

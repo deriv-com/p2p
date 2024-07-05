@@ -14,7 +14,7 @@ import './MyProfileAdDetails.scss';
 const MyProfileAdDetails = () => {
     const { data: advertiserInfo, isLoading } = api.advertiser.useGetInfo();
     const { isSuccess, mutate: updateAdvertiser, reset } = api.advertiser.useUpdate();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { setQueryString } = useQueryString();
 
     const {
@@ -54,7 +54,7 @@ const MyProfileAdDetails = () => {
 
     if (isLoading && !advertiserInfo) return <Loader className='mt-16' />;
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <form onSubmit={handleSubmit(submitAdDetails)}>
                 <FullPageMobileWrapper

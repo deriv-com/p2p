@@ -2,10 +2,10 @@
     overflow: overlay;
     height: calc(100vh - 27rem);
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         position: absolute;
-        top: 8rem;
-        height: calc(100vh - 8rem);
+        top: 0;
+        height: calc(100vh - 7rem);
 
         & .mobile-wrapper {
             &__header {
