@@ -7,6 +7,7 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'error',
         '@typescript-eslint/no-unused-vars': 'error',
         '@typescript-eslint/sort-type-constituents': 'error',
+        camelcase: 'error',
         'import/newline-after-import': 'error',
         'react/jsx-sort-props': 'error',
         'simple-import-sort/exports': 'error',
@@ -88,6 +89,12 @@ module.exports = {
                         '@babel/plugin-proposal-nullish-coalescing-operator',
                     ],
                 },
+            },
+        },
+        {
+            files: ['**/hooks/api/**/*.{js,jsx,ts,tsx}'],
+            rules: {
+                camelcase: 'off', // Disable camelcase rule for files under 'hooks' folder
             },
         },
     ],

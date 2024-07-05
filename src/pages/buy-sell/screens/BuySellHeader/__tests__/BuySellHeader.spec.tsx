@@ -112,7 +112,7 @@ describe('<BuySellHeader />', () => {
 
     it('should allow users to click on filter button', async () => {
         mockUseDevice.mockReturnValue({ isMobile: true });
-        mockUseModalManager.isModalOpenFor.mockImplementation(modal_name => modal_name === 'FilterModal');
+        mockUseModalManager.isModalOpenFor.mockImplementation(modalName => modalName === 'FilterModal');
         render(<BuySellHeader {...mockProps} />);
 
         const filterButton = screen.getByTestId('dt_buy_sell_header_filter_button');
