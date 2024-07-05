@@ -33,10 +33,7 @@ const PaymentMethodFormModalRenderer = ({
     useEffect(() => {
         if (createError || updateError) {
             showModal('PaymentMethodErrorModal');
-        } else if (
-            (actionType === 'ADD' && (!isCreateSuccessful || !createError)) ||
-            (actionType === 'EDIT' && (!isUpdateSuccessful || !updateError))
-        ) {
+        } else if ((actionType === 'ADD' && !isCreateSuccessful) || (actionType === 'EDIT' && !isUpdateSuccessful)) {
             showModal('PaymentMethodModal');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
