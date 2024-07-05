@@ -15,7 +15,7 @@ import './AdvertsTableRow.scss';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const history = useHistory();
     const location = useLocation();
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
@@ -45,7 +45,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
 
     const { exchangeRate } = api.exchangeRates.useGet(local_currency);
 
-    const Container = isMobile ? 'div' : Fragment;
+    const Container = isDesktop ? Fragment : 'div';
 
     const { completed_orders_count, id, is_online, name, rating_average, rating_count } = advertiser_details || {};
 
@@ -61,9 +61,9 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const isBuyAdvert = counterparty_type === BUY_SELL.BUY;
     const isMyAdvert = data?.id === id;
     const ratingAverageDecimal = rating_average ? Number(rating_average).toFixed(1) : null;
-    const textColor = isMobile ? 'less-prominent' : 'general';
-    const size = isMobile ? 'md' : 'sm';
-    const buttonTextSize = isMobile ? 'md' : 'xs';
+    const textColor = isDesktop ? 'general' : 'less-prominent';
+    const size = isDesktop ? 'sm' : 'md';
+    const buttonTextSize = isDesktop ? 'xs' : 'md';
 
     return (
         <div
@@ -87,8 +87,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             isOnline={is_online}
                             nickname={name || ''}
                             showOnlineStatus
-                            size={isMobile ? 32 : 24}
-                            textSize={isMobile ? 'sm' : 'xs'}
+                            size={isDesktop ? 24 : 32}
+                            textSize={isDesktop ? 'xs' : 'sm'}
                         />
                         <div className='flex flex-col'>
                             <div
@@ -96,7 +96,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     'mb-[-0.5rem]': hasRating,
                                 })}
                             >
-                                <Text size={size} weight={isMobile ? 'bold' : 400}>
+                                <Text size={size} weight={isDesktop ? 400 : 'bold'}>
                                     {name}
                                 </Text>
                                 <Badge tradeCount={completed_orders_count} />
@@ -111,7 +111,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                             allowFraction
                                             isReadonly
                                             ratingValue={Number(ratingAverageDecimal)}
-                                            starsScale={isMobile ? 0.7 : 0.9}
+                                            starsScale={isDesktop ? 0.9 : 0.7}
                                         />
                                         <Text className='lg:ml-[-0.5rem] ml-[-2.5rem]' color='less-prominent' size='xs'>
                                             ({rating_count})
@@ -126,15 +126,15 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         </div>
                     </div>
                 )}
-                <Container {...(isMobile && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}>
-                    {isMobile && (
+                <Container {...(!isDesktop && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}>
+                    {!isDesktop && (
                         <Text color={isBuySellPage ? 'general' : 'less-prominent'} size={isBuySellPage ? 'xs' : 'sm'}>
                             <Localize i18n_default_text='Rate (1 USD)' />
                         </Text>
                     )}
-                    <Container {...(isMobile && { className: 'flex flex-col-reverse mb-7' })}>
+                    <Container {...(!isDesktop && { className: 'flex flex-col-reverse mb-7' })}>
                         <Text color={textColor} size='sm'>
-                            {isMobile && 'Limits:'} {min_order_amount_limit_display}-{max_order_amount_limit_display}{' '}
+                            {!isDesktop && 'Limits:'} {min_order_amount_limit_display}-{max_order_amount_limit_display}{' '}
                             {account_currency}
                         </Text>
                         <Text className='text-wrap w-[90%]' color='success' size={size} weight='bold'>
@@ -148,7 +148,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     color='general'
                                     key={idx}
                                     paymentMethodName={method}
-                                    size={isMobile ? 'xs' : 'sm'}
+                                    size={isDesktop ? 'sm' : 'xs'}
                                 />
                             ))
                         ) : (
@@ -164,7 +164,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         'flex-row justify-end': !isBuySellPage,
                     })}
                 >
-                    {isMobile && isBuySellPage && (
+                    {!isDesktop && isBuySellPage && (
                         <LabelPairedChevronRightMdRegularIcon className='absolute top-0 right-0' />
                     )}
                     {isEligible === 0 ? (

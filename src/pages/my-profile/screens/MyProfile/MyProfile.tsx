@@ -22,7 +22,7 @@ const TABS = ['Stats', 'Payment methods', 'Ad details', 'My counterparties'];
 
 const MyProfile = () => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { queryString, setQueryString } = useQueryString();
     const { data } = usePoiPoaStatus();
     const { data: advertiserStats, isLoading } = useAdvertiserStats();
@@ -53,7 +53,7 @@ const MyProfile = () => {
         return <Verification />;
     }
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <div className='my-profile'>
                 <MyProfileMobile data={advertiserStats} />

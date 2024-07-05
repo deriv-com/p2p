@@ -8,8 +8,8 @@ type TLeaveFilterModalProps = {
 };
 
 const LeaveFilterModal = ({ isModalOpen, onRequestClose }: TLeaveFilterModalProps) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     return (
         <Modal
             ariaHideApp={false}
@@ -18,7 +18,7 @@ const LeaveFilterModal = ({ isModalOpen, onRequestClose }: TLeaveFilterModalProp
             shouldCloseOnOverlayClick={false}
         >
             <Modal.Header className='leave-filter-modal__header' hideBorder hideCloseIcon>
-                <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
+                <Text size={isDesktop ? 'md' : 'lg'} weight='bold'>
                     <Localize i18n_default_text='Leave page?' />
                 </Text>
             </Modal.Header>

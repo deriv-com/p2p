@@ -1,7 +1,7 @@
 .app-header {
     padding: 2.4rem;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         padding-left: 0;
         height: 4rem;
     }

@@ -74,7 +74,7 @@ const CopyAdForm = ({ formValues, isModalOpen, onClickCancel, onFormSubmit, ...r
         trigger,
     } = methods;
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     const onSubmit = () => {
         onFormSubmit({
@@ -85,8 +85,8 @@ const CopyAdForm = ({ formValues, isModalOpen, onClickCancel, onFormSubmit, ...r
         });
     };
 
-    const labelSize = isMobile ? 'sm' : 'xs';
-    const valueSize = isMobile ? 'md' : 'sm';
+    const labelSize = isDesktop ? 'xs' : 'sm';
+    const valueSize = isDesktop ? 'sm' : 'md';
 
     const triggerValidation = (fieldNames: (keyof TFormValues)[]) => {
         // Loop through the provided field names
@@ -129,7 +129,7 @@ const CopyAdForm = ({ formValues, isModalOpen, onClickCancel, onFormSubmit, ...r
                 >
                     <div className='copy-ad-form'>
                         <InlineMessage variant='info'>
-                            <Text size={isMobile ? 'sm' : '2xs'}>
+                            <Text size={isDesktop ? '2xs' : 'sm'}>
                                 <Localize i18n_default_text='Review your settings and create a new ad. Every ad must have unique limits and rates.' />
                             </Text>
                         </InlineMessage>

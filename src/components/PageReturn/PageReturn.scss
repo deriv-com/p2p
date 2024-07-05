@@ -5,7 +5,7 @@
     width: 100%;
     background: #fff;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         margin: 0;
         padding: 1.6rem;
     }
@@ -19,7 +19,7 @@
         cursor: pointer;
         margin-right: 0.8rem;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             margin-right: 1.8rem;
         }
     }

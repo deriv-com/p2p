@@ -10,7 +10,6 @@ const ProfileDailyLimit = () => {
     const { isDesktop } = useDevice();
     const { data: advertiserStats } = useAdvertiserStats();
     const { data: activeAccount } = api.account.useActiveAccount();
-
     const textSize = isDesktop ? 'xs' : 'sm';
 
     return (

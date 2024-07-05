@@ -21,7 +21,7 @@ const websiteUrl = () => `${location.protocol}//${location.hostname}`;
 const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps) => {
     const { localize } = useTranslations();
     const timeoutClipboardRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const { isDesktop, isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { data: advertInfo, isLoading: isLoadingInfo } = api.advert.useGet({ id });
     const [isCopied, copyToClipboard, setIsCopied] = useCopyToClipboard();
     const {
@@ -117,14 +117,14 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                                 <Button
                                     className='border-[1px]'
                                     color='black'
-                                    isFullWidth={isMobile}
+                                    isFullWidth={!isDesktop}
                                     onClick={handleGenerateImage}
-                                    textSize={isMobile ? 'md' : 'sm'}
+                                    textSize={isDesktop ? 'sm' : 'md'}
                                     variant='outlined'
                                 >
                                     <Localize i18n_default_text='Download this QR code' />
                                 </Button>
-                                {isMobile && (
+                                {!isDesktop && (
                                     <div className='flex w-full gap-4 justify-between mt-6'>
                                         <Button
                                             className='share-ads-modal__container__card__button'

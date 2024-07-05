@@ -10,7 +10,7 @@ type TAdConditionBlockElementProps = {
 };
 
 const AdConditionBlockElement = ({ isSelected, label, onClick, value }: TAdConditionBlockElementProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     return (
         <div
             className={clsx('ad-condition-block-element', {
@@ -18,7 +18,7 @@ const AdConditionBlockElement = ({ isSelected, label, onClick, value }: TAdCondi
             })}
             onClick={() => onClick(value)}
         >
-            <Text color={isSelected ? 'white' : 'prominent'} size={isMobile ? 'lg' : 'md'}>
+            <Text color={isSelected ? 'white' : 'prominent'} size={isDesktop ? 'md' : 'lg'}>
                 {label}
             </Text>
         </div>

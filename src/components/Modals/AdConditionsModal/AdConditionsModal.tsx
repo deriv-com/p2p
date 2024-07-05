@@ -10,7 +10,7 @@ type TAdConditionsModalProps = {
 };
 
 const AdConditionsModal = ({ isModalOpen, onRequestClose, type }: TAdConditionsModalProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { localize } = useTranslations();
     return (
         <Modal ariaHideApp={false} className='ad-conditions-modal' isOpen={isModalOpen} onRequestClose={onRequestClose}>
@@ -23,7 +23,7 @@ const AdConditionsModal = ({ isModalOpen, onRequestClose, type }: TAdConditionsM
                 </Text>
             </Modal.Body>
             <Modal.Footer hideBorder>
-                <Button onClick={onRequestClose} size='lg' textSize={isMobile ? 'md' : 'sm'} variant='contained'>
+                <Button onClick={onRequestClose} size='lg' textSize={isDesktop ? 'sm' : 'md'} variant='contained'>
                     <Localize i18n_default_text='OK' />
                 </Button>
             </Modal.Footer>

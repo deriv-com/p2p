@@ -15,7 +15,7 @@ const OrderRatingButton = ({
     isDisabled,
     onClick,
 }: TOrderRatingButtonProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     return (
         <Button
@@ -25,7 +25,7 @@ const OrderRatingButton = ({
             onClick={onClick}
             variant='outlined'
         >
-            <Text className='flex gap-2' size={isMobile ? 'sm' : 'xs'} weight={isDetails ? 'normal' : 'bold'}>
+            <Text className='flex gap-2' size={isDesktop ? 'xs' : 'sm'} weight={isDetails ? 'normal' : 'bold'}>
                 <LabelPairedStarLgFillIcon fill='#FFAD3A' height={16} width={16} />
                 {buttonLabel}
             </Text>

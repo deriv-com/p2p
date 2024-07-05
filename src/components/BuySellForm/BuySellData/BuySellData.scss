@@ -3,7 +3,7 @@
         display: flex;
         margin-bottom: 1.6rem;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             flex-direction: column;
             gap: 1.6rem;
         }
