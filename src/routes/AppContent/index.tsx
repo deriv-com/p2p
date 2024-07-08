@@ -76,7 +76,7 @@ const AppContent = () => {
         if ((isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
             content = <Loader />;
         } else if (isP2pBlocked && !isEndpointRoute) {
-            content = <BlockedScenarios type={getBlockedType(activeAccountData) ?? 'demo'} />;
+            content = <BlockedScenarios type={getBlockedType(activeAccountData) ?? ''} />;
         } else if (isFetched && activeAccountData) {
             content = (
                 <div className='app-content__body'>
