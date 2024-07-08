@@ -35,7 +35,7 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
     const [showPaymentMethods, setShowPaymentMethods] = useState(false);
     const [isMatching, setIsMatching] = useState(shouldUseClientLimits);
     const [paymentMethods, setPaymentMethods] = useState<string[]>(selectedPaymentMethods);
-    const [paymentMethodNames, setPaymentMethodNames] = useState('All');
+    const [paymentMethodNames, setPaymentMethodNames] = useState('');
     const [isHidden, setIsHidden] = useState(false);
 
     const filterOptions = [
@@ -77,15 +77,18 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
     };
 
     useEffect(() => {
-        if (data && paymentMethods.length > 0) {
+        if (data && paymentMethods.length > 0 && data?.length !== paymentMethods.length) {
             const selectedPaymentMethodsDisplayName = data
                 .filter(paymentMethod => paymentMethods.includes(paymentMethod.id))
                 .map(paymentMethod => paymentMethod.display_name);
 
             setPaymentMethodNames(selectedPaymentMethodsDisplayName.join(', '));
-        } else if (paymentMethods.length === 0) {
-            setPaymentMethodNames('All');
+        } else if (paymentMethods.length === data?.length) {
+            setPaymentMethodNames(localize('All'));
+        } else {
+            setPaymentMethodNames('');
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, paymentMethods]);
 
     const closeCancelModal = (hideAll = false) => {

@@ -23,14 +23,16 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { localize } = useTranslations();
     const { isDesktop } = useDevice();
-    const { filteredCurrency, setFilteredCurrency, setSortByValue, sortByValue } = useBuySellFiltersStore(
-        useShallow(state => ({
-            filteredCurrency: state.filteredCurrency,
-            setFilteredCurrency: state.setFilteredCurrency,
-            setSortByValue: state.setSortByValue,
-            sortByValue: state.sortByValue,
-        }))
-    );
+    const { filteredCurrency, selectedPaymentMethods, setFilteredCurrency, setSortByValue, sortByValue } =
+        useBuySellFiltersStore(
+            useShallow(state => ({
+                filteredCurrency: state.filteredCurrency,
+                selectedPaymentMethods: state.selectedPaymentMethods,
+                setFilteredCurrency: state.setFilteredCurrency,
+                setSortByValue: state.setSortByValue,
+                sortByValue: state.sortByValue,
+            }))
+        );
 
     return (
         <div className='buy-sell-header' data-testid='dt_buy_sell_header'>
@@ -65,21 +67,15 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
                     value={sortByValue}
                 />
                 <Button
-                    className='!border-[#d6dadb] border-[1px] lg:p-0 lg:h-16 lg:w-16 h-[3.2rem] w-[3.2rem]'
+                    className='buy-sell-header__filter-button'
                     color='black'
-                    icon={
-                        isDesktop ? (
-                            <LabelPairedBarsFilterMdBoldIcon />
-                        ) : (
-                            <LabelPairedBarsFilterSmBoldIcon
-                                className='absolute'
-                                data-testid='dt_buy_sell_header_filter_button'
-                            />
-                        )
-                    }
+                    data-testid='dt_buy_sell_header_filter_button'
+                    icon={isDesktop ? <LabelPairedBarsFilterMdBoldIcon /> : <LabelPairedBarsFilterSmBoldIcon />}
                     onClick={() => showModal('FilterModal')}
                     variant='outlined'
-                />
+                >
+                    {!!selectedPaymentMethods?.length && <div className='buy-sell-header__filter-button__indication' />}
+                </Button>
             </div>
             {isModalOpenFor('FilterModal') && <FilterModal isModalOpen onRequestClose={hideModal} />}
         </div>
