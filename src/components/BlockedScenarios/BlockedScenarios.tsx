@@ -5,7 +5,7 @@ import { URLConstants } from '@deriv-com/utils';
 
 type TBlockedScenariosObject = {
     [key: string]: {
-        actionButtons: JSX.Element;
+        actionButton: JSX.Element;
         description: JSX.Element;
         icon: JSX.Element;
         title: JSX.Element;
@@ -24,7 +24,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
 
     const blockedScenarios: TBlockedScenariosObject = {
         crypto: {
-            actionButtons: (
+            actionButton: (
                 <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
                     <Localize i18n_default_text='Switch to real USD account' />
                 </Button>
@@ -42,7 +42,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             ),
         },
         demo: {
-            actionButtons: (
+            actionButton: (
                 <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
                     <Localize i18n_default_text='Switch to real USD account' />
                 </Button>
@@ -60,7 +60,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             ),
         },
         nonUSD: {
-            actionButtons: (
+            actionButton: (
                 <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
                     <Localize i18n_default_text='Create real USD account' />
                 </Button>
@@ -80,12 +80,14 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     };
     return (
         <div className='pt-[2.4rem] m-[2.4rem]'>
-            <ActionScreen
-                actionButtons={blockedScenarios[type].actionButtons}
-                description={blockedScenarios[type].description}
-                icon={blockedScenarios[type].icon}
-                title={blockedScenarios[type].title}
-            />
+            {type && (
+                <ActionScreen
+                    actionButtons={blockedScenarios[type].actionButton}
+                    description={blockedScenarios[type].description}
+                    icon={blockedScenarios[type].icon}
+                    title={blockedScenarios[type].title}
+                />
+            )}
         </div>
     );
 };
