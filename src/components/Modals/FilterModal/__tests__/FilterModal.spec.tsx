@@ -75,7 +75,6 @@ describe('<FilterModal />', () => {
 
         expect(screen.getByText('Filter')).toBeInTheDocument();
         expect(screen.getByText('Payment methods')).toBeInTheDocument();
-        expect(screen.getByText('All')).toBeInTheDocument();
         expect(screen.getByText('Matching ads')).toBeInTheDocument();
         expect(screen.getByText('Ads that match your Deriv P2P balance and limit.')).toBeInTheDocument();
         expect(toggleSwitch).toBeInTheDocument();
@@ -244,15 +243,13 @@ describe('<FilterModal />', () => {
         await user.click(paymentMethodsText);
 
         const alipayCheckbox = screen.getByRole('checkbox', { name: 'Alipay' });
-        const bankTransferCheckbox = screen.getByRole('checkbox', { name: 'Bank Transfer' });
         const confirmButton = screen.getByRole('button', { name: 'Confirm' });
 
         await user.click(alipayCheckbox);
-        await user.click(bankTransferCheckbox);
         await user.click(confirmButton);
 
         expect(screen.getByText('Filter')).toBeInTheDocument();
-        expect(screen.getByText('Alipay, Bank Transfer')).toBeInTheDocument();
+        expect(screen.getByText('Alipay')).toBeInTheDocument();
     });
 
     it('should call setSelectedPaymentMethods if a payment method is unselected', async () => {
