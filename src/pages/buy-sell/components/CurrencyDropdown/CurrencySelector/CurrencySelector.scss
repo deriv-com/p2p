@@ -28,7 +28,6 @@
         width: 24rem;
 
         @include mobile-or-tablet-screen {
-            // margin-top: 4.6rem;
             height: calc(100vh - 16rem);
             width: unset;
         }
