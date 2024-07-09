@@ -1,3 +1,4 @@
+export * from './account';
 export * from './ad-utils';
 export * from './adverts';
 export * from './date';

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
-import { getCurrentRoute } from '@/utils';
+import { getBlockedType, getCurrentRoute } from '@/utils';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
 import Router from '../Router';
 import { routes } from '../routes-config';
@@ -22,7 +23,7 @@ const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
-    const { data: activeAccountData, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
+    const { data: activeAccountData, isFetched, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -67,6 +68,38 @@ const AppContent = () => {
         setActiveTab(getActiveTab(location.pathname));
     }, [location]);
 
+    const isP2pBlocked = activeAccountData && (activeAccountData.is_virtual || activeAccountData.currency !== 'USD');
+
+    const getComponent = () => {
+        if ((isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
+            return <Loader />;
+        } else if (isP2pBlocked && !isEndpointRoute) {
+            return <BlockedScenarios type={getBlockedType(activeAccountData) ?? ''} />;
+        } else if ((isFetched && activeAccountData) || isEndpointRoute) {
+            return (
+                <div className='app-content__body'>
+                    <Tabs
+                        activeTab={activeTab}
+                        className='app-content__tabs'
+                        onChange={index => {
+                            setActiveTab(tabRoutesConfiguration[index].name);
+                            history.push(tabRoutesConfiguration[index].path);
+                        }}
+                        variant='secondary'
+                    >
+                        {tabRoutesConfiguration.map(route => (
+                            <Tab key={route.name} title={route.name} />
+                        ))}
+                    </Tabs>
+                    {isDesktop && !isEndpointRoute && <GuideTooltip />}
+                    <Router />
+                </div>
+            );
+        }
+
+        return null;
+    };
+
     return (
         <AdvertiserInfoStateProvider
             value={{
@@ -87,27 +120,7 @@ const AppContent = () => {
                 >
                     Deriv P2P
                 </Text>
-                {isLoadingActiveAccount && !isEndpointRoute ? (
-                    <Loader />
-                ) : (
-                    <div className='app-content__body'>
-                        <Tabs
-                            activeTab={activeTab}
-                            className='app-content__tabs'
-                            onChange={index => {
-                                setActiveTab(tabRoutesConfiguration[index].name);
-                                history.push(tabRoutesConfiguration[index].path);
-                            }}
-                            variant='secondary'
-                        >
-                            {tabRoutesConfiguration.map(route => (
-                                <Tab key={route.name} title={route.name} />
-                            ))}
-                        </Tabs>
-                        {isDesktop && !isEndpointRoute && <GuideTooltip />}
-                        <Router />
-                    </div>
-                )}
+                {getComponent()}
             </div>
         </AdvertiserInfoStateProvider>
     );
