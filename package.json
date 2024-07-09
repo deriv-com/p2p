@@ -20,7 +20,6 @@
         "@deriv-com/translations": "^1.2.4",
         "@deriv-com/ui": "^1.29.0",
         "@deriv-com/utils": "^0.0.28",
-        "@deriv/deriv-api": "^1.0.15",
         "@deriv/quill-icons": "^1.22.10",
         "@sendbird/chat": "^4.11.3",
         "@svgr/rollup": "^8.1.0",
