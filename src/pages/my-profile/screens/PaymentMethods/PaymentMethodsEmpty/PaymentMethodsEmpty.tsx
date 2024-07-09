@@ -36,20 +36,20 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
             >
                 <div className='payment-methods-empty'>
                     <DerivLightIcPaymentMethodsWalletIcon height={160} />
-                    <Text className='payment-methods-empty__heading' size='lg' weight='bold'>
+                    <Text className='payment-methods-empty__heading' size={isMobile ? 'lg' : 'md'} weight='bold'>
                         <Localize i18n_default_text='You haven’t added any payment methods yet' />
                     </Text>
-                    <Text size='lg'>
+                    <Text size={isMobile ? 'lg' : 'md'}>
                         <Localize i18n_default_text='Hit the button below to add payment methods.' />
                     </Text>
                     <Button
                         className='payment-methods-empty__button'
-                        isFullWidth
+                        isFullWidth={isMobile}
                         onClick={() => {
                             onAddPaymentMethod();
                         }}
                         size='lg'
-                        textSize='md'
+                        textSize={isMobile ? 'md' : 'sm'}
                     >
                         <Localize i18n_default_text='Add payment methods' />
                     </Button>
