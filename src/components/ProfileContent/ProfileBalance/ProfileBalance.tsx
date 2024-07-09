@@ -11,7 +11,7 @@ import './ProfileBalance.scss';
 
 const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
     const { data: activeAccount } = api.account.useActiveAccount();
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const [shouldShowAvailableBalanceModal, setShouldShowAvailableBalanceModal] = useState(false);
 
     const currency = activeAccount?.currency || 'USD';
@@ -37,7 +37,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
         ]
     );
 
-    const labelSize = isDesktop ? 'sm' : 'md';
+    const labelSize = isMobile ? 'md' : 'sm';
 
     return (
         <>
@@ -57,7 +57,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                             onClick={() => setShouldShowAvailableBalanceModal(true)}
                         />
                     </div>
-                    <Text size={isDesktop ? 'xl' : '2xl'} weight='bold'>
+                    <Text size={isMobile ? '2xl' : 'xl'} weight='bold'>
                         {FormatUtils.formatMoney(advertiserStats?.balance_available || 0)} USD
                     </Text>
                 </div>

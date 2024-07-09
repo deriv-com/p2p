@@ -14,7 +14,7 @@ import './MyProfileAdDetails.scss';
 const MyProfileAdDetails = () => {
     const { data: advertiserInfo, isLoading } = api.advertiser.useGetInfo();
     const { isSuccess, mutate: updateAdvertiser, reset } = api.advertiser.useUpdate();
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
 
     const {
@@ -76,7 +76,7 @@ const MyProfileAdDetails = () => {
                         </Button>
                     )}
                     renderHeader={() => (
-                        <Text size='lg' weight='bold'>
+                        <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
                             <Localize i18n_default_text='Ad Details ' />
                         </Text>
                     )}

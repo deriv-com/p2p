@@ -30,7 +30,7 @@ const PaymentMethodsList = ({
     onResetFormState,
     p2pAdvertiserPaymentMethods,
 }: TPaymentMethodsListProps) => {
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
 
     if (!isDesktop) {
@@ -44,7 +44,7 @@ const PaymentMethodsList = ({
                 }
                 renderFooter={() => <AddNewButton isMobile onAdd={onAdd} />}
                 renderHeader={() => (
-                    <Text size='lg' weight='bold'>
+                    <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
                         <Localize i18n_default_text='Payment methods' />
                     </Text>
                 )}
