@@ -1,6 +1,7 @@
 .sort-dropdown {
     .deriv-dropdown__items {
         top: 4.4rem;
+        width: 24rem;
     }
 
     .deriv-input {
@@ -14,6 +15,10 @@
             &:not(:placeholder-shown) ~ label {
                 transform: translate(-29%, -50%);
             }
+        }
+
+        &__right-content {
+            display: flex;
         }
     }
 }

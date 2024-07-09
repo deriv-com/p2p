@@ -12,7 +12,7 @@ import './Advertiser.scss';
 
 const Advertiser = () => {
     const { localize } = useTranslations();
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const { showModal } = useModalManager();
     const { advertiserId } = useParams<{ advertiserId: string }>();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
@@ -51,7 +51,7 @@ const Advertiser = () => {
                         />
                     ),
                 })}
-                size={isDesktop ? 'md' : 'lg'}
+                size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />
             {isLoading ? (
