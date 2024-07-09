@@ -18,7 +18,6 @@
         align-items: center;
 
         @include mobile-or-tablet-screen {
-            height: 3.2rem;
             display: flex;
             align-items: center;
             line-height: 1rem;
@@ -71,6 +70,39 @@
                     }
                 }
             }
+        }
+
+        & > .deriv-button__variant--outlined.deriv-button__color--black {
+            border-color: #d6dadb;
+
+            &:hover:not(:disabled) {
+                background-color: #fff;
+            }
+        }
+    }
+
+    &__filter-button {
+        height: 4rem;
+        width: 4rem;
+        border-width: 1px;
+
+        & > span,
+        & > svg {
+            position: absolute;
+        }
+
+        &:hover {
+            background-color: #fff;
+        }
+
+        &__indication {
+            position: absolute;
+            border-radius: 50px;
+            background: #ec3f3f;
+            width: 7px;
+            height: 7px;
+            bottom: 1rem;
+            left: 1rem;
         }
     }
 }

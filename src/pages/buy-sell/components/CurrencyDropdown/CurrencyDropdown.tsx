@@ -72,14 +72,10 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
                 })}
                 onClick={() => setShowCurrencySelector(prev => !prev)}
             >
-                <Text
-                    className='currency-dropdown__dropdown-text'
-                    color='less-prominent'
-                    size={isDesktop ? '2xs' : 'xs'}
-                >
+                <Text className='currency-dropdown__dropdown-text' size={isDesktop ? '2xs' : 'xs'}>
                     <Localize i18n_default_text='Currency' />
                 </Text>
-                <Text size='sm'>{selectedCurrency}</Text>
+                <Text size={isDesktop ? 'sm' : 'md'}>{selectedCurrency}</Text>
                 <LabelPairedChevronDownMdRegularIcon
                     className={clsx('currency-dropdown__dropdown-icon', {
                         'currency-dropdown__dropdown-icon--active': showCurrencySelector,
