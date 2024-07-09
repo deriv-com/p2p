@@ -6,6 +6,11 @@ const mockProps = {
     isBuy: true,
 };
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => ({ isMobile: false })),
+}));
+
 describe('BuySellFormHeader', () => {
     it('should render the header as expected', () => {
         render(<BuySellFormHeader {...mockProps} />);
