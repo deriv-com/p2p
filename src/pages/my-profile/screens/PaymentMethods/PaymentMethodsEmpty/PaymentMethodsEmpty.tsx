@@ -16,7 +16,7 @@ type TPaymentMethodsEmptyProps = {
  * @example <PaymentMethodsEmpty onAddPaymentMethod={onAddPaymentMethod} />
  * **/
 const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) => {
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
 
     if (!isDesktop) {
@@ -29,7 +29,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                     });
                 }}
                 renderHeader={() => (
-                    <Text size='lg' weight='bold'>
+                    <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
                         <Localize i18n_default_text='Payment methods' />
                     </Text>
                 )}
