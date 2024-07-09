@@ -71,14 +71,12 @@ const AppContent = () => {
     const isP2pBlocked = activeAccountData && (activeAccountData.is_virtual || activeAccountData.currency !== 'USD');
 
     const getComponent = () => {
-        let content = null;
-
         if ((isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
-            content = <Loader />;
+            return <Loader />;
         } else if (isP2pBlocked && !isEndpointRoute) {
-            content = <BlockedScenarios type={getBlockedType(activeAccountData) ?? ''} />;
-        } else if (isFetched && activeAccountData) {
-            content = (
+            return <BlockedScenarios type={getBlockedType(activeAccountData) ?? ''} />;
+        } else if ((isFetched && activeAccountData) || isEndpointRoute) {
+            return (
                 <div className='app-content__body'>
                     <Tabs
                         activeTab={activeTab}
@@ -99,7 +97,7 @@ const AppContent = () => {
             );
         }
 
-        return content;
+        return null;
     };
 
     return (
