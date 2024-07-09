@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Control, FieldValues, useForm } from 'react-hook-form';
@@ -60,11 +59,11 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isHidden, setIsHidden] = useState(false);
     const {
-        balance_available = '',
-        daily_buy = 0,
-        daily_buy_limit = 0,
-        daily_sell = 0,
-        daily_sell_limit = 0,
+        balance_available: balanceAvailable = '',
+        daily_buy: dailyBuy = 0,
+        daily_buy_limit: dailyBuyLimit = 0,
+        daily_sell: dailySell = 0,
+        daily_sell_limit: dailySellLimit = 0,
     } = data || {};
 
     const isAdvertiser = useIsAdvertiser();
@@ -75,28 +74,28 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const [buySellAmount, setBuySellAmount] = useState('0');
 
     const {
-        account_currency,
-        advertiser_details,
+        account_currency: accountCurrency,
+        advertiser_details: advertiserDetails,
         description,
-        effective_rate,
+        effective_rate: adEffectiveRate,
         id,
-        local_currency = '',
-        max_order_amount_limit_display,
-        min_order_amount_limit,
-        min_order_amount_limit_display,
-        order_expiry_period,
-        payment_method_names,
-        price_display,
+        local_currency: localCurrency = '',
+        max_order_amount_limit_display: maxOrderAmountLimitDisplay,
+        min_order_amount_limit: minOrderAmountLimit,
+        min_order_amount_limit_display: minOrderAmountLimitDisplay,
+        order_expiry_period: orderExpiryPeriod,
+        payment_method_names: paymentMethodNames,
+        price_display: priceDisplay,
         rate,
-        rate_type,
+        rate_type: rateType,
         type,
     } = advertInfo || {};
 
-    const { exchangeRate } = api.exchangeRates.useGet(local_currency);
+    const { exchangeRate } = api.exchangeRates.useGet(localCurrency);
 
     const [hasCounterpartyRateChanged, setHasCounterpartyRateChanged] = useState(false);
     const [hasRateChanged, setHasRateChanged] = useState(false);
-    const [inputValue, setInputValue] = useState(min_order_amount_limit_display ?? '0');
+    const [inputValue, setInputValue] = useState(minOrderAmountLimitDisplay ?? '0');
     const finalEffectiveRateRef = useRef<number | undefined>(undefined);
     const counterpartyRateRef = useRef<number | undefined>(undefined);
 
@@ -109,11 +108,11 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
 
     const { displayEffectiveRate, effectiveRate } = generateEffectiveRate({
         exchangeRate,
-        localCurrency: local_currency as TCurrency,
-        marketRate: Number(effective_rate),
-        price: Number(price_display),
+        localCurrency: localCurrency as TCurrency,
+        marketRate: Number(adEffectiveRate),
+        price: Number(priceDisplay),
         rate,
-        rateType: rate_type,
+        rateType,
     });
 
     const advertiserPaymentMethodObjects = getPaymentMethodObjects(
@@ -122,7 +121,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
 
     const paymentMethodObjects = getPaymentMethodObjects(paymentMethods as THooks.PaymentMethods.Get);
 
-    const availablePaymentMethods = payment_method_names?.map(paymentMethod => {
+    const availablePaymentMethods = paymentMethodNames?.map(paymentMethod => {
         const isAvailable = advertiserPaymentMethods?.some(method => method.display_name === paymentMethod);
         return {
             ...(isAvailable ? advertiserPaymentMethodObjects[paymentMethod] : paymentMethodObjects[paymentMethod]),
@@ -136,8 +135,8 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
 
     const shouldDisableField =
         !isBuy &&
-        (parseFloat(balance_available.toString()) === 0 ||
-            parseFloat(balance_available.toString()) < (min_order_amount_limit ?? 1));
+        (parseFloat(balanceAvailable.toString()) === 0 ||
+            parseFloat(balanceAvailable.toString()) < (minOrderAmountLimit ?? 1));
 
     const {
         control,
@@ -148,7 +147,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         trigger,
     } = useForm({
         defaultValues: {
-            amount: min_order_amount_limit ?? 1,
+            amount: minOrderAmountLimit ?? 1,
             bank_details: '',
             contact_details: '',
         },
@@ -161,7 +160,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
             showModal('RateFluctuationModal', { shouldStackModals: false });
             return;
         }
-        const rateValue = rate_type === RATE_TYPE.FIXED ? null : finalEffectiveRateRef.current;
+        const rateValue = rateType === RATE_TYPE.FIXED ? null : finalEffectiveRateRef.current;
         const payload: TPayload = {
             advert_id: id as string,
             amount: Number(getValues('amount')),
@@ -209,7 +208,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         if (effectiveRate) {
             setCalculatedRate(removeTrailingZeros(roundOffDecimal(effectiveRate, setDecimalPlaces(effectiveRate, 6))));
         }
-    }, [calculatedRate, effectiveRate, min_order_amount_limit]);
+    }, [calculatedRate, effectiveRate, minOrderAmountLimit]);
 
     useEffect(() => {
         if (isSuccess && orderCreatedInfo) {
@@ -262,7 +261,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <BuySellFormDisplayWrapper
-                accountCurrency={account_currency as TCurrency}
+                accountCurrency={accountCurrency as TCurrency}
                 isBuy={isBuy}
                 isHidden={isHidden}
                 isModalOpen={isModalOpen}
@@ -278,20 +277,20 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     </div>
                 )}
                 <BuySellData
-                    accountCurrency={account_currency as TCurrency}
-                    expiryPeriod={order_expiry_period ?? 3600}
+                    accountCurrency={accountCurrency as TCurrency}
+                    expiryPeriod={orderExpiryPeriod ?? 3600}
                     instructions={description ?? '-'}
                     isBuy={isBuy}
-                    localCurrency={local_currency as TCurrency}
-                    name={advertiser_details?.name ?? ''}
-                    paymentMethodNames={payment_method_names}
+                    localCurrency={localCurrency as TCurrency}
+                    name={advertiserDetails?.name ?? ''}
+                    paymentMethodNames={paymentMethodNames}
                     paymentMethods={paymentMethods as THooks.PaymentMethods.Get}
                     rate={displayEffectiveRate}
-                    rateType={rate_type}
+                    rateType={rateType}
                     ref={scrollRef}
                 />
                 <LightDivider />
-                {isBuy && payment_method_names && payment_method_names?.length > 0 && (
+                {isBuy && paymentMethodNames && paymentMethodNames?.length > 0 && (
                     <BuySellPaymentSection
                         availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
                         onSelectPaymentMethodCard={onSelectPaymentMethodCard}
@@ -300,22 +299,22 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     />
                 )}
                 <BuySellAmount
-                    accountCurrency={account_currency as TCurrency}
+                    accountCurrency={accountCurrency as TCurrency}
                     buySellAmount={buySellAmount}
                     calculatedRate={calculatedRate}
                     control={control as unknown as Control<FieldValues>}
                     inputValue={inputValue}
                     isBuy={isBuy}
                     isDisabled={shouldDisableField}
-                    localCurrency={local_currency as TCurrency}
+                    localCurrency={localCurrency as TCurrency}
                     maxLimit={getAdvertiserMaxLimit(
                         isBuy,
-                        Number(daily_buy_limit) - Number(daily_buy),
-                        Number(daily_sell_limit) - Number(daily_sell),
-                        max_order_amount_limit_display ?? '0'
+                        Number(dailyBuyLimit) - Number(dailyBuy),
+                        Number(dailySellLimit) - Number(dailySell),
+                        maxOrderAmountLimitDisplay ?? '0'
                     )}
-                    minLimit={min_order_amount_limit_display ?? '0'}
-                    paymentMethodNames={payment_method_names}
+                    minLimit={minOrderAmountLimitDisplay ?? '0'}
+                    paymentMethodNames={paymentMethodNames}
                     setBuySellAmount={setBuySellAmount}
                     setInputValue={setInputValue}
                     setValue={setValue as unknown as (name: string, value: string) => void}
@@ -332,11 +331,11 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                         setHasRateChanged(false);
                     }}
                     values={{
-                        currency: account_currency ?? '',
+                        currency: accountCurrency ?? '',
                         inputAmount: FormatUtils.formatMoney(Number(inputValue), {
-                            currency: local_currency as TCurrency,
+                            currency: localCurrency as TCurrency,
                         }),
-                        localCurrency: local_currency,
+                        localCurrency,
                         receivedAmount: buySellAmount,
                     }}
                 />

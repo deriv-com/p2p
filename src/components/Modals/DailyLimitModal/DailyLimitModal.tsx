@@ -12,7 +12,7 @@ type TDailyLimitModalProps = {
 
 const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitModalProps) => {
     const { data, error, isPending: isLoading, isSuccess, mutate } = api.advertiser.useUpdate();
-    const { daily_buy_limit, daily_sell_limit } = data ?? {};
+    const { daily_buy_limit: dailyBuyLimit, daily_sell_limit: dailySellLimit } = data ?? {};
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
     const headerTextSize = isDesktop ? 'md' : 'lg';
@@ -60,8 +60,8 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
         success: {
             body: (
                 <Localize
-                    i18n_default_text='Your daily limits have been increased to {{daily_buy_limit}} {{currency}} (buy) and {{daily_sell_limit}} {{currency}} (sell).'
-                    values={{ currency, daily_buy_limit, daily_sell_limit }}
+                    i18n_default_text='Your daily limits have been increased to {{dailyBuyLimit}} {{currency}} (buy) and {{dailySellLimit}} {{currency}} (sell).'
+                    values={{ currency, dailyBuyLimit, dailySellLimit }}
                 />
             ),
             footer: (
