@@ -19,7 +19,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
     if (!isDesktop) {
         return (
             <Button
-                className='w-[3.2rem] !border-[#d6dadb] border-[1px]'
+                className='w-16 h-16 !border-[#d6dadb] border-[1px]'
                 color='black'
                 icon={
                     <LabelPairedSortCaptionRegularIcon

@@ -13,6 +13,7 @@
 
         @include mobile-or-tablet-screen {
             padding: 3px 8px;
+            height: 4rem;
         }
 
         &:hover:not(.currency-dropdown__dropdown--active) {
@@ -37,10 +38,6 @@
             height: fit-content;
             transform: translate(-10%, -133%);
             position: absolute;
-
-            @include mobile-or-tablet-screen {
-                transform: translate(-10%, -109%);
-            }
         }
     }
 
