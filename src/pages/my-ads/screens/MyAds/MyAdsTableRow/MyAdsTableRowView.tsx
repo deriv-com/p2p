@@ -87,7 +87,7 @@ const MyAdsTableRowView = ({
 
     const {
         account_currency: accountCurrency = '',
-        contact_info,
+        contact_info: contactInfo,
         description,
         eligible_countries: eligibleCountries = [],
         id = '',
@@ -189,7 +189,7 @@ const MyAdsTableRowView = ({
                 name => paymentMethodObjects[name].id
             ) as TMutatePayload['payment_method_names'];
         } else {
-            payload.contact_info = contact_info;
+            payload.contact_info = contactInfo;
             payload.payment_method_ids = paymentMethodNames?.map(
                 name => advertiserPaymentMethodObjects[name].id
             ) as TMutatePayload['payment_method_ids'];

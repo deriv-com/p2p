@@ -32,7 +32,7 @@ const PaymentMethodCard = ({
     selectedPaymentMethodIds = [],
     shouldShowPaymentMethodDisplayName,
 }: TPaymentMethodCardProps) => {
-    const { display_name, isAvailable, type } = paymentMethod;
+    const { display_name: displayName, isAvailable, type } = paymentMethod;
 
     const toAdd = !!(isAvailable ?? isAvailable === undefined);
     const isSelected = !!paymentMethod.id && selectedPaymentMethodIds.includes(Number(paymentMethod.id));
@@ -54,7 +54,7 @@ const PaymentMethodCard = ({
                     >
                         <LabelPairedPlusLgBoldIcon fill='white' />
                     </Button>
-                    <Text size='sm'>{display_name}</Text>
+                    <Text size='sm'>{displayName}</Text>
                 </div>
             ) : (
                 <>
