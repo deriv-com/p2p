@@ -15,7 +15,7 @@ import './AdvertsTableRow.scss';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const { isDesktop } = useDevice();
+    const { isDesktop, isTablet } = useDevice();
     const history = useHistory();
     const location = useLocation();
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
@@ -70,7 +70,11 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const ratingAverageDecimal = ratingAverage ? Number(ratingAverage).toFixed(1) : null;
     const textColor = isDesktop ? 'general' : 'less-prominent';
     const size = isDesktop ? 'sm' : 'md';
-    const buttonTextSize = isDesktop ? 'xs' : 'md';
+    const buttonTextSize = () => {
+        if (isDesktop) return 'xs';
+        else if (isTablet) return 'sm';
+        return 'md';
+    };
 
     return (
         <div
@@ -180,7 +184,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             color='black'
                             onClick={() => showModal('ErrorModal')}
                             size={size}
-                            textSize={buttonTextSize}
+                            textSize={buttonTextSize()}
                             variant='outlined'
                         >
                             <Localize i18n_default_text='Unavailable' />
@@ -199,7 +203,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                 }
                             }}
                             size={size}
-                            textSize={buttonTextSize}
+                            textSize={buttonTextSize()}
                         >
                             {isBuyAdvert ? 'Buy' : 'Sell'} {accountCurrency}
                         </Button>
