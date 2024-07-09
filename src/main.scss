@@ -10,4 +10,8 @@ body {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 10px;
     overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
