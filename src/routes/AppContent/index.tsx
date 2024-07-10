@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { BUY_SELL_URL } from '@/constants';
-import { api } from '@/hooks';
+import { api, useLiveChat } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getBlockedType, getCurrentRoute } from '@/utils';
@@ -24,6 +24,7 @@ const AppContent = () => {
     const location = useLocation();
     const { isDesktop } = useDevice();
     const { data: activeAccountData, isFetched, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
+    const { init: initLiveChat } = useLiveChat();
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -41,6 +42,10 @@ const AppContent = () => {
         subscribe: subscribeAdvertiserInfo,
     } = api.advertiser.useGetInfo();
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
+
+    useEffect(() => {
+        initLiveChat();
+    }, []);
 
     useEffect(() => {
         if (activeAccountData) {
