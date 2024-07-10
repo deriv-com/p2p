@@ -1,8 +1,10 @@
+import { useLiveChat } from '@/hooks/custom-hooks';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Accordion, Text, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
 
 const FAQs = () => {
+    const { LiveChatWidget } = useLiveChat();
     const { isDesktop } = useDevice();
     const { localize } = useTranslations();
 
@@ -99,8 +101,7 @@ const FAQs = () => {
                                 className='guide__content-section--link'
                                 key={0}
                                 onClick={() => {
-                                    // TODO: Uncomment once live chat is integrated.
-                                    // window.LC_API.open_chat_window();
+                                    LiveChatWidget.call('maximize');
                                 }}
                             />,
                         ]}

@@ -4,11 +4,13 @@ import { ReactComponent as PayUserIcon } from '@/assets/pay-user.svg';
 import { ReactComponent as ReceivePaymentIcon } from '@/assets/receive-payment.svg';
 import { ReactComponent as ReceivedFundIcon } from '@/assets/received-fund.svg';
 import { ReactComponent as ReleaseFundIcon } from '@/assets/release-fund.svg';
+import { useLiveChat } from '@/hooks/custom-hooks';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Tab, Tabs, Text } from '@deriv-com/ui';
 import { Carousel } from '../../components';
 
 const GettingStarted = () => {
+    const { LiveChatWidget } = useLiveChat();
     const { localize } = useTranslations();
 
     return (
@@ -54,8 +56,7 @@ const GettingStarted = () => {
                                                     className='guide__content-section--link'
                                                     key={0}
                                                     onClick={() => {
-                                                        // TODO: Uncomment once live chat is integrated.
-                                                        // window.LC_API.open_chat_window();
+                                                        LiveChatWidget.call('maximize');
                                                     }}
                                                 />,
                                             ]}

@@ -2,11 +2,13 @@
 import { ReactComponent as ScamAdvancePaymentIcon } from '@/assets/scam-advance-payment.svg';
 import { ReactComponent as ScamPotIcon } from '@/assets/scam-pot.svg';
 import { ReactComponent as ScamSmsIcon } from '@/assets/scam-sms.svg';
+import { useLiveChat } from '@/hooks/custom-hooks';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { Carousel } from '../../components';
 
 const Awareness = () => {
+    const { LiveChatWidget } = useLiveChat();
     const { isDesktop } = useDevice();
 
     return (
@@ -56,8 +58,7 @@ const Awareness = () => {
                                             className='guide__content-section--link'
                                             key={0}
                                             onClick={() => {
-                                                // TODO: Uncomment once live chat is integrated.
-                                                // window.LC_API.open_chat_window();
+                                                LiveChatWidget.call('maximize');
                                             }}
                                         />,
                                     ]}
