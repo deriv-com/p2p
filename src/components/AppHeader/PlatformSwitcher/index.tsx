@@ -18,7 +18,7 @@ export const PlatformSwitcher = () => {
             {platformsConfig.map(({ active, description, href, icon }) => (
                 <PlatformSwitcherItem
                     active={active}
-                    className='py-[1.4rem] px-[1.6rem] my-[1.4rem] mx-[1.6rem] h-auto lg:py-[2.4rem] lg:px-[1.6rem] lg:m-[1.6rem] lg:mt-[2.4rem] lg:h-[14.3rem]'
+                    className='py-[1.4rem] px-[1.6rem] my-[1.4rem] mx-[1.6rem] h-auto lg:py-[2.4rem] lg:m-[1.6rem] lg:mt-[2.4rem] lg:h-[14.3rem]'
                     description={localize('{{description}}', { description })}
                     href={href}
                     icon={icon}
