@@ -44,6 +44,7 @@ const ProfileStats = ({ advertiserStats }: { advertiserStats: Partial<TAdvertise
             },
             { text: localize('Trade partners'), value: tradePartners },
         ];
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [advertiserStats]);
 
     return (

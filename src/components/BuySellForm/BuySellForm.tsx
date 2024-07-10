@@ -272,7 +272,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 {errorMessage && (
                     <div className='px-[1.6rem] lg:px-[2.4rem] mt-[1.6rem] lg:mt-[2.4rem]'>
                         <InlineMessage variant='error'>
-                            <Text size={isDesktop ? '2xs' : 'xs'}>{errorMessage}</Text>
+                            <Text size={!isDesktop ? '2xs' : 'xs'}>{errorMessage}</Text>
                         </InlineMessage>
                     </div>
                 )}

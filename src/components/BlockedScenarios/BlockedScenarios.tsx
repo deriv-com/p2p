@@ -1,11 +1,17 @@
 import { ReactComponent as P2pUnavailable } from '@/assets/p2p-unavailable.svg';
+import { useLiveChat } from '@/hooks';
+import {
+    DerivLightIcCashierBlockedIcon,
+    DerivLightIcCashierLockedIcon,
+    DerivLightIcCashierUnderMaintenanceIcon,
+} from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
 
 type TBlockedScenariosObject = {
     [key: string]: {
-        actionButton: JSX.Element;
+        actionButton?: JSX.Element;
         description: JSX.Element;
         icon: JSX.Element;
         title: JSX.Element;
@@ -13,16 +19,40 @@ type TBlockedScenariosObject = {
 };
 
 const BlockedScenarios = ({ type }: { type: string }) => {
-    const { isDesktop } = useDevice();
+    const { isMobile } = useDevice();
+    const { LiveChatWidget } = useLiveChat();
 
-    const buttonTextSize = isDesktop ? 'sm' : 'md';
+    const buttonTextSize = isMobile ? 'md' : 'sm';
+    const iconSize = isMobile ? 96 : 128;
 
     // TODO: change redirection when account switcher is implemented
     const openDerivApp = () => {
         window.open(URLConstants.derivAppProduction, '_blank')?.focus();
     };
 
+    const openLiveChat = () => {
+        LiveChatWidget.call('maximize');
+    };
+
     const blockedScenarios: TBlockedScenariosObject = {
+        cashierLocked: {
+            actionButton: (
+                <Button onClick={openLiveChat} size='lg' textSize={buttonTextSize}>
+                    <Localize i18n_default_text='Live chat' />
+                </Button>
+            ),
+            description: (
+                <Text align='center'>
+                    <Localize i18n_default_text='Your cashier is currently locked. Please contact us via live chat to find out why.' />
+                </Text>
+            ),
+            icon: <DerivLightIcCashierLockedIcon height={iconSize} width={iconSize} />,
+            title: (
+                <Text weight='bold'>
+                    <Localize i18n_default_text='Cashier is locked' />
+                </Text>
+            ),
+        },
         crypto: {
             actionButton: (
                 <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
@@ -77,7 +107,44 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                 </Text>
             ),
         },
+        p2pBlocked: {
+            actionButton: (
+                <Button onClick={openLiveChat} size='lg' textSize={buttonTextSize}>
+                    <Localize i18n_default_text='Live chat' />
+                </Button>
+            ),
+            description: (
+                <Text align='center'>
+                    <Localize i18n_default_text='Please use live chat to contact our Customer Support team for help.' />
+                </Text>
+            ),
+            icon: <DerivLightIcCashierBlockedIcon height={iconSize} width={iconSize} />,
+            title: (
+                <Text weight='bold'>
+                    <Localize i18n_default_text='Your Deriv P2P cashier is blocked' />
+                </Text>
+            ),
+        },
+        systemMaintenance: {
+            description: (
+                <div className='flex flex-col'>
+                    <Text align='center'>
+                        <Localize i18n_default_text='Please check back in a few minutes.' />
+                    </Text>
+                    <Text align='center'>
+                        <Localize i18n_default_text='Thank you for your patience.' />
+                    </Text>
+                </div>
+            ),
+            icon: <DerivLightIcCashierUnderMaintenanceIcon height={iconSize} width={iconSize} />,
+            title: (
+                <Text weight='bold'>
+                    <Localize i18n_default_text='Cashier is currently down for maintenance' />
+                </Text>
+            ),
+        },
     };
+
     return (
         <div className='pt-[2.4rem] m-[2.4rem]'>
             {type && (

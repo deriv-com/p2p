@@ -7,12 +7,12 @@ import { Notifications as UINotifications, useDevice } from '@deriv-com/ui';
 export const Notifications = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { localize } = useTranslations();
-    const { isDesktop } = useDevice();
+    const { isMobile } = useDevice();
     return (
         <>
             <TooltipMenuIcon
                 as='button'
-                className={isDesktop ? 'mr-4 pl-2 border-l-[1px] h-[32px]' : ''}
+                className={isMobile ? '' : 'mr-4 pl-2 border-l-[1px] h-[32px]'}
                 disableHover
                 onClick={() => setIsOpen(!isOpen)}
                 tooltipContent={localize('View notifications')}
@@ -21,7 +21,7 @@ export const Notifications = () => {
                 <LegacyNotificationIcon fill='red' iconSize='sm' />
             </TooltipMenuIcon>
             <UINotifications
-                className={isDesktop ? 'notifications__wrapper absolute top-20 right-80 z-10' : ''}
+                className={isMobile ? '' : 'notifications__wrapper absolute top-20 right-80 z-10'}
                 clearNotificationsCallback={() => {}}
                 componentConfig={{
                     clearButtonText: localize('Clear all'),
