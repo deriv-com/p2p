@@ -12,16 +12,6 @@ const useIsP2PBlocked = () => {
     const { data: accountStatus } = useGetAccountStatus();
     const { data: activeAccountData } = api.account.useActiveAccount();
 
-    const isAccountBlocked = useMemo(() => {
-        if (!accountStatus) return false;
-
-        const isPermBan = accountStatus.p2p_status === 'perm_ban';
-        const isSystemMaintenance = accountStatus?.cashier_validation?.includes('system_maintenance');
-        const isCashierLocked = accountStatus.status.includes('cashier_locked');
-
-        return isPermBan || isSystemMaintenance || isCashierLocked;
-    }, [accountStatus]);
-
     const accountBlockStatus = useMemo(() => {
         if (!accountStatus) return '';
 
@@ -32,21 +22,15 @@ const useIsP2PBlocked = () => {
         return '';
     }, [accountStatus]);
 
-    const isP2PNotSupported = useMemo(() => {
-        if (!activeAccountData) return false;
-
-        return activeAccountData.is_virtual || activeAccountData.currency !== 'USD';
-    }, [activeAccountData]);
-
     const blockedType = useMemo(
         () => (activeAccountData ? getBlockedType(activeAccountData) : ''),
         [activeAccountData]
     );
 
-    const isP2PBlocked = Boolean(isAccountBlocked || isP2PNotSupported);
-    const status = isAccountBlocked ? accountBlockStatus : blockedType;
+    const isP2PBlocked = Boolean(accountBlockStatus || blockedType);
+    const status = blockedType ?? accountBlockStatus;
 
-    return { isP2PBlocked, status: status || '' };
+    return { isP2PBlocked, status: status || 'p2pBlocked' };
 };
 
 export default useIsP2PBlocked;

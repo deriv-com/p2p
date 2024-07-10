@@ -21,7 +21,7 @@ const mockUseActiveAccount = api.account.useActiveAccount as jest.Mock;
 describe('useIsP2PBlocked', () => {
     it('should return isP2PBlocked as undefined and status as empty string when accountStatus is not defined', () => {
         const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: false, status: '' });
+        expect(result.current).toStrictEqual({ isP2PBlocked: false, status: 'p2pBlocked' });
     });
 
     it('should return isP2PBlocked as false and status as empty string if user can use p2p', () => {
@@ -29,7 +29,7 @@ describe('useIsP2PBlocked', () => {
         mockUseActiveAccount.mockImplementation(() => ({ data: { currency: 'USD', is_virtual: 0 } }));
 
         const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: false, status: '' });
+        expect(result.current).toStrictEqual({ isP2PBlocked: false, status: 'p2pBlocked' });
     });
 
     it('should return isP2PBlocked as true and status as p2pBlocked if p2p_status is perm banned', () => {
