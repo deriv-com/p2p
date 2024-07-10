@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
-import { BUY_SELL_URL } from '@/constants';
-import { api, useLiveChat } from '@/hooks';
+import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
+import { api, useIsP2PBlocked, useLiveChat } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
-import { getBlockedType, getCurrentRoute } from '@/utils';
+import { getCurrentRoute } from '@/utils';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
 import Router from '../Router';
 import { routes } from '../routes-config';
@@ -25,6 +25,7 @@ const AppContent = () => {
     const { isDesktop } = useDevice();
     const { data: activeAccountData, isFetched, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
     const { init: initLiveChat } = useLiveChat();
+    const { isP2PBlocked, status } = useIsP2PBlocked();
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -41,6 +42,7 @@ const AppContent = () => {
         isLoading,
         subscribe: subscribeAdvertiserInfo,
     } = api.advertiser.useGetInfo();
+    const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
 
     useEffect(() => {
@@ -73,13 +75,11 @@ const AppContent = () => {
         setActiveTab(getActiveTab(location.pathname));
     }, [location]);
 
-    const isP2pBlocked = activeAccountData && (activeAccountData.is_virtual || activeAccountData.currency !== 'USD');
-
     const getComponent = () => {
         if ((isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
             return <Loader />;
-        } else if (isP2pBlocked && !isEndpointRoute) {
-            return <BlockedScenarios type={getBlockedType(activeAccountData) ?? ''} />;
+        } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied) {
+            return <BlockedScenarios type={status} />;
         } else if ((isFetched && activeAccountData) || isEndpointRoute) {
             return (
                 <div className='app-content__body'>

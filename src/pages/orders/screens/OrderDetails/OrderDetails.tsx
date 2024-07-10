@@ -35,7 +35,7 @@ const OrderDetails = () => {
         serverTime,
     });
     const { isBuyOrderForUser, shouldShowLostFundsBanner } = orderDetails;
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const { sendFile, userId, ...rest } = useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
     const { localize } = useTranslations();
     const { data: activeAccountData } = api.account.useActiveAccount();
@@ -102,7 +102,12 @@ const OrderDetails = () => {
                         onBack={onReturn}
                         renderFooter={() => <OrderDetailsCardFooter sendFile={sendFile} />}
                         renderHeader={() => (
-                            <Text as='div' className='w-full flex items-center justify-between' size='lg' weight='bold'>
+                            <Text
+                                as='div'
+                                className='w-full flex items-center justify-between'
+                                size={isMobile ? 'lg' : 'md'}
+                                weight='bold'
+                            >
                                 {headerText}
                                 <Button
                                     className='h-full p-0'
@@ -122,7 +127,7 @@ const OrderDetails = () => {
                                 iconPosition='top'
                                 variant='warning'
                             >
-                                <Text size='xs'>{warningMessage}</Text>
+                                <Text size={isMobile ? 'xs' : '2xs'}>{warningMessage}</Text>
                             </InlineMessage>
                         )}
                         <OrderDetailsCard sendFile={sendFile} />

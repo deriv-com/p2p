@@ -11,12 +11,12 @@ type TChecklistItem = {
 };
 
 const Checklist = ({ items }: { items: TChecklistItem[] }) => {
-    const { isDesktop } = useDevice();
+    const { isMobile } = useDevice();
     return (
         <div className='checklist'>
             {items.map(item => (
                 <div className='checklist__item' key={item.text}>
-                    <Text color={item.isDisabled ? 'less-prominent' : 'general'} size={isDesktop ? 'sm' : 'md'}>
+                    <Text color={item.isDisabled ? 'less-prominent' : 'general'} size={isMobile ? 'md' : 'sm'}>
                         {item.text}
                     </Text>
                     {item.status === 'done' ? (
