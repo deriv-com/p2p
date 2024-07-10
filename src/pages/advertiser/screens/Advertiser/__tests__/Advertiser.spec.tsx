@@ -45,7 +45,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isDesktop: true })),
+    useDevice: jest.fn(() => ({ isDesktop: true, isMobile: false })),
 }));
 
 jest.mock('@/components', () => ({

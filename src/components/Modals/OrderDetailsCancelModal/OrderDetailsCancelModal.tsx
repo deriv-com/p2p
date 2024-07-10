@@ -13,8 +13,8 @@ const OrderDetailsCancelModal = ({ id, isModalOpen, onRequestClose }: TOrderDeta
     const { data } = api.settings.useSettings();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
     const { mutate } = api.order.useCancel();
-    const { isDesktop } = useDevice();
-    const textSize = isDesktop ? 'sm' : 'md';
+    const { isMobile } = useDevice();
+    const textSize = isMobile ? 'md' : 'sm';
 
     const onCancel = () => {
         mutate({ id });
