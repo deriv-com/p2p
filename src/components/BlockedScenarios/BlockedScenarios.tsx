@@ -144,19 +144,12 @@ const BlockedScenarios = ({ type }: { type: string }) => {
 
     return (
         <div className='pt-[2.4rem] m-[2.4rem]'>
-            {type ? (
+            {type && (
                 <ActionScreen
                     actionButtons={blockedScenarios[type].actionButton}
                     description={blockedScenarios[type].description}
                     icon={blockedScenarios[type].icon}
                     title={blockedScenarios[type].title}
-                />
-            ) : (
-                <ActionScreen
-                    actionButtons={blockedScenarios.p2pBlocked.actionButton}
-                    description={blockedScenarios.p2pBlocked.description}
-                    icon={blockedScenarios.p2pBlocked.icon}
-                    title={blockedScenarios.p2pBlocked.title}
                 />
             )}
         </div>

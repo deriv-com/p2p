@@ -12,15 +12,6 @@ Object.defineProperty(window, 'open', {
 });
 
 describe('BlockedScenarios', () => {
-    it('should render default p2p blocked message if type is an empty string', () => {
-        render(<BlockedScenarios type='' />);
-        expect(screen.getByText('Your Deriv P2P cashier is blocked')).toBeInTheDocument();
-        expect(
-            screen.getByText('Please use live chat to contact our Customer Support team for help.')
-        ).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'Live chat' })).toBeInTheDocument();
-    });
-
     it('should render the correct message for demo account', async () => {
         render(<BlockedScenarios type='demo' />);
         expect(screen.getByText('You are using a demo account')).toBeInTheDocument();
