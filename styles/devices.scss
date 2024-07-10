@@ -24,7 +24,7 @@ $min-desktop-width: 1280px;
 }
 
 @mixin desktop {
-    @media (min-width: #{$desktop-width}) {
+    @media (min-width: #{$min-desktop-width}) {
         @content;
     }
 }

@@ -36,4 +36,8 @@
         padding: 2rem;
         border-top: 2px solid #f2f3f4;
     }
+
+    @include mobile {
+        height: calc(100vh - 7.5rem);
+    }
 }

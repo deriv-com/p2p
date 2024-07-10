@@ -16,7 +16,7 @@ import './Guide.scss';
 const Guide = () => {
     const history = useHistory();
     const { localize } = useTranslations();
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const guideSections = [
         { className: 'p-[2.4rem]', component: <GettingStarted />, title: 'Getting Started' },
         { className: 'p-[2.4rem]', component: <Awareness />, title: 'Awareness' },
@@ -37,7 +37,7 @@ const Guide = () => {
                 hasBorder={!isDesktop}
                 onClick={() => history.push(BUY_SELL_URL)}
                 pageTitle={localize('P2P Guide')}
-                size={isDesktop ? 'md' : 'lg'}
+                size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />
             <div className='guide__content'>

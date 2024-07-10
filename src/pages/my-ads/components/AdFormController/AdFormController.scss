@@ -5,13 +5,18 @@
     border-top: 1px solid #f2f3f4;
     padding: 2rem 0;
     margin-top: 2.4rem;
+
     @include mobile-or-tablet-screen {
         position: absolute;
-        bottom: 7.5rem;
+        bottom: 8rem;
         right: 0;
         width: 100%;
         padding: 1.6rem;
         background: #ffffff;
         z-index: 1;
+    }
+
+    @include mobile {
+        bottom: 7.5rem;
     }
 }

@@ -7,11 +7,11 @@ import { Localize } from '@deriv-com/translations';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
 
 const MyAdsEmpty = () => {
-    const { isDesktop } = useDevice();
+    const { isMobile } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const isAdvertiser = useIsAdvertiser();
     const history = useHistory();
-    const textSize = isDesktop ? 'md' : 'lg';
+    const textSize = isMobile ? 'lg' : 'md';
     return (
         <div className='mt-[11.8rem] mx-[1.6rem]'>
             <ActionScreen
@@ -22,7 +22,7 @@ const MyAdsEmpty = () => {
                             else showModal('NicknameModal');
                         }}
                         size='lg'
-                        textSize={isDesktop ? 'sm' : 'md'}
+                        textSize={isMobile ? 'md' : 'sm'}
                     >
                         <Localize i18n_default_text='Create new ad' />
                     </Button>
