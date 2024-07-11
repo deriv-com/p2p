@@ -4,8 +4,6 @@ import userEvent from '@testing-library/user-event';
 import BuySellHeader from '../BuySellHeader';
 
 const mockProps = {
-    activeTab: 'Buy',
-    setActiveTab: jest.fn(),
     setIsFilterModalOpen: jest.fn(),
     setSearchValue: jest.fn(),
 };
@@ -28,7 +26,7 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
-const mockStore = {
+const mockFiltersStore = {
     filteredCurrency: 'IDR',
     selectedPaymentMethods: [],
     setFilteredCurrency: jest.fn(),
@@ -37,8 +35,14 @@ const mockStore = {
     sortByValue: 'rate',
 };
 
+const mockTabsStore = {
+    activeBuySellTab: 'Buy',
+    setActiveBuySellTab: jest.fn(),
+};
+
 jest.mock('@/stores', () => ({
-    useBuySellFiltersStore: jest.fn(() => mockStore),
+    useBuySellFiltersStore: jest.fn(selector => (selector ? selector(mockFiltersStore) : mockFiltersStore)),
+    useTabsStore: jest.fn(selector => (selector ? selector(mockTabsStore) : mockTabsStore)),
 }));
 
 const mockUseModalManager = {
@@ -47,9 +51,17 @@ const mockUseModalManager = {
     showModal: jest.fn(),
 };
 
+const mockUseQueryString = {
+    queryString: {
+        tab: 'buy',
+    },
+    setQueryString: jest.fn(),
+};
+
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
     useModalManager: jest.fn(() => mockUseModalManager),
+    useQueryString: jest.fn(() => mockUseQueryString),
 }));
 
 jest.mock('../../../components/CurrencyDropdown/CurrencyDropdown', () => jest.fn(() => <div>CurrencyDropdown</div>));
@@ -78,22 +90,32 @@ describe('<BuySellHeader />', () => {
         expect(screen.getByRole('combobox', { name: 'Sort by' })).toBeInTheDocument();
     });
 
-    it('should call setActiveTab when Sell tab is clicked', async () => {
+    it('should call setActiveBuySellTab and setQueryString when Sell tab is clicked', async () => {
         render(<BuySellHeader {...mockProps} />);
 
         const sellTab = screen.getByRole('button', { name: 'Sell' });
 
         await user.click(sellTab);
-        expect(mockProps.setActiveTab).toHaveBeenCalledWith(1);
+        expect(mockTabsStore.setActiveBuySellTab).toHaveBeenCalledWith('Sell');
+        expect(mockUseQueryString.setQueryString).toHaveBeenCalledWith({ tab: 'Sell' });
     });
 
-    it('should call setActiveTab when Buy tab is clicked', async () => {
+    it('should call setActiveBuySellTab and setQueryString when Buy tab is clicked', async () => {
         render(<BuySellHeader {...mockProps} />);
 
         const buyTab = screen.getByRole('button', { name: 'Buy' });
 
         await user.click(buyTab);
-        expect(mockProps.setActiveTab).toHaveBeenCalledWith(0);
+        expect(mockTabsStore.setActiveBuySellTab).toHaveBeenCalledWith('Buy');
+        expect(mockUseQueryString.setQueryString).toHaveBeenCalledWith({ tab: 'Buy' });
+    });
+
+    it('should call setQueryString if the tab is not set in the query string', () => {
+        // @ts-expect-error tab can be undefined
+        mockUseQueryString.queryString.tab = undefined;
+        render(<BuySellHeader {...mockProps} />);
+
+        expect(mockUseQueryString.setQueryString).toHaveBeenCalledWith({ tab: 'Buy' });
     });
 
     it('should call setSortDropdownValue when a value is selected from the dropdown', async () => {
@@ -107,7 +129,7 @@ describe('<BuySellHeader />', () => {
 
         await user.click(ratingOption);
 
-        expect(mockStore.setSortByValue).toHaveBeenCalledWith('rating');
+        expect(mockFiltersStore.setSortByValue).toHaveBeenCalledWith('rating');
     });
 
     it('should allow users to click on filter button', async () => {
@@ -134,5 +156,13 @@ describe('<BuySellHeader />', () => {
         });
 
         expect(searchInput).toHaveValue('John Doe');
+    });
+
+    it('should show indicator when selectedPaymentMethods is not empty', () => {
+        // @ts-expect-error mocked selectedPaymentMethods can have a value
+        mockFiltersStore.selectedPaymentMethods = ['alipay'];
+        render(<BuySellHeader {...mockProps} />);
+
+        expect(screen.getByTestId('dt_filter_button_indicator')).toBeInTheDocument();
     });
 });

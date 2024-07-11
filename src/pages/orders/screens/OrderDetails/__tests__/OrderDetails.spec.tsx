@@ -42,6 +42,7 @@ jest.mock('@/hooks', () => ({
             useActiveAccount: jest.fn(() => ({
                 data: {
                     currency: 'USD',
+                    loginid: '12345',
                 },
             })),
             useServerTime: jest.fn(() => ({
@@ -213,8 +214,9 @@ describe('<OrderDetails />', () => {
         expect(mockHistoryPush).toHaveBeenCalledWith('/buy-sell');
     });
 
-    it('should push to PastOrders tab if from is PastOrders', async () => {
-        mockState = { from: 'PastOrders' };
+    it('should push to PastOrders url if orderStatusParam is completed', async () => {
+        mockState = { from: '' };
+        mockSearch = '?order_status=completed';
 
         render(<OrderDetails />);
 
@@ -222,6 +224,8 @@ describe('<OrderDetails />', () => {
         await userEvent.click(backButton);
 
         expect(mockHistoryPush).toHaveBeenCalledWith('/orders?tab=Past+orders');
+
+        mockSearch = '';
     });
 
     it('should show error message if isError is true', () => {
