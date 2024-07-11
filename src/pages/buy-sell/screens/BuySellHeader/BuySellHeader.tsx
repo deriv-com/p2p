@@ -93,7 +93,12 @@ const BuySellHeader = ({ setIsFilterModalOpen, setSearchValue }: TBuySellHeaderP
                     onClick={() => showModal('FilterModal')}
                     variant='outlined'
                 >
-                    {!!selectedPaymentMethods?.length && <div className='buy-sell-header__filter-button__indication' />}
+                    {!!selectedPaymentMethods?.length && (
+                        <div
+                            className='buy-sell-header__filter-button__indication'
+                            data-testid='dt_filter_button_indicator'
+                        />
+                    )}
                 </Button>
             </div>
             {isModalOpenFor('FilterModal') && <FilterModal isModalOpen onRequestClose={hideModal} />}
