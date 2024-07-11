@@ -79,4 +79,22 @@ describe('<BuySellPaymentSection />', () => {
         expect(mockUseModalManager.showModal).toHaveBeenCalledWith('PaymentMethodForm', { shouldStackModals: false });
         expect(screen.getByText('PaymentMethodForm')).toBeInTheDocument();
     });
+
+    it('should hide the background modal when setishidden is passed', async () => {
+        const setIsHidden = jest.fn();
+        mockAvailablePaymentMethods.isAvailable = false;
+        mockUseModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'PaymentMethodForm');
+        render(
+            <BuySellPaymentSection
+                {...mockProps}
+                availablePaymentMethods={[mockAvailablePaymentMethods]}
+                setIsHidden={setIsHidden}
+            />
+        );
+
+        const addButton = screen.getByTestId('dt_payment_method_add_button');
+        await userEvent.click(addButton);
+        expect(mockUseModalManager.showModal).toHaveBeenCalledWith('PaymentMethodForm', { shouldStackModals: false });
+        expect(setIsHidden).toHaveBeenCalledWith(true);
+    });
 });

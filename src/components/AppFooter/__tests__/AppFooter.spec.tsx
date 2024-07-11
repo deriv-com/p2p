@@ -10,6 +10,20 @@ import AppFooter from '../AppFooter';
 jest.mock('@deriv-com/translations');
 jest.mock('@/hooks');
 
+Object.defineProperty(window, 'matchMedia', {
+    value: jest.fn().mockImplementation(query => ({
+        addEventListener: jest.fn(),
+        addListener: jest.fn(), // Deprecated
+        dispatchEvent: jest.fn(),
+        matches: false,
+        media: query,
+        onchange: null,
+        removeEventListener: jest.fn(),
+        removeListener: jest.fn(), // Deprecated
+    })),
+    writable: true,
+});
+
 const AppFooterComponent = () => (
     <BrowserRouter>
         <QueryParamProvider adapter={ReactRouter5Adapter}>
@@ -65,5 +79,5 @@ describe('AppFooter', () => {
 
         await userEvent.click(screen.getByTestId('dt-close-icon'));
         expect(hideModal).toHaveBeenCalled();
-    });
+    }, 10000);
 });

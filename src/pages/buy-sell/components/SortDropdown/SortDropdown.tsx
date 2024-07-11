@@ -13,13 +13,13 @@ type TSortDropdownProps = {
 };
 
 const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDropdownProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { localize } = useTranslations();
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <Button
-                className='w-[3.2rem] !border-[#d6dadb] border-[1px]'
+                className='w-16 h-16 !border-[#d6dadb] border-[1px]'
                 color='black'
                 icon={
                     <LabelPairedSortCaptionRegularIcon

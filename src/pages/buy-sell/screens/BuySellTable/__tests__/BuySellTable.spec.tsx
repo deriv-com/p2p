@@ -36,11 +36,6 @@ jest.mock('react-router-dom', () => ({
     })),
 }));
 
-jest.mock('@deriv-com/api-hooks', () => ({
-    ...jest.requireActual('@deriv-com/api-hooks'),
-    useExchangeRates: jest.fn(() => ({ subscribeRates: jest.fn() })),
-}));
-
 jest.mock('@/components/BuySellForm', () => ({
     BuySellForm: jest.fn(() => <div>BuySellForm</div>),
 }));
@@ -61,6 +56,11 @@ jest.mock('@/hooks', () => ({
         },
         advertiserPaymentMethods: {
             useGet: jest.fn(() => ({ data: [] })),
+        },
+        exchangeRates: {
+            useGet: jest.fn(() => ({
+                exchangeRate: 1,
+            })),
         },
         paymentMethods: {
             useGet: jest.fn(() => ({ data: [] })),
@@ -101,7 +101,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: false })),
+    useDevice: jest.fn(() => ({ isDesktop: true, isTablet: false })),
 }));
 
 const mockUseDevice = useDevice as jest.Mock;
@@ -237,8 +237,8 @@ describe('<BuySellTable />', () => {
     });
 
     it('should render the RadioGroupFilterModal when the filter button is clicked', async () => {
-        mockUseDevice.mockReturnValue({ isMobile: true });
-        mockUseModalManager.isModalOpenFor.mockImplementation(modal_name => modal_name === 'RadioGroupFilterModal');
+        mockUseDevice.mockReturnValue({ isDesktop: false });
+        mockUseModalManager.isModalOpenFor.mockImplementation(modalName => modalName === 'RadioGroupFilterModal');
         render(<BuySellTable />);
 
         const filterButton = screen.getByTestId('dt_sort_dropdown_button');

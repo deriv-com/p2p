@@ -3,13 +3,13 @@
     justify-content: center;
     position: absolute;
     align-items: center;
-    right: 4.7rem;
+    right: 4.2rem;
     height: 100%;
 
     span {
         display: flex;
     }
-    @include mobile {
+    @include mobile-or-tablet-screen {
         position: unset;
         margin-top: -0.4rem;
         margin-left: 1rem;

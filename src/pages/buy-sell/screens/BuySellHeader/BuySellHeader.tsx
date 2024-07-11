@@ -1,9 +1,11 @@
-import clsx from 'clsx';
+import { useShallow } from 'zustand/react/shallow';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
 import { getSortByList } from '@/constants';
-import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
-import { TSortByValues } from '@/utils';
+import { useModalManager } from '@/hooks/custom-hooks';
+import { GuideTooltip } from '@/pages/guide/components';
+import { useBuySellFiltersStore } from '@/stores';
+import { getLocalizedTabs } from '@/utils/tabs';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Tab, Tabs, useDevice } from '@deriv-com/ui';
@@ -12,99 +14,70 @@ import './BuySellHeader.scss';
 
 type TBuySellHeaderProps = {
     activeTab: string;
-    selectedCurrency: string;
-    selectedPaymentMethods: string[];
     setActiveTab: (tab: number) => void;
     setIsFilterModalOpen: () => void;
     setSearchValue: (value: string) => void;
-    setSelectedCurrency: (value: string) => void;
-    setSelectedPaymentMethods: (value: string[]) => void;
-    setShouldUseClientLimits: (value: boolean) => void;
-    setSortDropdownValue: (value: TSortByValues) => void;
-    shouldUseClientLimits: boolean;
-    sortDropdownValue: TSortByValues;
 };
 
-const BuySellHeader = ({
-    activeTab,
-    selectedCurrency,
-    selectedPaymentMethods,
-    setActiveTab,
-    setIsFilterModalOpen,
-    setSearchValue,
-    setSelectedCurrency,
-    setSelectedPaymentMethods,
-    setShouldUseClientLimits,
-    setSortDropdownValue,
-    shouldUseClientLimits,
-    sortDropdownValue,
-}: TBuySellHeaderProps) => {
+const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearchValue }: TBuySellHeaderProps) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
-    const isAdvertiserBarred = useIsAdvertiserBarred();
+    const { isDesktop, isMobile } = useDevice();
+    const { filteredCurrency, selectedPaymentMethods, setFilteredCurrency, setSortByValue, sortByValue } =
+        useBuySellFiltersStore(
+            useShallow(state => ({
+                filteredCurrency: state.filteredCurrency,
+                selectedPaymentMethods: state.selectedPaymentMethods,
+                setFilteredCurrency: state.setFilteredCurrency,
+                setSortByValue: state.setSortByValue,
+                sortByValue: state.sortByValue,
+            }))
+        );
 
     return (
-        <div
-            className={clsx('buy-sell-header', {
-                'buy-sell-header--has-border': isMobile && !isAdvertiserBarred,
-            })}
-            data-testid='dt_buy_sell_header'
-        >
-            <Tabs
-                TitleFontSize={isMobile ? 'md' : 'sm'}
-                activeTab={activeTab}
-                onChange={setActiveTab}
-                variant='primary'
-                wrapperClassName='buy-sell-header__tabs'
-            >
-                <Tab title={localize('Buy')} />
-                <Tab title={localize('Sell')} />
-            </Tabs>
+        <div className='buy-sell-header' data-testid='dt_buy_sell_header'>
+            <div className='buy-sell-header__row justify-between'>
+                <Tabs
+                    TitleFontSize={isMobile ? 'md' : 'sm'}
+                    activeTab={getLocalizedTabs(localize)[activeTab]}
+                    onChange={setActiveTab}
+                    variant='primary'
+                    wrapperClassName='buy-sell-header__tabs'
+                >
+                    <Tab title={localize('Buy')} />
+                    <Tab title={localize('Sell')} />
+                </Tabs>
+                {!isDesktop && <GuideTooltip />}
+            </div>
             <div className='buy-sell-header__row'>
-                <div className='flex flex-row-reverse lg:flex-row gap-4'>
-                    <CurrencyDropdown selectedCurrency={selectedCurrency} setSelectedCurrency={setSelectedCurrency} />
+                <div className='flex flex-row-reverse lg:flex-row gap-4 w-full'>
+                    <CurrencyDropdown selectedCurrency={filteredCurrency} setSelectedCurrency={setFilteredCurrency} />
                     <div className='buy-sell-header__row-search'>
                         <Search
                             name='search-nickname'
                             onSearch={setSearchValue}
-                            placeholder={isMobile ? localize('Search') : localize('Search by nickname')}
+                            placeholder={isDesktop ? localize('Search by nickname') : localize('Search')}
                         />
                     </div>
                 </div>
                 <SortDropdown
                     list={getSortByList(localize)}
-                    onSelect={setSortDropdownValue}
+                    onSelect={setSortByValue}
                     setIsFilterModalOpen={setIsFilterModalOpen}
-                    value={sortDropdownValue}
+                    value={sortByValue}
                 />
                 <Button
-                    className='!border-[#d6dadb] border-[1px] lg:p-0 lg:h-16 lg:w-16 h-[3.2rem] w-[3.2rem]'
+                    className='buy-sell-header__filter-button'
                     color='black'
-                    icon={
-                        isMobile ? (
-                            <LabelPairedBarsFilterSmBoldIcon
-                                className='absolute'
-                                data-testid='dt_buy_sell_header_filter_button'
-                            />
-                        ) : (
-                            <LabelPairedBarsFilterMdBoldIcon />
-                        )
-                    }
+                    data-testid='dt_buy_sell_header_filter_button'
+                    icon={isDesktop ? <LabelPairedBarsFilterMdBoldIcon /> : <LabelPairedBarsFilterSmBoldIcon />}
                     onClick={() => showModal('FilterModal')}
                     variant='outlined'
-                />
+                >
+                    {!!selectedPaymentMethods?.length && <div className='buy-sell-header__filter-button__indication' />}
+                </Button>
             </div>
-            {isModalOpenFor('FilterModal') && (
-                <FilterModal
-                    isModalOpen
-                    isToggled={shouldUseClientLimits}
-                    onRequestClose={hideModal}
-                    onToggle={setShouldUseClientLimits}
-                    selectedPaymentMethods={selectedPaymentMethods}
-                    setSelectedPaymentMethods={setSelectedPaymentMethods}
-                />
-            )}
+            {isModalOpenFor('FilterModal') && <FilterModal isModalOpen onRequestClose={hideModal} />}
         </div>
     );
 };

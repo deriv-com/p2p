@@ -14,5 +14,7 @@ export const ERROR_CODES = {
     EXCESSIVE_VERIFICATION_REQUESTS: 'ExcessiveVerificationRequests',
     INVALID_VERIFICATION_TOKEN: 'InvalidVerificationToken',
     ORDER_CONFIRM_COMPLETED: 'OrderConfirmCompleted',
+    ORDER_CREATE_FAIL_RATE_SLIPPAGE: 'OrderCreateFailRateSlippage',
     ORDER_EMAIL_VERIFICATION_REQUIRED: 'OrderEmailVerificationRequired',
+    PERMISSION_DENIED: 'PermissionDenied',
 } as const;

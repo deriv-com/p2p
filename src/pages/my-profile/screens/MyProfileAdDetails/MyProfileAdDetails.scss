@@ -4,7 +4,7 @@
     align-items: flex-end;
     gap: 2.4rem;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         padding: 2rem;
     }
 
@@ -15,14 +15,27 @@
 
     &__mobile-wrapper {
         position: absolute;
-        top: 4rem;
-        height: calc(100vh - 4rem);
+        top: 0;
+        height: calc(100vh - 7.5rem);
     }
 
     & .deriv-textarea {
         &__footer {
+            justify-content: space-between;
+
             & .deriv-text {
                 font-size: 1.2rem;
+                margin-top: -0.5rem;
+                margin-left: 1rem;
+
+                @include mobile-or-tablet-screen {
+                    margin-top: -0.2rem;
+                    line-height: 1.4rem;
+                }
+
+                &:only-child {
+                    margin-left: auto;
+                }
             }
         }
     }

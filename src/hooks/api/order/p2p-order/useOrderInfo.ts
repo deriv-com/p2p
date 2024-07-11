@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
-import { useP2POrderInfo } from '@deriv-com/api-hooks';
+import { useSubscribe } from '@deriv-com/api-hooks';
 
 // TODO: Convert this to use useSubscribe as it is a subscribable endpoint
 /** This custom hook that returns information about the given order ID */
 const useOrderInfo = () => {
-    const { data, ...rest } = useP2POrderInfo();
+    const { data, ...rest } = useSubscribe('p2p_order_info');
 
     // modify the data to add additional information
     const modified_data = useMemo(() => {
-        if (!data) return undefined;
+        if (!data?.p2p_order_info) return undefined;
 
         const {
             advert_details,
@@ -19,10 +19,10 @@ const useOrderInfo = () => {
             is_seen,
             review_details,
             verification_pending,
-        } = data;
+        } = data.p2p_order_info;
 
         return {
-            ...data,
+            ...data.p2p_order_info,
             advert_details: {
                 ...advert_details,
                 /** Indicates if this is block trade advert or not. */

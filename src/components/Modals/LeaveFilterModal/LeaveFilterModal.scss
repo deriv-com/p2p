@@ -1,0 +1,17 @@
+.leave-filter-modal {
+    @include default-modal;
+
+    &__header {
+        @include mobile-or-tablet-screen {
+            padding-left: 1.6rem;
+        }
+    }
+
+    &__body {
+        padding: 1rem 2.4rem;
+    }
+
+    &__footer {
+        gap: 0.8rem;
+    }
+}

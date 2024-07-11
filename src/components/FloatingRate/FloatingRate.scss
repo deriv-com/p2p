@@ -3,7 +3,7 @@
     flex-direction: column;
     width: 100%;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         margin-top: -2.8rem;
         margin-bottom: 1.6rem;
     }
@@ -12,12 +12,12 @@
         display: flex;
         align-items: center;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             flex-direction: column;
         }
 
         &--prefix {
-            @include mobile {
+            @include mobile-or-tablet-screen {
                 margin-bottom: 0.8rem;
             }
             margin-inline-end: 2rem;
@@ -36,7 +36,7 @@
         gap: 0.2rem;
         flex: none;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             padding-top: 0.4rem;
             padding-bottom: 0.4rem;
             flex-direction: row;
@@ -49,14 +49,14 @@
     &__hint {
         padding-inline-start: 4rem;
         margin-top: 0.3rem;
-        @include mobile {
+        @include mobile-or-tablet-screen {
             padding-inline-start: 1rem;
         }
     }
 
     &__error-message {
         padding-inline-start: 4rem;
-        @include mobile {
+        @include mobile-or-tablet-screen {
             padding-inline-start: 1rem;
         }
     }

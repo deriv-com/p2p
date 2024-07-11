@@ -23,19 +23,19 @@ type TOrdersChatSectionProps = {
 const OrdersChatSection = ({ isInactive, onReturn, otherUserDetails, ...sendBirdData }: TOrdersChatSectionProps) => {
     const { activeChatChannel, isChatLoading, isError, messages, refreshChat, sendFile, sendMessage, userId } =
         sendBirdData;
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { is_online: isOnline, last_online_time: lastOnlineTime, name } = otherUserDetails ?? {};
     const isChannelClosed = isInactive || !!activeChatChannel?.isFrozen;
 
     if (isError) {
         return (
-            <div className='orders-chat-section flex flex-col justify-center items-center h-[70vh]'>
+            <div className='orders-chat-section'>
                 <ChatError onClickRetry={refreshChat} />
             </div>
         );
     }
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 className={clsx('orders-chat-section__full-page', {
@@ -48,7 +48,7 @@ const OrdersChatSection = ({ isInactive, onReturn, otherUserDetails, ...sendBird
                 )}
                 renderHeader={() => <ChatHeader isOnline={isOnline} lastOnlineTime={lastOnlineTime} nickname={name} />}
             >
-                {isChatLoading ? (
+                {isChatLoading || !activeChatChannel ? (
                     <Loader isFullScreen={false} />
                 ) : (
                     <ChatMessages chatChannel={activeChatChannel} chatMessages={messages} userId={userId} />
@@ -57,8 +57,8 @@ const OrdersChatSection = ({ isInactive, onReturn, otherUserDetails, ...sendBird
         );
     }
     return (
-        <div className='orders-chat-section flex flex-col justify-center items-center h-[70vh]'>
-            {isChatLoading ? (
+        <div className='orders-chat-section'>
+            {isChatLoading || !activeChatChannel ? (
                 <Loader isFullScreen={false} />
             ) : (
                 <>

@@ -1,4 +1,3 @@
-import { TSortByValues } from '@/utils';
 import { useDevice } from '@deriv-com/ui';
 import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -6,32 +5,15 @@ import BuySellHeader from '../BuySellHeader';
 
 const mockProps = {
     activeTab: 'Buy',
-    list: [
-        {
-            text: 'Exchange rate',
-            value: 'rate',
-        },
-        {
-            text: 'User rating',
-            value: 'rating',
-        },
-    ],
-    selectedCurrency: 'IDR',
-    selectedPaymentMethods: [],
     setActiveTab: jest.fn(),
     setIsFilterModalOpen: jest.fn(),
     setSearchValue: jest.fn(),
-    setSelectedCurrency: jest.fn(),
-    setSelectedPaymentMethods: jest.fn(),
-    setShouldUseClientLimits: jest.fn(),
-    setSortDropdownValue: jest.fn(),
-    shouldUseClientLimits: false,
-    sortDropdownValue: 'rate' as TSortByValues,
 };
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn().mockReturnValue({
+        isDesktop: true,
         isMobile: false,
     }),
 }));
@@ -47,6 +29,19 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+const mockStore = {
+    filteredCurrency: 'IDR',
+    selectedPaymentMethods: [],
+    setFilteredCurrency: jest.fn(),
+    setSortByValue: jest.fn(),
+    shouldUseClientLimits: false,
+    sortByValue: 'rate',
+};
+
+jest.mock('@/stores', () => ({
+    useBuySellFiltersStore: jest.fn(() => mockStore),
+}));
+
 const mockUseModalManager = {
     hideModal: jest.fn(),
     isModalOpenFor: jest.fn(),
@@ -55,7 +50,6 @@ const mockUseModalManager = {
 
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
-    useIsAdvertiserBarred: jest.fn(() => false),
     useModalManager: jest.fn(() => mockUseModalManager),
 }));
 
@@ -114,12 +108,12 @@ describe('<BuySellHeader />', () => {
 
         await user.click(ratingOption);
 
-        expect(mockProps.setSortDropdownValue).toHaveBeenCalledWith('rating');
+        expect(mockStore.setSortByValue).toHaveBeenCalledWith('rating');
     });
 
     it('should allow users to click on filter button', async () => {
         mockUseDevice.mockReturnValue({ isMobile: true });
-        mockUseModalManager.isModalOpenFor.mockImplementation(modal_name => modal_name === 'FilterModal');
+        mockUseModalManager.isModalOpenFor.mockImplementation(modalName => modalName === 'FilterModal');
         render(<BuySellHeader {...mockProps} />);
 
         const filterButton = screen.getByTestId('dt_buy_sell_header_filter_button');

@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { TCurrency } from 'types';
 import { LightDivider } from '@/components';
@@ -10,34 +10,40 @@ import './BuySellAmount.scss';
 
 type TBuySellAmountProps = {
     accountCurrency: string;
-    amount: string;
+    buySellAmount: string;
     calculatedRate: string;
     control: ReturnType<typeof useForm>['control'];
+    inputValue: string;
     isBuy: boolean;
     isDisabled: boolean;
     localCurrency: TCurrency;
     maxLimit: string;
     minLimit: string;
     paymentMethodNames?: string[];
+    setBuySellAmount: (value: string) => void;
+    setInputValue: (value: string) => void;
     setValue: ReturnType<typeof useForm>['setValue'];
+    trigger: ReturnType<typeof useForm>['trigger'];
 };
 const BuySellAmount = ({
     accountCurrency,
-    amount,
+    buySellAmount,
     calculatedRate,
     control,
+    inputValue,
     isBuy,
     isDisabled,
     localCurrency,
     maxLimit,
     minLimit,
     paymentMethodNames,
+    setBuySellAmount,
+    setInputValue,
     setValue,
+    trigger,
 }: TBuySellAmountProps) => {
-    const { isMobile } = useDevice();
-    const labelSize = isMobile ? 'sm' : 'xs';
-    const [inputValue, setInputValue] = useState(minLimit);
-    const [buySellAmount, setBuySellAmount] = useState(amount);
+    const { isDesktop } = useDevice();
+    const labelSize = isDesktop ? 'xs' : 'sm';
 
     useEffect(() => {
         setBuySellAmount(
@@ -45,14 +51,15 @@ const BuySellAmount = ({
                 currency: localCurrency,
             })
         );
-    }, [calculatedRate, inputValue, localCurrency]);
+    }, [calculatedRate, inputValue, localCurrency, setBuySellAmount]);
 
     // This is needed as minLimit can be passed as the default 0 on first time render
     // causing the amount to be 0
     useEffect(() => {
         setInputValue(minLimit);
         setValue('amount', minLimit);
-    }, [minLimit, setValue]);
+        trigger('amount');
+    }, [minLimit, setInputValue, setValue, trigger]);
 
     return (
         <div className='flex flex-col gap-[2rem] py-[1.6rem]'>
@@ -115,11 +122,11 @@ const BuySellAmount = ({
                         }}
                     />
                 </div>
-                {isMobile && <LightDivider />}
-                {!isMobile && (
+                {!isDesktop && <LightDivider />}
+                {isDesktop && (
                     <div className='buy-sell-amount__value'>
                         <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
-                        <Text size={isMobile ? 'md' : 'sm'} weight='bold'>
+                        <Text size='sm' weight='bold'>
                             {buySellAmount}&nbsp;{localCurrency}
                         </Text>
                     </div>
@@ -193,14 +200,16 @@ const BuySellAmount = ({
                     />
                 </div>
             )}
-            {isMobile && <LightDivider />}
-            {isMobile && (
-                <div className='buy-sell-amount__value'>
-                    <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
-                    <Text size={isMobile ? 'md' : 'sm'} weight='bold'>
-                        {buySellAmount} {localCurrency}
-                    </Text>
-                </div>
+            {!isDesktop && (
+                <>
+                    <LightDivider />
+                    <div className='buy-sell-amount__value'>
+                        <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
+                        <Text size='md' weight='bold'>
+                            {buySellAmount} {localCurrency}
+                        </Text>
+                    </div>
+                </>
             )}
         </div>
     );

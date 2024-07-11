@@ -5,11 +5,7 @@ import FilterModal from '../FilterModal';
 
 const mockProps = {
     isModalOpen: true,
-    isToggled: true,
     onRequestClose: jest.fn(),
-    onToggle: jest.fn(),
-    selectedPaymentMethods: [],
-    setSelectedPaymentMethods: jest.fn(),
 };
 
 let mockData: { display_name: string; id: string }[] | undefined = [
@@ -23,6 +19,12 @@ let mockData: { display_name: string; id: string }[] | undefined = [
     },
 ];
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+
 jest.mock('@/hooks', () => ({
     api: {
         paymentMethods: {
@@ -31,12 +33,24 @@ jest.mock('@/hooks', () => ({
             })),
         },
     },
+    useModalManager: jest.fn(() => mockModalManager),
+}));
+
+const mockStore = {
+    selectedPaymentMethods: [],
+    setSelectedPaymentMethods: jest.fn(),
+    setShouldUseClientLimits: jest.fn(),
+    shouldUseClientLimits: true,
+};
+
+jest.mock('@/stores', () => ({
+    useBuySellFiltersStore: jest.fn(() => mockStore),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn().mockReturnValue({
-        isMobile: false,
+        isDesktop: true,
     }),
 }));
 
@@ -61,7 +75,6 @@ describe('<FilterModal />', () => {
 
         expect(screen.getByText('Filter')).toBeInTheDocument();
         expect(screen.getByText('Payment methods')).toBeInTheDocument();
-        expect(screen.getByText('All')).toBeInTheDocument();
         expect(screen.getByText('Matching ads')).toBeInTheDocument();
         expect(screen.getByText('Ads that match your Deriv P2P balance and limit.')).toBeInTheDocument();
         expect(toggleSwitch).toBeInTheDocument();
@@ -92,8 +105,8 @@ describe('<FilterModal />', () => {
         await user.click(toggleSwitch);
         await user.click(applyButton);
 
-        expect(mockProps.setSelectedPaymentMethods).toHaveBeenCalled();
-        expect(mockProps.onToggle).toHaveBeenCalled();
+        expect(mockStore.setSelectedPaymentMethods).toHaveBeenCalled();
+        expect(mockStore.setShouldUseClientLimits).toHaveBeenCalled();
         expect(mockProps.onRequestClose).toHaveBeenCalled();
     });
 
@@ -108,7 +121,7 @@ describe('<FilterModal />', () => {
 
         await user.click(resetButton);
 
-        expect(mockProps.setSelectedPaymentMethods).toHaveBeenCalled();
+        expect(mockStore.setSelectedPaymentMethods).toHaveBeenCalled();
         expect(toggleSwitch).toBeChecked();
     });
 
@@ -230,15 +243,13 @@ describe('<FilterModal />', () => {
         await user.click(paymentMethodsText);
 
         const alipayCheckbox = screen.getByRole('checkbox', { name: 'Alipay' });
-        const bankTransferCheckbox = screen.getByRole('checkbox', { name: 'Bank Transfer' });
         const confirmButton = screen.getByRole('button', { name: 'Confirm' });
 
         await user.click(alipayCheckbox);
-        await user.click(bankTransferCheckbox);
         await user.click(confirmButton);
 
         expect(screen.getByText('Filter')).toBeInTheDocument();
-        expect(screen.getByText('Alipay, Bank Transfer')).toBeInTheDocument();
+        expect(screen.getByText('Alipay')).toBeInTheDocument();
     });
 
     it('should call setSelectedPaymentMethods if a payment method is unselected', async () => {
@@ -252,7 +263,7 @@ describe('<FilterModal />', () => {
         await user.click(alipayCheckbox);
         await user.click(alipayCheckbox);
 
-        expect(mockProps.setSelectedPaymentMethods).toHaveBeenCalled();
+        expect(mockStore.setSelectedPaymentMethods).toHaveBeenCalled();
     });
 
     it('should populate the payment methods list with the data from the API', async () => {
@@ -290,7 +301,7 @@ describe('<FilterModal />', () => {
 
     it('should call onRequestClose if backButton is pressed on initial page in mobile', async () => {
         mockUseDevice.mockReturnValue({
-            isMobile: true,
+            isDesktop: false,
         });
 
         render(<FilterModal {...mockProps} />);
@@ -307,7 +318,7 @@ describe('<FilterModal />', () => {
         const paymentMethodsText = screen.getByText('Payment methods');
         await user.click(paymentMethodsText);
 
-        const backButton = screen.getByTestId('dt_mobile_wrapper_button');
+        const backButton = screen.getAllByTestId('dt_mobile_wrapper_button')[0];
         await user.click(backButton);
 
         expect(screen.getByText('Filter')).toBeInTheDocument();

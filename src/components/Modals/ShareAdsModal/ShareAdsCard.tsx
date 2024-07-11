@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { ForwardedRef, forwardRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { THooks } from 'types';
@@ -14,26 +13,26 @@ type TShareMyAdsCardProps = {
 
 const ShareMyAdsCard = forwardRef(
     ({ advert = {}, advertUrl }: TShareMyAdsCardProps, ref: ForwardedRef<HTMLDivElement>) => {
-        const { isMobile } = useDevice();
+        const { isDesktop } = useDevice();
         const {
-            account_currency,
+            account_currency: accountCurrency,
             id,
-            local_currency,
-            max_order_amount_limit_display,
-            min_order_amount_limit_display,
-            rate_display,
-            rate_type,
+            local_currency: localCurrency,
+            max_order_amount_limit_display: maxOrderAmountLimitDisplay,
+            min_order_amount_limit_display: minOrderAmountLimitDisplay,
+            rate_display: rateDisplay,
+            rate_type: rateType,
             type,
         } = advert;
 
         const advertType = type === BUY_SELL.BUY ? ADVERT_TYPE.BUY : ADVERT_TYPE.SELL;
-        const textSize = isMobile ? 'md' : 'sm';
+        const textSize = isDesktop ? 'sm' : 'md';
 
         return (
             <div className='flex flex-col justify-center relative share-ads-card' ref={ref}>
                 <img alt='deriv_p2p' className='share-ads-card__icon' src={p2pLogo.deriv_p2p} />
-                <Text className='share-ads-card__title' size={isMobile ? '2xl' : 'xl'} weight='bold'>
-                    {advertType} {account_currency}
+                <Text className='share-ads-card__title' size={isDesktop ? 'xl' : '2xl'} weight='bold'>
+                    {advertType} {accountCurrency}
                 </Text>
                 <div className='flex flex-row share-ads-card__numbers'>
                     <div className='flex flex-col share-ads-card__numbers-text'>
@@ -52,11 +51,11 @@ const ShareMyAdsCard = forwardRef(
                             {id}
                         </Text>
                         <Text color='white' size={textSize} weight='bold'>
-                            {min_order_amount_limit_display} - {max_order_amount_limit_display} {account_currency}
+                            {minOrderAmountLimitDisplay} - {maxOrderAmountLimitDisplay} {accountCurrency}
                         </Text>
                         <Text color='white' size={textSize} weight='bold'>
-                            {rate_display}
-                            {rate_type === RATE_TYPE.FIXED ? ` ${local_currency}` : '%'}
+                            {rateDisplay}
+                            {rateType === RATE_TYPE.FIXED ? ` ${localCurrency}` : '%'}
                         </Text>
                     </div>
                 </div>
@@ -69,7 +68,7 @@ const ShareMyAdsCard = forwardRef(
                                 src: '',
                                 width: 25,
                             }}
-                            size={isMobile ? 120 : 140}
+                            size={isDesktop ? 140 : 120}
                             value={advertUrl}
                         />
                         <img

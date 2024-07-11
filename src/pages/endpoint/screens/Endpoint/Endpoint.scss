@@ -1,6 +1,6 @@
 .endpoint {
     position: absolute;
-    top: 8rem;
+    top: 1rem;
     left: 0;
     background: #fff;
     width: 100%;
@@ -9,7 +9,7 @@
     align-items: center;
     justify-content: center;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         height: unset;
         padding-top: 2rem;
     }

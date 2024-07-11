@@ -11,7 +11,7 @@ const useAdvertiserAdverts = (
         payload: { ...payload, limit: payload?.limit, offset: payload?.offset },
     });
 
-    const modified_data = useMemo(() => {
+    const modifiedData = useMemo(() => {
         if (!data?.length) return undefined;
 
         return data.map(advert => ({
@@ -44,7 +44,7 @@ const useAdvertiserAdverts = (
 
     return {
         /** The 'p2p_advertiser_adverts' response. */
-        data: modified_data,
+        data: modifiedData,
         /** Function to fetch the next batch of adverts */
         loadMoreAdverts,
         ...rest,

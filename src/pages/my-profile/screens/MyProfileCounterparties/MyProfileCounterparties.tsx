@@ -2,21 +2,21 @@ import { PropsWithChildren, useState } from 'react';
 import { FullPageMobileWrapper } from '@/components';
 import { RadioGroupFilterModal } from '@/components/Modals';
 import { getCounterpartiesDropdownList } from '@/constants';
-import { useDevice, useQueryString } from '@/hooks/custom-hooks';
+import { useQueryString } from '@/hooks/custom-hooks';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Text } from '@deriv-com/ui';
+import { Text, useDevice } from '@deriv-com/ui';
 import { MyProfileCounterpartiesHeader } from './MyProfileCounterpartiesHeader';
 import { MyProfileCounterpartiesTable } from './MyProfileCounterpartiesTable';
 import './MyProfileCounterparties.scss';
 
 const MyProfileCounterpartiesDisplayWrapper = ({ children }: PropsWithChildren<unknown>) => {
     const { setQueryString } = useQueryString();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
-                className='absolute top-16'
+                className='absolute top-0'
                 onBack={() =>
                     setQueryString({
                         tab: 'default',

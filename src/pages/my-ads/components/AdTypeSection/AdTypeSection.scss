@@ -1,7 +1,16 @@
 .ad-type-section {
-    @include mobile {
+    @include desktop {
+        & .radio-group {
+            margin-top: 0;
+        }
+    }
+    @include mobile-or-tablet-screen {
         padding: 0 1.6rem;
         overflow: auto;
         max-height: calc(100vh - 27rem);
+    }
+
+    &--edit {
+        padding-top: 2.4rem;
     }
 }

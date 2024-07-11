@@ -20,13 +20,19 @@ const useFullScreen = () => {
         screenChange.forEach(event => {
             document.addEventListener(event, onFullScreen, false);
         });
+
+        return () => {
+            screenChange.forEach(event => {
+                document.removeEventListener(event, onFullScreen, false);
+            });
+        };
     }, [onFullScreen, screenChange]);
 
-    const toggleFullScreenMode = (event: MouseEvent<HTMLButtonElement>) => {
-        event.stopPropagation();
+    const toggleFullScreenMode = (event?: MouseEvent<HTMLButtonElement>) => {
+        event?.stopPropagation();
 
-        const exitFullScreen = exit.find(element => document[element as keyof Document]);
-        const requestFullScreen = request.find(element => document.documentElement[element as keyof HTMLElement]);
+        const exitFullScreen = exit.find(method => document[method as keyof Document]);
+        const requestFullScreen = request.find(method => document.documentElement[method as keyof HTMLElement]);
 
         if (isInFullScreenMode && exitFullScreen) {
             (document[exitFullScreen as keyof Document] as Document['exitFullscreen'])();

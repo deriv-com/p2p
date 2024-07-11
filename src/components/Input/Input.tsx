@@ -1,7 +1,6 @@
 import { forwardRef, ReactElement } from 'react';
 import clsx from 'clsx';
-import { useDevice } from '@/hooks/custom-hooks';
-import { Text } from '@deriv-com/ui';
+import { Text, useDevice } from '@deriv-com/ui';
 import './Input.scss';
 
 type TInputProps = {
@@ -17,7 +16,7 @@ type TInputProps = {
 
 const Input = forwardRef<HTMLInputElement, TInputProps>(
     ({ errorMessage, hasError, leadingIcon, onBlur, onChange, placeholder, value, ...props }, ref) => {
-        const { isMobile } = useDevice();
+        const { isDesktop } = useDevice();
 
         return (
             <div className='input'>
@@ -34,7 +33,7 @@ const Input = forwardRef<HTMLInputElement, TInputProps>(
                     {...props}
                 />
                 {hasError && (
-                    <Text className='input__error' color='error' size={isMobile ? 'sm' : 'xs'}>
+                    <Text className='input__error' color='error' size={isDesktop ? 'xs' : 'sm'}>
                         {errorMessage}
                     </Text>
                 )}

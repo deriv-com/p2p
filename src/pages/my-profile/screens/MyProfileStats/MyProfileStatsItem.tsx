@@ -22,8 +22,8 @@ const MyProfileStatsItem = ({
     value,
 }: TMyProfileStatsItemProps) => {
     const [hasClickedLifetime, setHasClickedLifetime] = useState(false);
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'xs' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'xs';
 
     const onClickLabel = (showLifetime: boolean) => {
         setHasClickedLifetime(showLifetime);
@@ -65,7 +65,7 @@ const MyProfileStatsItem = ({
                     </>
                 )}
             </div>
-            <Text size={isMobile ? 'md' : 'sm'} weight='bold'>
+            <Text size={isDesktop ? 'sm' : 'md'} weight='bold'>
                 {value} {currency}
             </Text>
         </div>

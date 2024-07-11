@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FullPageMobileWrapper } from '@/components';
 import { MY_ADS_URL } from '@/constants';
+import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 import { MyAdsToggle } from '../MyAdsToggle';
 
@@ -11,17 +12,17 @@ type TMyAdsDisplayWrapperProps = {
 };
 
 const MyAdsDisplayWrapper = ({ children, isPaused, onClickToggle }: PropsWithChildren<TMyAdsDisplayWrapperProps>) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const history = useHistory();
 
     const goToCreateAd = () => history.push(`${MY_ADS_URL}/adForm?formAction=create`);
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 renderFooter={() => (
                     <Button isFullWidth onClick={goToCreateAd} size='lg' textSize='md'>
-                        Create new ad
+                        <Localize i18n_default_text='Create new ad' />
                     </Button>
                 )}
                 renderHeader={() => <MyAdsToggle isPaused={isPaused} onClickToggle={onClickToggle} />}
@@ -36,7 +37,7 @@ const MyAdsDisplayWrapper = ({ children, isPaused, onClickToggle }: PropsWithChi
         <>
             <div className='flex items-center justify-between my-[1.6rem]'>
                 <Button onClick={goToCreateAd} size='lg' textSize='sm'>
-                    Create new ad
+                    <Localize i18n_default_text='Create new ad' />
                 </Button>
                 <MyAdsToggle isPaused={isPaused} onClickToggle={onClickToggle} />
             </div>

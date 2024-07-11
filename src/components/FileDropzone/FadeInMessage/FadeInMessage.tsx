@@ -13,7 +13,7 @@ type TFadeInMessage = {
 };
 
 const FadeInMessage = ({ children, color, isVisible, key, noText, timeout }: PropsWithChildren<TFadeInMessage>) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     return (
         <CSSTransition
@@ -38,7 +38,7 @@ const FadeInMessage = ({ children, color, isVisible, key, noText, timeout }: Pro
                     align='center'
                     className='fade-in-message'
                     color={color || 'general'}
-                    size={isMobile ? 'sm' : 'xs'}
+                    size={isDesktop ? 'xs' : 'sm'}
                 >
                     {children}
                 </Text>

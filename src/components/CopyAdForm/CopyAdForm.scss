@@ -1,0 +1,25 @@
+.copy-ad-form {
+    margin: 0 2.4rem;
+
+    @include mobile-or-tablet-screen {
+        margin: 0 1.6rem;
+    }
+
+    &__full-page-modal {
+        position: absolute;
+        top: -6rem;
+        z-index: 2;
+        height: calc(100vh - 12rem);
+
+        & .mobile-wrapper__body {
+            margin-top: 1.6rem;
+            overflow: auto;
+        }
+
+        & .mobile-wrapper__footer {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: flex-end;
+        }
+    }
+}

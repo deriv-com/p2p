@@ -17,7 +17,7 @@ import './OrdersTableRow.scss';
 
 const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>) => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { queryString } = useQueryString();
     const history = useHistory();
     const isPast = queryString.tab === ORDERS_STATUS.PAST_ORDERS;
@@ -62,7 +62,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
         showModal('RatingModal');
     };
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <div
                 className={clsx('orders-table-row', {
@@ -103,7 +103,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
                     {reviewDetails?.rating && <StarRating isReadonly ratingValue={reviewDetails?.rating} />}
                 </div>
                 <div className='flex gap-1'>
-                    <Text size='2xl' weight='bold'>
+                    <Text size='xl' weight='bold'>
                         {`${isBuyOrderForUser ? localize('Buy') : localize('Sell')} ${offerAmount}`}
                     </Text>
                 </div>

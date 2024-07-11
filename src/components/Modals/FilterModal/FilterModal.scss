@@ -3,10 +3,19 @@
     width: 44rem;
     border-radius: 8px;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         position: absolute;
         top: -4rem;
         z-index: 1;
         height: calc(100vh - 8rem);
+    }
+
+    & .mobile-wrapper {
+        &__header {
+            gap: 0;
+            span {
+                margin: 0 auto;
+            }
+        }
     }
 }

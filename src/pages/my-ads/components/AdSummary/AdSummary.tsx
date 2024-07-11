@@ -1,10 +1,8 @@
-import { useEffect, useRef } from 'react';
 import { TCurrency } from 'types';
 import { AD_ACTION, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { percentOf, roundOffDecimal, setDecimalPlaces } from '@/utils';
-import { useExchangeRates } from '@deriv-com/api-hooks';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
@@ -29,11 +27,11 @@ const AdSummary = ({
     type,
 }: TAdSummaryProps) => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { queryString } = useQueryString();
     const adOption = queryString.formAction;
     const { data: p2pSettings } = api.settings.useSettings();
-    const { data: exchangeRatesData, subscribeRates } = useExchangeRates();
+    const { exchangeRate } = api.exchangeRates.useGet(localCurrency);
     const overrideExchangeRate = p2pSettings?.override_exchange_rate;
 
     const marketRateType = adOption === AD_ACTION.CREATE ? rateType : adRateType;
@@ -43,31 +41,10 @@ const AdSummary = ({
 
     let displayPriceRate: number | string = '';
     let displayTotal = '';
-    const exchangeRateRef = useRef<number | undefined>(undefined);
 
-    useEffect(() => {
-        if (localCurrency) {
-            subscribeRates({
-                base_currency: currency,
-                target_currencies: [localCurrency],
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currency, localCurrency]);
-
-    useEffect(() => {
-        const rate = exchangeRatesData?.exchange_rates?.rates?.[localCurrency];
-        if (typeof rate === 'number') {
-            exchangeRateRef.current = rate;
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [exchangeRatesData]);
-
-    const exchangeRate = exchangeRateRef?.current;
     const marketRate = overrideExchangeRate ? Number(overrideExchangeRate) : exchangeRate;
     const marketFeed = marketRateType === RATE_TYPE.FLOAT ? marketRate : null;
-    const summaryTextSize = isMobile ? 'md' : 'sm';
+    const summaryTextSize = isDesktop ? 'sm' : 'md';
 
     if (priceRate) {
         displayPriceRate = marketFeed ? roundOffDecimal(percentOf(marketFeed, priceRate), 6) : priceRate;

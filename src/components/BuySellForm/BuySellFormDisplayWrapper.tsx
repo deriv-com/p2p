@@ -9,6 +9,7 @@ import { BuySellFormHeader } from './BuySellFormHeader';
 type TBuySellFormDisplayWrapperProps = {
     accountCurrency: string;
     isBuy: boolean;
+    isHidden: boolean;
     isModalOpen: boolean;
     isValid: boolean;
     onRequestClose: () => void;
@@ -18,15 +19,16 @@ const BuySellFormDisplayWrapper = ({
     accountCurrency,
     children,
     isBuy,
+    isHidden,
     isModalOpen,
     isValid,
     onRequestClose,
     onSubmit,
 }: PropsWithChildren<TBuySellFormDisplayWrapperProps>) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const currentRoute = getCurrentRoute();
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 className={clsx('buy-sell-form__full-page-modal', {
@@ -44,10 +46,11 @@ const BuySellFormDisplayWrapper = ({
     return (
         <Modal
             ariaHideApp={false}
-            className={clsx('buy-sell-form', { 'buy-sell-form--is-buy': isBuy })}
+            className={clsx('buy-sell-form', { 'buy-sell-form--is-buy': isBuy, hidden: isHidden })}
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
             shouldCloseOnOverlayClick={false}
+            style={{ overlay: { background: isHidden ? 'transparent' : 'rgba(0, 0, 0, 0.72)', zIndex: 9999 } }}
         >
             <Modal.Header onRequestClose={onRequestClose}>
                 <BuySellFormHeader currency={accountCurrency} isBuy={isBuy} />

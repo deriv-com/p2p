@@ -8,6 +8,7 @@ import {
     usePoiPoaStatus,
     useQueryString,
 } from '@/hooks/custom-hooks';
+import { getLocalizedTabs } from '@/utils/tabs';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader, Tab, Tabs, useDevice } from '@deriv-com/ui';
 import { MyProfileAdDetails } from '../MyProfileAdDetails';
@@ -21,7 +22,7 @@ const TABS = ['Stats', 'Payment methods', 'Ad details', 'My counterparties'];
 
 const MyProfile = () => {
     const { localize } = useTranslations();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { queryString, setQueryString } = useQueryString();
     const { data } = usePoiPoaStatus();
     const { data: advertiserStats, isLoading } = useAdvertiserStats();
@@ -41,6 +42,7 @@ const MyProfile = () => {
     useEffect(() => {
         const isPoaPoiVerified = (!isP2PPoaRequired || isPoaVerified) && isPoiVerified;
         if (isPoaPoiVerified && !isAdvertiser) showModal('NicknameModal');
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAdvertiser, isP2PPoaRequired, isPoaVerified, isPoiVerified]);
 
     if (isLoading && !advertiserStats) {
@@ -51,10 +53,10 @@ const MyProfile = () => {
         return <Verification />;
     }
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <div className='my-profile'>
-                <MyProfileMobile />
+                <MyProfileMobile data={advertiserStats} />
                 {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
             </div>
         );
@@ -62,9 +64,9 @@ const MyProfile = () => {
 
     return (
         <div className='my-profile'>
-            <ProfileContent />
+            <ProfileContent data={advertiserStats} />
             <Tabs
-                activeTab={(currentTab !== 'default' && currentTab) || 'Stats'}
+                activeTab={getLocalizedTabs(localize)[(currentTab !== 'default' && currentTab) || 'Stats']}
                 className='my-profile__tabs'
                 onChange={index => {
                     setQueryString({

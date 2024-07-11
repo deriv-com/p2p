@@ -1,6 +1,6 @@
 import { LegacyThemeLightIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '@deriv-com/ui';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 
 const ChangeTheme = () => {
     const { localize } = useTranslations();

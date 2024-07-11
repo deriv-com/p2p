@@ -8,15 +8,16 @@ import './AdCancelCreateEditModal.scss';
 type TAdCancelCreateEditModalProps = {
     isModalOpen: boolean;
     onRequestClose: () => void;
+    resetValues?: () => void;
 };
 
-const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose }: TAdCancelCreateEditModalProps) => {
-    const { isMobile } = useDevice();
+const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose, resetValues }: TAdCancelCreateEditModalProps) => {
+    const { isDesktop } = useDevice();
     const history = useHistory();
     const { queryString } = useQueryString();
     const { advertId = '' } = queryString;
     const isEdit = !!advertId;
-    const textSize = isMobile ? 'md' : 'sm';
+    const textSize = isDesktop ? 'sm' : 'md';
     return (
         <Modal
             ariaHideApp={false}
@@ -46,7 +47,10 @@ const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose }: TAdCancelCreat
                 <Button
                     className='border-2'
                     color='black'
-                    onClick={() => history.push(MY_ADS_URL)}
+                    onClick={() => {
+                        resetValues?.();
+                        history.push(MY_ADS_URL);
+                    }}
                     size='lg'
                     textSize={textSize}
                     variant='outlined'

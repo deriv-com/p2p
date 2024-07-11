@@ -27,11 +27,16 @@
         display: grid;
         align-items: center;
         grid-template-columns: repeat(3, 1.6fr) 1.9fr 3fr 1.9fr;
+        @include desktop {
+            padding-right: 0;
+        }
 
         &-disabled {
             span:not(.my-ads-table-row__actions span) {
                 &:not(.popover-dropdown__list-item span) {
-                    color: #999;
+                    &:not(.my-ads-table-row__line__type-and-status__wrapper span) {
+                        color: #999;
+                    }
                 }
             }
             .progress-indicator {
@@ -44,7 +49,7 @@
             }
         }
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             grid-template-columns: unset;
             padding: 1.6rem;
             width: 100%;
@@ -85,7 +90,7 @@
         &-progress {
             margin-bottom: 0.4rem;
 
-            @include mobile {
+            @include mobile-or-tablet-screen {
                 margin: 0.4rem 0;
             }
         }
@@ -95,7 +100,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-right: 1rem;
         &-popovers {
             background-color: #fff;
             display: flex;
@@ -119,7 +123,7 @@
                 fill: #333333;
             }
 
-            @include mobile {
+            @include mobile-or-tablet-screen {
                 display: flex;
                 justify-content: unset;
             }

@@ -1,133 +1,110 @@
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
+import clsx from 'clsx';
+import debounce from 'lodash/debounce';
+import { Control, FieldValues, useForm } from 'react-hook-form';
 import { FullPageMobileWrapper } from '@/components';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { LabelPairedCheckMdFillIcon } from '@deriv/quill-icons';
-import { Localize, useTranslations } from '@deriv-com/translations';
-import { Button, Loader, Text, TextArea, useDevice } from '@deriv-com/ui';
+import { Localize } from '@deriv-com/translations';
+import { Button, Loader, Text, useDevice } from '@deriv-com/ui';
+import { MyProfileAdDetailsTextArea } from './MyProfileAdDetailsTextArea';
 import './MyProfileAdDetails.scss';
-
-type TMYProfileAdDetailsTextAreaProps = {
-    advertDescription: string;
-    contactInfo: string;
-    setAdvertDescription: Dispatch<SetStateAction<string>>;
-    setContactInfo: Dispatch<SetStateAction<string>>;
-};
-
-const MyProfileAdDetailsTextArea = ({
-    advertDescription,
-    contactInfo,
-    setAdvertDescription,
-    setContactInfo,
-}: TMYProfileAdDetailsTextAreaProps) => {
-    const { localize } = useTranslations();
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
-    return (
-        <>
-            <TextArea
-                data-testid='dt_profile_ad_details_contact'
-                label={localize('Contact details')}
-                maxLength={300}
-                onChange={e => setContactInfo(e.target.value)}
-                shouldShowCounter
-                textSize={textSize}
-                value={contactInfo}
-            />
-            <TextArea
-                data-testid='dt_profile_ad_details_description'
-                hint={localize('This information will be visible to everyone.')}
-                label={localize('Instructions')}
-                maxLength={300}
-                onChange={e => setAdvertDescription(e.target.value)}
-                shouldShowCounter
-                textSize={textSize}
-                value={advertDescription}
-            />
-        </>
-    );
-};
 
 const MyProfileAdDetails = () => {
     const { data: advertiserInfo, isLoading } = api.advertiser.useGetInfo();
-    const { isPending, mutate: updateAdvertiser } = api.advertiser.useUpdate();
-    const [contactInfo, setContactInfo] = useState('');
-    const [advertDescription, setAdvertDescription] = useState('');
-    const { isMobile } = useDevice();
+    const { isSuccess, mutate: updateAdvertiser, reset } = api.advertiser.useUpdate();
+    const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
 
-    const hasUpdated = useMemo(() => {
-        return (
-            contactInfo !== advertiserInfo?.contact_info ||
-            advertDescription !== advertiserInfo?.default_advert_description
-        );
-    }, [advertiserInfo?.contact_info, advertiserInfo?.default_advert_description, contactInfo, advertDescription]);
+    const {
+        control,
+        formState: { isDirty, isValid },
+        getValues,
+        handleSubmit,
+        reset: resetForm,
+        watch,
+    } = useForm({
+        defaultValues: {
+            ad_details_contact: advertiserInfo?.contact_info,
+            ad_details_description: advertiserInfo?.default_advert_description,
+        },
+        mode: 'onChange',
+    });
+
+    const debouncedReset = debounce(() => {
+        reset();
+        resetForm(watch(), { keepDefaultValues: false, keepDirty: false, keepValues: false });
+    }, 2000);
+
+    const isButtonDisabled = !isDirty || !isValid || isSuccess;
+    const saveButtonClass = clsx({ 'my-profile-ad-details__button--submitting': isSuccess });
+    const buttonIcon = isSuccess ? <LabelPairedCheckMdFillIcon fill='#fff' /> : null;
 
     useEffect(() => {
-        setContactInfo(advertiserInfo?.contact_info || '');
-        setAdvertDescription(advertiserInfo?.default_advert_description || '');
-    }, [advertiserInfo]);
+        if (isSuccess) debouncedReset();
+    }, [debouncedReset, isSuccess]);
 
     const submitAdDetails = () => {
         updateAdvertiser({
-            contact_info: contactInfo,
-            default_advert_description: advertDescription,
+            contact_info: getValues('ad_details_contact'),
+            default_advert_description: getValues('ad_details_description'),
         });
     };
 
     if (isLoading && !advertiserInfo) return <Loader className='mt-16' />;
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
-            <FullPageMobileWrapper
-                className='my-profile-ad-details__mobile-wrapper'
-                onBack={() =>
-                    setQueryString({
-                        tab: 'default',
-                    })
-                }
-                renderFooter={() => (
-                    <Button disabled={!hasUpdated} isFullWidth onClick={submitAdDetails} size='lg'>
-                        <Localize i18n_default_text='Save' />
-                    </Button>
-                )}
-                renderHeader={() => (
-                    <Text size='lg' weight='bold'>
-                        <Localize i18n_default_text='Ad Details ' />
-                    </Text>
-                )}
-            >
-                <div className='my-profile-ad-details'>
-                    <MyProfileAdDetailsTextArea
-                        advertDescription={advertDescription}
-                        contactInfo={contactInfo}
-                        setAdvertDescription={setAdvertDescription}
-                        setContactInfo={setContactInfo}
-                    />
-                </div>
-            </FullPageMobileWrapper>
+            <form onSubmit={handleSubmit(submitAdDetails)}>
+                <FullPageMobileWrapper
+                    className='my-profile-ad-details__mobile-wrapper'
+                    onBack={() =>
+                        setQueryString({
+                            tab: 'default',
+                        })
+                    }
+                    renderFooter={() => (
+                        <Button
+                            className={saveButtonClass}
+                            disabled={!isDirty || !isValid || isSuccess}
+                            icon={buttonIcon}
+                            isFullWidth
+                            size='lg'
+                        >
+                            <Localize i18n_default_text='Save' />
+                        </Button>
+                    )}
+                    renderHeader={() => (
+                        <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
+                            <Localize i18n_default_text='Ad Details ' />
+                        </Text>
+                    )}
+                >
+                    <div className='my-profile-ad-details'>
+                        <MyProfileAdDetailsTextArea control={control as unknown as Control<FieldValues>} />
+                    </div>
+                </FullPageMobileWrapper>
+            </form>
         );
     }
+
     return (
-        <div className='my-profile-ad-details'>
-            <MyProfileAdDetailsTextArea
-                advertDescription={advertDescription}
-                contactInfo={contactInfo}
-                setAdvertDescription={setAdvertDescription}
-                setContactInfo={setContactInfo}
-            />
-            <div className='my-profile-ad-details__border' />
-            <Button
-                className={isPending ? 'my-profile-ad-details__button--submitting' : ''}
-                disabled={!hasUpdated || isPending}
-                icon={isPending ? <LabelPairedCheckMdFillIcon fill='#fff' /> : null}
-                onClick={submitAdDetails}
-                size='lg'
-                textSize='sm'
-            >
-                <Localize i18n_default_text='Save' />
-            </Button>
-        </div>
+        <form onSubmit={handleSubmit(submitAdDetails)}>
+            <div className='my-profile-ad-details'>
+                <MyProfileAdDetailsTextArea control={control as unknown as Control<FieldValues>} />
+                <div className='my-profile-ad-details__border' />
+                <Button
+                    className={saveButtonClass}
+                    disabled={isButtonDisabled}
+                    icon={buttonIcon}
+                    size='lg'
+                    textSize='sm'
+                >
+                    <Localize i18n_default_text='Save' />
+                </Button>
+            </div>
+        </form>
     );
 };
 

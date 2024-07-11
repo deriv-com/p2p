@@ -47,7 +47,6 @@ export interface ExtendedOrderDetails extends TOrder {
     otherUserDetails: TUserDetails;
     purchaseTime: string;
     rateAmount: string;
-    remainingSeconds: number;
     shouldHighlightAlert: boolean;
     shouldHighlightDanger: boolean;
     shouldHighlightDisabled: boolean;
@@ -57,7 +56,6 @@ export interface ExtendedOrderDetails extends TOrder {
     shouldShowLostFundsBanner: boolean;
     shouldShowOnlyComplainButton: boolean;
     shouldShowOnlyReceivedButton: boolean;
-    shouldShowOrderFooter: boolean;
     shouldShowOrderTimer: boolean;
     statusForBuyerConfirmedOrder: string;
     statusForPendingOrder: string;
@@ -106,12 +104,16 @@ const useExtendedOrderDetails = ({
             };
         },
         get displayPaymentAmount() {
-            return removeTrailingZeros(
-                FormatUtils.formatMoney(
-                    Number(this.amount_display) * Number(roundOffDecimal(this.rate, setDecimalPlaces(this.rate, 6))),
-                    { currency: this.local_currency as TCurrency }
-                )
-            );
+            if (this.rate) {
+                return removeTrailingZeros(
+                    FormatUtils.formatMoney(
+                        Number(this.amount_display) *
+                            Number(roundOffDecimal(this.rate, setDecimalPlaces(this.rate, 6))),
+                        { currency: this.local_currency as TCurrency }
+                    )
+                );
+            }
+            return '';
         },
         get hasReviewDetails() {
             return !!this.review_details;
@@ -170,7 +172,7 @@ const useExtendedOrderDetails = ({
             return this.isBuyerConfirmedOrder || this.isBuyerCancelledOrder;
         },
         get isOrderReviewable() {
-            return this.is_reviewable;
+            return !!this.is_reviewable;
         },
         get isPendingOrder() {
             return this.status === ORDERS_STATUS.PENDING;
@@ -231,17 +233,13 @@ const useExtendedOrderDetails = ({
             );
         },
         get rateAmount() {
+            if (!this.rate) return '';
             return removeTrailingZeros(
                 FormatUtils.formatMoney(this.rate, {
                     currency: this.local_currency as TCurrency,
                     decimalPlaces: setDecimalPlaces(this.rate, 6),
                 })
             );
-        },
-        get remainingSeconds() {
-            const serverTimeAmount = serverTime?.server_time_moment;
-            const expiryTimeMoment = toMoment(this.expiry_time);
-            return expiryTimeMoment.diff(serverTimeAmount, 'seconds');
         },
         get shouldHighlightAlert() {
             if (this.hasTimerExpired) return false;
@@ -293,14 +291,6 @@ const useExtendedOrderDetails = ({
                 return (!this.isIncomingOrder && this.isSellOrder) || (this.isIncomingOrder && this.isBuyOrder);
             }
             return this.isBuyerConfirmedOrder && (this.isBuyOrder ? this.isMyAd : !this.isMyAd);
-        },
-        get shouldShowOrderFooter() {
-            return (
-                this.shouldShowCancelAndPaidButton ||
-                this.shouldShowComplainAndReceivedButton ||
-                this.shouldShowOnlyComplainButton ||
-                this.shouldShowOnlyReceivedButton
-            );
         },
         get shouldShowOrderTimer() {
             if (this.isFinalisedOrder) return false;

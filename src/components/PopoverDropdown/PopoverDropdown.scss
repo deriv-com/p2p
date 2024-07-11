@@ -3,15 +3,21 @@
     flex-direction: column;
     position: relative;
 
-    &__icon {
-        margin-left: 1rem;
-    }
+    & .tooltip-menu-icon {
+        width: 3.2rem;
+        display: flex;
+        justify-content: center;
+        border-radius: 4px;
 
-    & .deriv-tooltip {
-        @include mobile {
-            display: none;
+        @include mobile-or-tablet-screen {
+            margin-top: -0.5rem;
+
+            &:hover {
+                background-color: transparent;
+            }
         }
     }
+
     &__list {
         display: flex;
         flex-direction: column;

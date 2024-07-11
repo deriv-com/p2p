@@ -1,3 +1,4 @@
+import { TAdvertiserStats } from 'types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyProfileMobile from '../MyProfileMobile';
@@ -37,16 +38,20 @@ jest.mock('@/hooks/custom-hooks', () => ({
     })),
 }));
 
+const mockProps = {
+    data: {} as TAdvertiserStats,
+};
+
 describe('MyProfileMobile', () => {
     afterEach(() => {
         resetMockedData();
     });
     it('should render the default tab', () => {
-        render(<MyProfileMobile />);
+        render(<MyProfileMobile {...mockProps} />);
         expect(screen.getByText('ProfileContent')).toBeInTheDocument();
     });
     it('should render the appropriate screens', async () => {
-        render(<MyProfileMobile />);
+        render(<MyProfileMobile {...mockProps} />);
 
         const clickTabAndRender = async (tab: string) => {
             const btn = screen.getByRole('button', {
@@ -59,7 +64,7 @@ describe('MyProfileMobile', () => {
             mockQueryString = {
                 tab,
             };
-            render(<MyProfileMobile />);
+            render(<MyProfileMobile {...mockProps} />);
         };
 
         await clickTabAndRender('Stats');

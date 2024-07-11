@@ -2,18 +2,24 @@
     border-radius: 4px;
     border: 8px solid #f2f3f4;
     width: 44rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    height: 100%;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         width: unset;
         border: unset;
     }
 
     &__full-page {
         position: absolute;
-        top: 5rem;
+        top: 8rem;
         left: 0;
         z-index: 1;
-        height: calc(100vh - 6rem);
+        height: calc(100vh - 9rem);
 
         & .mobile-wrapper {
             &__body {
@@ -29,7 +35,7 @@
         }
 
         &--closed {
-            height: calc(100vh - 2rem);
+            height: calc(100vh - 5rem);
 
             & .mobile-wrapper {
                 &__footer {

@@ -1,7 +1,7 @@
 .payment-methods-list {
     &__mobile-wrapper {
         position: absolute;
-        top: 4rem;
+        top: 0;
 
         & .mobile-wrapper {
             &__body {
@@ -10,7 +10,7 @@
             }
 
             &__footer {
-                position: fixed;
+                position: relative;
                 background: #fff;
                 bottom: 0;
                 width: 100%;

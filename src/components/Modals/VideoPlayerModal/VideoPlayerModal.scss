@@ -1,0 +1,20 @@
+.video-player-modal {
+    background-color: #000;
+    border-radius: 0.8rem;
+    width: 64rem;
+    height: 38rem;
+
+    @include mobile-or-tablet-screen {
+        width: calc(100vw - 3.2rem);
+        height: 23rem;
+    }
+
+    &__close-btn {
+        position: absolute;
+        right: 0.8rem;
+
+        @include desktop {
+            cursor: pointer;
+        }
+    }
+}

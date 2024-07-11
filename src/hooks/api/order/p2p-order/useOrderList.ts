@@ -14,7 +14,7 @@ const useOrderList = (
     });
 
     // Additional p2p_order_list data
-    const modified_data = useMemo(() => {
+    const modifiedData = useMemo(() => {
         if (!data) return undefined;
 
         return data.map(advert => ({
@@ -65,7 +65,7 @@ const useOrderList = (
 
     return {
         /** The 'p2p_order_list' response. */
-        data: modified_data,
+        data: modifiedData,
         ...rest,
     };
 };

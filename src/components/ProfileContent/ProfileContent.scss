@@ -6,10 +6,10 @@
     border-radius: 0.8rem;
     border: 0.1rem solid #e6e9e9;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         border: none;
         border-radius: 0;
-        width: 100vw;
         border-bottom: 0.1rem solid #e6e9e9;
+        padding: 1.6rem;
     }
 }

@@ -1,5 +1,4 @@
 import { MouseEvent, useEffect, useRef } from 'react';
-import html2canvas from 'html2canvas';
 import { Clipboard } from '@/components';
 import { ADVERTISER_URL, BUY_SELL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
@@ -22,7 +21,7 @@ const websiteUrl = () => `${location.protocol}//${location.hostname}`;
 const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps) => {
     const { localize } = useTranslations();
     const timeoutClipboardRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const { isDesktop, isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { data: advertInfo, isLoading: isLoadingInfo } = api.advert.useGet({ id });
     const [isCopied, copyToClipboard, setIsCopied] = useCopyToClipboard();
     const {
@@ -65,6 +64,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
         if (divRef.current) {
             const p2pLogo = divRef.current.querySelector('.share-ads-card__qr-icon');
             if (p2pLogo) {
+                const { default: html2canvas } = await import('html2canvas');
                 const canvas = await html2canvas(divRef.current, { allowTaint: true, useCORS: true });
                 const screenshot = canvas.toDataURL('image/png', 1.0);
                 const fileName = `${type}_${id}.png`;
@@ -117,14 +117,14 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                                 <Button
                                     className='border-[1px]'
                                     color='black'
-                                    isFullWidth={isMobile}
+                                    isFullWidth={!isDesktop}
                                     onClick={handleGenerateImage}
-                                    textSize={isMobile ? 'md' : 'sm'}
+                                    textSize={isDesktop ? 'sm' : 'md'}
                                     variant='outlined'
                                 >
                                     <Localize i18n_default_text='Download this QR code' />
                                 </Button>
-                                {isMobile && (
+                                {!isDesktop && (
                                     <div className='flex w-full gap-4 justify-between mt-6'>
                                         <Button
                                             className='share-ads-modal__container__card__button'

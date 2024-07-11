@@ -1,0 +1,20 @@
+.orders-date-selection-full-page {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+
+    & .mobile-wrapper {
+        &__header {
+            span {
+                margin: 0 auto;
+            }
+        }
+
+        &__body {
+            padding: 2.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.4rem;
+        }
+    }
+}

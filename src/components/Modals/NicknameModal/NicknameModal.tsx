@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { BUY_SELL_URL } from '@/constants';
@@ -33,8 +33,8 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
     const history = useHistory();
     const { error: createError, isError, isSuccess, mutate, reset } = api.advertiser.useCreate();
     const { setHasCreatedAdvertiser } = useAdvertiserInfoState();
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
     const debouncedReset = debounce(reset, 3000);
     const currentRoute = getCurrentRoute();
 
@@ -71,7 +71,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                                 data-testid='dt_nickname_modal_input'
                                 error={!!error?.message || isError}
                                 label={localize('Your nickname')}
-                                message={createError?.error?.message || error?.message}
+                                message={createError?.message || error?.message}
                                 onBlur={onBlur}
                                 onChange={onChange}
                                 value={value}

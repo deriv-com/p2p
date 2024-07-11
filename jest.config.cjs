@@ -4,6 +4,7 @@ module.exports = {
         // eslint-disable-next-line sort-keys
         '@deriv-com/(.*)': '<rootDir>/node_modules/@deriv-com/$1',
         '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
+        '\\.png': '<rootDir>/__mocks__/fileMock.js',
         '\\.svg': '<rootDir>/__mocks__/svgMock.js',
         '^@/(.*)$': '<rootDir>/src/$1',
         '^@/assets/(.*)$': '<rootDir>/src/assets/$1',

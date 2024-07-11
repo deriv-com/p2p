@@ -1,0 +1,43 @@
+.carousel {
+    width: 100%;
+
+    &__container {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 2.4rem;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    &__control {
+        width: 0.8rem;
+        height: 0.8rem;
+        border-radius: 96%;
+        border: 1px solid #333;
+
+        &--active {
+            background-color: #333;
+        }
+    }
+
+    &__item {
+        width: calc((100% / 3) - 1.6rem);
+        transition: 1s cubic-bezier(0.39, 0.575, 0.565, 1);
+        min-width: calc((100% / 3) - 1.6rem);
+        padding-top: 2.4rem;
+        display: flex;
+        scroll-snap-align: start;
+
+        @include mobile-or-tablet-screen {
+            width: 100%;
+            min-width: 100%;
+            padding-bottom: 2.4rem;
+        }
+    }
+}

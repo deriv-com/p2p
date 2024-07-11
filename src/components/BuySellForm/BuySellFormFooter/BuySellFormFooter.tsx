@@ -1,3 +1,4 @@
+import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 
 type TBuySellFormFooterProps = {
@@ -6,7 +7,7 @@ type TBuySellFormFooterProps = {
     onSubmit?: () => void;
 };
 const BuySellFormFooter = ({ isDisabled, onClickCancel, onSubmit }: TBuySellFormFooterProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     return (
         <div className='flex justify-end gap-[1rem]'>
             <Button
@@ -14,19 +15,19 @@ const BuySellFormFooter = ({ isDisabled, onClickCancel, onSubmit }: TBuySellForm
                 color='black'
                 onClick={onClickCancel}
                 size='lg'
-                textSize={isMobile ? 'md' : 'sm'}
+                textSize={isDesktop ? 'sm' : 'md'}
                 variant='outlined'
             >
-                Cancel
+                <Localize i18n_default_text='Cancel' />
             </Button>
             <Button
                 disabled={isDisabled}
                 onClick={() => onSubmit?.()}
                 size='lg'
-                textSize={isMobile ? 'md' : 'sm'}
+                textSize={isDesktop ? 'sm' : 'md'}
                 type='submit'
             >
-                Confirm
+                <Localize i18n_default_text='Confirm' />
             </Button>
         </div>
     );

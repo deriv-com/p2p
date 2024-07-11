@@ -1,4 +1,8 @@
 import { ReactNode } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
+import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
+import { useActiveAccount } from '@/hooks/api/account';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -17,7 +21,7 @@ jest.mock('@deriv-com/api-hooks', () => ({
             },
         ],
     })),
-    useAuthData: jest.fn(() => ({ activeLoginid: null, logout: jest.fn() })),
+    useAuthData: jest.fn(() => ({ activeLoginid: null, error: null, logout: jest.fn() })),
     useBalance: jest.fn(() => ({
         data: {
             balance: {
@@ -73,6 +77,21 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
 
+const mockUseActiveAccountValues = {
+    data: undefined,
+} as ReturnType<typeof useActiveAccount>;
+
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({
+                ...mockUseActiveAccountValues,
+            })),
+        },
+    },
+}));
+
 describe('<AppHeader/>', () => {
     window.open = jest.fn();
 
@@ -80,15 +99,24 @@ describe('<AppHeader/>', () => {
         jest.clearAllMocks();
     });
 
-    it('should render the header and handle login when there are no P2P accounts', async () => {
-        render(<AppHeader />);
-        await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
+    it('should show loader when active account data is not fetched yet', async () => {
+        render(
+            <BrowserRouter>
+                <QueryParamProvider adapter={ReactRouter5Adapter}>
+                    <AppHeader />
+                </QueryParamProvider>
+            </BrowserRouter>
+        );
+        const loaderElement = screen.getByTestId('dt_accounts_info_loader');
 
-        expect(window.open).toHaveBeenCalledWith(expect.any(String), '_self');
+        expect(loaderElement).toBeInTheDocument();
     });
 
     it('should render the desktop header and manage account actions when logged in', async () => {
         mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
+        mockUseActiveAccountValues.data = {
+            currency: 'USD',
+        } as ReturnType<typeof useActiveAccount>['data'];
 
         Object.defineProperty(window, 'matchMedia', {
             value: jest.fn().mockImplementation(query => ({
@@ -104,7 +132,13 @@ describe('<AppHeader/>', () => {
             writable: true,
         });
 
-        render(<AppHeader />);
+        render(
+            <BrowserRouter>
+                <QueryParamProvider adapter={ReactRouter5Adapter}>
+                    <AppHeader />
+                </QueryParamProvider>
+            </BrowserRouter>
+        );
         const logoutButton = screen.getByRole('button', { name: 'Logout' });
         const { logout } = mockUseAuthData();
         expect(logoutButton).toBeInTheDocument();

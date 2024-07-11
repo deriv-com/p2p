@@ -1,5 +1,5 @@
 import { api } from '@/hooks';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PaymentMethodForm from '../PaymentMethodForm';
 
@@ -409,5 +409,145 @@ describe('PaymentMethodForm', () => {
         expect(dontCancelButton).toBeInTheDocument();
         await userEvent.click(dontCancelButton);
         expect(screen.queryByText('Cancel your edits?')).not.toBeInTheDocument();
+    });
+    it('should call hideModal and onResetFormState when user clicks Cancel button', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation((modalName: string) => modalName === 'PaymentMethodModal');
+        const otherPaymentMethod = mockPaymentMethods.find(method => method.type === 'other');
+        const mockOnResetFormState = jest.fn();
+        render(
+            <PaymentMethodForm
+                formState={{
+                    actionType: 'EDIT',
+                    selectedPaymentMethod: otherPaymentMethod,
+                    title: 'title',
+                }}
+                onAdd={jest.fn()}
+                onResetFormState={mockOnResetFormState}
+            />
+        );
+        const inputField = screen.getByDisplayValue('Account 1');
+        expect(inputField).toBeInTheDocument();
+
+        await userEvent.click(inputField);
+        await userEvent.type(inputField, 'Account 2');
+        await userEvent.tab();
+
+        const backArrow = screen.getByTestId('dt_page_return_btn');
+        expect(backArrow).toBeInTheDocument();
+        await userEvent.click(backArrow);
+
+        const cancelButton = screen.queryAllByRole('button', { name: 'Cancel' })[1];
+        expect(cancelButton).toBeInTheDocument();
+        await userEvent.click(cancelButton);
+        expect(mockModalManager.hideModal).toHaveBeenCalledWith({ shouldHideAllModals: true });
+        expect(mockOnResetFormState).toHaveBeenCalled();
+    });
+    it('should show PaymentMethodErrorModal if error is returned when creating a payment method', () => {
+        mockModalManager.isModalOpenFor.mockImplementation(
+            (modalName: string) => modalName === 'PaymentMethodErrorModal'
+        );
+        (mockUseCreate as jest.Mock).mockReturnValueOnce({
+            create: jest.fn(),
+            error: { message: 'error creating payment method' },
+            isError: true,
+        });
+        render(
+            <PaymentMethodForm
+                formState={{
+                    actionType: 'ADD',
+                    title: 'title',
+                }}
+                onAdd={jest.fn()}
+                onResetFormState={jest.fn()}
+            />
+        );
+
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('PaymentMethodErrorModal');
+        expect(screen.getByText('Something’s not right')).toBeInTheDocument();
+        expect(screen.getByText('error creating payment method')).toBeInTheDocument();
+    });
+    it('should call hideModal and reset the form when the Ok button is clicked on the PaymentMethodErrorModal', () => {
+        mockModalManager.isModalOpenFor.mockImplementation(
+            (modalName: string) => modalName === 'PaymentMethodErrorModal'
+        );
+        const mockReset = jest.fn();
+        (mockUseCreate as jest.Mock).mockReturnValueOnce({
+            create: jest.fn(),
+            error: { message: 'error creating payment method' },
+            isError: true,
+            reset: mockReset,
+        });
+
+        render(
+            <PaymentMethodForm
+                formState={{
+                    actionType: 'ADD',
+                    title: 'title',
+                }}
+                onAdd={jest.fn()}
+                onResetFormState={jest.fn()}
+            />
+        );
+
+        const okButton = screen.getByRole('button', { name: 'Ok' });
+        expect(okButton).toBeInTheDocument();
+        fireEvent.click(okButton);
+
+        expect(mockModalManager.hideModal).toHaveBeenCalled();
+        expect(mockReset).toHaveBeenCalled();
+    });
+    it('should show PaymentMethodErrorModal if error is returned when updating a payment method', () => {
+        mockModalManager.isModalOpenFor.mockImplementation(
+            (modalName: string) => modalName === 'PaymentMethodErrorModal'
+        );
+        (mockUseUpdate as jest.Mock).mockReturnValueOnce({
+            error: { message: 'error updating payment method' },
+            isError: true,
+            update: jest.fn(),
+        });
+        render(
+            <PaymentMethodForm
+                formState={{
+                    actionType: 'EDIT',
+                    title: 'title',
+                }}
+                onAdd={jest.fn()}
+                onResetFormState={jest.fn()}
+            />
+        );
+
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('PaymentMethodErrorModal');
+        expect(screen.getByText('Something’s not right')).toBeInTheDocument();
+        expect(screen.getByText('error updating payment method')).toBeInTheDocument();
+    });
+    it('should call hideModal and reset the form when the Ok button is clicked on the PaymentMethodErrorModal', () => {
+        mockModalManager.isModalOpenFor.mockImplementation(
+            (modalName: string) => modalName === 'PaymentMethodErrorModal'
+        );
+        const mockReset = jest.fn();
+        (mockUseUpdate as jest.Mock).mockReturnValueOnce({
+            error: { message: 'error updating payment method' },
+            isError: true,
+            reset: mockReset,
+            update: jest.fn(),
+        });
+
+        render(
+            <PaymentMethodForm
+                formState={{
+                    actionType: 'EDIT',
+                    title: 'title',
+                }}
+                onAdd={jest.fn()}
+                onResetFormState={jest.fn()}
+            />
+        );
+
+        const okButton = screen.getByRole('button', { name: 'Ok' });
+        expect(okButton).toBeInTheDocument();
+        fireEvent.click(okButton);
+
+        expect(mockModalManager.hideModal).toHaveBeenCalled();
+        expect(mockReset).toHaveBeenCalled();
     });
 });

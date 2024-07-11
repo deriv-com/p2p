@@ -4,7 +4,7 @@ import { AD_CONDITION_TYPES, ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
 import { useSendbirdServiceToken } from '@/hooks/api/account';
 import { useAdvertiserStats, useSendbird } from '@/hooks/custom-hooks';
-import { useExchangeRates } from '@deriv-com/api-hooks';
+import { useP2PCountryList } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 import { CurrencyConstants } from '@deriv-com/utils';
@@ -56,7 +56,7 @@ export namespace THooks {
         export type Get = NonNullable<ReturnType<typeof api.advert.useGet>['data']>;
         export type GetList = NonNullable<ReturnType<typeof api.advert.useGetList>['data']>;
         export type Create = NonNullable<ReturnType<typeof api.advert.useCreate>['mutate']>;
-        export type Update = NonNullable<ReturnType<typeof api.advert.useUpdate>['data']>;
+        export type Update = NonNullable<ReturnType<typeof api.advert.useUpdate>['mutate']>;
         export type Delete = NonNullable<ReturnType<typeof api.advert.useDelete>['data']>;
     }
     export namespace Advertiser {
@@ -93,7 +93,7 @@ export namespace THooks {
         export type Get = NonNullable<ReturnType<typeof api.settings.useSettings>['data']>;
     }
     export namespace Country {
-        export type Get = NonNullable<ReturnType<typeof api.countryList.useGet>['data']>;
+        export type Get = NonNullable<ReturnType<typeof useP2PCountryList>['data']>;
     }
 }
 export type TOrders = NonNullable<ReturnType<typeof api.order.useGetList>['data']>;
@@ -185,9 +185,7 @@ export type WithRequiredProperty<T, Key extends keyof T> = T & {
 
 export type TCurrency = CurrencyConstants.Currency;
 
-export type TExchangeRate = ReturnType<typeof useExchangeRates>['exchangeRates'];
-
-export type MutableOption = { text?: React.ReactNode; value?: string | undefined };
+export type MutableOption = { text?: JSX.Element | string; value?: string | undefined };
 
 export type TErrorCodes = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
 
@@ -219,3 +217,11 @@ export type TActiveChannel = ReturnType<typeof useSendbird>['activeChatChannel']
 export type TChatMessages = NonNullable<ReturnType<typeof useSendbird>['messages']>;
 
 export type TLocalize = ReturnType<typeof useTranslations>['localize'];
+
+export type TOrderExpiryOptions = NonNullable<
+    NonNullable<ReturnType<typeof api.settings.useSettings>>['data']
+>['order_expiry_options'];
+
+export type TOrderIdsMap = {
+    [key: string]: string[];
+};

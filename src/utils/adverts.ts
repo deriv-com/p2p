@@ -1,5 +1,5 @@
 import moment, { Duration } from 'moment';
-import { localize } from '@deriv-com/translations';
+import { TLocalize } from 'types';
 import { epochToMoment, toMoment } from './time';
 
 /**
@@ -11,7 +11,7 @@ import { epochToMoment, toMoment } from './time';
 export const getDiffDuration = (startTime: number, endTime: number): Duration =>
     moment.duration(moment.unix(endTime).diff(moment.unix(startTime)));
 
-const getStatusLabel = (diff: Duration) => {
+const getStatusLabel = (diff: Duration, localize: TLocalize) => {
     if (diff.years()) return localize('Seen more than 6 months ago');
 
     if (diff.months()) {
@@ -57,15 +57,11 @@ const getTimeDifference = (lastSeenOnline: number) => {
  * @param {number} lastOnlineTime - The last online time in epoch
  * @returns {string} The status label to be shown.
  */
-export const getLastOnlineLabel = (
-    isOnline: boolean,
-    localize: (key: string) => string,
-    lastOnlineTime?: number
-): string => {
+export const getLastOnlineLabel = (isOnline: boolean, localize: TLocalize, lastOnlineTime?: number): string => {
     if (!isOnline) {
         if (lastOnlineTime) {
             const diff = getTimeDifference(lastOnlineTime);
-            return getStatusLabel(diff);
+            return getStatusLabel(diff, localize);
         }
         return localize('Seen more than 6 months ago');
     }

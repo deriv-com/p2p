@@ -2,29 +2,29 @@ import { useMemo, useState } from 'react';
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { AvailableP2PBalanceModal } from '@/components/Modals';
 import { api } from '@/hooks';
-import { numberToCurrencyText } from '@/utils';
 import { LabelPairedCircleInfoMdRegularIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
+import { FormatUtils } from '@deriv-com/utils';
 import { ProfileDailyLimit } from '../ProfileDailyLimit';
 import './ProfileBalance.scss';
 
 const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
     const { data: activeAccount } = api.account.useActiveAccount();
-    const { isMobile } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const [shouldShowAvailableBalanceModal, setShouldShowAvailableBalanceModal] = useState(false);
 
     const currency = activeAccount?.currency || 'USD';
     const dailyLimits = useMemo(
         () => [
             {
-                available: `${numberToCurrencyText(advertiserStats?.dailyAvailableBuyLimit || 0)} ${currency}`,
-                dailyLimit: `${advertiserStats?.daily_buy_limit || numberToCurrencyText(0)} ${currency}`,
+                available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableBuyLimit || 0)} ${currency}`,
+                dailyLimit: `${advertiserStats?.daily_buy_limit || FormatUtils.formatMoney(0)} ${currency}`,
                 type: 'Buy',
             },
             {
-                available: `${numberToCurrencyText(advertiserStats?.dailyAvailableSellLimit || 0)} ${currency}`,
-                dailyLimit: `${advertiserStats?.daily_sell_limit || numberToCurrencyText(0)} ${currency}`,
+                available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableSellLimit || 0)} ${currency}`,
+                dailyLimit: `${advertiserStats?.daily_sell_limit || FormatUtils.formatMoney(0)} ${currency}`,
                 type: 'Sell',
             },
         ],
@@ -48,7 +48,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
             <div className='profile-balance'>
                 <div className='profile-balance__amount' data-testid='dt_available_balance_amount'>
                     <div>
-                        <Text color='less-prominent' size={isMobile ? 'xs' : 'sm'}>
+                        <Text color='less-prominent' size={isDesktop ? 'sm' : 'xs'}>
                             <Localize i18n_default_text='Available Deriv P2P Balance' />
                         </Text>
                         <LabelPairedCircleInfoMdRegularIcon
@@ -58,7 +58,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                         />
                     </div>
                     <Text size={isMobile ? '2xl' : 'xl'} weight='bold'>
-                        {numberToCurrencyText(advertiserStats?.balance_available || 0)} USD
+                        {FormatUtils.formatMoney(advertiserStats?.balance_available || 0)} USD
                     </Text>
                 </div>
                 <div className='flex flex-col gap-[1.6rem]'>

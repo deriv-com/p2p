@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { TOrderIdsMap } from 'types';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { BUY_SELL_URL, ORDERS_URL } from '@/constants';
 import { api } from '@/hooks';
@@ -10,6 +11,7 @@ import { isOrderSeen } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
+import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { OrderDetailsCard } from '../../components/OrderDetailsCard';
 import { OrderDetailsCardFooter } from '../../components/OrderDetailsCard/OrderDetailsCardFooter';
 import { OrdersChatSection } from '../OrdersChatSection';
@@ -33,9 +35,10 @@ const OrderDetails = () => {
         serverTime,
     });
     const { isBuyOrderForUser, shouldShowLostFundsBanner } = orderDetails;
-    const { isMobile } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const { sendFile, userId, ...rest } = useSendbird(orderDetails?.id, !!error, orderDetails?.chat_channel_url ?? '');
     const { localize } = useTranslations();
+    const { data: activeAccountData } = api.account.useActiveAccount();
 
     const headerText = isBuyOrderForUser ? localize('Buy USD order') : localize('Sell USD order');
     const warningMessage = localize(
@@ -48,6 +51,8 @@ const OrderDetails = () => {
             history.push(`${ORDERS_URL}?tab=Past+orders`);
         else if ((location.state as { from: string })?.from === 'BuySell') history.push(BUY_SELL_URL);
         else history.goBack();
+
+        unsubscribe();
     };
 
     const onChatReturn = () => {
@@ -56,23 +61,20 @@ const OrderDetails = () => {
     };
 
     useEffect(() => {
-        subscribe({
-            id: orderId,
-        });
-
-        return () => {
-            unsubscribe();
-        };
+        if (activeAccountData)
+            subscribe({
+                id: orderId,
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [orderId]);
+    }, [activeAccountData, orderId]);
 
     useEffect(() => {
         if (orderId && activeAccount?.loginid) {
             const loginId = activeAccount.loginid;
             if (!isOrderSeen(orderId, loginId)) {
-                const orderIdsMap = JSON.parse(localStorage.getItem('order_ids') || '{}');
+                const orderIdsMap = LocalStorageUtils.getValue<TOrderIdsMap>(LocalStorageConstants.p2pOrderIds) || {};
                 orderIdsMap[loginId] = [...(orderIdsMap[loginId] || []), orderId];
-                localStorage.setItem('order_ids', JSON.stringify(orderIdsMap));
+                LocalStorageUtils.setValue<TOrderIdsMap>(LocalStorageConstants.p2pOrderIds, orderIdsMap);
             }
         }
     }, [orderId, activeAccount?.loginid]);
@@ -80,9 +82,9 @@ const OrderDetails = () => {
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 
     // TODO: replace with proper error screen once design is ready
-    if (error) return <Text>{error?.error?.message}</Text>;
+    if (error) return <Text>{error?.message}</Text>;
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <OrderDetailsProvider value={{ isErrorOrderInfo: !!error, orderDetails }}>
                 {showChat ? (
@@ -100,7 +102,12 @@ const OrderDetails = () => {
                         onBack={onReturn}
                         renderFooter={() => <OrderDetailsCardFooter sendFile={sendFile} />}
                         renderHeader={() => (
-                            <Text as='div' className='w-full flex items-center justify-between' size='lg' weight='bold'>
+                            <Text
+                                as='div'
+                                className='w-full flex items-center justify-between'
+                                size={isMobile ? 'lg' : 'md'}
+                                weight='bold'
+                            >
                                 {headerText}
                                 <Button
                                     className='h-full p-0'
@@ -120,7 +127,7 @@ const OrderDetails = () => {
                                 iconPosition='top'
                                 variant='warning'
                             >
-                                <Text size='xs'>{warningMessage}</Text>
+                                <Text size={isMobile ? 'xs' : '2xs'}>{warningMessage}</Text>
                             </InlineMessage>
                         )}
                         <OrderDetailsCard sendFile={sendFile} />
@@ -140,7 +147,7 @@ const OrderDetails = () => {
                             <Text size='2xs'>{warningMessage}</Text>
                         </InlineMessage>
                     )}
-                    <div className='grid grid-cols-none lg:grid-cols-2 lg:gap-14'>
+                    <div className='grid grid-cols-none lg:grid-cols-2 lg:gap-14 h-full'>
                         <OrderDetailsCard sendFile={sendFile} />
                         <OrdersChatSection
                             isInactive={!!orderDetails?.isInactiveOrder}

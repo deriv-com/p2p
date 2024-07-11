@@ -6,10 +6,10 @@ import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './InvalidVerificationLinkModal.scss';
 
 type TInvalidVerificationLinkModalProps = {
-    error?: {
+    error: {
         code: string;
         message: string;
-    };
+    } | null;
     isModalOpen: boolean;
     mutate: () => void;
     onRequestClose: () => void;
@@ -21,10 +21,10 @@ const InvalidVerificationLinkModal = ({
     mutate,
     onRequestClose,
 }: TInvalidVerificationLinkModalProps) => {
-    const { isMobile } = useDevice();
-    const iconSize = isMobile ? 96 : 128;
+    const { isDesktop } = useDevice();
+    const iconSize = isDesktop ? 128 : 96;
     const isInvalidVerification = error?.code === ERROR_CODES.INVALID_VERIFICATION_TOKEN;
-    const isExcessiveErrorMobile = !isInvalidVerification && isMobile;
+    const isExcessiveErrorMobile = !isInvalidVerification && !isDesktop;
 
     return (
         <Modal
@@ -34,8 +34,8 @@ const InvalidVerificationLinkModal = ({
             onRequestClose={onRequestClose}
         >
             <Modal.Body
-                className={clsx('flex flex-col items-center gap-[2.4rem] p-[2.4rem]', {
-                    'py-0 px-[1.4rem] gap-[1.4rem]': isExcessiveErrorMobile,
+                className={clsx('flex flex-col items-center gap-[2.4rem] p-[2.4rem] lg:pb-[2.4rem] pb-0', {
+                    'px-[1.4rem] gap-[1.4rem]': isExcessiveErrorMobile,
                 })}
             >
                 <DerivLightIcEmailVerificationLinkInvalidIcon height={iconSize} width={iconSize} />
@@ -50,7 +50,7 @@ const InvalidVerificationLinkModal = ({
                 })}
                 hideBorder
             >
-                <Button onClick={mutate} size={isMobile ? 'md' : 'lg'} textSize='sm'>
+                <Button onClick={mutate} size={isDesktop ? 'lg' : 'md'} textSize='sm'>
                     <Localize i18n_default_text='Get new link' />
                 </Button>
             </Modal.Footer>

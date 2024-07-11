@@ -10,9 +10,10 @@ const mockedUseAdvertiserCreate = api.advertiser.useCreate as jest.MockedFunctio
 const mockPush = jest.fn();
 const mockUseAdvertiserInfoState = useAdvertiserInfoState as jest.MockedFunction<typeof useAdvertiserInfoState>;
 
-jest.mock('lodash', () => ({
-    ...jest.requireActual('lodash'),
-    debounce: jest.fn(f => f),
+jest.mock('lodash/debounce', () => ({
+    ...jest.requireActual('lodash/debounce'),
+    __esModule: true,
+    default: jest.fn(f => f),
 }));
 
 jest.mock('react-router-dom', () => ({

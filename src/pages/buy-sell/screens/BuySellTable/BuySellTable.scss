@@ -9,9 +9,9 @@
             overflow: auto;
             padding-bottom: 2rem;
 
-            @include mobile {
+            @include mobile-or-tablet-screen {
                 // stylelint-disable-next-line declaration-no-important
-                height: calc(100vh - 21rem) !important;
+                height: calc(100vh - 25rem) !important;
             }
         }
     }

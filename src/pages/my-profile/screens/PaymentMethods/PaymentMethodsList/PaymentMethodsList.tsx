@@ -30,10 +30,10 @@ const PaymentMethodsList = ({
     onResetFormState,
     p2pAdvertiserPaymentMethods,
 }: TPaymentMethodsListProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
 
-    if (isMobile) {
+    if (!isDesktop) {
         return (
             <FullPageMobileWrapper
                 className='payment-methods-list__mobile-wrapper'
@@ -42,9 +42,9 @@ const PaymentMethodsList = ({
                         tab: 'default',
                     })
                 }
-                renderFooter={() => <AddNewButton isMobile={isMobile} onAdd={onAdd} />}
+                renderFooter={() => <AddNewButton isMobile onAdd={onAdd} />}
                 renderHeader={() => (
-                    <Text size='lg' weight='bold'>
+                    <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
                         <Localize i18n_default_text='Payment methods' />
                     </Text>
                 )}
@@ -52,7 +52,7 @@ const PaymentMethodsList = ({
                 {!!p2pAdvertiserPaymentMethods?.length && (
                     <PaymentMethodsListContent
                         formState={formState}
-                        isMobile={isMobile}
+                        isMobile
                         onAdd={onAdd}
                         onDelete={onDelete}
                         onEdit={onEdit}
@@ -67,7 +67,7 @@ const PaymentMethodsList = ({
     return p2pAdvertiserPaymentMethods?.length === 0 ? null : (
         <PaymentMethodsListContent
             formState={formState}
-            isMobile={isMobile}
+            isMobile={false}
             onAdd={onAdd}
             onDelete={onDelete}
             onEdit={onEdit}

@@ -259,9 +259,7 @@ describe('<OrderDetailsCardFooter />', () => {
 
         mockUseConfirm.mockReturnValue({
             error: {
-                error: {
-                    code: 'OrderEmailVerificationRequired',
-                },
+                code: 'OrderEmailVerificationRequired',
             },
             isError: true,
             mutate: jest.fn(),
@@ -292,10 +290,8 @@ describe('<OrderDetailsCardFooter />', () => {
     it('should show InvalidVerificationLinkModal if ExcessiveVerificationRequests error is returned while pressing I’ve received payment button', async () => {
         mockUseConfirm.mockReturnValue({
             error: {
-                error: {
-                    code: 'ExcessiveVerificationRequests',
-                    message: 'Please wait for 59 seconds before requesting another email.',
-                },
+                code: 'ExcessiveVerificationRequests',
+                message: 'Please wait for 59 seconds before requesting another email.',
             },
             isError: true,
             mutate: jest.fn(),
@@ -335,13 +331,11 @@ describe('<OrderDetailsCardFooter />', () => {
 
         mockUseConfirm.mockReturnValue({
             data: {
-                is_dry_run_successful: false,
+                isDryRunSuccessful: false,
             },
             error: {
-                error: {
-                    code: 'InvalidVerificationToken',
-                    message: 'The link that you used appears to be invalid. Please check and try again.',
-                },
+                code: 'InvalidVerificationToken',
+                message: 'The link that you used appears to be invalid. Please check and try again.',
             },
             isError: true,
             mutate: jest.fn(),
@@ -372,14 +366,12 @@ describe('<OrderDetailsCardFooter />', () => {
     it('should show EmailLinkBlockedModal if ExcessiveVerificationFailures error is returned when code param is in the URL', async () => {
         mockUseConfirm.mockReturnValue({
             data: {
-                is_dry_run_successful: false,
+                isDryRunSuccessful: false,
             },
             error: {
-                error: {
-                    code: 'ExcessiveVerificationFailures',
-                    message:
-                        'It looks like you’ve made too many attempts to confirm this order. Please try again after 30 minutes.',
-                },
+                code: 'ExcessiveVerificationFailures',
+                message:
+                    'It looks like you’ve made too many attempts to confirm this order. Please try again after 30 minutes.',
             },
             isError: true,
             mutate: jest.fn(),
@@ -398,12 +390,12 @@ describe('<OrderDetailsCardFooter />', () => {
         ).toBeInTheDocument();
     });
 
-    it('should show EmailLinkVerifiedModal if is_dry_run_successful is true and code param is in the URL', async () => {
+    it('should show EmailLinkVerifiedModal if isDryRunSuccessful is true and code param is in the URL', async () => {
         mockUseLocation.mockReturnValue({ pathname: '/orders/11', search: '?action=p2p_order_confirm&code=123' });
 
         mockUseConfirm.mockReturnValue({
             data: {
-                is_dry_run_successful: true,
+                isDryRunSuccessful: true,
             },
             error: null,
             isError: false,
@@ -466,9 +458,7 @@ describe('<OrderDetailsCardFooter />', () => {
         });
         mockUseConfirm.mockReturnValue({
             error: {
-                error: {
-                    code: 'OrderConfirmCompleted',
-                },
+                code: 'OrderConfirmCompleted',
             },
             isError: true,
             mutate: jest.fn(),

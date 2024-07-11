@@ -3,14 +3,14 @@
     height: fit-content;
     border-radius: 8px;
 
-    @include mobile {
-        max-width: calc(100% - 3.2rem);
+    @include mobile-or-tablet-screen {
+        max-width: calc(100vw - 3.2rem);
     }
 
     &__body {
         padding: 2.4rem;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             padding: 1.6rem;
         }
     }

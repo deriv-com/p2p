@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { Dispatch, SetStateAction, useCallback, useReducer } from 'react';
 import { TPaymentMethod, TSelectedPaymentMethod } from 'types';
 import { LightDivider, PaymentMethodForm } from '@/components';
 import { useModalManager } from '@/hooks';
@@ -12,14 +12,16 @@ type TBuySellPaymentSectionProps = {
     availablePaymentMethods: (TPaymentMethod & { isAvailable?: boolean })[];
     onSelectPaymentMethodCard?: (paymentMethodId: number) => void;
     selectedPaymentMethodIds: number[];
+    setIsHidden?: Dispatch<SetStateAction<boolean>>;
 };
 
 const BuySellPaymentSection = ({
     availablePaymentMethods,
     onSelectPaymentMethodCard,
     selectedPaymentMethodIds,
+    setIsHidden,
 }: TBuySellPaymentSectionProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const sortedList = sortPaymentMethodsWithAvailability(availablePaymentMethods);
 
     const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
@@ -45,10 +47,10 @@ const BuySellPaymentSection = ({
     return (
         <>
             <div className='flex px-[1.6rem] lg:px-[2.4rem] flex-col py-[1.6rem]'>
-                <Text color='less-prominent' size={isMobile ? 'sm' : 'xs'}>
+                <Text color='less-prominent' size={isDesktop ? 'xs' : 'sm'}>
                     <Localize i18n_default_text='Receive payment to' />
                 </Text>
-                <Text size={isMobile ? 'md' : 'sm'}>
+                <Text size={isDesktop ? 'sm' : 'md'}>
                     {sortedList && sortedList.length > 0 ? (
                         <Localize i18n_default_text='You may choose up to 3.' />
                     ) : (
@@ -61,6 +63,7 @@ const BuySellPaymentSection = ({
                             key={index}
                             medium
                             onClickAdd={() => {
+                                setIsHidden?.(true);
                                 showModal('PaymentMethodForm', { shouldStackModals: false });
                                 handleAddPaymentMethod(paymentMethod?.display_name, paymentMethod);
                             }}
@@ -74,9 +77,12 @@ const BuySellPaymentSection = ({
             <LightDivider />
             {isModalOpenFor('PaymentMethodForm') && (
                 <PaymentMethodForm
-                    displayModal={!isMobile && !!isModalOpenFor('PaymentMethodForm')}
+                    displayModal={isDesktop && !!isModalOpenFor('PaymentMethodForm')}
                     formState={formState}
-                    onRequestClose={hideModal}
+                    onRequestClose={() => {
+                        hideModal();
+                        setIsHidden?.(false);
+                    }}
                     onResetFormState={handleResetFormState}
                 />
             )}

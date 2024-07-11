@@ -1,3 +1,4 @@
+import { TLocalize } from 'types';
 import { RadioGroup } from '@/components';
 import { useTranslations } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
@@ -9,7 +10,7 @@ type TOrderDetailsComplainModalRadioGroupProps = {
     onCheckboxChange: (reason: string) => void;
 };
 
-const getRadioItems = (isBuyOrderForUser: boolean, localize: (key: string) => string) => {
+const getRadioItems = (isBuyOrderForUser: boolean, localize: TLocalize) => {
     const radioItems = [
         {
             label: isBuyOrderForUser
@@ -43,7 +44,7 @@ const OrderDetailsComplainModalRadioGroup = ({
     isBuyOrderForUser,
     onCheckboxChange,
 }: TOrderDetailsComplainModalRadioGroupProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
 
     const { localize } = useTranslations();
     return (
@@ -53,7 +54,7 @@ const OrderDetailsComplainModalRadioGroup = ({
             onToggle={event => onCheckboxChange(event.target.value)}
             required
             selected={disputeReason}
-            textSize={isMobile ? 'md' : 'sm'}
+            textSize={isDesktop ? 'sm' : 'md'}
         >
             {getRadioItems(isBuyOrderForUser, localize).map(item => (
                 <RadioGroup.Item hidden={item.hidden} key={item.label} label={item.label} value={item.value} />

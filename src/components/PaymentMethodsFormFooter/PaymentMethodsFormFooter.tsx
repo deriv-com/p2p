@@ -1,5 +1,7 @@
 import { ButtonHTMLAttributes, FormEvent, MouseEventHandler } from 'react';
+import clsx from 'clsx';
 import { TFormState } from 'types';
+import { getCurrentRoute } from '@/utils';
 import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 import './PaymentMethodsFormFooter.scss';
@@ -33,11 +35,17 @@ const PaymentMethodsFormFooter = ({
     onSubmit,
     type = 'submit',
 }: TPaymentMethodsFormFooterProps) => {
-    const { isMobile } = useDevice();
-    const textSize = isMobile ? 'md' : 'sm';
+    const { isDesktop } = useDevice();
+    const textSize = isDesktop ? 'sm' : 'md';
+    const isMyProfile = getCurrentRoute() === 'my-profile';
 
     return (
-        <div className='payment-methods-form-footer' role='payment-methods-form-footer'>
+        <div
+            className={clsx('payment-methods-form-footer', {
+                'mt-0': !isMyProfile,
+            })}
+            role='payment-methods-form-footer'
+        >
             <Button
                 className='border-2'
                 color='black'

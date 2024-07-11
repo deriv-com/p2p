@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: space-between;
 
-    @include mobile {
+    @include mobile-or-tablet-screen {
         padding: 0;
         flex-direction: column;
         justify-content: center;
@@ -17,8 +17,7 @@
         height: 4rem;
         align-items: center;
 
-        @include mobile {
-            height: 3.2rem;
+        @include mobile-or-tablet-screen {
             display: flex;
             align-items: center;
             line-height: 1rem;
@@ -29,15 +28,7 @@
         }
     }
 
-    &--has-border {
-        border: 1px solid #f2f3f4;
-    }
-
     &__tabs {
-        @include mobile {
-            padding: 1.6rem;
-        }
-
         & .derivs-primary-tabs {
             height: 4rem;
             width: 18rem;
@@ -55,25 +46,64 @@
         display: flex;
         flex-direction: row;
         gap: 1rem;
+        align-items: center;
 
-        @include mobile {
+        @include mobile-or-tablet-screen {
             width: 100%;
             padding: 1.6rem;
-            border-top: 1px solid #f2f3f4;
+
+            &:last-child {
+                border-top: 1px solid #f2f3f4;
+                border-bottom: 1px solid #f2f3f4;
+            }
         }
 
         &-search {
+            width: 100%;
             .search {
                 .deriv-input {
                     &__container {
                         width: 24rem;
 
-                        @include mobile {
+                        @include mobile-or-tablet-screen {
                             width: 100%;
                         }
                     }
                 }
             }
+        }
+
+        & > .deriv-button__variant--outlined.deriv-button__color--black {
+            border-color: #d6dadb;
+
+            &:hover:not(:disabled) {
+                background-color: #fff;
+            }
+        }
+    }
+
+    &__filter-button {
+        height: 4rem;
+        width: 4rem;
+        border-width: 1px;
+
+        & > span,
+        & > svg {
+            position: absolute;
+        }
+
+        &:hover {
+            background-color: #fff;
+        }
+
+        &__indication {
+            position: absolute;
+            border-radius: 50px;
+            background: #ec3f3f;
+            width: 7px;
+            height: 7px;
+            bottom: 1rem;
+            left: 1rem;
         }
     }
 }

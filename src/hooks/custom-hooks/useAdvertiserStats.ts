@@ -22,16 +22,18 @@ const toAdvertiserMinutes = (duration?: number | null) => {
  * @param advertiserId - ID of the advertiser stats to reveal. If not provided, by default it will return the user's own stats.
  */
 const useAdvertiserStats = (advertiserId?: string) => {
-    const { data, subscribe, unsubscribe } = api.advertiser.useGetInfo(advertiserId);
+    const { data, isLoading: isLoadingInfo, subscribe, unsubscribe } = api.advertiser.useGetInfo(advertiserId);
     const { data: settings, isSuccess: isSuccessSettings } = useGetSettings();
     const { data: authenticationStatus, isSuccess: isSuccessAuthenticationStatus } = api.account.useAuthentication();
+    const { data: activeAccountData } = api.account.useActiveAccount();
     const { error, isIdle, isLoading, isSubscribed } = useAdvertiserInfoState();
 
     useEffect(() => {
-        if (advertiserId) {
+        if (advertiserId && activeAccountData) {
             subscribe({ id: advertiserId });
         }
-    }, [advertiserId, subscribe]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [advertiserId, activeAccountData]);
 
     useEffect(() => {
         return () => {
@@ -45,7 +47,7 @@ const useAdvertiserStats = (advertiserId?: string) => {
         if (!isSubscribed && isEmptyObject(data) && !isSuccessSettings && !isSuccessAuthenticationStatus)
             return undefined;
 
-        const isAdvertiser = data.is_approved_boolean;
+        const isAdvertiser = data.isApprovedBoolean;
 
         return {
             ...data,
@@ -78,7 +80,7 @@ const useAdvertiserStats = (advertiserId?: string) => {
 
             /** Checks if the advertiser has completed proof of address verification */
             isAddressVerified: isAdvertiser
-                ? data.has_full_verification
+                ? data.hasFullVerification
                 : authenticationStatus?.document?.status === 'verified',
 
             /** Checks if the user is already an advertiser */
@@ -89,7 +91,7 @@ const useAdvertiserStats = (advertiserId?: string) => {
 
             /** Checks if the advertiser has completed proof of identity verification */
             isIdentityVerified: isAdvertiser
-                ? data.has_basic_verification
+                ? data.hasBasicVerification
                 : authenticationStatus?.identity?.status === 'verified',
 
             /** The percentage of completed orders out of total orders as a seller within the past 30 days. */
@@ -128,8 +130,9 @@ const useAdvertiserStats = (advertiserId?: string) => {
         data: transformedData,
         error,
         isIdle,
-        isLoading,
+        isLoading: advertiserId ? isLoadingInfo : isLoading,
         isSubscribed,
+        unsubscribe,
     };
 };
 

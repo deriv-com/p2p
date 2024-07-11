@@ -1,4 +1,4 @@
-import { useDevice } from '@/hooks/custom-hooks';
+import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyProfileCounterparties from '../MyProfileCounterparties';
@@ -18,11 +18,15 @@ jest.mock('@/components/Modals/RadioGroupFilterModal', () => ({
 const mockSetQueryString = jest.fn();
 
 jest.mock('@/hooks/custom-hooks', () => ({
-    useDevice: jest.fn(() => ({
-        isMobile: false,
-    })),
     useQueryString: jest.fn(() => ({
         setQueryString: mockSetQueryString,
+    })),
+}));
+
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => ({
+        isMobile: false,
     })),
 }));
 

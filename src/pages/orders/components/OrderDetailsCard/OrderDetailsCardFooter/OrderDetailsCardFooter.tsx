@@ -35,10 +35,10 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
         // verification_token_expiry: verificationTokenExpiry,
     } = orderDetails;
 
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { data, error, isError, isSuccess, mutate, reset } = api.order.useConfirm();
-    const textSize = isMobile ? 'md' : 'sm';
+    const textSize = isDesktop ? 'sm' : 'md';
 
     const history = useHistory();
     const location = useLocation();
@@ -58,7 +58,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                 // Clear search params if user tries to use verification link to a completed order
                 history.replace({ pathname: location.pathname, search: '' });
             }
-        } else if (isSuccess && verificationCode && data?.is_dry_run_successful) {
+        } else if (isSuccess && verificationCode && data?.isDryRunSuccessful) {
             showModal('EmailLinkVerifiedModal');
         } else if (isSuccess && !isBuyOrderForUser && orderDetails?.statusString === 'Completed') {
             setShowRatingModal(true);
@@ -103,15 +103,15 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     }, [verificationCode]);
 
     useEffect(() => {
-        handleModalDisplay(error?.error?.code);
+        handleModalDisplay(error?.code);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-        error?.error,
+        error?.code,
         isBuyOrderForUser,
         isError,
         isSuccess,
         verificationNextRequest,
-        data?.is_dry_run_successful,
+        data?.isDryRunSuccessful,
         orderDetails?.status,
     ]);
 
@@ -236,7 +236,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             )}
             {!!isModalOpenFor('InvalidVerificationLinkModal') && (
                 <InvalidVerificationLinkModal
-                    error={error?.error}
+                    error={error}
                     isModalOpen
                     mutate={() => mutate({ id })}
                     onRequestClose={() => {
@@ -247,7 +247,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
             )}
             {!!isModalOpenFor('EmailLinkBlockedModal') && (
                 <EmailLinkBlockedModal
-                    errorMessage={error?.error.message}
+                    errorMessage={error?.message}
                     isModalOpen
                     onRequestClose={hideAndClearSearchParams}
                 />

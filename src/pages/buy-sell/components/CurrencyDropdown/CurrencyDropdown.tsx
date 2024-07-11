@@ -17,7 +17,7 @@ type TCurrencyDropdownProps = {
 
 const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDropdownProps) => {
     const { data } = api.settings.useSettings();
-    const { isMobile } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const [showCurrencySelector, setShowCurrencySelector] = useState<boolean>(false);
 
     const currencySelectorRef = useRef<HTMLDivElement>(null);
@@ -27,8 +27,8 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
 
     const localCurrencies =
         useMemo(() => {
-            return data?.currency_list
-                ? data.currency_list
+            return data?.currencyList
+                ? data.currencyList
                       .sort((a, b) => (a?.value ?? '').localeCompare(b?.value ?? ''))
                       .sort((a, b) => {
                           if (a?.value === selectedCurrency) return -1;
@@ -36,14 +36,14 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
                           return 0;
                       })
                 : [];
-        }, [data?.currency_list, selectedCurrency]) ?? [];
+        }, [data?.currencyList, selectedCurrency]) ?? [];
 
     const onSelectItem = (currency: string) => {
         setShowCurrencySelector(false);
         setSelectedCurrency(currency);
     };
 
-    if (showCurrencySelector && isMobile)
+    if (showCurrencySelector && !isDesktop)
         return (
             <FullPageMobileWrapper
                 className='currency-dropdown__full-page-modal'
@@ -72,14 +72,10 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
                 })}
                 onClick={() => setShowCurrencySelector(prev => !prev)}
             >
-                <Text
-                    className='currency-dropdown__dropdown-text'
-                    color='less-prominent'
-                    size={isMobile ? 'xs' : '2xs'}
-                >
+                <Text className='currency-dropdown__dropdown-text' size={isMobile ? 'xs' : '2xs'}>
                     <Localize i18n_default_text='Currency' />
                 </Text>
-                <Text size='sm'>{selectedCurrency}</Text>
+                <Text size={isMobile ? 'md' : 'sm'}>{selectedCurrency}</Text>
                 <LabelPairedChevronDownMdRegularIcon
                     className={clsx('currency-dropdown__dropdown-icon', {
                         'currency-dropdown__dropdown-icon--active': showCurrencySelector,

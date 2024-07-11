@@ -1,7 +1,7 @@
 .mobile-wrapper {
-    @include mobile {
-        height: calc(100vh - 4rem);
-        width: 100vw;
+    @include mobile-or-tablet-screen {
+        height: calc(100vh - 8rem);
+        width: 100%;
         border-radius: 0;
         display: grid;
         grid-template-rows: 6rem auto;
@@ -35,5 +35,9 @@
     &__footer {
         padding: 2rem;
         border-top: 2px solid #f2f3f4;
+    }
+
+    @include mobile {
+        height: calc(100vh - 7.5rem);
     }
 }

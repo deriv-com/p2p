@@ -16,21 +16,21 @@ type TAdvertiserNameProps = {
 
 const AdvertiserName = ({ advertiserStats, onClickBlocked }: TAdvertiserNameProps) => {
     const { data } = useGetSettings();
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
     const name = advertiserStats?.name || data?.email;
 
     return (
         <div className='advertiser-name' data-testid='dt_advertiser_name'>
-            <UserAvatar nickname={name ?? ''} size={isMobile ? 42 : 64} textSize='lg' />
+            <UserAvatar nickname={name ?? ''} size={isDesktop ? 64 : 42} textSize='lg' />
             <div className='advertiser-name__details'>
                 <div className='flex items-center gap-3'>
                     <Text size='md' weight='bold'>
                         {name}
                     </Text>
-                    {(advertiserStats?.should_show_name || !isMyProfile) && (
-                        <Text color='less-prominent' size='md'>
+                    {(advertiserStats?.shouldShowName || !isMyProfile) && (
+                        <Text color='less-prominent' size='sm'>
                             ({advertiserStats?.fullName})
                         </Text>
                     )}
@@ -38,8 +38,8 @@ const AdvertiserName = ({ advertiserStats, onClickBlocked }: TAdvertiserNameProp
                 <AdvertiserNameStats advertiserStats={advertiserStats} />
                 <AdvertiserNameBadges advertiserStats={advertiserStats} />
             </div>
-            {!isMobile && isMyProfile && <AdvertiserNameToggle advertiserInfo={advertiserStats} />}
-            {!isMobile && !isMyProfile && !advertiserStats?.is_blocked && (
+            {isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={advertiserStats} />}
+            {isDesktop && !isMyProfile && !advertiserStats?.is_blocked && (
                 <BlockDropdown id={advertiserStats?.id} onClickBlocked={onClickBlocked} />
             )}
         </div>
