@@ -17,7 +17,7 @@ type TCurrencyDropdownProps = {
 
 const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDropdownProps) => {
     const { data } = api.settings.useSettings();
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const [showCurrencySelector, setShowCurrencySelector] = useState<boolean>(false);
 
     const currencySelectorRef = useRef<HTMLDivElement>(null);
@@ -72,10 +72,10 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
                 })}
                 onClick={() => setShowCurrencySelector(prev => !prev)}
             >
-                <Text className='currency-dropdown__dropdown-text' size={isDesktop ? '2xs' : 'xs'}>
+                <Text className='currency-dropdown__dropdown-text' size={isMobile ? 'xs' : '2xs'}>
                     <Localize i18n_default_text='Currency' />
                 </Text>
-                <Text size={isDesktop ? 'sm' : 'md'}>{selectedCurrency}</Text>
+                <Text size={isMobile ? 'md' : 'sm'}>{selectedCurrency}</Text>
                 <LabelPairedChevronDownMdRegularIcon
                     className={clsx('currency-dropdown__dropdown-icon', {
                         'currency-dropdown__dropdown-icon--active': showCurrencySelector,

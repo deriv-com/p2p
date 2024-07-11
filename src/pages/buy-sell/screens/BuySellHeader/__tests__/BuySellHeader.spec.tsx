@@ -12,6 +12,7 @@ jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn().mockReturnValue({
         isDesktop: true,
+        isMobile: false,
     }),
 }));
 

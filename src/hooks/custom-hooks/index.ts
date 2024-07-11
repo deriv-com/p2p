@@ -6,6 +6,7 @@ export { default as useFloatingRate } from './useFloatingRate';
 export { default as useFullScreen } from './useFullScreen';
 export { default as useIsAdvertiser } from './useIsAdvertiser';
 export { default as useIsAdvertiserBarred } from './useIsAdvertiserBarred';
+export { default as useIsP2PBlocked } from './useIsP2PBlocked';
 export { default as useModalManager } from './useModalManager';
 export { default as useNavigatorOnline } from './useNavigatorOnline';
 export { default as useNetworkStatus } from './useNetworkStatus';

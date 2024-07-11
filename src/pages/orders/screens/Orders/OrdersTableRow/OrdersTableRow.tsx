@@ -103,7 +103,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
                     {reviewDetails?.rating && <StarRating isReadonly ratingValue={reviewDetails?.rating} />}
                 </div>
                 <div className='flex gap-1'>
-                    <Text size='2xl' weight='bold'>
+                    <Text size='xl' weight='bold'>
                         {`${isBuyOrderForUser ? localize('Buy') : localize('Sell')} ${offerAmount}`}
                     </Text>
                 </div>
