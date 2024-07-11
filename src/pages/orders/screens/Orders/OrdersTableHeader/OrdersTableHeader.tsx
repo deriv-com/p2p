@@ -19,7 +19,7 @@ type TOrdersTableHeaderProps = {
 const ORDERS_TABS = [ORDERS_STATUS.ACTIVE_ORDERS, ORDERS_STATUS.PAST_ORDERS];
 
 const OrdersTableHeader = ({ fromDate, setFromDate, setToDate, toDate }: TOrdersTableHeaderProps) => {
-    const { isDesktop } = useDevice();
+    const { isMobile } = useDevice();
     const { queryString, setQueryString } = useQueryString();
     const { localize } = useTranslations();
     const { activeOrdersTab, setActiveOrdersTab } = useTabsStore(
@@ -39,7 +39,7 @@ const OrdersTableHeader = ({ fromDate, setFromDate, setToDate, toDate }: TOrders
     return (
         <div className='orders-table-header' data-testid='dt_orders_table_header'>
             <Tabs
-                TitleFontSize={isDesktop ? 'sm' : 'md'}
+                TitleFontSize={isMobile ? 'md' : 'sm'}
                 activeTab={getLocalizedTabs(localize)[activeOrdersTab]}
                 onChange={setActiveTab}
                 variant='primary'

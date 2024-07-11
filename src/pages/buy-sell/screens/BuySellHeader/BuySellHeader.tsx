@@ -23,7 +23,7 @@ type TBuySellHeaderProps = {
 const BuySellHeader = ({ setIsFilterModalOpen, setSearchValue }: TBuySellHeaderProps) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { localize } = useTranslations();
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const { queryString, setQueryString } = useQueryString();
     const { filteredCurrency, selectedPaymentMethods, setFilteredCurrency, setSortByValue, sortByValue } =
         useBuySellFiltersStore(
@@ -52,7 +52,7 @@ const BuySellHeader = ({ setIsFilterModalOpen, setSearchValue }: TBuySellHeaderP
         <div className='buy-sell-header' data-testid='dt_buy_sell_header'>
             <div className='buy-sell-header__row justify-between'>
                 <Tabs
-                    TitleFontSize={isDesktop ? 'sm' : 'md'}
+                    TitleFontSize={isMobile ? 'md' : 'sm'}
                     activeTab={getLocalizedTabs(localize)[activeBuySellTab]}
                     onChange={index => {
                         setActiveBuySellTab(TABS[index]);
@@ -69,7 +69,7 @@ const BuySellHeader = ({ setIsFilterModalOpen, setSearchValue }: TBuySellHeaderP
                 {!isDesktop && <GuideTooltip />}
             </div>
             <div className='buy-sell-header__row'>
-                <div className='flex flex-row-reverse lg:flex-row gap-4'>
+                <div className='flex flex-row-reverse lg:flex-row gap-4 w-full'>
                     <CurrencyDropdown selectedCurrency={filteredCurrency} setSelectedCurrency={setFilteredCurrency} />
                     <div className='buy-sell-header__row-search'>
                         <Search
