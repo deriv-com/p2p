@@ -47,8 +47,7 @@ const OrderDetails = () => {
 
     const onReturn = () => {
         if ((location.state as { from: string })?.from === 'Orders' || codeParam) history.push(ORDERS_URL);
-        else if ((location.state as { from: string })?.from === 'PastOrders' || orderStatusParam === 'completed')
-            history.push(`${ORDERS_URL}?tab=Past+orders`);
+        else if (orderStatusParam === 'completed') history.push(`${ORDERS_URL}?tab=Past+orders`);
         else if ((location.state as { from: string })?.from === 'BuySell') history.push(BUY_SELL_URL);
         else history.goBack();
 
