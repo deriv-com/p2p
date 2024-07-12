@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
-import { getSortByList } from '@/constants';
-import { useModalManager } from '@/hooks/custom-hooks';
+import { ADVERT_TYPE, getSortByList } from '@/constants';
+import { useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { GuideTooltip } from '@/pages/guide/components';
-import { useBuySellFiltersStore } from '@/stores';
+import { useBuySellFiltersStore, useTabsStore } from '@/stores';
 import { getLocalizedTabs } from '@/utils/tabs';
 import { LabelPairedBarsFilterMdBoldIcon, LabelPairedBarsFilterSmBoldIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
@@ -12,17 +13,18 @@ import { Button, Tab, Tabs, useDevice } from '@deriv-com/ui';
 import { CurrencyDropdown, SortDropdown } from '../../components';
 import './BuySellHeader.scss';
 
+const TABS = [ADVERT_TYPE.BUY, ADVERT_TYPE.SELL];
+
 type TBuySellHeaderProps = {
-    activeTab: string;
-    setActiveTab: (tab: number) => void;
     setIsFilterModalOpen: () => void;
     setSearchValue: (value: string) => void;
 };
 
-const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearchValue }: TBuySellHeaderProps) => {
+const BuySellHeader = ({ setIsFilterModalOpen, setSearchValue }: TBuySellHeaderProps) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { localize } = useTranslations();
     const { isDesktop, isMobile } = useDevice();
+    const { queryString, setQueryString } = useQueryString();
     const { filteredCurrency, selectedPaymentMethods, setFilteredCurrency, setSortByValue, sortByValue } =
         useBuySellFiltersStore(
             useShallow(state => ({
@@ -34,13 +36,30 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
             }))
         );
 
+    const { activeBuySellTab, setActiveBuySellTab } = useTabsStore(
+        useShallow(state => ({
+            activeBuySellTab: state.activeBuySellTab,
+            setActiveBuySellTab: state.setActiveBuySellTab,
+        }))
+    );
+
+    useEffect(() => {
+        if (queryString.tab) setActiveBuySellTab(queryString.tab);
+        else setQueryString({ tab: activeBuySellTab });
+    }, [activeBuySellTab, queryString.tab, setActiveBuySellTab, setQueryString]);
+
     return (
         <div className='buy-sell-header' data-testid='dt_buy_sell_header'>
             <div className='buy-sell-header__row justify-between'>
                 <Tabs
                     TitleFontSize={isMobile ? 'md' : 'sm'}
-                    activeTab={getLocalizedTabs(localize)[activeTab]}
-                    onChange={setActiveTab}
+                    activeTab={getLocalizedTabs(localize)[activeBuySellTab]}
+                    onChange={index => {
+                        setActiveBuySellTab(TABS[index]);
+                        setQueryString({
+                            tab: TABS[index],
+                        });
+                    }}
                     variant='primary'
                     wrapperClassName='buy-sell-header__tabs'
                 >
@@ -74,7 +93,12 @@ const BuySellHeader = ({ activeTab, setActiveTab, setIsFilterModalOpen, setSearc
                     onClick={() => showModal('FilterModal')}
                     variant='outlined'
                 >
-                    {!!selectedPaymentMethods?.length && <div className='buy-sell-header__filter-button__indication' />}
+                    {!!selectedPaymentMethods?.length && (
+                        <div
+                            className='buy-sell-header__filter-button__indication'
+                            data-testid='dt_filter_button_indicator'
+                        />
+                    )}
                 </Button>
             </div>
             {isModalOpenFor('FilterModal') && <FilterModal isModalOpen onRequestClose={hideModal} />}
