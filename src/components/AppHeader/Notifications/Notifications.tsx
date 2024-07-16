@@ -4,7 +4,7 @@ import { LegacyNotificationIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Notifications as UINotifications, useDevice } from '@deriv-com/ui';
 
-export const Notifications = () => {
+const Notifications = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
@@ -21,7 +21,7 @@ export const Notifications = () => {
                 <LegacyNotificationIcon fill='red' iconSize='sm' />
             </TooltipMenuIcon>
             <UINotifications
-                className={isMobile ? '' : 'notifications__wrapper absolute top-20 right-80 z-10'}
+                className={isMobile ? '' : 'absolute top-20 right-80 z-10'}
                 clearNotificationsCallback={() => {}}
                 componentConfig={{
                     clearButtonText: localize('Clear all'),
@@ -36,3 +36,5 @@ export const Notifications = () => {
         </>
     );
 };
+
+export default Notifications;
