@@ -6,13 +6,13 @@ import { useAuthData } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Header, Text, useDevice, Wrapper } from '@deriv-com/ui';
 import { TooltipMenuIcon } from '../TooltipMenuIcon';
+import { AccountsInfoLoader } from './AccountsInfoLoader';
 import { AccountSwitcher } from './AccountSwitcher';
 import { AppLogo } from './AppLogo';
 import { MenuItems } from './MenuItems';
 import { MobileMenu } from './MobileMenu';
 import { Notifications } from './Notifications';
 import { PlatformSwitcher } from './PlatformSwitcher';
-import { AccountsInfoLoader } from './SkeletonLoader';
 import './AppHeader.scss';
 
 // TODO: handle local storage values not updating after changing local storage values
