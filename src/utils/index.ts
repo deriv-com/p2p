@@ -12,4 +12,5 @@ export * from './payment-methods';
 export * from './routes';
 export * from './string';
 export * from './time';
+export * from './trackjs';
 export * from './types';
