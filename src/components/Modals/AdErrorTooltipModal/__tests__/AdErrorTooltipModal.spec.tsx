@@ -13,6 +13,10 @@ const mockProps = {
     visibilityStatus: [],
 };
 
+jest.mock('@deriv-com/api-hooks', () => ({
+    useAuthData: jest.fn(() => ({ activeLoginid: null })),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: () => ({ isMobile: false }),
