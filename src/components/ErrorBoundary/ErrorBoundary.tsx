@@ -18,14 +18,15 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-        // Update state so the next render will show the fallback UI.
         return { error, hasError: true };
     }
 
     static componentDidCatch(error: Error, info: ErrorInfo) {
         if (info && info.componentStack) {
-            // console.log(info.componentStack);
-            TrackJS?.track(error);
+            TrackJS?.track({
+                component: info.componentStack,
+                error,
+            });
         }
     }
 

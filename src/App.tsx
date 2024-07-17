@@ -7,6 +7,7 @@ import { useRedirectToOauth, useTrackjs } from '@/hooks';
 import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 const { VITE_CROWDIN_BRANCH_NAME, VITE_PROJECT_NAME, VITE_TRANSLATIONS_CDN_URL } = import.meta.env;
 const i18nInstance = initializeI18n({
@@ -23,16 +24,18 @@ const App = () => {
 
     return (
         <BrowserRouter>
-            <QueryParamProvider adapter={ReactRouter5Adapter}>
-                <TranslationProvider defaultLang='EN' i18nInstance={i18nInstance}>
-                    <Suspense fallback={<Loader isFullScreen />}>
-                        <DerivIframe />
-                        <AppHeader />
-                        <AppContent />
-                        {isDesktop && <AppFooter />}
-                    </Suspense>
-                </TranslationProvider>
-            </QueryParamProvider>
+            <ErrorBoundary fallback={<div>fallback component</div>}>
+                <QueryParamProvider adapter={ReactRouter5Adapter}>
+                    <TranslationProvider defaultLang='EN' i18nInstance={i18nInstance}>
+                        <Suspense fallback={<Loader isFullScreen />}>
+                            <DerivIframe />
+                            <AppHeader />
+                            <AppContent />
+                            {isDesktop && <AppFooter />}
+                        </Suspense>
+                    </TranslationProvider>
+                </QueryParamProvider>
+            </ErrorBoundary>
         </BrowserRouter>
     );
 };

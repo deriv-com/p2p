@@ -8,16 +8,14 @@ type TLogTrackJSErrorParams = (typeof TrackJS)['console']['log'];
 const useTrackjs = () => {
     const { activeLoginid } = useAuthData();
     const init = () => {
-        if (location.host.indexOf('localhost') !== 0) {
-            TrackJS.install({
-                application: 'deriv-p2p',
-                console: { watch: ['log', 'error'] },
-                dedupe: false,
-                token: VITE_TRACKJS_TOKEN,
-                userId: activeLoginid || 'undefined',
-                version: (document.querySelector('meta[name=version]') as HTMLMetaElement)?.content,
-            });
-        }
+        TrackJS.install({
+            application: 'deriv-p2p',
+            dedupe: false,
+            enabled: location.host.indexOf('localhost') !== 0,
+            token: VITE_TRACKJS_TOKEN,
+            userId: activeLoginid || 'undefined',
+            version: (document.querySelector('meta[name=version]') as HTMLMetaElement)?.content,
+        });
     };
 
     const logError: TLogTrackJSErrorParams = (...args) => {
