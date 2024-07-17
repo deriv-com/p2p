@@ -6,8 +6,6 @@ const { VITE_TRACKJS_TOKEN } = import.meta.env;
 type TLogTrackJSErrorParams = (typeof TrackJS)['console']['log'];
 
 const useTrackjs = () => {
-    // add the logic to get authenticated user and pass the userID
-
     const { activeLoginid } = useAuthData();
     const init = () => {
         if (location.host.indexOf('localhost') !== 0) {
