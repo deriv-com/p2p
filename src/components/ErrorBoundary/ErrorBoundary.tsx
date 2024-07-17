@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { TrackJS } from 'trackjs';
 
@@ -8,26 +7,26 @@ interface ErrorBoundaryProps {
 }
 
 interface ErrorBoundaryState {
+    error: Error | null;
     hasError: boolean;
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
-        this.state = { hasError: false };
+        this.state = { error: null, hasError: false };
     }
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         // Update state so the next render will show the fallback UI.
-        console.log(error);
-        return { hasError: true };
+        return { error, hasError: true };
     }
 
     static componentDidCatch(error: Error, info: ErrorInfo) {
         if (info && info.componentStack) {
-            console.log(info.componentStack);
+            // console.log(info.componentStack);
+            TrackJS?.track(error);
         }
-        TrackJS?.track(error);
     }
 
     render() {
