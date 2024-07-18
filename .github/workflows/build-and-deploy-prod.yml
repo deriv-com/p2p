@@ -1,6 +1,9 @@
 name: Build Production and Deploy to Cloudflare Pages
 
 on:
+    pull_request:
+      branches:
+        - master
     push:
       tags:
       - production_*
@@ -46,25 +49,28 @@ jobs:
                 VITE_APP_VERSION: ${{ github.ref_name }}
 
             - name: Run tests for Eslint
-              run: npm run test:lint
+              run: |
+                npm run test:lint
+                echo ${{github.ref_name}}
+                echo ${{github.head_ref}}
 
-            - name: Publish to Cloudflare Pages
-              uses: "deriv-com/shared-actions/.github/actions/publish_to_pages_branch@master"
-              with:
-                CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-                project_name: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-                branch_name: master
-                output_dir: dist
-                cname_url: p2p.deriv.com
-    send_slack_success:
-      name: Send Release Slack notification success
-      runs-on: ubuntu-latest
-      if: success()
-      needs: [build_to_cloudflare_pages]
-      steps:
-        - name: Send Slack Notification
-          uses: "deriv-com/shared-actions/.github/actions/send_slack_notification@master"
-          with:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-            MESSAGE: "Production Release succeeded for p2p.deriv.com with version ${{ github.head_ref }}"
+    #         - name: Publish to Cloudflare Pages
+    #           uses: "deriv-com/shared-actions/.github/actions/publish_to_pages_branch@master"
+    #           with:
+    #             CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    #             CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    #             project_name: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+    #             branch_name: master
+    #             output_dir: dist
+    #             cname_url: p2p.deriv.com
+    # send_slack_success:
+    #   name: Send Release Slack notification success
+    #   runs-on: ubuntu-latest
+    #   if: success()
+    #   needs: [build_to_cloudflare_pages]
+    #   steps:
+    #     - name: Send Slack Notification
+    #       uses: "deriv-com/shared-actions/.github/actions/send_slack_notification@master"
+    #       with:
+    #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    #         MESSAGE: "Production Release succeeded for p2p.deriv.com with version ${{ github.head_ref }}"
