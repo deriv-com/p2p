@@ -53,18 +53,18 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         crypto: {
             actionButton: (
                 <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
-                    <Localize i18n_default_text='Switch to real USD account' />
+                    <Localize i18n_default_text='Switch to real account' />
                 </Button>
             ),
             description: (
                 <Text align='center'>
-                    <Localize i18n_default_text='Please switch to your USD account to access the Deriv P2P marketplace.' />
+                    <Localize i18n_default_text='To use Deriv P2P, switch to your real USD account.' />
                 </Text>
             ),
             icon: <P2pUnavailable />,
             title: (
                 <Text weight='bold'>
-                    <Localize i18n_default_text='Crypto is not supported for Deriv P2P!' />
+                    <Localize i18n_default_text='Cryptocurrencies not supported' />
                 </Text>
             ),
         },
