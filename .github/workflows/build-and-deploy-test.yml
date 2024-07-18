@@ -26,7 +26,7 @@ jobs:
               with:
                   username: ${{ github.event.pull_request.user.login }}
                   token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-                  
+
             - name: Checkout to branch
               uses: actions/checkout@v3
               with:
@@ -60,6 +60,8 @@ jobs:
                 VITE_PROJECT_NAME: ${{ vars.VITE_PROJECT_NAME }}
                 VITE_CROWDIN_BRANCH_NAME: ${{ vars.VITE_CROWDIN_BRANCH_NAME }}
                 VITE_TRANSLATIONS_CDN_URL: ${{ vars.VITE_TRANSLATIONS_CDN_URL }}
+                VITE_TRACKJS_TOKEN: ${{ vars.VITE_TRACKJS_TOKEN }}
+                VITE_APP_VERSION: ${{ github.ref_name }}
 
             - name: Run tests for Eslint
               run: npm run test:lint
