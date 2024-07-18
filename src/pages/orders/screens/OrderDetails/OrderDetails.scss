@@ -1,5 +1,5 @@
 .order-details {
-    overflow: overlay;
+    overflow: auto;
     height: calc(100vh - 27rem);
 
     @include mobile-or-tablet-screen {
