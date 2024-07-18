@@ -11,6 +11,9 @@ export default defineConfig(({ mode }) => {
         build: {
             rollupOptions: {
                 output: {
+                    assetFileNames: 'assets/[name].[hash].[ext]',
+                    chunkFileNames: 'assets/[name].[hash].js',
+                    entryFileNames: 'assets/[name].[hash].js',
                     manualChunks: {
                         'deriv-com': ['@deriv-com/api-hooks', '@deriv-com/utils'],
                         react: ['react', 'react-dom'],
