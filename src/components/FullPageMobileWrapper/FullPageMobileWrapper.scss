@@ -4,7 +4,12 @@
         width: 100%;
         border-radius: 0;
         display: grid;
+        grid-template-rows: 6rem auto;
         background-color: #fff;
+
+        &--fixed-footer {
+            grid-template-rows: 6rem auto 8rem;
+        }
 
         &--no-header {
             grid-template-rows: auto;
