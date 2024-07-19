@@ -69,7 +69,7 @@ jobs:
                 VERCEL_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
                 ENVIRONMENT: Production
                 VERCEL_SCOPE: deriv
-                ALIAS_DOMAIN_URL: 'p2p.deriv.com'
+                ALIAS_DOMAIN_URL: 'p2p-dr.deriv.com'
     send_slack_success:
       name: Send Release Slack notification success
       runs-on: ubuntu-latest
