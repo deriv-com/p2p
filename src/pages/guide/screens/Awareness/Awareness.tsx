@@ -1,7 +1,4 @@
-//TODO: Replace these with Quill icons once ready
-import { ReactComponent as ScamAdvancePaymentIcon } from '@/assets/scam-advance-payment.svg';
-import { ReactComponent as ScamPotIcon } from '@/assets/scam-pot.svg';
-import { ReactComponent as ScamSmsIcon } from '@/assets/scam-sms.svg';
+import { DerivDarkScamAdvancePaymentIcon, DerivDarkScamPotIcon, DerivDarkScamSmsIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { Carousel } from '../../components';
@@ -23,7 +20,7 @@ const Awareness = () => {
                                 <Localize i18n_default_text='Release funds only after confirming the payment has been received in your account. Scammers often disappear after receiving upfront payments.' />
                             </Text>
                         ),
-                        icon: <ScamAdvancePaymentIcon />,
+                        icon: <DerivDarkScamAdvancePaymentIcon height='97' width='97' />,
                         id: 0,
                         title: (
                             <Text align='center' as='div' color='red' size='md' weight='bold'>
@@ -38,7 +35,7 @@ const Awareness = () => {
                                 <Localize i18n_default_text='Always log in to your payment account to verify you’ve received the correct amount. Scammers may provide fake or altered payment receipt(s).' />
                             </Text>
                         ),
-                        icon: <ScamPotIcon />,
+                        icon: <DerivDarkScamPotIcon height='97' width='97' />,
                         id: 1,
                         title: (
                             <Text align='center' as='div' color='red' size='md' weight='bold'>
@@ -65,7 +62,7 @@ const Awareness = () => {
                                 />
                             </Text>
                         ),
-                        icon: <ScamSmsIcon />,
+                        icon: <DerivDarkScamSmsIcon height='97' width='97' />,
                         id: 2,
                         title: (
                             <Text align='center' as='div' color='red' size='md' weight='bold'>

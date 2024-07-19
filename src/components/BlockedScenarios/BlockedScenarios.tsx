@@ -53,7 +53,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         crypto: {
             actionButton: (
                 <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
-                    <Localize i18n_default_text='Switch to real account' />
+                    <Localize i18n_default_text='Switch to real USD account' />
                 </Button>
             ),
             description: (
