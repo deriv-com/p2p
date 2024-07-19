@@ -38,6 +38,6 @@
     }
 
     @include mobile {
-        height: calc(100vh - 7.5rem);
+        height: calc(100% - 7.5rem);
     }
 }

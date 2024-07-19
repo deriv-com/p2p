@@ -20,7 +20,7 @@
 
         @include mobile-or-tablet-screen {
             max-width: 60rem;
-            height: calc(100% - 10rem);
+            height: 100%;
         }
     }
 
