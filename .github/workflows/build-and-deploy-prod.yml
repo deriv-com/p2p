@@ -86,7 +86,7 @@ jobs:
           - name: Create Slack Message
             id: create_slack_message
             run: |
-                if [[ "${{ needs.build_to_cloudflare_pages.outcome }}" == 'success' ]]; then
+                if [[ "${{ needs.build_to_cloudflare_pages.result }}" == 'success' ]]; then
                   echo "message=Production Release succeeded for p2p.deriv.com with version ${{ github.head_ref }}" >> $GITHUB_OUTPUT
                 else
                   echo "message=Production Release failed for p2p.deriv.com with version ${{ github.head_ref }}" >> $GITHUB_OUTPUT
