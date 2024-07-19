@@ -14,4 +14,8 @@ body {
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
+    position: relative;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
 }
