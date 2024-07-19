@@ -47,7 +47,10 @@ const GuideTooltip = () => {
                             <StandaloneXmarkBoldIcon
                                 className='guide-tooltip__close-btn'
                                 iconSize='sm'
-                                onClick={() => setIsGuideVisible(false)}
+                                onClick={() => {
+                                    setIsGuideVisible(false);
+                                    LocalStorageUtils.setValue<boolean>('should_show_p2p_guide', false);
+                                }}
                             />
                         </div>
                         <Text as='div' className='mt-[1rem]'>
