@@ -1,8 +1,14 @@
+#root {
+    height: 100%;
+}
+
 .app-content {
+    height: 100%;
+
     &__body {
         position: relative;
         overflow: hidden;
-        height: calc(100vh - 10rem);
+        height: 100%;
         margin: auto;
 
         @include desktop {
@@ -14,7 +20,7 @@
 
         @include mobile-or-tablet-screen {
             max-width: 60rem;
-            height: 100vh;
+            height: 100%;
         }
     }
 
