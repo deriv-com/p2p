@@ -70,6 +70,12 @@ jobs:
                 ENVIRONMENT: Production
                 VERCEL_SCOPE: deriv
                 ALIAS_DOMAIN_URL: 'p2p-dr.deriv.com'
+            - name: Send Slack Notification on Vercel Publish failure
+              uses: "deriv-com/shared-actions/.github/actions/send_slack_notification@master"
+              with:
+                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+                MESSAGE: "Vercel Publish failed for p2p.deriv.com with version ${{ github.head_ref }}"
+
     send_slack_success:
       name: Send Release Slack notification success
       runs-on: ubuntu-latest
