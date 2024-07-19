@@ -3,8 +3,8 @@
     height: calc(100vh - 27rem);
 
     @include mobile-or-tablet-screen {
-        position: absolute;
-        top: 0;
+        position: fixed;
+        top: 7.5rem;
         height: calc(100vh - 7rem);
 
         & .mobile-wrapper {
