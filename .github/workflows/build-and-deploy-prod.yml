@@ -76,14 +76,23 @@ jobs:
                 SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
                 MESSAGE: "Vercel Publish failed for p2p.deriv.com with version ${{ github.head_ref }}"
 
-    send_slack_success:
-      name: Send Release Slack notification success
-      runs-on: ubuntu-latest
-      if: success()
-      needs: [build_to_cloudflare_pages]
-      steps:
-        - name: Send Slack Notification
-          uses: "deriv-com/shared-actions/.github/actions/send_slack_notification@master"
-          with:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-            MESSAGE: "Production Release succeeded for p2p.deriv.com with version ${{ github.head_ref }}"
+    send_slack_notification:
+        name: Send Release Slack notification
+        environment: Production
+        runs-on: ubuntu-latest
+        if: always()
+        needs: [build_to_cloudflare_pages]
+        steps:
+          - name: Create Slack Message
+            id: create_slack_message
+            run: |
+                if [[ "${{ needs.build_to_cloudflare_pages.result }}" == 'success' ]]; then
+                  echo "::set-output name=message::Production Release succeeded for p2p.deriv.com with version ${{ github.head_ref }}"
+                else
+                  echo "::set-output name=message::Production Release failed for p2p.deriv.com with version ${{ github.head_ref }}""
+                }
+          - name: Send Slack Notification
+            uses: "deriv-com/shared-actions/.github/actions/send_slack_notification@master"
+            with:
+              SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+              MESSAGE: ${{ steps.create_slack_message.outputs.message }}
