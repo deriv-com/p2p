@@ -57,10 +57,7 @@ jobs:
                 branch_name: master
                 output_dir: dist
                 cname_url: p2p.deriv.com
-    publish_to_vercel:
-        runs-on: ubuntu-latest
-        environment: Production
-        steps:
+                
             - name: Upload to vercel
               uses: 'deriv-com/shared-actions/.github/actions/vercel_DR_publish@master'
               id: dr_action
