@@ -8,6 +8,10 @@ import { useDevice } from '@deriv-com/ui';
 import { WebSocketUtils } from '@deriv-com/utils';
 import { useActiveAccount } from '../api/account';
 
+/**
+ * Custom hook to initialize Deriv Analytics which is including GrowthBook and Rudderstack.
+ * @returns {Object} An object containing the `initialise` function which initialize growthbook and rudderstack.
+ */
 const useDerivAnalytics = () => {
     const { data: activeAccount } = useActiveAccount();
     const { data: websiteStatus } = useWebsiteStatus();

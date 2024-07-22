@@ -3,6 +3,10 @@ import { useAuthData } from '@deriv-com/api-hooks';
 
 const { VITE_TRACKJS_TOKEN } = process.env;
 
+/**
+ * Custom hook to initialize TrackJS.
+ * @returns {Object} An object containing the `init` function.
+ */
 const useTrackjs = () => {
     const { activeLoginid } = useAuthData();
     const init = () => {
