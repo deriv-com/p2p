@@ -59,10 +59,6 @@ jobs:
                 output_dir: dist
                 cname_url: staging-p2p.deriv.com
 
-    publish_to_vercel:
-        runs-on: ubuntu-latest
-        environment: staging
-        steps:
             - name: Upload to vercel
               uses: 'deriv-com/shared-actions/.github/actions/vercel_DR_publish@master'
               with:
