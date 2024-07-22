@@ -44,6 +44,9 @@ jobs:
                 VITE_TRANSLATIONS_CDN_URL: ${{ vars.VITE_TRANSLATIONS_CDN_URL }}
                 VITE_TRACKJS_TOKEN: ${{ vars.VITE_TRACKJS_TOKEN }}
                 VITE_APP_VERSION: ${{ github.ref_name }}
+                VITE_GROWTHBOOK_DECRYPTION_KEY: ${{ vars.VITE_GROWTHBOOK_DECRYPTION_KEY }}
+                VITE_GROWTHBOOK_CLIENT_KEY: ${{ vars.VITE_GROWTHBOOK_CLIENT_KEY }}
+                VITE_RUDDERSTACK_KEY: ${{ vars.VITE_RUDDERSTACK_KEY }}
 
 
             - name: Run tests for Eslintbuild_to_cloudflare_pages
