@@ -1,12 +1,11 @@
 .order-details {
     overflow: auto;
-    height: calc(100vh - 27rem);
+    height: calc(100% - 27rem);
 
     @include mobile-or-tablet-screen {
         position: absolute;
         top: 0;
-        height: calc(100vh - 7rem);
-        max-height: -webkit-fill-available;
+        height: calc(100% - 7rem);
 
         & .mobile-wrapper {
             &__header {
@@ -14,7 +13,7 @@
             }
 
             &__body {
-                overflow-y: scroll;
+                overflow-y: auto;
             }
 
             &__footer {
