@@ -19,9 +19,9 @@ const App = () => {
     const { redirectToOauth } = useRedirectToOauth();
     const { initialise: initDerivAnalytics } = useDerivAnalytics();
 
+    initTrackJS();
     initDerivAnalytics();
     redirectToOauth();
-    initTrackJS();
 
     return (
         <BrowserRouter>
