@@ -10,15 +10,20 @@ const { VITE_TRACKJS_TOKEN } = process.env;
 const useTrackjs = () => {
     const { activeLoginid } = useAuthData();
     const init = () => {
-        if (!TrackJS.isInstalled()) {
-            TrackJS.install({
-                application: 'deriv-p2p',
-                dedupe: false,
-                enabled: location.hostname !== 'localhost',
-                token: VITE_TRACKJS_TOKEN!,
-                userId: activeLoginid || 'undefined',
-                version: (document.querySelector('meta[name=version]') as HTMLMetaElement)?.content,
-            });
+        try {
+            if (!TrackJS.isInstalled()) {
+                TrackJS.install({
+                    application: 'deriv-p2p',
+                    dedupe: false,
+                    enabled: location.hostname !== 'localhost',
+                    token: VITE_TRACKJS_TOKEN!,
+                    userId: activeLoginid ?? 'undefined',
+                    version: (document.querySelector('meta[name=version]') as HTMLMetaElement)?.content ?? 'undefined',
+                });
+            }
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error('Failed to initialize TrackJS', error);
         }
     };
 
