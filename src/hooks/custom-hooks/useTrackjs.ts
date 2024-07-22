@@ -14,7 +14,7 @@ const useTrackjs = () => {
             TrackJS.install({
                 application: 'deriv-p2p',
                 dedupe: false,
-                enabled: location.host.indexOf('localhost') !== 0,
+                enabled: location.hostname !== 'localhost',
                 token: VITE_TRACKJS_TOKEN!,
                 userId: activeLoginid || 'undefined',
                 version: (document.querySelector('meta[name=version]') as HTMLMetaElement)?.content,
