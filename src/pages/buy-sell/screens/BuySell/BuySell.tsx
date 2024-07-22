@@ -26,7 +26,7 @@ const BuySell = () => {
     }
 
     return (
-        <div>
+        <div className='h-full'>
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             <BuySellTable />
         </div>
