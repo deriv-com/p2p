@@ -3,11 +3,11 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { TCurrency } from 'types';
 import { Page404 } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
+import { useHandleRouteChange } from '@/hooks';
 import { Loader } from '@deriv-com/ui';
 import { routes } from './routes-config';
 
 type TState = { [key: string]: string[] | TCurrency | string; from: string };
-
 declare module 'react-router-dom' {
     export function useHistory(): {
         goBack: () => void;
@@ -36,6 +36,7 @@ const RouteWithSubRoutes = (route: TRoutesWithSubRoutes) => {
 };
 
 const Router: FC = () => {
+    useHandleRouteChange();
     return (
         <Suspense fallback={<Loader isFullScreen />}>
             <Switch>
