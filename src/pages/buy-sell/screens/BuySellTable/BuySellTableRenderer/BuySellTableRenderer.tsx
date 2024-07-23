@@ -44,7 +44,7 @@ const BuySellTableRenderer = ({
                 <ActionScreen
                     actionButtons={
                         <Button
-                            onClick={() => history.push(`${MY_ADS_URL}/adForm`)}
+                            onClick={() => history.push(`${MY_ADS_URL}`)}
                             size='lg'
                             textSize={isMobile ? 'md' : 'sm'}
                         >
