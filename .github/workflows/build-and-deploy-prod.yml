@@ -57,14 +57,41 @@ jobs:
                 branch_name: master
                 output_dir: dist
                 cname_url: p2p.deriv.com
-    send_slack_success:
-      name: Send Release Slack notification success
-      runs-on: ubuntu-latest
-      if: success()
-      needs: [build_to_cloudflare_pages]
-      steps:
-        - name: Send Slack Notification
-          uses: "deriv-com/shared-actions/.github/actions/send_slack_notification@master"
-          with:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-            MESSAGE: "Production Release succeeded for p2p.deriv.com with version ${{ github.head_ref }}"
+                
+            - name: Upload to vercel
+              uses: 'deriv-com/shared-actions/.github/actions/vercel_DR_publish@master'
+              id: dr_action
+              with:
+                VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+                VERCEL_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
+                ENVIRONMENT: Production
+                VERCEL_SCOPE: deriv
+                ALIAS_DOMAIN_URL: 'p2p-dr.binary.sx'
+            - name: Send Slack Notification on Vercel Publish failure
+              uses: "deriv-com/shared-actions/.github/actions/send_slack_notification@master"
+              if: steps.dr_action.conclusion == 'failure'
+              with:
+                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+                MESSAGE: "Vercel Publish failed for p2p.deriv.com with version ${{ github.head_ref }}"
+
+    send_slack_notification:
+        name: Send Release Slack notification
+        environment: Production
+        runs-on: ubuntu-latest
+        if: always()
+        needs: [build_to_cloudflare_pages]
+        steps:
+          - name: Create Slack Message
+            id: create_slack_message
+            run: |
+                if [[ "${{ needs.build_to_cloudflare_pages.result }}" == 'success' ]]; then
+                  echo "message=Production Release succeeded for p2p.deriv.com with version ${{ github.head_ref }}" >> $GITHUB_OUTPUT
+                else
+                  echo "message=Production Release failed for p2p.deriv.com with version ${{ github.head_ref }}" >> $GITHUB_OUTPUT
+                fi
+          - name: Send Slack Notification
+            uses: "deriv-com/shared-actions/.github/actions/send_slack_notification@master"
+            with:
+              SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+              MESSAGE: ${{ steps.create_slack_message.outputs.message }}
