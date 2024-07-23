@@ -20,6 +20,7 @@ const tabRoutesConfiguration = routes.filter(
 );
 
 const AppContent = () => {
+    const [isGtmTracking, setIsGtmTracking] = useState(false);
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
@@ -69,6 +70,13 @@ const AppContent = () => {
     useEffect(() => {
         setActiveTab(getActiveTab(location.pathname));
     }, [location]);
+
+    useEffect(() => {
+        if (!isGtmTracking) {
+            window.dataLayer.push({ event: 'allow_tracking' });
+            setIsGtmTracking(true);
+        }
+    }, [isGtmTracking]);
 
     const getComponent = () => {
         if ((isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {

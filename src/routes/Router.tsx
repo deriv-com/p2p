@@ -1,5 +1,5 @@
-import { FC, Suspense } from 'react';
-import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
+import { FC, Suspense, useEffect } from 'react';
+import { Redirect, Route, RouteComponentProps, Switch, useLocation } from 'react-router-dom';
 import { TCurrency } from 'types';
 import { Page404 } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
@@ -7,7 +7,6 @@ import { Loader } from '@deriv-com/ui';
 import { routes } from './routes-config';
 
 type TState = { [key: string]: string[] | TCurrency | string; from: string };
-
 declare module 'react-router-dom' {
     export function useHistory(): {
         goBack: () => void;
@@ -36,6 +35,12 @@ const RouteWithSubRoutes = (route: TRoutesWithSubRoutes) => {
 };
 
 const Router: FC = () => {
+    const location = useLocation();
+    useEffect(() => {
+        window.dataLayer.push({
+            event: 'page_load',
+        });
+    }, [location]);
     return (
         <Suspense fallback={<Loader isFullScreen />}>
             <Switch>
