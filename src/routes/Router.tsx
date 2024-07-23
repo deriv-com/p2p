@@ -36,7 +36,6 @@ const RouteWithSubRoutes = (route: TRoutesWithSubRoutes) => {
 };
 
 const Router: FC = () => {
-    // this hook will handle side effects on route change like pushing page_load event to dataLayer
     useHandleRouteChange();
     return (
         <Suspense fallback={<Loader isFullScreen />}>
