@@ -7,6 +7,10 @@
         width: 100vw;
         height: 100vh;
         box-shadow: none;
+
+        &__footer {
+            border-top: 2px solid #f2f3f4;
+        }
     }
 
     & .deriv-modal__body {
@@ -32,10 +36,6 @@
         top: 0;
         left: 0;
         z-index: 1;
-
-        & .mobile-wrapper__body {
-            overflow: auto;
-        }
 
         &--is-buy {
             top: -4rem;

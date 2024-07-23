@@ -9,7 +9,7 @@ type TBuySellFormFooterProps = {
 const BuySellFormFooter = ({ isDisabled, onClickCancel, onSubmit }: TBuySellFormFooterProps) => {
     const { isDesktop } = useDevice();
     return (
-        <div className='flex justify-end gap-[1rem]'>
+        <div className='buy-sell-form-footer flex justify-end gap-[1rem] p-[1.6rem]'>
             <Button
                 className='border-2'
                 color='black'

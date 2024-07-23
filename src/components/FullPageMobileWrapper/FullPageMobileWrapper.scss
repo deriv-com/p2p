@@ -24,6 +24,10 @@
         }
     }
 
+    &__body {
+        overflow-y: auto;
+    }
+
     &__header {
         align-items: center;
         padding: 2rem;
