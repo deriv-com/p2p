@@ -1,8 +1,9 @@
-import { FC, Suspense, useEffect } from 'react';
-import { Redirect, Route, RouteComponentProps, Switch, useLocation } from 'react-router-dom';
+import { FC, Suspense } from 'react';
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { TCurrency } from 'types';
 import { Page404 } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
+import { useHandleRouteChange } from '@/hooks';
 import { Loader } from '@deriv-com/ui';
 import { routes } from './routes-config';
 
@@ -35,12 +36,8 @@ const RouteWithSubRoutes = (route: TRoutesWithSubRoutes) => {
 };
 
 const Router: FC = () => {
-    const location = useLocation();
-    useEffect(() => {
-        window.dataLayer.push({
-            event: 'page_load',
-        });
-    }, [location]);
+    // this hook will handle side effects on route change like pushing page_load event to dataLayer
+    useHandleRouteChange();
     return (
         <Suspense fallback={<Loader isFullScreen />}>
             <Switch>
