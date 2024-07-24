@@ -44,12 +44,14 @@ jest.mock('@deriv-com/analytics', () => ({
 }));
 
 jest.mock('js-cookie', () => ({
-    getJSON: jest.fn().mockReturnValue({
-        utm_campaign: 'campaign',
-        utm_content: 'content',
-        utm_medium: 'medium',
-        utm_source: 'source',
-    }),
+    get: jest.fn().mockReturnValue(
+        JSON.stringify({
+            utm_campaign: 'campaign',
+            utm_content: 'content',
+            utm_medium: 'medium',
+            utm_source: 'source',
+        })
+    ),
 }));
 
 const mockedUseDevice = useDevice as jest.MockedFunction<typeof useDevice>;
@@ -57,6 +59,10 @@ const mockUseActiveAccount = api.account.useActiveAccount as jest.MockedFunction
 
 describe('useDerivAnalytics', () => {
     beforeEach(() => {
+        Object.defineProperty(window, 'location', {
+            value: { hostname: 'production' },
+            writable: true,
+        });
         process.env.VITE_GROWTHBOOK_DECRYPTION_KEY = 'test_decryption_key';
         process.env.VITE_GROWTHBOOK_CLIENT_KEY = 'test_client_key';
         process.env.VITE_RUDDERSTACK_KEY = 'test_rudderstack_key';
