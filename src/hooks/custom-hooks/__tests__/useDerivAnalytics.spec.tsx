@@ -106,20 +106,20 @@ describe('useDerivAnalytics', () => {
             rudderstackKey: process.env.VITE_RUDDERSTACK_KEY || '',
         });
 
-        // expect(Analytics.setAttributes).toHaveBeenCalledWith({
-        //     account_type: 'unlogged',
-        //     app_id: expect.any(String),
-        //     country: undefined,
-        //     device_language: expect.any(String),
-        //     device_type: 'mobile',
-        //     domain: expect.any(String),
-        //     user_language: 'en',
-        //     utm_campaign: 'campaign',
-        //     utm_content: 'content',
-        //     utm_medium: 'medium',
-        //     utm_source: 'source',
-        // });
+        expect(Analytics.setAttributes).toHaveBeenCalledWith({
+            account_type: 'unlogged',
+            app_id: expect.any(String),
+            country: undefined,
+            device_language: expect.any(String),
+            device_type: 'mobile',
+            domain: expect.any(String),
+            user_language: 'en',
+            utm_campaign: 'campaign',
+            utm_content: 'content',
+            utm_medium: 'medium',
+            utm_source: 'source',
+        });
 
-        // expect(Analytics.getInstances().ab.GrowthBook.init).toHaveBeenCalled();
+        expect(Analytics.getInstances().ab.GrowthBook.init).toHaveBeenCalled();
     });
 });
