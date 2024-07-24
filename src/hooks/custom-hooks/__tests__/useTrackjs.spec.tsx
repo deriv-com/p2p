@@ -12,7 +12,7 @@ describe('useTrackjs', () => {
         jest.clearAllMocks();
 
         Object.defineProperty(window, 'location', {
-            value: { host: 'localhost' },
+            value: { hostname: 'localhost' },
             writable: true,
         });
 
