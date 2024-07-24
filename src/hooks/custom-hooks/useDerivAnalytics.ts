@@ -3,9 +3,8 @@ import Cookies from 'js-cookie';
 import { FIREBASE_INIT_DATA } from '@/constants';
 import { Analytics } from '@deriv-com/analytics';
 import { useWebsiteStatus } from '@deriv-com/api-hooks';
-import { useTranslations } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
-import { WebSocketUtils } from '@deriv-com/utils';
+import { LocalStorageConstants, WebSocketUtils } from '@deriv-com/utils';
 import { useActiveAccount } from '../api/account';
 
 /**
@@ -16,7 +15,7 @@ const useDerivAnalytics = () => {
     const { data: activeAccount } = useActiveAccount();
     const { data: websiteStatus } = useWebsiteStatus();
     const { isMobile } = useDevice();
-    const { currentLang = 'EN' } = useTranslations();
+    const currentLang = localStorage.getItem(LocalStorageConstants.i18nLanguage) || 'EN';
 
     const initialise = async () => {
         try {
