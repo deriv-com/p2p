@@ -1,3 +1,4 @@
+import { initMarketingCookies } from '@/utils/cookie';
 import { AppIDConstants, LocalStorageConstants, LocalStorageUtils, URLConstants, URLUtils } from '@deriv-com/utils';
 
 export const BUY_SELL_URL = '/buy-sell';
@@ -22,6 +23,7 @@ const SocketURL = {
 export const getOauthUrl = () => {
     const origin = window.location.origin;
     const hostname = window.location.hostname;
+    initMarketingCookies();
 
     const existingAppId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
     const existingServerUrl = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
