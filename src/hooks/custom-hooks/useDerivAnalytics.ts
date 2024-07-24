@@ -59,7 +59,7 @@ const useDerivAnalytics = () => {
                         device_language: navigator?.language || 'en-EN',
                         device_type: isMobile ? 'mobile' : 'desktop',
                         domain: window.location.hostname,
-                        user_language: currentLang,
+                        user_language: currentLang.toLowerCase(),
                         utm_campaign: ppcCampaignCookies?.utm_campaign,
                         utm_content: ppcCampaignCookies?.utm_content,
                         utm_medium: ppcCampaignCookies?.utm_medium,
