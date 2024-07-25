@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { AppFooter, AppHeader, DerivIframe, ErrorBoundary } from '@/components';
-import { useRedirectToOauth, useTrackjs } from '@/hooks';
+import { useDerivAnalytics, useRedirectToOauth, useTrackjs } from '@/hooks';
 import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
@@ -17,9 +17,11 @@ const App = () => {
     const { init: initTrackJS } = useTrackjs();
     const { isDesktop } = useDevice();
     const { redirectToOauth } = useRedirectToOauth();
+    const { initialise: initDerivAnalytics } = useDerivAnalytics();
 
-    redirectToOauth();
     initTrackJS();
+    initDerivAnalytics();
+    redirectToOauth();
 
     return (
         <BrowserRouter>
