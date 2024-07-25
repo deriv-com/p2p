@@ -44,6 +44,10 @@ jobs:
                 VITE_TRANSLATIONS_CDN_URL: ${{ vars.VITE_TRANSLATIONS_CDN_URL }}
                 VITE_TRACKJS_TOKEN: ${{ vars.VITE_TRACKJS_TOKEN }}
                 VITE_APP_VERSION: ${{ github.ref_name }}
+                VITE_GROWTHBOOK_DECRYPTION_KEY: ${{ secrets.VITE_GROWTHBOOK_DECRYPTION_KEY }}
+                VITE_GROWTHBOOK_CLIENT_KEY: ${{ vars.VITE_GROWTHBOOK_CLIENT_KEY }}
+                VITE_RUDDERSTACK_KEY: ${{ vars.VITE_RUDDERSTACK_KEY }}
+                VITE_REMOTE_CONFIG_URL: ${{ vars.VITE_REMOTE_CONFIG_URL }}
 
 
             - name: Run tests for Eslintbuild_to_cloudflare_pages
@@ -58,3 +62,13 @@ jobs:
                 branch_name: staging
                 output_dir: dist
                 cname_url: staging-p2p.deriv.com
+
+            - name: Upload to vercel
+              uses: 'deriv-com/shared-actions/.github/actions/vercel_DR_publish@master'
+              with:
+                VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+                VERCEL_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
+                ENVIRONMENT: Preview
+                VERCEL_SCOPE: deriv
+                ALIAS_DOMAIN_URL: 'staging-p2p-dr.binary.sx'
