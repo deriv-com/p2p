@@ -8,7 +8,7 @@ type TAccountSwitcherProps = {
     account: TActiveAccount;
 };
 
-export const AccountSwitcher = ({ account }: TAccountSwitcherProps) => {
+const AccountSwitcher = ({ account }: TAccountSwitcherProps) => {
     const activeAccount = {
         balance: FormatUtils.formatMoney(account?.balance ?? 0),
         currency: account?.currency || 'USD',
@@ -20,3 +20,5 @@ export const AccountSwitcher = ({ account }: TAccountSwitcherProps) => {
     };
     return account && <UIAccountSwitcher activeAccount={activeAccount} buttonClassName='mr-4' isDisabled />;
 };
+
+export default AccountSwitcher;

@@ -2,7 +2,7 @@ import { useTranslations } from '@deriv-com/translations';
 import { PlatformSwitcher as UIPlatformSwitcher, PlatformSwitcherItem } from '@deriv-com/ui';
 import { platformsConfig } from '../HeaderConfig';
 
-export const PlatformSwitcher = () => {
+const PlatformSwitcher = () => {
     const { localize } = useTranslations();
 
     return (
@@ -28,3 +28,5 @@ export const PlatformSwitcher = () => {
         </UIPlatformSwitcher>
     );
 };
+
+export default PlatformSwitcher;

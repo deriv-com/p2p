@@ -3,7 +3,7 @@ import { MenuItem, Text, useDevice } from '@deriv-com/ui';
 import { MenuItems as items } from '../HeaderConfig';
 import './MenuItems.scss';
 
-export const MenuItems = () => {
+const MenuItems = () => {
     const { localize } = useTranslations();
     const { isDesktop } = useDevice();
 
@@ -29,3 +29,5 @@ export const MenuItems = () => {
         </>
     );
 };
+
+export default MenuItems;

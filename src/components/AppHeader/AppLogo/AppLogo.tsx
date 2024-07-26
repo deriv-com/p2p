@@ -2,7 +2,7 @@ import { DerivLogo, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
 import './AppLogo.scss';
 
-export const AppLogo = () => {
+const AppLogo = () => {
     const { isDesktop } = useDevice();
 
     if (!isDesktop) return null;
@@ -15,3 +15,5 @@ export const AppLogo = () => {
         />
     );
 };
+
+export default AppLogo;
