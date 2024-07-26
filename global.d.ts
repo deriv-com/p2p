@@ -9,6 +9,9 @@ declare global {
             init: () => void;
             on: (key: string, callback: VoidFunction) => void;
         };
+        dataLayer: {
+            push: (event: { [key: string]: boolean | number | string; event: string }) => void;
+        };
     }
 }
 

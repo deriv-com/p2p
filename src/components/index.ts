@@ -9,6 +9,7 @@ export * from './Clipboard';
 export * from './CopyAdForm';
 export * from './DatePicker';
 export * from './DerivIframe';
+export * from './ErrorBoundary';
 export * from './FileDropzone';
 export * from './FloatingRate';
 export * from './FormProgress';
