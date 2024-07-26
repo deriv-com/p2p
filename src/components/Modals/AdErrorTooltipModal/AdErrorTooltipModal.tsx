@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { ADVERT_TYPE, ERROR_CODES } from '@/constants';
+import { useLiveChat } from '@/hooks/custom-hooks';
 import { AdRateError } from '@/pages/my-ads/components';
 import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
@@ -24,7 +25,8 @@ const getAdErrorMessage = (
     balanceAvailable: number,
     advertType: string,
     dailyBuyLimit: string,
-    dailySellLimit: string
+    dailySellLimit: string,
+    onLiveChatClick: () => void
 ): string => {
     const errorMessages: { [key: string]: ReactNode | string } = {
         [ERROR_CODES.ADVERT_INACTIVE]: <AdRateError />,
@@ -64,7 +66,10 @@ const getAdErrorMessage = (
             />
         ),
         [ERROR_CODES.ADVERTISER_TEMP_BAN]: (
-            <Localize i18n_default_text='You’re not allowed to use Deriv P2P to advertise. Please contact us via live chat for more information.' />
+            <Localize
+                components={[<a key={0} onClick={onLiveChatClick} />]}
+                i18n_default_text='You’re not allowed to use Deriv P2P to advertise. Please contact us via <0>live chat</0> for more information.'
+            />
         ),
     };
 
@@ -82,6 +87,10 @@ const AdErrorTooltipModal = ({
     remainingAmount,
     visibilityStatus = [],
 }: TAdErrorTooltipModal) => {
+    const { LiveChatWidget } = useLiveChat();
+    const onLiveChatClick = () => {
+        LiveChatWidget.call('maximize');
+    };
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'md' : 'sm';
     const getMultipleErrorMessages = (errorStatuses: string[]) =>
@@ -95,7 +104,8 @@ const AdErrorTooltipModal = ({
                     balanceAvailable,
                     advertType,
                     dailyBuyLimit,
-                    dailySellLimit
+                    dailySellLimit,
+                    onLiveChatClick
                 )}
             </div>
         ));
@@ -118,7 +128,8 @@ const AdErrorTooltipModal = ({
                                 balanceAvailable,
                                 advertType,
                                 dailyBuyLimit,
-                                dailySellLimit
+                                dailySellLimit,
+                                onLiveChatClick
                             )
                         ) : (
                             <>

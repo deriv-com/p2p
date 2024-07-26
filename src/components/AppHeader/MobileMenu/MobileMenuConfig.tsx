@@ -1,5 +1,6 @@
 import { ComponentProps, ReactNode } from 'react';
 import { ACCOUNT_LIMITS, HELP_CENTRE, RESPONSIBLE } from '@/constants';
+import { useLiveChat } from '@/hooks/custom-hooks';
 import {
     BrandDerivLogoCoralIcon,
     IconTypes,
@@ -8,6 +9,7 @@ import {
     LegacyChartsIcon,
     LegacyHelpCentreIcon,
     LegacyHomeOldIcon,
+    LegacyLiveChatOutlineIcon,
     LegacyLogout1pxIcon,
     LegacyProfileSmIcon,
     LegacyResponsibleTradingIcon,
@@ -34,6 +36,7 @@ type TMenuConfig = {
 export const MobileMenuConfig = () => {
     const { localize } = useTranslations();
     const { logout } = useAuthData();
+    const { LiveChatWidget } = useLiveChat();
 
     const menuConfig: TMenuConfig[] = [
         [
@@ -101,12 +104,14 @@ export const MobileMenuConfig = () => {
                 LeftComponent: LegacyWhatsappIcon,
                 target: '_blank',
             },
-            // TODO add livechat logic
-            // {
-            //     as: 'button',
-            //     label: localize('Live chat'),
-            //     LeftComponent: LegacyLiveChatOutlineIcon,
-            // },
+            {
+                as: 'button',
+                label: localize('Live chat'),
+                LeftComponent: LegacyLiveChatOutlineIcon,
+                onClick: () => {
+                    LiveChatWidget.call('maximize');
+                },
+            },
         ],
         [
             {
