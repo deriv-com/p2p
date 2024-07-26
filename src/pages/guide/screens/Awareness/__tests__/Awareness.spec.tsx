@@ -1,6 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import Awareness from '../Awareness';
 
+jest.mock('@deriv-com/api-hooks', () => ({
+    useAuthData: jest.fn(() => ({ activeLoginid: null })),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),

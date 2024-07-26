@@ -13,6 +13,10 @@ const mockProps = {
     visibilityStatus: [],
 };
 
+jest.mock('@deriv-com/api-hooks', () => ({
+    useAuthData: jest.fn(() => ({ activeLoginid: null })),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: () => ({ isMobile: false }),
@@ -106,11 +110,7 @@ describe('AdErrorTooltipModal', () => {
             visibilityStatus: ['advertiser_temp_ban'],
         };
         render(<AdErrorTooltipModal {...newProps} />);
-        expect(
-            screen.getByText(
-                'You’re not allowed to use Deriv P2P to advertise. Please contact us via live chat for more information.'
-            )
-        ).toBeInTheDocument();
+        expect(screen.getByText(/You’re not allowed to use Deriv P2P to advertise./)).toBeInTheDocument();
     });
     it('should display the corresponding reason when visibilityStatus is advert_inactive', () => {
         const newProps = {
@@ -126,10 +126,6 @@ describe('AdErrorTooltipModal', () => {
             visibilityStatus: ['advertiser_temp_ban', 'advertiser_daily_limit'],
         };
         render(<AdErrorTooltipModal {...newProps} />);
-        expect(
-            screen.getByText(
-                '1. You’re not allowed to use Deriv P2P to advertise. Please contact us via live chat for more information.'
-            )
-        ).toBeInTheDocument();
+        expect(screen.getByText(/1. You’re not allowed to use Deriv P2P to advertise./)).toBeInTheDocument();
     });
 });
