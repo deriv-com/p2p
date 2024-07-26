@@ -44,7 +44,7 @@ const mockStore = {
 };
 
 jest.mock('@/stores', () => ({
-    useBuySellFiltersStore: jest.fn(() => mockStore),
+    useBuySellFiltersStore: jest.fn(selector => (selector ? selector(mockStore) : mockStore)),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -322,5 +322,35 @@ describe('<FilterModal />', () => {
         await user.click(backButton);
 
         expect(screen.getByText('Filter')).toBeInTheDocument();
+    });
+
+    it('should show LeaveFilterModal when user tries to exit the FilterModal in mobile view', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation(modalName => modalName === 'LeaveFilterModal');
+        render(<FilterModal {...mockProps} />);
+
+        const toggleSwitch = screen.getByRole('checkbox');
+        await user.click(toggleSwitch);
+
+        const closeIcon = screen.getByTestId('dt_mobile_wrapper_button');
+        await user.click(closeIcon);
+
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('LeaveFilterModal');
+        expect(screen.getByText('Leave page?')).toBeInTheDocument();
+    });
+
+    it('should call hideModal when user clicks on the cancel button in LeaveFilterModal', async () => {
+        mockModalManager.isModalOpenFor.mockImplementation(modalName => modalName === 'LeaveFilterModal');
+        render(<FilterModal {...mockProps} />);
+
+        const toggleSwitch = screen.getByRole('checkbox');
+        await user.click(toggleSwitch);
+
+        const closeIcon = screen.getByTestId('dt_mobile_wrapper_button');
+        await user.click(closeIcon);
+
+        const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+        await user.click(cancelButton);
+
+        expect(mockModalManager.hideModal).toHaveBeenCalledWith({ shouldHideAllModals: false });
     });
 });

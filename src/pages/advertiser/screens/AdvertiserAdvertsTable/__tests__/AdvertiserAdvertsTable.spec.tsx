@@ -91,13 +91,27 @@ const mockUseModalManager = {
     showModal: jest.fn(),
 };
 
+const mockUseQueryString = {
+    queryString: {},
+    setQueryString: jest.fn(),
+};
+
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
     useIsAdvertiser: jest.fn(() => true),
     useIsAdvertiserBarred: jest.fn(() => false),
     useModalManager: jest.fn(() => mockUseModalManager),
     usePoiPoaStatus: jest.fn(() => ({ data: { isPoaVerified: true, isPoiVerified: true } })),
-    useQueryString: jest.fn(() => ({ queryString: {}, setQueryString: jest.fn() })),
+    useQueryString: jest.fn(() => mockUseQueryString),
+}));
+
+const mockTabsStore = {
+    activeAdvertisersBuySellTab: 'Buy',
+    setActiveAdvertisersBuySellTab: jest.fn(),
+};
+
+jest.mock('@/stores', () => ({
+    useTabsStore: jest.fn(selector => (selector ? selector(mockTabsStore) : mockTabsStore)),
 }));
 
 const mockUseGetList = api.advert.useGetList as jest.Mock;
@@ -111,6 +125,19 @@ describe('<AdvertiserAdvertsTable />', () => {
         expect(screen.getByRole('button', { name: 'Buy' })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Sell' })).toBeInTheDocument();
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
+    });
+
+    it('should call setQueryString if queryString is not defined', async () => {
+        render(<AdvertiserAdvertsTable advertiserId='123' />);
+
+        expect(mockUseQueryString.setQueryString).toHaveBeenCalledWith({ tab: 'Buy' });
+    });
+
+    it('should call setActiveAdvertisersBuySellTab if queryString is defined', async () => {
+        mockUseQueryString.queryString = { tab: 'Buy' };
+        render(<AdvertiserAdvertsTable advertiserId='123' />);
+
+        expect(mockTabsStore.setActiveAdvertisersBuySellTab).toHaveBeenCalledWith('Buy');
     });
 
     it('should show There are no adverts yet message if data is empty', () => {
@@ -184,6 +211,7 @@ describe('<AdvertiserAdvertsTable />', () => {
         expect(screen.getByRole('button', { name: 'Sell' })).toHaveClass(activeClass);
 
         expect(screen.getByRole('button', { name: 'Sell USD' })).toBeInTheDocument();
+        expect(mockTabsStore.setActiveAdvertisersBuySellTab).toHaveBeenCalledWith('Sell');
     });
 
     it('should show LoadingModal if isLoading is true and advertId is present', () => {

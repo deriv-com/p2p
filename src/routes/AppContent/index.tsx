@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
@@ -20,6 +20,7 @@ const tabRoutesConfiguration = routes.filter(
 );
 
 const AppContent = () => {
+    const isGtmTracking = useRef(false);
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
@@ -74,6 +75,13 @@ const AppContent = () => {
     useEffect(() => {
         setActiveTab(getActiveTab(location.pathname));
     }, [location]);
+
+    useEffect(() => {
+        if (!isGtmTracking.current) {
+            window.dataLayer.push({ event: 'allow_tracking' });
+            isGtmTracking.current = true;
+        }
+    }, []);
 
     const getComponent = () => {
         if ((isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
