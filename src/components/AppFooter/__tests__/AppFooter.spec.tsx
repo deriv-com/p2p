@@ -7,6 +7,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AppFooter from '../AppFooter';
 
+jest.mock('@deriv-com/api-hooks', () => ({
+    useAuthData: jest.fn(() => ({ activeLoginid: null })),
+}));
 jest.mock('@deriv-com/translations');
 jest.mock('@/hooks');
 

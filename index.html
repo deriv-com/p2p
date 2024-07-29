@@ -10,6 +10,9 @@
         <meta name="keywords" content="p2p, buy, sell" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Buy and sell on Deriv P2P to fund your trading account | Deriv</title>
+        <!-- Start Cookies script -->
+        <script src="https://static.deriv.com/scripts/cookie.js" async></script>
+        <!-- End Cookies script -->
         <!-- Google Tag Manager -->
         <script>
             (function (w, d, s, l, i) {
@@ -42,5 +45,46 @@
         <!-- End Google Tag Manager (noscript) -->
         <div id="root"></div>
         <script type="module" src="/src/main.tsx"></script>
+        <!-- LiveChat script -->
+        <script type="text/javascript">
+            window.__lc = window.__lc || {};
+            window.__lc.license = 12049137;
+            window.__lc.asyncInit = true;
+            (function (n, t, c) {
+                function i(n) {
+                    return e._h ? e._h.apply(null, n) : e._q.push(n);
+                }
+                var e = {
+                    _q: [],
+                    _h: null,
+                    _v: '2.0',
+                    on: function () {
+                        i(['on', c.call(arguments)]);
+                    },
+                    once: function () {
+                        i(['once', c.call(arguments)]);
+                    },
+                    off: function () {
+                        i(['off', c.call(arguments)]);
+                    },
+                    get: function () {
+                        if (!e._h) throw new Error('[LiveChatWidget] You can’t use getters before load.');
+                        return i(['get', c.call(arguments)]);
+                    },
+                    call: function () {
+                        i(['call', c.call(arguments)]);
+                    },
+                    init: function () {
+                        var n = t.createElement('script');
+                        (n.async = !0),
+                            (n.type = 'text/javascript'),
+                            (n.src = 'https://cdn.livechatinc.com/tracking.js'),
+                            t.head.appendChild(n);
+                    },
+                };
+                !n.__lc.asyncInit && e.init(), (n.LiveChatWidget = n.LiveChatWidget || e);
+            })(window, document, [].slice);
+        </script>
+        <!-- End LiveChat script -->
     </body>
 </html>

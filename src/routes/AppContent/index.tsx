@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useIsP2PBlocked } from '@/hooks';
+import { api, useIsP2PBlocked, useLiveChat } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
@@ -25,6 +25,7 @@ const AppContent = () => {
     const location = useLocation();
     const { isDesktop } = useDevice();
     const { data: activeAccountData, isFetched, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
+    const { init: initLiveChat } = useLiveChat();
     const { isP2PBlocked, status } = useIsP2PBlocked();
 
     const getActiveTab = (pathname: string) => {
@@ -44,6 +45,10 @@ const AppContent = () => {
     } = api.advertiser.useGetInfo();
     const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
+
+    useEffect(() => {
+        initLiveChat();
+    }, []);
 
     useEffect(() => {
         if (activeAccountData) {

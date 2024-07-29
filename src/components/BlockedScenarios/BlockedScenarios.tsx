@@ -1,4 +1,5 @@
 import { ReactComponent as P2pUnavailable } from '@/assets/p2p-unavailable.svg';
+import { useLiveChat } from '@/hooks';
 import {
     DerivLightIcCashierBlockedIcon,
     DerivLightIcCashierLockedIcon,
@@ -19,6 +20,7 @@ type TBlockedScenariosObject = {
 
 const BlockedScenarios = ({ type }: { type: string }) => {
     const { isMobile } = useDevice();
+    const { LiveChatWidget } = useLiveChat();
 
     const buttonTextSize = isMobile ? 'md' : 'sm';
     const iconSize = isMobile ? 96 : 128;
@@ -28,8 +30,9 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         window.open(URLConstants.derivAppProduction, '_blank')?.focus();
     };
 
-    // TODO: implement this function to open live chat
-    const openLiveChat = () => {};
+    const openLiveChat = () => {
+        LiveChatWidget.call('maximize');
+    };
 
     const blockedScenarios: TBlockedScenariosObject = {
         cashierLocked: {
