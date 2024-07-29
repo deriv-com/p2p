@@ -28,7 +28,7 @@ const OrdersEmpty = ({ isPast = false }: TOrdersEmptyProps) => {
                         {isPast ? (
                             <Localize i18n_default_text='No orders found.' />
                         ) : (
-                            <Localize i18n_default_text='You have no orders.' />
+                            <Localize i18n_default_text='You have no active orders.' />
                         )}
                     </Text>
                 }
