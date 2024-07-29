@@ -273,7 +273,8 @@ const useSendbird = (orderId: string | undefined, isErrorOrderInfo: boolean, cha
     useEffect(() => {
         // if the user has not created a chat URL for the order yet, create one using p2p_create_chat endpoint
         // chatChannelUrl is received from order details, hence check if chat url was already created using p2p_create_chat
-        if (!chatChannel?.url && sendbirdServiceToken?.app_id && orderId) {
+        // initialise Chat only if chatchannelurl is already present in order details, but chatChannel is not created in sendbird.
+        if (!chatChannel?.url && sendbirdServiceToken?.app_id && orderId && chatChannelUrl) {
             initialiseChat();
         } else if (orderId && !chatChannelUrl && !chatChannel?.url) {
             createChat({
