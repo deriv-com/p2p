@@ -1,3 +1,4 @@
+import { useLiveChat } from '@/hooks/custom-hooks';
 import {
     DerivDarkFindAdIcon,
     DerivDarkPayUserIcon,
@@ -10,6 +11,7 @@ import { Tab, Tabs, Text } from '@deriv-com/ui';
 import { Carousel } from '../../components';
 
 const GettingStarted = () => {
+    const { LiveChatWidget } = useLiveChat();
     const { localize } = useTranslations();
 
     return (
@@ -55,8 +57,7 @@ const GettingStarted = () => {
                                                     className='guide__content-section--link'
                                                     key={0}
                                                     onClick={() => {
-                                                        // TODO: Uncomment once live chat is integrated.
-                                                        // window.LC_API.open_chat_window();
+                                                        LiveChatWidget.call('maximize');
                                                     }}
                                                 />,
                                             ]}

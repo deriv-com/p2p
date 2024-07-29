@@ -16,6 +16,10 @@ jest.mock('use-query-params', () => ({
     useQueryParams: jest.fn().mockReturnValue([{}, jest.fn()]),
 }));
 
+jest.mock('@deriv-com/api-hooks', () => ({
+    useAuthData: jest.fn(() => ({ activeLoginid: null })),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isDesktop: true })),

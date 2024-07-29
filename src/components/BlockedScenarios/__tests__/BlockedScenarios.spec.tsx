@@ -2,6 +2,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BlockedScenarios from '../BlockedScenarios';
 
+jest.mock('@deriv-com/api-hooks', () => ({
+    useAuthData: jest.fn(() => ({ activeLoginid: null })),
+}));
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: () => ({ isDesktop: true }),
