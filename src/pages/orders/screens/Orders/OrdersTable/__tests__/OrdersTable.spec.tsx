@@ -137,7 +137,7 @@ const mockUseDevice = useDevice as jest.Mock;
 describe('OrdersTable', () => {
     it('should render OrdersTable as expected with empty data', () => {
         render(<OrdersTable {...mockProps} />);
-        expect(screen.getByText('You have no orders.')).toBeInTheDocument();
+        expect(screen.getByText('You have no active orders.')).toBeInTheDocument();
     });
     it('should render the loader when isLoading', () => {
         render(<OrdersTable {...mockProps} isLoading />);
