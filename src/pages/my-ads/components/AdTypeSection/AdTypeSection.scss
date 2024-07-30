@@ -4,10 +4,11 @@
             margin-top: 0;
         }
     }
+
     @include mobile-or-tablet-screen {
         padding: 0 1.6rem;
         overflow: auto;
-        max-height: calc(100vh - 27rem);
+        max-height: calc(100vh - 20rem);
     }
 
     &--edit {
