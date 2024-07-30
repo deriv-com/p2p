@@ -35,10 +35,10 @@ const BuySellFormDisplayWrapper = ({
                     'buy-sell-form__full-page-modal--is-buy': currentRoute === 'buy-sell',
                 })}
                 onBack={onRequestClose}
-                renderFooter={() => <BuySellFormFooter isDisabled={!isValid} onClickCancel={onRequestClose} />}
                 renderHeader={() => <BuySellFormHeader currency={accountCurrency} isBuy={isBuy} />}
             >
                 {children}
+                <BuySellFormFooter isDisabled={!isValid} onClickCancel={onRequestClose} />
             </FullPageMobileWrapper>
         );
     }

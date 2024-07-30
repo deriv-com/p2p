@@ -33,7 +33,7 @@ describe('BlockedScenarios', () => {
 
     it('should render the correct message for crypto account', async () => {
         render(<BlockedScenarios type='crypto' />);
-        expect(screen.getByText('Crypto is not supported for Deriv P2P!')).toBeInTheDocument();
+        expect(screen.getByText('Cryptocurrencies not supported')).toBeInTheDocument();
         const button = screen.getByRole('button', { name: 'Switch to real USD account' });
         await userEvent.click(button);
         expect(window.open).toHaveBeenCalledWith('https://app.deriv.com', '_blank');
