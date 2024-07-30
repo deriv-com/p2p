@@ -276,7 +276,7 @@ const useSendbird = (orderId: string | undefined, isErrorOrderInfo: boolean, cha
         // initialise Chat only if chatchannelurl is already present in order details, but chatChannel is not created in sendbird.
         if (!chatChannel?.url && sendbirdServiceToken?.app_id && orderId && chatChannelUrl) {
             initialiseChat();
-        } else if (orderId && !chatChannelUrl && !chatChannel?.url) {
+        } else if (orderId && !chatChannelUrl && !chatChannel?.url && sendbirdServiceToken?.app_id) {
             createChat({
                 order_id: orderId,
             });
