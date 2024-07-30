@@ -12,7 +12,7 @@ const CurrencyIcon = ({ currency, isVirtual }: CurrencyIconProps) => {
         const currencyName = currency.charAt(0).toUpperCase() + currency.slice(1).toLowerCase();
         const currencyIconName = isVirtual ? 'CurrencyDemoIcon' : `Currency${currencyName}Icon`;
         const getIconComponent = async () => {
-            const module = await import('@deriv/quill-icons');
+            const module = await import('@deriv/quill-icons/Currencies');
             /* eslint-disable  @typescript-eslint/no-explicit-any */
             const IconComponent = (module as any)[currencyIconName];
 
