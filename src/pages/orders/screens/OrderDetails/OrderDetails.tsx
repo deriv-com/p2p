@@ -119,6 +119,7 @@ const OrderDetails = () => {
                                 </Button>
                             </Text>
                         )}
+                        shouldFixedFooter={false}
                     >
                         {shouldShowLostFundsBanner && (
                             <InlineMessage

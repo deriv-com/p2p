@@ -16,10 +16,10 @@
 
     &__full-page {
         position: absolute;
-        top: 8rem;
+        top: 0;
         left: 0;
         z-index: 1;
-        height: calc(100vh - 9rem);
+        height: calc(100vh - 8rem);
 
         & .mobile-wrapper {
             &__body {

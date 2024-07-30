@@ -132,6 +132,8 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const history = useHistory();
     const { isDesktop } = useDevice();
     const isBuy = type === BUY_SELL.BUY;
+    const hasSelectedPaymentMethods =
+        (!paymentMethodNames && selectedPaymentMethods.length < 1) || selectedPaymentMethods.length > 0;
 
     const shouldDisableField =
         !isBuy &&
@@ -265,7 +267,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 isBuy={isBuy}
                 isHidden={isHidden}
                 isModalOpen={isModalOpen}
-                isValid={isValid && ((isBuy && selectedPaymentMethods.length > 0) || !isBuy)}
+                isValid={isValid && (!isBuy || hasSelectedPaymentMethods)}
                 onRequestClose={onCloseBuySellForm}
                 onSubmit={onSubmit}
             >
