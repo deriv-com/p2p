@@ -93,6 +93,7 @@ const CreateEditAd = () => {
         getValues,
         handleSubmit,
         setValue,
+        trigger,
     } = methods;
     useEffect(() => {
         if (Object.keys(countryList as object).length > 0 && getValues('preferred-countries').length === 0) {
@@ -211,6 +212,7 @@ const CreateEditAd = () => {
                     ) ?? [];
                 setValue('payment-method', paymentMethodKeys);
             }
+            trigger();
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [paymentMethodList, countryList]
