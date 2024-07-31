@@ -11,7 +11,7 @@ type TAdConditionBlockSelectorProps = {
 const AdConditionBlockSelector = ({ onClick, selectedValue, type }: TAdConditionBlockSelectorProps) => {
     const { localize } = useTranslations();
     return (
-        <div className='flex flex-col gap-[0.8rem] mb-[2.4rem]'>
+        <div className='flex flex-col mb-[2.4rem]'>
             <AdConditionContentHeader type={type} />
             <div className='flex gap-[1.6rem]'>
                 {getAdConditionContent(localize)[type]?.options?.map(option => (
