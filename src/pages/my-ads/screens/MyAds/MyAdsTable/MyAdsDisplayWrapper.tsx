@@ -5,6 +5,7 @@ import { MY_ADS_URL } from '@/constants';
 import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 import { MyAdsToggle } from '../MyAdsToggle';
+import './MyAdsDisplayWrapper.scss';
 
 type TMyAdsDisplayWrapperProps = {
     isPaused: boolean;
@@ -20,6 +21,7 @@ const MyAdsDisplayWrapper = ({ children, isPaused, onClickToggle }: PropsWithChi
     if (!isDesktop) {
         return (
             <FullPageMobileWrapper
+                className='my-ads-display-wrapper'
                 renderFooter={() => (
                     <Button isFullWidth onClick={goToCreateAd} size='lg' textSize='md'>
                         <Localize i18n_default_text='Create new ad' />
