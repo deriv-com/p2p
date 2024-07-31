@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
@@ -7,6 +7,7 @@ import { useDerivAnalytics, useRedirectToOauth, useTrackjs } from '@/hooks';
 import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
+import useGrowthbookGetFeatureValue from './hooks/custom-hooks/useGrowthbookGetFeatureValue';
 
 const { VITE_CROWDIN_BRANCH_NAME, VITE_PROJECT_NAME, VITE_TRANSLATIONS_CDN_URL } = process.env;
 const i18nInstance = initializeI18n({
@@ -14,6 +15,10 @@ const i18nInstance = initializeI18n({
 });
 
 const App = () => {
+    const [isP2PV2Enabled, isGBLoaded] = useGrowthbookGetFeatureValue({
+        defaultValue: false,
+        featureFlag: 'p2p_v2_enabled',
+    });
     const { init: initTrackJS } = useTrackjs();
     const { isDesktop } = useDevice();
     const { redirectToOauth } = useRedirectToOauth();
@@ -23,6 +28,13 @@ const App = () => {
     initDerivAnalytics();
     redirectToOauth();
 
+    useEffect(() => {
+        if (isGBLoaded) {
+            if (!isP2PV2Enabled) {
+                window.location.href = 'https://app.deriv.com/cashier/p2p';
+            }
+        }
+    }, [isGBLoaded, isP2PV2Enabled]);
     return (
         <BrowserRouter>
             {/* TODO: Replace the fallback element with the ErrorComponent */}
