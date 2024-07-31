@@ -1,5 +1,5 @@
 import { MY_ADS_URL } from '@/constants';
-import { useIsAdvertiser } from '@/hooks';
+import { useIsAdvertiser, useIsAdvertiserBarred } from '@/hooks';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyAdsEmpty from '../MyAdsEmpty';
@@ -32,6 +32,7 @@ jest.mock('@/components/Modals', () => ({
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
     useIsAdvertiser: jest.fn().mockReturnValue(true),
+    useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
     useModalManager: jest.fn(() => mockUseModalManager),
 }));
 
@@ -58,5 +59,11 @@ describe('MyAdsEmpty', () => {
         const createNewAdButton = screen.getByRole('button', { name: 'Create new ad' });
         await userEvent.click(createNewAdButton);
         expect(mockUseModalManager.showModal).toHaveBeenCalledWith('NicknameModal');
+    });
+
+    it('should render the button as disalbed when advertiser is barred', () => {
+        (useIsAdvertiserBarred as jest.Mock).mockReturnValue(true);
+        render(<MyAdsEmpty />);
+        expect(screen.getByRole('button', { name: 'Create new ad' })).toBeDisabled();
     });
 });
