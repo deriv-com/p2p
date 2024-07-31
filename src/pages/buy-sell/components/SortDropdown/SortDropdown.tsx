@@ -21,14 +21,8 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
             <Button
                 className='w-16 h-16 !border-[#d6dadb] border-[1px]'
                 color='black'
-                icon={
-                    <LabelPairedSortCaptionRegularIcon
-                        className='absolute'
-                        data-testid='dt_sort_dropdown_button'
-                        height={24}
-                        width={24}
-                    />
-                }
+                data-testid='dt_sort_dropdown'
+                icon={<LabelPairedSortCaptionRegularIcon className='absolute' height={24} width={24} />}
                 onClick={setIsFilterModalOpen}
                 variant='outlined'
             />
@@ -36,7 +30,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
     }
 
     return (
-        <div className='sort-dropdown'>
+        <div className='sort-dropdown' data-testid='dt_sort_dropdown'>
             <Dropdown
                 dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
                 label={localize('Sort by')}

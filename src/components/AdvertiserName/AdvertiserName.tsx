@@ -22,10 +22,10 @@ const AdvertiserName = ({ advertiserStats, onClickBlocked }: TAdvertiserNameProp
     const name = advertiserStats?.name || data?.email;
 
     return (
-        <div className='advertiser-name' data-testid='dt_advertiser_name'>
+        <div className='advertiser-profile' data-testid='dt_advertiser_profile'>
             <UserAvatar nickname={name ?? ''} size={isDesktop ? 64 : 42} textSize='lg' />
             <div className='advertiser-name__details'>
-                <div className='flex items-center gap-3'>
+                <div className='advertiser-name_nickname' data-testid='dt_advertiser-name_nickname'>
                     <Text size='md' weight='bold'>
                         {name}
                     </Text>

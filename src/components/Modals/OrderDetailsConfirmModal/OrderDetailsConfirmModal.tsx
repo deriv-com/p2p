@@ -68,17 +68,22 @@ const OrderDetailsConfirmModal = ({
                 </Text>
             </Modal.Header>
             <Modal.Body className='flex flex-col lg:px-[2.4rem] px-[1.6rem]'>
-                <Text size='sm'>
+                <Text data-testid='dt_confirmation_text' size='sm'>
                     <Localize
                         i18n_default_text='Please make sure that you’ve paid {{displayPaymentAmount}} {{localCurrency}} to client {{name}}, and upload the receipt as proof of your payment'
                         values={{ displayPaymentAmount, localCurrency, name }}
                     />
                 </Text>
-                <Text className='pt-[0.8rem] pb-[2.4rem]' color='less-prominent' size='sm'>
+                <Text
+                    className='pt-[0.8rem] pb-[2.4rem]'
+                    color='less-prominent'
+                    data-testid='dt_file_upload_criteria_text'
+                    size='sm'
+                >
                     <Localize i18n_default_text=' We accept JPG, PDF, or PNG (up to 5MB).' />
                 </Text>
                 <InlineMessage className='mb-4' variant='warning'>
-                    <Text size={isDesktop ? '2xs' : 'xs'}>
+                    <Text data-testid='dt_disclaimer_warning_text' size={isDesktop ? '2xs' : 'xs'}>
                         <Localize i18n_default_text=' Sending forged documents will result in an immediate and permanent ban.' />
                     </Text>
                 </InlineMessage>

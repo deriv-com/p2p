@@ -38,7 +38,9 @@ const ActiveOrderInfo = () => {
                             <Text size={textSize} weight='bold'>
                                 {detail.text}
                             </Text>
-                            <Text size={textSize}>{detail.value}</Text>
+                            <Text data-testid={`dt_${formatTestId(detail.text)}`} size={textSize}>
+                                {detail.value}
+                            </Text>
                         </div>
                         {key === 0 && <LightDivider />}
                     </Fragment>
@@ -47,6 +49,10 @@ const ActiveOrderInfo = () => {
         );
 
     return null;
+};
+
+const formatTestId = (text: string) => {
+    return text.replace(/'/g, '').toLowerCase().replace(/\s+/g, '_');
 };
 
 export default ActiveOrderInfo;

@@ -36,12 +36,12 @@ const FullPageMobileWrapper = ({
             {renderHeader && (
                 <div className='mobile-wrapper__header'>
                     {shouldShowBackIcon && (
-                        <LabelPairedArrowLeftLgBoldIcon data-testid='dt_mobile_wrapper_button' onClick={onBack} />
+                        <LabelPairedArrowLeftLgBoldIcon data-testid='dt_mobile_wrapper_back_button' onClick={onBack} />
                     )}
                     {renderHeader()}
                     {shouldShowCloseIcon && (
                         <div className='absolute right-[1.6rem]'>
-                            <StandaloneXmarkBoldIcon data-testid='dt_mobile_wrapper_button' onClick={onBack} />
+                            <StandaloneXmarkBoldIcon data-testid='dt_mobile_wrapper_close_button' onClick={onBack} />
                         </div>
                     )}
                 </div>
