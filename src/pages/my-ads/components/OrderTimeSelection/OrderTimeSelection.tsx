@@ -73,7 +73,8 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
                     <Dropdown
                         className='items-center h-16'
                         dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
-                        list={getOptions()}
+                        isFullWidth={isDesktop}
+                        list={getOptions().sort((a, b) => b.value - a.value)}
                         name='order-completion-time'
                         onSelect={onChange}
                         shouldClearValue

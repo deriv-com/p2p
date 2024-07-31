@@ -1,5 +1,13 @@
 .order-time-selection {
     margin: 1rem 0;
+
+    @include desktop {
+        & .deriv-dropdown {
+            & .deriv-input__container {
+                width: 100%;
+            }
+        }
+    }
 }
 
 @include mobile-or-tablet-screen {
