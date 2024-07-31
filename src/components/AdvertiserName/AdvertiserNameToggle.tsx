@@ -31,11 +31,18 @@ const AdvertiserNameToggle = memo(({ advertiserInfo, onToggle }: TAdvertiserName
                 <Text lineHeight='lg' size='sm'>
                     <Localize i18n_default_text='Show my real name' />
                 </Text>
-                <Text className='advertiser-name-toggle__label-real-name' color='less-prominent' lineHeight='xs'>
+                <Text
+                    className='advertiser-name-toggle__label-real-name'
+                    color='less-prominent'
+                    data-testid='dt_advertiser-label-real-name'
+                    lineHeight='xs'
+                >
                     {advertiserInfo?.fullName}
                 </Text>
             </div>
-            <ToggleSwitch onChange={onToggleShowRealName} value={shouldShowRealName} />
+            <div className='advertiser-name-toggle__switch' data-testid='dt_advertiser_name_toggle_switch'>
+                <ToggleSwitch onChange={onToggleShowRealName} value={shouldShowRealName} />
+            </div>
         </div>
     );
 });

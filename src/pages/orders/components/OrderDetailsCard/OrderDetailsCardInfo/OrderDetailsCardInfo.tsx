@@ -42,13 +42,22 @@ const OrderDetailsCardInfo = () => {
                         <Text color='less-prominent' size={isDesktop ? 'xs' : 'sm'} weight='500'>
                             {detail.text}
                         </Text>
-                        <Text size={isDesktop ? 'sm' : 'md'}>{detail.value}</Text>
+                        <Text data-testid={`dt_${formatTestId(detail.text)}`} size={isDesktop ? 'sm' : 'md'}>
+                            {detail.value}
+                        </Text>
                     </div>
                 ))}
             </div>
             <ActiveOrderInfo />
         </div>
     );
+};
+
+const formatTestId = (text: string) => {
+    return text
+        .replace(/[()0-9']/g, '')
+        .toLowerCase()
+        .replace(/\s+/g, '_');
 };
 
 export default OrderDetailsCardInfo;

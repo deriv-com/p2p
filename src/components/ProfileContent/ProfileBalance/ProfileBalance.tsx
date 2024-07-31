@@ -46,7 +46,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                 onRequestClose={() => setShouldShowAvailableBalanceModal(false)}
             />
             <div className='profile-balance'>
-                <div className='profile-balance__amount' data-testid='dt_available_balance_amount'>
+                <div className='profile-balance__block' data-testid='dt_available_balance_block'>
                     <div>
                         <Text color='less-prominent' size={isDesktop ? 'sm' : 'xs'}>
                             <Localize i18n_default_text='Available Deriv P2P Balance' />
@@ -57,7 +57,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                             onClick={() => setShouldShowAvailableBalanceModal(true)}
                         />
                     </div>
-                    <Text size={isMobile ? '2xl' : 'xl'} weight='bold'>
+                    <Text data-testid='dt_available_balance_amount' size={isMobile ? '2xl' : 'xl'} weight='bold'>
                         {FormatUtils.formatMoney(advertiserStats?.balance_available || 0)} USD
                     </Text>
                 </div>
@@ -71,7 +71,12 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                                         <Text color='less-prominent' size={labelSize}>
                                             <Localize i18n_default_text='Daily limit' />
                                         </Text>
-                                        <Text className='profile-balance__label' size={labelSize} weight='bold'>
+                                        <Text
+                                            className='profile-balance__label'
+                                            data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_value`}
+                                            size={labelSize}
+                                            weight='bold'
+                                        >
                                             {dailyLimit}
                                         </Text>
                                     </div>
@@ -79,7 +84,12 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                                         <Text color='less-prominent' size={labelSize}>
                                             <Localize i18n_default_text='Available' />
                                         </Text>
-                                        <Text className='profile-balance__label' size={labelSize} weight='bold'>
+                                        <Text
+                                            className='profile-balance__label'
+                                            data-testid={`dt_profile_balance_available_${type.toLowerCase()}_value`}
+                                            size={labelSize}
+                                            weight='bold'
+                                        >
                                             {available}
                                         </Text>
                                     </div>

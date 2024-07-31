@@ -69,7 +69,7 @@ const Table = <T,>({
             >
                 {data && data.length > 0 ? (
                     table.getRowModel().rows.map(row => (
-                        <div className='table__content-row' key={row.id}>
+                        <div className='table__content-row' data-testid='dt_table_content_row' key={row.id}>
                             {rowRender(row.original)}
                         </div>
                     ))
