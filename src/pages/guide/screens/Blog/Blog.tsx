@@ -1,6 +1,5 @@
-//TODO: Replace this with Quill icon once ready
-import { ReactComponent as BlogIcon } from '@/assets/blog.svg';
 import { HOW_TO_PROTECT_YOURSELF_URL } from '@/constants';
+import { DerivLightP2pSecureImageIcon as BlogIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { Carousel } from '../../components';
