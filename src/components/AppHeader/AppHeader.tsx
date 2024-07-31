@@ -1,5 +1,5 @@
 import { getOauthUrl } from '@/constants';
-import { api } from '@/hooks';
+import { api, useRedirectToOauth } from '@/hooks';
 import { getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
@@ -19,6 +19,7 @@ import './AppHeader.scss';
 const AppHeader = () => {
     const { isDesktop } = useDevice();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
+    const { redirectToOauth } = useRedirectToOauth();
     const { activeLoginid, logout } = useAuthData();
     const { data: activeAccount } = api.account.useActiveAccount();
     const { localize } = useTranslations();
@@ -46,7 +47,14 @@ const AppHeader = () => {
                         </TooltipMenuIcon>
                     )}
                     <AccountSwitcher account={activeAccount!} />
-                    <Button className='mr-6' onClick={logout} size='md'>
+                    <Button
+                        className='mr-6'
+                        onClick={async () => {
+                            await logout();
+                            redirectToOauth();
+                        }}
+                        size='md'
+                    >
                         <Text size='sm' weight='bold'>
                             {localize('Logout')}
                         </Text>
