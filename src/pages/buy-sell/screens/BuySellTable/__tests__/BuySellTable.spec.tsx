@@ -241,7 +241,7 @@ describe('<BuySellTable />', () => {
         mockUseModalManager.isModalOpenFor.mockImplementation(modalName => modalName === 'RadioGroupFilterModal');
         render(<BuySellTable />);
 
-        const filterButton = screen.getByTestId('dt_sort_dropdown_button');
+        const filterButton = screen.getByTestId('dt_sort_dropdown');
         await userEvent.click(filterButton);
 
         expect(mockUseModalManager.showModal).toHaveBeenCalledWith('RadioGroupFilterModal');
