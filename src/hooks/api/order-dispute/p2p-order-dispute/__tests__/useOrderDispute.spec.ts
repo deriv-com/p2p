@@ -43,7 +43,6 @@ describe('useOrderDispute', () => {
     });
 
     it('should return the correct data', () => {
-        // @ts-expect-error - useQuery return values not specified
         mockUseP2pOrderDispute.mockReturnValue({
             data: {
                 account_currency: 'USD',
@@ -54,6 +53,7 @@ describe('useOrderDispute', () => {
                     payment_method: 'payment_method',
                     type: 'buy',
                 },
+                // @ts-expect-error - useQuery return values not specified
                 advertiser_details: {
                     completed_orders_count: 1,
                     first_name: 'first_name',
