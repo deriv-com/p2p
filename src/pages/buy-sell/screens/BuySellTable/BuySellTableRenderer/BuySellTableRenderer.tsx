@@ -43,11 +43,7 @@ const BuySellTableRenderer = ({
             <div className='mt-[5.5rem] lg:mt-10'>
                 <ActionScreen
                     actionButtons={
-                        <Button
-                            onClick={() => history.push(`${MY_ADS_URL}/adForm`)}
-                            size='lg'
-                            textSize={isMobile ? 'md' : 'sm'}
-                        >
+                        <Button onClick={() => history.push(MY_ADS_URL)} size='lg' textSize={isMobile ? 'md' : 'sm'}>
                             <Localize i18n_default_text='Create ad' />
                         </Button>
                     }
