@@ -1,9 +1,9 @@
-import { ReactComponent as P2pUnavailable } from '@/assets/p2p-unavailable.svg';
 import { useLiveChat } from '@/hooks';
 import {
     DerivLightIcCashierBlockedIcon,
     DerivLightIcCashierLockedIcon,
     DerivLightIcCashierUnderMaintenanceIcon,
+    DerivLightWalletCurrencyUnavailableIcon as P2pUnavailable,
 } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
@@ -61,13 +61,13 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             ),
             description: (
                 <Text align='center'>
-                    <Localize i18n_default_text='Please switch to your USD account to access the Deriv P2P marketplace.' />
+                    <Localize i18n_default_text='To use Deriv P2P, switch to your real USD account.' />
                 </Text>
             ),
             icon: <P2pUnavailable />,
             title: (
                 <Text weight='bold'>
-                    <Localize i18n_default_text='Crypto is not supported for Deriv P2P!' />
+                    <Localize i18n_default_text='Cryptocurrencies not supported' />
                 </Text>
             ),
         },

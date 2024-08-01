@@ -11,8 +11,8 @@ import './GuideTooltip.scss';
 // TODO: replace this with deriv/ui
 const GuideTooltip = () => {
     const history = useHistory();
-    const [isGuideVisible, setIsGuideVisible] = useState<boolean | null>(
-        LocalStorageUtils.getValue('should_show_p2p_guide') ?? null
+    const [isGuideVisible, setIsGuideVisible] = useState<boolean>(
+        LocalStorageUtils.getValue('should_show_p2p_guide') ?? true
     );
 
     const onGetStarted = () => {
@@ -21,11 +21,8 @@ const GuideTooltip = () => {
     };
 
     useEffect(() => {
-        if (isGuideVisible === null) {
-            setIsGuideVisible(true);
-            LocalStorageUtils.setValue<boolean>('should_show_p2p_guide', true);
-        }
-    }, [isGuideVisible]);
+        LocalStorageUtils.setValue<boolean>('should_show_p2p_guide', false);
+    }, []);
 
     return isGuideVisible ? (
         <div>
@@ -47,7 +44,9 @@ const GuideTooltip = () => {
                             <StandaloneXmarkBoldIcon
                                 className='guide-tooltip__close-btn'
                                 iconSize='sm'
-                                onClick={() => setIsGuideVisible(false)}
+                                onClick={() => {
+                                    setIsGuideVisible(false);
+                                }}
                             />
                         </div>
                         <Text as='div' className='mt-[1rem]'>

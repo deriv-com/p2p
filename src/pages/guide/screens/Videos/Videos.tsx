@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { ReactComponent as IntroducingDerivP2PIcon } from '@/assets/introducing-deriv-p2p.svg';
-import { ReactComponent as UseDerivP2PIcon } from '@/assets/use-deriv-p2p.svg';
 import { VideoPlayerModal } from '@/components/Modals';
 import { HOW_TO_USE_DERIV_P2P_URL, INTRODUCING_DERIV_P2P_URL } from '@/constants';
 import { useModalManager } from '@/hooks/custom-hooks';
-import { StandalonePlayFillIcon } from '@deriv/quill-icons';
+import {
+    DerivLightP2pAppImageIcon as UseDerivP2PIcon,
+    DerivLightP2pBannerImageIcon as IntroducingDerivP2PIcon,
+    StandalonePlayFillIcon,
+} from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { Carousel } from '../../components';

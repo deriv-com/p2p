@@ -16,10 +16,10 @@
 
     &__full-page {
         position: absolute;
-        top: 8rem;
+        top: 1rem;
         left: 0;
         z-index: 1;
-        height: calc(100vh - 9rem);
+        height: calc(100% - 9rem);
 
         & .mobile-wrapper {
             &__body {
@@ -35,11 +35,13 @@
         }
 
         &--closed {
-            height: calc(100vh - 5rem);
+            height: calc(100% - 5rem);
 
             & .mobile-wrapper {
                 &__footer {
                     padding: 1.6rem;
+                    margin-top: -1rem;
+                    background-color: #fff;
                 }
             }
         }

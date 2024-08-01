@@ -7,6 +7,11 @@
         width: 100vw;
         height: 100vh;
         box-shadow: none;
+
+        &__footer {
+            padding: 1.6rem;
+            border-top: 2px solid #f2f3f4;
+        }
     }
 
     & .deriv-modal__body {
@@ -15,10 +20,12 @@
 
     &--is-buy {
         height: 64.9rem;
+
         & .deriv-modal__body {
             max-height: calc(100vh - 13rem);
             overflow: auto;
         }
+
         @include mobile-or-tablet-screen {
             height: unset;
             max-height: unset;
@@ -30,10 +37,6 @@
         top: 0;
         left: 0;
         z-index: 1;
-
-        & .mobile-wrapper__body {
-            overflow: overlay;
-        }
 
         &--is-buy {
             top: -4rem;

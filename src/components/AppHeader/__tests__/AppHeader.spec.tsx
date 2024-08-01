@@ -4,7 +4,7 @@ import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { useActiveAccount } from '@/hooks/api/account';
 import { useAuthData } from '@deriv-com/api-hooks';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AppHeader from '../AppHeader';
 
@@ -116,6 +116,7 @@ describe('<AppHeader/>', () => {
         mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
         mockUseActiveAccountValues.data = {
             currency: 'USD',
+            is_virtual: 0,
         } as ReturnType<typeof useActiveAccount>['data'];
 
         Object.defineProperty(window, 'matchMedia', {
@@ -139,9 +140,9 @@ describe('<AppHeader/>', () => {
                 </QueryParamProvider>
             </BrowserRouter>
         );
-        const logoutButton = screen.getByRole('button', { name: 'Logout' });
+        const logoutButton = await screen.findByRole('button', { name: 'Logout' });
         const { logout } = mockUseAuthData();
-        expect(logoutButton).toBeInTheDocument();
+        await waitFor(() => expect(logoutButton).toBeInTheDocument());
 
         await userEvent.click(logoutButton);
         expect(logout).toHaveBeenCalled();
