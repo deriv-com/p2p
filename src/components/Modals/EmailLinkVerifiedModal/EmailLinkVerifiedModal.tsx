@@ -27,7 +27,7 @@ const EmailLinkVerifiedModal = ({ isModalOpen, onRequestClose, onSubmit }: TEmai
                     {{name}} in your bank account or e-wallet, hit the button below to
                     complete the order.'
                         values={{
-                            amount: orderDetails?.amount,
+                            amount: orderDetails?.displayPaymentAmount,
                             currency: orderDetails?.local_currency,
                             name: orderDetails.otherUserDetails.name,
                         }}
