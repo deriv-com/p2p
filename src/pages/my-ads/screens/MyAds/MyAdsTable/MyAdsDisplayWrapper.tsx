@@ -7,6 +7,7 @@ import { useIsAdvertiserBarred } from '@/hooks';
 import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 import { MyAdsToggle } from '../MyAdsToggle';
+import './MyAdsDisplayWrapper.scss';
 
 type TMyAdsDisplayWrapperProps = {
     isPaused: boolean;
