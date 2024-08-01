@@ -28,12 +28,11 @@ const PageReturn = ({
     return (
         <div className={clsx('page-return', className, { 'page-return--border': hasBorder })}>
             <div className='flex items-center'>
-                <div data-testid='dt_page_return_btn'>
-                    <LabelPairedArrowLeftLgBoldIcon
-                        className={clsx('page-return__button', { hidden: shouldHideBackButton })}
-                        onClick={onClick}
-                    />
-                </div>
+                <LabelPairedArrowLeftLgBoldIcon
+                    className={clsx('page-return__button', { hidden: shouldHideBackButton })}
+                    data-testid='dt_page_return_btn'
+                    onClick={onClick}
+                />
                 <Text size={size} weight={weight}>
                     {pageTitle}
                 </Text>
