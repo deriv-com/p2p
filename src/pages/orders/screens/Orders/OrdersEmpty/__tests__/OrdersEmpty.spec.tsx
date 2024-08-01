@@ -18,7 +18,7 @@ jest.mock('react-router-dom', () => ({
 describe('OrdersEmpty', () => {
     it('should render OrdersEmpty', () => {
         render(<OrdersEmpty />);
-        expect(screen.getByText('You have no orders.')).toBeInTheDocument();
+        expect(screen.getByText('You have no active orders.')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Buy/Sell' })).toBeInTheDocument();
     });
     it('should handle clicking on buy/sell button', async () => {

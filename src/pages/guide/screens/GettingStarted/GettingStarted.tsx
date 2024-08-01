@@ -1,10 +1,11 @@
-//TODO: Replace these with Quill icons once ready
-import { ReactComponent as FindAdIcon } from '@/assets/find-ad.svg';
-import { ReactComponent as PayUserIcon } from '@/assets/pay-user.svg';
-import { ReactComponent as ReceivePaymentIcon } from '@/assets/receive-payment.svg';
-import { ReactComponent as ReceivedFundIcon } from '@/assets/received-fund.svg';
-import { ReactComponent as ReleaseFundIcon } from '@/assets/release-fund.svg';
 import { useLiveChat } from '@/hooks/custom-hooks';
+import {
+    DerivDarkFindAdIcon,
+    DerivDarkPayUserIcon,
+    DerivDarkReceivedFundIcon,
+    DerivDarkReceivePaymentIcon,
+    DerivDarkReleaseFundIcon,
+} from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Tab, Tabs, Text } from '@deriv-com/ui';
 import { Carousel } from '../../components';
@@ -25,7 +26,7 @@ const GettingStarted = () => {
                                         <Localize i18n_default_text='Browse buy ads for the best rates, or create your own to set your preferred rates. Once your order is confirmed, the timer starts, and Deriv securely holds the seller’s funds in escrow.' />
                                     </Text>
                                 ),
-                                icon: <FindAdIcon />,
+                                icon: <DerivDarkFindAdIcon height='97' width='97' />,
                                 id: 0,
                                 title: (
                                     <Text className='ml-2' size='md' weight='bold'>
@@ -39,7 +40,7 @@ const GettingStarted = () => {
                                         <Localize i18n_default_text='Pay the seller within the time limit using your chosen payment method. Then, click “I’ve paid” and upload your proof of payment.' />
                                     </Text>
                                 ),
-                                icon: <PayUserIcon />,
+                                icon: <DerivDarkPayUserIcon height='97' width='97' />,
                                 id: 1,
                                 title: (
                                     <Text className='ml-2' size='md' weight='bold'>
@@ -64,7 +65,7 @@ const GettingStarted = () => {
                                         />
                                     </Text>
                                 ),
-                                icon: <ReceivedFundIcon />,
+                                icon: <DerivDarkReceivedFundIcon height='97' width='97' />,
                                 id: 2,
                                 title: (
                                     <Text className='ml-2' size='md' weight='bold'>
@@ -85,7 +86,7 @@ const GettingStarted = () => {
                                     <Localize i18n_default_text='Browse sell ads for the best rates, or create your own to set your preferred rates. Once your order is confirmed, the timer starts, and Deriv securely holds your funds in escrow.' />
                                 </Text>
                             ),
-                            icon: <FindAdIcon />,
+                            icon: <DerivDarkFindAdIcon height='97' width='97' />,
                             id: 0,
                             title: (
                                 <Text className='ml-2' size='md' weight='bold'>
@@ -99,7 +100,7 @@ const GettingStarted = () => {
                                     <Localize i18n_default_text='After the buyer makes the payment, check your chosen payment method’s account to ensure you received the full payment.' />
                                 </Text>
                             ),
-                            icon: <ReceivePaymentIcon />,
+                            icon: <DerivDarkReceivePaymentIcon height='97' width='97' />,
                             id: 1,
                             title: (
                                 <Text className='ml-2' size='md' weight='bold'>
@@ -113,7 +114,7 @@ const GettingStarted = () => {
                                     <Localize i18n_default_text='Once you’ve verified the full payment, click “I’ve received payment” and confirm via the verification link sent to your email. The funds will be released to the buyer, and the order will be complete.' />
                                 </Text>
                             ),
-                            icon: <ReleaseFundIcon />,
+                            icon: <DerivDarkReleaseFundIcon height='97' width='97' />,
                             id: 2,
                             title: (
                                 <Text className='ml-2' size='md' weight='bold'>

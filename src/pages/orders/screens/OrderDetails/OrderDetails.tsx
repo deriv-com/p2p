@@ -119,6 +119,7 @@ const OrderDetails = () => {
                                 </Button>
                             </Text>
                         )}
+                        shouldFixedFooter={false}
                     >
                         {shouldShowLostFundsBanner && (
                             <InlineMessage
@@ -138,7 +139,7 @@ const OrderDetails = () => {
 
     return (
         <OrderDetailsProvider value={{ isErrorOrderInfo: !!error, orderDetails }}>
-            <div className='w-full'>
+            <div className='h-full w-full'>
                 <PageReturn onClick={onReturn} pageTitle={headerText} weight='bold' />
                 <div className='order-details'>
                     {shouldShowLostFundsBanner && (

@@ -51,7 +51,7 @@ const Table = <T,>({
     });
 
     return (
-        <div className='w-full'>
+        <div className='h-full w-full'>
             {isDesktop && columns.length > 0 && (
                 <div className='table__header' ref={headerRef}>
                     {table.getFlatHeaders().map(header => (
