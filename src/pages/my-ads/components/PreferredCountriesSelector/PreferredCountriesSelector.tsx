@@ -55,7 +55,10 @@ const PreferredCountriesSelector = ({ countryList, type }: TPreferredCountriesSe
                         setValue('preferred-countries', selectedValues);
                         setIsModalOpen(false);
                     }}
-                    onRequestClose={() => setIsModalOpen(false)}
+                    onRequestClose={() => {
+                        setSelectedValues(getValues('preferred-countries'));
+                        setIsModalOpen(false);
+                    }}
                     selectedCountries={selectedValues}
                     setSelectedCountries={setSelectedValues}
                 />
