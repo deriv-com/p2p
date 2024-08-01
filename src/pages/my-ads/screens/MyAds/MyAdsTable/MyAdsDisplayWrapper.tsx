@@ -32,7 +32,9 @@ const MyAdsDisplayWrapper = ({ children, isPaused, onClickToggle }: PropsWithChi
                         <Localize i18n_default_text='Create new ad' />
                     </Button>
                 )}
-                renderHeader={() => <MyAdsToggle isPaused={isPaused} onClickToggle={onClickToggle} />}
+                renderHeader={() => (
+                    <MyAdsToggle isDisabled={isAdvertiserBarred} isPaused={isPaused} onClickToggle={onClickToggle} />
+                )}
                 shouldShowBackIcon={false}
             >
                 {children}
@@ -46,7 +48,7 @@ const MyAdsDisplayWrapper = ({ children, isPaused, onClickToggle }: PropsWithChi
                 <Button disabled={isAdvertiserBarred} onClick={goToCreateAd} size='lg' textSize='sm'>
                     <Localize i18n_default_text='Create new ad' />
                 </Button>
-                <MyAdsToggle isPaused={isPaused} onClickToggle={onClickToggle} />
+                <MyAdsToggle isDisabled={isAdvertiserBarred} isPaused={isPaused} onClickToggle={onClickToggle} />
             </div>
             {children}
         </>

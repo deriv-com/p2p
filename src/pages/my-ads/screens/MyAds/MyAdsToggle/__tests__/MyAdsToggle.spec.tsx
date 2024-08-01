@@ -10,6 +10,7 @@ jest.mock('@deriv-com/ui', () => ({
 }));
 
 const mockProps = {
+    isDisabled: false,
     isPaused: false,
     onClickToggle: jest.fn(),
 };
