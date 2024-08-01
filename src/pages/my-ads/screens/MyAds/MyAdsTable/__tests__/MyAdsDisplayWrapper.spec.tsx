@@ -14,6 +14,10 @@ jest.mock('@deriv-com/ui', () => ({
     }),
 }));
 
+jest.mock('@/hooks', () => ({
+    useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
+}));
+
 const mockUseDevice = useDevice as jest.Mock;
 
 describe('MyAdsDisplayWrapper', () => {
