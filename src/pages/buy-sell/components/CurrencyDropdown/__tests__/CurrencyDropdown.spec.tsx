@@ -99,7 +99,7 @@ describe('<CurrencyDropdown />', () => {
 
         expect(screen.getByText('Preferred currency')).toBeInTheDocument();
 
-        const arrowIcon = screen.getByTestId('dt_mobile_wrapper_button');
+        const arrowIcon = screen.getByTestId('dt_mobile_wrapper_back_button');
         await user.click(arrowIcon);
 
         expect(screen.queryByText('Preferred currency')).not.toBeInTheDocument();

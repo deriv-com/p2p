@@ -138,7 +138,7 @@ describe('PaymentMethodsList', () => {
                 p2pAdvertiserPaymentMethods={[]}
             />
         );
-        const backButton = screen.getByTestId('dt_mobile_wrapper_button');
+        const backButton = screen.getByTestId('dt_mobile_wrapper_back_button');
         await userEvent.click(backButton);
         expect(mockSetQueryString).toHaveBeenCalledWith({ tab: 'default' });
     });
