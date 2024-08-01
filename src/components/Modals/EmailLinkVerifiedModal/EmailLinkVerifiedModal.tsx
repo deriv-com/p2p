@@ -29,7 +29,7 @@ const EmailLinkVerifiedModal = ({ isModalOpen, onRequestClose, onSubmit }: TEmai
                         values={{
                             amount: orderDetails?.amount,
                             currency: orderDetails?.local_currency,
-                            name: orderDetails.advertiser_details.name,
+                            name: orderDetails.otherUserDetails.name,
                         }}
                     />
                 </Text>
