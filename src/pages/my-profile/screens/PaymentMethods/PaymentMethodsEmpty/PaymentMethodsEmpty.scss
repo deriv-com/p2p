@@ -5,7 +5,7 @@
     width: 100%;
 
     @include mobile-or-tablet-screen {
-        margin-top: 7rem;
+        margin: 7rem 0 2rem;
         justify-content: center;
     }
 

@@ -1,6 +1,6 @@
 .order-details {
     overflow: auto;
-    height: calc(100% - 27rem);
+    height: calc(100% - 17rem);
 
     @include mobile-or-tablet-screen {
         position: absolute;

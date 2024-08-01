@@ -7,6 +7,7 @@ const DerivIframe = () => {
             sandbox='allow-same-origin allow-scripts'
             src={`${origin}/localstorage-sync.html`}
             style={{ display: 'none', visibility: 'hidden' }}
+            title='localstorage-sync'
         />
     );
 };
