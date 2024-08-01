@@ -10,7 +10,12 @@
         }
 
         & .deriv-dropdown__items--xs {
+            margin-top: 0.5rem;
             max-height: 20rem;
+
+            @include mobile-or-tablet-screen {
+                width: 100%;
+            }
         }
     }
 }
