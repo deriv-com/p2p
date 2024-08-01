@@ -1,15 +1,26 @@
-FROM node:18 as base
+FROM --platform=$BUILDPLATFORM node:18 as build
+
+ARG BUILDPLATFORM=linux/arm64
 
 WORKDIR /app
 
-RUN git clone git@github.com:deriv-com/p2p.git && \
-    cd p2p && \
-    npm install && \
-    npm install -g serve && \
-    npm run build
+ENV HUSKY=0
+
+RUN git clone https://github.com/deriv-com/p2p.git .
+
+RUN npm install
+
+ENV NODE_ENV=production
+RUN npm run build
+
+FROM --platform=$BUILDPLATFORM node:lts-alpine3.20
+
+RUN npm install -g serve
+
+COPY --from=build /app/dist /dist
 
 EXPOSE 4000
 
 ENTRYPOINT ["serve"]
 
-CMD ["-s", "p2p/dist", "-l", "4000"]
+CMD ["-s", "dist", "-l", "4000"]
