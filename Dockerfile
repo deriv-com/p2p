@@ -1,6 +1,6 @@
 FROM --platform=$BUILDPLATFORM node:18 as build
 
-ARG BUILDPLATFORM=linux/arm64
+ARG BUILDPLATFORM=linux/amd64
 
 WORKDIR /app
 
