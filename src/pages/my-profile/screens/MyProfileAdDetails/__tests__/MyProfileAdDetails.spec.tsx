@@ -111,7 +111,7 @@ describe('MyProfileBalance', () => {
         expect(contactTextBoxNode).toBeInTheDocument();
         expect(descriptionTextBoxNode).toBeInTheDocument();
 
-        const goBackBtn = screen.getByTestId('dt_mobile_wrapper_button');
+        const goBackBtn = screen.getByTestId('dt_mobile_wrapper_back_button');
         await user.click(goBackBtn);
         expect(mockSetQueryString).toHaveBeenCalledWith({
             tab: 'default',

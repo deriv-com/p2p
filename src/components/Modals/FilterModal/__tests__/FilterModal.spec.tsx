@@ -306,7 +306,7 @@ describe('<FilterModal />', () => {
 
         render(<FilterModal {...mockProps} />);
 
-        const backButton = screen.getByTestId('dt_mobile_wrapper_button');
+        const backButton = screen.getByTestId('dt_mobile_wrapper_back_button');
         await user.click(backButton);
 
         expect(mockProps.onRequestClose).toHaveBeenCalled();
@@ -318,7 +318,7 @@ describe('<FilterModal />', () => {
         const paymentMethodsText = screen.getByText('Payment methods');
         await user.click(paymentMethodsText);
 
-        const backButton = screen.getAllByTestId('dt_mobile_wrapper_button')[0];
+        const backButton = screen.getAllByTestId('dt_mobile_wrapper_back_button')[0];
         await user.click(backButton);
 
         expect(screen.getByText('Filter')).toBeInTheDocument();
@@ -331,7 +331,7 @@ describe('<FilterModal />', () => {
         const toggleSwitch = screen.getByRole('checkbox');
         await user.click(toggleSwitch);
 
-        const closeIcon = screen.getByTestId('dt_mobile_wrapper_button');
+        const closeIcon = screen.getByTestId('dt_mobile_wrapper_back_button');
         await user.click(closeIcon);
 
         expect(mockModalManager.showModal).toHaveBeenCalledWith('LeaveFilterModal');
@@ -345,7 +345,7 @@ describe('<FilterModal />', () => {
         const toggleSwitch = screen.getByRole('checkbox');
         await user.click(toggleSwitch);
 
-        const closeIcon = screen.getByTestId('dt_mobile_wrapper_button');
+        const closeIcon = screen.getByTestId('dt_mobile_wrapper_back_button');
         await user.click(closeIcon);
 
         const cancelButton = screen.getByRole('button', { name: 'Cancel' });
