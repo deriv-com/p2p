@@ -42,6 +42,9 @@ jest.mock('@/providers/OrderDetailsProvider', () => ({
                 name: 'test123',
             },
             id: '11',
+            otherUserDetails: {
+                name: 'test123',
+            },
             shouldShowCancelAndPaidButton: true,
             shouldShowComplainAndReceivedButton: false,
             shouldShowOnlyComplainButton: false,
