@@ -118,7 +118,9 @@ export const MobileMenuConfig = () => {
                 as: 'button',
                 label: localize('Log out'),
                 LeftComponent: LegacyLogout1pxIcon,
-                onClick: logout,
+                onClick: async () => {
+                    await logout();
+                },
                 removeBorderBottom: true,
             },
         ],

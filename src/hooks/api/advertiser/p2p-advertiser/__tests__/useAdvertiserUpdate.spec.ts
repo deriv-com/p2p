@@ -38,8 +38,8 @@ describe('useAdvertiserUpdate', () => {
     });
 
     it('should return modified data if the data is ready', () => {
-        // @ts-expect-error not all values are defined
         mockUseP2pAdvertiserUpdate.mockReturnValueOnce({
+            // @ts-expect-error not all values are defined
             data: {
                 ...mockAdvertiserCreateValues,
             },

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import clsx from 'clsx';
-import { LabelPairedSearchMdRegularIcon, LegacyCloseCircle1pxIcon } from '@deriv/quill-icons';
+import { LabelPairedSearchMdRegularIcon, LegacyCloseCircle1pxBlackIcon } from '@deriv/quill-icons';
 import { Input } from '@deriv-com/ui';
 import './Search.scss';
 
@@ -48,7 +48,12 @@ const Search = ({ delayTimer = 500, hideBorder = false, name, onSearch, placehol
                 onChange={handleInputChange}
                 rightPlaceholder={
                     searchValue && (
-                        <LegacyCloseCircle1pxIcon className='cursor-pointer' iconSize='xs' onClick={clearSearch} />
+                        <LegacyCloseCircle1pxBlackIcon
+                            className='cursor-pointer'
+                            fill='#999'
+                            iconSize='xs'
+                            onClick={clearSearch}
+                        />
                     )
                 }
                 type='search'

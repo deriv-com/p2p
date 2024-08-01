@@ -1,12 +1,12 @@
 .adverts-table-row {
     width: 100%;
     display: grid;
-    grid-template-columns: 2fr 1.4fr 1.4fr 2.4fr 0.8fr;
+    grid-template-columns: 2fr 1.4fr 1.4fr 2.4fr auto;
     padding: 1.6rem;
     align-items: center;
 
     @include mobile-or-tablet-screen {
-        grid-template-columns: 2fr 0.8fr;
+        grid-template-columns: 2fr auto;
     }
 
     &--advertiser {

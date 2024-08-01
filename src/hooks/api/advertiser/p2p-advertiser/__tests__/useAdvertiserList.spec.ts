@@ -24,9 +24,10 @@ describe('useAdvertiserList', () => {
 
     it('should return modified data if the data is ready', () => {
         const mockData = { ...mockAdvertiserCreateValues, is_blocked: 0 as const };
-        // @ts-expect-error not all properties are defined
+
         mockUseP2pAdvertiserList.mockReturnValueOnce({
             data: [
+                // @ts-expect-error not all properties are defined
                 {
                     ...mockData,
                 },
