@@ -4,7 +4,7 @@ import EmailLinkVerifiedModal from '../EmailLinkVerifiedModal';
 jest.mock('@/providers/OrderDetailsProvider', () => ({
     useOrderDetails: jest.fn().mockReturnValue({
         orderDetails: {
-            amount: 100,
+            displayPaymentAmount: 100,
             local_currency: 'USD',
             otherUserDetails: {
                 name: 'Test',

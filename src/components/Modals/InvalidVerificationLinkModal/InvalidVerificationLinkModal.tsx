@@ -40,8 +40,13 @@ const InvalidVerificationLinkModal = ({
                 })}
             >
                 <DerivLightIcEmailVerificationLinkInvalidIcon height={iconSize} width={iconSize} />
+                {isInvalidVerification && (
+                    <Text color='prominent' weight='bold'>
+                        <Localize i18n_default_text='Invalid verification link' />
+                    </Text>
+                )}
                 {error?.message && (
-                    <Text align='center' weight='bold'>
+                    <Text align='center' weight={isInvalidVerification ? 'normal' : 'bold'}>
                         {error.message}
                     </Text>
                 )}
@@ -53,7 +58,11 @@ const InvalidVerificationLinkModal = ({
                 hideBorder
             >
                 <Button onClick={mutate} size={isDesktop ? 'lg' : 'md'} textSize='sm'>
-                    <Localize i18n_default_text='OK' />
+                    {isInvalidVerification ? (
+                        <Localize i18n_default_text='Get new link' />
+                    ) : (
+                        <Localize i18n_default_text='OK' />
+                    )}
                 </Button>
             </Modal.Footer>
         </Modal>
