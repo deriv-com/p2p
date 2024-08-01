@@ -2,8 +2,15 @@
     margin: 1rem 0;
 
     & .deriv-dropdown {
+        &__items {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.16);
+        }
         & .deriv-input__container {
             width: 100%;
+        }
+
+        & .deriv-dropdown__items--xs {
+            max-height: 20rem;
         }
     }
 }
