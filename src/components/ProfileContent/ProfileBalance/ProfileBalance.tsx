@@ -46,7 +46,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                 onRequestClose={() => setShouldShowAvailableBalanceModal(false)}
             />
             <div className='profile-balance'>
-                <div className='profile-balance__block' data-testid='dt_available_balance_block'>
+                <div className='profile-balance__amount' data-testid='dt_available_balance_amount'>
                     <div>
                         <Text color='less-prominent' size={isDesktop ? 'sm' : 'xs'}>
                             <Localize i18n_default_text='Available Deriv P2P Balance' />
@@ -57,7 +57,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                             onClick={() => setShouldShowAvailableBalanceModal(true)}
                         />
                     </div>
-                    <Text data-testid='dt_available_balance_amount' size={isMobile ? '2xl' : 'xl'} weight='bold'>
+                    <Text data-testid='dt_available_balance_amount_value' size={isMobile ? '2xl' : 'xl'} weight='bold'>
                         {FormatUtils.formatMoney(advertiserStats?.balance_available || 0)} USD
                     </Text>
                 </div>
