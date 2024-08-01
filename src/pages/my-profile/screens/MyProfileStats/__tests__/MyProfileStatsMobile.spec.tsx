@@ -23,7 +23,7 @@ describe('MyProfileStatsMobile', () => {
         render(<MyProfileStatsMobile />);
         expect(screen.getByText('MyProfileStats')).toBeInTheDocument();
         expect(screen.getByText('Stats')).toBeInTheDocument();
-        const goBackBtn = screen.getByTestId('dt_mobile_wrapper_back_button');
+        const goBackBtn = screen.getByTestId('dt_mobile_wrapper_button');
         await userEvent.click(goBackBtn);
         expect(mockSetQueryString).toBeCalledWith({
             tab: 'default',
