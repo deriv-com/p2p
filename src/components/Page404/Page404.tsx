@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom';
-import Icon404 from '@/assets/404.png';
 import { BUY_SELL_URL } from '@/constants';
+import { DerivLight404ErrorIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './Page404.scss';
@@ -11,10 +11,7 @@ const Page404 = () => {
     const descriptionSize = isDesktop ? 'md' : 'sm';
     return (
         <div className='page-404'>
-            {/* TODO: to be replaced with quill icons */}
-            <div>
-                <img alt='Page not found' src={Icon404} />
-            </div>
+            <DerivLight404ErrorIcon />
             <div className='page-404__text'>
                 <Text size={isDesktop ? '2xl' : 'lg'} weight='bold'>
                     <Localize i18n_default_text='We couldn’t find that page' />
