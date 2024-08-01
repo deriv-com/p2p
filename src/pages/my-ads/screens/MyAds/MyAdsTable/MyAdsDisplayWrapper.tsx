@@ -1,4 +1,5 @@
 import { PropsWithChildren } from 'react';
+import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { FullPageMobileWrapper } from '@/components';
 import { MY_ADS_URL } from '@/constants';
@@ -22,6 +23,9 @@ const MyAdsDisplayWrapper = ({ children, isPaused, onClickToggle }: PropsWithChi
     if (!isDesktop) {
         return (
             <FullPageMobileWrapper
+                className={clsx('my-ads-display-wrapper', {
+                    'my-ads-display-wrapper--barred': isAdvertiserBarred,
+                })}
                 renderFooter={() => (
                     <Button disabled={isAdvertiserBarred} isFullWidth onClick={goToCreateAd} size='lg' textSize='md'>
                         <Localize i18n_default_text='Create new ad' />
