@@ -3,7 +3,7 @@
     flex-direction: column;
     padding-top: 2.4rem;
     overflow-y: auto;
-    height: calc(100% - 19rem);
+    height: calc(100% - 12rem);
 
     @include mobile-or-tablet-screen {
         padding: 0;
