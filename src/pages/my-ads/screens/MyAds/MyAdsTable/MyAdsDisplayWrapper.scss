@@ -15,9 +15,7 @@
                     &__content {
                         @include mobile-or-tablet-screen {
                             // stylelint-disable-next-line declaration-no-important
-                            height: calc(
-                                100vh - 31rem
-                            ) !important; //height of the header + inline message + toggle + footer
+                            height: calc(100% - 10rem) !important; //height of the inline message + toggle
                         }
                     }
                 }

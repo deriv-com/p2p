@@ -6,14 +6,16 @@ import { api } from '..';
  * @returns {boolean} isAdvertiserBarred - True if the current user is temporarily barred from using P2P, false otherwise.
  */
 const useIsAdvertiserBarred = (): boolean => {
-    const { data } = api.advertiser.useGetInfo();
+    const { data = {} } = api.advertiser.useGetInfo();
     const [isAdvertiserBarred, setIsAdvertiserBarred] = useState(false);
 
     useEffect(() => {
         if (data.blocked_until) {
             setIsAdvertiserBarred(true);
+        } else {
+            setIsAdvertiserBarred(false);
         }
-    }, [data]);
+    }, [data.blocked_until]);
 
     return isAdvertiserBarred;
 };
