@@ -41,7 +41,13 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMess
         switch (fileType) {
             case CHAT_FILE_TYPE.IMAGE:
                 return (
-                    <a className='chat-messages__item__image' href={url} rel='noopener noreferrer' target='_blank'>
+                    <a
+                        className='chat-messages__item__image'
+                        data-testid='dt_chat-messages__item__image'
+                        href={url}
+                        rel='noopener noreferrer'
+                        target='_blank'
+                    >
                         <img alt={name} onLoad={onImageLoad} src={url} />
                     </a>
                 );
@@ -108,7 +114,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMess
                                 'chat-messages__item',
                                 `chat-messages__item__${isMyMessage ? 'outgoing' : 'incoming'}`
                             )}
-                            data-testid={`chat-messages__item__${isMyMessage ? 'outgoing' : 'incoming'}`}
+                            data-testid={`dt_chat-messages__item__${isMyMessage ? 'outgoing' : 'incoming'}`}
                         >
                             {messageType === CHAT_MESSAGE_TYPE.USER && (
                                 <ChatMessageText color={messageColor} type={customType}>
