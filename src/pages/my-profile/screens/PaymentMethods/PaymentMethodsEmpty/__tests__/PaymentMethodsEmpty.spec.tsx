@@ -57,7 +57,7 @@ describe('PaymentMethodsEmpty', () => {
         expect(screen.getByText('You haven’t added any payment methods yet')).toBeInTheDocument();
         expect(screen.getByText('Hit the button below to add payment methods.')).toBeInTheDocument();
         expect(screen.getByText('Add payment methods')).toBeInTheDocument();
-        expect(screen.queryByTestId('dt_mobile_wrapper_back_button')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('dt_mobile_wrapper_button')).not.toBeInTheDocument();
     });
     it('should render the correct content when isMobile is true', () => {
         (mockUseDevice as jest.Mock).mockReturnValueOnce({
@@ -71,7 +71,7 @@ describe('PaymentMethodsEmpty', () => {
         expect(screen.getByText('You haven’t added any payment methods yet')).toBeInTheDocument();
         expect(screen.getByText('Hit the button below to add payment methods.')).toBeInTheDocument();
         expect(screen.getByText('Add payment methods')).toBeInTheDocument();
-        expect(screen.getByTestId('dt_mobile_wrapper_back_button')).toBeInTheDocument();
+        expect(screen.getByTestId('dt_mobile_wrapper_button')).toBeInTheDocument();
     });
     it('should call setQueryString when isMobile is true', async () => {
         const { setQueryString: mockSetQueryString } = mockUseQueryString();
@@ -83,7 +83,7 @@ describe('PaymentMethodsEmpty', () => {
         });
         const onAddPaymentMethod = jest.fn();
         render(<PaymentMethodsEmpty onAddPaymentMethod={onAddPaymentMethod} />);
-        const back = screen.getByTestId('dt_mobile_wrapper_back_button');
+        const back = screen.getByTestId('dt_mobile_wrapper_button');
         await userEvent.click(back);
         expect(mockSetQueryString).toHaveBeenCalledWith({ tab: 'default' });
     });

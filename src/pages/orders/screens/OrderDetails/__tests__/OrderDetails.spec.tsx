@@ -169,7 +169,7 @@ describe('<OrderDetails />', () => {
 
         render(<OrderDetails />);
 
-        const backButton = screen.getByTestId('dt_mobile_wrapper_back_button');
+        const backButton = screen.getByTestId('dt_mobile_wrapper_button');
         await userEvent.click(backButton);
 
         expect(mockGoBack).toHaveBeenCalled();

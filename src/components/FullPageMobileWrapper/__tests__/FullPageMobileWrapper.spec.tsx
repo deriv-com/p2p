@@ -31,7 +31,7 @@ describe('FullPageMobileWrapper', () => {
         expect(screen.getByText('Body')).toBeVisible();
         expect(screen.queryByText('Footer')).not.toBeInTheDocument();
 
-        const backBtn = screen.getByTestId('dt_mobile_wrapper_back_button');
+        const backBtn = screen.getByTestId('dt_mobile_wrapper_button');
         await userEvent.click(backBtn);
         expect(spyOnBack).toBeCalled();
     });
@@ -47,7 +47,7 @@ describe('FullPageMobileWrapper', () => {
         expect(screen.queryByText('Header')).not.toBeInTheDocument();
         expect(screen.getByText('Body')).toBeVisible();
         expect(screen.queryByText('Footer')).toBeVisible();
-        expect(screen.queryByTestId('dt_mobile_wrapper_back_button')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('dt_mobile_wrapper_button')).not.toBeInTheDocument();
     });
     it('should hide the left arrow icon', () => {
         render(
@@ -56,6 +56,6 @@ describe('FullPageMobileWrapper', () => {
             </FullPageMobileWrapper>
         );
 
-        expect(screen.queryByTestId('dt_mobile_wrapper_back_button')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('dt_mobile_wrapper_button')).not.toBeInTheDocument();
     });
 });
