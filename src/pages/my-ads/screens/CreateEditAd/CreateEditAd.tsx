@@ -235,7 +235,7 @@ const CreateEditAd = () => {
     };
 
     return (
-        <>
+        <div className='h-full'>
             <FormProvider {...methods}>
                 <form className='create-edit-ad' onSubmit={handleSubmit(onSubmit)}>
                     <AdWizard
@@ -265,7 +265,7 @@ const CreateEditAd = () => {
                 isModalOpen={!!isModalOpenFor('AdCancelCreateEditModal')}
                 onRequestClose={hideModal}
             />
-        </>
+        </div>
     );
 };
 
