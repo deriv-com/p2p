@@ -1,102 +1,68 @@
+import { SVGProps } from 'react';
 import {
     FlagArabLeagueIcon,
+    FlagBangladeshIcon,
+    FlagCambodiaIcon,
+    FlagChinaSimplifiedIcon,
+    FlagChinaTraditionalIcon,
     FlagFranceIcon,
     FlagGermanyIcon,
+    FlagIndonesiaIcon,
     FlagItalyIcon,
+    FlagMongoliaIcon,
     FlagPolandIcon,
     FlagPortugalIcon,
     FlagRussiaIcon,
+    FlagSouthKoreaIcon,
     FlagSpainIcon,
+    FlagSriLankaIcon,
+    FlagTanzaniaIcon,
     FlagThailandIcon,
     FlagTurkeyIcon,
     FlagUnitedKingdomIcon,
     FlagVietnamIcon,
 } from '@deriv/quill-icons';
+import { getAllowedLanguages } from '@deriv-com/translations';
 
-export const LANGUAGES = [
-    {
-        code: 'EN',
-        displayName: 'English',
-        icon: <FlagUnitedKingdomIcon height={24} width={36} />,
-        placeholderIcon: <FlagUnitedKingdomIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagUnitedKingdomIcon height={14.67} width={22} />,
-    },
-    {
-        code: 'AR',
-        displayName: 'العربية',
-        icon: <FlagArabLeagueIcon height={24} width={36} />,
-        placeholderIcon: <FlagArabLeagueIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagArabLeagueIcon height={14.67} width={22} />,
-    },
-    {
-        code: 'ES',
-        displayName: 'Español',
-        icon: <FlagSpainIcon height={24} width={36} />,
-        placeholderIcon: <FlagSpainIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagSpainIcon height={14.67} width={22} />,
-    },
+type TFlagComponent = {
+    [key: string]: React.ComponentType<SVGProps<SVGSVGElement>>;
+};
 
-    {
-        code: 'DE',
-        displayName: 'Deutsch',
-        icon: <FlagGermanyIcon height={24} width={36} />,
-        placeholderIcon: <FlagGermanyIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagGermanyIcon height={14.67} width={22} />,
-    },
-    {
-        code: 'PT',
-        displayName: 'Português',
-        icon: <FlagPortugalIcon height={24} width={36} />,
-        placeholderIcon: <FlagPortugalIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagPortugalIcon height={14.67} width={22} />,
-    },
-    {
-        code: 'PL',
-        displayName: 'Polish',
-        icon: <FlagPolandIcon height={24} width={36} />,
-        placeholderIcon: <FlagPolandIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagPolandIcon height={14.67} width={22} />,
-    },
-    {
-        code: 'RU',
-        displayName: 'Русский',
-        icon: <FlagRussiaIcon height={24} width={36} />,
-        placeholderIcon: <FlagRussiaIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagRussiaIcon height={14.67} width={22} />,
-    },
-    {
-        code: 'FR',
-        displayName: 'Français',
-        icon: <FlagFranceIcon height={24} width={36} />,
-        placeholderIcon: <FlagFranceIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagFranceIcon height={14.67} width={22} />,
-    },
-    {
-        code: 'IT',
-        displayName: 'Italiano',
-        icon: <FlagItalyIcon height={24} width={36} />,
-        placeholderIcon: <FlagItalyIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagItalyIcon height={14.67} width={22} />,
-    },
-    {
-        code: 'TH',
-        displayName: 'ไทย',
-        icon: <FlagThailandIcon height={24} width={36} />,
-        placeholderIcon: <FlagThailandIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagThailandIcon height={14.67} width={22} />,
-    },
-    {
-        code: 'TR',
-        displayName: 'Türkçe',
-        icon: <FlagTurkeyIcon height={24} width={36} />,
-        placeholderIcon: <FlagTurkeyIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagTurkeyIcon height={14.67} width={22} />,
-    },
-    {
-        code: 'VI',
-        displayName: 'Tiếng Việt',
-        icon: <FlagVietnamIcon height={24} width={36} />,
-        placeholderIcon: <FlagVietnamIcon height={12} width={18} />,
-        placeholderIconInMobile: <FlagVietnamIcon height={14.67} width={22} />,
-    },
-];
+const flagComponents: TFlagComponent = {
+    AR: FlagArabLeagueIcon,
+    BN: FlagBangladeshIcon,
+    DE: FlagGermanyIcon,
+    EN: FlagUnitedKingdomIcon,
+    ES: FlagSpainIcon,
+    FR: FlagFranceIcon,
+    ID: FlagIndonesiaIcon,
+    IT: FlagItalyIcon,
+    KM: FlagCambodiaIcon,
+    KO: FlagSouthKoreaIcon,
+    MN: FlagMongoliaIcon,
+    PL: FlagPolandIcon,
+    PT: FlagPortugalIcon,
+    RU: FlagRussiaIcon,
+    SI: FlagSriLankaIcon,
+    SW: FlagTanzaniaIcon,
+    TH: FlagThailandIcon,
+    TR: FlagTurkeyIcon,
+    VI: FlagVietnamIcon,
+    ZH_CN: FlagChinaSimplifiedIcon,
+    ZH_TW: FlagChinaTraditionalIcon,
+};
+
+const createFlagData = () => {
+    return Object.entries(getAllowedLanguages(['ID', 'AR'])).map(([code, displayName]) => {
+        const IconComponent = flagComponents[code];
+        return {
+            code,
+            displayName,
+            icon: <IconComponent height={24} width={36} />,
+            placeholderIcon: <IconComponent height={12} width={18} />,
+            placeholderIconInMobile: <IconComponent height={14.67} width={22} />,
+        };
+    });
+};
+
+export const LANGUAGES = createFlagData();
