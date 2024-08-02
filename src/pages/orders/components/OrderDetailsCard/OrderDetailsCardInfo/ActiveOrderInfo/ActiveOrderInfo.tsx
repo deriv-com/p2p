@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { LightDivider } from '@/components';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
+import { formatDataTestId } from '@/utils';
 import { Text, useDevice } from '@deriv-com/ui';
 import { PaymentMethodAccordion } from '../PaymentMethodAccordion';
 
@@ -38,7 +39,7 @@ const ActiveOrderInfo = () => {
                             <Text size={textSize} weight='bold'>
                                 {detail.text}
                             </Text>
-                            <Text data-testid={`dt_${formatTestId(detail.text)}`} size={textSize}>
+                            <Text data-testid={`dt_${formatDataTestId(detail.text)}`} size={textSize}>
                                 {detail.value}
                             </Text>
                         </div>
@@ -49,10 +50,6 @@ const ActiveOrderInfo = () => {
         );
 
     return null;
-};
-
-const formatTestId = (text: string) => {
-    return text.replace(/'/g, '').toLowerCase().replace(/\s+/g, '_');
 };
 
 export default ActiveOrderInfo;

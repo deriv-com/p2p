@@ -120,6 +120,18 @@ export const formatInput = (input: string, unit: string): string => {
 };
 
 /**
+ * It fetches the string from the headings for values and converts into snake_case for data-testid
+ * @param {String} text - The value to validate as a floating-point integer.
+ * @returns {String} The snake_case data-testid.
+ */
+export const formatDataTestId = (text: string): string => {
+    return text
+        .replace(/[()0-9']/g, '')
+        .toLowerCase()
+        .replace(/\s+/g, '_');
+};
+
+/**
  * Validates floating-point integers in input box and checks if the string contains only
  * digits and at most one decimal point.
  *
