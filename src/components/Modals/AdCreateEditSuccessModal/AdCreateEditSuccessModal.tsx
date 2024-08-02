@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { MY_ADS_URL } from '@/constants';
-import { api } from '@/hooks';
 import useInvalidateQuery from '@/hooks/api/useInvalidateQuery';
 import { Localize } from '@deriv-com/translations';
 import { Button, Checkbox, Modal, Text, useDevice } from '@deriv-com/ui';
@@ -10,14 +9,12 @@ import './AdCreateEditSuccessModal.scss';
 
 export type TAdCreateEditSuccessModalProps = {
     advertsArchivePeriod?: number;
-    data: ReturnType<typeof api.advert.useCreate>['data'] | ReturnType<typeof api.advert.useUpdate>['data'];
     isModalOpen: boolean;
     onRequestClose: () => void;
 };
 
 const AdCreateEditSuccessModal = ({
     advertsArchivePeriod,
-    data,
     isModalOpen,
     onRequestClose,
 }: TAdCreateEditSuccessModalProps) => {
@@ -32,16 +29,8 @@ const AdCreateEditSuccessModal = ({
 
     const onClickOk = () => {
         LocalStorageUtils.setValue<boolean>(LocalStorageConstants.p2pArchiveMessage, isChecked);
-        if (data?.visibility_status && data?.account_currency && data.max_order_amount_limit_display) {
-            history.push(MY_ADS_URL, {
-                currency: data.account_currency,
-                from: '',
-                limit: data.max_order_amount_limit_display,
-                visibilityStatus: data.visibility_status[0],
-            });
-        } else {
-            history.push(MY_ADS_URL);
-        }
+        history.push(MY_ADS_URL);
+
         invalidate('p2p_advertiser_adverts');
         onRequestClose();
     };

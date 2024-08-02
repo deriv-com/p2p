@@ -2,6 +2,7 @@ import { MouseEventHandler } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { TCountryListItem, TCurrency } from 'types';
 import { AD_CONDITION_TYPES } from '@/constants';
+import { isEmptyObject } from '@/utils';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { AdConditionBlockSelector } from '../AdConditionBlockSelector';
@@ -17,18 +18,27 @@ type TAdConditionsSection = {
     getTotalSteps: () => number;
     goToNextStep: MouseEventHandler<HTMLButtonElement>;
     goToPreviousStep: () => void;
+    initialPaymentMethods: number[] | string[];
     localCurrency?: TCurrency;
     rateType: string;
 };
 
-const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, ...props }: TAdConditionsSection) => {
+const AdConditionsSection = ({
+    countryList,
+    currency,
+    initialPaymentMethods,
+    localCurrency,
+    rateType,
+    ...props
+}: TAdConditionsSection) => {
     const {
-        formState: { errors },
+        formState: { errors, isDirty },
         getValues,
         setValue,
         watch,
     } = useFormContext();
     const { isDesktop } = useDevice();
+    const selectedMethods = getValues('payment-method') ?? [];
     const labelSize = isDesktop ? 'sm' : 'md';
 
     const onClickBlockSelector = (value: number, type: string) => {
@@ -41,6 +51,10 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
 
     const minJoinDays = watch('min-join-days');
     const minCompletionRate = watch('min-completion-rate');
+
+    const isPaymentMethodsSame = () =>
+        initialPaymentMethods.length === selectedMethods.length &&
+        initialPaymentMethods.sort().every((value, index) => value === selectedMethods.sort()[index]);
     return (
         <div className='ad-conditions-section'>
             <AdSummary
@@ -70,7 +84,10 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
                 type={AD_CONDITION_TYPES.COMPLETION_RATE}
             />
             <PreferredCountriesSelector countryList={countryList} type={AD_CONDITION_TYPES.PREFERRED_COUNTRIES} />
-            <AdFormController {...props} isNextButtonDisabled={!!errors} />
+            <AdFormController
+                {...props}
+                isNextButtonDisabled={!isEmptyObject(errors) || (!isDirty && isPaymentMethodsSame())}
+            />
         </div>
     );
 };
