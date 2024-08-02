@@ -114,7 +114,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMess
                                 'chat-messages__item',
                                 `chat-messages__item__${isMyMessage ? 'outgoing' : 'incoming'}`
                             )}
-                            data-testid={`dt_chat-messages__item__${isMyMessage ? 'outgoing' : 'incoming'}`}
+                            data-testid={`dt_chat_messages_item_${isMyMessage ? 'outgoing' : 'incoming'}`}
                         >
                             {messageType === CHAT_MESSAGE_TYPE.USER && (
                                 <ChatMessageText color={messageColor} type={customType}>
