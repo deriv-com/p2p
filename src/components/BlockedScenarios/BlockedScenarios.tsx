@@ -1,9 +1,9 @@
-import { ReactComponent as P2pUnavailable } from '@/assets/p2p-unavailable.svg';
 import { useLiveChat } from '@/hooks';
 import {
     DerivLightIcCashierBlockedIcon,
     DerivLightIcCashierLockedIcon,
     DerivLightIcCashierUnderMaintenanceIcon,
+    DerivLightWalletCurrencyUnavailableIcon as P2pUnavailable,
 } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
