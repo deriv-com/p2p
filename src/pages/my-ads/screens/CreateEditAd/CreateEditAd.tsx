@@ -23,6 +23,7 @@ const getSteps = (localize: TLocalize, isEdit = false) => {
     return steps;
 };
 type FormValues = {
+    'ad-rate-type': string;
     'ad-type': 'buy' | 'sell';
     amount: string;
     'contact-details': string;
@@ -92,6 +93,7 @@ const CreateEditAd = () => {
         formState: { isDirty },
         getValues,
         handleSubmit,
+        reset,
         setValue,
         trigger,
     } = methods;
@@ -100,6 +102,13 @@ const CreateEditAd = () => {
             setValue('preferred-countries', Object.keys(countryList as object));
         }
     }, [countryList, getValues, setValue]);
+
+    useEffect(() => {
+        return () => {
+            reset();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const shouldNotShowArchiveMessageAgain = LocalStorageUtils.getValue<boolean>(
         LocalStorageConstants.p2pArchiveMessage
@@ -191,6 +200,7 @@ const CreateEditAd = () => {
     const setFormValues = useCallback(
         (formValues: TFormValuesInfo) => {
             setValue('form-type', 'edit');
+            setValue('ad-rate-type', formValues.rate_type);
             setValue('ad-type', formValues.type);
             setValue('amount', formValues.amount.toString());
             setValue('instructions', formValues.description);

@@ -50,6 +50,7 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
     return (
         <div className='ad-conditions-section'>
             <AdSummary
+                adRateType={getValues('ad-rate-type')}
                 currency={currency}
                 localCurrency={localCurrency as TCurrency}
                 offerAmount={errors.amount ? '' : getValues('amount')}
