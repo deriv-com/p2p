@@ -11,7 +11,7 @@ const TextAreaWithIcon = forwardRef<HTMLTextAreaElement, TTextAreaWithIconProps>
         <div className='text-area-with-icon'>
             <TextArea {...rest} className='text-area-with-icon__textarea' ref={ref} textSize='sm' />
             {
-                <div className='text-area-with-icon__icon' data-testid='dt_text-area-with-icon__icon'>
+                <div className='text-area-with-icon__icon' data-testid='dt_text_area_with_icon'>
                     {icon}
                 </div>
             }
