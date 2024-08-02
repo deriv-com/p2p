@@ -33,7 +33,13 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
 
     const onClickBlockSelector = (value: number, type: string) => {
         if (type === AD_CONDITION_TYPES.JOINING_DATE) {
-            setValue('min-join-days', value);
+            if (getValues('min-join-days') === value) {
+                setValue('min-join-days', 0);
+            } else {
+                setValue('min-join-days', value);
+            }
+        } else if (getValues('min-completion-rate') === value) {
+            setValue('min-completion-rate', null);
         } else {
             setValue('min-completion-rate', value);
         }
@@ -44,6 +50,7 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
     return (
         <div className='ad-conditions-section'>
             <AdSummary
+                adRateType={getValues('ad-rate-type')}
                 currency={currency}
                 localCurrency={localCurrency as TCurrency}
                 offerAmount={errors.amount ? '' : getValues('amount')}
@@ -52,7 +59,7 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
                 type={getValues('ad-type')}
             />
             <div className='flex flex-col my-[2.4rem]'>
-                <Text color='prominent' size={labelSize}>
+                <Text color='general' size={labelSize}>
                     <Localize i18n_default_text='Counterparty conditions (optional)' />
                 </Text>
                 <Text color='less-prominent' size={labelSize}>

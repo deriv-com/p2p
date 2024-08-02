@@ -13,6 +13,7 @@ const PreferredCountriesFooter = ({ isDisabled, onClickApply, onClickClear }: TP
     return (
         <div className='flex gap-[0.8rem] w-full'>
             <Button
+                className='border-2'
                 color='black'
                 disabled={isDisabled}
                 isFullWidth

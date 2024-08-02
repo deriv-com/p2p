@@ -23,6 +23,7 @@ const getSteps = (localize: TLocalize, isEdit = false) => {
     return steps;
 };
 type FormValues = {
+    'ad-rate-type': string;
     'ad-type': 'buy' | 'sell';
     amount: string;
     'contact-details': string;
@@ -92,13 +93,22 @@ const CreateEditAd = () => {
         formState: { isDirty },
         getValues,
         handleSubmit,
+        reset,
         setValue,
+        trigger,
     } = methods;
     useEffect(() => {
         if (Object.keys(countryList as object).length > 0 && getValues('preferred-countries').length === 0) {
             setValue('preferred-countries', Object.keys(countryList as object));
         }
     }, [countryList, getValues, setValue]);
+
+    useEffect(() => {
+        return () => {
+            reset();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const shouldNotShowArchiveMessageAgain = LocalStorageUtils.getValue<boolean>(
         LocalStorageConstants.p2pArchiveMessage
@@ -190,6 +200,7 @@ const CreateEditAd = () => {
     const setFormValues = useCallback(
         (formValues: TFormValuesInfo) => {
             setValue('form-type', 'edit');
+            setValue('ad-rate-type', formValues.rate_type);
             setValue('ad-type', formValues.type);
             setValue('amount', formValues.amount.toString());
             setValue('instructions', formValues.description);
@@ -211,6 +222,7 @@ const CreateEditAd = () => {
                     ) ?? [];
                 setValue('payment-method', paymentMethodKeys);
             }
+            trigger();
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [paymentMethodList, countryList]
@@ -233,7 +245,7 @@ const CreateEditAd = () => {
     };
 
     return (
-        <>
+        <div className='h-full'>
             <FormProvider {...methods}>
                 <form className='create-edit-ad' onSubmit={handleSubmit(onSubmit)}>
                     <AdWizard
@@ -263,7 +275,7 @@ const CreateEditAd = () => {
                 isModalOpen={!!isModalOpenFor('AdCancelCreateEditModal')}
                 onRequestClose={hideModal}
             />
-        </>
+        </div>
     );
 };
 

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps, HTMLAttributes } from 'react';
 import clsx from 'clsx';
 import { TAdvertiserPaymentMethod, TPaymentMethod } from 'types';
 import { LabelPairedPlusLgBoldIcon } from '@deriv/quill-icons';
@@ -18,6 +18,7 @@ type TPaymentMethodCardProps = HTMLAttributes<HTMLDivElement> & {
     paymentMethod: { isAvailable?: boolean } & (TAdvertiserPaymentMethod | TPaymentMethod);
     selectedPaymentMethodIds?: number[];
     shouldShowPaymentMethodDisplayName?: boolean;
+    textSize?: ComponentProps<typeof Text>['size'];
 };
 
 const PaymentMethodCard = ({
@@ -31,6 +32,7 @@ const PaymentMethodCard = ({
     paymentMethod,
     selectedPaymentMethodIds = [],
     shouldShowPaymentMethodDisplayName,
+    textSize,
 }: TPaymentMethodCardProps) => {
     const { display_name: displayName, isAvailable, type } = paymentMethod;
 
@@ -57,7 +59,7 @@ const PaymentMethodCard = ({
                     <Text size='sm'>{displayName}</Text>
                 </div>
             ) : (
-                <>
+                <div onClick={() => onSelectPaymentMethodCard?.(Number(paymentMethod.id))}>
                     <PaymentMethodCardHeader
                         isDisabled={isDisabled}
                         isEditable={isEditable}
@@ -72,8 +74,9 @@ const PaymentMethodCard = ({
                     <PaymentMethodCardBody
                         paymentMethod={paymentMethod}
                         shouldShowPaymentMethodDisplayName={shouldShowPaymentMethodDisplayName}
+                        size={textSize}
                     />
-                </>
+                </div>
             )}
         </div>
     );
