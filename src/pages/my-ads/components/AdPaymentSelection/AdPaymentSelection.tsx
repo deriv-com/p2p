@@ -18,7 +18,7 @@ const AdPaymentSelection = ({
 
     return (
         <>
-            <div className='mb-[2.4rem]'>
+            <div className='mb-[2.4rem] lg:mt-[3.2rem]'>
                 <Text as='div' color='prominent' size={textSize}>
                     <Localize i18n_default_text='Payment methods' />
                 </Text>

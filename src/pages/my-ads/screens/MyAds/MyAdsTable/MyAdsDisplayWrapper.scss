@@ -1,0 +1,25 @@
+.my-ads-display-wrapper {
+    & .mobile-wrapper__footer {
+        position: fixed;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: #fff;
+        z-index: 2;
+    }
+
+    &--barred {
+        & .mobile-wrapper__body {
+            & .my-ads-table__list {
+                & .table {
+                    &__content {
+                        @include mobile-or-tablet-screen {
+                            // stylelint-disable-next-line declaration-no-important
+                            height: calc(100% - 10rem) !important; //height of the inline message + toggle
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

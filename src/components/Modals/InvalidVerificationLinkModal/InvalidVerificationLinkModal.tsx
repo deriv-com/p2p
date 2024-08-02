@@ -33,16 +33,23 @@ const InvalidVerificationLinkModal = ({
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
         >
+            <Modal.Header hideBorder onRequestClose={onRequestClose} />
             <Modal.Body
                 className={clsx('flex flex-col items-center gap-[2.4rem] p-[2.4rem] lg:pb-[2.4rem] pb-0', {
                     'px-[1.4rem] gap-[1.4rem]': isExcessiveErrorMobile,
                 })}
             >
                 <DerivLightIcEmailVerificationLinkInvalidIcon height={iconSize} width={iconSize} />
-                <Text weight='bold'>
-                    <Localize i18n_default_text='Invalid verification link' />
-                </Text>
-                {error?.message && <Text align='center'>{error.message}</Text>}
+                {isInvalidVerification && (
+                    <Text color='prominent' weight='bold'>
+                        <Localize i18n_default_text='Invalid verification link' />
+                    </Text>
+                )}
+                {error?.message && (
+                    <Text align='center' weight={isInvalidVerification ? 'normal' : 'bold'}>
+                        {error.message}
+                    </Text>
+                )}
             </Modal.Body>
             <Modal.Footer
                 className={clsx('justify-center', {
@@ -50,9 +57,15 @@ const InvalidVerificationLinkModal = ({
                 })}
                 hideBorder
             >
-                <Button onClick={mutate} size={isDesktop ? 'lg' : 'md'} textSize='sm'>
-                    <Localize i18n_default_text='Get new link' />
-                </Button>
+                {isInvalidVerification ? (
+                    <Button onClick={mutate} size={isDesktop ? 'lg' : 'md'} textSize='sm'>
+                        <Localize i18n_default_text='Get new link' />
+                    </Button>
+                ) : (
+                    <Button onClick={onRequestClose} size={isDesktop ? 'lg' : 'md'} textSize='sm'>
+                        <Localize i18n_default_text='OK' />
+                    </Button>
+                )}
             </Modal.Footer>
         </Modal>
     );

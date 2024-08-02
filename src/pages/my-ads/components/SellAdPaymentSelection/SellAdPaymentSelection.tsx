@@ -14,7 +14,7 @@ type TSellAdPaymentSelectionProps = {
     selectedPaymentMethodIds: number[];
 };
 const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodIds }: TSellAdPaymentSelectionProps) => {
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const isAdvertiser = useIsAdvertiser();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
@@ -54,6 +54,7 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
                         onSelectPaymentMethodCard={onSelectPaymentMethod}
                         paymentMethod={paymentMethod}
                         selectedPaymentMethodIds={selectedPaymentMethodIds}
+                        textSize={isMobile ? 'md' : 'xs'}
                     />
                 );
             })}
@@ -65,7 +66,7 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
                 >
                     <LabelPairedPlusLgBoldIcon fill='white' />
                 </Button>
-                <Text size='sm'>
+                <Text size={isMobile ? 'md' : 'sm'}>
                     <Localize i18n_default_text='Payment method' />
                 </Text>
             </div>
