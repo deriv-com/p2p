@@ -38,7 +38,7 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
                 </TooltipMenuIcon>
             )}
             {visible && (
-                <div className='popover-dropdown__list' data-testid='dt_popover_dropdown__list'>
+                <div className='popover-dropdown__list' data-testid='dt_popover_dropdown_list'>
                     {dropdownList.map(item => (
                         <Button
                             className='popover-dropdown__list-item'
