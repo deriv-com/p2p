@@ -41,11 +41,7 @@ const AdvertiserNameToggle = memo(({ advertiserInfo, onToggle }: TAdvertiserName
                 </Text>
             </div>
             <div data-testid='dt_advertiser_name_toggle_switch'>
-                <ToggleSwitch
-                    data-testid='dt_advertiser_name_toggle_switch'
-                    onChange={onToggleShowRealName}
-                    value={shouldShowRealName}
-                />
+                <ToggleSwitch onChange={onToggleShowRealName} value={shouldShowRealName} />
             </div>
         </div>
     );
