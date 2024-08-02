@@ -10,6 +10,7 @@ const mockProps = {
     getTotalSteps: jest.fn(),
     goToNextStep: jest.fn(),
     goToPreviousStep: jest.fn(),
+    initialPaymentMethods: [],
     localCurrency: 'USD' as TCurrency,
     rateType: 'fixed',
 };

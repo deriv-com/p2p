@@ -28,6 +28,7 @@ jest.mock('../../AdProgressBar', () => ({
 const mockProps = {
     countryList: {},
     currency: 'usd' as TCurrency,
+    initialPaymentMethods: [],
     localCurrency: 'usd' as TCurrency,
     onCancel: jest.fn(),
     orderExpiryOptions: [900, 1800],
