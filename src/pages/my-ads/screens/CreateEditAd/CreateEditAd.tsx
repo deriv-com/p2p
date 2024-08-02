@@ -102,13 +102,6 @@ const CreateEditAd = () => {
         }
     }, [countryList, getValues, setValue]);
 
-    useEffect(() => {
-        return () => {
-            reset();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     const shouldNotShowArchiveMessageAgain = LocalStorageUtils.getValue<boolean>(
         LocalStorageConstants.p2pArchiveMessage
     );
