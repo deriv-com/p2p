@@ -42,6 +42,9 @@ jest.mock('@/providers/OrderDetailsProvider', () => ({
                 name: 'test123',
             },
             id: '11',
+            otherUserDetails: {
+                name: 'test123',
+            },
             shouldShowCancelAndPaidButton: true,
             shouldShowComplainAndReceivedButton: false,
             shouldShowOnlyComplainButton: false,
@@ -310,7 +313,7 @@ describe('<OrderDetailsCardFooter />', () => {
         expect(screen.getByText('Please wait for 59 seconds before requesting another email.')).toBeInTheDocument();
     });
 
-    it('should call mutate when clicking on Get new link button in InvalidVerificationLinkModal', async () => {
+    it('should call mutate when clicking on OK button in InvalidVerificationLinkModal', async () => {
         modalManager.isModalOpenFor.mockImplementation(
             (modalName: string) => modalName === 'InvalidVerificationLinkModal'
         );
@@ -320,7 +323,7 @@ describe('<OrderDetailsCardFooter />', () => {
         const paymentButton = screen.getByRole('button', { name: 'I’ve received payment' });
         await userEvent.click(paymentButton);
 
-        const okButton = screen.getByRole('button', { name: 'Get new link' });
+        const okButton = screen.getByRole('button', { name: 'OK' });
         await userEvent.click(okButton);
 
         expect(mockUseConfirm().mutate).toHaveBeenCalled();
@@ -348,7 +351,6 @@ describe('<OrderDetailsCardFooter />', () => {
         render(<OrderDetailsCardFooter {...mockProps} />);
 
         expect(mockUseConfirm().mutate).toHaveBeenCalledWith({ dry_run: 1, id: '11', verification_code: '123' });
-        expect(screen.getByText('Invalid verification link')).toBeInTheDocument();
         expect(
             screen.getByText('The link that you used appears to be invalid. Please check and try again.')
         ).toBeInTheDocument();
