@@ -34,7 +34,7 @@ const AdvertiserNameToggle = memo(({ advertiserInfo, onToggle }: TAdvertiserName
                 <Text
                     className='advertiser-name-toggle__label-real-name'
                     color='less-prominent'
-                    data-testid='dt_advertiser-label-real-name'
+                    data-testid='dt_advertiser_label_real_name'
                     lineHeight='xs'
                 >
                     {advertiserInfo?.fullName}
