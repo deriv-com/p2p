@@ -51,6 +51,7 @@ const AdPaymentDetailsSection = ({
     return (
         <div className='p-[1.6rem] w-full lg:p-0'>
             <AdSummary
+                adRateType={getValues('ad-rate-type')}
                 currency={currency}
                 localCurrency={localCurrency as TCurrency}
                 offerAmount={errors.amount ? '' : getValues('amount')}
