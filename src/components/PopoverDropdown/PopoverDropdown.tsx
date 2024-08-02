@@ -25,7 +25,7 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
     const isAdvertiserBarred = useIsAdvertiserBarred();
 
     return (
-        <div className='popover-dropdown' data-testid='dt_popover-dropdown' ref={ref}>
+        <div className='popover-dropdown' data-testid='dt_popover_dropdown' ref={ref}>
             {isAdvertiserBarred ? (
                 <LabelPairedEllipsisVerticalLgBoldIcon data-testid='dt_popover_dropdown_icon' fill='#999999' />
             ) : (
