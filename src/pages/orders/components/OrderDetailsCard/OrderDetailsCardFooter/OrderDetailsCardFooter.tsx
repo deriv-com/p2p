@@ -150,7 +150,7 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
     };
 
     return (
-        <div className='order-details-card-footer'>
+        <div className='order-details-card-footer justify-end'>
             {shouldShowCancelAndPaidButton && (
                 <div className='flex gap-3 ml-auto'>
                     <Button
@@ -168,43 +168,22 @@ const OrderDetailsCardFooter = ({ sendFile }: { sendFile: (file: File) => void }
                     </Button>
                 </div>
             )}
-            {shouldShowComplainAndReceivedButton && (
-                <div className='flex gap-[0.8rem] justify-end w-full'>
-                    <Button
-                        className='border-2'
-                        color='primary-light'
-                        onClick={() => showModal('OrderDetailsComplainModal')}
-                        size='lg'
-                        textSize={textSize}
-                        variant='ghost'
-                    >
-                        <Localize i18n_default_text='Complain' />
-                    </Button>
-                    <Button onClick={() => mutate({ id })} size='lg' textSize={textSize}>
-                        <Localize i18n_default_text='I’ve received payment' />
-                    </Button>
-                </div>
+            {(shouldShowOnlyComplainButton || shouldShowComplainAndReceivedButton) && (
+                <Button
+                    className='border-2 mr-[0.8rem]'
+                    color='primary-light'
+                    onClick={() => showModal('OrderDetailsComplainModal')}
+                    size='lg'
+                    textSize={textSize}
+                    variant='ghost'
+                >
+                    <Localize i18n_default_text='Complain' />
+                </Button>
             )}
-            {shouldShowOnlyComplainButton && (
-                <div className='ml-auto'>
-                    <Button
-                        className='border-2'
-                        color='primary-light'
-                        onClick={() => showModal('OrderDetailsComplainModal')}
-                        size='lg'
-                        textSize={textSize}
-                        variant='ghost'
-                    >
-                        <Localize i18n_default_text='Complain' />
-                    </Button>
-                </div>
-            )}
-            {shouldShowOnlyReceivedButton && (
-                <div className='ml-auto'>
-                    <Button onClick={() => mutate({ id })} size='lg' textSize={textSize}>
-                        <Localize i18n_default_text='I’ve received payment' />
-                    </Button>
-                </div>
+            {(shouldShowOnlyReceivedButton || shouldShowComplainAndReceivedButton) && (
+                <Button onClick={() => mutate({ id })} size='lg' textSize={textSize}>
+                    <Localize i18n_default_text='I’ve received payment' />
+                </Button>
             )}
             {!!isModalOpenFor('OrderDetailsComplainModal') && (
                 <OrderDetailsComplainModal
