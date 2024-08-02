@@ -18,7 +18,7 @@ const AdConditionBlockElement = ({ isSelected, label, onClick, value }: TAdCondi
             })}
             onClick={() => onClick(value)}
         >
-            <Text color={isSelected ? 'white' : 'prominent'} size={isDesktop ? 'md' : 'lg'}>
+            <Text color={isSelected ? 'white' : 'less-prominent'} size={isDesktop ? 'md' : 'lg'}>
                 {label}
             </Text>
         </div>

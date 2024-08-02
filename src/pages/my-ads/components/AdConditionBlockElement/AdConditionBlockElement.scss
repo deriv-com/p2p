@@ -12,12 +12,6 @@
         width: 12.4rem;
     }
 
-    &:hover:not(&--selected) {
-        background-color: #d6dadb;
-        cursor: pointer;
-        color: #ffffff;
-    }
-    &:active,
     &--selected {
         background-color: #999999;
         border-color: #999999;

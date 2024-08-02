@@ -10,6 +10,9 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+const mockInvalidate = jest.fn();
+
+jest.mock('../../api/useInvalidateQuery', () => () => mockInvalidate);
 const mockUseGetInfo = api.advertiser.useGetInfo as jest.Mock;
 
 describe('useIsAdvertiserBarred', () => {
