@@ -17,13 +17,13 @@
 
         @include mobile-or-tablet-screen {
             height: unset;
-            max-height: calc(100vh - 28rem);
+            max-height: calc(100% - 28rem);
         }
 
         &--no-footer {
             height: 44rem;
             @include mobile-or-tablet-screen {
-                height: 100vh;
+                height: 100%;
                 max-height: unset;
             }
         }
