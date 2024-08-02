@@ -12,6 +12,7 @@ jest.mock('@deriv-com/ui', () => ({
 }));
 
 jest.mock('@deriv-com/translations', () => ({
+    getAllowedLanguages: jest.fn(() => ({ EN: 'English' })),
     useTranslations: jest.fn(),
 }));
 

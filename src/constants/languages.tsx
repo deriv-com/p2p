@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import { ComponentType, SVGProps } from 'react';
 import {
     FlagArabLeagueIcon,
     FlagBangladeshIcon,
@@ -25,7 +25,7 @@ import {
 import { getAllowedLanguages } from '@deriv-com/translations';
 
 type TFlagComponent = {
-    [key: string]: React.ComponentType<SVGProps<SVGSVGElement>>;
+    [key: string]: ComponentType<SVGProps<SVGSVGElement>>;
 };
 
 const flagComponents: TFlagComponent = {
