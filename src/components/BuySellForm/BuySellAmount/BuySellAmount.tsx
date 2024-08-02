@@ -205,7 +205,7 @@ const BuySellAmount = ({
                     <LightDivider />
                     <div className='buy-sell-amount__value'>
                         <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
-                        <Text data-testid='dt_buy_sell_amount__value' size='md' weight='bold'>
+                        <Text data-testid='dt_buy_sell_amount_value' size='md' weight='bold'>
                             {buySellAmount} {localCurrency}
                         </Text>
                     </div>
