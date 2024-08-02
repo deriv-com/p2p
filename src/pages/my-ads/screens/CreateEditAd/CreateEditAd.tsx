@@ -23,6 +23,7 @@ const getSteps = (localize: TLocalize, isEdit = false) => {
     return steps;
 };
 type FormValues = {
+    'ad-rate-type': string;
     'ad-type': 'buy' | 'sell';
     amount: string;
     'contact-details': string;
@@ -100,6 +101,13 @@ const CreateEditAd = () => {
             setValue('preferred-countries', Object.keys(countryList as object));
         }
     }, [countryList, getValues, setValue]);
+
+    useEffect(() => {
+        return () => {
+            reset();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const shouldNotShowArchiveMessageAgain = LocalStorageUtils.getValue<boolean>(
         LocalStorageConstants.p2pArchiveMessage
@@ -232,7 +240,7 @@ const CreateEditAd = () => {
     };
 
     return (
-        <>
+        <div className='h-full'>
             <FormProvider {...methods}>
                 <form className='create-edit-ad' onSubmit={handleSubmit(onSubmit)}>
                     <AdWizard
@@ -262,7 +270,7 @@ const CreateEditAd = () => {
                 isModalOpen={!!isModalOpenFor('AdCancelCreateEditModal')}
                 onRequestClose={hideModal}
             />
-        </>
+        </div>
     );
 };
 

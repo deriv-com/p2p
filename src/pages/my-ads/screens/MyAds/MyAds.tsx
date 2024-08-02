@@ -10,7 +10,7 @@ const MyAds = () => {
     if (!isPoaVerified || !isPoiVerified) return <Verification />;
 
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col h-full'>
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             <MyAdsTable />
         </div>

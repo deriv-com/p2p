@@ -23,6 +23,7 @@ const useAdvertiserUpdate = () => {
     } = useP2pAdvertiserUpdate({
         onSuccess: () => {
             invalidate('p2p_advertiser_info');
+            invalidate('p2p_advertiser_adverts');
         },
     });
 
