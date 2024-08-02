@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { NonUndefinedValues, TCountryListItem, TCurrency, TErrorCodes, THooks, TLocalize } from 'types';
@@ -44,6 +44,7 @@ type TMutatePayload = Parameters<THooks.Advert.Create>[0];
 type TFormValuesInfo = NonUndefinedValues<THooks.Advert.Get>;
 
 const CreateEditAd = () => {
+    const [initialPaymentMethods, setInitialPaymentMethods] = useState<number[] | string[]>([]);
     const { queryString } = useQueryString();
     const { localize } = useTranslations();
     const { advertId = '' } = queryString;
@@ -59,9 +60,8 @@ const CreateEditAd = () => {
     const { data: p2pSettings } = api.settings.useSettings();
     const { adverts_archive_period: advertsArchivePeriod, order_expiry_options: orderExpiryOptions = [] } =
         p2pSettings ?? {};
-    const { data: createResponse, error, isError, isSuccess, mutate } = api.advert.useCreate();
+    const { error, isError, isSuccess, mutate } = api.advert.useCreate();
     const {
-        data: updateResponse,
         error: updateError,
         isError: isUpdateError,
         isSuccess: isUpdateSuccess,
@@ -92,10 +92,11 @@ const CreateEditAd = () => {
         formState: { isDirty },
         getValues,
         handleSubmit,
+        reset,
         setValue,
     } = methods;
     useEffect(() => {
-        if (Object.keys(countryList as object).length > 0 && getValues('preferred-countries').length === 0) {
+        if (Object.keys(countryList as object).length > 0 && getValues('preferred-countries')?.length === 0) {
             setValue('preferred-countries', Object.keys(countryList as object));
         }
     }, [countryList, getValues, setValue]);
@@ -158,19 +159,14 @@ const CreateEditAd = () => {
     };
 
     useEffect(() => {
-        if (isSuccess || isUpdateSuccess) {
+        if (isSuccess) {
             if (!shouldNotShowArchiveMessageAgain) {
                 showModal('AdCreateEditSuccessModal');
-            } else if (createResponse?.visibility_status) {
-                history.push(MY_ADS_URL, {
-                    currency: createResponse?.account_currency,
-                    from: '',
-                    limit: createResponse?.max_order_amount_limit_display,
-                    visibilityStatus: createResponse?.visibility_status[0],
-                });
             } else {
                 history.push(MY_ADS_URL);
             }
+        } else if (isUpdateSuccess) {
+            history.push(MY_ADS_URL);
         } else if (isError || isUpdateError) {
             showModal('AdCreateEditErrorModal');
         }
@@ -189,28 +185,31 @@ const CreateEditAd = () => {
 
     const setFormValues = useCallback(
         (formValues: TFormValuesInfo) => {
-            setValue('form-type', 'edit');
-            setValue('ad-type', formValues.type);
-            setValue('amount', formValues.amount.toString());
-            setValue('instructions', formValues.description);
-            setValue('max-order', formValues.max_order_amount.toString());
-            setValue('min-completion-rate', formValues.min_completion_rate?.toString() ?? '');
-            setValue('min-join-days', formValues.min_join_days?.toString() ?? '');
-            setValue('min-order', formValues.min_order_amount.toString());
-            setValue('rate-value', setInitialAdRate(formValues) as string);
-            setValue('preferred-countries', formValues.eligible_countries ?? Object.keys(countryList as object));
-            setValue('order-completion-time', `${formValues.order_expiry_period}`);
-            if (formValues.type === 'sell') {
-                setValue('contact-details', formValues.contact_info);
-                setValue('payment-method', Object.keys(formValues.payment_method_details ?? {}).map(Number));
-            } else {
-                const paymentMethodNames = formValues?.payment_method_names;
-                const paymentMethodKeys =
-                    paymentMethodNames?.map(
-                        name => paymentMethodList.find(method => method.display_name === name)?.id ?? ''
-                    ) ?? [];
-                setValue('payment-method', paymentMethodKeys);
-            }
+            // Prepare the default values object
+            const defaultValues = {
+                'ad-type': formValues.type,
+                amount: formValues.amount.toString(),
+                'contact-details': formValues.type === 'sell' ? formValues.contact_info : undefined,
+                'form-type': 'edit' as const,
+                instructions: formValues.description,
+                'max-order': formValues.max_order_amount.toString(),
+                'min-completion-rate': formValues.min_completion_rate?.toString() ?? '',
+                'min-join-days': formValues.min_join_days?.toString() ?? '',
+                'min-order': formValues.min_order_amount.toString(),
+                'order-completion-time': `${formValues.order_expiry_period}`,
+                'payment-method':
+                    formValues.type === 'sell'
+                        ? Object.keys(formValues.payment_method_details ?? {}).map(Number)
+                        : formValues?.payment_method_names?.map(
+                              name => paymentMethodList.find(method => method.display_name === name)?.id ?? ''
+                          ) ?? [],
+                'preferred-countries': formValues.eligible_countries ?? Object.keys(countryList as object),
+                'rate-value': setInitialAdRate(formValues) as string,
+            };
+
+            // Use reset to set default values and mark the form as not dirty
+            reset(defaultValues);
+            setInitialPaymentMethods(defaultValues['payment-method']);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [paymentMethodList, countryList]
@@ -239,6 +238,7 @@ const CreateEditAd = () => {
                     <AdWizard
                         countryList={countryList as TCountryListItem}
                         currency={activeAccount?.currency as TCurrency}
+                        initialPaymentMethods={initialPaymentMethods}
                         localCurrency={p2pSettings?.localCurrency as TCurrency}
                         onCancel={onClickCancel}
                         orderExpiryOptions={orderExpiryOptions}
@@ -255,7 +255,6 @@ const CreateEditAd = () => {
             />
             <AdCreateEditSuccessModal
                 advertsArchivePeriod={advertsArchivePeriod}
-                data={isEdit ? updateResponse : createResponse}
                 isModalOpen={!!isModalOpenFor('AdCreateEditSuccessModal')}
                 onRequestClose={hideModal}
             />
