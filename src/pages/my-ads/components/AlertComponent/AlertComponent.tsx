@@ -1,19 +1,26 @@
+import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { LegacyWarningIcon } from '@deriv/quill-icons';
-import { Button, Tooltip } from '@deriv-com/ui';
+import { useTranslations } from '@deriv-com/translations';
 import './AlertComponent.scss';
 
 type TAlertComponentProps = {
     onClick: () => void;
 };
 
-const AlertComponent = ({ onClick }: TAlertComponentProps) => (
-    <div className='alert-component'>
-        <Tooltip message='Ad not listed' position='bottom'>
-            <Button className='p-0 hover:bg-none' color='white' onClick={onClick} variant='outlined'>
+const AlertComponent = ({ onClick }: TAlertComponentProps) => {
+    const { localize } = useTranslations();
+    return (
+        <div className='alert-component'>
+            <TooltipMenuIcon
+                as='button'
+                onClick={onClick}
+                tooltipContent={localize('Ad not listed')}
+                tooltipPosition='top'
+            >
                 <LegacyWarningIcon data-testid='dt_alert_icon' iconSize='xs' />
-            </Button>
-        </Tooltip>
-    </div>
-);
+            </TooltipMenuIcon>
+        </div>
+    );
+};
 
 export default AlertComponent;
