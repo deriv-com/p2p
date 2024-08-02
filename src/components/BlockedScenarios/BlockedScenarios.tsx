@@ -64,7 +64,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                     <Localize i18n_default_text='To use Deriv P2P, switch to your real USD account.' />
                 </Text>
             ),
-            icon: <P2pUnavailable />,
+            icon: <P2pUnavailable height={iconSize} width={iconSize} />,
             title: (
                 <Text weight='bold'>
                     <Localize i18n_default_text='Cryptocurrencies not supported' />
@@ -82,7 +82,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                     <Localize i18n_default_text='Please switch to Real USD account to access the Deriv P2P marketplace.' />
                 </Text>
             ),
-            icon: <P2pUnavailable />,
+            icon: <P2pUnavailable height={iconSize} width={iconSize} />,
             title: (
                 <Text weight='bold'>
                     <Localize i18n_default_text='You are using a demo account' />
@@ -100,7 +100,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                     <Localize i18n_default_text='Please create a Real USD account to access the Deriv P2P marketplace.' />
                 </Text>
             ),
-            icon: <P2pUnavailable />,
+            icon: <P2pUnavailable height={iconSize} width={iconSize} />,
             title: (
                 <Text weight='bold'>
                     <Localize i18n_default_text='You have no Real USD account' />
