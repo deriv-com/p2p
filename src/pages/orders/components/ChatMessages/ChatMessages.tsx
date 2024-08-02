@@ -43,7 +43,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMess
                 return (
                     <a
                         className='chat-messages__item__image'
-                        data-testid='dt_chat-messages__item__image'
+                        data-testid='dt_chat_messages_item_image'
                         href={url}
                         rel='noopener noreferrer'
                         target='_blank'
