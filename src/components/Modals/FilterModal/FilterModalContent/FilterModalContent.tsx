@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { formatDataTestId } from '@/utils';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FilterModalPaymentMethods } from '../FilterModalPaymentMethods';
 
@@ -39,7 +40,7 @@ const FilterModalContent = ({
                                     'cursor-pointer': option.onClick,
                                 }
                             )}
-                            data-testid={`dt_${formatTestId(option.text)}_filter_payment_methods`}
+                            data-testid={`dt_${formatDataTestId(option.text)}_filter_payment_methods`}
                             key={option.text}
                             onClick={option.onClick}
                         >
@@ -56,13 +57,6 @@ const FilterModalContent = ({
             )}
         </>
     );
-};
-
-const formatTestId = (text: string) => {
-    return text
-        .replace(/[()0-9']/g, '')
-        .toLowerCase()
-        .replace(/\s+/g, '_');
 };
 
 export default FilterModalContent;
