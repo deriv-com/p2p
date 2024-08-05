@@ -32,6 +32,8 @@ const useRedirectToOauth = () => {
             iframe.onload = () => {
                 window.location.href = oauthUrl;
             };
+        } else if (shouldRedirect && !isOauth2Enabled) {
+            window.open(oauthUrl, '_self');
         }
     }, [isOauth2Enabled, oauthUrl, shouldRedirect]);
 
