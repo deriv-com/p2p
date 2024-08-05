@@ -54,10 +54,10 @@ const MyAdsTable = () => {
     const {
         balance_available: balanceAvailable,
         blocked_until: blockedUntil,
-        daily_buy: dailyBuy,
-        daily_buy_limit: dailyBuyLimit,
-        daily_sell: dailySell,
-        daily_sell_limit: dailySellLimit,
+        daily_buy: dailyBuy = 0,
+        daily_buy_limit: dailyBuyLimit = 0,
+        daily_sell: dailySell = 0,
+        daily_sell_limit: dailySellLimit = 0,
         isListedBoolean: isListed,
     } = advertiserInfo || {};
     const { mutate: updateAds } = api.advertiser.useUpdate();
@@ -90,8 +90,8 @@ const MyAdsTable = () => {
                             {...(rowData as TMyAdsTableRowRendererProps)}
                             advertiserPaymentMethods={advertiserPaymentMethods as TAdvertiserPaymentMethods}
                             balanceAvailable={balanceAvailable ?? 0}
-                            dailyBuyLimit={Number(dailyBuyLimit) - Number(dailyBuy) ?? 0}
-                            dailySellLimit={Number(dailySellLimit) - Number(dailySell) ?? 0}
+                            dailyBuyLimit={Number(dailyBuyLimit) - Number(dailyBuy)}
+                            dailySellLimit={Number(dailySellLimit) - Number(dailySell)}
                             isBarred={!!blockedUntil}
                             isListed={!!isListed}
                         />
