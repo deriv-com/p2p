@@ -34,7 +34,7 @@ const App = () => {
             const APP_URL = NODE_ENV === 'production' ? URLConstants.derivAppProduction : URLConstants.derivAppStaging;
             window.location.href = `${APP_URL}/cashier/p2p`;
         }
-    }, [isGBLoaded, ShoudlRedirectToDerivApp]);
+    }, [isGBLoaded, ShouldRedirectToDerivApp]);
     return (
         <BrowserRouter>
             {/* TODO: Replace the fallback element with the ErrorComponent */}
