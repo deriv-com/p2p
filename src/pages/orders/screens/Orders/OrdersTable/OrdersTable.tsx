@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import clsx from 'clsx';
-import { THooks } from 'types';
+import { THooks, TLocalize } from 'types';
+import { useTranslations } from '@deriv-com/translations';
 import { Loader, Table, useDevice } from '@deriv-com/ui';
 import { OrdersEmpty } from '../OrdersEmpty';
 import { OrdersTableRow } from '../OrdersTableRow';
@@ -13,53 +14,29 @@ OrdersTableRowRenderer.displayName = 'OrdersTableRowRenderer';
 
 const headerRenderer = (header: string) => <span>{header}</span>;
 
-const columnsActive = [
-    {
-        header: 'Order',
-    },
-    {
-        header: 'Order ID',
-    },
-    {
-        header: 'Counterparty',
-    },
-    {
-        header: 'Status',
-    },
-    {
-        header: 'Send',
-    },
-    {
-        header: 'Receive',
-    },
-    {
-        header: 'Time',
-    },
-];
+const getColumns = (isActive: boolean, localize: TLocalize) => {
+    const columnsActive = [
+        { header: localize('Order') },
+        { header: localize('Order ID') },
+        { header: localize('Counterparty') },
+        { header: localize('Status') },
+        { header: localize('Send') },
+        { header: localize('Receive') },
+        { header: localize('Time') },
+    ];
 
-const columnsPast = [
-    {
-        header: 'Date',
-    },
-    {
-        header: 'Order',
-    },
-    {
-        header: 'Order ID',
-    },
-    {
-        header: 'Counterparty',
-    },
-    {
-        header: 'Status',
-    },
-    {
-        header: 'Send',
-    },
-    {
-        header: 'Receive',
-    },
-];
+    const columnsPast = [
+        { header: localize('Date') },
+        { header: localize('Order') },
+        { header: localize('Order ID') },
+        { header: localize('Counterparty') },
+        { header: localize('Status') },
+        { header: localize('Send') },
+        { header: localize('Receive') },
+    ];
+
+    return isActive ? columnsActive : columnsPast;
+};
 
 type TOrdersTableProps = {
     data: THooks.Order.GetList;
@@ -70,18 +47,18 @@ type TOrdersTableProps = {
 
 const OrdersTable = ({ data, isActive, isLoading, loadMoreOrders }: TOrdersTableProps) => {
     const { isDesktop } = useDevice();
+    const { localize } = useTranslations();
     if (data?.length === 0 && !isLoading) {
         return <OrdersEmpty isPast={!isActive} />;
     }
 
-    const columns = isActive ? columnsActive : columnsPast;
     return (
         <div className={clsx('orders-table', { 'orders-table--inactive': !isActive })}>
             {isLoading ? (
                 <Loader />
             ) : (
                 <Table
-                    columns={isDesktop ? columns : []}
+                    columns={isDesktop ? getColumns(isActive, localize) : []}
                     data={data}
                     loadMoreFunction={loadMoreOrders}
                     renderHeader={headerRenderer}

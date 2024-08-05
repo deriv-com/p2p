@@ -1,5 +1,6 @@
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { Badge } from '@/components';
+import { useTranslations } from '@deriv-com/translations';
 import './AdvertiserNameBadges.scss';
 
 /**
@@ -10,20 +11,15 @@ import './AdvertiserNameBadges.scss';
  */
 const AdvertiserNameBadges = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
     const { isAddressVerified, isIdentityVerified, totalOrders } = advertiserStats || {};
+    const { localize } = useTranslations();
+    const getStatus = (isVerified?: boolean) => (isVerified ? localize('verified') : localize('not verified'));
+    const getVariant = (isVerified?: boolean) => (isVerified ? localize('success') : localize('general'));
 
     return (
         <div className='advertiser-name-badges' data-testid='dt_advertiser_name_badges'>
-            {(totalOrders || 0) >= 100 && <Badge label='100+' status='trades' variant='warning' />}
-            <Badge
-                label='ID'
-                status={isIdentityVerified ? 'verified' : 'not verified'}
-                variant={isIdentityVerified ? 'success' : 'general'}
-            />
-            <Badge
-                label='Address'
-                status={isAddressVerified ? 'verified' : 'not verified'}
-                variant={isAddressVerified ? 'success' : 'general'}
-            />
+            {(totalOrders || 0) >= 100 && <Badge label='100+' status={localize('trades')} variant='warning' />}
+            <Badge label='ID' status={getStatus(isIdentityVerified)} variant={getVariant(isIdentityVerified)} />
+            <Badge label='Address' status={getStatus(isAddressVerified)} variant={getVariant(isAddressVerified)} />
         </div>
     );
 };

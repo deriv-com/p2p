@@ -1,20 +1,20 @@
 import { memo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TAdvertsTableRowRenderer } from 'types';
+import { TAdvertsTableRowRenderer, TLocalize } from 'types';
 import { AdvertsTableRow, Table } from '@/components';
 import { MY_ADS_URL } from '@/constants';
 import { DerivLightIcCashierNoAdsIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { ActionScreen, Button, Loader, Text, useDevice } from '@deriv-com/ui';
 
-const columns = [
-    { header: 'Advertisers' },
-    { header: 'Limits' },
-    { header: 'Rate (1 USD)' },
-    { header: 'Payment methods' },
-];
-
 const headerRenderer = (header: string) => <span>{header}</span>;
+
+const getColumns = (localize: TLocalize) => [
+    { header: localize('Advertisers') },
+    { header: localize('Limits') },
+    { header: localize('Rate (1 USD)') },
+    { header: localize('Payment methods') },
+];
 
 type TBuySellTableRowRendererProps = {
     data?: TAdvertsTableRowRenderer[];
@@ -34,6 +34,7 @@ const BuySellTableRenderer = ({
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const history = useHistory();
+
     if (isLoading) {
         return <Loader className='mt-80' />;
     }
@@ -65,7 +66,7 @@ const BuySellTableRenderer = ({
 
     return (
         <Table
-            columns={columns}
+            columns={getColumns(localize)}
             data={data}
             emptyDataMessage={localize('There are no matching ads.')}
             isFetching={isFetching}

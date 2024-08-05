@@ -155,7 +155,9 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                             </div>
                             {isDesktop && (
                                 <div className='pl-[2.4rem] w-[52%]'>
-                                    <Text weight='bold'>Share via</Text>
+                                    <Text weight='bold'>
+                                        <Localize i18n_default_text='Share via' />
+                                    </Text>
                                     <ShareMyAdsSocials advertUrl={advertUrl} customMessage={customMessage} />
                                     <Divider margin='0 0 2.5rem 0' />
                                     <Text>

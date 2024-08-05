@@ -1,9 +1,10 @@
 import { memo, useEffect } from 'react';
 import { NonUndefined } from 'react-hook-form';
-import { THooks } from 'types';
+import { THooks, TLocalize } from 'types';
 import { Table } from '@/components';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
+import { useTranslations } from '@deriv-com/translations';
 import { Loader } from '@deriv-com/ui';
 import { MyAdsEmpty } from '../../MyAdsEmpty';
 import MyAdsTableRowView from '../MyAdsTableRow/MyAdsTableRowView';
@@ -26,25 +27,13 @@ MyAdsTableRowRenderer.displayName = 'MyAdsTableRowRenderer';
 
 const headerRenderer = (header: string) => <span>{header}</span>;
 
-const columns = [
-    {
-        header: 'Ad ID',
-    },
-    {
-        header: 'Limits',
-    },
-    {
-        header: 'Rate (1 USD)',
-    },
-    {
-        header: 'Available amount',
-    },
-    {
-        header: 'Payment methods',
-    },
-    {
-        header: 'Status',
-    },
+const getColumns = (localize: TLocalize) => [
+    { header: localize('Ad ID') },
+    { header: localize('Limits') },
+    { header: localize('Rate (1 USD)') },
+    { header: localize('Available amount') },
+    { header: localize('Payment methods') },
+    { header: localize('Status') },
 ];
 
 const MyAdsTable = () => {
@@ -60,6 +49,7 @@ const MyAdsTable = () => {
     } = advertiserInfo || {};
     const { mutate: updateAds } = api.advertiser.useUpdate();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
+    const { localize } = useTranslations();
 
     useEffect(() => {
         if (isAdvertiser) {
@@ -78,7 +68,7 @@ const MyAdsTable = () => {
         <MyAdsDisplayWrapper isPaused={!!blockedUntil || !isListed} onClickToggle={onClickToggle}>
             <div className='my-ads-table__list'>
                 <Table
-                    columns={columns}
+                    columns={getColumns(localize)}
                     data={data}
                     isFetching={isFetching}
                     loadMoreFunction={loadMoreAdverts}

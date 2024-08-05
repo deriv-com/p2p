@@ -6,6 +6,7 @@ import { api, useIsP2PBlocked, useLiveChat } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
+import { useTranslations } from '@deriv-com/translations';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
 import Router from '../Router';
 import { routes } from '../routes-config';
@@ -27,6 +28,7 @@ const AppContent = () => {
     const { data: activeAccountData, isFetched, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
     const { init: initLiveChat } = useLiveChat();
     const { isP2PBlocked, status } = useIsP2PBlocked();
+    const { localize } = useTranslations();
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -92,16 +94,16 @@ const AppContent = () => {
             return (
                 <div className='app-content__body'>
                     <Tabs
-                        activeTab={activeTab}
+                        activeTab={localize(activeTab)}
                         className='app-content__tabs'
                         onChange={index => {
-                            setActiveTab(tabRoutesConfiguration[index].name);
+                            setActiveTab(localize(tabRoutesConfiguration[index].name));
                             history.push(tabRoutesConfiguration[index].path);
                         }}
                         variant='secondary'
                     >
                         {tabRoutesConfiguration.map(route => (
-                            <Tab key={route.name} title={route.name} />
+                            <Tab key={localize(route.name)} title={localize(route.name)} />
                         ))}
                     </Tabs>
                     {isDesktop && !isEndpointRoute && <GuideTooltip />}
