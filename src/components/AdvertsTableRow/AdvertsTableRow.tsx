@@ -145,8 +145,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     )}
                     <Container {...(!isDesktop && { className: 'flex flex-col-reverse mb-7' })}>
                         <Text color={textColor} size='sm'>
-                            {!isDesktop && 'Limits:'} {minOrderAmountLimitDisplay}-{maxOrderAmountLimitDisplay}{' '}
-                            {accountCurrency}
+                            {!isDesktop && localize('Limits:')} {minOrderAmountLimitDisplay}-
+                            {maxOrderAmountLimitDisplay} {accountCurrency}
                         </Text>
                         <Text className='text-wrap w-[90%]' color='success' size={size} weight='bold'>
                             {displayEffectiveRate} {localCurrency}
@@ -191,7 +191,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         </Button>
                     ) : (
                         <Button
-                            className='lg:w-[7.5rem]'
+                            className='lg:min-w-[7.5rem]'
                             disabled={isAdvertiserBarred}
                             onClick={() => {
                                 if (!isPoaVerified || !isPoiVerified) {
@@ -205,7 +205,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             size={size}
                             textSize={buttonTextSize()}
                         >
-                            {isBuyAdvert ? 'Buy' : 'Sell'} {accountCurrency}
+                            {isBuyAdvert ? localize('Buy') : localize('Sell')} {accountCurrency}
                         </Button>
                     )}
                 </div>

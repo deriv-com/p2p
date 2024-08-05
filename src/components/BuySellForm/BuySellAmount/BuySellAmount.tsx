@@ -4,6 +4,7 @@ import { TCurrency } from 'types';
 import { LightDivider } from '@/components';
 import { VALID_SYMBOLS_PATTERN } from '@/constants';
 import { floatingPointValidator, getTextFieldError, restrictDecimalPlace } from '@/utils';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Input, Text, TextArea, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import './BuySellAmount.scss';
@@ -44,6 +45,7 @@ const BuySellAmount = ({
 }: TBuySellAmountProps) => {
     const { isDesktop } = useDevice();
     const labelSize = isDesktop ? 'xs' : 'sm';
+    const { localize } = useTranslations();
 
     useEffect(() => {
         setBuySellAmount(
@@ -66,7 +68,10 @@ const BuySellAmount = ({
             <div className='flex w-full'>
                 <div className='flex flex-col gap-[2rem] w-full'>
                     <Text className='px-[1.6rem] lg:px-[2.4rem]' color='less-prominent' size='sm'>
-                        {`Enter ${isBuy ? 'sell' : 'buy'} amount`}
+                        <Localize
+                            i18n_default_text='Enter {{buySell}} amount'
+                            values={{ buySell: isBuy ? localize('sell') : localize('buy') }}
+                        />
                     </Text>
                     <Controller
                         control={control}
@@ -84,9 +89,11 @@ const BuySellAmount = ({
                                         disabled={isDisabled}
                                         error={!!error?.message}
                                         isFullWidth
-                                        label={`${isBuy ? 'Sell' : 'Buy'} amount`}
+                                        label={`${isBuy ? localize('Sell') : localize('Buy')} ${localize('amount')}`}
                                         message={
-                                            error ? error?.message : `Limit: ${minLimit}-${maxLimit} ${accountCurrency}`
+                                            error
+                                                ? error?.message
+                                                : `${localize('Limit')}: ${minLimit}-${maxLimit} ${accountCurrency}`
                                         }
                                         min={0}
                                         name='amount'
@@ -125,7 +132,12 @@ const BuySellAmount = ({
                 {!isDesktop && <LightDivider />}
                 {isDesktop && (
                     <div className='buy-sell-amount__value'>
-                        <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
+                        <Text color='less-prominent' size={labelSize}>
+                            <Localize
+                                i18n_default_text='You’ll {{receiveSend}}'
+                                values={{ receiveSend: isBuy ? localize('receive') : localize('send') }}
+                            />
+                        </Text>
                         <Text size='sm' weight='bold'>
                             {buySellAmount}&nbsp;{localCurrency}
                         </Text>

@@ -7,7 +7,7 @@ type TBadgeProps = {
     label?: string;
     status?: string;
     tradeCount?: number | undefined;
-    variant?: 'general' | 'success' | 'warning';
+    variant?: string;
 };
 
 const Badge = ({ label, status, tradeCount, variant }: TBadgeProps) => {
