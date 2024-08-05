@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TCountryListItem, TCurrency, TOrderExpiryOptions, TStep } from 'types';
+import { TCountryListItem, TCurrency, TInitialData, TOrderExpiryOptions, TStep } from 'types';
 import { FormProgress, Wizard } from '@/components';
 import { LabelPairedXmarkLgBoldIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
@@ -13,19 +13,23 @@ import './AdWizard.scss';
 type TAdWizardNav = {
     countryList: TCountryListItem;
     currency: TCurrency;
-    initialPaymentMethods: number[] | string[];
+    initialData: TInitialData;
     localCurrency?: TCurrency;
     onCancel: () => void;
     orderExpiryOptions: TOrderExpiryOptions;
     rateType: string;
+    setShouldReset: (shouldReset: boolean) => void;
+    shouldReset: boolean;
     steps: TStep[];
 };
 
 const AdWizard = ({
     countryList,
-    initialPaymentMethods,
+    initialData,
     onCancel,
     orderExpiryOptions,
+    setShouldReset,
+    shouldReset,
     steps,
     ...rest
 }: TAdWizardNav) => {
@@ -34,6 +38,7 @@ const AdWizard = ({
     const wizardProps = {
         getCurrentStep: () => currentStep + 1,
         getTotalSteps: () => steps.length,
+        goToFirstStep: () => setCurrentStep(0),
         goToNextStep: () => setCurrentStep(currentStep + 1),
         goToPreviousStep: () => setCurrentStep(currentStep - 1),
     };
@@ -82,8 +87,10 @@ const AdWizard = ({
             <AdConditionsSection
                 {...wizardProps}
                 countryList={countryList}
+                initialData={initialData}
+                setShouldReset={setShouldReset}
+                shouldReset={shouldReset}
                 {...rest}
-                initialPaymentMethods={initialPaymentMethods}
             />
         </Wizard>
     );
