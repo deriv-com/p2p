@@ -12,7 +12,7 @@ const AdStatus = ({ isActive = false }: TAdStatusProps) => {
     return (
         <Text
             align='center'
-            className={clsx({
+            className={clsx('ad-status', {
                 'ad-status--active': isActive,
                 'ad-status--inactive': !isActive,
             })}

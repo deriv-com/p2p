@@ -5,7 +5,7 @@
         position: relative;
         & .table {
             &__header {
-                grid-template-columns: repeat(3, 1.6fr) 1.9fr 3fr 1.9fr;
+                grid-template-columns: repeat(2, 1.6fr) 1.8fr 1.9fr 3fr 1.9fr;
             }
 
             &__content {
