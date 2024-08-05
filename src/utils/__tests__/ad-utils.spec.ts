@@ -80,11 +80,11 @@ describe('ad-utils', () => {
 
     describe('getEligibilityErrorMessage', () => {
         it('should return the corresponding error message based on the error code', () => {
-            const result = getEligibilityErrorMessage(['join_date']);
+            const result = getEligibilityErrorMessage(['join_date'], jest.fn());
             expect(result).toEqual("You've not used Deriv P2P long enough for this ad.");
         });
         it('should return the default error message when the error code is not found', () => {
-            const result = getEligibilityErrorMessage(['unknown_error']);
+            const result = getEligibilityErrorMessage(['unknown_error'], jest.fn());
             expect(result).toEqual("The advertiser has set conditions for this ad that you don't meet.");
         });
     });
