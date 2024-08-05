@@ -7,11 +7,12 @@ import {
     DerivLightP2pBannerImageIcon as IntroducingDerivP2PIcon,
     StandalonePlayFillIcon,
 } from '@deriv/quill-icons';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { Carousel } from '../../components';
 
 const Videos = () => {
+    const { localize } = useTranslations();
     const { isDesktop } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const [videoTitle, setVideoTitle] = useState('');
@@ -46,7 +47,9 @@ const Videos = () => {
                                     className='cursor-pointer row-start-1 col-start-1'
                                     fill='#fff'
                                     iconSize='xl'
-                                    onClick={() => playVideo('Introducing Deriv P2P', INTRODUCING_DERIV_P2P_URL)}
+                                    onClick={() =>
+                                        playVideo(localize('Introducing Deriv P2P'), INTRODUCING_DERIV_P2P_URL)
+                                    }
                                 />
                             </div>
                         ),
@@ -73,7 +76,9 @@ const Videos = () => {
                                     className='cursor-pointer row-start-1 col-start-1'
                                     fill='#fff'
                                     iconSize='xl'
-                                    onClick={() => playVideo('How to use the Deriv P2P app', HOW_TO_USE_DERIV_P2P_URL)}
+                                    onClick={() =>
+                                        playVideo(localize('How to use the Deriv P2P app'), HOW_TO_USE_DERIV_P2P_URL)
+                                    }
                                 />
                             </div>
                         ),

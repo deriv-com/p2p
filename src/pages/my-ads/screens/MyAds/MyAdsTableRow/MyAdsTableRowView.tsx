@@ -18,6 +18,7 @@ import { api } from '@/hooks';
 import useInvalidateQuery from '@/hooks/api/useInvalidateQuery';
 import { useFloatingRate, useModalManager } from '@/hooks/custom-hooks';
 import { getPaymentMethodObjects, getVisibilityErrorCodes } from '@/utils';
+import { useTranslations } from '@deriv-com/translations';
 import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { TMyAdsTableRowRendererProps } from '../MyAdsTable/MyAdsTable';
 import MyAdsTableRow from './MyAdsTableRow';
@@ -44,6 +45,7 @@ const MyAdsTableRowView = ({
     isListed,
     ...rest
 }: TMyAdsTableRowRendererProps) => {
+    const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const invalidate = useInvalidateQuery();
     const { data: paymentMethodList = [] } = api.paymentMethods.useGet();
@@ -268,7 +270,7 @@ const MyAdsTableRowView = ({
             {!!isModalOpenFor('AdCreateEditErrorModal') && (
                 <AdCreateEditErrorModal
                     errorCode={createError?.code as TErrorCodes}
-                    errorMessage={createError?.message ?? 'Something’s not right'}
+                    errorMessage={createError?.message ?? localize('Something’s not right')}
                     isModalOpen
                     onRequestClose={hideModal}
                 />
