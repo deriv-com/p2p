@@ -227,8 +227,8 @@ export type TOrderIdsMap = {
 };
 
 export type TInitialData = {
-    minCompletionRate: string;
-    minJoinDays: string;
+    minCompletionRate: string | null;
+    minJoinDays: string | null;
     paymentMethod: number[] | string[];
     selectedCountries: string[];
 };
