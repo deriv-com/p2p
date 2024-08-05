@@ -50,6 +50,7 @@ jobs:
                 VITE_GROWTHBOOK_CLIENT_KEY: ${{ vars.VITE_GROWTHBOOK_CLIENT_KEY }}
                 VITE_RUDDERSTACK_KEY: ${{ vars.VITE_RUDDERSTACK_KEY }}
                 VITE_REMOTE_CONFIG_URL: ${{ vars.VITE_REMOTE_CONFIG_URL }}
+                VITE_NODE_ENV: production
 
             - name: Run tests for Eslint
               run: npm run test:lint
