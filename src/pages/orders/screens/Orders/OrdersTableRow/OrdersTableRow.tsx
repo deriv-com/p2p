@@ -133,7 +133,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
             onClick={showOrderDetails}
         >
             {isPast && <Text size='sm'>{purchaseTime}</Text>}
-            <Text size='sm'>{isBuyOrderForUser ? 'Buy' : 'Sell'}</Text>
+            <Text size='sm'>{isBuyOrderForUser ? localize('Buy') : localize('Sell')}</Text>
             <Text size='sm'>{id}</Text>
             <Text size='sm'>{orderDetails.otherUserDetails.name}</Text>
             <Text size='sm' weight='bold'>

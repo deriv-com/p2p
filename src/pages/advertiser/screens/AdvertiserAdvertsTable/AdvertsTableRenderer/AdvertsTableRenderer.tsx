@@ -1,10 +1,14 @@
-import { TAdvertsTableRowRenderer } from 'types';
+import { TAdvertsTableRowRenderer, TLocalize } from 'types';
 import { AdvertsTableRow, Table } from '@/components';
 import { DerivLightIcNoDataIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { ActionScreen, Loader, Text } from '@deriv-com/ui';
 
-const columns = [{ header: 'Limits' }, { header: 'Rate (1 USD)' }, { header: 'Payment methods' }];
+const getColumns = (localize: TLocalize) => [
+    { header: localize('Limits') },
+    { header: localize('Rate (1 USD)') },
+    { header: localize('Payment methods') },
+];
 
 const headerRenderer = (header: string) => <span>{header}</span>;
 
@@ -37,7 +41,7 @@ const AdvertsTableRenderer = ({ data, isFetching, isLoading, loadMoreAdverts }: 
     }
     return (
         <Table
-            columns={columns}
+            columns={getColumns(localize)}
             data={data}
             emptyDataMessage={localize('There are no matching ads.')}
             isFetching={isFetching}

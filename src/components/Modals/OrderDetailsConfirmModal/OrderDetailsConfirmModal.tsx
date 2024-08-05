@@ -75,11 +75,11 @@ const OrderDetailsConfirmModal = ({
                     />
                 </Text>
                 <Text className='pt-[0.8rem] pb-[2.4rem]' color='less-prominent' size='sm'>
-                    <Localize i18n_default_text=' We accept JPG, PDF, or PNG (up to 5MB).' />
+                    <Localize i18n_default_text='We accept JPG, PDF, or PNG (up to 5MB).' />
                 </Text>
                 <InlineMessage className='mb-4' variant='warning'>
                     <Text size={isDesktop ? '2xs' : 'xs'}>
-                        <Localize i18n_default_text=' Sending forged documents will result in an immediate and permanent ban.' />
+                        <Localize i18n_default_text='Sending forged documents will result in an immediate and permanent ban.' />
                     </Text>
                 </InlineMessage>
                 <FileUploaderComponent

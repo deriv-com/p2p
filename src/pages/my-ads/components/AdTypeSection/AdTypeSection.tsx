@@ -175,14 +175,14 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
             </div>
             {isSell && (
                 <AdFormTextArea
-                    field='Contact details'
+                    field={localize('Contact details')}
                     label={localize('Your contact details')}
                     name='contact-details'
                     required
                 />
             )}
             <AdFormTextArea
-                field='Instructions'
+                field={localize('Instructions')}
                 hint={localize('This information will be visible to everyone')}
                 label={localize('Instructions(optional)')}
                 name='instructions'
