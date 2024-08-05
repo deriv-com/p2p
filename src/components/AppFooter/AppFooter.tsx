@@ -46,7 +46,10 @@ const AppFooter = () => {
                     isModalOpen
                     languages={LANGUAGES}
                     onClose={hideModal}
-                    onLanguageSwitch={code => switchLanguage(code)}
+                    onLanguageSwitch={code => {
+                        switchLanguage(code);
+                        window.location.reload();
+                    }}
                     selectedLanguage={currentLang}
                 />
             )}
