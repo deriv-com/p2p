@@ -44,6 +44,7 @@ const AdConditionsSection = ({
     } = useFormContext();
     const { isDesktop } = useDevice();
     const selectedMethods = getValues('payment-method') ?? [];
+    const preferedCountries = getValues('preferred-countries') ?? [];
     const labelSize = isDesktop ? 'sm' : 'md';
 
     useEffect(() => {
@@ -80,10 +81,8 @@ const AdConditionsSection = ({
     const isMinJoinDaysSame = () => (minJoinDays?.toString() ?? null) === initialData.minJoinDays;
 
     const isPreferredCountriesSame = () =>
-        initialData?.selectedCountries.length === watch('preferred-countries').length &&
-        initialData?.selectedCountries
-            .sort()
-            .every((value, index) => value === watch('preferred-countries').sort()[index]);
+        initialData?.selectedCountries.length === preferedCountries.length &&
+        initialData?.selectedCountries.sort().every((value, index) => value === preferedCountries.sort()[index]);
 
     return (
         <div className='ad-conditions-section'>
