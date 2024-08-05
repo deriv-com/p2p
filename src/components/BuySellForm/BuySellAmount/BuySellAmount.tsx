@@ -126,7 +126,7 @@ const BuySellAmount = ({
                 {isDesktop && (
                     <div className='buy-sell-amount__value'>
                         <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
-                        <Text size='sm' weight='bold'>
+                        <Text data-testid='dt_buy_sell_amount_value' size='sm' weight='bold'>
                             {buySellAmount}&nbsp;{localCurrency}
                         </Text>
                     </div>
@@ -205,7 +205,7 @@ const BuySellAmount = ({
                     <LightDivider />
                     <div className='buy-sell-amount__value'>
                         <Text color='less-prominent' size={labelSize}>{`You'll ${isBuy ? 'receive' : 'send'}`}</Text>
-                        <Text size='md' weight='bold'>
+                        <Text data-testid='dt_buy_sell_amount_value' size='md' weight='bold'>
                             {buySellAmount} {localCurrency}
                         </Text>
                     </div>

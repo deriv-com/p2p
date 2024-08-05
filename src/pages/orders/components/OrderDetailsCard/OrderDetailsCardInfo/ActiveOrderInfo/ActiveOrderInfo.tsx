@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { LightDivider } from '@/components';
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
+import { formatDataTestId } from '@/utils';
 import { Text, useDevice } from '@deriv-com/ui';
 import { PaymentMethodAccordion } from '../PaymentMethodAccordion';
 
@@ -38,7 +39,9 @@ const ActiveOrderInfo = () => {
                             <Text size={textSize} weight='bold'>
                                 {detail.text}
                             </Text>
-                            <Text size={textSize}>{detail.value}</Text>
+                            <Text data-testid={`dt_${formatDataTestId(detail.text)}`} size={textSize}>
+                                {detail.value}
+                            </Text>
                         </div>
                         {key === 0 && <LightDivider />}
                     </Fragment>
