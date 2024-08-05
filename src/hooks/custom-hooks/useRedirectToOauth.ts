@@ -12,6 +12,7 @@ const useRedirectToOauth = () => {
     const redirectToOauth = useCallback(() => {
         if (shouldRedirect) {
             let iframe = document.getElementById('logout-iframe') as HTMLIFrameElement;
+
             if (!iframe) {
                 iframe = document.createElement('iframe');
                 iframe.id = 'logout-iframe';
