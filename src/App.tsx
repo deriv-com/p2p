@@ -29,7 +29,7 @@ const App = () => {
     redirectToOauth();
 
     useEffect(() => {
-        if (isGBLoaded && ShoudlRedirectToDerivApp) {
+        if (isGBLoaded && ShouldRedirectToDerivApp) {
             const NODE_ENV = process.env.VITE_NODE_ENV;
             const APP_URL = NODE_ENV === 'production' ? URLConstants.derivAppProduction : URLConstants.derivAppStaging;
             window.location.href = `${APP_URL}/cashier/p2p`;
