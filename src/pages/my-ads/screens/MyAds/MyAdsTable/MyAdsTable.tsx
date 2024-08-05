@@ -15,8 +15,8 @@ type TAdvertiserPaymentMethods = THooks.AdvertiserPaymentMethods.Get;
 export type TMyAdsTableRowRendererProps = NonUndefined<THooks.AdvertiserAdverts.Get>[0] & {
     advertiserPaymentMethods: TAdvertiserPaymentMethods;
     balanceAvailable: number;
-    dailyBuyLimit: string;
-    dailySellLimit: string;
+    dailyBuyLimit: number;
+    dailySellLimit: number;
     isBarred: boolean;
     isListed: boolean;
 };
@@ -54,7 +54,9 @@ const MyAdsTable = () => {
     const {
         balance_available: balanceAvailable,
         blocked_until: blockedUntil,
+        daily_buy: dailyBuy,
         daily_buy_limit: dailyBuyLimit,
+        daily_sell: dailySell,
         daily_sell_limit: dailySellLimit,
         isListedBoolean: isListed,
     } = advertiserInfo || {};
@@ -88,8 +90,8 @@ const MyAdsTable = () => {
                             {...(rowData as TMyAdsTableRowRendererProps)}
                             advertiserPaymentMethods={advertiserPaymentMethods as TAdvertiserPaymentMethods}
                             balanceAvailable={balanceAvailable ?? 0}
-                            dailyBuyLimit={dailyBuyLimit ?? ''}
-                            dailySellLimit={dailySellLimit ?? ''}
+                            dailyBuyLimit={Number(dailyBuyLimit) - Number(dailyBuy) ?? 0}
+                            dailySellLimit={Number(dailySellLimit) - Number(dailySell) ?? 0}
                             isBarred={!!blockedUntil}
                             isListed={!!isListed}
                         />
