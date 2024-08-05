@@ -66,16 +66,20 @@ export const generateEffectiveRate = ({
 
     if (rateType === RATE_TYPE.FIXED) {
         effectiveRate = price;
-        displayEffectiveRate = FormatUtils.formatMoney(effectiveRate, { currency: localCurrency });
+        displayEffectiveRate = effectiveRate
+            ? FormatUtils.formatMoney(effectiveRate, { currency: localCurrency })
+            : '-';
     } else {
         effectiveRate = exchangeRate > 0 ? percentOf(exchangeRate, rate) : marketRate;
         const decimalPlace = setDecimalPlaces(effectiveRate, 6);
-        displayEffectiveRate = removeTrailingZeros(
-            FormatUtils.formatMoney(Number(roundOffDecimal(effectiveRate, decimalPlace)), {
-                currency: localCurrency,
-                decimalPlaces: decimalPlace,
-            })
-        );
+        displayEffectiveRate = effectiveRate
+            ? removeTrailingZeros(
+                  FormatUtils.formatMoney(Number(roundOffDecimal(effectiveRate, decimalPlace)), {
+                      currency: localCurrency,
+                      decimalPlaces: decimalPlace,
+                  })
+              )
+            : '-';
     }
     return { displayEffectiveRate, effectiveRate: Number(effectiveRate) };
 };
