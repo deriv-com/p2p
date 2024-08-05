@@ -9,16 +9,8 @@ import { getCurrentRoute } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
 import Router from '../Router';
-import { routes } from '../routes-config';
+import { getRoutes } from '../routes-config';
 import './index.scss';
-
-const tabRoutesConfiguration = routes.filter(
-    route =>
-        route.name !== 'Advertiser' &&
-        route.name !== 'Endpoint' &&
-        route.name !== 'Guide' &&
-        route.name !== 'P2PRedirectHandler'
-);
 
 const AppContent = () => {
     const isGtmTracking = useRef(false);
@@ -29,6 +21,15 @@ const AppContent = () => {
     const { init: initLiveChat } = useLiveChat();
     const { isP2PBlocked, status } = useIsP2PBlocked();
     const { localize } = useTranslations();
+    const routes = getRoutes(localize);
+
+    const tabRoutesConfiguration = routes.filter(
+        route =>
+            route.name !== 'Advertiser' &&
+            route.name !== 'Endpoint' &&
+            route.name !== 'Guide' &&
+            route.name !== 'P2PRedirectHandler'
+    );
 
     const getActiveTab = (pathname: string) => {
         const match = routes.find(route => pathname.startsWith(route.path));
@@ -76,6 +77,7 @@ const AppContent = () => {
 
     useEffect(() => {
         setActiveTab(getActiveTab(location.pathname));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     useEffect(() => {
@@ -97,13 +99,13 @@ const AppContent = () => {
                         activeTab={localize(activeTab)}
                         className='app-content__tabs'
                         onChange={index => {
-                            setActiveTab(localize(tabRoutesConfiguration[index].name));
+                            setActiveTab(tabRoutesConfiguration[index].text || '');
                             history.push(tabRoutesConfiguration[index].path);
                         }}
                         variant='secondary'
                     >
                         {tabRoutesConfiguration.map(route => (
-                            <Tab key={localize(route.name)} title={localize(route.name)} />
+                            <Tab key={localize(route.name)} title={route.text || ''} />
                         ))}
                     </Tabs>
                     {isDesktop && !isEndpointRoute && <GuideTooltip />}

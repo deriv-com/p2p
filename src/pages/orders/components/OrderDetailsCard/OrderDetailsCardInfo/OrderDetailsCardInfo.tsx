@@ -1,4 +1,5 @@
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
+import { useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { ActiveOrderInfo } from './ActiveOrderInfo';
 
@@ -15,6 +16,7 @@ const OrderDetailsCardInfo = () => {
         rateAmount,
     } = orderDetails;
     const { isDesktop } = useDevice();
+    const { localize } = useTranslations();
 
     const clientDetails = [
         { text: labels.counterpartyNicknameLabel, value: otherUserDetails.name },
@@ -28,10 +30,10 @@ const OrderDetailsCardInfo = () => {
             value: `${amountDisplay} ${accountCurrency}`,
         },
         {
-            text: `Rate (1 ${accountCurrency})`,
+            text: localize(`Rate (1 ${accountCurrency})`),
             value: `${rateAmount} ${localCurrency}`,
         },
-        { text: 'Time', value: purchaseTime },
+        { text: localize('Time'), value: purchaseTime },
     ];
 
     return (

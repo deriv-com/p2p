@@ -118,14 +118,14 @@ const BuySellAmount = ({
                         }}
                         rules={{
                             max: {
-                                message: `Maximum is ${maxLimit}${accountCurrency}`,
+                                message: `${localize('Maximum is')} ${maxLimit}${accountCurrency}`,
                                 value: maxLimit,
                             },
                             min: {
-                                message: `Minimum is ${minLimit}${accountCurrency}`,
+                                message: `${localize('Minimum is')} ${minLimit}${accountCurrency}`,
                                 value: minLimit,
                             },
-                            required: 'Enter a valid amount',
+                            required: localize('Enter a valid amount'),
                         }}
                     />
                 </div>
@@ -159,10 +159,10 @@ const BuySellAmount = ({
                                                 hint={
                                                     error
                                                         ? error.message
-                                                        : 'Bank name, account number, beneficiary name'
+                                                        : localize('Bank name, account number, beneficiary name')
                                                 }
                                                 isInvalid={!!error}
-                                                label='Your bank details'
+                                                label={localize('Your bank details')}
                                                 maxLength={300}
                                                 onBlur={onBlur}
                                                 onChange={onChange}
@@ -175,10 +175,10 @@ const BuySellAmount = ({
                                 }}
                                 rules={{
                                     pattern: {
-                                        message: getTextFieldError('Bank details'),
+                                        message: getTextFieldError(localize('Bank details')),
                                         value: VALID_SYMBOLS_PATTERN,
                                     },
-                                    required: 'Bank details is required',
+                                    required: localize('Bank details is required'),
                                 }}
                             />
                         </>
@@ -192,7 +192,7 @@ const BuySellAmount = ({
                                 <TextArea
                                     hint={error ? error.message : ''}
                                     isInvalid={!!error}
-                                    label='Your contact details'
+                                    label={localize('Your contact details')}
                                     maxLength={300}
                                     onBlur={onBlur}
                                     onChange={onChange}
@@ -204,10 +204,10 @@ const BuySellAmount = ({
                         )}
                         rules={{
                             pattern: {
-                                message: getTextFieldError('Contact details'),
+                                message: getTextFieldError(localize('Contact details')),
                                 value: VALID_SYMBOLS_PATTERN,
                             },
-                            required: 'Contact details is required',
+                            required: localize('Contact details is required'),
                         }}
                     />
                 </div>

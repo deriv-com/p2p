@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { TLocalize } from 'types';
 import { ADVERTISER_URL, BUY_SELL_URL, GUIDE_URL, MY_ADS_URL, MY_PROFILE_URL, ORDERS_URL } from '@/constants';
 
 const BuySell = lazy(() => import('@/pages/buy-sell').then(module => ({ default: module.BuySell })));
@@ -16,11 +17,12 @@ const Endpoint = lazy(() => import('@/pages/endpoint').then(module => ({ default
 const Guide = lazy(() => import('@/pages/guide').then(module => ({ default: module.Guide })));
 const P2PRedirectHandler = lazy(() => import('./P2PRedirectHandler'));
 
-export const routes = [
+export const getRoutes = (localize: TLocalize) => [
     {
         component: BuySell,
         name: 'Buy/Sell',
         path: BUY_SELL_URL,
+        text: localize('Buy/Sell'),
     },
     {
         component: Orders,
@@ -32,6 +34,7 @@ export const routes = [
                 path: `${ORDERS_URL}/:orderId`,
             },
         ],
+        text: localize('Orders'),
     },
     {
         component: MyAds,
@@ -43,11 +46,13 @@ export const routes = [
                 path: `${MY_ADS_URL}/adForm`,
             },
         ],
+        text: localize('My ads'),
     },
     {
         component: MyProfile,
         name: 'My Profile',
         path: MY_PROFILE_URL,
+        text: localize('My Profile'),
     },
     {
         component: Advertiser,
