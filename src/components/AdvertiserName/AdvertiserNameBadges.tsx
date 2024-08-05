@@ -18,8 +18,16 @@ const AdvertiserNameBadges = ({ advertiserStats }: { advertiserStats: DeepPartia
     return (
         <div className='advertiser-name-badges' data-testid='dt_advertiser_name_badges'>
             {(totalOrders || 0) >= 100 && <Badge label='100+' status={localize('trades')} variant='warning' />}
-            <Badge label='ID' status={getStatus(isIdentityVerified)} variant={getVariant(isIdentityVerified)} />
-            <Badge label='Address' status={getStatus(isAddressVerified)} variant={getVariant(isAddressVerified)} />
+            <Badge
+                label={localize('ID')}
+                status={getStatus(isIdentityVerified)}
+                variant={getVariant(isIdentityVerified)}
+            />
+            <Badge
+                label={localize('Address')}
+                status={getStatus(isAddressVerified)}
+                variant={getVariant(isAddressVerified)}
+            />
         </div>
     );
 };
