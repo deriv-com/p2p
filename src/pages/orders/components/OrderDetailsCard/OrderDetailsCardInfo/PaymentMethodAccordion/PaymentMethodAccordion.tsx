@@ -52,7 +52,7 @@ const PaymentMethodAccordion = ({
                             const paymentMethodFields = paymentMethodDetails[key].fields;
 
                             return (
-                                <div className='py-2' key={key}>
+                                <div className='py-2' data-testid='dt_payment_detail' key={key}>
                                     <div
                                         className='flex items-center justify-between cursor-pointer'
                                         onClick={() => {

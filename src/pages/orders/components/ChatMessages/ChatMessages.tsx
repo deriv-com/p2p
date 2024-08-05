@@ -41,7 +41,13 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMess
         switch (fileType) {
             case CHAT_FILE_TYPE.IMAGE:
                 return (
-                    <a className='chat-messages__item__image' href={url} rel='noopener noreferrer' target='_blank'>
+                    <a
+                        className='chat-messages__item__image'
+                        data-testid='dt_chat_messages_item_image'
+                        href={url}
+                        rel='noopener noreferrer'
+                        target='_blank'
+                    >
                         <img alt={name} onLoad={onImageLoad} src={url} />
                     </a>
                 );
@@ -108,6 +114,7 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMess
                                 'chat-messages__item',
                                 `chat-messages__item__${isMyMessage ? 'outgoing' : 'incoming'}`
                             )}
+                            data-testid={`dt_chat_messages_item_${isMyMessage ? 'outgoing' : 'incoming'}`}
                         >
                             {messageType === CHAT_MESSAGE_TYPE.USER && (
                                 <ChatMessageText color={messageColor} type={customType}>
@@ -115,7 +122,10 @@ const ChatMessages = ({ chatChannel, chatMessages = [], userId = '' }: TChatMess
                                 </ChatMessageText>
                             )}
                             {messageType === CHAT_MESSAGE_TYPE.FILE && getMessageFormat(chatMessage, messageColor)}
-                            <div className='chat-messages__item__timestamp'>
+                            <div
+                                className='chat-messages__item__timestamp'
+                                data-testid='dt_chat_messages_item_timestamp'
+                            >
                                 <Text color='less-prominent' size={isDesktop ? '2xs' : 'xs'}>
                                     {formatMilliseconds(chatMessage.createdAt, 'HH:mm', true)}
                                 </Text>

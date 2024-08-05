@@ -65,7 +65,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
         );
 
     return (
-        <div className='currency-dropdown' ref={currencySelectorRef}>
+        <div className='currency-dropdown' data-testid='dt_currency_dropdown' ref={currencySelectorRef}>
             <div
                 className={clsx('currency-dropdown__dropdown', {
                     'currency-dropdown__dropdown--active': showCurrencySelector,
