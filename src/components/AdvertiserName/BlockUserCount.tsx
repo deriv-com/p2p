@@ -2,8 +2,9 @@ import { TLocalize } from 'types';
 import { useModalManager } from '@/hooks';
 import { LabelPairedCircleUserSlashSmRegularIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { Button, Text, Tooltip, useDevice } from '@deriv-com/ui';
+import { Text, useDevice } from '@deriv-com/ui';
 import { BlockUserCountModal } from '../Modals';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 import './BlockUserCount.scss';
 
 type TBlockUserCount = {
@@ -31,25 +32,21 @@ const BlockUserCount = ({ count }: TBlockUserCount) => {
     const { isDesktop } = useDevice();
     return (
         <div className='block-user-count'>
-            <Tooltip
+            <TooltipMenuIcon
+                as='button'
                 className='block-user-count__tooltip'
-                message={<Text size='xs'>{getMessage(localize, count)}</Text>}
+                data-testid='dt_block_user_count_button'
+                onClick={() => {
+                    isDesktop ? undefined : showModal('BlockUserCountModal');
+                }}
+                tooltipContent={getMessage(localize, count)}
             >
-                <Button
-                    className='block-user-count__button'
-                    color='white'
-                    data-testid='dt_block_user_count_button'
-                    onClick={() => {
-                        isDesktop ? undefined : showModal('BlockUserCountModal');
-                    }}
-                    variant='outlined'
-                >
-                    <LabelPairedCircleUserSlashSmRegularIcon />
-                </Button>
+                <LabelPairedCircleUserSlashSmRegularIcon />
+
                 <Text color='less-prominent' size='sm'>
                     {count ?? 0}
                 </Text>
-            </Tooltip>
+            </TooltipMenuIcon>
             {!!isModalOpenFor('BlockUserCountModal') && (
                 <BlockUserCountModal isModalOpen message={getMessage(localize, count)} onRequestClose={hideModal} />
             )}
