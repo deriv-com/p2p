@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { TCountryListItem } from 'types';
+import { TCountryListItem, TLocalize } from 'types';
 import { ERROR_CODES, RATE_TYPE } from '@/constants';
 import { localize } from '@deriv-com/translations';
 import { rangeValidator } from './format-value';
@@ -185,15 +185,15 @@ export const restrictDecimalPlace = (
  * @param {string[]} errorCodes - The array of error codes.
  * @returns {string} - The error message.
  */
-export const getEligibilityErrorMessage = (errorCodes: string[]) => {
+export const getEligibilityErrorMessage = (errorCodes: string[], localize: TLocalize) => {
     const errorMessages: { [key: string]: string } = {
-        completion_rate: 'Your completion rate is too low for this ad.',
-        join_date: "You've not used Deriv P2P long enough for this ad.",
+        completion_rate: localize('Your completion rate is too low for this ad.'),
+        join_date: localize("You've not used Deriv P2P long enough for this ad."),
     };
 
     if (errorCodes.length === 1 && errorMessages[errorCodes[0]]) {
         return errorMessages[errorCodes[0]];
     }
 
-    return "The advertiser has set conditions for this ad that you don't meet.";
+    return localize("The advertiser has set conditions for this ad that you don't meet.");
 };
