@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getOauthUrl } from '@/constants';
 import { getCurrentRoute } from '@/utils';
 import { useAuthData } from '@deriv-com/api-hooks';
+import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
 
 const useRedirectToOauth = () => {
     const [shouldRedirect, setShouldRedirect] = useState(false);
@@ -9,8 +10,14 @@ const useRedirectToOauth = () => {
     const isEndpointPage = getCurrentRoute() === 'endpoint';
     const oauthUrl = getOauthUrl();
 
+    const [isOauth2Enabled] = useGrowthbookGetFeatureValue<boolean>({
+        defaultValue: false,
+        featureFlag: 'enableOAuth2',
+    });
+
     const redirectToOauth = useCallback(() => {
-        if (shouldRedirect) {
+        // Testing the use of the iframe element
+        if (shouldRedirect && isOauth2Enabled) {
             let iframe = document.getElementById('logout-iframe') as HTMLIFrameElement;
 
             if (!iframe) {
@@ -26,7 +33,7 @@ const useRedirectToOauth = () => {
                 window.location.href = oauthUrl;
             };
         }
-    }, [oauthUrl, shouldRedirect]);
+    }, [isOauth2Enabled, oauthUrl, shouldRedirect]);
 
     useEffect(() => {
         if (
