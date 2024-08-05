@@ -10,32 +10,34 @@ const useRedirectToOauth = () => {
     const isEndpointPage = getCurrentRoute() === 'endpoint';
     const oauthUrl = getOauthUrl();
 
-    const [isOauth2Enabled] = useGrowthbookGetFeatureValue<boolean>({
+    const [isOauth2Enabled, isGBLoaded] = useGrowthbookGetFeatureValue<boolean>({
         defaultValue: false,
-        featureFlag: 'enableOAuth2',
+        featureFlag: 'oauth2_service_enabled',
     });
 
     const redirectToOauth = useCallback(() => {
         // Testing the use of the iframe element
-        if (shouldRedirect && isOauth2Enabled) {
-            let iframe = document.getElementById('logout-iframe') as HTMLIFrameElement;
+        if (shouldRedirect) {
+            if (isOauth2Enabled && isGBLoaded) {
+                let iframe = document.getElementById('logout-iframe') as HTMLIFrameElement;
 
-            if (!iframe) {
-                iframe = document.createElement('iframe');
-                iframe.id = 'logout-iframe';
-                iframe.style.display = 'none';
-                document.body.appendChild(iframe);
+                if (!iframe) {
+                    iframe = document.createElement('iframe');
+                    iframe.id = 'logout-iframe';
+                    iframe.style.display = 'none';
+                    document.body.appendChild(iframe);
+                }
+
+                iframe.src = 'https://qa101.deriv.dev/oauth2/sessions/logout';
+
+                iframe.onload = () => {
+                    window.location.href = oauthUrl;
+                };
+            } else {
+                window.open(oauthUrl, '_self');
             }
-
-            iframe.src = 'https://qa101.deriv.dev/oauth2/sessions/logout';
-
-            iframe.onload = () => {
-                window.location.href = oauthUrl;
-            };
-        } else if (shouldRedirect && !isOauth2Enabled) {
-            window.open(oauthUrl, '_self');
         }
-    }, [isOauth2Enabled, oauthUrl, shouldRedirect]);
+    }, [isGBLoaded, isOauth2Enabled, oauthUrl, shouldRedirect]);
 
     useEffect(() => {
         if (
@@ -47,8 +49,8 @@ const useRedirectToOauth = () => {
     }, [error, isAuthorized, isAuthorizing, isEndpointPage, oauthUrl]);
 
     useEffect(() => {
-        redirectToOauth();
-    }, [redirectToOauth]);
+        if (isGBLoaded) redirectToOauth();
+    }, [isGBLoaded, redirectToOauth]);
 
     return {
         redirectToOauth,
