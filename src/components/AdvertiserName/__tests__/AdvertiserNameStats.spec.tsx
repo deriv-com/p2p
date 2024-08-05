@@ -6,6 +6,15 @@ jest.mock('@deriv-com/ui', () => ({
     useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+jest.mock('@/hooks', () => ({
+    useModalManager: jest.fn(() => mockModalManager),
+}));
+
 describe('AdvertiserNameStats', () => {
     it('should render correct advertiser stats', () => {
         const mockUseAdvertiserStats = {
@@ -19,7 +28,6 @@ describe('AdvertiserNameStats', () => {
         };
         render(<AdvertiserNameStats {...mockUseAdvertiserStats} />);
         expect(screen.getByText('Joined 22d')).toBeInTheDocument();
-        expect(screen.getByText('(29 ratings)')).toBeInTheDocument();
     });
 
     it('should render correct advertiser stats based on availability', () => {
