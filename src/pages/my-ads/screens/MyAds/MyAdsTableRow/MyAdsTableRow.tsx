@@ -78,9 +78,8 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
     const enableActionPoint = currentRateType !== rateType;
 
     useEffect(() => {
-        setShowAlertIcon(enableActionPoint || shouldShowTooltipIcon(visibilityStatus) || !isListed);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [enableActionPoint, isListed, shouldShowTooltipIcon]);
+        setShowAlertIcon(enableActionPoint || shouldShowTooltipIcon(visibilityStatus) || !isAdvertListed);
+    }, [enableActionPoint, isAdvertListed, visibilityStatus]);
 
     const { displayEffectiveRate } = generateEffectiveRate({
         exchangeRate,

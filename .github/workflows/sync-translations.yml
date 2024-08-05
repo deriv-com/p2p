@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Sync translations
-        uses: deriv-com/translations/.github/actions/extract_and_sync_translations@main
+        uses: deriv-com/translations/.github/actions/extract_and_sync_translations@master
         with:
           PROJECT_NAME: ${{ vars.VITE_PROJECT_NAME }}
           CROWDIN_BRANCH_NAME: ${{ vars.VITE_CROWDIN_BRANCH_NAME }}

@@ -16,7 +16,7 @@ import {
 import { AD_ACTION, MY_ADS_URL } from '@/constants';
 import { api } from '@/hooks';
 import useInvalidateQuery from '@/hooks/api/useInvalidateQuery';
-import { useFloatingRate, useModalManager, useQueryString } from '@/hooks/custom-hooks';
+import { useFloatingRate, useModalManager } from '@/hooks/custom-hooks';
 import { getPaymentMethodObjects, getVisibilityErrorCodes } from '@/utils';
 import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { TMyAdsTableRowRendererProps } from '../MyAdsTable/MyAdsTable';
@@ -50,14 +50,13 @@ const MyAdsTableRowView = ({
     const { data: p2pSettings } = api.settings.useSettings();
     const { order_payment_period: orderPaymentPeriod } = p2pSettings ?? {};
     const {
-        data: createResponse,
         error: createError,
         isError: isCreateError,
         isSuccess: isCreateSuccess,
         mutate: createAd,
     } = api.advert.useCreate();
     const { rateType: currentRateType, reachedTargetDate } = useFloatingRate();
-    const { data: updateResponse, error: updateError, isError: isErrorUpdate, mutate } = api.advert.useUpdate();
+    const { error: updateError, isError: isErrorUpdate, mutate } = api.advert.useUpdate();
     const { error, isError, mutate: deleteAd } = api.advert.useDelete();
     const shouldNotShowArchiveMessageAgain = LocalStorageUtils.getValue<boolean>(
         LocalStorageConstants.p2pArchiveMessage
@@ -74,16 +73,6 @@ const MyAdsTableRowView = ({
     const advertiserPaymentMethodObjects = getPaymentMethodObjects(
         advertiserPaymentMethods as THooks.AdvertiserPaymentMethods.Get
     );
-    const { queryString } = useQueryString();
-
-    const createAdvisibilityStatus = (location.state as TState)?.visibilityStatus;
-
-    useEffect(() => {
-        if (createAdvisibilityStatus) {
-            showModal('AdVisibilityErrorModal');
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [createAdvisibilityStatus]);
 
     const {
         account_currency: accountCurrency = '',
@@ -158,7 +147,7 @@ const MyAdsTableRowView = ({
 
     useEffect(() => {
         if (isCreateSuccess) {
-            if (shouldNotShowArchiveMessageAgain) {
+            if (!shouldNotShowArchiveMessageAgain) {
                 showModal('AdCreateEditSuccessModal');
             } else {
                 invalidate('p2p_advertiser_adverts');
@@ -287,7 +276,6 @@ const MyAdsTableRowView = ({
             {!!isModalOpenFor('AdCreateEditSuccessModal') && (
                 <AdCreateEditSuccessModal
                     advertsArchivePeriod={orderPaymentPeriod}
-                    data={queryString.formAction === 'edit' ? updateResponse : createResponse}
                     isModalOpen
                     onRequestClose={() => hideModal({ shouldHideAllModals: true })}
                 />

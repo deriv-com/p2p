@@ -40,7 +40,7 @@ const PreferredCountriesSelector = ({ countryList, type }: TPreferredCountriesSe
             <div className='preferred-countries-selector__field' onClick={() => setIsModalOpen(true)}>
                 <Text
                     className='preferred-countries-selector__field__text'
-                    color='less-prominent'
+                    color={getValues('preferred-countries')?.length !== countries.length ? 'general' : 'less-prominent'}
                     size={isDesktop ? 'sm' : 'md'}
                 >
                     {getSelectedCountriesText()}
@@ -55,7 +55,10 @@ const PreferredCountriesSelector = ({ countryList, type }: TPreferredCountriesSe
                         setValue('preferred-countries', selectedValues);
                         setIsModalOpen(false);
                     }}
-                    onRequestClose={() => setIsModalOpen(false)}
+                    onRequestClose={() => {
+                        setSelectedValues(getValues('preferred-countries'));
+                        setIsModalOpen(false);
+                    }}
                     selectedCountries={selectedValues}
                     setSelectedCountries={setSelectedValues}
                 />
