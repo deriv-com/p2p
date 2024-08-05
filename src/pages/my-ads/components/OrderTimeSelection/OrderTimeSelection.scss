@@ -1,5 +1,23 @@
 .order-time-selection {
     margin: 1rem 0;
+
+    & .deriv-dropdown {
+        &__items {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.16);
+        }
+        & .deriv-input__container {
+            width: 100%;
+        }
+
+        & .deriv-dropdown__items--xs {
+            margin-top: 0.5rem;
+            max-height: 20rem;
+
+            @include mobile-or-tablet-screen {
+                width: 100%;
+            }
+        }
+    }
 }
 
 @include mobile-or-tablet-screen {

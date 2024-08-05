@@ -51,7 +51,7 @@ const AdFormController = ({
                     <Localize i18n_default_text='Next' />
                 </Button>
             ) : (
-                <Button size='lg' textSize={textSize}>
+                <Button disabled={isEdit ? isNextButtonDisabled : false} size='lg' textSize={textSize}>
                     {isEdit ? <Localize i18n_default_text='Save changes' /> : <Localize i18n_default_text='Post ad' />}
                 </Button>
             )}

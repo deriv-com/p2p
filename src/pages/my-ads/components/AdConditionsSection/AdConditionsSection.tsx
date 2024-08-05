@@ -2,6 +2,7 @@ import { MouseEventHandler } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { TCountryListItem, TCurrency } from 'types';
 import { AD_CONDITION_TYPES } from '@/constants';
+import { isEmptyObject } from '@/utils';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { AdConditionBlockSelector } from '../AdConditionBlockSelector';
@@ -17,23 +18,38 @@ type TAdConditionsSection = {
     getTotalSteps: () => number;
     goToNextStep: MouseEventHandler<HTMLButtonElement>;
     goToPreviousStep: () => void;
+    initialPaymentMethods: number[] | string[];
     localCurrency?: TCurrency;
     rateType: string;
 };
 
-const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, ...props }: TAdConditionsSection) => {
+const AdConditionsSection = ({
+    countryList,
+    currency,
+    initialPaymentMethods,
+    localCurrency,
+    rateType,
+    ...props
+}: TAdConditionsSection) => {
     const {
-        formState: { errors },
+        formState: { errors, isDirty },
         getValues,
         setValue,
         watch,
     } = useFormContext();
     const { isDesktop } = useDevice();
+    const selectedMethods = getValues('payment-method') ?? [];
     const labelSize = isDesktop ? 'sm' : 'md';
 
     const onClickBlockSelector = (value: number, type: string) => {
         if (type === AD_CONDITION_TYPES.JOINING_DATE) {
-            setValue('min-join-days', value);
+            if (getValues('min-join-days') === value) {
+                setValue('min-join-days', 0);
+            } else {
+                setValue('min-join-days', value);
+            }
+        } else if (getValues('min-completion-rate') === value) {
+            setValue('min-completion-rate', null);
         } else {
             setValue('min-completion-rate', value);
         }
@@ -41,9 +57,14 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
 
     const minJoinDays = watch('min-join-days');
     const minCompletionRate = watch('min-completion-rate');
+
+    const isPaymentMethodsSame = () =>
+        initialPaymentMethods.length === selectedMethods.length &&
+        initialPaymentMethods.sort().every((value, index) => value === selectedMethods.sort()[index]);
     return (
         <div className='ad-conditions-section'>
             <AdSummary
+                adRateType={getValues('ad-rate-type')}
                 currency={currency}
                 localCurrency={localCurrency as TCurrency}
                 offerAmount={errors.amount ? '' : getValues('amount')}
@@ -52,7 +73,7 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
                 type={getValues('ad-type')}
             />
             <div className='flex flex-col my-[2.4rem]'>
-                <Text color='prominent' size={labelSize}>
+                <Text color='general' size={labelSize}>
                     <Localize i18n_default_text='Counterparty conditions (optional)' />
                 </Text>
                 <Text color='less-prominent' size={labelSize}>
@@ -70,7 +91,10 @@ const AdConditionsSection = ({ countryList, currency, localCurrency, rateType, .
                 type={AD_CONDITION_TYPES.COMPLETION_RATE}
             />
             <PreferredCountriesSelector countryList={countryList} type={AD_CONDITION_TYPES.PREFERRED_COUNTRIES} />
-            <AdFormController {...props} isNextButtonDisabled={!!errors} />
+            <AdFormController
+                {...props}
+                isNextButtonDisabled={!isEmptyObject(errors) || (!isDirty && isPaymentMethodsSame())}
+            />
         </div>
     );
 };

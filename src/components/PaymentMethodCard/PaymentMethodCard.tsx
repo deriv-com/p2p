@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { ComponentProps, HTMLAttributes } from 'react';
 import clsx from 'clsx';
 import { TAdvertiserPaymentMethod, TPaymentMethod } from 'types';
 import { LabelPairedPlusLgBoldIcon } from '@deriv/quill-icons';
@@ -18,6 +18,7 @@ type TPaymentMethodCardProps = HTMLAttributes<HTMLDivElement> & {
     paymentMethod: { isAvailable?: boolean } & (TAdvertiserPaymentMethod | TPaymentMethod);
     selectedPaymentMethodIds?: number[];
     shouldShowPaymentMethodDisplayName?: boolean;
+    textSize?: ComponentProps<typeof Text>['size'];
 };
 
 const PaymentMethodCard = ({
@@ -31,6 +32,7 @@ const PaymentMethodCard = ({
     paymentMethod,
     selectedPaymentMethodIds = [],
     shouldShowPaymentMethodDisplayName,
+    textSize,
 }: TPaymentMethodCardProps) => {
     const { display_name: displayName, isAvailable, type } = paymentMethod;
 
@@ -46,18 +48,20 @@ const PaymentMethodCard = ({
             })}
         >
             {!toAdd ? (
-                <div className='flex flex-col items-center justify-center w-full h-full'>
+                <div
+                    className='flex flex-col items-center justify-center w-full h-full'
+                    onClick={() => onClickAdd?.(paymentMethod)}
+                >
                     <Button
                         className='flex items-center justify-center w-[3.2rem] h-[3.2rem] mb-[0.8rem] rounded-full bg-[#ff444f]'
                         data-testid='dt_payment_method_add_button'
-                        onClick={() => onClickAdd?.(paymentMethod)}
                     >
                         <LabelPairedPlusLgBoldIcon fill='white' />
                     </Button>
                     <Text size='sm'>{displayName}</Text>
                 </div>
             ) : (
-                <>
+                <div onClick={() => onSelectPaymentMethodCard?.(Number(paymentMethod.id))}>
                     <PaymentMethodCardHeader
                         isDisabled={isDisabled}
                         isEditable={isEditable}
@@ -72,8 +76,9 @@ const PaymentMethodCard = ({
                     <PaymentMethodCardBody
                         paymentMethod={paymentMethod}
                         shouldShowPaymentMethodDisplayName={shouldShowPaymentMethodDisplayName}
+                        size={textSize}
                     />
-                </>
+                </div>
             )}
         </div>
     );

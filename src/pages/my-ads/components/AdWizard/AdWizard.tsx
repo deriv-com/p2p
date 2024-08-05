@@ -13,6 +13,7 @@ import './AdWizard.scss';
 type TAdWizardNav = {
     countryList: TCountryListItem;
     currency: TCurrency;
+    initialPaymentMethods: number[] | string[];
     localCurrency?: TCurrency;
     onCancel: () => void;
     orderExpiryOptions: TOrderExpiryOptions;
@@ -20,7 +21,14 @@ type TAdWizardNav = {
     steps: TStep[];
 };
 
-const AdWizard = ({ countryList, onCancel, orderExpiryOptions, steps, ...rest }: TAdWizardNav) => {
+const AdWizard = ({
+    countryList,
+    initialPaymentMethods,
+    onCancel,
+    orderExpiryOptions,
+    steps,
+    ...rest
+}: TAdWizardNav) => {
     const { isDesktop } = useDevice();
     const [currentStep, setCurrentStep] = useState(0);
     const wizardProps = {
@@ -71,7 +79,12 @@ const AdWizard = ({ countryList, onCancel, orderExpiryOptions, steps, ...rest }:
         >
             <AdTypeSection onCancel={onCancel} {...wizardProps} {...rest} />
             <AdPaymentDetailsSection {...wizardProps} {...rest} orderExpiryOptions={orderExpiryOptions} />
-            <AdConditionsSection {...wizardProps} countryList={countryList} {...rest} />
+            <AdConditionsSection
+                {...wizardProps}
+                countryList={countryList}
+                {...rest}
+                initialPaymentMethods={initialPaymentMethods}
+            />
         </Wizard>
     );
 };
