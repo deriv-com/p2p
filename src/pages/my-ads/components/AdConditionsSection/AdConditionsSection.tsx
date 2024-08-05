@@ -1,6 +1,6 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { TCountryListItem, TCurrency } from 'types';
+import { TCountryListItem, TCurrency, TInitialData } from 'types';
 import { AD_CONDITION_TYPES } from '@/constants';
 import { isEmptyObject } from '@/utils';
 import { Localize } from '@deriv-com/translations';
@@ -16,19 +16,24 @@ type TAdConditionsSection = {
     currency: TCurrency;
     getCurrentStep: () => number;
     getTotalSteps: () => number;
+    goToFirstStep: () => void;
     goToNextStep: MouseEventHandler<HTMLButtonElement>;
     goToPreviousStep: () => void;
-    initialPaymentMethods: number[] | string[];
+    initialData: TInitialData;
     localCurrency?: TCurrency;
     rateType: string;
+    setShouldReset: (shouldReset: boolean) => void;
+    shouldReset: boolean;
 };
 
 const AdConditionsSection = ({
     countryList,
     currency,
-    initialPaymentMethods,
+    initialData,
     localCurrency,
     rateType,
+    setShouldReset,
+    shouldReset,
     ...props
 }: TAdConditionsSection) => {
     const {
@@ -39,16 +44,25 @@ const AdConditionsSection = ({
     } = useFormContext();
     const { isDesktop } = useDevice();
     const selectedMethods = getValues('payment-method') ?? [];
+    const preferedCountries = watch('preferred-countries') ?? [];
     const labelSize = isDesktop ? 'sm' : 'md';
+
+    useEffect(() => {
+        if (shouldReset) {
+            props.goToFirstStep();
+            setShouldReset(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [shouldReset]);
 
     const onClickBlockSelector = (value: number, type: string) => {
         if (type === AD_CONDITION_TYPES.JOINING_DATE) {
-            if (getValues('min-join-days') === value) {
-                setValue('min-join-days', 0);
+            if (getValues('min-join-days') == value) {
+                setValue('min-join-days', null);
             } else {
                 setValue('min-join-days', value);
             }
-        } else if (getValues('min-completion-rate') === value) {
+        } else if (getValues('min-completion-rate') == value) {
             setValue('min-completion-rate', null);
         } else {
             setValue('min-completion-rate', value);
@@ -59,8 +73,17 @@ const AdConditionsSection = ({
     const minCompletionRate = watch('min-completion-rate');
 
     const isPaymentMethodsSame = () =>
-        initialPaymentMethods.length === selectedMethods.length &&
-        initialPaymentMethods.sort().every((value, index) => value === selectedMethods.sort()[index]);
+        initialData.paymentMethod?.length === selectedMethods.length &&
+        initialData.paymentMethod?.sort().every((value, index) => value === selectedMethods.sort()[index]);
+
+    const isMinCompletionRateSame = () => (minCompletionRate?.toString() ?? null) === initialData.minCompletionRate;
+
+    const isMinJoinDaysSame = () => (minJoinDays?.toString() ?? null) === initialData.minJoinDays;
+
+    const isPreferredCountriesSame = () =>
+        initialData?.selectedCountries?.length === preferedCountries.length &&
+        initialData?.selectedCountries?.sort().every((value, index) => value === preferedCountries.sort()[index]);
+
     return (
         <div className='ad-conditions-section'>
             <AdSummary
@@ -93,7 +116,14 @@ const AdConditionsSection = ({
             <PreferredCountriesSelector countryList={countryList} type={AD_CONDITION_TYPES.PREFERRED_COUNTRIES} />
             <AdFormController
                 {...props}
-                isNextButtonDisabled={!isEmptyObject(errors) || (!isDirty && isPaymentMethodsSame())}
+                isNextButtonDisabled={
+                    !isEmptyObject(errors) ||
+                    (isPaymentMethodsSame() &&
+                        isMinCompletionRateSame() &&
+                        isMinJoinDaysSame() &&
+                        isPreferredCountriesSame() &&
+                        !isDirty)
+                }
             />
         </div>
     );

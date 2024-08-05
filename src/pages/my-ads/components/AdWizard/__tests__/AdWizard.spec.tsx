@@ -28,11 +28,18 @@ jest.mock('../../AdProgressBar', () => ({
 const mockProps = {
     countryList: {},
     currency: 'usd' as TCurrency,
-    initialPaymentMethods: [],
+    initialData: {
+        minCompletionRate: null,
+        minJoinDays: null,
+        paymentMethod: [],
+        selectedCountries: [],
+    },
     localCurrency: 'usd' as TCurrency,
     onCancel: jest.fn(),
     orderExpiryOptions: [900, 1800],
     rateType: 'float',
+    setShouldReset: jest.fn(),
+    shouldReset: false,
     steps: [{ header: { title: 'step 1' } }, { header: { title: 'step 2' } }, { header: { title: 'step 3' } }],
 };
 
