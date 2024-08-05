@@ -225,3 +225,10 @@ export type TOrderExpiryOptions = NonNullable<
 export type TOrderIdsMap = {
     [key: string]: string[];
 };
+
+export type TInitialData = {
+    minCompletionRate: string | null;
+    minJoinDays: string | null;
+    paymentMethod: number[] | string[];
+    selectedCountries: string[];
+};
