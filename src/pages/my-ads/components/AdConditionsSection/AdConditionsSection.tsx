@@ -44,7 +44,7 @@ const AdConditionsSection = ({
     } = useFormContext();
     const { isDesktop } = useDevice();
     const selectedMethods = getValues('payment-method') ?? [];
-    const preferedCountries = getValues('preferred-countries') ?? [];
+    const preferedCountries = watch('preferred-countries') ?? [];
     const labelSize = isDesktop ? 'sm' : 'md';
 
     useEffect(() => {
@@ -73,16 +73,16 @@ const AdConditionsSection = ({
     const minCompletionRate = watch('min-completion-rate');
 
     const isPaymentMethodsSame = () =>
-        initialData?.paymentMethod.length === selectedMethods.length &&
-        initialData?.paymentMethod.sort().every((value, index) => value === selectedMethods.sort()[index]);
+        initialData.paymentMethod?.length === selectedMethods.length &&
+        initialData.paymentMethod?.sort().every((value, index) => value === selectedMethods.sort()[index]);
 
     const isMinCompletionRateSame = () => (minCompletionRate?.toString() ?? null) === initialData.minCompletionRate;
 
     const isMinJoinDaysSame = () => (minJoinDays?.toString() ?? null) === initialData.minJoinDays;
 
     const isPreferredCountriesSame = () =>
-        initialData?.selectedCountries.length === preferedCountries.length &&
-        initialData?.selectedCountries.sort().every((value, index) => value === preferedCountries.sort()[index]);
+        initialData?.selectedCountries?.length === preferedCountries.length &&
+        initialData?.selectedCountries?.sort().every((value, index) => value === preferedCountries.sort()[index]);
 
     return (
         <div className='ad-conditions-section'>

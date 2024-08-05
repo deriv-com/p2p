@@ -151,6 +151,11 @@ const CreateEditAd = () => {
 
         payload.min_join_days = getValues('min-join-days') ? Number(getValues('min-join-days')) : null;
 
+        if (!isEdit) {
+            if (!payload.min_completion_rate) delete payload.min_completion_rate;
+            if (!payload.min_join_days) delete payload.min_join_days;
+        }
+
         if (isEdit) {
             delete payload.amount;
             delete payload.type;
