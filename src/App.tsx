@@ -16,7 +16,7 @@ const i18nInstance = initializeI18n({
 });
 
 const App = () => {
-    const [ShoudlRedirectToDerivApp, isGBLoaded] = useGrowthbookGetFeatureValue({
+    const [ShouldRedirectToDerivApp, isGBLoaded] = useGrowthbookGetFeatureValue({
         featureFlag: 'redirect_to_deriv_app_p2p',
     });
     const { init: initTrackJS } = useTrackjs();
