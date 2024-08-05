@@ -51,3 +51,10 @@
         border-bottom: 1px solid #f2f3f4;
     }
 }
+
+// to disable border in firefox
+.deriv-input__field {
+    &:focus {
+        outline: none;
+    }
+}
