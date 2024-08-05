@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import LanguageSettings from '../LanguageSettings';
 
 jest.mock('@deriv-com/translations', () => ({
+    getAllowedLanguages: jest.fn(() => ({ EN: 'English' })),
     useTranslations: jest.fn(),
 }));
 

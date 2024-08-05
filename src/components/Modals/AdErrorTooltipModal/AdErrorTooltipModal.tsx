@@ -10,8 +10,8 @@ type TAdErrorTooltipModal = {
     accountCurrency: string;
     advertType: string;
     balanceAvailable: number;
-    dailyBuyLimit: string;
-    dailySellLimit: string;
+    dailyBuyLimit: number;
+    dailySellLimit: number;
     isModalOpen: boolean;
     onRequestClose: () => void;
     remainingAmount: number;
@@ -24,8 +24,8 @@ const getAdErrorMessage = (
     remainingAmount: number,
     balanceAvailable: number,
     advertType: string,
-    dailyBuyLimit: string,
-    dailySellLimit: string,
+    dailyBuyLimit: number,
+    dailySellLimit: number,
     onLiveChatClick: () => void
 ): string => {
     const errorMessages: { [key: string]: ReactNode | string } = {
