@@ -3,7 +3,7 @@ import { FIREBASE_INIT_DATA } from '@/constants';
 import { Analytics } from '@deriv-com/analytics';
 import { useWebsiteStatus } from '@deriv-com/api-hooks';
 import { useDevice } from '@deriv-com/ui';
-import { LocalStorageConstants, WebSocketUtils } from '@deriv-com/utils';
+import { LocalStorageConstants, LocalStorageUtils, WebSocketUtils } from '@deriv-com/utils';
 import { useActiveAccount } from '../api/account';
 
 /**
@@ -14,7 +14,8 @@ const useDerivAnalytics = () => {
     const { data: activeAccount } = useActiveAccount();
     const { data: websiteStatus } = useWebsiteStatus();
     const { isMobile } = useDevice();
-    const currentLang = localStorage.getItem(LocalStorageConstants.i18nLanguage) || 'EN';
+    const currentLang = LocalStorageUtils.getValue<string>(LocalStorageConstants.i18nLanguage) ?? 'EN';
+
     const initialise = async () => {
         try {
             const isDerivAnalyticsInitialized = Analytics?.getInstances()?.tracking?.has_initialized;
