@@ -263,7 +263,7 @@ const CreateEditAd = () => {
             </FormProvider>
             <AdCreateEditErrorModal
                 errorCode={(error?.code || updateError?.code) as TErrorCodes}
-                errorMessage={(error?.message || updateError?.message) ?? 'Something’s not right'}
+                errorMessage={(error?.message || updateError?.message) ?? localize('Something’s not right')}
                 isModalOpen={!!isModalOpenFor('AdCreateEditErrorModal')}
                 onRequestClose={() => {
                     setShouldReset(true);

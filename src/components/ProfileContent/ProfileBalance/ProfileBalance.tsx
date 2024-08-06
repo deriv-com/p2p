@@ -3,7 +3,7 @@ import { DeepPartial, TAdvertiserStats } from 'types';
 import { AvailableP2PBalanceModal } from '@/components/Modals';
 import { api } from '@/hooks';
 import { LabelPairedCircleInfoMdRegularIcon } from '@deriv/quill-icons';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import { ProfileDailyLimit } from '../ProfileDailyLimit';
@@ -12,6 +12,7 @@ import './ProfileBalance.scss';
 const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
     const { data: activeAccount } = api.account.useActiveAccount();
     const { isDesktop, isMobile } = useDevice();
+    const { localize } = useTranslations();
     const [shouldShowAvailableBalanceModal, setShouldShowAvailableBalanceModal] = useState(false);
 
     const currency = activeAccount?.currency || 'USD';
@@ -20,14 +21,15 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
             {
                 available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableBuyLimit || 0)} ${currency}`,
                 dailyLimit: `${advertiserStats?.daily_buy_limit || FormatUtils.formatMoney(0)} ${currency}`,
-                type: 'Buy',
+                type: localize('Buy'),
             },
             {
                 available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableSellLimit || 0)} ${currency}`,
                 dailyLimit: `${advertiserStats?.daily_sell_limit || FormatUtils.formatMoney(0)} ${currency}`,
-                type: 'Sell',
+                type: localize('Sell'),
             },
         ],
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [
             advertiserStats?.dailyAvailableBuyLimit,
             advertiserStats?.dailyAvailableSellLimit,

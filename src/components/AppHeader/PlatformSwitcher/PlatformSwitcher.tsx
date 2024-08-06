@@ -1,9 +1,10 @@
 import { useTranslations } from '@deriv-com/translations';
 import { PlatformSwitcher as UIPlatformSwitcher, PlatformSwitcherItem } from '@deriv-com/ui';
-import { platformsConfig } from '../HeaderConfig';
+import { getPlatformsConfig } from '../HeaderConfig';
 
 const PlatformSwitcher = () => {
     const { localize } = useTranslations();
+    const platformsConfig = getPlatformsConfig(localize);
 
     return (
         <UIPlatformSwitcher

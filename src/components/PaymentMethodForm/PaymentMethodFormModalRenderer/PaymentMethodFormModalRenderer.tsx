@@ -72,7 +72,7 @@ const PaymentMethodFormModalRenderer = ({
                         setIsError(false);
                     }}
                     primaryButtonLabel={actionType === 'ADD' ? localize('Go back') : localize("Don't cancel")}
-                    secondaryButtonLabel='Cancel'
+                    secondaryButtonLabel={localize('Cancel')}
                     title={
                         actionType === 'ADD'
                             ? localize('Cancel adding this payment method?')

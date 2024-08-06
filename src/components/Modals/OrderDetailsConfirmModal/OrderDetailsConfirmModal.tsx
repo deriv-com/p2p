@@ -80,7 +80,7 @@ const OrderDetailsConfirmModal = ({
                     data-testid='dt_file_upload_criteria_text'
                     size='sm'
                 >
-                    <Localize i18n_default_text=' We accept JPG, PDF, or PNG (up to 5MB).' />
+                    <Localize i18n_default_text='We accept JPG, PDF, or PNG (up to 5MB).' />
                 </Text>
                 <InlineMessage className='mb-4' variant='warning'>
                     <Text data-testid='dt_disclaimer_warning_text' size={isDesktop ? '2xs' : 'xs'}>

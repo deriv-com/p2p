@@ -4,8 +4,9 @@ import { TCurrency } from 'types';
 import { Page404 } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
 import { useHandleRouteChange } from '@/hooks';
+import { useTranslations } from '@deriv-com/translations';
 import { Loader } from '@deriv-com/ui';
-import { routes } from './routes-config';
+import { getRoutes } from './routes-config';
 
 type TState = { [key: string]: string[] | TCurrency | string; from: string };
 declare module 'react-router-dom' {
@@ -37,10 +38,11 @@ const RouteWithSubRoutes = (route: TRoutesWithSubRoutes) => {
 
 const Router: FC = () => {
     useHandleRouteChange();
+    const { localize } = useTranslations();
     return (
         <Suspense fallback={<Loader isFullScreen />}>
             <Switch>
-                {routes.map(route => (
+                {getRoutes(localize).map(route => (
                     <RouteWithSubRoutes key={route.path} {...route} />
                 ))}
                 <Redirect exact from='/' to={BUY_SELL_URL} />

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { TLocalize } from 'types';
 import {
     DerivProductDerivBotBrandLightLogoWordmarkHorizontalIcon as DerivBotLogo,
     DerivProductDerivTraderBrandLightLogoWordmarkHorizontalIcon as DerivTraderLogo,
@@ -37,11 +38,11 @@ export type TAccount = {
     type: string;
 };
 
-export const platformsConfig: PlatformsConfig[] = [
+export const getPlatformsConfig = (localize: TLocalize): PlatformsConfig[] => [
     {
         active: true,
         buttonIcon: <DerivTraderLogo height={25} width={114.97} />,
-        description: 'A whole new trading experience on a powerful yet easy to use platform.',
+        description: localize('A whole new trading experience on a powerful yet easy to use platform.'),
         href: 'https://app.deriv.com',
         icon: <DerivTraderLogo height={32} width={148} />,
         showInEU: true,
@@ -49,7 +50,7 @@ export const platformsConfig: PlatformsConfig[] = [
     {
         active: false,
         buttonIcon: <DerivBotLogo height={24} width={91} />,
-        description: 'Automated trading at your fingertips. No coding needed.',
+        description: localize('Automated trading at your fingertips. No coding needed.'),
         href: 'https://app.deriv.com/bot',
         icon: <DerivBotLogo height={32} width={121} />,
         showInEU: false,
@@ -57,7 +58,7 @@ export const platformsConfig: PlatformsConfig[] = [
     {
         active: false,
         buttonIcon: <SmarttraderLogo height={24} width={115} />,
-        description: 'Trade the world’s markets with our popular user-friendly platform.',
+        description: localize('Trade the world’s markets with our popular user-friendly platform.'),
         href: 'https://smarttrader.deriv.com/en/trading',
         icon: <SmarttraderLogo height={32} width={153} />,
         showInEU: false,
@@ -65,31 +66,32 @@ export const platformsConfig: PlatformsConfig[] = [
     {
         active: false,
         buttonIcon: <BinaryBotLogo height={24} width={100} />,
-        description:
-            'Our classic “drag-and-drop” tool for creating trading bots, featuring pop-up trading charts, for advanced users.',
+        description: localize(
+            'Our classic “drag-and-drop” tool for creating trading bots, featuring pop-up trading charts, for advanced users.'
+        ),
         href: 'https://bot.deriv.com',
         icon: <BinaryBotLogo height={32} width={133} />,
         showInEU: false,
     },
 ];
 
-export const MenuItems: MenuItemsConfig[] = [
+export const getMenuItems = (localize: TLocalize): MenuItemsConfig[] => [
     {
         as: 'a',
         href: 'https://app.deriv.com/appstore/traders-hub',
         icon: <TradershubLogo iconSize='xs' />,
-        label: "Trader's Hub",
+        label: localize("Trader's Hub"),
     },
     {
         as: 'a',
         href: 'https://app.deriv.com/appstore/reports',
         icon: <ReportsLogo iconSize='xs' />,
-        label: 'Reports',
+        label: localize('Reports'),
     },
     {
         as: 'a',
         href: 'https://app.deriv.com/appstore/cashier',
         icon: <CashierLogo iconSize='xs' />,
-        label: 'Cashier',
+        label: localize('Cashier'),
     },
 ];

@@ -5,6 +5,7 @@ import { UserAvatar } from '@/components';
 import { BlockUnblockUserModal } from '@/components/Modals';
 import { ADVERTISER_URL } from '@/constants';
 import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
+import { useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './MyProfileCounterpartiesTableRow.scss';
 
@@ -24,6 +25,7 @@ const MyProfileCounterpartiesTableRow = ({
     const { isDesktop } = useDevice();
     const history = useHistory();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
+    const { localize } = useTranslations();
     const isAdvertiserBarred = useIsAdvertiserBarred();
 
     return (
@@ -41,7 +43,7 @@ const MyProfileCounterpartiesTableRow = ({
                     <Text size={isDesktop ? 'sm' : 'md'}>{nickname}</Text>
                 </div>
                 <Button
-                    className='w-36 border-[1px]'
+                    className='border-[1px]'
                     color={isBlocked ? 'black' : 'primary'}
                     data-testid='dt_block_unblock_button'
                     onClick={() => {
@@ -49,7 +51,7 @@ const MyProfileCounterpartiesTableRow = ({
                     }}
                     variant='outlined'
                 >
-                    {isBlocked ? 'Unblock' : 'Block'}
+                    {isBlocked ? localize('Unblock') : localize('Block')}
                 </Button>
             </div>
             <BlockUnblockUserModal
