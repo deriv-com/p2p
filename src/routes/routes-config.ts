@@ -50,9 +50,9 @@ export const getRoutes = (localize: TLocalize) => [
     },
     {
         component: MyProfile,
-        name: 'My Profile',
+        name: 'My profile',
         path: MY_PROFILE_URL,
-        text: localize('My Profile'),
+        text: localize('My profile'),
     },
     {
         component: Advertiser,
