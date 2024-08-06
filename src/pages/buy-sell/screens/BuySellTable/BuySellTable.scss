@@ -1,5 +1,8 @@
 .buy-sell-table {
     & .table {
+        @include mobile-or-tablet-screen {
+            height: calc(100% - 26rem);
+        }
         &__header {
             padding: 1.6rem;
             border-bottom: 1px solid #f2f3f4;
@@ -9,11 +12,6 @@
         &__content {
             overflow: auto;
             padding-bottom: 2rem;
-
-            @include mobile-or-tablet-screen {
-                // stylelint-disable-next-line declaration-no-important
-                height: calc(100% - 26rem) !important;
-            }
         }
     }
 

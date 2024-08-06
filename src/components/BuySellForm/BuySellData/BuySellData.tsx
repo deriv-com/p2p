@@ -122,7 +122,11 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
                             <Localize i18n_default_text="Seller's instructions" />
                         )}
                     </Text>
-                    <Text data-testid={`dt_${isBuy ? 'buyer' : 'seller'}_instruction`} size={valueSize}>
+                    <Text
+                        className='break-all'
+                        data-testid={`dt_${isBuy ? 'buyer' : 'seller'}_instruction`}
+                        size={valueSize}
+                    >
                         {instructions}
                     </Text>
                 </div>
