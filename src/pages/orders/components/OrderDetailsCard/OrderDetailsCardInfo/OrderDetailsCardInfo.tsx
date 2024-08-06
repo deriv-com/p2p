@@ -1,4 +1,5 @@
 import { useOrderDetails } from '@/providers/OrderDetailsProvider';
+import { formatDataTestId } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { ActiveOrderInfo } from './ActiveOrderInfo';
@@ -44,7 +45,9 @@ const OrderDetailsCardInfo = () => {
                         <Text color='less-prominent' size={isDesktop ? 'xs' : 'sm'} weight='500'>
                             {detail.text}
                         </Text>
-                        <Text size={isDesktop ? 'sm' : 'md'}>{detail.value}</Text>
+                        <Text data-testid={`dt_${formatDataTestId(detail.text)}`} size={isDesktop ? 'sm' : 'md'}>
+                            {detail.value}
+                        </Text>
                     </div>
                 ))}
             </div>

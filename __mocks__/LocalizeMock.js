@@ -1,6 +1,6 @@
-const Localize = ({ i18n_default_text, values }) => {
+const Localize = ({ i18n_default_text: i18Text, values }) => {
     // Replace placeholders in the default text with actual values
-    const localizedText = i18n_default_text.replace(/\{\{(\w+)\}\}/g, (match, key) => values[key] || match);
+    const localizedText = i18Text.replace(/\{\{(\w+)\}\}/g, (match, key) => values[key] || match);
 
     return localizedText || null;
 };
@@ -15,5 +15,6 @@ const useTranslations = () => ({
 });
 
 const localize = mockFn;
+const getAllowedLanguages = jest.fn(() => ({ EN: 'English' }));
 
-export { Localize, localize, useTranslations };
+export { getAllowedLanguages, Localize, localize, useTranslations };

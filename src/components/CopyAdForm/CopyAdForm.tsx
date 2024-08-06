@@ -39,6 +39,7 @@ const CopyAdForm = ({ formValues, isModalOpen, onClickCancel, onFormSubmit, ...r
     const {
         account_currency: currency,
         amount,
+        contact_info: contactInfo,
         description,
         eligible_countries: eligibleCountries = [],
         local_currency: localCurrency,
@@ -209,11 +210,23 @@ const CopyAdForm = ({ formValues, isModalOpen, onClickCancel, onFormSubmit, ...r
                                 triggerValidationFunction={() => triggerValidation(['amount', 'min-order'])}
                             />
                         </div>
+                        {type === 'sell' && (
+                            <div className='flex flex-col w-full mt-[1.6rem]'>
+                                <Text color='less-prominent' size={labelSize}>
+                                    <Localize i18n_default_text='Contact details' />
+                                </Text>
+                                <Text className='break-all' size={valueSize}>
+                                    {contactInfo || '-'}
+                                </Text>
+                            </div>
+                        )}
                         <div className='flex flex-col w-full mt-[1.6rem]'>
                             <Text color='less-prominent' size={labelSize}>
                                 <Localize i18n_default_text='Instructions' />
                             </Text>
-                            <Text size={valueSize}>{description || '-'}</Text>
+                            <Text className='break-all' size={valueSize}>
+                                {description || '-'}
+                            </Text>
                         </div>
                         <div className='flex flex-col w-full mt-[1.6rem]'>
                             <Text color='less-prominent' size={labelSize}>

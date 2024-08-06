@@ -18,6 +18,7 @@ const FAQs = () => {
                     as='a'
                     className='underline mr-2'
                     color='red'
+                    data-testid='dt_learn_more_hyperlink'
                     href={`${URLConstants.derivComProduction}/help-centre/deriv-p2p`}
                     size='sm'
                     weight='bold'

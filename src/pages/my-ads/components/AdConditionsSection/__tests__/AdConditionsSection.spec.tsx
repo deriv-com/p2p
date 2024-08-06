@@ -8,11 +8,19 @@ const mockProps = {
     currency: 'USD' as TCurrency,
     getCurrentStep: jest.fn(),
     getTotalSteps: jest.fn(),
+    goToFirstStep: jest.fn(),
     goToNextStep: jest.fn(),
     goToPreviousStep: jest.fn(),
-    initialPaymentMethods: [],
+    initialData: {
+        minCompletionRate: null,
+        minJoinDays: null,
+        paymentMethod: [],
+        selectedCountries: [],
+    },
     localCurrency: 'USD' as TCurrency,
     rateType: 'fixed',
+    setShouldReset: jest.fn(),
+    shouldReset: false,
 };
 
 jest.mock('@deriv-com/ui', () => ({

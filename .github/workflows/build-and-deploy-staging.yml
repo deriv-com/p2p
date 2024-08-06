@@ -48,6 +48,7 @@ jobs:
                 VITE_GROWTHBOOK_CLIENT_KEY: ${{ vars.VITE_GROWTHBOOK_CLIENT_KEY }}
                 VITE_RUDDERSTACK_KEY: ${{ vars.VITE_RUDDERSTACK_KEY }}
                 VITE_REMOTE_CONFIG_URL: ${{ vars.VITE_REMOTE_CONFIG_URL }}
+                VITE_NODE_ENV: staging
 
 
             - name: Run tests for Eslintbuild_to_cloudflare_pages

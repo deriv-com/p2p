@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { NonUndefinedValues, TCountryListItem, TCurrency, TErrorCodes, THooks, TLocalize } from 'types';
+import { NonUndefinedValues, TCountryListItem, TCurrency, TErrorCodes, THooks, TInitialData, TLocalize } from 'types';
 import { AdCancelCreateEditModal, AdCreateEditErrorModal, AdCreateEditSuccessModal } from '@/components/Modals';
 import { MY_ADS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
@@ -45,9 +45,10 @@ type TMutatePayload = Parameters<THooks.Advert.Create>[0];
 type TFormValuesInfo = NonUndefinedValues<THooks.Advert.Get>;
 
 const CreateEditAd = () => {
-    const [initialPaymentMethods, setInitialPaymentMethods] = useState<number[] | string[]>([]);
+    const [initialData, setInitialData] = useState<TInitialData>({} as TInitialData);
     const { queryString } = useQueryString();
     const { localize } = useTranslations();
+    const [shouldReset, setShouldReset] = useState(false);
     const { advertId = '' } = queryString;
     const { data: advertInfo, isLoading } = api.advert.useGet({ id: advertId ?? undefined }, !!advertId, false);
     const isEdit = !!advertId;
@@ -113,8 +114,8 @@ const CreateEditAd = () => {
             description?: string;
             eligible_countries: string[];
             max_order_amount: number;
-            min_completion_rate?: number;
-            min_join_days?: number;
+            min_completion_rate?: number | null;
+            min_join_days?: number | null;
             min_order_amount: number;
             order_expiry_period: number;
             payment_method_ids?: TMutatePayload['payment_method_ids'];
@@ -143,11 +144,16 @@ const CreateEditAd = () => {
         if (getValues('instructions')) {
             payload.description = getValues('instructions');
         }
-        if (getValues('min-completion-rate')) {
-            payload.min_completion_rate = Number(getValues('min-completion-rate'));
-        }
-        if (getValues('min-join-days')) {
-            payload.min_join_days = Number(getValues('min-join-days'));
+
+        payload.min_completion_rate = getValues('min-completion-rate')
+            ? Number(getValues('min-completion-rate'))
+            : null;
+
+        payload.min_join_days = getValues('min-join-days') ? Number(getValues('min-join-days')) : null;
+
+        if (!isEdit) {
+            if (!payload.min_completion_rate) delete payload.min_completion_rate;
+            if (!payload.min_join_days) delete payload.min_join_days;
         }
 
         if (isEdit) {
@@ -194,8 +200,8 @@ const CreateEditAd = () => {
                 'form-type': 'edit' as const,
                 instructions: formValues.description,
                 'max-order': formValues.max_order_amount.toString(),
-                'min-completion-rate': formValues.min_completion_rate?.toString() ?? '',
-                'min-join-days': formValues.min_join_days?.toString() ?? '',
+                'min-completion-rate': formValues.min_completion_rate?.toString() ?? null,
+                'min-join-days': formValues.min_join_days?.toString() ?? null,
                 'min-order': formValues.min_order_amount.toString(),
                 'order-completion-time': `${formValues.order_expiry_period}`,
                 'payment-method':
@@ -210,7 +216,12 @@ const CreateEditAd = () => {
 
             // Use reset to set default values and mark the form as not dirty
             reset(defaultValues);
-            setInitialPaymentMethods(defaultValues['payment-method']);
+            setInitialData({
+                minCompletionRate: defaultValues['min-completion-rate'],
+                minJoinDays: defaultValues['min-join-days'],
+                paymentMethod: defaultValues['payment-method'],
+                selectedCountries: defaultValues['preferred-countries'],
+            });
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [paymentMethodList, countryList]
@@ -239,11 +250,13 @@ const CreateEditAd = () => {
                     <AdWizard
                         countryList={countryList as TCountryListItem}
                         currency={activeAccount?.currency as TCurrency}
-                        initialPaymentMethods={initialPaymentMethods}
+                        initialData={initialData}
                         localCurrency={p2pSettings?.localCurrency as TCurrency}
                         onCancel={onClickCancel}
                         orderExpiryOptions={orderExpiryOptions}
                         rateType={rateType}
+                        setShouldReset={setShouldReset}
+                        shouldReset={shouldReset}
                         steps={getSteps(localize, isEdit)}
                     />
                 </form>
@@ -252,7 +265,10 @@ const CreateEditAd = () => {
                 errorCode={(error?.code || updateError?.code) as TErrorCodes}
                 errorMessage={(error?.message || updateError?.message) ?? localize('Something’s not right')}
                 isModalOpen={!!isModalOpenFor('AdCreateEditErrorModal')}
-                onRequestClose={hideModal}
+                onRequestClose={() => {
+                    setShouldReset(true);
+                    hideModal();
+                }}
             />
             <AdCreateEditSuccessModal
                 advertsArchivePeriod={advertsArchivePeriod}
