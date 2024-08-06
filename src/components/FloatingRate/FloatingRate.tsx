@@ -55,17 +55,14 @@ const FloatingRate = ({
     };
 
     const toSignedNumber = (num: string) => {
-        // Ensure the input is a valid number
         const number = parseFloat(num);
-
-        // Format the number to 2 decimal places
         const formattedNum = number.toFixed(2);
 
         // Add sign based on the number's value
         if (number > 0) {
             return `+${formattedNum}`;
         } else if (number < 0) {
-            return formattedNum; // Negative numbers already have the minus sign
+            return formattedNum;
         }
         return `+0.00`; // Return '+0.00' for zero
     };
