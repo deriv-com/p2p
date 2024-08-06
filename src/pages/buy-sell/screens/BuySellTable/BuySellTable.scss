@@ -1,8 +1,5 @@
 .buy-sell-table {
     & .table {
-        @include mobile-or-tablet-screen {
-            height: calc(100% - 26rem);
-        }
         &__header {
             padding: 1.6rem;
             border-bottom: 1px solid #f2f3f4;
