@@ -99,6 +99,7 @@ const useSettings = () => {
     return {
         ...rest,
         data: p2pSettings,
+        setP2PSettings,
     };
 };
 
