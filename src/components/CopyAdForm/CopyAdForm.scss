@@ -3,6 +3,7 @@
 
     @include mobile-or-tablet-screen {
         margin: 0 1.6rem;
+        margin-bottom: 1.6rem;
     }
 
     &__full-page-modal {
