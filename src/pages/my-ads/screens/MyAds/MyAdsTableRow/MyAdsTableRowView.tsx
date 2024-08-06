@@ -50,7 +50,7 @@ const MyAdsTableRowView = ({
     const invalidate = useInvalidateQuery();
     const { data: paymentMethodList = [] } = api.paymentMethods.useGet();
     const { data: p2pSettings } = api.settings.useSettings();
-    const { order_payment_period: orderPaymentPeriod } = p2pSettings ?? {};
+    const { adverts_archive_period: advertsArchivePeriod } = p2pSettings ?? {};
     const {
         error: createError,
         isError: isCreateError,
@@ -277,7 +277,7 @@ const MyAdsTableRowView = ({
             )}
             {!!isModalOpenFor('AdCreateEditSuccessModal') && (
                 <AdCreateEditSuccessModal
-                    advertsArchivePeriod={orderPaymentPeriod}
+                    advertsArchivePeriod={advertsArchivePeriod}
                     isModalOpen
                     onRequestClose={() => hideModal({ shouldHideAllModals: true })}
                 />
