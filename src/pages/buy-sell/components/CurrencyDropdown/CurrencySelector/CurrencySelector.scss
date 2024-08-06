@@ -28,12 +28,8 @@
         width: 24rem;
 
         @include mobile-or-tablet-screen {
-            height: calc(100vh - 16rem);
+            height: calc(100% - 16rem);
             width: unset;
-        }
-
-        @include mobile {
-            height: calc(100vh - 16rem);
         }
     }
 }
