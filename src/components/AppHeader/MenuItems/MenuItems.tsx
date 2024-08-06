@@ -1,11 +1,12 @@
 import { useTranslations } from '@deriv-com/translations';
 import { MenuItem, Text, useDevice } from '@deriv-com/ui';
-import { MenuItems as items } from '../HeaderConfig';
+import { getMenuItems } from '../HeaderConfig';
 import './MenuItems.scss';
 
 const MenuItems = () => {
     const { localize } = useTranslations();
     const { isDesktop } = useDevice();
+    const items = getMenuItems(localize);
 
     return (
         <>

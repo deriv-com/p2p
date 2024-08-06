@@ -65,7 +65,7 @@ const AppHeader = () => {
 
         return (
             <Button
-                className='w-36'
+                className='min-w-36'
                 color='primary-light'
                 onClick={() => window.open(oauthUrl, '_self')}
                 variant='ghost'

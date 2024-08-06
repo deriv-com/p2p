@@ -1,6 +1,6 @@
 import { TCurrency, TTextSize } from 'types';
 import { ERROR_CODES } from '@/constants';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdVisibilityErrorModal.scss';
 
@@ -81,6 +81,7 @@ const AdVisibilityErrorModal = ({
     limit,
     onRequestClose,
 }: TAdVisibilityErrorModalProps) => {
+    const { localize } = useTranslations();
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
     return (
@@ -92,7 +93,7 @@ const AdVisibilityErrorModal = ({
         >
             <Modal.Header className='ad-visibility-error-modal__header' hideBorder hideCloseIcon>
                 <Text weight='bold'>
-                    {getErrorMessage(currency, limit)[errorCode]?.title ?? 'Something’s not right'}
+                    {getErrorMessage(currency, limit)[errorCode]?.title ?? localize('Something’s not right')}
                 </Text>
             </Modal.Header>
             <Modal.Body className='ad-visibility-error-modal__body'>

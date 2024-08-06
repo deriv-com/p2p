@@ -1,6 +1,6 @@
 import { TErrorCodes } from 'types';
 import { ERROR_CODES } from '@/constants';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdCreateEditErrorModal.scss';
 
@@ -17,15 +17,6 @@ type ErrorContent = {
     };
 };
 
-const errorContent: ErrorContent = {
-    [ERROR_CODES.ADVERT_SAME_LIMITS]: {
-        title: 'You already have an ad with this range',
-    },
-    [ERROR_CODES.DUPLICATE_ADVERT]: {
-        title: 'You already have an ad with this rate',
-    },
-};
-
 const AdCreateEditErrorModal = ({
     errorCode,
     errorMessage,
@@ -33,7 +24,16 @@ const AdCreateEditErrorModal = ({
     onRequestClose,
 }: TAdCreateEditErrorModalProps) => {
     const { isDesktop } = useDevice();
+    const { localize } = useTranslations();
     const textSize = isDesktop ? 'sm' : 'md';
+    const errorContent: ErrorContent = {
+        [ERROR_CODES.ADVERT_SAME_LIMITS]: {
+            title: localize('You already have an ad with this range'),
+        },
+        [ERROR_CODES.DUPLICATE_ADVERT]: {
+            title: localize('You already have an ad with this rate'),
+        },
+    };
     return (
         <Modal
             ariaHideApp={false}

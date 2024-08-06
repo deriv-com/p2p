@@ -34,7 +34,7 @@ const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProp
                 )}
                 rules={{
                     pattern: {
-                        message: getTextFieldError('Contact details'),
+                        message: getTextFieldError(localize('Contact details')),
                         value: VALID_SYMBOLS_PATTERN,
                     },
                 }}
@@ -58,7 +58,7 @@ const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProp
                 )}
                 rules={{
                     pattern: {
-                        message: getTextFieldError('Instructions'),
+                        message: getTextFieldError(localize('Instructions')),
                         value: VALID_SYMBOLS_PATTERN,
                     },
                 }}

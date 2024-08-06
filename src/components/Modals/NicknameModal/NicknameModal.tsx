@@ -103,10 +103,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                         }}
                     />
                     <Text className='my-10' size={textSize}>
-                        <Localize
-                            i18n_default_text='
-                        Your nickname cannot be changed later.'
-                        />
+                        <Localize i18n_default_text='Your nickname cannot be changed later.' />
                     </Text>
                 </Modal.Body>
                 <Modal.Footer className='p-0 min-h-0' hideBorder>
