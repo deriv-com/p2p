@@ -64,7 +64,7 @@ const FloatingRate = ({
         } else if (number < 0) {
             return formattedNum;
         }
-        return `+0.00`; // Return '+0.00' for zero
+        return '+0.00'; // Return '+0.00' for zero
     };
 
     return (
