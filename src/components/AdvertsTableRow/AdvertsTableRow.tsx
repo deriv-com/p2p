@@ -89,7 +89,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
             showModal('BuySellForm');
             setSelectedAdvertId(undefined);
         }
-    }, [advertId, hasCreatedAdvertiser, hideModal, isModalOpenFor, selectedAdvertId, showModal]);
+    }, [advertId, hasCreatedAdvertiser, isModalOpenFor, selectedAdvertId, showModal]);
 
     return (
         <div
