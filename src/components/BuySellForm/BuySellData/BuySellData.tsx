@@ -57,7 +57,9 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
                         <Text color='less-prominent' size={labelSize}>
                             {isBuy ? localize('Buyer') : localize('Seller')}
                         </Text>
-                        <Text size={valueSize}>{name}</Text>
+                        <Text data-testid={`dt_${isBuy ? 'buyer' : 'seller'}_nickname`} size={valueSize}>
+                            {name}
+                        </Text>
                     </div>
                     <div className='flex flex-col w-full'>
                         <div className={clsx({ 'lg:hover:mb-[2.2rem]': isFloating })}>
@@ -92,7 +94,7 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
                                 )}
                             </div>
                         </div>
-                        <Text size={valueSize}>
+                        <Text data-testid={`dt_${localCurrency}_rate`.toLowerCase()} size={valueSize}>
                             {rate} {localCurrency}
                         </Text>
                     </div>
@@ -120,13 +122,17 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
                             <Localize i18n_default_text="Seller's instructions" />
                         )}
                     </Text>
-                    <Text size={valueSize}>{instructions}</Text>
+                    <Text data-testid={`dt_${isBuy ? 'buyer' : 'seller'}_instruction`} size={valueSize}>
+                        {instructions}
+                    </Text>
                 </div>
                 <div className='flex flex-col mb-[1.6rem]'>
                     <Text color='less-prominent' size={labelSize}>
                         <Localize i18n_default_text='Orders must be completed in' />
                     </Text>
-                    <Text size={valueSize}>{formatTime(expiryPeriod, localize)}</Text>
+                    <Text data-testid='dt_order_completion_time' size={valueSize}>
+                        {formatTime(expiryPeriod, localize)}
+                    </Text>
                 </div>
             </div>
         );

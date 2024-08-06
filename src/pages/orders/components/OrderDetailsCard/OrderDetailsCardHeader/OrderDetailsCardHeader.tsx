@@ -45,7 +45,7 @@ const OrderDetailsCardHeader = () => {
                         {displayPaymentAmount} {localCurrency}
                     </Text>
                 )}
-                <Text color='less-prominent' size={textSize}>
+                <Text color='less-prominent' data-testid='dt_order_id' size={textSize}>
                     <Localize i18n_default_text='Order ID {{id}}' values={{ id }} />
                 </Text>
             </div>

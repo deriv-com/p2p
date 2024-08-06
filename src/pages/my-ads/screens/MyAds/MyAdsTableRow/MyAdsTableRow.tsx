@@ -108,15 +108,16 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                 className={clsx('my-ads-table-row__line', {
                     'my-ads-table-row__line-disabled': isRowDisabled,
                 })}
+                data-testid='dt_my_ads_table_row_line'
             >
-                <Text color='less-prominent' size='sm'>
+                <Text color='less-prominent' data-testid='dt_ad_id' size='sm'>
                     <Localize i18n_default_text='Ad ID {{id}}' values={{ id }} />
                 </Text>
                 <div className='my-ads-table-row__line__type-and-status'>
-                    <Text color={adPauseColor} size='lg' weight='bold'>
+                    <Text color={adPauseColor} data-testid='dt_ad_type' size='lg' weight='bold'>
                         {advertType} {accountCurrency}
                     </Text>
-                    <div className='my-ads-table-row__line__type-and-status__wrapper'>
+                    <div className='my-ads-table-row__line__type-and-status__wrapper' data-testid='dt_ad_status'>
                         <AdStatus isActive={isAdActive} />
                         {showAlertIcon && <AlertComponent onClick={() => showModal('AdErrorTooltipModal')} />}
                         <PopoverDropdown
@@ -127,13 +128,13 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                     </div>
                 </div>
                 <div className='my-ads-table-row__line-details'>
-                    <Text color='success' size='sm'>
+                    <Text color='success' data-testid='dt_amount_transactioned' size='sm'>
                         {`${FormatUtils.formatMoney(amountDealt, { currency: accountCurrency as TCurrency })}`}{' '}
                         {accountCurrency}
                         &nbsp;
                         {advertType === 'Buy' ? localize('Bought') : localize('Sold')}
                     </Text>
-                    <Text color='less-prominent' size='sm'>
+                    <Text color='less-prominent' data-testid='dt_available_amount_displayed' size='sm'>
                         {amountDisplay} {accountCurrency}
                     </Text>
                 </div>
@@ -151,11 +152,11 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                     </Text>
                 </div>
                 <div className='my-ads-table-row__line-details'>
-                    <Text color={adPauseColor} size='sm'>
+                    <Text color={adPauseColor} data-testid='dt_min_max_limit' size='sm'>
                         {minOrderAmountDisplay} - {maxOrderAmountDisplay} {accountCurrency}
                     </Text>
                     <Text color='success' weight='bold'>
-                        <div className='display-layout'>
+                        <div className='display-layout' data-testid='dt_rate_value'>
                             {displayEffectiveRate} {localCurrency}
                             {isFloatingRate && <AdType adPauseColor={adPauseColor} floatRate={rateDisplay} />}
                         </div>

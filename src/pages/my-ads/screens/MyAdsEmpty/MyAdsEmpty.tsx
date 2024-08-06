@@ -30,13 +30,13 @@ const MyAdsEmpty = () => {
                     </Button>
                 }
                 description={
-                    <Text align='center' size={textSize}>
+                    <Text align='center' data-testid='dt_no_ads_message' size={textSize}>
                         <Localize i18n_default_text='Looking to buy or sell USD? You can post your own ad for others to respond.' />
                     </Text>
                 }
                 icon={<DerivLightIcCashierNoAdsIcon height='128px' width='128px' />}
                 title={
-                    <Text size={textSize} weight='bold'>
+                    <Text data-testid='dt_no_ads' size={textSize} weight='bold'>
                         <Localize i18n_default_text='You have no ads 😞' />
                     </Text>
                 }

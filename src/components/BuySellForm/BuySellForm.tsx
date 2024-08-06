@@ -74,7 +74,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const [buySellAmount, setBuySellAmount] = useState('0');
 
     const {
-        account_currency: accountCurrency,
+        account_currency: accountCurrency = '',
         advertiser_details: advertiserDetails,
         description,
         effective_rate: adEffectiveRate,

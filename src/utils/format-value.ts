@@ -66,16 +66,20 @@ export const generateEffectiveRate = ({
 
     if (rateType === RATE_TYPE.FIXED) {
         effectiveRate = price;
-        displayEffectiveRate = FormatUtils.formatMoney(effectiveRate, { currency: localCurrency });
+        displayEffectiveRate = effectiveRate
+            ? FormatUtils.formatMoney(effectiveRate, { currency: localCurrency })
+            : '-';
     } else {
         effectiveRate = exchangeRate > 0 ? percentOf(exchangeRate, rate) : marketRate;
         const decimalPlace = setDecimalPlaces(effectiveRate, 6);
-        displayEffectiveRate = removeTrailingZeros(
-            FormatUtils.formatMoney(Number(roundOffDecimal(effectiveRate, decimalPlace)), {
-                currency: localCurrency,
-                decimalPlaces: decimalPlace,
-            })
-        );
+        displayEffectiveRate = effectiveRate
+            ? removeTrailingZeros(
+                  FormatUtils.formatMoney(Number(roundOffDecimal(effectiveRate, decimalPlace)), {
+                      currency: localCurrency,
+                      decimalPlaces: decimalPlace,
+                  })
+              )
+            : '-';
     }
     return { displayEffectiveRate, effectiveRate: Number(effectiveRate) };
 };
@@ -117,6 +121,18 @@ export const formatInput = (input: string, unit: string): string => {
     if (plainInput.split('.')[1].length === 1) return `${input}0 ${unit ? unit.trim() : ''}`;
 
     return `${input}${unit ? ` ${unit.trim()}` : ''}`;
+};
+
+/**
+ * It fetches the string from the headings for values and converts into snake_case for data-testid
+ * @param {String} text - The value to validate as a floating-point integer.
+ * @returns {String} The snake_case data-testid.
+ */
+export const formatDataTestId = (text: string): string => {
+    return text
+        .replace(/[()0-9']/g, '')
+        .toLowerCase()
+        .replace(/\s+/g, '_');
 };
 
 /**

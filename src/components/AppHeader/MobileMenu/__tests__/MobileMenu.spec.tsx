@@ -29,6 +29,7 @@ jest.mock('@deriv-com/api-hooks', () => ({
 }));
 
 jest.mock('@deriv-com/translations', () => ({
+    getAllowedLanguages: jest.fn(() => ({ EN: 'English' })),
     useTranslations: jest.fn().mockReturnValue({
         currentLang: 'EN',
         localize: jest.fn(text => text),

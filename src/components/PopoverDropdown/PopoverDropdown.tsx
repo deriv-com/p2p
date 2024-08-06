@@ -25,7 +25,7 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
     const isAdvertiserBarred = useIsAdvertiserBarred();
 
     return (
-        <div className='popover-dropdown' ref={ref}>
+        <div className='popover-dropdown' data-testid='dt_popover_dropdown' ref={ref}>
             {isAdvertiserBarred ? (
                 <LabelPairedEllipsisVerticalLgBoldIcon data-testid='dt_popover_dropdown_icon' fill='#999999' />
             ) : (
@@ -38,7 +38,7 @@ const PopoverDropdown = ({ dropdownList, onClick, tooltipMessage }: TPopoverDrop
                 </TooltipMenuIcon>
             )}
             {visible && (
-                <div className='popover-dropdown__list'>
+                <div className='popover-dropdown__list' data-testid='dt_popover_dropdown_list'>
                     {dropdownList.map(item => (
                         <Button
                             className='popover-dropdown__list-item'
