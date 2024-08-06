@@ -44,7 +44,11 @@ const MobileMenu = () => {
                                 isOpen
                                 languages={LANGUAGES}
                                 onClose={hideModal}
-                                onLanguageSwitch={switchLanguage}
+                                onLanguageSwitch={code => {
+                                    switchLanguage(code);
+                                    hideModal();
+                                    window.location.reload();
+                                }}
                                 selectedLanguage={currentLang}
                                 wrapperClassName='px-[0.8rem]'
                             />

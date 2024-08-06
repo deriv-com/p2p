@@ -43,10 +43,11 @@ export const getOauthUrl = () => {
     const serverUrl = /qa/.test(String(storedServerUrl)) ? storedServerUrl : 'oauth.deriv.com';
 
     const appId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
+    const lang = LocalStorageUtils.getValue<string>(LocalStorageConstants.i18nLanguage);
 
     const oauthUrl =
         appId && serverUrl
-            ? `https://${serverUrl}/oauth2/authorize?app_id=${appId}&l=EN&&brand=deriv`
+            ? `https://${serverUrl}/oauth2/authorize?app_id=${appId}&l=${lang ?? 'EN'}&&brand=deriv`
             : URLUtils.getOauthURL();
 
     return oauthUrl;
