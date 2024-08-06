@@ -21,7 +21,12 @@ jest.mock('@deriv-com/ui', () => ({
 
 jest.mock('@/utils', () => ({
     ...jest.requireActual('@/utils'),
-    getCurrentRoute: jest.fn(() => ''),
+    getCurrentRoute: jest.fn(() => 'my-profile'),
+}));
+
+jest.mock('../AdvertiserNameStats.tsx', () => ({
+    __esModule: true,
+    default: () => <div>AdvertiserNameStats</div>,
 }));
 
 describe('AdvertiserName', () => {
