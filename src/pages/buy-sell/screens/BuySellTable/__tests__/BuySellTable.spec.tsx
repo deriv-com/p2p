@@ -1,4 +1,5 @@
 import { usePoiPoaStatus } from '@/hooks/custom-hooks';
+import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -99,6 +100,12 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useQueryString: jest.fn(() => mockUseQueryString),
 }));
 
+jest.mock('@/providers/AdvertiserInfoStateProvider', () => ({
+    useAdvertiserInfoState: jest.fn().mockReturnValue({
+        hasCreatedAdvertiser: jest.fn(),
+    }),
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isDesktop: true, isTablet: false })),
@@ -106,6 +113,7 @@ jest.mock('@deriv-com/ui', () => ({
 
 const mockUseDevice = useDevice as jest.Mock;
 const mockUsePoiPoaStatus = usePoiPoaStatus as jest.Mock;
+const mockUseAdvertiserInfoState = useAdvertiserInfoState as jest.MockedFunction<typeof useAdvertiserInfoState>;
 
 describe('<BuySellTable />', () => {
     beforeEach(() => {
@@ -197,6 +205,17 @@ describe('<BuySellTable />', () => {
         await userEvent.click(buyButton);
 
         expect(screen.getByText('NicknameModal')).toBeInTheDocument();
+    });
+
+    it('should call showModal with BuySellForm if hasCreatedAdvertiser is true and user is not an advertiser', async () => {
+        mockUseIsAdvertiser = false;
+        (mockUseAdvertiserInfoState as jest.Mock).mockReturnValue({
+            hasCreatedAdvertiser: true,
+        });
+
+        render(<BuySellTable />);
+
+        expect(mockUseModalManager.showModal).toHaveBeenCalledWith('BuySellForm');
     });
 
     it('should not render render the BuySellForm when the user clicks on Buy/Sell button and the user is an advertiser', async () => {
