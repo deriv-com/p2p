@@ -76,6 +76,10 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         return 'md';
     };
 
+    const redirectToAdvertiser = () => {
+        isAdvertiserBarred ? undefined : history.push(`${ADVERTISER_URL}/${id}?currency=${localCurrency}`);
+    };
+
     return (
         <div
             className={clsx('adverts-table-row', {
@@ -88,11 +92,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         className={clsx('flex gap-4 items-center', {
                             'cursor-pointer': !isAdvertiserBarred,
                         })}
-                        onClick={() =>
-                            isAdvertiserBarred
-                                ? undefined
-                                : history.push(`${ADVERTISER_URL}/${id}?currency=${localCurrency}`)
-                        }
+                        onClick={redirectToAdvertiser}
                     >
                         <UserAvatar
                             isOnline={isOnline}
@@ -176,7 +176,10 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     })}
                 >
                     {!isDesktop && isBuySellPage && (
-                        <LabelPairedChevronRightMdRegularIcon className='absolute top-0 right-0' />
+                        <LabelPairedChevronRightMdRegularIcon
+                            className='absolute top-0 right-0'
+                            onClick={redirectToAdvertiser}
+                        />
                     )}
                     {isEligible === 0 ? (
                         <Button
@@ -221,7 +224,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
             {isModalOpenFor('ErrorModal') && (
                 <ErrorModal
                     isModalOpen
-                    message={localize(getEligibilityErrorMessage(eligibilityStatus))}
+                    message={getEligibilityErrorMessage(eligibilityStatus, localize)}
                     onRequestClose={hideModal}
                     showTitle={false}
                 />
