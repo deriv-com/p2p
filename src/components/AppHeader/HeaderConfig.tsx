@@ -9,6 +9,7 @@ import {
     PartnersProductBinaryBotBrandLightLogoWordmarkHorizontalIcon as BinaryBotLogo,
     PartnersProductSmarttraderBrandLightLogoWordmarkIcon as SmarttraderLogo,
 } from '@deriv/quill-icons';
+import { URLConstants } from '@deriv-com/utils';
 
 export type PlatformsConfig = {
     active: boolean;
@@ -43,7 +44,7 @@ export const getPlatformsConfig = (localize: TLocalize): PlatformsConfig[] => [
         active: true,
         buttonIcon: <DerivTraderLogo height={25} width={114.97} />,
         description: localize('A whole new trading experience on a powerful yet easy to use platform.'),
-        href: 'https://app.deriv.com',
+        href: URLConstants.derivAppProduction,
         icon: <DerivTraderLogo height={32} width={148} />,
         showInEU: true,
     },
@@ -51,7 +52,7 @@ export const getPlatformsConfig = (localize: TLocalize): PlatformsConfig[] => [
         active: false,
         buttonIcon: <DerivBotLogo height={24} width={91} />,
         description: localize('Automated trading at your fingertips. No coding needed.'),
-        href: 'https://app.deriv.com/bot',
+        href: `${URLConstants.derivAppProduction}/bot`,
         icon: <DerivBotLogo height={32} width={121} />,
         showInEU: false,
     },
@@ -78,19 +79,19 @@ export const getPlatformsConfig = (localize: TLocalize): PlatformsConfig[] => [
 export const getMenuItems = (localize: TLocalize): MenuItemsConfig[] => [
     {
         as: 'a',
-        href: 'https://app.deriv.com/appstore/traders-hub',
+        href: URLConstants.derivAppProduction,
         icon: <TradershubLogo iconSize='xs' />,
         label: localize("Trader's Hub"),
     },
     {
         as: 'a',
-        href: 'https://app.deriv.com/appstore/reports',
+        href: `${URLConstants.derivAppProduction}/reports`,
         icon: <ReportsLogo iconSize='xs' />,
         label: localize('Reports'),
     },
     {
         as: 'a',
-        href: 'https://app.deriv.com/appstore/cashier',
+        href: `${URLConstants.derivAppProduction}/cashier`,
         icon: <CashierLogo iconSize='xs' />,
         label: localize('Cashier'),
     },
