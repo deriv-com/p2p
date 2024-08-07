@@ -39,7 +39,11 @@ const ActiveOrderInfo = () => {
                             <Text size={textSize} weight='bold'>
                                 {detail.text}
                             </Text>
-                            <Text data-testid={`dt_${formatDataTestId(detail.text)}`} size={textSize}>
+                            <Text
+                                className='break-all'
+                                data-testid={`dt_${formatDataTestId(detail.text)}`}
+                                size={textSize}
+                            >
                                 {detail.value}
                             </Text>
                         </div>
