@@ -187,7 +187,7 @@ const CreateEditAd = () => {
             }
             return '';
         }
-        return formValues?.rate.toString();
+        return formValues?.rate_display;
     };
 
     const setFormValues = useCallback(
