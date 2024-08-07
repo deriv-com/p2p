@@ -54,6 +54,19 @@ const FloatingRate = ({
         onChange(event);
     };
 
+    const toSignedNumber = (num: string) => {
+        const number = parseFloat(num);
+        const formattedNum = number.toFixed(2);
+
+        // Add sign based on the number's value
+        if (number > 0) {
+            return `+${formattedNum}`;
+        } else if (number < 0) {
+            return formattedNum;
+        }
+        return '+0.00'; // Return '+0.00' for zero
+    };
+
     return (
         <div className='floating-rate'>
             <div className='floating-rate__field'>
@@ -67,7 +80,7 @@ const FloatingRate = ({
                     onBlur={onBlurHandler}
                     onChange={changeHandler}
                     type={isMobile && os !== 'iOS' ? 'tel' : 'number'}
-                    value={value ?? ''}
+                    value={value !== undefined ? toSignedNumber(value) : ''}
                 />
                 <div className='floating-rate__mkt-rate'>
                     <Text className='floating-rate__mkt-rate--label' size={textSize}>
