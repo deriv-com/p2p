@@ -57,7 +57,7 @@ const MyAdsTableRowView = ({
         isSuccess: isCreateSuccess,
         mutate: createAd,
     } = api.advert.useCreate();
-    const { rateType: currentRateType, reachedTargetDate } = useFloatingRate();
+    const { fixedRateAdvertsEndDate, rateType: currentRateType, reachedTargetDate } = useFloatingRate();
     const { error: updateError, isError: isErrorUpdate, mutate } = api.advert.useUpdate();
     const { error, isError, mutate: deleteAd } = api.advert.useDelete();
     const shouldNotShowArchiveMessageAgain = LocalStorageUtils.getValue<boolean>(
@@ -239,6 +239,7 @@ const MyAdsTableRowView = ({
             )}
             {!!isModalOpenFor('AdRateSwitchModal') && (
                 <AdRateSwitchModal
+                    fixedRateAdvertsEndDate={fixedRateAdvertsEndDate}
                     isModalOpen
                     onClickSet={() => onClickIcon(AD_ACTION.EDIT)}
                     onRequestClose={hideModal}
