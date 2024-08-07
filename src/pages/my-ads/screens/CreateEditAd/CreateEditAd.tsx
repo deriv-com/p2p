@@ -6,6 +6,7 @@ import { AdCancelCreateEditModal, AdCreateEditErrorModal, AdCreateEditSuccessMod
 import { MY_ADS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useFloatingRate, useModalManager, useQueryString } from '@/hooks/custom-hooks';
+import { isFormDirty } from '@/utils';
 import { useP2PCountryList } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader } from '@deriv-com/ui';
@@ -96,7 +97,10 @@ const CreateEditAd = () => {
         handleSubmit,
         reset,
         setValue,
+        watch,
     } = methods;
+    const selectedMethods = getValues('payment-method') ?? [];
+    const selectedCountries = watch('preferred-countries') ?? [];
     useEffect(() => {
         if (Object.keys(countryList as object).length > 0 && getValues('preferred-countries')?.length === 0) {
             setValue('preferred-countries', Object.keys(countryList as object));
@@ -106,6 +110,13 @@ const CreateEditAd = () => {
     const shouldNotShowArchiveMessageAgain = LocalStorageUtils.getValue<boolean>(
         LocalStorageConstants.p2pArchiveMessage
     );
+
+    useEffect(() => {
+        return () => {
+            // Reset the form values when the component unmounts so that edit form values are not retained
+            reset();
+        };
+    }, []);
 
     const onSubmit = () => {
         type TPayload = {
@@ -198,6 +209,7 @@ const CreateEditAd = () => {
                 'ad-type': formValues.type,
                 amount: formValues.amount.toString(),
                 'contact-details': formValues.type === 'sell' ? formValues.contact_info : undefined,
+                'float-rate-offset-limit': floatRateOffsetLimitString,
                 'form-type': 'edit' as const,
                 instructions: formValues.description,
                 'max-order': formValues.max_order_amount.toString(),
@@ -212,6 +224,7 @@ const CreateEditAd = () => {
                               name => paymentMethodList.find(method => method.display_name === name)?.id ?? ''
                           ) ?? [],
                 'preferred-countries': formValues.eligible_countries ?? Object.keys(countryList as object),
+                'rate-type-string': rateType,
                 'rate-value': setInitialAdRate(formValues) as string,
             };
 
@@ -239,8 +252,21 @@ const CreateEditAd = () => {
         return <Loader />;
     }
 
+    const isEditFormClean = () => {
+        const result = isFormDirty(
+            initialData,
+            selectedMethods,
+            selectedCountries,
+            watch('min-join-days'),
+            watch('min-completion-rate'),
+            isDirty,
+            rateType,
+            getValues('ad-rate-type')
+        );
+        return result;
+    };
     const onClickCancel = () => {
-        if (isDirty) showModal('AdCancelCreateEditModal');
+        if ((isEdit && !isEditFormClean()) || isDirty) showModal('AdCancelCreateEditModal');
         else history.push(MY_ADS_URL);
     };
 
