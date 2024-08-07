@@ -2,8 +2,7 @@
     max-height: 22.4rem;
 
     @include mobile-or-tablet-screen {
-        height: calc(100vh - 29.5rem);
-        max-height: 100%;
+        max-height: calc(100vh - 29.5rem);
     }
 
     &__row {
