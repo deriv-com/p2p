@@ -72,7 +72,6 @@ const MyAdsTable = () => {
                 <Table
                     columns={getColumns(localize)}
                     data={data}
-                    isFetching={isFetching}
                     loadMoreFunction={loadMoreAdverts}
                     renderHeader={headerRenderer}
                     rowRender={(rowData: unknown) => (

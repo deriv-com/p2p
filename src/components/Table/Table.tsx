@@ -10,7 +10,6 @@ type TProps<T> = {
     data: T[];
     emptyDataMessage?: string;
     groupBy?: GroupingState;
-    isFetching: boolean;
     loadMoreFunction: () => void;
     renderHeader?: (data: string) => JSX.Element;
     rowRender: (data: T) => JSX.Element;
