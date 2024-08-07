@@ -99,8 +99,7 @@ const CreateEditAd = () => {
         setValue,
         watch,
     } = methods;
-    const selectedMethods = getValues('payment-method') ?? [];
-    const selectedCountries = watch('preferred-countries') ?? [];
+
     useEffect(() => {
         if (Object.keys(countryList as object).length > 0 && getValues('preferred-countries')?.length === 0) {
             setValue('preferred-countries', Object.keys(countryList as object));
@@ -252,19 +251,18 @@ const CreateEditAd = () => {
         return <Loader />;
     }
 
-    const isEditFormClean = () => {
-        const result = isFormDirty(
+    const isEditFormClean = () =>
+        isFormDirty(
             initialData,
-            selectedMethods,
-            selectedCountries,
-            watch('min-join-days'),
+            watch('payment-method'),
+            watch('preferred-countries'),
             watch('min-completion-rate'),
+            watch('min-join-days'),
             isDirty,
             rateType,
             getValues('ad-rate-type')
         );
-        return result;
-    };
+
     const onClickCancel = () => {
         if ((isEdit && !isEditFormClean()) || isDirty) showModal('AdCancelCreateEditModal');
         else history.push(MY_ADS_URL);
