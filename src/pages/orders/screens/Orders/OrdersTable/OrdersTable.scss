@@ -19,9 +19,17 @@
     }
 
     &--inactive {
-        & .table__header {
-            grid-template-columns: 2fr 1fr 1.5fr 2fr 3fr 1.5fr 1.5fr 2fr;
-            gap: 1rem;
+        & .table {
+            &__header {
+                grid-template-columns: 2fr 1fr 1.5fr 2fr 3fr 1.5fr 1.5fr 2fr;
+                gap: 1rem;
+            }
+
+            &__content {
+                @include mobile-or-tablet-screen {
+                    height: calc(100vh - 25rem) !important;
+                }
+            }
         }
     }
 }
