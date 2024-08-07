@@ -1,4 +1,3 @@
-import { useIsAdvertiserBarred } from '@/hooks';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PopoverDropdown from '../PopoverDropdown';
@@ -25,11 +24,10 @@ const mockProps = {
             value: 'value 2',
         },
     ],
+    isBarred: false,
     onClick: jest.fn(),
     tooltipMessage: 'test tooltip message',
 };
-
-const mockUseIsAdvertiserBarred = useIsAdvertiserBarred as jest.MockedFunction<typeof useIsAdvertiserBarred>;
 
 describe('PopoverDropdown', () => {
     it('should render', () => {
@@ -49,8 +47,7 @@ describe('PopoverDropdown', () => {
     });
 
     it('should disable the icon if advertiser is barred', async () => {
-        mockUseIsAdvertiserBarred.mockReturnValue(true);
-        render(<PopoverDropdown {...mockProps} />);
+        render(<PopoverDropdown {...mockProps} isBarred />);
         expect(screen.getByTestId('dt_popover_dropdown_icon')).not.toHaveProperty('onClick');
     });
 });
