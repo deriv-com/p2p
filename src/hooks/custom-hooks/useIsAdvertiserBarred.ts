@@ -12,14 +12,12 @@ const useIsAdvertiserBarred = (): boolean => {
     const invalidate = useInvalidateQuery();
 
     useEffect(() => {
-        invalidate('p2p_advertiser_adverts');
-        if (data.blocked_until) {
-            setIsAdvertiserBarred(true);
-        } else {
-            setIsAdvertiserBarred(false);
+        if (isAdvertiserBarred !== !!data.blocked_until) {
+            invalidate('p2p_advertiser_adverts');
+            setIsAdvertiserBarred(!!data.blocked_until);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data.blocked_until]);
+    }, [isAdvertiserBarred, data.blocked_until]);
 
     return isAdvertiserBarred;
 };

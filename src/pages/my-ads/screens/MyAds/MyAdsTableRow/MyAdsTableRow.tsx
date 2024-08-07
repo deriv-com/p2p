@@ -122,6 +122,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                         {showAlertIcon && <AlertComponent onClick={() => showModal('AdErrorTooltipModal')} />}
                         <PopoverDropdown
                             dropdownList={getList(localize, isAdActive)}
+                            isBarred={isBarred}
                             onClick={handleClick}
                             tooltipMessage={localize('Manage ad')}
                         />
@@ -209,6 +210,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                 <AdStatus isActive={isAdActive} />
                 <PopoverDropdown
                     dropdownList={getList(localize, isAdActive)}
+                    isBarred={isBarred}
                     onClick={handleClick}
                     tooltipMessage={localize('Manage ad')}
                 />
