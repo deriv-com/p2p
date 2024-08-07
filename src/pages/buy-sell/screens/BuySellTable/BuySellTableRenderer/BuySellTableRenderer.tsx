@@ -18,7 +18,6 @@ const getColumns = (localize: TLocalize) => [
 
 type TBuySellTableRowRendererProps = {
     data?: TAdvertsTableRowRenderer[];
-    isFetching: boolean;
     isLoading: boolean;
     loadMoreAdverts: () => void;
     searchValue: string;
@@ -26,7 +25,6 @@ type TBuySellTableRowRendererProps = {
 
 const BuySellTableRenderer = ({
     data = [],
-    isFetching,
     isLoading,
     loadMoreAdverts,
     searchValue,
@@ -36,7 +34,7 @@ const BuySellTableRenderer = ({
     const history = useHistory();
 
     if (isLoading) {
-        return <Loader className='mt-80' />;
+        return <Loader />;
     }
 
     if ((!data && !searchValue) || (data.length === 0 && !searchValue)) {
@@ -69,7 +67,6 @@ const BuySellTableRenderer = ({
             columns={getColumns(localize)}
             data={data}
             emptyDataMessage={localize('There are no matching ads.')}
-            isFetching={isFetching}
             loadMoreFunction={loadMoreAdverts}
             renderHeader={headerRenderer}
             rowRender={(data: unknown) => <AdvertsTableRow {...(data as TAdvertsTableRowRenderer)} />}
