@@ -201,7 +201,7 @@ const useExtendedOrderDetails = ({
                 counterpartyRealNameLabel: this.isBuyOrder
                     ? localize("Buyer's real name")
                     : localize("Seller's real name"),
-                instructions: 'Your instructions',
+                instructions: localize('Your instructions'),
                 leftSendOrReceive: this.isBuyOrder ? localize('Receive') : localize('Send'),
                 paymentDetails: this.isBuyOrder
                     ? localize('Your payment details')
@@ -297,8 +297,8 @@ const useExtendedOrderDetails = ({
             return this.isPendingOrder || this.isOngoingOrder;
         },
         get statusForBuyerConfirmedOrder() {
-            const confirmMessage = 'Confirm payment';
-            const waitMessage = 'Waiting for the seller to confirm';
+            const confirmMessage = localize('Confirm payment');
+            const waitMessage = localize('Waiting for the seller to confirm');
             if (this.isMyAd) {
                 return this.isBuyOrder ? confirmMessage : waitMessage;
             }

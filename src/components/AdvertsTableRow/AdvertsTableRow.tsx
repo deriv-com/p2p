@@ -76,6 +76,10 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         return 'md';
     };
 
+    const redirectToAdvertiser = () => {
+        isAdvertiserBarred ? undefined : history.push(`${ADVERTISER_URL}/${id}?currency=${localCurrency}`);
+    };
+
     return (
         <div
             className={clsx('adverts-table-row', {
@@ -88,11 +92,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         className={clsx('flex gap-4 items-center', {
                             'cursor-pointer': !isAdvertiserBarred,
                         })}
-                        onClick={() =>
-                            isAdvertiserBarred
-                                ? undefined
-                                : history.push(`${ADVERTISER_URL}/${id}?currency=${localCurrency}`)
-                        }
+                        onClick={redirectToAdvertiser}
                     >
                         <UserAvatar
                             isOnline={isOnline}
@@ -145,8 +145,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     )}
                     <Container {...(!isDesktop && { className: 'flex flex-col-reverse mb-7' })}>
                         <Text color={textColor} size='sm'>
-                            {!isDesktop && 'Limits:'} {minOrderAmountLimitDisplay}-{maxOrderAmountLimitDisplay}{' '}
-                            {accountCurrency}
+                            {!isDesktop && localize('Limits:')} {minOrderAmountLimitDisplay}-
+                            {maxOrderAmountLimitDisplay} {accountCurrency}
                         </Text>
                         <Text className='text-wrap w-[90%]' color='success' size={size} weight='bold'>
                             {displayEffectiveRate} {localCurrency}
@@ -176,7 +176,10 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     })}
                 >
                     {!isDesktop && isBuySellPage && (
-                        <LabelPairedChevronRightMdRegularIcon className='absolute top-0 right-0' />
+                        <LabelPairedChevronRightMdRegularIcon
+                            className='absolute top-0 right-0'
+                            onClick={redirectToAdvertiser}
+                        />
                     )}
                     {isEligible === 0 ? (
                         <Button
@@ -191,7 +194,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         </Button>
                     ) : (
                         <Button
-                            className='lg:w-[7.5rem]'
+                            className='lg:min-w-[7.5rem]'
                             disabled={isAdvertiserBarred}
                             onClick={() => {
                                 if (!isPoaVerified || !isPoiVerified) {
@@ -205,7 +208,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             size={size}
                             textSize={buttonTextSize()}
                         >
-                            {isBuyAdvert ? 'Buy' : 'Sell'} {accountCurrency}
+                            {isBuyAdvert ? localize('Buy') : localize('Sell')} {accountCurrency}
                         </Button>
                     )}
                 </div>
@@ -221,7 +224,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
             {isModalOpenFor('ErrorModal') && (
                 <ErrorModal
                     isModalOpen
-                    message={localize(getEligibilityErrorMessage(eligibilityStatus))}
+                    message={getEligibilityErrorMessage(eligibilityStatus, localize)}
                     onRequestClose={hideModal}
                     showTitle={false}
                 />

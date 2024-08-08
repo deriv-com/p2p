@@ -27,7 +27,11 @@ const MyProfileCounterpartiesHeader = ({
                 <Localize i18n_default_text='When you block someone, you won’t see their ads, and they can’t see yours. Your ads will be hidden from their search results, too.' />
             </Text>
             <div className='my-profile-counterparties-header'>
-                <Search name='counterparties-search' onSearch={setSearchValue} placeholder='Search by nickname' />
+                <Search
+                    name='counterparties-search'
+                    onSearch={setSearchValue}
+                    placeholder={localize('Search by nickname')}
+                />
                 {isDesktop ? (
                     <Dropdown
                         dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}

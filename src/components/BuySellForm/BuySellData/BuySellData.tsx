@@ -55,7 +55,7 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
                 <div className='buy-sell-data__details'>
                     <div className='flex flex-col w-full'>
                         <Text color='less-prominent' size={labelSize}>
-                            {isBuy ? 'Buyer' : 'Seller'}
+                            {isBuy ? localize('Buyer') : localize('Seller')}
                         </Text>
                         <Text data-testid={`dt_${isBuy ? 'buyer' : 'seller'}_nickname`} size={valueSize}>
                             {name}
@@ -68,7 +68,12 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
                                     'lg:hover:absolute': isFloating,
                                 })}
                             >
-                                <Text color='less-prominent' size={labelSize}>{`Rate (1 ${accountCurrency})`}</Text>
+                                <Text color='less-prominent' size={labelSize}>
+                                    <Localize
+                                        i18n_default_text='Rate (1 {{accountCurrency}})'
+                                        values={{ accountCurrency }}
+                                    />
+                                </Text>
                                 {isFloating && (
                                     <Tooltip
                                         className='w-72 mb-[-0.8rem] text-center'
@@ -117,7 +122,11 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
                             <Localize i18n_default_text="Seller's instructions" />
                         )}
                     </Text>
-                    <Text data-testid={`dt_${isBuy ? 'buyer' : 'seller'}_instruction`} size={valueSize}>
+                    <Text
+                        className='break-all'
+                        data-testid={`dt_${isBuy ? 'buyer' : 'seller'}_instruction`}
+                        size={valueSize}
+                    >
                         {instructions}
                     </Text>
                 </div>

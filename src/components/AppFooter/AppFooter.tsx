@@ -3,7 +3,6 @@ import { useModalManager } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { DesktopLanguagesModal } from '@deriv-com/ui';
 import AccountLimits from './AccountLimits';
-import ChangeTheme from './ChangeTheme';
 import Deriv from './Deriv';
 import Endpoint from './Endpoint';
 import FullScreen from './FullScreen';
@@ -28,7 +27,8 @@ const AppFooter = () => {
             <LanguageSettings openLanguageSettingModal={openLanguageSettingModal} />
             <HelpCentre />
             <div className='app-footer__vertical-line' />
-            <ChangeTheme />
+            {/* TODO: Implement theme */}
+            {/* <ChangeTheme /> */}
             <AccountLimits />
             <ResponsibleTrading />
             <Deriv />
@@ -46,7 +46,11 @@ const AppFooter = () => {
                     isModalOpen
                     languages={LANGUAGES}
                     onClose={hideModal}
-                    onLanguageSwitch={code => switchLanguage(code)}
+                    onLanguageSwitch={code => {
+                        switchLanguage(code);
+                        hideModal();
+                        window.location.reload();
+                    }}
                     selectedLanguage={currentLang}
                 />
             )}

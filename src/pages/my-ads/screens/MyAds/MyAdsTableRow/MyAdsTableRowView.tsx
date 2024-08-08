@@ -18,6 +18,7 @@ import { api } from '@/hooks';
 import useInvalidateQuery from '@/hooks/api/useInvalidateQuery';
 import { useFloatingRate, useModalManager } from '@/hooks/custom-hooks';
 import { getPaymentMethodObjects, getVisibilityErrorCodes } from '@/utils';
+import { useTranslations } from '@deriv-com/translations';
 import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { TMyAdsTableRowRendererProps } from '../MyAdsTable/MyAdsTable';
 import MyAdsTableRow from './MyAdsTableRow';
@@ -44,18 +45,19 @@ const MyAdsTableRowView = ({
     isListed,
     ...rest
 }: TMyAdsTableRowRendererProps) => {
+    const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const invalidate = useInvalidateQuery();
     const { data: paymentMethodList = [] } = api.paymentMethods.useGet();
     const { data: p2pSettings } = api.settings.useSettings();
-    const { order_payment_period: orderPaymentPeriod } = p2pSettings ?? {};
+    const { adverts_archive_period: advertsArchivePeriod } = p2pSettings ?? {};
     const {
         error: createError,
         isError: isCreateError,
         isSuccess: isCreateSuccess,
         mutate: createAd,
     } = api.advert.useCreate();
-    const { rateType: currentRateType, reachedTargetDate } = useFloatingRate();
+    const { fixedRateAdvertsEndDate, rateType: currentRateType, reachedTargetDate } = useFloatingRate();
     const { error: updateError, isError: isErrorUpdate, mutate } = api.advert.useUpdate();
     const { error, isError, mutate: deleteAd } = api.advert.useDelete();
     const shouldNotShowArchiveMessageAgain = LocalStorageUtils.getValue<boolean>(
@@ -237,6 +239,7 @@ const MyAdsTableRowView = ({
             )}
             {!!isModalOpenFor('AdRateSwitchModal') && (
                 <AdRateSwitchModal
+                    fixedRateAdvertsEndDate={fixedRateAdvertsEndDate}
                     isModalOpen
                     onClickSet={() => onClickIcon(AD_ACTION.EDIT)}
                     onRequestClose={hideModal}
@@ -268,14 +271,14 @@ const MyAdsTableRowView = ({
             {!!isModalOpenFor('AdCreateEditErrorModal') && (
                 <AdCreateEditErrorModal
                     errorCode={createError?.code as TErrorCodes}
-                    errorMessage={createError?.message ?? 'Something’s not right'}
+                    errorMessage={createError?.message ?? localize('Something’s not right')}
                     isModalOpen
                     onRequestClose={hideModal}
                 />
             )}
             {!!isModalOpenFor('AdCreateEditSuccessModal') && (
                 <AdCreateEditSuccessModal
-                    advertsArchivePeriod={orderPaymentPeriod}
+                    advertsArchivePeriod={advertsArchivePeriod}
                     isModalOpen
                     onRequestClose={() => hideModal({ shouldHideAllModals: true })}
                 />

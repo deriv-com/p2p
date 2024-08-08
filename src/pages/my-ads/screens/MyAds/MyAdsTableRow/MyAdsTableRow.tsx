@@ -90,7 +90,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
         rateType,
     });
 
-    const advertType = type === 'buy' ? ADVERT_TYPE.BUY : ADVERT_TYPE.SELL;
+    const advertType = type === 'buy' ? localize(ADVERT_TYPE.BUY) : localize(ADVERT_TYPE.SELL);
 
     const handleClick = (action: string) => {
         if (action === AD_ACTION.EDIT || action === AD_ACTION.COPY) {

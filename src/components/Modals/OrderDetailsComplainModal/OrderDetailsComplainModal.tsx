@@ -122,10 +122,7 @@ const OrderDetailsComplainModal = ({
         >
             <Modal.Header onRequestClose={onRequestClose}>
                 <Text weight='bold'>
-                    <Localize
-                        i18n_default_text='
-                    What’s your complaint?'
-                    />
+                    <Localize i18n_default_text='What’s your complaint?' />
                 </Text>
             </Modal.Header>
             <Modal.Body className='order-details-complain-modal__body'>

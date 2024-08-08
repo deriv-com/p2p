@@ -187,13 +187,14 @@ const CreateEditAd = () => {
             }
             return '';
         }
-        return formValues?.rate;
+        return formValues?.rate.toString();
     };
 
     const setFormValues = useCallback(
         (formValues: TFormValuesInfo) => {
             // Prepare the default values object
             const defaultValues = {
+                'ad-rate-type': formValues.rate_type,
                 'ad-type': formValues.type,
                 amount: formValues.amount.toString(),
                 'contact-details': formValues.type === 'sell' ? formValues.contact_info : undefined,
@@ -263,7 +264,7 @@ const CreateEditAd = () => {
             </FormProvider>
             <AdCreateEditErrorModal
                 errorCode={(error?.code || updateError?.code) as TErrorCodes}
-                errorMessage={(error?.message || updateError?.message) ?? 'Something’s not right'}
+                errorMessage={(error?.message || updateError?.message) ?? localize('Something’s not right')}
                 isModalOpen={!!isModalOpenFor('AdCreateEditErrorModal')}
                 onRequestClose={() => {
                     setShouldReset(true);
