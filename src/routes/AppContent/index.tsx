@@ -38,7 +38,12 @@ const AppContent = () => {
 
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
-    const { isActive, setP2PSettings, subscribe: subscribeP2PSettings } = api.settings.useSettings();
+    const {
+        isActive,
+        isLoading: isP2PSettingsLoading,
+        setP2PSettings,
+        subscribe: subscribeP2PSettings,
+    } = api.settings.useSettings();
     const {
         error,
         isActive: isSubscribed,
@@ -90,7 +95,7 @@ const AppContent = () => {
     }, []);
 
     const getComponent = () => {
-        if ((isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
+        if ((isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
             return <Loader />;
         } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied) {
             return <BlockedScenarios type={status} />;
@@ -123,6 +128,7 @@ const AppContent = () => {
         <AdvertiserInfoStateProvider
             value={{
                 error,
+                hasCreatedAdvertiser,
                 isIdle,
                 isLoading,
                 isSubscribed,

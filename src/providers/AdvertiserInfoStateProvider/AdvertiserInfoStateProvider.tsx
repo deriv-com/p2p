@@ -2,6 +2,7 @@ import { createContext, PropsWithChildren, useContext } from 'react';
 
 type TContextValue = {
     error: { code: string; message: string } | undefined;
+    hasCreatedAdvertiser: boolean;
     isIdle: boolean;
     isLoading: boolean;
     isSubscribed: boolean;
