@@ -43,6 +43,8 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
         recommended_count: recommendedCount = 0,
     } = advertiserStats || {};
 
+    const textSize = isDesktop ? 'sm' : 'xs';
+
     return (
         <div
             className={clsx('advertiser-name-stats', {
@@ -60,7 +62,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                         />
                     </div>
                 )}
-                <Text color='less-prominent' size='sm'>
+                <Text color='less-prominent' size={textSize}>
                     {daysSinceJoined && daysSinceJoined > 0 ? (
                         <Localize i18n_default_text='Joined {{daysSinceJoined}}d' values={{ daysSinceJoined }} />
                     ) : (
@@ -71,7 +73,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
             <div>
                 {!ratingAverage && (
                     <div>
-                        <Text color='less-prominent' size='sm'>
+                        <Text color='less-prominent' size={textSize}>
                             <Localize i18n_default_text='Not rated yet' />
                         </Text>
                     </div>
@@ -80,9 +82,9 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                     <>
                         <div>
                             <div className='advertiser-name-stats__rating'>
-                                <Text size='sm'>({ratingAverage})</Text>
+                                <Text size={textSize}>{ratingAverage.toFixed(1)}</Text>
                                 <StarRating allowFraction isReadonly ratingValue={ratingAverage} />
-                                <Text color='less-prominent' size='sm'>
+                                <Text color='less-prominent' size={textSize}>
                                     {ratingCount && ratingCount > 1 ? (
                                         <Localize
                                             i18n_default_text='{{ratingCount}} ratings'
