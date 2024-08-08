@@ -21,7 +21,7 @@ const CopyAdFormFooter = ({ isValid, onClickCancel, onSubmit }: TCopyAdFormFoote
             >
                 <Localize i18n_default_text='Cancel' />
             </Button>
-            <Button disabled={!isValid} onClick={onSubmit} size='lg' textSize={isDesktop ? 'sm' : 'md'}>
+            <Button disabled={!isValid} onClick={onSubmit} size='lg' textSize={isDesktop ? 'sm' : 'md'} type='button'>
                 <Localize i18n_default_text='Create ad' />
             </Button>
         </>

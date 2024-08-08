@@ -7,7 +7,7 @@
     @include mobile-or-tablet-screen {
         top: 0;
         overflow: auto;
-        height: calc(100vh - 4rem);
+        height: calc(100% - 7.4rem);
         width: 100%;
     }
 

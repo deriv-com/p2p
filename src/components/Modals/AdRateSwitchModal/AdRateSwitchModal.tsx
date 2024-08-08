@@ -4,6 +4,7 @@ import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdRateSwitchModal.scss';
 
 type TAdRateSwitchModalProps = {
+    fixedRateAdvertsEndDate?: string;
     isModalOpen: boolean;
     onClickSet: () => void;
     onRequestClose: () => void;
@@ -11,6 +12,7 @@ type TAdRateSwitchModalProps = {
     reachedEndDate?: boolean;
 };
 const AdRateSwitchModal = ({
+    fixedRateAdvertsEndDate,
     isModalOpen,
     onClickSet,
     onRequestClose,
@@ -45,7 +47,7 @@ const AdRateSwitchModal = ({
                     textSize={textSize}
                     variant='outlined'
                 >
-                    {reachedEndDate ? (
+                    {reachedEndDate || !fixedRateAdvertsEndDate ? (
                         <Localize i18n_default_text='Cancel' />
                     ) : (
                         <Localize i18n_default_text="I'll do this later " />

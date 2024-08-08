@@ -1,9 +1,11 @@
+import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
 import { PageReturn, TemporarilyBarredHint, Verification } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
 import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { BuySellTable } from '../BuySellTable';
+import './BuySell.scss';
 
 const BuySell = () => {
     const { localize } = useTranslations();
@@ -26,7 +28,7 @@ const BuySell = () => {
     }
 
     return (
-        <div className='h-full'>
+        <div className={clsx('buy-sell', { 'buy-sell--barred': isAdvertiserBarred })}>
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             <BuySellTable />
         </div>
