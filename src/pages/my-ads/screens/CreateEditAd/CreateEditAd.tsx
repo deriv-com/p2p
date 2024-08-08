@@ -187,13 +187,14 @@ const CreateEditAd = () => {
             }
             return '';
         }
-        return formValues?.rate;
+        return formValues?.rate.toString();
     };
 
     const setFormValues = useCallback(
         (formValues: TFormValuesInfo) => {
             // Prepare the default values object
             const defaultValues = {
+                'ad-rate-type': formValues.rate_type,
                 'ad-type': formValues.type,
                 amount: formValues.amount.toString(),
                 'contact-details': formValues.type === 'sell' ? formValues.contact_info : undefined,

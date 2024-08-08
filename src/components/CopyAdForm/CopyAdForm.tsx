@@ -59,7 +59,7 @@ const CopyAdForm = ({ formValues, isModalOpen, onClickCancel, onFormSubmit, ...r
             'max-order': formValues.maxOrder,
             'min-order': formValues.minOrder,
             'rate-type-string': rateType,
-            'rate-value': formValues.rateValue || (rateType === RATE_TYPE.FLOAT ? '-0.01' : rateDisplay),
+            'rate-value': formValues.rateValue || rateDisplay,
         },
         mode: 'all',
     });

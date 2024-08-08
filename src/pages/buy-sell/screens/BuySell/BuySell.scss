@@ -1,0 +1,20 @@
+.buy-sell {
+    height: 100%;
+    & .buy-sell-table {
+        & .table {
+            @include mobile-or-tablet-screen {
+                height: calc(100% - 26rem);
+            }
+        }
+    }
+
+    &--barred {
+        & .buy-sell-table {
+            & .table {
+                @include mobile-or-tablet-screen {
+                    height: calc(100% - 32rem);
+                }
+            }
+        }
+    }
+}

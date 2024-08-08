@@ -122,7 +122,8 @@ const AdConditionsSection = ({
                         isMinCompletionRateSame() &&
                         isMinJoinDaysSame() &&
                         isPreferredCountriesSame() &&
-                        !isDirty)
+                        !isDirty &&
+                        rateType === getValues('ad-rate-type'))
                 }
             />
         </div>

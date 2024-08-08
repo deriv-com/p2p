@@ -62,7 +62,7 @@ describe('AppFooter', () => {
 
     it('renders the footer elements', () => {
         render(<AppFooterComponent />);
-        expect(screen.getAllByRole('button')).toHaveLength(4);
+        expect(screen.getAllByRole('button')).toHaveLength(3);
         expect(screen.getAllByRole('link')).toHaveLength(5);
     });
 

@@ -76,6 +76,10 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+jest.mock('@/hooks/custom-hooks', () => ({
+    useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
+}));
+
 let mockUseIsAdvertiser = true;
 
 const mockUseModalManager = {
