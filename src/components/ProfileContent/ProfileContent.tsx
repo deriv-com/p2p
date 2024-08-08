@@ -9,11 +9,12 @@ import './ProfileContent.scss';
 
 type TProfileContentProps = {
     data: TAdvertiserStats;
+    isSameUser: boolean;
     setAdvertiserName?: (name: string) => void;
     setShowOverlay?: Dispatch<SetStateAction<boolean>>;
 };
 
-const ProfileContent = ({ data, setAdvertiserName, setShowOverlay }: TProfileContentProps) => {
+const ProfileContent = ({ data, isSameUser, setAdvertiserName, setShowOverlay }: TProfileContentProps) => {
     const { isDesktop } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
@@ -29,7 +30,11 @@ const ProfileContent = ({ data, setAdvertiserName, setShowOverlay }: TProfileCon
     return (
         <>
             <div className='profile-content'>
-                <AdvertiserName advertiserStats={data} onClickBlocked={() => setShowOverlay?.(true)} />
+                <AdvertiserName
+                    advertiserStats={data}
+                    isSameUser={isSameUser}
+                    onClickBlocked={() => setShowOverlay?.(true)}
+                />
                 {isMyProfile ? <ProfileBalance advertiserStats={data} /> : <ProfileStats advertiserStats={data} />}
             </div>
             {!isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={data} />}

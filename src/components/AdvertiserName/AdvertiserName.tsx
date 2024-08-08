@@ -11,10 +11,11 @@ import './AdvertiserName.scss';
 
 type TAdvertiserNameProps = {
     advertiserStats: DeepPartial<TAdvertiserStats>;
+    isSameUser?: boolean;
     onClickBlocked?: () => void;
 };
 
-const AdvertiserName = ({ advertiserStats, onClickBlocked }: TAdvertiserNameProps) => {
+const AdvertiserName = ({ advertiserStats, isSameUser, onClickBlocked }: TAdvertiserNameProps) => {
     const { data } = useGetSettings();
     const { isDesktop } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
@@ -39,7 +40,7 @@ const AdvertiserName = ({ advertiserStats, onClickBlocked }: TAdvertiserNameProp
                 <AdvertiserNameBadges advertiserStats={advertiserStats} />
             </div>
             {isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={advertiserStats} />}
-            {isDesktop && !isMyProfile && !advertiserStats?.is_blocked && (
+            {isDesktop && !isMyProfile && !advertiserStats?.is_blocked && !isSameUser && (
                 <BlockDropdown id={advertiserStats?.id} onClickBlocked={onClickBlocked} />
             )}
         </div>
