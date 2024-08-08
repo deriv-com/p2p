@@ -9,7 +9,7 @@ import './ProfileContent.scss';
 
 type TProfileContentProps = {
     data: TAdvertiserStats;
-    isSameUser: boolean;
+    isSameUser?: boolean;
     setAdvertiserName?: (name: string) => void;
     setShowOverlay?: Dispatch<SetStateAction<boolean>>;
 };
