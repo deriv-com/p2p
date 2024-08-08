@@ -28,7 +28,7 @@ const getMessage = (localize: TLocalize, count = 0) => {
  */
 const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
     const { localize } = useTranslations();
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
 
@@ -43,7 +43,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
         recommended_count: recommendedCount = 0,
     } = advertiserStats || {};
 
-    const textSize = isDesktop ? 'sm' : 'xs';
+    const textSize = isMobile ? 'xs' : 'sm';
 
     return (
         <div

@@ -29,7 +29,7 @@ const getMessage = (localize: TLocalize, count = 0) => {
 const BlockUserCount = ({ count }: TBlockUserCount) => {
     const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const { isDesktop } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     return (
         <div className='block-user-count'>
             <TooltipMenuIcon
@@ -43,7 +43,7 @@ const BlockUserCount = ({ count }: TBlockUserCount) => {
             >
                 <LabelPairedCircleUserSlashSmRegularIcon />
 
-                <Text color='less-prominent' size='sm'>
+                <Text color='less-prominent' size={isMobile ? 'xs' : 'sm'}>
                     {count ?? 0}
                 </Text>
             </TooltipMenuIcon>
