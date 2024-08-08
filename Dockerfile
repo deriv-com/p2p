@@ -6,7 +6,7 @@ WORKDIR /app
 
 ENV HUSKY=0
 
-RUN git clone https://github.com/deriv-com/p2p.git .
+COPY . .
 
 RUN npm install
 
