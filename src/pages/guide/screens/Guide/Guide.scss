@@ -19,7 +19,7 @@
 
         @include mobile-or-tablet-screen {
             padding: 1.6rem;
-            height: 80vh;
+            height: calc(100% - 14rem);
         }
 
         &-section {

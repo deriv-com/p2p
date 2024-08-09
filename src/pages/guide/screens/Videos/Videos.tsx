@@ -84,7 +84,7 @@ const Videos = () => {
                         ),
                         id: 1,
                         title: (
-                            <Text className='px-[2.4rem]' size='md' weight='bold'>
+                            <Text className='px-[2.4rem] w-full flex' size='md' weight='bold'>
                                 <Localize i18n_default_text='How to use the Deriv P2P app' />
                             </Text>
                         ),

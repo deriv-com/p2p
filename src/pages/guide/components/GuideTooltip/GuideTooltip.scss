@@ -4,8 +4,8 @@
     padding: 1.6rem;
     width: 42rem;
 
-    @include mobile-or-tablet-screen {
-        width: 38rem;
+    @include mobile {
+        width: 30rem;
     }
 
     &__overlay {
