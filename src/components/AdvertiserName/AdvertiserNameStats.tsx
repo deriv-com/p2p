@@ -12,12 +12,14 @@ import BlockUserCount from './BlockUserCount';
 import './AdvertiserNameStats.scss';
 
 const getMessage = (localize: TLocalize, count = 0) => {
-    if (count > 0) {
+    if (count > 1) {
         return localize('Recommended by {{count}} traders', {
             count,
         });
+    } else if (count === 1) {
+        return localize('Recommended by 1 trader');
     }
-    return localize('Recommended by 1 trader');
+    return localize('No one has recommended this trader yet');
 };
 /**
  * This component is to show an advertiser's stats, in UI its commonly used under an advertiser's name
