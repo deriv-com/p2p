@@ -31,7 +31,7 @@ const SocketURL = {
     [URLConstants.derivP2pStaging]: 'red.derivws.com',
 };
 
-const getServerUrlAndAppId = () => {
+export const getServerUrlAndAppId = () => {
     const origin = window.location.origin;
     const hostname = window.location.hostname;
 
