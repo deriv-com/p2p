@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { TCountryListItem, TLocalize } from 'types';
+import { TCountryListItem, TInitialData, TLocalize } from 'types';
 import { ERROR_CODES, RATE_TYPE } from '@/constants';
 import { localize } from '@deriv-com/translations';
 import { rangeValidator } from './format-value';
@@ -197,3 +197,37 @@ export const getEligibilityErrorMessage = (errorCodes: string[], localize: TLoca
 
     return localize("The advertiser has set conditions for this ad that you don't meet.");
 };
+
+const isPaymentMethodsSame = (initialData: TInitialData, paymentMethods: number[] | string[]) =>
+    initialData.paymentMethod?.length === paymentMethods.length &&
+    initialData.paymentMethod?.sort().every((value, index) => value === paymentMethods.sort()[index]);
+
+const isMinCompletionRateSame = (minCompletionRate: number | string, initialData: TInitialData) =>
+    (minCompletionRate?.toString() ?? null) === initialData.minCompletionRate;
+
+const isMinJoinDaysSame = (minJoinDays: number | string, initialData: TInitialData) =>
+    (minJoinDays?.toString() ?? null) === initialData.minJoinDays;
+
+const isPreferredCountriesSame = (initialData: TInitialData, preferedCountries: string[]) =>
+    initialData?.selectedCountries?.length === preferedCountries.length &&
+    initialData?.selectedCountries?.sort().every((value, index) => value === preferedCountries.sort()[index]);
+
+/**
+ * Determines whether the form is dirty based on the provided parameters.
+ */
+export const isFormDirty = (
+    initialData: TInitialData,
+    paymentMethods: number[] | string[],
+    preferredCountries: string[],
+    minCompletionRate: number | string,
+    minJoinDays: number | string,
+    isDirty: boolean,
+    rateType: string,
+    adRateType: string
+) =>
+    isPaymentMethodsSame(initialData, paymentMethods) &&
+    isMinCompletionRateSame(minCompletionRate, initialData) &&
+    isMinJoinDaysSame(minJoinDays, initialData) &&
+    isPreferredCountriesSame(initialData, preferredCountries) &&
+    !isDirty &&
+    rateType === adRateType;
