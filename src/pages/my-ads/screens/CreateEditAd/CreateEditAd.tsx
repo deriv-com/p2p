@@ -45,6 +45,7 @@ type TMutatePayload = Parameters<THooks.Advert.Create>[0];
 type TFormValuesInfo = NonUndefinedValues<THooks.Advert.Get>;
 
 const CreateEditAd = () => {
+    const { data: advertiserInfo } = api.advertiser.useGetInfo();
     const [initialData, setInitialData] = useState<TInitialData>({} as TInitialData);
     const { queryString } = useQueryString();
     const { localize } = useTranslations();
@@ -74,9 +75,9 @@ const CreateEditAd = () => {
         defaultValues: {
             'ad-type': 'buy',
             amount: '',
-            'contact-details': '',
+            'contact-details': advertiserInfo?.contact_info ?? '',
             'float-rate-offset-limit': floatRateOffsetLimitString,
-            instructions: '',
+            instructions: advertiserInfo?.default_advert_description ?? '',
             'max-order': '',
             'min-completion-rate': '',
             'min-join-days': '',
