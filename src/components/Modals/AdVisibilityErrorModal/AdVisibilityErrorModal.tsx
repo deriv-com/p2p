@@ -1,5 +1,7 @@
-import { TCurrency, TTextSize } from 'types';
+import { ComponentProps } from 'react';
+import { TCurrency } from 'types';
 import { ERROR_CODES } from '@/constants';
+import { useLiveChat } from '@/hooks';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdVisibilityErrorModal.scss';
@@ -15,7 +17,8 @@ type TAdVisibilityErrorModalProps = {
 const getErrorMessage = (
     currency: TCurrency,
     limit: string,
-    textSize = 'sm' as TTextSize
+    textSize: ComponentProps<typeof Text>['size'],
+    onLiveChatClick: () => void
 ): {
     [key: string]: { description: JSX.Element; title: JSX.Element };
 } => {
@@ -60,10 +63,9 @@ const getErrorMessage = (
                     </Text>
                     <Button
                         className='ad-visibility-error-modal__body__button'
-                        //TODO: open live chat
-                        onClick={() => undefined}
-                        // onClick={() => window.LC_API.open_chat_window()}
+                        onClick={onLiveChatClick}
                         textSize={textSize}
+                        type='button'
                         variant='ghost'
                     >
                         <Localize i18n_default_text='live chat' />
@@ -82,8 +84,14 @@ const AdVisibilityErrorModal = ({
     onRequestClose,
 }: TAdVisibilityErrorModalProps) => {
     const { localize } = useTranslations();
+    const { LiveChatWidget } = useLiveChat();
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
+
+    const onLiveChatClick = () => {
+        LiveChatWidget.call('maximize');
+    };
+
     return (
         <Modal
             ariaHideApp={false}
@@ -93,11 +101,12 @@ const AdVisibilityErrorModal = ({
         >
             <Modal.Header className='ad-visibility-error-modal__header' hideBorder hideCloseIcon>
                 <Text weight='bold'>
-                    {getErrorMessage(currency, limit)[errorCode]?.title ?? localize('Something’s not right')}
+                    {getErrorMessage(currency, limit, textSize, onLiveChatClick)[errorCode]?.title ??
+                        localize('Something’s not right')}
                 </Text>
             </Modal.Header>
             <Modal.Body className='ad-visibility-error-modal__body'>
-                {getErrorMessage(currency, limit, textSize)[errorCode]?.description ?? (
+                {getErrorMessage(currency, limit, textSize, onLiveChatClick)[errorCode]?.description ?? (
                     <Text size={textSize}>
                         <Localize i18n_default_text='Something’s not right' />
                     </Text>
