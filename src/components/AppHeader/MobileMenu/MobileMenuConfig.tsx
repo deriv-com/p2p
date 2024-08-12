@@ -12,6 +12,7 @@ import {
     LegacyLiveChatOutlineIcon,
     LegacyLogout1pxIcon,
     LegacyProfileSmIcon,
+    LegacyReportsIcon,
     LegacyResponsibleTradingIcon,
     LegacyWhatsappIcon,
 } from '@deriv/quill-icons';
@@ -57,6 +58,12 @@ export const MobileMenuConfig = () => {
                 href: `${URLConstants.derivAppProduction}/dtrader`,
                 label: localize('Trade'),
                 LeftComponent: LegacyChartsIcon,
+            },
+            {
+                as: 'a',
+                href: `${URLConstants.derivAppProduction}/reports`,
+                label: localize('Reports'),
+                LeftComponent: LegacyReportsIcon,
             },
             {
                 as: 'a',
