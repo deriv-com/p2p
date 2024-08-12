@@ -51,6 +51,7 @@ const BuySellAmount = ({
         setBuySellAmount(
             FormatUtils.formatMoney(Number(inputValue) * Number(calculatedRate), {
                 currency: localCurrency,
+                decimalPlaces: 2,
             })
         );
     }, [calculatedRate, inputValue, localCurrency, setBuySellAmount]);
