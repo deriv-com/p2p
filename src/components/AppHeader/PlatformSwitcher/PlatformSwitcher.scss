@@ -1,0 +1,22 @@
+.platform-switcher {
+    top: 4.7rem;
+    height: auto;
+
+    @include mobile-or-tablet-screen {
+        top: 12rem;
+        height: calc(100vh - 12rem);
+        overflow-y: scroll;
+    }
+
+    &__item {
+        padding: 1.6rem 2.4rem;
+        margin: 2.4rem 1.4rem 1.6rem;
+        height: 14.3rem;
+
+        @include mobile-or-tablet-screen {
+            padding: 1.6rem 1.4rem;
+            margin: 1.4rem 1.6rem;
+            height: auto;
+        }
+    }
+}
