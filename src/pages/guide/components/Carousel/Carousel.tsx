@@ -27,7 +27,7 @@ const Carousel = ({ isControlVisible = true, items }: TCarouselProps) => {
 
     return (
         <div className='carousel'>
-            <div className='overflow-hidden' ref={!isDesktop ? emblaRef : undefined}>
+            <div className='overflow-hidden' ref={!isDesktop ? emblaRef : null}>
                 <div className='carousel__container'>
                     {items.map(item => (
                         <div className='carousel__item' key={item.id}>
