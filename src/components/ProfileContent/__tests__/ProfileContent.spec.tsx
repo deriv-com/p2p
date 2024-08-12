@@ -30,6 +30,7 @@ const mockProps = {
         isIdentityVerified: false,
         totalOrders: 10,
     } as TAdvertiserStats,
+    isSameUser: false,
 };
 
 describe('ProfileContent', () => {

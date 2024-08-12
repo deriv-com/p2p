@@ -44,27 +44,14 @@ const FloatingRate = ({
         let floatRate = event.target.value;
         if (!isNaN(parseFloat(floatRate)) && floatRate.trim().length) {
             floatRate = parseFloat(floatRate).toFixed(2);
-            if (/^\d+/.test(floatRate) && parseFloat(floatRate) > 0) {
-                // Assign + symbol for positive rate
+            if (/^\d+/.test(floatRate) && parseFloat(floatRate) >= 0) {
+                // Assign + symbol for positive rate and 0 value
                 event.target.value = `+${floatRate}`;
             } else {
                 event.target.value = floatRate;
             }
         }
         onChange(event);
-    };
-
-    const toSignedNumber = (num: string) => {
-        const number = parseFloat(num);
-        const formattedNum = number.toFixed(2);
-
-        // Add sign based on the number's value
-        if (number > 0) {
-            return `+${formattedNum}`;
-        } else if (number < 0) {
-            return formattedNum;
-        }
-        return '+0.00'; // Return '+0.00' for zero
     };
 
     return (
@@ -80,7 +67,7 @@ const FloatingRate = ({
                     onBlur={onBlurHandler}
                     onChange={changeHandler}
                     type={isMobile && os !== 'iOS' ? 'tel' : 'number'}
-                    value={value !== undefined ? toSignedNumber(value) : ''}
+                    value={value ?? ''}
                 />
                 <div className='floating-rate__mkt-rate'>
                     <Text className='floating-rate__mkt-rate--label' size={textSize}>

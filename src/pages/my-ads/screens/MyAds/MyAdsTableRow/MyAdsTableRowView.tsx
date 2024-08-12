@@ -159,7 +159,7 @@ const MyAdsTableRowView = ({
             showModal('AdCreateEditErrorModal');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isCreateSuccess, history, shouldNotShowArchiveMessageAgain, isCreateError]);
+    }, [isCreateSuccess, shouldNotShowArchiveMessageAgain, isCreateError]);
 
     const onSubmit = (values: TFormValues) => {
         const { amount, maxOrder, minOrder, rateValue } = values;

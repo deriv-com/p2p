@@ -55,6 +55,7 @@ const PaymentMethodCard = ({
                     <Button
                         className='flex items-center justify-center w-[3.2rem] h-[3.2rem] mb-[0.8rem] rounded-full bg-[#ff444f]'
                         data-testid='dt_payment_method_add_button'
+                        type='button'
                     >
                         <LabelPairedPlusLgBoldIcon fill='white' />
                     </Button>
