@@ -45,7 +45,7 @@ describe('FloatingRate', () => {
     });
     it('should handle onChange', async () => {
         render(<FloatingRate {...mockProps} />);
-        const input = screen.getByDisplayValue('+1.10');
+        const input = screen.getByDisplayValue('1.1');
         expect(input).toBeInTheDocument();
         await userEvent.type(input, '1');
         expect(mockProps.changeHandler).toHaveBeenCalledTimes(1);
@@ -60,7 +60,7 @@ describe('FloatingRate', () => {
     });
     it('should handle blur event', async () => {
         render(<FloatingRate {...mockProps} />);
-        const input = screen.getByDisplayValue('+1.10');
+        const input = screen.getByDisplayValue('1.1');
         await userEvent.click(input);
         await userEvent.tab();
         expect(input).toHaveValue('+1.10');

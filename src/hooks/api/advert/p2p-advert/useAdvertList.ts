@@ -5,8 +5,9 @@ type TPayload = NonNullable<Parameters<typeof useP2PAdvertList>[0]>['payload'];
 /**
  * This custom hook returns available adverts for use with 'p2p_order_create' by calling 'p2p_advert_list' endpoint
  */
-const useAdvertList = (payload?: TPayload) => {
+const useAdvertList = (payload?: TPayload, enabled = true) => {
     const { data, loadMoreAdverts, ...rest } = useP2PAdvertList({
+        enabled,
         payload: { ...payload, limit: payload?.limit, offset: payload?.offset },
         queryKey: ['p2p_advert_list', payload],
     });
