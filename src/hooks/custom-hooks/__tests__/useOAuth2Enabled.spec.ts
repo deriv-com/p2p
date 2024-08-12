@@ -2,24 +2,38 @@ import { renderHook } from '@testing-library/react';
 import useGrowthbookGetFeatureValue from '../useGrowthbookGetFeatureValue';
 import useOAuth2Enabled from '../useOAuth2Enabled';
 
-jest.mock('../useNavigatorOnline');
+jest.mock('@/constants', () => ({
+    getServerUrlAndAppId: jest.fn(() => ({
+        appId: '111', // emulate local appId
+    })),
+}));
+
+jest.mock('../useGrowthbookGetFeatureValue');
 
 describe('useOAuth2Enabled', () => {
     it('OAuth 2 enabled', () => {
-        (useGrowthbookGetFeatureValue as jest.Mock).mockReturnValue(true);
+        const emulateAppIdAvailable = [
+            {},
+            {
+                enabled_for: ['111'],
+            },
+        ];
+        (useGrowthbookGetFeatureValue as jest.Mock).mockReturnValue([emulateAppIdAvailable, true]);
         const { result } = renderHook(() => useOAuth2Enabled());
-        expect(result.current).toBe([true]);
+
+        expect(result.current).toStrictEqual([true]);
     });
 
     it('OAuth 2 disabled', () => {
-        (useGrowthbookGetFeatureValue as jest.Mock).mockReturnValue(false);
+        const emulateAppIdAvailable = [
+            {},
+            {
+                enabled_for: ['112'],
+            },
+        ];
+        (useGrowthbookGetFeatureValue as jest.Mock).mockReturnValue([emulateAppIdAvailable, true]);
         const { result } = renderHook(() => useOAuth2Enabled());
-        expect(result.current).toBe([false]);
-    });
 
-    it('OAuth 2 enabled with different data', () => {
-        (useGrowthbookGetFeatureValue as jest.Mock).mockReturnValue({ test: '1' });
-        const { result } = renderHook(() => useOAuth2Enabled());
-        expect(result.current).toBe([{ test: '1' }]);
+        expect(result.current).toStrictEqual([false]);
     });
 });
