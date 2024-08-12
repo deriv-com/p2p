@@ -15,7 +15,7 @@ const useLiveChat = () => {
             const {
                 currency = ' ',
                 email = ' ',
-                fisrt_name: firstName = '',
+                first_name: firstName = '',
                 landingCompanyShortcode = ' ',
                 last_name: lastName = '',
                 loginid = ' ',
