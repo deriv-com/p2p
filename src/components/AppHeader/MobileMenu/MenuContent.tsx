@@ -9,7 +9,7 @@ export const MenuContent = () => {
 
     return (
         <div className='flex flex-col h-full'>
-            <div className='flex items-center justify-center h-28 border-b border-[#f2f3f4]'>
+            <div className='flex items-center justify-center h-28 p-14 border-b border-[#f2f3f4]'>
                 <PlatformSwitcher />
             </div>
 
