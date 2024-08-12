@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Table } from '@/components';
 import { api } from '@/hooks';
 import { DerivLightIcBlockedAdvertisersBarredIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
-import { Loader, Table, Text, useDevice } from '@deriv-com/ui';
+import { Loader, Text, useDevice } from '@deriv-com/ui';
 import { MyProfileCounterpartiesEmpty } from '../MyProfileCounterpartiesEmpty';
 import { MyProfileCounterpartiesTableRow } from '../MyProfileCounterpartiesTableRow';
 import './MyProfileCounterpartiesTable.scss';

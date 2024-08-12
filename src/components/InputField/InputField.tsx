@@ -129,7 +129,8 @@ const InputField = ({ decimalPointChange, isError, name = '', onBlur, onChange, 
     const updateValue = (newValue: string) => {
         let formattedValue = newValue;
 
-        if (/^\d+/.test(formattedValue) && +formattedValue > 0) {
+        // Add + symbol for positive rate and 0 value on blur
+        if (/^\d+/.test(formattedValue) && +formattedValue >= 0) {
             formattedValue = `+${formattedValue}`;
         }
         onChange?.({ target: { name, value: formattedValue } } as ChangeEvent<HTMLInputElement>);
