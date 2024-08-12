@@ -28,7 +28,7 @@ const Blog = () => {
                             <BlogIcon
                                 className='cursor-pointer'
                                 onClick={() => {
-                                    window.location.href = HOW_TO_PROTECT_YOURSELF_URL;
+                                    window.open(HOW_TO_PROTECT_YOURSELF_URL, '_blank');
                                 }}
                                 preserveAspectRatio='none'
                             />
