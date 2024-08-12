@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getServerUrlAndAppId } from '@/constants';
+import { getServerInfo } from '@/constants';
 import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
 
 type hydraBEValue = {
@@ -24,7 +24,7 @@ const useOAuth2Enabled = () => {
         featureFlag: 'hydra_be',
     });
     const [isOauth2Enabled, setIsOauth2Enabled] = useState<boolean>(false);
-    const { appId } = getServerUrlAndAppId();
+    const { appId } = getServerInfo();
 
     useEffect(() => {
         if (OAuth2EnabledAppsInitialised) {
