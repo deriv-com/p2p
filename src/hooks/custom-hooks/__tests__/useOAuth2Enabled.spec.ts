@@ -3,7 +3,7 @@ import useGrowthbookGetFeatureValue from '../useGrowthbookGetFeatureValue';
 import useOAuth2Enabled from '../useOAuth2Enabled';
 
 jest.mock('@/constants', () => ({
-    getServerUrlAndAppId: jest.fn(() => ({
+    getServerInfo: jest.fn(() => ({
         appId: '111', // emulate local appId
     })),
 }));
