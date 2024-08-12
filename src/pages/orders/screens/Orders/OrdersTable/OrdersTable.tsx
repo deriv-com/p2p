@@ -1,8 +1,9 @@
 import { memo } from 'react';
 import clsx from 'clsx';
 import { THooks, TLocalize } from 'types';
+import { Table } from '@/components';
 import { useTranslations } from '@deriv-com/translations';
-import { Loader, Table, useDevice } from '@deriv-com/ui';
+import { Loader, useDevice } from '@deriv-com/ui';
 import { OrdersEmpty } from '../OrdersEmpty';
 import { OrdersTableRow } from '../OrdersTableRow';
 import './OrdersTable.scss';
@@ -65,6 +66,7 @@ const OrdersTable = ({ data, isActive, isLoading, loadMoreOrders }: TOrdersTable
                     rowRender={(rowData: unknown) => (
                         <OrdersTableRowRenderer {...(rowData as TOrdersTableRowRendererProps)} />
                     )}
+                    tableClassname=''
                 />
             )}
         </div>

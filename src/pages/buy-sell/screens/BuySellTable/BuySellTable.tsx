@@ -44,17 +44,19 @@ const BuySellTable = () => {
 
     const {
         data,
-        isFetching,
         isPending: isLoading,
         loadMoreAdverts,
-    } = api.advert.useGetList({
-        advertiser_name: searchValue,
-        counterparty_type: activeBuySellTab === ADVERT_TYPE.BUY ? BUY_SELL.BUY : BUY_SELL.SELL,
-        local_currency: filteredCurrency,
-        payment_method: selectedPaymentMethods.length > 0 ? selectedPaymentMethods : undefined,
-        sort_by: sortByValue,
-        use_client_limits: shouldUseClientLimits ? 1 : 0,
-    });
+    } = api.advert.useGetList(
+        {
+            advertiser_name: searchValue,
+            counterparty_type: activeBuySellTab === ADVERT_TYPE.BUY ? BUY_SELL.BUY : BUY_SELL.SELL,
+            local_currency: filteredCurrency,
+            payment_method: selectedPaymentMethods.length > 0 ? selectedPaymentMethods : undefined,
+            sort_by: sortByValue,
+            use_client_limits: shouldUseClientLimits ? 1 : 0,
+        },
+        !!filteredCurrency
+    );
 
     const onToggle = (value: string) => {
         setSortByValue(value as TSortByValues);
@@ -74,7 +76,6 @@ const BuySellTable = () => {
             />
             <BuySellTableRenderer
                 data={data}
-                isFetching={isFetching}
                 isLoading={isLoading}
                 loadMoreAdverts={loadMoreAdverts}
                 searchValue={searchValue}

@@ -28,7 +28,9 @@ const AdCreateEditSuccessModal = ({
     }, []);
 
     const onClickOk = () => {
-        LocalStorageUtils.setValue<boolean>(LocalStorageConstants.p2pArchiveMessage, isChecked);
+        if (isChecked) {
+            LocalStorageUtils.setValue<boolean>(LocalStorageConstants.p2pArchiveMessage, isChecked);
+        }
         history.push(MY_ADS_URL);
 
         invalidate('p2p_advertiser_adverts');
