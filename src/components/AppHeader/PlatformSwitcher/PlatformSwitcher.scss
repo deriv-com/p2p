@@ -3,7 +3,7 @@
     height: auto;
 
     @include mobile-or-tablet-screen {
-        top: 12rem;
+        top: 7rem;
         height: calc(100vh - 12rem);
         overflow-y: scroll;
     }
