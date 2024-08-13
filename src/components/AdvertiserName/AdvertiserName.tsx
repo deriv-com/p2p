@@ -33,7 +33,7 @@ const AdvertiserName = ({ advertiserStats, isSameUser, onClickBlocked }: TAdvert
                     </Text>
                     {advertiserStats?.first_name && advertiserStats.last_name && (
                         <Text color='less-prominent' size='sm'>
-                            ({advertiserStats?.fullName})
+                            ({advertiserStats?.first_name} {advertiserStats?.last_name})
                         </Text>
                     )}
                 </div>

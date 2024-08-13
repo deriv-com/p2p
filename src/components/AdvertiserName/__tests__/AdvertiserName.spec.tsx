@@ -4,7 +4,6 @@ import AdvertiserName from '../AdvertiserName';
 const mockProps = {
     advertiserStats: {
         first_name: 'Jane',
-        fullName: 'Jane Doe',
         last_name: 'Doe',
         name: 'Jane',
         shouldShowName: true,
