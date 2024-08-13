@@ -1,15 +1,8 @@
 .my-profile-counterparties-table {
-    & .deriv-table__content {
-        max-height: 22.4rem;
+    max-height: 22.4rem;
 
-        @include mobile-or-tablet-screen {
-            height: calc(100vh - 29.5rem);
-            max-height: 100%;
-        }
-
-        &__row {
-            border-bottom: 1px solid #f2f3f4;
-        }
+    @include mobile-or-tablet-screen {
+        max-height: calc(100vh - 29.5rem);
     }
 
     &__row {

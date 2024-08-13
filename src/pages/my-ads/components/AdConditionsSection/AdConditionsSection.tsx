@@ -2,7 +2,7 @@ import { MouseEventHandler, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { TCountryListItem, TCurrency, TInitialData } from 'types';
 import { AD_CONDITION_TYPES } from '@/constants';
-import { isEmptyObject } from '@/utils';
+import { isEmptyObject, isFormDirty } from '@/utils';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { AdConditionBlockSelector } from '../AdConditionBlockSelector';
@@ -72,18 +72,6 @@ const AdConditionsSection = ({
     const minJoinDays = watch('min-join-days');
     const minCompletionRate = watch('min-completion-rate');
 
-    const isPaymentMethodsSame = () =>
-        initialData.paymentMethod?.length === selectedMethods.length &&
-        initialData.paymentMethod?.sort().every((value, index) => value === selectedMethods.sort()[index]);
-
-    const isMinCompletionRateSame = () => (minCompletionRate?.toString() ?? null) === initialData.minCompletionRate;
-
-    const isMinJoinDaysSame = () => (minJoinDays?.toString() ?? null) === initialData.minJoinDays;
-
-    const isPreferredCountriesSame = () =>
-        initialData?.selectedCountries?.length === preferedCountries.length &&
-        initialData?.selectedCountries?.sort().every((value, index) => value === preferedCountries.sort()[index]);
-
     return (
         <div className='ad-conditions-section'>
             <AdSummary
@@ -118,12 +106,16 @@ const AdConditionsSection = ({
                 {...props}
                 isNextButtonDisabled={
                     !isEmptyObject(errors) ||
-                    (isPaymentMethodsSame() &&
-                        isMinCompletionRateSame() &&
-                        isMinJoinDaysSame() &&
-                        isPreferredCountriesSame() &&
-                        !isDirty &&
-                        rateType === getValues('ad-rate-type'))
+                    isFormDirty(
+                        initialData,
+                        selectedMethods,
+                        preferedCountries,
+                        minCompletionRate,
+                        minJoinDays,
+                        isDirty,
+                        rateType,
+                        getValues('ad-rate-type')
+                    )
                 }
             />
         </div>
