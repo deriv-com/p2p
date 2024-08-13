@@ -35,7 +35,7 @@ const MyProfileMobile = ({ data }: TMyProfileMobileProps) => {
             <ProfileContent data={data} />
             <MobileTabs
                 onChangeTab={clickedTab => {
-                    if (clickedTab === 'P2P Guide') history.push(GUIDE_URL);
+                    if (clickedTab === 'P2P Guide') history.push(GUIDE_URL, { from: 'my-profile' });
                     else
                         setQueryString({
                             tab: clickedTab,

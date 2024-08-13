@@ -3,12 +3,17 @@ import userEvent from '@testing-library/user-event';
 import Guide from '../Guide';
 
 const mockHistory = {
-    goBack: jest.fn(),
+    push: jest.fn(),
+};
+
+const mockLocation = {
+    pathname: '/buy-sell',
 };
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useHistory: () => mockHistory,
+    useLocation: () => mockLocation,
 }));
 
 jest.mock('use-query-params', () => ({
@@ -36,6 +41,6 @@ describe('Guide', () => {
         const backButton = screen.getByTestId('dt_page_return_btn');
         await userEvent.click(backButton);
 
-        expect(mockHistory.goBack).toHaveBeenCalled();
+        expect(mockHistory.push).toHaveBeenCalled();
     });
 });
