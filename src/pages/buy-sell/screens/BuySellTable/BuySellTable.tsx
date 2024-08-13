@@ -42,11 +42,7 @@ const BuySellTable = () => {
 
     const [searchValue, setSearchValue] = useState<string>('');
 
-    const {
-        data,
-        isPending: isLoading,
-        loadMoreAdverts,
-    } = api.advert.useGetList(
+    const { data, isLoading, loadMoreAdverts } = api.advert.useGetList(
         {
             advertiser_name: searchValue,
             counterparty_type: activeBuySellTab === ADVERT_TYPE.BUY ? BUY_SELL.BUY : BUY_SELL.SELL,

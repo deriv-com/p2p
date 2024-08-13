@@ -1,4 +1,4 @@
-import { memo, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useFetchMore } from '@/hooks/custom-hooks';
 import { Text, useDevice } from '@deriv-com/ui';
@@ -85,4 +85,4 @@ const Table = <T,>({
     );
 };
 
-export default memo(Table);
+export default Table;

@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TAdvertsTableRowRenderer, TLocalize } from 'types';
 import { AdvertsTableRow, Table } from '@/components';
@@ -82,4 +81,4 @@ const BuySellTableRenderer = ({
     );
 };
 
-export default memo(BuySellTableRenderer);
+export default BuySellTableRenderer;
