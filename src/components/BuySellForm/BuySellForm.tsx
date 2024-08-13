@@ -15,7 +15,7 @@ import {
     roundOffDecimal,
     setDecimalPlaces,
 } from '@/utils';
-import { useTranslations } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import { LightDivider } from '../LightDivider';
@@ -55,6 +55,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const { data: paymentMethods } = api.paymentMethods.useGet();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { data } = api.advertiser.useGetInfo() || {};
+    const { data: balanceData } = api.account.useBalance();
     const [errorMessage, setErrorMessage] = useState('');
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isHidden, setIsHidden] = useState(false);
@@ -73,6 +74,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<number[]>([]);
     const [calculatedRate, setCalculatedRate] = useState('0');
     const [buySellAmount, setBuySellAmount] = useState('0');
+    const [showLowBalanceError, setShowLowBalanceError] = useState(false);
 
     const {
         account_currency: accountCurrency = '',
@@ -261,6 +263,17 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         if (!isModalOpenFor('RateFluctuationModal')) finalEffectiveRateRef.current = effectiveRate;
     }, [effectiveRate, hasRateChanged, isModalOpenFor]);
 
+    useEffect(() => {
+        if (
+            balanceData.balance !== undefined &&
+            minOrderAmountLimit !== undefined &&
+            isBuy &&
+            (balanceData.balance === 0 || balanceData.balance < minOrderAmountLimit)
+        )
+            setShowLowBalanceError(true);
+        else setShowLowBalanceError(false);
+    }, [balanceData.balance, isBuy, minOrderAmountLimit]);
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <BuySellFormDisplayWrapper
@@ -272,10 +285,16 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 onRequestClose={onCloseBuySellForm}
                 onSubmit={onSubmit}
             >
-                {errorMessage && (
+                {(errorMessage || showLowBalanceError) && (
                     <div className='px-[1.6rem] lg:px-[2.4rem] mt-[1.6rem] lg:mt-[2.4rem]'>
                         <InlineMessage variant='error'>
-                            <Text size={!isDesktop ? '2xs' : 'xs'}>{errorMessage}</Text>
+                            <Text size={!isDesktop ? 'xs' : '2xs'}>
+                                {showLowBalanceError ? (
+                                    <Localize i18n_default_text="Your Deriv P2P balance isn't enough. Please increase your balance before trying again." />
+                                ) : (
+                                    errorMessage
+                                )}
+                            </Text>
                         </InlineMessage>
                     </div>
                 )}
