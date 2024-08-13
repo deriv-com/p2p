@@ -1,4 +1,5 @@
 .my-profile-counterparties-table {
+    height: unset !important;
     max-height: 22.4rem;
 
     @include mobile-or-tablet-screen {
