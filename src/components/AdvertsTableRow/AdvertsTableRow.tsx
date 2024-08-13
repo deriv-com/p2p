@@ -1,4 +1,4 @@
-import { Fragment, memo } from 'react';
+import { Fragment, memo, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
 import { TAdvertsTableRowRenderer, TCurrency } from 'types';
@@ -7,6 +7,7 @@ import { ErrorModal, NicknameModal } from '@/components/Modals';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
 import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
@@ -14,6 +15,7 @@ import { Button, Text, useDevice } from '@deriv-com/ui';
 import './AdvertsTableRow.scss';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
+    const [selectedAdvertId, setSelectedAdvertId] = useState<string | undefined>(undefined);
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { isDesktop, isTablet } = useDevice();
     const history = useHistory();
@@ -25,6 +27,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { data: poiPoaData } = usePoiPoaStatus();
     const { isPoaVerified, isPoiVerified } = poiPoaData || {};
     const { localize } = useTranslations();
+    const { hasCreatedAdvertiser } = useAdvertiserInfoState();
 
     const {
         account_currency: accountCurrency,
@@ -79,6 +82,14 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const redirectToAdvertiser = () => {
         isAdvertiserBarred ? undefined : history.push(`${ADVERTISER_URL}/${id}?currency=${localCurrency}`);
     };
+
+    useEffect(() => {
+        // If the user has become an advertiser, open the BuySellForm modal specifically for the selected advert.
+        if (hasCreatedAdvertiser && !isModalOpenFor('BuySellForm') && selectedAdvertId === advertId) {
+            showModal('BuySellForm');
+            setSelectedAdvertId(undefined);
+        }
+    }, [advertId, hasCreatedAdvertiser, isModalOpenFor, selectedAdvertId, showModal]);
 
     return (
         <div
@@ -202,6 +213,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     searchParams.set('poi_poa_verified', 'false');
                                     history.replace({ pathname: location.pathname, search: searchParams.toString() });
                                 } else {
+                                    if (!isAdvertiser) setSelectedAdvertId(advertId);
                                     showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal');
                                 }
                             }}
