@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { THooks } from 'types';
 import { FullPageMobileWrapper } from '@/components/FullPageMobileWrapper';
-import { api } from '@/hooks';
+import { api, useLiveChat } from '@/hooks';
 import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import { OrderDetailsComplainModalRadioGroup } from './OrderDetailsComplainModalRadioGroup';
@@ -21,19 +21,23 @@ type TComplainFooterProps = {
 };
 
 type TDisputeReason = Parameters<THooks.OrderDispute.Dispute>[0]['dispute_reason'];
-const ComplainExplanation = () => {
+const ComplainExplanation = ({ onLiveChatClick }: { onLiveChatClick: () => void }) => {
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'xs' : 'sm';
+
     return (
         <div className='order-details-complain-modal__explanation'>
             <Text size={textSize}>
-                <Localize i18n_default_text='If your complaint isn’t listed here, please contact our ' />
-            </Text>
-            <Text color='red' size={textSize} weight='bold'>
-                <Localize i18n_default_text='Customer Support ' />
-            </Text>
-            <Text size={textSize}>
-                <Localize i18n_default_text='team.' />
+                <Localize
+                    components={[
+                        <a
+                            className='order-details-complain-modal__explanation__link'
+                            key={0}
+                            onClick={onLiveChatClick}
+                        />,
+                    ]}
+                    i18n_default_text='If your complaint isn’t listed here, please contact our <0>Customer Support</0> team.'
+                />
             </Text>
         </div>
     );
@@ -42,6 +46,7 @@ const ComplainExplanation = () => {
 const ComplainFooter = ({ disputeOrderRequest, disputeReason, onRequestClose }: TComplainFooterProps) => {
     const { isDesktop } = useDevice();
     const buttonTextSize = isDesktop ? 'sm' : 'md';
+
     return (
         <div className='order-details-complain-modal__complain-footer'>
             <Button
@@ -69,8 +74,14 @@ const OrderDetailsComplainModal = ({
     onRequestClose,
 }: TOrderDetailsComplainModal) => {
     const { isDesktop } = useDevice();
+    const { LiveChatWidget } = useLiveChat();
     const [disputeReason, setDisputeReason] = useState('');
     const { isSuccess, mutate } = api.orderDispute.useDispute();
+
+    const onLiveChatClick = () => {
+        LiveChatWidget.call('maximize');
+        onRequestClose();
+    };
 
     useEffect(() => {
         if (isSuccess) {
@@ -110,7 +121,7 @@ const OrderDetailsComplainModal = ({
                     isBuyOrderForUser={isBuyOrderForUser}
                     onCheckboxChange={onCheckboxChange}
                 />
-                <ComplainExplanation />
+                <ComplainExplanation onLiveChatClick={onLiveChatClick} />
             </FullPageMobileWrapper>
         );
     return (
@@ -131,7 +142,7 @@ const OrderDetailsComplainModal = ({
                     isBuyOrderForUser={isBuyOrderForUser}
                     onCheckboxChange={onCheckboxChange}
                 />
-                <ComplainExplanation />
+                <ComplainExplanation onLiveChatClick={onLiveChatClick} />
             </Modal.Body>
             <Modal.Footer>
                 <ComplainFooter
