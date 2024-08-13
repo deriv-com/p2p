@@ -60,6 +60,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const [isHidden, setIsHidden] = useState(false);
     const {
         balance_available: balanceAvailable = '',
+        contact_info: contactInfo = '',
         daily_buy: dailyBuy = 0,
         daily_buy_limit: dailyBuyLimit = 0,
         daily_sell: dailySell = 0,
@@ -151,7 +152,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         defaultValues: {
             amount: minOrderAmountLimit ?? 1,
             bank_details: '',
-            contact_details: '',
+            contact_details: contactInfo,
         },
         mode: 'all',
     });

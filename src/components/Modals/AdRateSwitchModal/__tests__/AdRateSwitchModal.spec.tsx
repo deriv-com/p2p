@@ -8,6 +8,7 @@ jest.mock('@deriv-com/ui', () => ({
 }));
 
 const mockProps = {
+    fixedRateAdvertsEndDate: '2021-12-31',
     isModalOpen: true,
     onClickSet: jest.fn(),
     onRequestClose: jest.fn(),

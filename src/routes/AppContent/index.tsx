@@ -38,7 +38,7 @@ const AppContent = () => {
 
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
-    const { isActive, subscribe: subscribeP2PSettings } = api.settings.useSettings();
+    const { isActive, setP2PSettings, subscribe: subscribeP2PSettings } = api.settings.useSettings();
     const {
         error,
         isActive: isSubscribed,
@@ -57,7 +57,9 @@ const AppContent = () => {
         if (activeAccountData) {
             subscribeP2PSettings({});
         }
-
+        return () => {
+            setP2PSettings({});
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeAccountData]);
 
