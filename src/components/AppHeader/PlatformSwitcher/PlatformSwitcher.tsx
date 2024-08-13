@@ -19,7 +19,7 @@ const PlatformSwitcher = () => {
                 icon: platformsConfig[0].buttonIcon,
             }}
             itemsWrapperClassName='platform-switcher'
-            overlayClassName='top-48 lg:top-[4.7rem]'
+            overlayClassName='platform-switcher__overlay'
         >
             {platformsConfig.map(({ active, description, href, icon }) => (
                 <PlatformSwitcherItem
