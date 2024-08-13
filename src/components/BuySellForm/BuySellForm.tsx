@@ -264,14 +264,13 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     }, [effectiveRate, hasRateChanged, isModalOpenFor]);
 
     useEffect(() => {
-        if (
+        const isLowBalance =
             balanceData.balance !== undefined &&
             minOrderAmountLimit !== undefined &&
             isBuy &&
-            (balanceData.balance === 0 || balanceData.balance < minOrderAmountLimit)
-        )
-            setShowLowBalanceError(true);
-        else setShowLowBalanceError(false);
+            (balanceData.balance === 0 || balanceData.balance < minOrderAmountLimit);
+
+        setShowLowBalanceError(isLowBalance);
     }, [balanceData.balance, isBuy, minOrderAmountLimit]);
 
     return (
