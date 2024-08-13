@@ -109,7 +109,7 @@ const useExtendedOrderDetails = ({
                     FormatUtils.formatMoney(
                         Number(this.amount_display) *
                             Number(roundOffDecimal(this.rate, setDecimalPlaces(this.rate, 6))),
-                        { currency: this.local_currency as TCurrency }
+                        { currency: this.local_currency as TCurrency, decimalPlaces: 2 }
                     )
                 );
             }
