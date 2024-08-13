@@ -3,14 +3,17 @@ import NetworkStatus from '@/components/AppFooter/NetworkStatus';
 import ServerTime from '@/components/AppFooter/ServerTime';
 import { LANGUAGES } from '@/constants';
 import { useModalManager } from '@/hooks';
+import { useAPI } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Drawer, MobileLanguagesDrawer, useDevice } from '@deriv-com/ui';
+import { URLUtils } from '@deriv-com/utils';
 import { BackButton } from './BackButton';
 import { MenuContent } from './MenuContent';
 import { MenuHeader } from './MenuHeader';
 import { ToggleButton } from './ToggleButton';
 
 const MobileMenu = () => {
+    const { derivAPIClient } = useAPI();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const { currentLang = 'EN', localize, switchLanguage } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
@@ -44,10 +47,10 @@ const MobileMenu = () => {
                                 isOpen
                                 languages={LANGUAGES}
                                 onClose={hideModal}
-                                onLanguageSwitch={code => {
+                                onLanguageSwitch={async code => {
                                     switchLanguage(code);
+                                    await derivAPIClient.createNewConnection(URLUtils.getWebsocketURL());
                                     hideModal();
-                                    window.location.reload();
                                 }}
                                 selectedLanguage={currentLang}
                                 wrapperClassName='px-[0.8rem]'
