@@ -89,6 +89,6 @@ describe('MyProfileMobile', () => {
         expect(screen.getByText('MyProfileCounterpartiesScreen')).toBeInTheDocument();
 
         await clickTabAndRender('P2P Guide');
-        expect(mockPush).toHaveBeenCalledWith('/guide');
+        expect(mockPush).toHaveBeenCalledWith('/guide', { from: 'my-profile' });
     });
 });
