@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import debounce from 'lodash/debounce';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { BUY_SELL_URL } from '@/constants';
+import { BUY_SELL_URL, MY_ADS_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
@@ -46,6 +46,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
         if (isSuccess) {
             onRequestClose();
             setHasCreatedAdvertiser(true);
+            if (currentRoute === 'my-ads') history.push(`${MY_ADS_URL}/adForm?formAction=create`);
         } else if (isError) {
             debouncedReset();
         }
