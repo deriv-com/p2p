@@ -94,6 +94,10 @@ const mockAdvertInfo = {
     unsubscribe: jest.fn(),
 };
 
+const mockUseBalance = {
+    data: { balance: 100 },
+};
+
 const mockInvalidate = jest.fn();
 
 jest.mock('@/hooks/api/useInvalidateQuery', () => () => mockInvalidate);
@@ -101,6 +105,9 @@ jest.mock('@/hooks/api/useInvalidateQuery', () => () => mockInvalidate);
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
+        account: {
+            useBalance: jest.fn(() => mockUseBalance),
+        },
         advert: {
             useSubscribe: jest.fn(() => mockAdvertInfo),
         },
