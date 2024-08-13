@@ -21,6 +21,7 @@ jest.mock('@/hooks', () => ({
             useDispute: () => mockUseDispute,
         },
     },
+    useLiveChat: jest.fn().mockReturnValue({ LiveChatWidget: { call: jest.fn() } }),
 }));
 
 const mockProps = {
