@@ -10,7 +10,6 @@ type TProps<T> = {
     data: T[];
     emptyDataMessage?: string;
     groupBy?: GroupingState;
-    isFetching: boolean;
     loadMoreFunction: () => void;
     renderHeader?: (data: string) => JSX.Element;
     rowRender: (data: T) => JSX.Element;
@@ -51,7 +50,7 @@ const Table = <T,>({
     });
 
     return (
-        <div className='h-full w-full'>
+        <div className='table h-full w-full'>
             {isDesktop && columns.length > 0 && (
                 <div className='table__header' ref={headerRef}>
                     {table.getFlatHeaders().map(header => (

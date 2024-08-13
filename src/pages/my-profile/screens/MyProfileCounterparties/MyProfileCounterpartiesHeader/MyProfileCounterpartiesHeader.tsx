@@ -41,6 +41,7 @@ const MyProfileCounterpartiesHeader = ({
                         name='counterparty-filter'
                         onSelect={value => setDropdownValue(value as string)}
                         value={dropdownValue}
+                        variant='comboBox'
                     />
                 ) : (
                     <Button

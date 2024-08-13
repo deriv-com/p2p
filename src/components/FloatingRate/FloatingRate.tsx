@@ -44,8 +44,8 @@ const FloatingRate = ({
         let floatRate = event.target.value;
         if (!isNaN(parseFloat(floatRate)) && floatRate.trim().length) {
             floatRate = parseFloat(floatRate).toFixed(2);
-            if (/^\d+/.test(floatRate) && parseFloat(floatRate) > 0) {
-                // Assign + symbol for positive rate
+            if (/^\d+/.test(floatRate) && parseFloat(floatRate) >= 0) {
+                // Assign + symbol for positive rate and 0 value
                 event.target.value = `+${floatRate}`;
             } else {
                 event.target.value = floatRate;

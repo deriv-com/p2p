@@ -3,13 +3,15 @@
 
     @include mobile-or-tablet-screen {
         margin: 0 1.6rem;
+        margin-bottom: 1.6rem;
     }
 
     &__full-page-modal {
-        position: absolute;
-        top: -6rem;
+        position: fixed;
+        top: 12rem;
         z-index: 2;
-        height: calc(100vh - 12rem);
+        height: calc(100% - 13rem);
+        max-width: 60rem;
 
         & .mobile-wrapper__body {
             margin-top: 1.6rem;

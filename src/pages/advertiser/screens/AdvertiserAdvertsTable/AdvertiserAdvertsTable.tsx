@@ -39,7 +39,7 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
         }))
     );
     const { data: advertInfo, error, isLoading: isLoadingAdvert } = api.advert.useGet({ id: advertId }, !!advertId);
-    const { data, isFetching, isLoading, loadMoreAdverts } = api.advert.useGetList({
+    const { data, isLoading, loadMoreAdverts } = api.advert.useGetList({
         advertiser_id: advertiserId,
         counterparty_type: activeAdvertisersBuySellTab === ADVERT_TYPE.BUY ? BUY_SELL.BUY : BUY_SELL.SELL,
         local_currency: currency,
@@ -101,12 +101,7 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
                 <Tab className='text-xs' title={localize('Buy')} />
                 <Tab title={localize('Sell')} />
             </Tabs>
-            <AdvertsTableRenderer
-                data={data}
-                isFetching={isFetching}
-                isLoading={isLoading}
-                loadMoreAdverts={loadMoreAdverts}
-            />
+            <AdvertsTableRenderer data={data} isLoading={isLoading} loadMoreAdverts={loadMoreAdverts} />
             {isModalOpenFor('BuySellForm') && (
                 <BuySellForm advertId={advertId} isModalOpen onRequestClose={hideModal} />
             )}

@@ -19,9 +19,11 @@ const Advertiser = () => {
     const [showOverlay, setShowOverlay] = useState(false);
     const [advertiserName, setAdvertiserName] = useState('');
 
+    const isSameUser = advertiserId === advertiserInfo.id;
+
     // Need to return undefined if the id is the same as the logged in user
     // This will prevent the API from trying to resubscribe to the same user and grab the data from local storage
-    const id = advertiserId !== advertiserInfo.id ? advertiserId : undefined;
+    const id = isSameUser ? undefined : advertiserId;
     const history = useHistory();
     const location = useLocation();
 
@@ -41,16 +43,17 @@ const Advertiser = () => {
                     unsubscribe();
                 }}
                 pageTitle={localize('Advertiser’s page')}
-                {...(!isDesktop && {
-                    rightPlaceHolder: (
-                        <BlockDropdown
-                            id={advertiserId}
-                            onClickBlocked={() => {
-                                setShowOverlay(prevState => !prevState);
-                            }}
-                        />
-                    ),
-                })}
+                {...(!isDesktop &&
+                    !isSameUser && {
+                        rightPlaceHolder: (
+                            <BlockDropdown
+                                id={advertiserId}
+                                onClickBlocked={() => {
+                                    setShowOverlay(prevState => !prevState);
+                                }}
+                            />
+                        ),
+                    })}
                 size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />
@@ -64,7 +67,12 @@ const Advertiser = () => {
                     onClickUnblock={() => showModal('BlockUnblockUserModal')}
                     setShowOverlay={setShowOverlay}
                 >
-                    <ProfileContent data={data} setAdvertiserName={setAdvertiserName} setShowOverlay={setShowOverlay} />
+                    <ProfileContent
+                        data={data}
+                        isSameUser={isSameUser}
+                        setAdvertiserName={setAdvertiserName}
+                        setShowOverlay={setShowOverlay}
+                    />
                     <AdvertiserAdvertsTable advertiserId={advertiserId} />
                 </AdvertiserBlockOverlay>
             )}
