@@ -52,6 +52,13 @@
     }
 }
 
+// to disable border in firefox
+.deriv-input__field {
+    &:focus {
+        outline: none;
+    }
+}
+
 //TODO: remove when deriv-com/ui version is updated
 .languages-modal__body {
     margin: 1.6rem;

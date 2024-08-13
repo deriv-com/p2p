@@ -9,6 +9,15 @@ const mockProps = {
     },
 };
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+jest.mock('@/hooks', () => ({
+    useModalManager: jest.fn(() => mockModalManager),
+}));
+
 jest.mock('@deriv-com/api-hooks', () => ({
     ...jest.requireActual('@deriv-com/api-hooks'),
     useGetSettings: jest.fn(() => ({ email: 'test@gmail.com' })),

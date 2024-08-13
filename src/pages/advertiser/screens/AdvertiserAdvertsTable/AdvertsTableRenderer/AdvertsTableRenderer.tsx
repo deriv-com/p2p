@@ -14,12 +14,11 @@ const headerRenderer = (header: string) => <span>{header}</span>;
 
 type TAdvertsTableRenderer = {
     data?: TAdvertsTableRowRenderer[];
-    isFetching: boolean;
     isLoading: boolean;
     loadMoreAdverts: () => void;
 };
 
-const AdvertsTableRenderer = ({ data, isFetching, isLoading, loadMoreAdverts }: TAdvertsTableRenderer) => {
+const AdvertsTableRenderer = ({ data, isLoading, loadMoreAdverts }: TAdvertsTableRenderer) => {
     const { localize } = useTranslations();
     if (isLoading) {
         return <Loader className='relative mt-40 top-0' />;
@@ -44,7 +43,6 @@ const AdvertsTableRenderer = ({ data, isFetching, isLoading, loadMoreAdverts }: 
             columns={getColumns(localize)}
             data={data}
             emptyDataMessage={localize('There are no matching ads.')}
-            isFetching={isFetching}
             loadMoreFunction={loadMoreAdverts}
             renderHeader={headerRenderer}
             rowRender={(data: unknown) => <AdvertsTableRow {...(data as TAdvertsTableRowRenderer)} />}
