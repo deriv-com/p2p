@@ -139,9 +139,10 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         (!paymentMethodNames && selectedPaymentMethods.length < 1) || selectedPaymentMethods.length > 0;
 
     const shouldDisableField =
-        !isBuy &&
-        (parseFloat(balanceAvailable.toString()) === 0 ||
-            parseFloat(balanceAvailable.toString()) < (minOrderAmountLimit ?? 1));
+        (isBuy &&
+            (parseFloat(balanceAvailable.toString()) === 0 ||
+                parseFloat(balanceAvailable.toString()) < (minOrderAmountLimit ?? 1))) ||
+        showLowBalanceError;
 
     const {
         control,
@@ -280,7 +281,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 isBuy={isBuy}
                 isHidden={isHidden}
                 isModalOpen={isModalOpen}
-                isValid={isValid && (!isBuy || hasSelectedPaymentMethods)}
+                isValid={isValid && (!isBuy || hasSelectedPaymentMethods || !showLowBalanceError)}
                 onRequestClose={onCloseBuySellForm}
                 onSubmit={onSubmit}
             >
@@ -314,6 +315,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 {isBuy && paymentMethodNames && paymentMethodNames?.length > 0 && (
                     <BuySellPaymentSection
                         availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
+                        isDisabled={shouldDisableField}
                         onSelectPaymentMethodCard={onSelectPaymentMethodCard}
                         selectedPaymentMethodIds={selectedPaymentMethods}
                         setIsHidden={setIsHidden}

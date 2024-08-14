@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect } from 'react';
+import clsx from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 import { TCurrency } from 'types';
 import { LightDivider } from '@/components';
@@ -82,9 +83,11 @@ const BuySellAmount = ({
                                 onChange(event);
                             };
                             return (
-                                <div className='px-[1.6rem] lg:px-[2.4rem] pr-6 '>
+                                <div className='px-[1.6rem] lg:px-[2.4rem] pr-6'>
                                     <Input
-                                        className='mb-[0.2rem]'
+                                        className={clsx('buy-sell-amount__amount', {
+                                            'buy-sell-amount__amount--disabled': isDisabled,
+                                        })}
                                         data-lpignore='true'
                                         disabled={isDisabled}
                                         error={!!error?.message}
@@ -131,14 +134,19 @@ const BuySellAmount = ({
                 </div>
                 {!isDesktop && <LightDivider />}
                 {isDesktop && (
-                    <div className='buy-sell-amount__value'>
+                    <div className={clsx('buy-sell-amount__value', { 'opacity-50': isDisabled })}>
                         <Text color='less-prominent' size={labelSize}>
                             <Localize
                                 i18n_default_text='You’ll {{receiveSend}}'
                                 values={{ receiveSend: isBuy ? localize('receive') : localize('send') }}
                             />
                         </Text>
-                        <Text data-testid='dt_buy_sell_amount_value' size='sm' weight='bold'>
+                        <Text
+                            color={isDisabled ? 'less-prominent' : 'prominent'}
+                            data-testid='dt_buy_sell_amount_value'
+                            size='sm'
+                            weight='bold'
+                        >
                             {buySellAmount}&nbsp;{localCurrency}
                         </Text>
                     </div>
@@ -156,6 +164,8 @@ const BuySellAmount = ({
                                     return (
                                         <div className='px-[1.6rem] lg:px-[2.4rem] pt-[1.8rem]'>
                                             <TextArea
+                                                className={clsx({ '!border-[#eaeced]': isDisabled })}
+                                                disabled={isDisabled}
                                                 hint={
                                                     error
                                                         ? error.message
@@ -190,6 +200,8 @@ const BuySellAmount = ({
                         render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
                             <div className='px-[1.6rem] lg:px-[2.4rem]'>
                                 <TextArea
+                                    className={clsx({ '!border-[#eaeced]': isDisabled })}
+                                    disabled={isDisabled}
                                     hint={error ? error.message : ''}
                                     isInvalid={!!error}
                                     label={localize('Your contact details')}

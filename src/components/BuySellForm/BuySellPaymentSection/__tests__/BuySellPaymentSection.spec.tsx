@@ -7,6 +7,7 @@ type TType = 'memo' | 'text';
 
 const mockProps = {
     availablePaymentMethods: [],
+    isDisabled: false,
     onSelectPaymentMethodCard: jest.fn(),
     selectedPaymentMethodIds: [123],
 };
