@@ -42,8 +42,8 @@ const getAdvertiserMaxLimit = (
     maxOrderAmountLimitDisplay: string
 ) => {
     if (isBuy) {
-        if (advertiserBuyLimit < Number(maxOrderAmountLimitDisplay)) return roundOffDecimal(advertiserBuyLimit);
-    } else if (advertiserSellLimit < Number(maxOrderAmountLimitDisplay)) return roundOffDecimal(advertiserSellLimit);
+        if (advertiserSellLimit < Number(maxOrderAmountLimitDisplay)) return roundOffDecimal(advertiserSellLimit);
+    } else if (advertiserBuyLimit < Number(maxOrderAmountLimitDisplay)) return roundOffDecimal(advertiserBuyLimit);
     return maxOrderAmountLimitDisplay;
 };
 

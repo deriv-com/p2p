@@ -9,6 +9,7 @@ export const getLocalizedTabs = (localize: TLocalize): { [tab: string]: string }
     'Ad details': localize('Ad details'),
     Buy: localize('Buy'),
     'My counterparties': localize('My counterparties'),
+    'P2P Guide': localize('P2P Guide'),
     'Past orders': localize('Past orders'),
     'Payment methods': localize('Payment methods'),
     Sell: localize('Sell'),

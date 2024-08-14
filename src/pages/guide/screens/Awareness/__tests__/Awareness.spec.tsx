@@ -1,3 +1,4 @@
+import { setupWindowMocks } from '@/utils';
 import { render, screen } from '@testing-library/react';
 import Awareness from '../Awareness';
 
@@ -7,8 +8,10 @@ jest.mock('@deriv-com/api-hooks', () => ({
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: false })),
+    useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
+
+setupWindowMocks();
 
 describe('Awareness', () => {
     it('should render the Awareness component', () => {
