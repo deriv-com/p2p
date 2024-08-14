@@ -1,4 +1,19 @@
 .buy-sell-amount {
+    &__amount {
+        margin-bottom: 0.2rem;
+
+        &--disabled {
+            border-color: #eaeced;
+
+            & .deriv-input__field {
+                color: #999999;
+            }
+
+            &:hover {
+                border-color: #eaeced !important;
+            }
+        }
+    }
     &__input-wrapper {
         display: grid;
         grid-template-columns: repeat(2, 1fr);

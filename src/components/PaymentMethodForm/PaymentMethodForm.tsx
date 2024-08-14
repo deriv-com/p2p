@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { TAdvertiserPaymentMethod, TFormState, TSelectedPaymentMethod } from 'types';
 import { PageReturn, PaymentMethodField, PaymentMethodsFormFooter } from '@/components';
 import { api } from '@/hooks';
+import { getCurrentRoute } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, useDevice } from '@deriv-com/ui';
 import { PaymentMethodFormAutocomplete } from './PaymentMethodFormAutocomplete';
@@ -57,6 +58,7 @@ const PaymentMethodForm = ({
     } = api.advertiserPaymentMethods.useUpdate();
 
     const { isDesktop, isMobile } = useDevice();
+    const currentRoute = getCurrentRoute();
 
     const showPaymentMethodFormModal = isError || isCreateError || isUpdateError;
 
@@ -231,7 +233,11 @@ const PaymentMethodForm = ({
             />
             <form className='payment-method-form__form' onSubmit={handleFormSubmit}>
                 <div className='payment-method-form__fields'>
-                    <div className='payment-method-form__field-wrapper'>
+                    <div
+                        className={clsx('payment-method-form__field-wrapper', {
+                            'h-96': currentRoute === 'my-profile' && isDesktop && !selectedPaymentMethod,
+                        })}
+                    >
                         <PaymentMethodFormAutocomplete
                             actionType={actionType}
                             availablePaymentMethods={availablePaymentMethods}

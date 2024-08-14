@@ -42,6 +42,7 @@ const PaymentMethodCard = ({
     return (
         <div
             className={clsx('payment-method-card', {
+                'opacity-50': isDisabled,
                 'payment-method-card--dashed': !toAdd,
                 'payment-method-card--medium': medium,
                 'payment-method-card--selected': isSelected,
@@ -55,14 +56,17 @@ const PaymentMethodCard = ({
                     <Button
                         className='flex items-center justify-center w-[3.2rem] h-[3.2rem] mb-[0.8rem] rounded-full bg-[#ff444f]'
                         data-testid='dt_payment_method_add_button'
+                        disabled={isDisabled}
                         type='button'
                     >
                         <LabelPairedPlusLgBoldIcon fill='white' />
                     </Button>
-                    <Text size='sm'>{displayName}</Text>
+                    <Text color={isDisabled ? 'less-prominent' : 'prominent'} size='sm'>
+                        {displayName}
+                    </Text>
                 </div>
             ) : (
-                <div onClick={() => onSelectPaymentMethodCard?.(Number(paymentMethod.id))}>
+                <div onClick={() => !isDisabled && onSelectPaymentMethodCard?.(Number(paymentMethod.id))}>
                     <PaymentMethodCardHeader
                         isDisabled={isDisabled}
                         isEditable={isEditable}
