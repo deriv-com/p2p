@@ -20,6 +20,10 @@
                 padding: 0 1.6rem;
             }
         }
+
+        & .table {
+            height: unset;
+        }
     }
 
     &__header {

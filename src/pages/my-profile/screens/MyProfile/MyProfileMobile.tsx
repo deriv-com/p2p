@@ -1,5 +1,7 @@
+import { useHistory } from 'react-router-dom';
 import { TAdvertiserStats } from 'types';
 import { MobileTabs, ProfileContent } from '@/components';
+import { GUIDE_URL } from '@/constants';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { MyProfileAdDetails } from '../MyProfileAdDetails';
 import { MyProfileCounterparties } from '../MyProfileCounterparties';
@@ -13,6 +15,7 @@ type TMyProfileMobileProps = {
 const MyProfileMobile = ({ data }: TMyProfileMobileProps) => {
     const { queryString, setQueryString } = useQueryString();
     const currentTab = queryString.tab;
+    const history = useHistory();
 
     if (currentTab === 'Stats') {
         return <MyProfileStatsMobile />;
@@ -31,12 +34,14 @@ const MyProfileMobile = ({ data }: TMyProfileMobileProps) => {
         <>
             <ProfileContent data={data} />
             <MobileTabs
-                onChangeTab={clickedTab =>
-                    setQueryString({
-                        tab: clickedTab,
-                    })
-                }
-                tabs={['Stats', 'Payment methods', 'Ad details', 'My counterparties']}
+                onChangeTab={clickedTab => {
+                    if (clickedTab === 'P2P Guide') history.push(GUIDE_URL, { from: 'my-profile' });
+                    else
+                        setQueryString({
+                            tab: clickedTab,
+                        });
+                }}
+                tabs={['Stats', 'Payment methods', 'Ad details', 'My counterparties', 'P2P Guide']}
             />
         </>
     );
