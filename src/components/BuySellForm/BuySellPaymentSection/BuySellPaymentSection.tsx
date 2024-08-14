@@ -10,6 +10,7 @@ import { PaymentMethodCard } from '../../PaymentMethodCard';
 
 type TBuySellPaymentSectionProps = {
     availablePaymentMethods: (TPaymentMethod & { isAvailable?: boolean })[];
+    isDisabled: boolean;
     onSelectPaymentMethodCard?: (paymentMethodId: number) => void;
     selectedPaymentMethodIds: number[];
     setIsHidden?: Dispatch<SetStateAction<boolean>>;
@@ -17,6 +18,7 @@ type TBuySellPaymentSectionProps = {
 
 const BuySellPaymentSection = ({
     availablePaymentMethods,
+    isDisabled = false,
     onSelectPaymentMethodCard,
     selectedPaymentMethodIds,
     setIsHidden,
@@ -60,6 +62,7 @@ const BuySellPaymentSection = ({
                 <div className='flex gap-[0.8rem] flex-wrap'>
                     {sortedList?.map((paymentMethod, index) => (
                         <PaymentMethodCard
+                            isDisabled={isDisabled}
                             key={index}
                             medium
                             onClickAdd={() => {
