@@ -94,6 +94,10 @@ const mockAdvertInfo = {
     unsubscribe: jest.fn(),
 };
 
+const mockUseBalance = {
+    data: { balance: 100 },
+};
+
 const mockInvalidate = jest.fn();
 
 jest.mock('@/hooks/api/useInvalidateQuery', () => () => mockInvalidate);
@@ -101,6 +105,9 @@ jest.mock('@/hooks/api/useInvalidateQuery', () => () => mockInvalidate);
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
+        account: {
+            useBalance: jest.fn(() => mockUseBalance),
+        },
         advert: {
             useSubscribe: jest.fn(() => mockAdvertInfo),
         },
@@ -214,13 +221,16 @@ describe('BuySellForm', () => {
         await userEvent.click(confirmButton);
         expect(mockHandleSubmit).toHaveBeenCalled();
     });
-    it('should disable the input field when balance is 0', () => {
+    it('should disable the input field when balance for Sell adverts', () => {
+        mockAdvertValues.type = 'buy';
         mockUseGetInfo.data.balance_available = 0;
         render(<BuySellForm {...mockProps} />);
-        const inputField = screen.getByPlaceholderText('Buy amount');
+        const inputField = screen.getByPlaceholderText('Sell amount');
+        expect(screen.getByText('Sell USD')).toBeInTheDocument();
         expect(inputField).toBeDisabled();
     });
     it('should check if the floating point validator is called on changing value in input field', async () => {
+        mockAdvertValues.type = 'sell';
         mockUseGetInfo.data.balance_available = 100;
         render(<BuySellForm {...mockProps} />);
         const inputField = screen.getByPlaceholderText('Buy amount');
