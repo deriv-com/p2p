@@ -30,6 +30,14 @@ let mockQueryString = {
     tab: 'default',
 };
 
+const mockPush = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+    useHistory: jest.fn(() => ({
+        push: mockPush,
+    })),
+}));
+
 const mockSetQueryString = jest.fn();
 jest.mock('@/hooks/custom-hooks', () => ({
     useQueryString: jest.fn(() => ({
@@ -58,9 +66,10 @@ describe('MyProfileMobile', () => {
                 name: tab,
             });
             await userEvent.click(btn);
-            expect(mockSetQueryString).toBeCalledWith({
-                tab,
-            });
+            if (tab !== 'P2P Guide')
+                expect(mockSetQueryString).toHaveBeenCalledWith({
+                    tab,
+                });
             mockQueryString = {
                 tab,
             };
@@ -78,5 +87,8 @@ describe('MyProfileMobile', () => {
 
         await clickTabAndRender('My counterparties');
         expect(screen.getByText('MyProfileCounterpartiesScreen')).toBeInTheDocument();
+
+        await clickTabAndRender('P2P Guide');
+        expect(mockPush).toHaveBeenCalledWith('/guide', { from: 'my-profile' });
     });
 });

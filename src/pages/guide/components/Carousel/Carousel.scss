@@ -3,16 +3,7 @@
 
     &__container {
         display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
         gap: 2.4rem;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-
-        &::-webkit-scrollbar {
-            display: none;
-        }
     }
 
     &__control {
