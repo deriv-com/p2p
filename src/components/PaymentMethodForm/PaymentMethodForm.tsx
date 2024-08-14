@@ -235,7 +235,7 @@ const PaymentMethodForm = ({
                 <div className='payment-method-form__fields'>
                     <div
                         className={clsx('payment-method-form__field-wrapper', {
-                            absolute: currentRoute === 'my-profile' && isDesktop,
+                            'h-96': currentRoute === 'my-profile' && isDesktop,
                         })}
                     >
                         <PaymentMethodFormAutocomplete
