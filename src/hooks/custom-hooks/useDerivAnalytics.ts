@@ -20,6 +20,7 @@ const useDerivAnalytics = () => {
         try {
             const isDerivAnalyticsInitialized = Analytics?.getInstances()?.tracking?.has_initialized;
             const isLocalHost = location.hostname === 'localhost';
+            const isProduction = process.env.NODE_ENV === 'production';
 
             if (!isLocalHost && !isDerivAnalyticsInitialized) {
                 const remoteConfigURL = process.env.VITE_REMOTE_CONFIG_URL;
@@ -43,6 +44,9 @@ const useDerivAnalytics = () => {
                         ? process.env.VITE_GROWTHBOOK_DECRYPTION_KEY
                         : undefined,
                     growthbookKey: services?.marketing_growthbook ? process.env.VITE_GROWTHBOOK_CLIENT_KEY : undefined,
+                    growthbookOptions: {
+                        disableCache: !isProduction,
+                    },
                     rudderstackKey: services?.tracking_rudderstack ? process.env.VITE_RUDDERSTACK_KEY || '' : '',
                 });
 
