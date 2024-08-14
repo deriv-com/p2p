@@ -31,9 +31,9 @@ const AdvertiserName = ({ advertiserStats, isSameUser, onClickBlocked }: TAdvert
                     <Text size='md' weight='bold'>
                         {name}
                     </Text>
-                    {(advertiserStats?.shouldShowName || !isMyProfile) && (
+                    {advertiserStats?.first_name && advertiserStats.last_name && (
                         <Text color='less-prominent' size='sm'>
-                            ({advertiserStats?.fullName})
+                            ({advertiserStats?.first_name} {advertiserStats?.last_name})
                         </Text>
                     )}
                 </div>
