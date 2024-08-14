@@ -1,6 +1,7 @@
-import { ReactNode, useRef, useState } from 'react';
+import { ReactNode } from 'react';
 import clsx from 'clsx';
-import debounce from 'lodash/debounce';
+import useEmblaCarousel from 'embla-carousel-react';
+import { useDotButton } from '@/hooks/custom-hooks';
 import { useDevice } from '@deriv-com/ui';
 import { GuideCard } from '../GuideCard';
 import './Carousel.scss';
@@ -20,46 +21,33 @@ type TCarouselProps = {
 
 const Carousel = ({ isControlVisible = true, items }: TCarouselProps) => {
     const { isDesktop } = useDevice();
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const scrollRef = useRef<HTMLDivElement>(null);
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
 
-    const onScroll = debounce(() => {
-        const clientWidth = scrollRef.current?.clientWidth ?? 0;
-        const scrollLeft = scrollRef.current?.scrollLeft ?? 0;
-        const totalWidth = clientWidth + 24;
-        const selectedIndex = scrollLeft / totalWidth;
-
-        setCurrentIndex(selectedIndex);
-    }, 100);
+    const { onDotButtonClick, scrollSnaps, selectedIndex } = useDotButton(emblaApi);
 
     return (
         <div className='carousel'>
-            <div className='carousel__container' onScroll={onScroll} ref={scrollRef}>
-                {items.map(item => {
-                    return (
+            <div className='overflow-hidden' ref={!isDesktop ? emblaRef : null}>
+                <div className='carousel__container'>
+                    {items.map(item => (
                         <div className='carousel__item' key={item.id}>
                             <GuideCard {...item} />
                         </div>
-                    );
-                })}
+                    ))}
+                </div>
             </div>
             {!isDesktop && isControlVisible && (
                 <div className='flex justify-center'>
-                    {items.map((item: TCarouselItem, index: number) => {
-                        return (
-                            <div
-                                className={clsx('carousel__control mr-2', {
-                                    'carousel__control--active': currentIndex === index,
-                                })}
-                                data-testid='dt_carousel_control'
-                                key={item.id}
-                                onClick={() => {
-                                    const clientWidth = scrollRef.current?.clientWidth ?? 0;
-                                    scrollRef.current?.scrollTo?.({ left: clientWidth * index });
-                                }}
-                            />
-                        );
-                    })}
+                    {scrollSnaps.map((item, index) => (
+                        <div
+                            className={clsx('carousel__control mr-2', {
+                                'carousel__control--active': selectedIndex === index,
+                            })}
+                            data-testid='dt_carousel_control'
+                            key={item}
+                            onClick={() => onDotButtonClick(index)}
+                        />
+                    ))}
                 </div>
             )}
         </div>
