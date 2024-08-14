@@ -3,7 +3,8 @@ import AdvertiserName from '../AdvertiserName';
 
 const mockProps = {
     advertiserStats: {
-        fullName: 'Jane Doe',
+        first_name: 'Jane',
+        last_name: 'Doe',
         name: 'Jane',
         shouldShowName: true,
     },
@@ -30,7 +31,12 @@ jest.mock('@deriv-com/ui', () => ({
 
 jest.mock('@/utils', () => ({
     ...jest.requireActual('@/utils'),
-    getCurrentRoute: jest.fn(() => ''),
+    getCurrentRoute: jest.fn(() => 'my-profile'),
+}));
+
+jest.mock('../AdvertiserNameStats.tsx', () => ({
+    __esModule: true,
+    default: () => <div>AdvertiserNameStats</div>,
 }));
 
 describe('AdvertiserName', () => {

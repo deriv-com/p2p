@@ -11,6 +11,12 @@
         margin-top: 1.6rem;
         padding: 1.6rem;
         border-radius: 4px;
+
+        &__link {
+            color: #ff444f;
+            font-weight: bold;
+            cursor: pointer;
+        }
     }
 
     &__complain-footer {

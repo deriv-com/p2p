@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { GUIDE_URL } from '@/constants';
+import { getCurrentRoute } from '@/utils';
 import { Portal, Tooltip } from '@chakra-ui/react';
 import { LabelPairedBookCircleQuestionLgRegularIcon, StandaloneXmarkBoldIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
@@ -14,6 +15,7 @@ const GuideTooltip = () => {
     const [isGuideVisible, setIsGuideVisible] = useState<boolean>(
         LocalStorageUtils.getValue('should_show_p2p_guide') ?? true
     );
+    const currentRoute = getCurrentRoute();
 
     const onGetStarted = () => {
         setIsGuideVisible(false);
@@ -67,7 +69,7 @@ const GuideTooltip = () => {
                 <LabelPairedBookCircleQuestionLgRegularIcon
                     className='guide-tooltip__icon guide-tooltip__icon--disabled'
                     data-testid='dt_guide_tooltip_icon'
-                    onClick={() => history.push(GUIDE_URL)}
+                    onClick={() => history.push(GUIDE_URL, { from: currentRoute || 'buy-sell' })}
                 />
             </Tooltip>
         </div>
@@ -75,7 +77,7 @@ const GuideTooltip = () => {
         <LabelPairedBookCircleQuestionLgRegularIcon
             className='guide-tooltip__icon'
             data-testid='dt_guide_tooltip_icon'
-            onClick={() => history.push(GUIDE_URL)}
+            onClick={() => history.push(GUIDE_URL, { from: currentRoute || 'buy-sell' })}
         />
     );
 };

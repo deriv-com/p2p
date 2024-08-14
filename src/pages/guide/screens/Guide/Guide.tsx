@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import clsx from 'clsx';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { PageReturn } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
 import { Localize, useTranslations } from '@deriv-com/translations';
@@ -15,6 +15,7 @@ import './Guide.scss';
 
 const Guide = () => {
     const history = useHistory();
+    const location = useLocation();
     const { localize } = useTranslations();
     const { isDesktop, isMobile } = useDevice();
     const guideSections = [
@@ -35,7 +36,7 @@ const Guide = () => {
                 className='lg:mt-0'
                 data-testid='dt_page_return_btn'
                 hasBorder={!isDesktop}
-                onClick={() => history.push(BUY_SELL_URL)}
+                onClick={() => history.push((location.state as { from: string })?.from || BUY_SELL_URL)}
                 pageTitle={localize('P2P Guide')}
                 size={isMobile ? 'lg' : 'md'}
                 weight='bold'

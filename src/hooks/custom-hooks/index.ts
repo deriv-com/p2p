@@ -1,6 +1,7 @@
 export { default as useAdvertiserStats } from './useAdvertiserStats';
 export { default as useCopyToClipboard } from './useCopyToClipboard';
 export { default as useDerivAnalytics } from './useDerivAnalytics';
+export { default as useDotButton } from './useDotButton';
 export { default as useExtendedOrderDetails } from './useExtendedOrderDetails';
 export { default as useFetchMore } from './useFetchMore';
 export { default as useFloatingRate } from './useFloatingRate';

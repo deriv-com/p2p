@@ -1,4 +1,5 @@
 import { ReactComponent as ScamAdvancePaymentIcon } from '@/assets/scam-advance-payment.svg';
+import { setupWindowMocks } from '@/utils';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -6,10 +7,21 @@ import Carousel from '../Carousel';
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
-    useDevice: jest.fn(() => ({ isMobile: false })),
+    useDevice: jest.fn(() => ({ isDesktop: true })),
+}));
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useDotButton: jest.fn(() => ({
+        onDotButtonClick: jest.fn(),
+        scrollSnaps: [0, 1, 2],
+        selectedIndex: 0,
+    })),
 }));
 
 const mockUseDevice = useDevice as jest.Mock;
+
+setupWindowMocks();
 
 describe('Carousel', () => {
     it('should render the Carousel component', () => {
@@ -26,7 +38,7 @@ describe('Carousel', () => {
     });
     it('should show the proper item on click of controls', async () => {
         mockUseDevice.mockReturnValue({
-            isMobile: true,
+            isDesktop: false,
         });
         render(
             <Carousel
