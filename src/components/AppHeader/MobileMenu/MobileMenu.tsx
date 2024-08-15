@@ -5,6 +5,7 @@ import { LANGUAGES } from '@/constants';
 import { useModalManager } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Drawer, MobileLanguagesDrawer, useDevice } from '@deriv-com/ui';
+import { LocalStorageUtils } from '@deriv-com/utils';
 import { BackButton } from './BackButton';
 import { MenuContent } from './MenuContent';
 import { MenuHeader } from './MenuHeader';
@@ -12,9 +13,10 @@ import { ToggleButton } from './ToggleButton';
 
 const MobileMenu = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const { currentLang = 'EN', localize, switchLanguage } = useTranslations();
+    const { localize, switchLanguage } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { isDesktop } = useDevice();
+    const currentLang = LocalStorageUtils.getValue<string>('i18n_language') || 'EN';
 
     const openDrawer = () => setIsDrawerOpen(true);
     const closeDrawer = () => setIsDrawerOpen(false);

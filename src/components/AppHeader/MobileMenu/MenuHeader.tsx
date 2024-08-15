@@ -2,6 +2,7 @@ import { ComponentProps, useMemo } from 'react';
 import { LANGUAGES } from '@/constants';
 import { useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
+import { LocalStorageUtils } from '@deriv-com/utils';
 
 type TMenuHeader = {
     hideLanguageSetting: boolean;
@@ -9,8 +10,9 @@ type TMenuHeader = {
 };
 
 export const MenuHeader = ({ hideLanguageSetting, openLanguageSetting }: TMenuHeader) => {
-    const { currentLang, localize } = useTranslations();
+    const { localize } = useTranslations();
     const { isDesktop } = useDevice();
+    const currentLang = LocalStorageUtils.getValue<string>('i18n_language') || 'EN';
 
     const countryIcon = useMemo(
         () => LANGUAGES.find(({ code }) => code === currentLang)?.placeholderIconInMobile,
