@@ -17,17 +17,20 @@ const BlockDropdown = ({ id, onClickBlocked }: TBlockDropdownProps) => {
     const { is_blocked: isBlocked, name = '' } = data ?? {};
     return (
         <div className='block-dropdown'>
-            <Dropdown
-                dropdownIcon={<LabelPairedEllipsisVerticalXlRegularIcon data-testid='dt_block_dropdown_icon' />}
-                list={[
-                    {
-                        text: localize('Block'),
-                        value: 'block',
-                    },
-                ]}
-                name='block-user-dropdown'
-                onSelect={() => showModal('BlockUnblockUserModal')}
-            />
+            <div className='block-dropdown__button'>
+                <LabelPairedEllipsisVerticalXlRegularIcon />
+                <Dropdown
+                    className='block-dropdown__button__dropdown'
+                    list={[
+                        {
+                            text: localize('Block'),
+                            value: 'block',
+                        },
+                    ]}
+                    name='block-user-dropdown'
+                    onSelect={() => showModal('BlockUnblockUserModal')}
+                />
+            </div>
             {isModalOpenFor('BlockUnblockUserModal') && (
                 <BlockUnblockUserModal
                     advertiserName={name}

@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TOrderExpiryOptions } from 'types';
 import { OrderTimeTooltipModal } from '@/components/Modals';
-import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { getOrderTimeInfoMessage } from '@/constants';
 import { formatTime, getOrderTimeCompletionList } from '@/utils';
-import { LabelPairedChevronDownMdRegularIcon, LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
+import { LabelPairedCircleInfoCaptionRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Dropdown, Text, useDevice } from '@deriv-com/ui';
+import { Dropdown, Text, Tooltip, useDevice } from '@deriv-com/ui';
 import './OrderTimeSelection.scss';
 
 const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrderExpiryOptions }) => {
@@ -51,9 +50,8 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
                     <Localize i18n_default_text='Orders must be completed in' />
                 </Text>
                 <Text size='xs'>
-                    <TooltipMenuIcon
+                    <Tooltip
                         as='button'
-                        disableHover
                         onClick={isDesktop ? () => undefined : () => setIsModalOpen(true)}
                         tooltipContent={getOrderTimeInfoMessage(localize)}
                         type='button'
@@ -63,7 +61,7 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
                             height={24}
                             width={24}
                         />
-                    </TooltipMenuIcon>
+                    </Tooltip>
                 </Text>
             </div>
             <Controller
@@ -72,7 +70,6 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
                 render={({ field: { onChange, value } }) => (
                     <Dropdown
                         className='items-center h-16'
-                        dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
                         isFullWidth={isDesktop}
                         list={getOptions().sort((a, b) => a.value - b.value)}
                         name='order-completion-time'

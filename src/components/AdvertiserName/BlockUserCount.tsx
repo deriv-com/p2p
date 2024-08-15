@@ -2,7 +2,7 @@ import { TLocalize } from 'types';
 import { useModalManager } from '@/hooks';
 import { LabelPairedCircleUserSlashSmRegularIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { Text, useDevice } from '@deriv-com/ui';
+import { Text, Tooltip, useDevice } from '@deriv-com/ui';
 import { BlockUserCountModal } from '../Modals';
 import { TooltipMenuIcon } from '../TooltipMenuIcon';
 import './BlockUserCount.scss';
@@ -32,7 +32,7 @@ const BlockUserCount = ({ count }: TBlockUserCount) => {
     const { isDesktop, isMobile } = useDevice();
     return (
         <div className='block-user-count'>
-            <TooltipMenuIcon
+            <Tooltip
                 as='button'
                 className='block-user-count__tooltip'
                 data-testid='dt_block_user_count_button'
@@ -46,7 +46,7 @@ const BlockUserCount = ({ count }: TBlockUserCount) => {
                 <Text color='less-prominent' size={isMobile ? 'xs' : 'sm'}>
                     {count ?? 0}
                 </Text>
-            </TooltipMenuIcon>
+            </Tooltip>
             {!!isModalOpenFor('BlockUserCountModal') && (
                 <BlockUserCountModal isModalOpen message={getMessage(localize, count)} onRequestClose={hideModal} />
             )}
