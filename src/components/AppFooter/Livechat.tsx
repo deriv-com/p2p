@@ -1,14 +1,14 @@
 import { useLiveChat } from '@/hooks/custom-hooks';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
+import { Tooltip } from '@deriv-com/ui';
 
 const Livechat = () => {
     const { LiveChatWidget } = useLiveChat();
     const { localize } = useTranslations();
 
     return (
-        <TooltipMenuIcon
+        <Tooltip
             as='button'
             className='app-footer__icon'
             onClick={() => {
@@ -17,7 +17,7 @@ const Livechat = () => {
             tooltipContent={localize('Live chat')}
         >
             <LegacyLiveChatOutlineIcon iconSize='xs' />
-        </TooltipMenuIcon>
+        </Tooltip>
     );
 };
 
