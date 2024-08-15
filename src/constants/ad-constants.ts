@@ -41,10 +41,13 @@ export const AD_CONDITION_TYPES = {
 export const getAdConditionContent = (
     localize: TLocalize
 ): Record<string, { description: string; options?: { label: string; value: number }[]; title: string }> => {
+    const formatString = (text: string) => text.replace(/nn/g, '\n\n');
     return {
         completionRates: {
-            description: localize(
-                'We’ll only show your ad to people with a completion rate higher than your selection. \n\nThe completion rate is the percentage of successful orders.'
+            description: formatString(
+                localize(
+                    'We’ll only show your ad to people with a completion rate higher than your selection. nnThe completion rate is the percentage of successful orders.'
+                )
             ),
             options: [
                 { label: '50%', value: 50 },
