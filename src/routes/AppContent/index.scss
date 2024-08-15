@@ -63,3 +63,8 @@
 .languages-modal__body {
     margin: 1.6rem;
 }
+
+// to fix textarea overflow issue in cypress
+.deriv-textarea textarea {
+    overflow: visible;
+}
