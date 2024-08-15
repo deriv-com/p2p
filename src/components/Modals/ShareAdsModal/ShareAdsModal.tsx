@@ -41,7 +41,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
     const secondCurrency = isBuyAd ? accountCurrency : localCurrency;
     const adRateType = rateType === RATE_TYPE.FLOAT ? '%' : ` ${localCurrency}`;
     const customMessage = localize(
-        "Hi! I'd like to exchange {{firstCurrency}} for {{secondCurrency}} at {{rateDisplay}}{{adRateType}} on Deriv P2P.\n\nIf you're interested, check out my ad 👉\n\n{{advertUrl}}\n\nThanks!",
+        "Hi! I'd like to exchange {{firstCurrency}} for {{secondCurrency}} at {{rateDisplay}}{{adRateType}} on Deriv P2P.nnIf you're interested, check out my ad 👉nn{{advertUrl}}nnThanks!",
         {
             adRateType,
             advertUrl,
@@ -50,6 +50,8 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
             secondCurrency,
         }
     );
+
+    const formattedMessage = customMessage.replace(/nn/g, '\n\n');
 
     const onCopy = (event: MouseEvent) => {
         copyToClipboard(advertUrl);
@@ -78,7 +80,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
 
     const handleShareLink = () => {
         navigator.share({
-            text: customMessage,
+            text: formattedMessage,
         });
     };
 
@@ -158,7 +160,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                                     <Text weight='bold'>
                                         <Localize i18n_default_text='Share via' />
                                     </Text>
-                                    <ShareMyAdsSocials advertUrl={advertUrl} customMessage={customMessage} />
+                                    <ShareMyAdsSocials advertUrl={advertUrl} customMessage={formattedMessage} />
                                     <Divider margin='0 0 2.5rem 0' />
                                     <Text>
                                         <Localize i18n_default_text='Or copy this link' />
