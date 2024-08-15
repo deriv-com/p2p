@@ -29,4 +29,11 @@
             }
         }
     }
+
+    &__button {
+        position: relative;
+        & .deriv-dropdown {
+            position: absolute;
+        }
+    }
 }
