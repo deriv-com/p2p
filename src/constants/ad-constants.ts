@@ -72,3 +72,34 @@ export const getAdConditionContent = (
         },
     } as const;
 };
+
+type TShareAdsMessage = {
+    adRateType: string;
+    advertUrl: string;
+    firstCurrency?: string;
+    localize: TLocalize;
+    rateDisplay?: string;
+    secondCurrency?: string;
+};
+
+export const getShareAdsMessage = ({
+    adRateType,
+    advertUrl,
+    firstCurrency = 'USD',
+    localize,
+    rateDisplay = '0.0',
+    secondCurrency = 'USD',
+}: TShareAdsMessage) => {
+    const message1 = localize(
+        "Hi! I'd like to exchange {{firstCurrency}} for {{secondCurrency}} at {{rateDisplay}}{{adRateType}} on Deriv P2P.",
+        {
+            adRateType,
+            firstCurrency,
+            rateDisplay,
+            secondCurrency,
+        }
+    );
+    const message2 = localize("If you're interested, check out my ad 👉");
+    const message3 = localize('Thanks!');
+    return `${message1}\n\n${message2}\n\n${advertUrl}\n\n${message3}`;
+};
