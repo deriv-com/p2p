@@ -1,6 +1,6 @@
 import { MouseEvent, useEffect, useRef } from 'react';
 import { Clipboard } from '@/components';
-import { ADVERTISER_URL, BUY_SELL, RATE_TYPE } from '@/constants';
+import { ADVERTISER_URL, BUY_SELL, getShareAdsMessage, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useCopyToClipboard } from '@/hooks/custom-hooks';
 import { LegacyShare1pxIcon, LegacyShareLink1pxIcon, LegacyWonIcon } from '@deriv/quill-icons';
@@ -40,18 +40,15 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
     const firstCurrency = isBuyAd ? localCurrency : accountCurrency;
     const secondCurrency = isBuyAd ? accountCurrency : localCurrency;
     const adRateType = rateType === RATE_TYPE.FLOAT ? '%' : ` ${localCurrency}`;
-    const customMessage = localize(
-        "Hi! I'd like to exchange {{firstCurrency}} for {{secondCurrency}} at {{rateDisplay}}{{adRateType}} on Deriv P2P.nnIf you're interested, check out my ad 👉nn{{advertUrl}}nnThanks!",
-        {
-            adRateType,
-            advertUrl,
-            firstCurrency,
-            rateDisplay,
-            secondCurrency,
-        }
-    );
 
-    const formattedMessage = customMessage.replace(/nn/g, '\n\n');
+    const formattedMessage = getShareAdsMessage({
+        adRateType,
+        advertUrl,
+        firstCurrency,
+        localize,
+        rateDisplay,
+        secondCurrency,
+    });
 
     const onCopy = (event: MouseEvent) => {
         copyToClipboard(advertUrl);
