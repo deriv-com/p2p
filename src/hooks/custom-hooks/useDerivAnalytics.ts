@@ -19,10 +19,10 @@ const useDerivAnalytics = () => {
     const initialise = async () => {
         try {
             const isDerivAnalyticsInitialized = Analytics?.getInstances()?.tracking?.has_initialized;
-            const isLocalHost = location.hostname === 'localhost';
             const isProduction = process.env.NODE_ENV === 'production';
 
-            if (!isLocalHost && !isDerivAnalyticsInitialized && websiteStatus) {
+            if (!isDerivAnalyticsInitialized && websiteStatus) {
+            if (!isDerivAnalyticsInitialized) {
                 const remoteConfigURL = process.env.VITE_REMOTE_CONFIG_URL;
                 let services = FIREBASE_INIT_DATA;
                 if (remoteConfigURL) {
