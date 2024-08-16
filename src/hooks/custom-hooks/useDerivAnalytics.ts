@@ -55,7 +55,9 @@ const useDerivAnalytics = () => {
                 Analytics.setAttributes({
                     account_type: activeAccount?.account_type || 'unlogged',
                     app_id: String(WebSocketUtils.getAppId()),
-                    country: websiteStatus?.clients_country,
+                    country:
+                        JSON.parse(Cookies.get('website_status') || '{}')?.clients_country ||
+                        websiteStatus?.clients_country,
                     device_language: navigator?.language || 'en-EN',
                     device_type: isMobile ? 'mobile' : 'desktop',
                     domain: window.location.hostname,
