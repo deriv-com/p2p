@@ -7,7 +7,9 @@
         }
 
         & .deriv-input--label-animation-disabled {
-            opacity: 0;
+            &::placeholder {
+                opacity: 0;
+            }
         }
 
         &__field {
@@ -19,7 +21,7 @@
 
             input {
                 @include desktop {
-                    padding-left: 1.5rem;
+                    padding-left: 1rem;
                 }
             }
 
