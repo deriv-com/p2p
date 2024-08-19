@@ -6,6 +6,10 @@
             cursor: pointer;
         }
 
+        & .deriv-input--label-animation-disabled {
+            opacity: 0;
+        }
+
         &__field {
             @include desktop {
                 height: 3.2rem;
