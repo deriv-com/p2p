@@ -46,7 +46,7 @@ const AdCreateEditSuccessModal = ({
             <Modal.Body className='ad-create-edit-success-modal__body'>
                 <Text color='prominent' size={textSize}>
                     <Localize
-                        i18n_default_text={`If the ad doesn't receive an order for {{advertsArchivePeriod}} days, it will be deactivated.`}
+                        i18n_default_text="If the ad doesn't receive an order for {{advertsArchivePeriod}} days, it will be deactivated."
                         values={{ advertsArchivePeriod }}
                     />
                 </Text>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { getOauthUrl } from '@/constants';
 import { api, useRedirectToOauth } from '@/hooks';
 import { getCurrentRoute } from '@/utils';
@@ -5,6 +6,7 @@ import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Header, Text, useDevice, Wrapper } from '@deriv-com/ui';
+import { LocalStorageUtils } from '@deriv-com/utils';
 import { TooltipMenuIcon } from '../TooltipMenuIcon';
 import { AccountsInfoLoader } from './AccountsInfoLoader';
 import { AccountSwitcher } from './AccountSwitcher';
@@ -22,8 +24,13 @@ const AppHeader = () => {
     const { redirectToOauth } = useRedirectToOauth();
     const { activeLoginid, logout } = useAuthData();
     const { data: activeAccount } = api.account.useActiveAccount();
-    const { localize } = useTranslations();
+    const { instance, localize } = useTranslations();
     const oauthUrl = getOauthUrl();
+    const currentLang = LocalStorageUtils.getValue<string>('i18n_language');
+
+    useEffect(() => {
+        document.documentElement.dir = instance.dir((currentLang || 'en').toLowerCase());
+    }, [currentLang, instance]);
 
     const renderAccountSection = () => {
         if (!isEndpointPage && !activeAccount) {
@@ -48,7 +55,7 @@ const AppHeader = () => {
                     )}
                     <AccountSwitcher account={activeAccount!} />
                     <Button
-                        className='mr-6'
+                        className='me-[1rem]'
                         onClick={async () => {
                             await logout();
                             redirectToOauth();
