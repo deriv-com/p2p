@@ -1,6 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import StarRating from '../StarRating';
 
+jest.mock('@/hooks', () => ({
+    useIsRtl: () => false,
+}));
+
 describe('StarRating', () => {
     it('should render the passed filled/empty star icons', () => {
         render(<StarRating ratingValue={3.3} />);
