@@ -10,6 +10,7 @@ export { default as useHandleRouteChange } from './useHandleRouteChange';
 export { default as useIsAdvertiser } from './useIsAdvertiser';
 export { default as useIsAdvertiserBarred } from './useIsAdvertiserBarred';
 export { default as useIsP2PBlocked } from './useIsP2PBlocked';
+export { default as useIsRtl } from './useIsRtl';
 export { default as useLiveChat } from './useLiveChat';
 export { default as useModalManager } from './useModalManager';
 export { default as useNavigatorOnline } from './useNavigatorOnline';
