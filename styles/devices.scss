@@ -28,3 +28,11 @@ $min-desktop-width: 1280px;
         @content;
     }
 }
+
+/*RTL Language Mixin*/
+
+@mixin rtl {
+    [dir='rtl'] & {
+        @content;
+    }
+}
