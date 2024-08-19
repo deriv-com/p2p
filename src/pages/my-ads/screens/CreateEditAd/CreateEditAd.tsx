@@ -260,7 +260,7 @@ const CreateEditAd = () => {
             watch('min-completion-rate'),
             watch('min-join-days'),
             isDirty,
-            rateType,
+            rateType as 'fixed' | 'float',
             getValues('ad-rate-type')
         );
 
@@ -280,7 +280,7 @@ const CreateEditAd = () => {
                         localCurrency={p2pSettings?.localCurrency as TCurrency}
                         onCancel={onClickCancel}
                         orderExpiryOptions={orderExpiryOptions}
-                        rateType={rateType}
+                        rateType={rateType as 'fixed' | 'float'}
                         setShouldReset={setShouldReset}
                         shouldReset={shouldReset}
                         steps={getSteps(localize, isEdit)}
