@@ -75,7 +75,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
     const isRowDisabled = !isActive || isBarred || !isListed;
     const isAdActive = !!isActive && !isBarred;
 
-    const enableActionPoint = currentRateType !== rateType;
+    const enableActionPoint = currentRateType && currentRateType !== rateType;
 
     useEffect(() => {
         setShowAlertIcon(enableActionPoint || shouldShowTooltipIcon(visibilityStatus) || !isAdvertListed);
