@@ -10,7 +10,7 @@
         height: calc(100vh - 8rem);
     }
 
-    @include rtl {
+    @include rtlDir {
         svg {
             transform: rotate(180deg);
         }

@@ -31,8 +31,8 @@ $min-desktop-width: 1280px;
 
 /*RTL Language Mixin*/
 
-@mixin rtl {
-    [dir='rtl'] & {
+@mixin rtlDir() {
+    html[dir='rtl'] & {
         @content;
     }
 }
