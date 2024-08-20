@@ -232,3 +232,5 @@ export type TInitialData = {
     paymentMethod: number[] | string[];
     selectedCountries: string[];
 };
+
+export type TRateType = 'fixed' | 'float';
