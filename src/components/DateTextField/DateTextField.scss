@@ -20,6 +20,7 @@
             align-items: center;
 
             input {
+                outline: none;
                 @include desktop {
                     padding-left: 1rem;
                 }
