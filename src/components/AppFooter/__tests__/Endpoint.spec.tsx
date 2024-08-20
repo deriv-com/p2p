@@ -1,52 +1,29 @@
-import { BrowserRouter } from 'react-router-dom';
-import { ENDPOINT } from '@/constants';
-import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Endpoint from '../Endpoint';
 
-jest.mock('@deriv-com/utils', () => ({
-    ...jest.requireActual('@deriv-com/utils'),
-    LocalStorageUtils: {
-        ...jest.requireActual('@deriv-com/utils').LocalStorageUtils,
-        getValue: jest.fn(),
-    },
-}));
+describe('<Endpoint />', () => {
+    it('should render the endpoint component', () => {
+        render(<Endpoint />);
 
-const mockGetValue = LocalStorageUtils.getValue as jest.Mock;
-
-describe('Endpoint component', () => {
-    beforeEach(() => {
-        // Reset all mocks before each test
-        mockGetValue.mockReset();
+        expect(screen.getByText('Change API endpoint')).toBeInTheDocument();
+        expect(screen.getByText('Server')).toBeInTheDocument();
+        expect(screen.getByText('OAuth App ID')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
     });
 
-    it('renders correctly when server URL is set in localStorage', () => {
-        const serverURL = 'https://example.com';
-        mockGetValue.mockImplementation(key => {
-            if (key === LocalStorageConstants.configServerURL) {
-                return serverURL;
-            }
-            return null;
-        });
+    it('should handle form submission', async () => {
+        render(<Endpoint />);
 
-        render(
-            <BrowserRouter>
-                <Endpoint />
-            </BrowserRouter>
-        );
+        const serverUrlInput = screen.getByTestId('dt_endpoint_server_url_input');
+        const appIdInput = screen.getByTestId('dt_endpoint_app_id_input');
+        const submitButton = screen.getByRole('button', { name: 'Submit' });
 
-        const linkElement = screen.getByRole('link', { name: 'endpoint' });
-        expect(linkElement).toBeInTheDocument();
-        expect(linkElement).toHaveAttribute('href', ENDPOINT);
-    });
+        await userEvent.type(serverUrlInput, 'qa10.deriv.dev');
+        await userEvent.type(appIdInput, '123');
+        await userEvent.click(submitButton);
 
-    it('does not render when server URL is not set in localStorage', () => {
-        render(
-            <BrowserRouter>
-                <Endpoint />
-            </BrowserRouter>
-        );
-
-        expect(screen.queryByText(/The server endpoint is:/)).not.toBeInTheDocument();
+        expect(JSON.parse(localStorage.getItem('config.server_url') || '')).toBe('qa10.deriv.dev');
+        expect(JSON.parse(localStorage.getItem('config.app_id') || '')).toBe('123');
     });
 });
