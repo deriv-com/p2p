@@ -1,9 +1,3 @@
-@mixin rtl {
-    [dir='rtl'] & {
-        @content;
-    }
-}
-
 .page-return {
     display: flex;
     justify-content: space-between;
