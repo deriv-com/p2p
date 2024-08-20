@@ -22,7 +22,6 @@ const useDerivAnalytics = () => {
             const isProduction = process.env.NODE_ENV === 'production';
 
             if (!isDerivAnalyticsInitialized && websiteStatus) {
-            if (!isDerivAnalyticsInitialized) {
                 const remoteConfigURL = process.env.VITE_REMOTE_CONFIG_URL;
                 let services = FIREBASE_INIT_DATA;
                 if (remoteConfigURL) {
