@@ -1,16 +1,16 @@
-import React from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from '@deriv-com/translations';
 
 const useIsRtl = () => {
     const { instance } = useTranslations();
 
-    const checkRtl = React.useCallback(() => {
+    const checkRtl = useCallback(() => {
         return instance.dir(instance.language?.toLowerCase()) === 'rtl';
     }, [instance]);
 
-    const [isRtl, setIsRtl] = React.useState<boolean>(() => checkRtl());
+    const [isRtl, setIsRtl] = useState<boolean>(() => checkRtl());
 
-    React.useEffect(() => {
+    useEffect(() => {
         setIsRtl(checkRtl());
     }, [checkRtl, instance.language]);
 
