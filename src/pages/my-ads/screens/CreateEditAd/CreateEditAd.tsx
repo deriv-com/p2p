@@ -1,16 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import {
-    NonUndefinedValues,
-    TCountryListItem,
-    TCurrency,
-    TErrorCodes,
-    THooks,
-    TInitialData,
-    TLocalize,
-    TRateType,
-} from 'types';
+import { NonUndefinedValues, TCountryListItem, TCurrency, TErrorCodes, THooks, TInitialData, TLocalize } from 'types';
 import { AdCancelCreateEditModal, AdCreateEditErrorModal, AdCreateEditSuccessModal } from '@/components/Modals';
 import { MY_ADS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
@@ -269,7 +260,7 @@ const CreateEditAd = () => {
             watch('min-completion-rate'),
             watch('min-join-days'),
             isDirty,
-            rateType as TRateType,
+            rateType,
             getValues('ad-rate-type')
         );
 
@@ -289,7 +280,7 @@ const CreateEditAd = () => {
                         localCurrency={p2pSettings?.localCurrency as TCurrency}
                         onCancel={onClickCancel}
                         orderExpiryOptions={orderExpiryOptions}
-                        rateType={rateType as TRateType}
+                        rateType={rateType}
                         setShouldReset={setShouldReset}
                         shouldReset={shouldReset}
                         steps={getSteps(localize, isEdit)}

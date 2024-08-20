@@ -4,7 +4,7 @@ import { api } from '..';
 type TReturnType = {
     fixedRateAdvertsEndDate: string;
     floatRateOffsetLimitString: string;
-    rateType?: (typeof RATE_TYPE)[keyof typeof RATE_TYPE];
+    rateType: (typeof RATE_TYPE)[keyof typeof RATE_TYPE];
     reachedTargetDate: boolean;
 };
 
@@ -17,7 +17,7 @@ const useFloatingRate = (): TReturnType => {
     return {
         fixedRateAdvertsEndDate,
         floatRateOffsetLimitString,
-        rateType: data?.rateType,
+        rateType: data?.rateType ?? RATE_TYPE.FIXED,
         reachedTargetDate,
     };
 };
