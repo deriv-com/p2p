@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { LANGUAGES } from '@/constants';
 import { useTranslations } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
+import { LocalStorageUtils } from '@deriv-com/utils';
 import { TooltipMenuIcon } from '../TooltipMenuIcon';
 
 type TLanguageSettings = {
@@ -9,7 +10,8 @@ type TLanguageSettings = {
 };
 
 const LanguageSettings = ({ openLanguageSettingModal }: TLanguageSettings) => {
-    const { currentLang, localize } = useTranslations();
+    const { localize } = useTranslations();
+    const currentLang = LocalStorageUtils.getValue<string>('i18n_language') || 'EN';
 
     const countryIcon = useMemo(
         () => LANGUAGES.find(({ code }) => code == currentLang)?.placeholderIcon,
