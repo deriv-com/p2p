@@ -4,9 +4,7 @@ import { useTranslations } from '@deriv-com/translations';
 const useIsRtl = () => {
     const { instance } = useTranslations();
 
-    const checkRtl = useCallback(() => {
-        return instance.dir(instance.language?.toLowerCase()) === 'rtl';
-    }, [instance]);
+    const checkRtl = useCallback(() => instance.dir(instance.language?.toLowerCase()) === 'rtl', [instance]);
 
     const [isRtl, setIsRtl] = useState<boolean>(() => checkRtl());
 
