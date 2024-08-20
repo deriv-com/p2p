@@ -33,7 +33,7 @@ describe('<Endpoint />', () => {
 
         const serverUrlInput = screen.getByTestId('dt_endpoint_server_url_input');
         const appIdInput = screen.getByTestId('dt_endpoint_app_id_input');
-        const resetButton = screen.getByRole('button', { name: 'Reset to default' });
+        const resetButton = screen.getByRole('button', { name: 'Reset to original settings' });
 
         await userEvent.type(serverUrlInput, 'qa10.deriv.dev');
         await userEvent.type(appIdInput, '123');
