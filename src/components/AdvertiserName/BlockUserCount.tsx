@@ -4,7 +4,6 @@ import { LabelPairedCircleUserSlashSmRegularIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Text, Tooltip, useDevice } from '@deriv-com/ui';
 import { BlockUserCountModal } from '../Modals';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
 import './BlockUserCount.scss';
 
 type TBlockUserCount = {
