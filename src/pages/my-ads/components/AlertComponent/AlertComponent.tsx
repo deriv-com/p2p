@@ -11,7 +11,7 @@ const AlertComponent = ({ onClick }: TAlertComponentProps) => {
     const { localize } = useTranslations();
     return (
         <div className='alert-component'>
-            <Tooltip as='button' onClick={onClick} tooltipContent={localize('Ad not listed')} tooltipPosition='bottom'>
+            <Tooltip as='button' onClick={onClick} tooltipContent={localize('Ad not listed')}>
                 <LegacyWarningIcon data-testid='dt_alert_icon' iconSize='xs' />
             </Tooltip>
         </div>
