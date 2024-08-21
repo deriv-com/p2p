@@ -11,6 +11,12 @@
         margin-top: 1.6rem;
         padding: 1.6rem;
         border-radius: 4px;
+
+        &__link {
+            color: #ff444f;
+            font-weight: bold;
+            cursor: pointer;
+        }
     }
 
     &__complain-footer {
@@ -24,10 +30,16 @@
         top: 0;
         left: 0;
         z-index: 1;
-        height: calc(100vh - 4rem);
+        height: 100%;
+        overflow: hidden;
+
+        @include tablet {
+            width: 100%;
+            max-width: unset;
+        }
 
         & .mobile-wrapper__body {
-            padding: 0 1.6rem;
+            padding: 0 1.6rem 1.6rem;
         }
 
         &__complain-footer {

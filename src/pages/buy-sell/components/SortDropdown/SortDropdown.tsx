@@ -38,6 +38,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
                 name='Sort by'
                 onSelect={value => onSelect(value as TSortByValues)}
                 value={value}
+                variant='comboBox'
             />
         </div>
     );

@@ -70,7 +70,7 @@ export const generateEffectiveRate = ({
             ? FormatUtils.formatMoney(effectiveRate, { currency: localCurrency })
             : '-';
     } else {
-        effectiveRate = exchangeRate > 0 ? percentOf(exchangeRate, rate) : marketRate;
+        effectiveRate = exchangeRate > 0 ? parseFloat(roundOffDecimal(percentOf(exchangeRate, rate), 6)) : marketRate;
         const decimalPlace = setDecimalPlaces(effectiveRate, 6);
         displayEffectiveRate = effectiveRate
             ? removeTrailingZeros(

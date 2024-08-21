@@ -94,6 +94,10 @@ const mockAdvertInfo = {
     unsubscribe: jest.fn(),
 };
 
+const mockUseBalance = {
+    data: { balance: 100 },
+};
+
 const mockInvalidate = jest.fn();
 
 jest.mock('@/hooks/api/useInvalidateQuery', () => () => mockInvalidate);
@@ -101,6 +105,9 @@ jest.mock('@/hooks/api/useInvalidateQuery', () => () => mockInvalidate);
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
+        account: {
+            useBalance: jest.fn(() => mockUseBalance),
+        },
         advert: {
             useSubscribe: jest.fn(() => mockAdvertInfo),
         },
@@ -214,33 +221,36 @@ describe('BuySellForm', () => {
         await userEvent.click(confirmButton);
         expect(mockHandleSubmit).toHaveBeenCalled();
     });
-    it('should disable the input field when balance is 0', () => {
+    it('should disable the input field when balance for Sell adverts', () => {
+        mockAdvertValues.type = 'buy';
         mockUseGetInfo.data.balance_available = 0;
         render(<BuySellForm {...mockProps} />);
-        const inputField = screen.getByPlaceholderText('Buy amount');
+        const inputField = screen.getByPlaceholderText('Sell amount');
+        expect(screen.getByText('Sell USD')).toBeInTheDocument();
         expect(inputField).toBeDisabled();
     });
     it('should check if the floating point validator is called on changing value in input field', async () => {
+        mockAdvertValues.type = 'sell';
         mockUseGetInfo.data.balance_available = 100;
         render(<BuySellForm {...mockProps} />);
         const inputField = screen.getByPlaceholderText('Buy amount');
         await userEvent.type(inputField, '1');
         expect(mockFloatingPointValidator).toHaveBeenCalled();
     });
-    it('should render the advertiserSellLimit as max limit if buy limit < max order amount limit', () => {
+    it('should render the advertiserSellLimit as max limit if sell limit < max order amount limit and is buy', () => {
         mockAdvertValues.max_order_amount_limit_display = '10';
         mockAdvertValues.type = 'buy';
         mockUseGetInfo.data.daily_buy_limit = 5;
         mockUseGetInfo.data.daily_buy = 0;
+        mockUseGetInfo.data.daily_sell_limit = 5;
+        mockUseGetInfo.data.daily_sell = 0;
 
         render(<BuySellForm {...mockProps} />);
 
         expect(screen.getByText('Limit: 1.00-5.00 USD')).toBeInTheDocument();
     });
-    it('should return the advertiserBuyLimit as max limit if sell limit < max order amount limit and sell order', () => {
+    it('should return the advertiserBuyLimit as max limit if buy limit < max order amount limit and sell order', () => {
         mockAdvertValues.type = 'sell';
-        mockUseGetInfo.data.daily_sell_limit = 5;
-        mockUseGetInfo.data.daily_sell = 0;
 
         render(<BuySellForm {...mockProps} />);
         expect(screen.getByText('Limit: 1.00-5.00 USD')).toBeInTheDocument();

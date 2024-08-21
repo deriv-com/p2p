@@ -1,6 +1,6 @@
 import { MouseEvent, useEffect, useRef } from 'react';
 import { Clipboard } from '@/components';
-import { ADVERTISER_URL, BUY_SELL, RATE_TYPE } from '@/constants';
+import { ADVERTISER_URL, BUY_SELL, getShareAdsMessage, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useCopyToClipboard } from '@/hooks/custom-hooks';
 import { LegacyShare1pxIcon, LegacyShareLink1pxIcon, LegacyWonIcon } from '@deriv/quill-icons';
@@ -40,16 +40,15 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
     const firstCurrency = isBuyAd ? localCurrency : accountCurrency;
     const secondCurrency = isBuyAd ? accountCurrency : localCurrency;
     const adRateType = rateType === RATE_TYPE.FLOAT ? '%' : ` ${localCurrency}`;
-    const customMessage = localize(
-        "Hi! I'd like to exchange {{firstCurrency}} for {{secondCurrency}} at {{rateDisplay}}{{adRateType}} on Deriv P2P.\n\nIf you're interested, check out my ad 👉\n\n{{advertUrl}}\n\nThanks!",
-        {
-            adRateType,
-            advertUrl,
-            firstCurrency,
-            rateDisplay,
-            secondCurrency,
-        }
-    );
+
+    const formattedMessage = getShareAdsMessage({
+        adRateType,
+        advertUrl,
+        firstCurrency,
+        localize,
+        rateDisplay,
+        secondCurrency,
+    });
 
     const onCopy = (event: MouseEvent) => {
         copyToClipboard(advertUrl);
@@ -78,7 +77,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
 
     const handleShareLink = () => {
         navigator.share({
-            text: customMessage,
+            text: formattedMessage,
         });
     };
 
@@ -158,7 +157,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                                     <Text weight='bold'>
                                         <Localize i18n_default_text='Share via' />
                                     </Text>
-                                    <ShareMyAdsSocials advertUrl={advertUrl} customMessage={customMessage} />
+                                    <ShareMyAdsSocials advertUrl={advertUrl} customMessage={formattedMessage} />
                                     <Divider margin='0 0 2.5rem 0' />
                                     <Text>
                                         <Localize i18n_default_text='Or copy this link' />

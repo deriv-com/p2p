@@ -103,6 +103,9 @@ describe('useDerivAnalytics', () => {
         expect(Analytics.initialise).toHaveBeenCalledWith({
             growthbookDecryptionKey: process.env.VITE_GROWTHBOOK_DECRYPTION_KEY,
             growthbookKey: process.env.VITE_GROWTHBOOK_CLIENT_KEY,
+            growthbookOptions: {
+                disableCache: true,
+            },
             rudderstackKey: process.env.VITE_RUDDERSTACK_KEY || '',
         });
 

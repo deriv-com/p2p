@@ -79,6 +79,8 @@ jest.mock('@/hooks', () => ({
             useGetInfo: jest.fn(() => ({
                 data: {
                     balance_available: 1000,
+                    contact_info: 'contact info',
+                    default_advert_description: 'default advert description',
                 },
             })),
         },

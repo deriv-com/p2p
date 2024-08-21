@@ -3,11 +3,21 @@ import AdvertiserName from '../AdvertiserName';
 
 const mockProps = {
     advertiserStats: {
-        fullName: 'Jane Doe',
+        first_name: 'Jane',
+        last_name: 'Doe',
         name: 'Jane',
         shouldShowName: true,
     },
 };
+
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn().mockReturnValue(false),
+    showModal: jest.fn(),
+};
+jest.mock('@/hooks', () => ({
+    useModalManager: jest.fn(() => mockModalManager),
+}));
 
 jest.mock('@deriv-com/api-hooks', () => ({
     ...jest.requireActual('@deriv-com/api-hooks'),
@@ -21,7 +31,12 @@ jest.mock('@deriv-com/ui', () => ({
 
 jest.mock('@/utils', () => ({
     ...jest.requireActual('@/utils'),
-    getCurrentRoute: jest.fn(() => ''),
+    getCurrentRoute: jest.fn(() => 'my-profile'),
+}));
+
+jest.mock('../AdvertiserNameStats.tsx', () => ({
+    __esModule: true,
+    default: () => <div>AdvertiserNameStats</div>,
 }));
 
 describe('AdvertiserName', () => {

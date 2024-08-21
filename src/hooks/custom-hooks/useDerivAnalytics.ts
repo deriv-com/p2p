@@ -20,8 +20,9 @@ const useDerivAnalytics = () => {
         try {
             const isDerivAnalyticsInitialized = Analytics?.getInstances()?.tracking?.has_initialized;
             const isLocalHost = location.hostname === 'localhost';
+            const isProduction = process.env.NODE_ENV === 'production';
 
-            if (!isLocalHost && !isDerivAnalyticsInitialized) {
+            if (!isLocalHost && !isDerivAnalyticsInitialized && websiteStatus) {
                 const remoteConfigURL = process.env.VITE_REMOTE_CONFIG_URL;
                 let services = FIREBASE_INIT_DATA;
                 if (remoteConfigURL) {
@@ -43,15 +44,19 @@ const useDerivAnalytics = () => {
                         ? process.env.VITE_GROWTHBOOK_DECRYPTION_KEY
                         : undefined,
                     growthbookKey: services?.marketing_growthbook ? process.env.VITE_GROWTHBOOK_CLIENT_KEY : undefined,
+                    growthbookOptions: {
+                        disableCache: !isProduction,
+                    },
                     rudderstackKey: services?.tracking_rudderstack ? process.env.VITE_RUDDERSTACK_KEY || '' : '',
                 });
 
                 await Analytics?.getInstances()?.ab?.GrowthBook?.init();
-
                 Analytics.setAttributes({
                     account_type: activeAccount?.account_type || 'unlogged',
                     app_id: String(WebSocketUtils.getAppId()),
-                    country: websiteStatus?.clients_country,
+                    country:
+                        JSON.parse(Cookies.get('website_status') || '{}')?.clients_country ||
+                        websiteStatus?.clients_country,
                     device_language: navigator?.language || 'en-EN',
                     device_type: isMobile ? 'mobile' : 'desktop',
                     domain: window.location.hostname,

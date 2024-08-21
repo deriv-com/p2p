@@ -15,7 +15,7 @@ import {
     roundOffDecimal,
     setDecimalPlaces,
 } from '@/utils';
-import { useTranslations } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
 import { LightDivider } from '../LightDivider';
@@ -42,8 +42,8 @@ const getAdvertiserMaxLimit = (
     maxOrderAmountLimitDisplay: string
 ) => {
     if (isBuy) {
-        if (advertiserBuyLimit < Number(maxOrderAmountLimitDisplay)) return roundOffDecimal(advertiserBuyLimit);
-    } else if (advertiserSellLimit < Number(maxOrderAmountLimitDisplay)) return roundOffDecimal(advertiserSellLimit);
+        if (advertiserSellLimit < Number(maxOrderAmountLimitDisplay)) return roundOffDecimal(advertiserSellLimit);
+    } else if (advertiserBuyLimit < Number(maxOrderAmountLimitDisplay)) return roundOffDecimal(advertiserBuyLimit);
     return maxOrderAmountLimitDisplay;
 };
 
@@ -55,11 +55,13 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const { data: paymentMethods } = api.paymentMethods.useGet();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { data } = api.advertiser.useGetInfo() || {};
+    const { data: balanceData } = api.account.useBalance();
     const [errorMessage, setErrorMessage] = useState('');
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isHidden, setIsHidden] = useState(false);
     const {
         balance_available: balanceAvailable = '',
+        contact_info: contactInfo = '',
         daily_buy: dailyBuy = 0,
         daily_buy_limit: dailyBuyLimit = 0,
         daily_sell: dailySell = 0,
@@ -72,6 +74,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<number[]>([]);
     const [calculatedRate, setCalculatedRate] = useState('0');
     const [buySellAmount, setBuySellAmount] = useState('0');
+    const [showLowBalanceError, setShowLowBalanceError] = useState(false);
 
     const {
         account_currency: accountCurrency = '',
@@ -136,9 +139,10 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         (!paymentMethodNames && selectedPaymentMethods.length < 1) || selectedPaymentMethods.length > 0;
 
     const shouldDisableField =
-        !isBuy &&
-        (parseFloat(balanceAvailable.toString()) === 0 ||
-            parseFloat(balanceAvailable.toString()) < (minOrderAmountLimit ?? 1));
+        (isBuy &&
+            (parseFloat(balanceAvailable.toString()) === 0 ||
+                parseFloat(balanceAvailable.toString()) < (minOrderAmountLimit ?? 1))) ||
+        showLowBalanceError;
 
     const {
         control,
@@ -151,7 +155,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         defaultValues: {
             amount: minOrderAmountLimit ?? 1,
             bank_details: '',
-            contact_details: '',
+            contact_details: contactInfo,
         },
         mode: 'all',
     });
@@ -260,6 +264,16 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         if (!isModalOpenFor('RateFluctuationModal')) finalEffectiveRateRef.current = effectiveRate;
     }, [effectiveRate, hasRateChanged, isModalOpenFor]);
 
+    useEffect(() => {
+        const isLowBalance =
+            balanceData.balance !== undefined &&
+            minOrderAmountLimit !== undefined &&
+            isBuy &&
+            (balanceData.balance === 0 || balanceData.balance < minOrderAmountLimit);
+
+        setShowLowBalanceError(isLowBalance);
+    }, [balanceData.balance, isBuy, minOrderAmountLimit]);
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <BuySellFormDisplayWrapper
@@ -267,14 +281,25 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 isBuy={isBuy}
                 isHidden={isHidden}
                 isModalOpen={isModalOpen}
-                isValid={isValid && (!isBuy || hasSelectedPaymentMethods)}
+                isValid={
+                    isValid &&
+                    (!isBuy ||
+                        hasSelectedPaymentMethods ||
+                        (isBuy && hasSelectedPaymentMethods && !showLowBalanceError))
+                }
                 onRequestClose={onCloseBuySellForm}
                 onSubmit={onSubmit}
             >
-                {errorMessage && (
+                {(errorMessage || showLowBalanceError) && (
                     <div className='px-[1.6rem] lg:px-[2.4rem] mt-[1.6rem] lg:mt-[2.4rem]'>
                         <InlineMessage variant='error'>
-                            <Text size={!isDesktop ? '2xs' : 'xs'}>{errorMessage}</Text>
+                            <Text size={!isDesktop ? 'xs' : '2xs'}>
+                                {showLowBalanceError ? (
+                                    <Localize i18n_default_text="Your Deriv P2P balance isn't enough. Please increase your balance before trying again." />
+                                ) : (
+                                    errorMessage
+                                )}
+                            </Text>
                         </InlineMessage>
                     </div>
                 )}
@@ -295,6 +320,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 {isBuy && paymentMethodNames && paymentMethodNames?.length > 0 && (
                     <BuySellPaymentSection
                         availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
+                        isDisabled={shouldDisableField}
                         onSelectPaymentMethodCard={onSelectPaymentMethodCard}
                         selectedPaymentMethodIds={selectedPaymentMethods}
                         setIsHidden={setIsHidden}
