@@ -45,7 +45,12 @@ const BlockUnblockUserModal = ({
     }, [isSuccess, onClickBlocked, unblockIsSuccess, unblockError, error, setErrorMessage]);
 
     const textSize = isMobile ? 'md' : 'sm';
-    const getModalTitle = () => (isBlocked ? `Unblock ${advertiserName}?` : `Block ${advertiserName}?`);
+    const getModalTitle = () =>
+        isBlocked ? (
+            <Localize i18n_default_text='Unblock {{advertiserName}}?' values={{ advertiserName }} />
+        ) : (
+            <Localize i18n_default_text='Block {{advertiserName}}?' values={{ advertiserName }} />
+        );
 
     const getModalContent = () =>
         isBlocked ? (

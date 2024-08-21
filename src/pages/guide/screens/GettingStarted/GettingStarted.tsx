@@ -1,4 +1,7 @@
+import { useState } from 'react';
+import { ADVERT_TYPE } from '@/constants';
 import { useLiveChat } from '@/hooks/custom-hooks';
+import { getLocalizedTabs } from '@/utils/tabs';
 import {
     DerivDarkFindAdIcon,
     DerivDarkPayUserIcon,
@@ -10,12 +13,15 @@ import { Localize, useTranslations } from '@deriv-com/translations';
 import { Tab, Tabs, Text } from '@deriv-com/ui';
 import { Carousel } from '../../components';
 
+const TABS = [ADVERT_TYPE.BUY, ADVERT_TYPE.SELL];
+
 const GettingStarted = () => {
+    const [activeTab, setActiveTab] = useState<string>(ADVERT_TYPE.BUY);
     const { LiveChatWidget } = useLiveChat();
     const { localize } = useTranslations();
 
     return (
-        <Tabs>
+        <Tabs activeTab={getLocalizedTabs(localize)[activeTab]} onChange={index => setActiveTab(TABS[index])}>
             <Tab title={localize('Buy')}>
                 <div className='guide__content-section--tab'>
                     <Carousel

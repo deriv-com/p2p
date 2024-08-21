@@ -5,7 +5,7 @@ import { api } from '@/hooks';
 import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
 import { advertiserPaymentMethodsReducer } from '@/reducers';
 import { LabelPairedPlusLgBoldIcon } from '@deriv/quill-icons';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './SellAdPaymentSelection.scss';
 
@@ -18,6 +18,7 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
     const isAdvertiser = useIsAdvertiser();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
+    const { currentLang } = useTranslations();
 
     const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
 
@@ -25,7 +26,8 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
         if (isAdvertiser) {
             get();
         }
-    }, [isAdvertiser]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAdvertiser, currentLang]); // currentLang is used to refetch the data when the language changes
 
     const handleAddPaymentMethod = (selectedPaymentMethod?: TSelectedPaymentMethod) => {
         dispatch({

@@ -1,14 +1,17 @@
 import { useMemo } from 'react';
 import { useP2PAdvertiserAdverts } from '@deriv-com/api-hooks';
+import { useTranslations } from '@deriv-com/translations';
 
 /** This custom hook returns a list of adverts under the current active client. */
 const useAdvertiserAdverts = (
     payload?: NonNullable<Parameters<typeof useP2PAdvertiserAdverts>[0]>['payload'],
     isEnabled = true
 ) => {
+    const { currentLang } = useTranslations();
     const { data, loadMoreAdverts, ...rest } = useP2PAdvertiserAdverts({
         enabled: isEnabled,
         payload: { ...payload, limit: payload?.limit, offset: payload?.offset },
+        queryKey: ['p2p_advertiser_adverts', payload, currentLang],
     });
 
     const modifiedData = useMemo(() => {
