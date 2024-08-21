@@ -18,9 +18,8 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
     const isAdvertiser = useIsAdvertiser();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
-    const { currentLang } = useTranslations();
+    const { currentLang, localize } = useTranslations();
 
-    const { localize } = useTranslations();
     const [formState, dispatch] = useReducer(
         (currentState: TFormState, action: TReducerAction) =>
             advertiserPaymentMethodsReducer(currentState, action, localize),

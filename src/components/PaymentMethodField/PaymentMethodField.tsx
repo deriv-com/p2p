@@ -1,7 +1,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import { VALID_SYMBOLS_PATTERN } from '@/constants';
 import { useTranslations } from '@deriv-com/translations';
-import { Input, TextArea } from '@deriv-com/ui';
+import { Input, TextArea, useDevice } from '@deriv-com/ui';
 
 type TPaymentMethodField = {
     control: ReturnType<typeof useForm>['control'];
@@ -24,6 +24,7 @@ type TPaymentMethodField = {
  * **/
 const PaymentMethodField = ({ control, defaultValue, displayName, field, required }: TPaymentMethodField) => {
     const { localize } = useTranslations();
+    const { isMobile } = useDevice();
     return (
         <div className='payment-method-form__field-wrapper'>
             <Controller
@@ -38,7 +39,7 @@ const PaymentMethodField = ({ control, defaultValue, displayName, field, require
                             label={displayName}
                             onBlur={onBlur}
                             onChange={onChange}
-                            textSize='sm'
+                            textSize={isMobile ? 'md' : 'sm'}
                             value={value}
                         />
                     ) : (

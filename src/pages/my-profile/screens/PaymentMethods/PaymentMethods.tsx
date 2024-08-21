@@ -16,8 +16,8 @@ import { PaymentMethodsList } from './PaymentMethodsList';
  * **/
 const PaymentMethods = () => {
     const isAdvertiser = useIsAdvertiser();
+    const { currentLang, localize } = useTranslations();
     const { data: p2pAdvertiserPaymentMethods, get, isPending: isLoading } = api.advertiserPaymentMethods.useGet();
-    const { localize } = useTranslations();
     const [formState, dispatch] = useReducer(
         (currentState: TFormState, action: TReducerAction) =>
             advertiserPaymentMethodsReducer(currentState, action, localize),
@@ -28,7 +28,8 @@ const PaymentMethods = () => {
         if (isAdvertiser) {
             get();
         }
-    }, [isAdvertiser]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAdvertiser, currentLang]);
 
     const handleAddPaymentMethod = (selectedPaymentMethod?: TSelectedPaymentMethod) => {
         dispatch({
@@ -72,6 +73,7 @@ const PaymentMethods = () => {
             <PaymentMethodForm
                 formState={formState}
                 onAdd={handleAddPaymentMethod}
+                onEdit={handleEditPaymentMethod}
                 onResetFormState={handleResetFormState}
             />
         );

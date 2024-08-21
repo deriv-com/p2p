@@ -25,7 +25,6 @@ const PaymentMethodFormAutocomplete = ({
     if (selectedPaymentMethod) {
         return (
             <Input
-                defaultValue={selectedPaymentMethod?.display_name}
                 disabled
                 label={localize('Choose your payment method')}
                 rightPlaceholder={
@@ -43,6 +42,7 @@ const PaymentMethodFormAutocomplete = ({
                         />
                     )
                 }
+                value={selectedPaymentMethod?.display_name}
             />
         );
     }
