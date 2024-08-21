@@ -63,3 +63,8 @@
 .languages-modal__body {
     margin: 1.6rem;
 }
+
+// to fix the helper message position instead of individually changing for all the forms and fields
+.deriv-input__helper-message {
+    position: unset;
+}
