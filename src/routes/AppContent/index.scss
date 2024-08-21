@@ -30,15 +30,17 @@
         }
 
         @include mobile-or-tablet-screen {
-            width: 100%;
+            justify-content: start;
+            overflow-x: scroll;
         }
 
         & button {
+            padding: 0 1.6rem;
+            white-space: nowrap;
             height: 40px;
 
             @include desktop {
                 padding: 0 3rem;
-                white-space: nowrap;
             }
 
             & > span {

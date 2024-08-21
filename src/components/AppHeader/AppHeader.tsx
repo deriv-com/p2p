@@ -48,7 +48,7 @@ const AppHeader = () => {
                     )}
                     <AccountSwitcher account={activeAccount!} />
                     <Button
-                        className='mr-6'
+                        className='mr-6 w-max'
                         onClick={async () => {
                             await logout();
                             redirectToOauth();

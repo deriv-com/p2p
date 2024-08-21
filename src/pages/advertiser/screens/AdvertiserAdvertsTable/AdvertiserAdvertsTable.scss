@@ -25,7 +25,7 @@
 
     & .mobile-wrapper {
         @include mobile {
-            height: calc(100% - 3.5rem);
+            height: 100%;
         }
     }
 }
