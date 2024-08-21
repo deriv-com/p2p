@@ -15,6 +15,7 @@ type TPaymentMethodFormProps = {
     displayModal?: boolean;
     formState: TFormState;
     onAdd?: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
+    onEdit?: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
     onRequestClose?: () => void;
     onResetFormState: () => void;
 };
@@ -28,11 +29,12 @@ type TPaymentMethodFormProps = {
 const PaymentMethodForm = ({
     displayModal = false,
     onAdd,
+    onEdit,
     onRequestClose,
     onResetFormState,
     ...rest
 }: TPaymentMethodFormProps) => {
-    const { localize } = useTranslations();
+    const { currentLang, localize } = useTranslations();
     const {
         control,
         formState: { dirtyFields, isDirty, isSubmitting, isValid },
@@ -74,6 +76,30 @@ const PaymentMethodForm = ({
             onResetFormState();
         }
     }, [isUpdateSuccessful, onResetFormState, updateError]);
+
+    // This refetches the selected payment method when the language changes
+    useEffect(() => {
+        if (selectedPaymentMethod && availablePaymentMethods) {
+            const paymentMethod = availablePaymentMethods?.find(
+                p => p.id === (selectedPaymentMethod as TSelectedPaymentMethod).method
+            );
+            if (actionType === 'ADD') {
+                onAdd?.({
+                    displayName: paymentMethod?.display_name,
+                    fields: paymentMethod?.fields,
+                    method: paymentMethod?.id,
+                });
+            } else if (actionType === 'EDIT') {
+                onEdit?.({
+                    displayName: paymentMethod?.display_name,
+                    fields: paymentMethod?.fields,
+                    id: selectedPaymentMethod?.id,
+                    method: paymentMethod?.id,
+                });
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentLang, availablePaymentMethods]);
 
     const availablePaymentMethodsList = useMemo(() => {
         const listItems = availablePaymentMethods?.map(availablePaymentMethod => ({

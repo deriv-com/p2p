@@ -23,6 +23,7 @@ const mockPaymentMethod: Parameters<typeof advertiserPaymentMethodsReducer>[0]['
     id: 'bank_transfer',
     method: 'bank_transfer',
 };
+const mockLocalize = (text: string) => text;
 describe('advertiserPaymentMethodsReducer', () => {
     it('should return the correct object when the action type is add and a selected payment method is provided', () => {
         const action: Parameters<typeof advertiserPaymentMethodsReducer>[1] = {
@@ -32,7 +33,7 @@ describe('advertiserPaymentMethodsReducer', () => {
             },
             type: 'ADD',
         };
-        expect(advertiserPaymentMethodsReducer(mockInitialState, action)).toEqual({
+        expect(advertiserPaymentMethodsReducer(mockInitialState, action, mockLocalize)).toEqual({
             actionType: 'ADD',
             isVisible: true,
             selectedPaymentMethod: mockPaymentMethod,
@@ -44,7 +45,7 @@ describe('advertiserPaymentMethodsReducer', () => {
             payload: {},
             type: 'ADD',
         };
-        expect(advertiserPaymentMethodsReducer(mockInitialState, action)).toEqual({
+        expect(advertiserPaymentMethodsReducer(mockInitialState, action, mockLocalize)).toEqual({
             actionType: 'ADD',
             isVisible: true,
             title: 'Add payment method',
@@ -58,7 +59,7 @@ describe('advertiserPaymentMethodsReducer', () => {
             },
             type: 'EDIT',
         };
-        expect(advertiserPaymentMethodsReducer(mockInitialState, action)).toEqual({
+        expect(advertiserPaymentMethodsReducer(mockInitialState, action, mockLocalize)).toEqual({
             actionType: 'EDIT',
             isVisible: true,
             selectedPaymentMethod: { ...mockPaymentMethod, display_name: 'Bank Transfer 1' },
@@ -73,7 +74,7 @@ describe('advertiserPaymentMethodsReducer', () => {
             },
             type: 'DELETE',
         };
-        expect(advertiserPaymentMethodsReducer(mockInitialState, action)).toEqual({
+        expect(advertiserPaymentMethodsReducer(mockInitialState, action, mockLocalize)).toEqual({
             actionType: 'DELETE',
             selectedPaymentMethod: mockPaymentMethod,
         });
@@ -82,6 +83,6 @@ describe('advertiserPaymentMethodsReducer', () => {
         const action: Parameters<typeof advertiserPaymentMethodsReducer>[1] = {
             type: 'RESET',
         };
-        expect(advertiserPaymentMethodsReducer(mockInitialState, action)).toEqual({});
+        expect(advertiserPaymentMethodsReducer(mockInitialState, action, mockLocalize)).toEqual({});
     });
 });

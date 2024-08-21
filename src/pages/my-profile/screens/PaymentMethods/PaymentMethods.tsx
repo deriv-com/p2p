@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import { TSelectedPaymentMethod } from 'types';
+import { TFormState, TReducerAction, TSelectedPaymentMethod } from 'types';
 import { PaymentMethodForm } from '@/components';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
 import { advertiserPaymentMethodsReducer } from '@/reducers';
+import { useTranslations } from '@deriv-com/translations';
 import { Loader } from '@deriv-com/ui';
 import { PaymentMethodsEmpty } from './PaymentMethodsEmpty';
 import { PaymentMethodsList } from './PaymentMethodsList';
@@ -15,14 +16,20 @@ import { PaymentMethodsList } from './PaymentMethodsList';
  * **/
 const PaymentMethods = () => {
     const isAdvertiser = useIsAdvertiser();
+    const { currentLang, localize } = useTranslations();
     const { data: p2pAdvertiserPaymentMethods, get, isPending: isLoading } = api.advertiserPaymentMethods.useGet();
-    const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
+    const [formState, dispatch] = useReducer(
+        (currentState: TFormState, action: TReducerAction) =>
+            advertiserPaymentMethodsReducer(currentState, action, localize),
+        {}
+    );
 
     useEffect(() => {
         if (isAdvertiser) {
             get();
         }
-    }, [isAdvertiser]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAdvertiser, currentLang]);
 
     const handleAddPaymentMethod = (selectedPaymentMethod?: TSelectedPaymentMethod) => {
         dispatch({
@@ -66,6 +73,7 @@ const PaymentMethods = () => {
             <PaymentMethodForm
                 formState={formState}
                 onAdd={handleAddPaymentMethod}
+                onEdit={handleEditPaymentMethod}
                 onResetFormState={handleResetFormState}
             />
         );
