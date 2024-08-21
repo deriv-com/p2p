@@ -34,7 +34,7 @@ const Clipboard = ({ textCopy }: TClipboardProps) => {
     }, []);
 
     return (
-        <Tooltip message={isCopied ? localize('Copied!') : localize('Copy')} position='top'>
+        <Tooltip tooltipContent={isCopied ? localize('Copied!') : localize('Copy')} tooltipPosition='top'>
             <button className='clipboard' onClick={onClick}>
                 {isCopied ? <LegacyWonIcon iconSize='xs' /> : <LegacyCopy1pxIcon iconSize='xs' />}
             </button>

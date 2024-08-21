@@ -55,7 +55,7 @@ const PaymentMethodFormAutocomplete = ({
     return (
         <>
             <Dropdown
-                dropdownIcon={<LabelPairedSearchMdRegularIcon />}
+                chevronIcon={<LabelPairedSearchMdRegularIcon />}
                 isFullWidth
                 label={localize('Payment method')}
                 list={availablePaymentMethodsList}
