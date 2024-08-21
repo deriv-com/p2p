@@ -76,7 +76,7 @@ const BuySellData = forwardRef<HTMLDivElement, TBuySellDataProps>(
                                 </Text>
                                 {isFloating && (
                                     <Tooltip
-                                        className='w-72 mb-[-0.8rem] text-center'
+                                        tooltipContainerClassName='w-72 mb-[-0.8rem] text-center'
                                         tooltipContent={
                                             <Text size={labelSize}>
                                                 <Localize i18n_default_text='Floating exchange rate shifts with market fluctuations.' />
