@@ -38,7 +38,7 @@ const BlockUserCount = ({ count }: TBlockUserCount) => {
                 onClick={() => {
                     isDesktop ? undefined : showModal('BlockUserCountModal');
                 }}
-                tooltipContent={'asd'}
+                tooltipContent={<Text size='xs'>{getMessage(localize, count)}</Text>}
             >
                 <LabelPairedCircleUserSlashSmRegularIcon />
 

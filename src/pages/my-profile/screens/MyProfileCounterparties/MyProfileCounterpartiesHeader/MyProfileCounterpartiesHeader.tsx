@@ -34,7 +34,7 @@ const MyProfileCounterpartiesHeader = ({
                 />
                 {isDesktop ? (
                     <Dropdown
-                        dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
+                        chevronIcon={<LabelPairedChevronDownMdRegularIcon />}
                         label={localize('Filter by')}
                         list={getCounterpartiesDropdownList(localize) as unknown as MutableOption[]}
                         listHeight='sm'
