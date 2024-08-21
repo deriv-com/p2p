@@ -62,10 +62,10 @@ const useOAuth = (): UseOAuthReturn => {
             iframe.style.display = 'none';
             document.body.appendChild(iframe);
 
-            // backend response message timeout, setting this as 4 seconds
+            // backend response message timeout, setting this as 10 seconds
             setTimeout(() => {
                 WSLogoutAndRedirect();
-            }, 4000);
+            }, 10000);
         }
 
         iframe.src = getOAuthLogoutUrl();
