@@ -38,12 +38,11 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
         daysSinceJoined,
         is_online: isOnline,
         last_online_time: lastOnlineTime,
-        // rating_average: ratingAverage,
+        rating_average: ratingAverage,
         rating_count: ratingCount,
         recommended_average: recommendedAverage,
         recommended_count: recommendedCount = 0,
     } = advertiserStats || {};
-    const ratingAverage = 4.5;
 
     const textSize = isMobile ? 'xs' : 'sm';
 
