@@ -43,7 +43,6 @@ const AppFooter = () => {
             <div className='app-footer__vertical-line' />
             <NetworkStatus />
             <Endpoint />
-
             {isModalOpenFor('DesktopLanguagesModal') && (
                 <DesktopLanguagesModal
                     headerTitle={localize('Select Language')}
