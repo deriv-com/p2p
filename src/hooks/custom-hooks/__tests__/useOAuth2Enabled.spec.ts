@@ -15,7 +15,7 @@ describe('useOAuth2Enabled', () => {
         const emulateAppIdAvailable = [
             {},
             {
-                enabled_for: ['111'],
+                enabled_for: [111],
             },
         ];
         (useGrowthbookGetFeatureValue as jest.Mock).mockReturnValue([emulateAppIdAvailable, true]);
@@ -28,7 +28,7 @@ describe('useOAuth2Enabled', () => {
         const emulateAppIdAvailable = [
             {},
             {
-                enabled_for: ['112'],
+                enabled_for: [112],
             },
         ];
         (useGrowthbookGetFeatureValue as jest.Mock).mockReturnValue([emulateAppIdAvailable, true]);
