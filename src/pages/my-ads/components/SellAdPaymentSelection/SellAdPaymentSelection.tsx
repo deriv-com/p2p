@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import { TAdvertiserPaymentMethod, TFormState, TReducerAction, TSelectedPaymentMethod } from 'types';
+import { TAdvertiserPaymentMethod, TSelectedPaymentMethod } from 'types';
 import { PaymentMethodCard, PaymentMethodForm } from '@/components';
 import { api } from '@/hooks';
 import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
@@ -18,13 +18,9 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
     const isAdvertiser = useIsAdvertiser();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
-    const { currentLang, localize } = useTranslations();
+    const { currentLang } = useTranslations();
 
-    const [formState, dispatch] = useReducer(
-        (currentState: TFormState, action: TReducerAction) =>
-            advertiserPaymentMethodsReducer(currentState, action, localize),
-        {}
-    );
+    const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
 
     useEffect(() => {
         if (isAdvertiser) {
