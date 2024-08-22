@@ -1,17 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { GUIDE_URL } from '@/constants';
 import { getCurrentRoute } from '@/utils';
-import { Portal, Tooltip } from '@chakra-ui/react';
 import { LabelPairedBookCircleQuestionLgRegularIcon, StandaloneXmarkBoldIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
-import { Button, Text } from '@deriv-com/ui';
+import { Button, Text, Tooltip } from '@deriv-com/ui';
 import { LocalStorageUtils } from '@deriv-com/utils';
 import './GuideTooltip.scss';
 
-// TODO: replace this with deriv/ui
 const GuideTooltip = () => {
     const history = useHistory();
+    const ref = useRef<HTMLElement>(null);
     const [isGuideVisible, setIsGuideVisible] = useState<boolean>(
         LocalStorageUtils.getValue('should_show_p2p_guide') ?? true
     );
@@ -22,29 +21,36 @@ const GuideTooltip = () => {
         history.push(GUIDE_URL);
     };
 
+    const triggerMouseOver = () => {
+        if (ref.current) {
+            const event = new MouseEvent('mouseover', {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+            });
+            ref.current?.dispatchEvent(event);
+        }
+    };
+
     useEffect(() => {
         LocalStorageUtils.setValue<boolean>('should_show_p2p_guide', false);
+        triggerMouseOver();
     }, []);
 
     return isGuideVisible ? (
-        <div>
-            <Portal>
-                <div className='guide-tooltip__overlay' />
-            </Portal>
+        <div className='guide-tooltip'>
+            <div className='guide-tooltip__overlay' />
             <Tooltip
-                arrowSize={8}
-                bg='#fff'
-                className='guide-tooltip'
-                hasArrow
-                isOpen
-                label={
+                ref={ref}
+                tooltipContainerClassName='guide-tooltip__content'
+                tooltipContent={
                     <div>
                         <div className='flex align-center justify-between'>
                             <Text as='div' weight='bold'>
                                 <Localize i18n_default_text='Deriv P2P Guide' />
                             </Text>
                             <StandaloneXmarkBoldIcon
-                                className='guide-tooltip__close-btn'
+                                className='guide-tooltip__content__close-btn'
                                 iconSize='sm'
                                 onClick={() => {
                                     setIsGuideVisible(false);
@@ -55,7 +61,7 @@ const GuideTooltip = () => {
                             <Localize i18n_default_text='Learn how to create buy/sell ads and understand the safety guidelines on Deriv P2P.' />
                         </Text>
                         <Button
-                            className='mt-[1.6rem] guide-tooltip__get-started-btn'
+                            className='mt-[1.6rem] guide-tooltip__content__get-started-btn'
                             color='black'
                             onClick={onGetStarted}
                             rounded='md'
@@ -64,10 +70,11 @@ const GuideTooltip = () => {
                         </Button>
                     </div>
                 }
-                placement='bottom-end'
+                tooltipOffset={12}
+                tooltipPosition='bottom-end'
             >
                 <LabelPairedBookCircleQuestionLgRegularIcon
-                    className='guide-tooltip__icon guide-tooltip__icon--disabled'
+                    className='guide-tooltip__content__icon guide-tooltip__content__icon--disabled'
                     data-testid='dt_guide_tooltip_icon'
                     onClick={() => history.push(GUIDE_URL, { from: currentRoute || 'buy-sell' })}
                 />
@@ -75,7 +82,7 @@ const GuideTooltip = () => {
         </div>
     ) : (
         <LabelPairedBookCircleQuestionLgRegularIcon
-            className='guide-tooltip__icon'
+            className='guide-tooltip__content__icon'
             data-testid='dt_guide_tooltip_icon'
             onClick={() => history.push(GUIDE_URL, { from: currentRoute || 'buy-sell' })}
         />
