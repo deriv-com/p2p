@@ -9,13 +9,14 @@ const { VITE_TRACKJS_TOKEN } = process.env;
  */
 const useTrackjs = () => {
     const { activeLoginid } = useAuthData();
+    const isProduction = process.env.NODE_ENV === 'production';
     const init = () => {
         try {
             if (!TrackJS.isInstalled()) {
                 TrackJS.install({
                     application: 'p2p',
                     dedupe: false,
-                    enabled: location.hostname !== 'localhost',
+                    enabled: isProduction,
                     token: VITE_TRACKJS_TOKEN!,
                     userId: activeLoginid ?? 'undefined',
                     version: (document.querySelector('meta[name=version]') as HTMLMetaElement)?.content ?? 'undefined',
