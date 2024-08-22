@@ -24,6 +24,11 @@ jest.mock('react-hook-form', () => ({
     }),
 }));
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => ({ isMobile: false })),
+}));
+
 const mockUseForm = useForm as jest.MockedFunction<typeof useForm>;
 
 describe('PaymentMethodField', () => {
