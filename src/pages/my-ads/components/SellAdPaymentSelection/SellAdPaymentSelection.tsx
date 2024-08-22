@@ -63,7 +63,10 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
             <div className='sell-ad-payment-selection__button'>
                 <Button
                     className='flex items-center justify-center w-[3.2rem] h-[3.2rem] mb-[0.8rem] rounded-full bg-[#ff444f]'
-                    onClick={() => showModal('PaymentMethodForm')}
+                    onClick={() => {
+                        dispatch({ type: 'ADD' });
+                        showModal('PaymentMethodForm');
+                    }}
                     type='button'
                 >
                     <LabelPairedPlusLgBoldIcon fill='white' />
