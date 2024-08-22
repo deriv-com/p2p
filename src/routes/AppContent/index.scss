@@ -68,3 +68,10 @@
 .deriv-input__helper-message {
     position: unset;
 }
+
+// to fix the issue with text capitalize in dropdown label
+.deriv-dropdown {
+    label {
+        text-transform: none;
+    }
+}
