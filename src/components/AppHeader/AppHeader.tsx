@@ -1,5 +1,5 @@
 import { getOauthUrl } from '@/constants';
-import { api, useRedirectToOauth } from '@/hooks';
+import { api, useOAuth } from '@/hooks';
 import { getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
@@ -19,11 +19,11 @@ import './AppHeader.scss';
 const AppHeader = () => {
     const { isDesktop } = useDevice();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
-    const { redirectToOauth } = useRedirectToOauth();
-    const { activeLoginid, logout } = useAuthData();
+    const { activeLoginid } = useAuthData();
     const { data: activeAccount } = api.account.useActiveAccount();
     const { localize } = useTranslations();
     const oauthUrl = getOauthUrl();
+    const { oAuthLogout } = useOAuth();
 
     const renderAccountSection = () => {
         if (!isEndpointPage && !activeAccount) {
@@ -47,14 +47,7 @@ const AppHeader = () => {
                         </TooltipMenuIcon>
                     )}
                     <AccountSwitcher account={activeAccount!} />
-                    <Button
-                        className='mr-6'
-                        onClick={async () => {
-                            await logout();
-                            redirectToOauth();
-                        }}
-                        size='md'
-                    >
+                    <Button className='mr-6' onClick={oAuthLogout} size='md'>
                         <Text size='sm' weight='bold'>
                             {localize('Logout')}
                         </Text>
@@ -65,7 +58,7 @@ const AppHeader = () => {
 
         return (
             <Button
-                className='min-w-36'
+                className='w-36'
                 color='primary-light'
                 onClick={() => window.open(oauthUrl, '_self')}
                 variant='ghost'
