@@ -35,7 +35,7 @@ const useOAuth2Enabled = () => {
         }
     }, [OAuth2EnabledAppsInitialised, OAuth2EnabledApps]);
 
-    return [isOauth2Enabled];
+    return [false];
 };
 
 export default useOAuth2Enabled;

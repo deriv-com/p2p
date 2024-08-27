@@ -29,6 +29,12 @@ const TooltipMenuIcon = <T extends AsElement>({
 }: PropsWithChildren<TTooltipMenuIcon<T>>) => {
     const Tag = as as ElementType;
 
+    const handleOnClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        console.log('>>> CLICK')
+        rest && rest.onClick && rest.onClick(e as any);
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Tooltip
@@ -43,7 +49,7 @@ const TooltipMenuIcon = <T extends AsElement>({
                 padding={4}
                 placement={tooltipPosition}
             >
-                <Tag className={clsx({ 'tooltip-menu-icon': !disableHover }, className)} {...rest}>
+                <Tag className={clsx({ 'tooltip-menu-icon': !disableHover }, className)} {...rest} onClick={handleOnClick} >
                     {children}
                 </Tag>
             </Tooltip>

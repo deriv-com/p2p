@@ -1,6 +1,28 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <script>
+            // overrride the default websocket URL in WebSocket contructor (remove wss in favour of ws)
+            // this is to allow the websocket to work in the local development environment
+
+            (function() {
+                const OriginalWebSocket = window.WebSocket;
+
+                window.WebSocket = function (url, protocols) {
+                    // If url starts with wss, replace it with ws
+                    const wsUrl = url.startsWith('wss:') ? url.replace('wss:', 'ws:') : url;
+
+                    return new OriginalWebSocket(wsUrl, protocols);
+                };
+
+                // Copy static properties and methods
+                window.WebSocket.prototype = OriginalWebSocket.prototype;
+                window.WebSocket.OPEN = OriginalWebSocket.OPEN;
+                window.WebSocket.CLOSED = OriginalWebSocket.CLOSED;
+                window.WebSocket.CONNECTING = OriginalWebSocket.CONNECTING;
+                window.WebSocket.CLOSING = OriginalWebSocket.CLOSING;
+            })();
+        </script>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/public/deriv-p2p.svg" />
         <meta

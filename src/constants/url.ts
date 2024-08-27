@@ -52,7 +52,7 @@ export const getServerInfo = () => {
     }
 
     const storedServerUrl = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
-    const serverUrl = /qa/.test(String(storedServerUrl)) ? storedServerUrl : 'oauth.deriv.com';
+    const serverUrl = /qa/.test(String(storedServerUrl)) ? storedServerUrl : 'qa10.deriv.dev';
 
     const appId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
     const lang = LocalStorageUtils.getValue<string>(LocalStorageConstants.i18nLanguage);
