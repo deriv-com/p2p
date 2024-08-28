@@ -1,60 +1,24 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { LegacyNotificationIcon, LegacyAnnouncementIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Notifications as UINotifications, useDevice } from '@deriv-com/ui';
-import { TLocalize } from 'types';
+
+import './Notifications.scss';
 
 import { useNotifications }  from '@/hooks/api/notifications/notifications';
+import { Badge } from '@deriv-com/ui';
 
-const getTitle = (localize: TLocalize, message_key: string, payload?: any) => {
-    switch (message_key) {
-        case 'p2p-order-complete':
-            return localize('Your order got completed!', payload);
-        case 'p2p-limit-upgrade-available':
-            return localize('Your daily limits got automatically updated!', payload);
-            // return localize('Click here to increase your daily limits!', payload);
-        case 'p2p-limit-upgraded':
-            return localize('Your daily limits got automatically updated!', payload);
-        default:
-            return localize('Unknown notification, ' + message_key, payload);
-    }
-};
+import { getTitle, getMessage, getActionText } from './translations';
 
-const getMessage = (localize: TLocalize, message_key: string, payload?: any) => {
-    switch (message_key) {
-        case 'p2p-order-complete':
-            return localize('Your order got completed!', payload);
-        case 'p2p-limit-upgrade-available':
-            return localize('Your daily limits got automatically updated!', payload);
-            // return localize('Click here to increase your daily limits!', payload);
-        case 'p2p-limit-upgraded':
-            return localize('Your daily limits got automatically updated!', payload);
-        default:
-            return localize('Unknown notification, ' + message_key, payload);
-    }
-}
-
-const getActionText = (localize: TLocalize, message_key: string, payload?: any) => {
-    switch (message_key) {
-        case 'p2p-order-complete':
-            return localize('Your order got completed!', payload);
-        case 'p2p-limit-upgrade-available':
-            return localize('Your daily limits got automatically updated!', payload);
-            // return localize('Click here to increase your daily limits!', payload);
-        case 'p2p-limit-upgraded':
-            return localize('Your daily limits got automatically updated!', payload);
-        default:
-            return localize('Unknown notification, ' + message_key, payload);
-    }
-}
+const MAX_UNREAD_COUNT = 9;
 
 const Notifications = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
 
-    const { messages, unreadCount } = useNotifications();
+    const { messages, unreadCount, removeAll, loadMore } = useNotifications();
 
     const modifiedMessages = useMemo(() => {
         return messages && messages.map((message: any) => {
@@ -86,18 +50,29 @@ const Notifications = () => {
         <>
             <TooltipMenuIcon
                 as='button'
-                className={isMobile ? '' : 'mr-4 pl-2 border-l-[1px] h-[32px]'}
+                className={isMobile ? '' : 'notifications__icon mr-4 pl-2 border-l-[1px] h-[32px]'}
                 disableHover
                 onClick={() => setIsOpen(!isOpen)}
                 tooltipContent={localize('View notifications')}
                 tooltipPosition='bottom'
             >
                 <LegacyNotificationIcon fill='red' iconSize='sm' />
-                <span className='notification-badge'>{unreadCount}</span>
+                {(unreadCount > 0) && (
+                    <Badge
+                        textSize='sm'
+                        badgeSize='xs'
+                        color='danger'
+                        rounded='lg'
+                        className="notifications__badge"
+                    >
+                        {unreadCount >= MAX_UNREAD_COUNT ? `${MAX_UNREAD_COUNT}+` : unreadCount}
+                    </Badge>
+                )}
+            
             </TooltipMenuIcon>
             <UINotifications
                 className={isMobile ? '' : 'absolute top-20 right-80 z-10'}
-                clearNotificationsCallback={() => {}}
+                clearNotificationsCallback={removeAll}
                 componentConfig={{
                     clearButtonText: localize('Clear all'),
                     modalTitle: localize('Notifications'),
@@ -106,12 +81,12 @@ const Notifications = () => {
                 }}
                 isOpen={isOpen}
                 loadMoreFunction={() => {
-                    console.log('load more');
+                    loadMore();
                 }}
                 /* @ts-ignore */
                 notifications={modifiedMessages || []}
                 setIsOpen={() => {
-                    // setIsOpen(false)
+                    setIsOpen(false)
                 }}
             />
         </>

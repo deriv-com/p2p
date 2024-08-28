@@ -31,7 +31,6 @@ const TooltipMenuIcon = <T extends AsElement>({
 
     const handleOnClick = (e: React.MouseEvent) => {
         e.stopPropagation();
-        console.log('>>> CLICK')
         rest && rest.onClick && rest.onClick(e as any);
     }
 
