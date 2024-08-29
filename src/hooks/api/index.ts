@@ -9,3 +9,4 @@ export * from './order-dispute';
 export * from './order-review';
 export * from './payment-method';
 export * from './settings';
+export * from './notifications';
