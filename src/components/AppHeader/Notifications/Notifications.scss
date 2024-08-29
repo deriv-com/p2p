@@ -1,0 +1,15 @@
+.notifications {
+    &__icon {
+        position: relative;
+    }
+
+    &__badge {
+        position: absolute;
+        top: 0;
+        right: -5px;
+
+        span {            
+            font-size: 1rem;
+        }
+    }
+}
