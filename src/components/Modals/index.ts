@@ -8,6 +8,7 @@ export * from './AdVisibilityErrorModal';
 export * from './AvailableP2PBalanceModal';
 export * from './BlockUnblockUserModal';
 export * from './BlockUserCountModal';
+export * from './BusinessHoursModal';
 export * from './CopyAdFormModal';
 export * from './DailyLimitModal';
 export * from './EmailLinkBlockedModal';
