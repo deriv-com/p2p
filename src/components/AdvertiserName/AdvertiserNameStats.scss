@@ -9,7 +9,7 @@
         gap: 1rem;
     }
 
-    & div:not(.deriv-tooltip-container):not(.deriv-tooltip-container *) {
+    & div:not(.deriv-tooltip-container):not(.deriv-tooltip-container *):not(.mobile-wrapper):not(.mobile-wrapper *) {
         display: flex;
         align-items: center;
         gap: 0.8rem;
