@@ -1,3 +1,12 @@
 .business-hours-modal {
     @include default-modal;
+
+    @include mobile-or-tablet-screen {
+        position: absolute;
+        display: flex;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        max-width: 100%;
+    }
 }
