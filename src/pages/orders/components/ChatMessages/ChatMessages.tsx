@@ -19,7 +19,16 @@ type TChatMessagesProps = {
 const AdminMessage = () => (
     <div className='chat-messages__item chat-messages__item__admin'>
         <ChatMessageText color='general' type='admin'>
-            <Localize i18n_default_text='Hello! This is where you can chat with the counterparty to confirm the order details.<br /> Note: In case of a dispute, we’ll use this chat as a reference.' />
+            <div className='chat-messages__item__admin--text'>
+                <Localize
+                    components={[<strong key={0} />]}
+                    i18n_default_text='<0>Important:</0> Deriv will never contact you via WhatsApp to ask for your personal information. Always ignore any messages from numbers claiming to be from Deriv.'
+                />
+            </div>
+            <Localize
+                components={[<strong key={0} />]}
+                i18n_default_text="<0>Note:</0> In case of a dispute, we'll use this chat as a reference."
+            />
         </ChatMessageText>
     </div>
 );
