@@ -163,8 +163,6 @@ const BusinessHoursModalEdit = ({ editedBusinessHours, setEditedBusinessHours }:
                     const areTimesNull = day.start_time === null && day.end_time === null;
                     const isFullDay = day.start_time === day.end_time;
 
-                    // console.log(dropdownOpenStates[day.value]);
-
                     return (
                         <div className='flex items-center justify-between' key={`${day.value}_${day.start_time}`}>
                             <Text className={clsx({ 'opacity-40': !includesDay })} size={textSize} weight={textWeight}>
@@ -191,7 +189,7 @@ const BusinessHoursModalEdit = ({ editedBusinessHours, setEditedBusinessHours }:
                                         <Text size={textSize} weight={textWeight}>
                                             <Localize i18n_default_text='Open 24 hours' />
                                         </Text>
-                                        <StandaloneSortDownFillIcon fill='#999999' iconSize='xs' />
+                                        <StandaloneSortDownFillIcon fill='#999999' iconSize='xs' viewBox='0 5 32 32' />
                                     </div>
                                 )}
                                 <TooltipMenuIcon
@@ -204,7 +202,7 @@ const BusinessHoursModalEdit = ({ editedBusinessHours, setEditedBusinessHours }:
                                 >
                                     <StandaloneArrowRotateLeftBoldIcon
                                         className={clsx('rotate-45 m-[0.8rem]', {
-                                            'opacity-30': !includesDay || !dropdownOpenStates[day.value],
+                                            'opacity-30': !includesDay,
                                         })}
                                         iconSize='xs'
                                     />
