@@ -2,18 +2,30 @@ import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 
 type TBusinessHoursModalFooter = {
-    isEdit: boolean;
+    onSave: () => void;
+    setShowEdit: (showEdit: boolean) => void;
+    showEdit: boolean;
 };
 
-const BusinessHoursModalFooter = ({ isEdit }: TBusinessHoursModalFooter) => {
+const BusinessHoursModalFooter = ({ onSave, setShowEdit, showEdit }: TBusinessHoursModalFooter) => {
     const { isDesktop, isMobile } = useDevice();
-    if (isEdit) {
+    const textSize = isMobile ? 'md' : 'sm';
+
+    if (showEdit) {
         return (
-            <div>
-                <Button className='border-[1px]' color='black' variant='outlined'>
+            <div className='flex gap-[0.8rem]'>
+                <Button
+                    className='border-2'
+                    color='black'
+                    isFullWidth={!isDesktop}
+                    onClick={() => setShowEdit(false)}
+                    size='lg'
+                    textSize={textSize}
+                    variant='outlined'
+                >
                     <Localize i18n_default_text='Cancel' />
                 </Button>
-                <Button className='border-[1px]' variant='outlined'>
+                <Button isFullWidth={!isDesktop} onClick={onSave} size='lg' textSize={textSize}>
                     <Localize i18n_default_text='Save' />
                 </Button>
             </div>
@@ -24,7 +36,8 @@ const BusinessHoursModalFooter = ({ isEdit }: TBusinessHoursModalFooter) => {
             className='lg:border-[1px] py-8'
             color='black'
             isFullWidth={!isDesktop}
-            textSize={isMobile ? 'md' : 'sm'}
+            onClick={() => setShowEdit(true)}
+            textSize={textSize}
             variant='outlined'
         >
             <Localize i18n_default_text='Edit business hours' />
