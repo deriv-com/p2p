@@ -16,7 +16,7 @@ type TDaysOfWeek = Record<
     }
 >;
 
-type TBusinessDay = {
+export type TBusinessDay = {
     day: string;
     end_time: string;
     short_day: string;
@@ -95,7 +95,8 @@ const adjustOverflow = (timeRanges: TTimeRange[]) => {
             adjustedRanges[i].end_min = maxEndMin;
 
             const nextIndex = (i + 1) % 7;
-            if (adjustedRanges[nextIndex].start_min !== null) {
+
+            if (adjustedRanges[nextIndex]?.start_min && adjustedRanges[nextIndex].start_min !== null) {
                 adjustedRanges[nextIndex].start_min -= overflow;
             }
         }
@@ -401,8 +402,8 @@ export const convertToMinutesRange = (editedData: TBusinessDay[]) => {
         }
 
         return {
-            startMin,
-            endMin,
+            start_min: startMin,
+            end_min: endMin,
         };
     });
 };
