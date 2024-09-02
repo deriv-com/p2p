@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FullPageMobileWrapper } from '@/components/FullPageMobileWrapper';
 import { api } from '@/hooks';
 import { useGetBusinessHours } from '@/hooks/custom-hooks';
@@ -25,8 +25,7 @@ const BusinessHoursModal = () => {
     const { isSuccess, mutate } = api.advertiser.useUpdate();
     const [showEdit, setShowEdit] = useState(true);
     const [editedBusinessHours, setEditedBusinessHours] = useState<TData[]>(businessHours);
-
-    // console.log(businessHours);
+    const dataRef = useRef(businessHours);
 
     const onSave = useCallback(() => {
         const filteredTimes = editedBusinessHours.filter(day => day.start_time !== null || day.end_time !== null);
@@ -67,7 +66,12 @@ const BusinessHoursModal = () => {
                     )}
                 </Modal.Body>
                 <Modal.Footer hideBorder>
-                    <BusinessHoursModalFooter onSave={onSave} setShowEdit={setShowEdit} showEdit={showEdit} />
+                    <BusinessHoursModalFooter
+                        isSaveDisabled={dataRef.current === editedBusinessHours}
+                        onSave={onSave}
+                        setShowEdit={setShowEdit}
+                        showEdit={showEdit}
+                    />
                 </Modal.Footer>
             </Modal>
         );
@@ -77,7 +81,12 @@ const BusinessHoursModal = () => {
         <FullPageMobileWrapper
             className='business-hours-modal__full-page'
             renderFooter={() => (
-                <BusinessHoursModalFooter onSave={onSave} setShowEdit={setShowEdit} showEdit={showEdit} />
+                <BusinessHoursModalFooter
+                    isSaveDisabled={dataRef.current === editedBusinessHours}
+                    onSave={onSave}
+                    setShowEdit={setShowEdit}
+                    showEdit={showEdit}
+                />
             )}
             renderHeader={() => <BusinessHoursModalHeader showEdit={showEdit} />}
         >

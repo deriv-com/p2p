@@ -2,12 +2,13 @@ import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 
 type TBusinessHoursModalFooter = {
+    isSaveDisabled: boolean;
     onSave: () => void;
     setShowEdit: (showEdit: boolean) => void;
     showEdit: boolean;
 };
 
-const BusinessHoursModalFooter = ({ onSave, setShowEdit, showEdit }: TBusinessHoursModalFooter) => {
+const BusinessHoursModalFooter = ({ isSaveDisabled, onSave, setShowEdit, showEdit }: TBusinessHoursModalFooter) => {
     const { isDesktop, isMobile } = useDevice();
     const textSize = isMobile ? 'md' : 'sm';
 
@@ -25,7 +26,13 @@ const BusinessHoursModalFooter = ({ onSave, setShowEdit, showEdit }: TBusinessHo
                 >
                     <Localize i18n_default_text='Cancel' />
                 </Button>
-                <Button isFullWidth={!isDesktop} onClick={onSave} size='lg' textSize={textSize}>
+                <Button
+                    disabled={isSaveDisabled}
+                    isFullWidth={!isDesktop}
+                    onClick={onSave}
+                    size='lg'
+                    textSize={textSize}
+                >
                     <Localize i18n_default_text='Save' />
                 </Button>
             </div>
