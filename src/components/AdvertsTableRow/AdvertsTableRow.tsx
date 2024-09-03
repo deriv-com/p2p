@@ -6,7 +6,13 @@ import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '
 import { ErrorModal, NicknameModal } from '@/components/Modals';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
-import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import {
+    useGetBusinessHours,
+    useIsAdvertiser,
+    useIsAdvertiserBarred,
+    useModalManager,
+    usePoiPoaStatus,
+} from '@/hooks/custom-hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
@@ -28,6 +34,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { isPoaVerified, isPoiVerified } = poiPoaData || {};
     const { localize } = useTranslations();
     const { hasCreatedAdvertiser } = useAdvertiserInfoState();
+    const { isScheduleAvailable } = useGetBusinessHours();
 
     const {
         account_currency: accountCurrency,
@@ -206,7 +213,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     ) : (
                         <Button
                             className='lg:min-w-[7.5rem]'
-                            disabled={isAdvertiserBarred}
+                            disabled={isAdvertiserBarred || !isScheduleAvailable}
                             onClick={() => {
                                 if (!isPoaVerified || !isPoiVerified) {
                                     const searchParams = new URLSearchParams(location.search);

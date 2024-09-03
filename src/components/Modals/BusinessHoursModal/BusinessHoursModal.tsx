@@ -12,14 +12,20 @@ import { BusinessHoursModalHeader } from './BusinessHoursModalHeader';
 import { BusinessHoursModalMain } from './BusinessHoursModalMain';
 import './BusinessHoursModal.scss';
 
-const BusinessHoursModal = () => {
-    const { hideModal, isModalOpenFor, showModal } = useModalManager();
+type TBusinessHoursModalProps = {
+    hideModal: () => void;
+    isModalOpen: boolean;
+};
+
+const BusinessHoursModal = ({ hideModal, isModalOpen }: TBusinessHoursModalProps) => {
+    const { hideModal: hideCancelModal, isModalOpenFor, showModal } = useModalManager();
     const { isDesktop } = useDevice();
     const { businessHours } = useGetBusinessHours();
     const { isSuccess, mutate } = api.advertiser.useUpdate();
     const [isDisabled, setIsDisabled] = useState(true);
     const [showEdit, setShowEdit] = useState(false);
     const [editedBusinessHours, setEditedBusinessHours] = useState<TData[]>(businessHours);
+    const [shouldCloseModal, setShouldCloseModal] = useState(false);
 
     const onSave = useCallback(() => {
         const filteredTimes = editedBusinessHours.filter(day => day.start_time !== null || day.end_time !== null);
@@ -37,21 +43,32 @@ const BusinessHoursModal = () => {
 
         if (isEdited && showEdit) {
             showModal('CancelBusinessHoursModal');
+        } else if (shouldCloseModal) {
+            hideModal();
         } else if (showEdit) {
             setShowEdit(false);
         } else {
-            hideModal();
+            hideCancelModal();
         }
-    }, [businessHours, editedBusinessHours, hideModal, showEdit, showModal]);
+    }, [businessHours, editedBusinessHours, hideCancelModal, hideModal, shouldCloseModal, showEdit, showModal]);
+
+    const onCloseModal = () => {
+        setShouldCloseModal(true);
+        onClickCancel();
+    };
 
     const onDiscard = () => {
-        setShowEdit(false);
-        setEditedBusinessHours(businessHours);
-        hideModal();
+        if (shouldCloseModal) {
+            hideModal();
+        } else {
+            setShowEdit(false);
+            setEditedBusinessHours(businessHours);
+            hideCancelModal();
+        }
     };
 
     const onKeepEditing = () => {
-        hideModal();
+        hideCancelModal();
     };
 
     useEffect(() => {
@@ -66,7 +83,7 @@ const BusinessHoursModal = () => {
                 <Modal
                     ariaHideApp={false}
                     className={clsx('business-hours-modal', { hidden: isModalOpenFor('CancelBusinessHoursModal') })}
-                    isOpen
+                    isOpen={isModalOpen}
                     style={{
                         content: {
                             overflow: 'visible',
@@ -78,7 +95,7 @@ const BusinessHoursModal = () => {
                         },
                     }}
                 >
-                    <Modal.Header hideBorder>
+                    <Modal.Header hideBorder onRequestClose={onCloseModal}>
                         <BusinessHoursModalHeader showEdit={showEdit} />
                     </Modal.Header>
                     <Modal.Body className='business-hours-modal__body'>
@@ -114,6 +131,7 @@ const BusinessHoursModal = () => {
         <>
             <FullPageMobileWrapper
                 className='business-hours-modal__full-page'
+                onBack={onCloseModal}
                 renderFooter={() => (
                     <BusinessHoursModalFooter
                         isSaveDisabled={isDisabled}

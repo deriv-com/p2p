@@ -18,6 +18,7 @@ export * from './Input';
 export * from './LightDivider';
 export * from './MobileTabs';
 export * from './OnlineStatus';
+export * from './OutsideBusinessHoursHint';
 export * from './Page404';
 export * from './PageReturn';
 export * from './PaymentMethodCard';
