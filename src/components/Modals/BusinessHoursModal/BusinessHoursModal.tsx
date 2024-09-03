@@ -18,7 +18,7 @@ const BusinessHoursModal = () => {
     const { businessHours } = useGetBusinessHours();
     const { isSuccess, mutate } = api.advertiser.useUpdate();
     const [isDisabled, setIsDisabled] = useState(true);
-    const [showEdit, setShowEdit] = useState(true);
+    const [showEdit, setShowEdit] = useState(false);
     const [editedBusinessHours, setEditedBusinessHours] = useState<TData[]>(businessHours);
 
     const onSave = useCallback(() => {

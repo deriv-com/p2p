@@ -168,6 +168,7 @@ const BusinessHoursModalEdit = ({
                     const includesDay = selectedDays.includes(day.value);
                     const areTimesNull = day.start_time === null && day.end_time === null;
                     const isFullDay = day.start_time === day.end_time;
+                    const isDisabled = !includesDay || isFullDay;
 
                     return (
                         <div className='flex items-center justify-between' key={`${day.value}_${day.start_time}`}>
@@ -201,14 +202,14 @@ const BusinessHoursModalEdit = ({
                                 <TooltipMenuIcon
                                     as='button'
                                     className={clsx('hover:bg-transparent', {
-                                        'cursor-not-allowed': !includesDay || !dropdownOpenStates[day.value],
+                                        'cursor-not-allowed': isDisabled,
                                     })}
-                                    onClick={() => (includesDay || dropdownOpenStates[day.value]) && onReset(day.value)}
+                                    onClick={() => !isDisabled && onReset(day.value)}
                                     tooltipContent={localize('Reset to default hours')}
                                 >
                                     <StandaloneArrowRotateLeftBoldIcon
                                         className={clsx('rotate-45 m-[0.8rem]', {
-                                            'opacity-30': !includesDay,
+                                            'opacity-30': isDisabled,
                                         })}
                                         iconSize='xs'
                                     />
