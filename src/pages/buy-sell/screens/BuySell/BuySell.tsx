@@ -29,7 +29,12 @@ const BuySell = () => {
     }
 
     return (
-        <div className={clsx('buy-sell', { 'buy-sell--barred': isAdvertiserBarred })}>
+        <div
+            className={clsx('buy-sell relative', {
+                'buy-sell--barred': isAdvertiserBarred,
+                'buy-sell--outside-hours': !isScheduleAvailable && !isAdvertiserBarred,
+            })}
+        >
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             {!isScheduleAvailable && !isAdvertiserBarred && <OutsideBusinessHoursHint />}
             <BuySellTable />

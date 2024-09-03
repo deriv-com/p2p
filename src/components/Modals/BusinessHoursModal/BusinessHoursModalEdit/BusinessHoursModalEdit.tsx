@@ -72,7 +72,8 @@ const BusinessHoursModalEdit = ({
     useEffect(() => {
         const isEdited = isTimeEdited(businessHours, editedBusinessHours);
         if (isDisabled !== !isEdited) setIsDisabled(!isEdited);
-    }, [businessHours, editedBusinessHours, isDisabled, setIsDisabled]);
+        if (selectedDays.length === 0) setIsDisabled(true);
+    }, [businessHours, editedBusinessHours, isDisabled, selectedDays.length, setIsDisabled]);
 
     const toggleDropdown = (value: string) => {
         setDropdownOpenStates({
