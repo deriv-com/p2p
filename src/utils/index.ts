@@ -1,6 +1,7 @@
 export * from './account';
 export * from './ad-utils';
 export * from './adverts';
+export * from './business-hours';
 export * from './date';
 export * from './file-dropzone';
 export * from './file-uploader';

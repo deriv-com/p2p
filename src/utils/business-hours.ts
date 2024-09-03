@@ -25,6 +25,15 @@ export type TBusinessDay = {
     value: keyof typeof DAYS_OF_WEEK;
 };
 
+export type TData = {
+    day: string;
+    end_time?: string | null;
+    short_day: string;
+    start_time?: string | null;
+    time: JSX.Element;
+    value: string;
+};
+
 const MINUTES_IN_DAY = 1440;
 
 const DAYS_OF_WEEK = {
@@ -183,6 +192,7 @@ const adjustTimeRangesWithOffset = (timeRanges: TTimeRange[], offset: number) =>
 const addNullObjectsForGaps = (splitRanges: TTimeRange[]) => {
     const finalRanges = [];
     const MINUTES_IN_DAY = 1440;
+    const MINUTES_IN_WEEK = MINUTES_IN_DAY * 7;
 
     for (let i = 0; i < splitRanges.length; i++) {
         finalRanges.push(splitRanges[i]);
@@ -197,6 +207,21 @@ const addNullObjectsForGaps = (splitRanges: TTimeRange[]) => {
                 for (let j = 0; j < nullObjectsCount; j++) {
                     finalRanges.push({ start_min: null, end_min: null });
                 }
+            }
+        }
+    }
+
+    // Check for wrap-around gap (last to first)
+    if (splitRanges.length > 1) {
+        const lastEnd = splitRanges[splitRanges.length - 1].end_min ?? 0;
+        const firstStart = splitRanges[0].start_min ?? 0;
+        const wrapAroundGap = MINUTES_IN_WEEK - lastEnd + firstStart;
+
+        if (wrapAroundGap >= MINUTES_IN_DAY) {
+            const nullObjectsCount = Math.floor(wrapAroundGap / MINUTES_IN_DAY);
+            for (let j = 0; j < nullObjectsCount; j++) {
+                // Instead of adding null objects at the end, add them at the beginning
+                finalRanges.unshift({ start_min: null, end_min: null });
             }
         }
     }
@@ -298,7 +323,7 @@ const getAMPM = (minute: number) => {
  * @param minutes
  * @returns
  */
-export const formatTime = (minutes: number): string => {
+export const formatBusinessHours = (minutes: number): string => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     let ampm = getAMPM(minutes);
@@ -344,7 +369,7 @@ export const getHoursList = (intervalInMinutes = 15): TTimeOption[] => {
         const minutes = currentTime.getMinutes();
 
         // Localize the text representation of the time (e.g., "12:00 am")
-        const text = formatTime(hours * 60 + minutes);
+        const text = formatBusinessHours(hours * 60 + minutes);
 
         // Calculate the total minutes since midnight for the value
         const value = text;
@@ -397,8 +422,15 @@ export const convertToMinutesRange = (editedData: TBusinessDay[]) => {
         let endMin = getMinutesFromAMPM(day.value, day.end_time);
 
         // Adjust end_min if it's 12 AM to be 1440 minutes (24 hours)
-        if (startMin !== null && endMin !== null && endMin == startMin) {
-            endMin = startMin + 1440;
+        if (startMin !== null && endMin !== null) {
+            if (endMin === startMin) {
+                endMin = startMin + 1440;
+            }
+
+            // Handle the case where the end time is 12 AM then set it to end of the particular day in minutes => 1440 * (day + 1)
+            if (endMin === MINUTES_IN_DAY * DAYS_OF_WEEK[day.value]) {
+                endMin = (DAYS_OF_WEEK[day.value] + 1) * MINUTES_IN_DAY;
+            }
         }
 
         return {
@@ -458,8 +490,8 @@ export const convertToGMTWithOverflow = (times: TTimeRange[], offsetMinutes: num
  * @param editedData
  * @returns
  */
-export const isTimeEdited = (data: TBusinessDay[], editedData: TBusinessDay[]): boolean => {
-    if (data.length !== editedData.length) {
+export const isTimeEdited = (data: TData[], editedData: TData[]): boolean => {
+    if (data.length !== editedData?.length) {
         return true;
     }
 

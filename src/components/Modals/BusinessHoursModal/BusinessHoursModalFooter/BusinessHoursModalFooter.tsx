@@ -3,12 +3,19 @@ import { Button, useDevice } from '@deriv-com/ui';
 
 type TBusinessHoursModalFooter = {
     isSaveDisabled: boolean;
+    onCancel: () => void;
     onSave: () => void;
     setShowEdit: (showEdit: boolean) => void;
     showEdit: boolean;
 };
 
-const BusinessHoursModalFooter = ({ isSaveDisabled, onSave, setShowEdit, showEdit }: TBusinessHoursModalFooter) => {
+const BusinessHoursModalFooter = ({
+    isSaveDisabled,
+    onCancel,
+    onSave,
+    setShowEdit,
+    showEdit,
+}: TBusinessHoursModalFooter) => {
     const { isDesktop, isMobile } = useDevice();
     const textSize = isMobile ? 'md' : 'sm';
 
@@ -19,7 +26,7 @@ const BusinessHoursModalFooter = ({ isSaveDisabled, onSave, setShowEdit, showEdi
                     className='border-2'
                     color='black'
                     isFullWidth={!isDesktop}
-                    onClick={() => setShowEdit(false)}
+                    onClick={onCancel}
                     size='lg'
                     textSize={textSize}
                     variant='outlined'
