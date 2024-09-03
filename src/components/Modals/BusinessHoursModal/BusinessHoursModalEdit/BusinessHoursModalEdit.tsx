@@ -3,20 +3,13 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { LightDivider } from '@/components/LightDivider';
 import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
+import { useGetBusinessHours } from '@/hooks';
+import { isTimeEdited, TData } from '@/utils';
 import { StandaloneArrowRotateLeftBoldIcon, StandaloneSortDownFillIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { TimeDropdown } from './TimeDropdown';
 import './BusinessHoursModalEdit.scss';
-
-type TData = {
-    day: string;
-    end_time?: string | null;
-    short_day: string;
-    start_time?: string | null;
-    time: JSX.Element;
-    value: string;
-};
 
 type TDayState = {
     [key: string]: boolean;
@@ -49,12 +42,20 @@ const FULL_DAY = '12:00 am';
 
 type TBusinessHoursModalEditProps = {
     editedBusinessHours: TData[];
+    isDisabled: boolean;
     setEditedBusinessHours: (data: TData[]) => void;
+    setIsDisabled: (isDisabled: boolean) => void;
 };
 
-const BusinessHoursModalEdit = ({ editedBusinessHours, setEditedBusinessHours }: TBusinessHoursModalEditProps) => {
+const BusinessHoursModalEdit = ({
+    editedBusinessHours,
+    isDisabled,
+    setEditedBusinessHours,
+    setIsDisabled,
+}: TBusinessHoursModalEditProps) => {
     const { isMobile } = useDevice();
     const { localize } = useTranslations();
+    const { businessHours } = useGetBusinessHours();
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const [dropdownOpenStates, setDropdownOpenStates] = useState<TDayState>(getDropdownOpenStates(editedBusinessHours));
     const today = new Date().getDay();
@@ -67,6 +68,11 @@ const BusinessHoursModalEdit = ({ editedBusinessHours, setEditedBusinessHours }:
         setSelectedDays(filteredDays);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        const isEdited = isTimeEdited(businessHours, editedBusinessHours);
+        if (isDisabled !== !isEdited) setIsDisabled(!isEdited);
+    }, [businessHours, editedBusinessHours, isDisabled, setIsDisabled]);
 
     const toggleDropdown = (value: string) => {
         setDropdownOpenStates({

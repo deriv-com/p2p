@@ -1,31 +1,25 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import clsx from 'clsx';
 import { FullPageMobileWrapper } from '@/components/FullPageMobileWrapper';
 import { api } from '@/hooks';
-import { useGetBusinessHours } from '@/hooks/custom-hooks';
-import { convertToGMTWithOverflow, convertToMinutesRange, TBusinessDay } from '@/utils/business-hours';
+import { useGetBusinessHours, useModalManager } from '@/hooks/custom-hooks';
+import { convertToGMTWithOverflow, convertToMinutesRange, isTimeEdited, TBusinessDay, TData } from '@/utils';
 import { Modal, useDevice } from '@deriv-com/ui';
+import { CancelBusinessHoursModal } from '../CancelBusinessHoursModal';
 import { BusinessHourModalEdit } from './BusinessHoursModalEdit';
 import { BusinessHoursModalFooter } from './BusinessHoursModalFooter';
 import { BusinessHoursModalHeader } from './BusinessHoursModalHeader';
 import { BusinessHoursModalMain } from './BusinessHoursModalMain';
 import './BusinessHoursModal.scss';
 
-type TData = {
-    day: string;
-    end_time?: string | null;
-    short_day: string;
-    start_time?: string | null;
-    time: JSX.Element;
-    value: string;
-};
-
 const BusinessHoursModal = () => {
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { isDesktop } = useDevice();
     const { businessHours } = useGetBusinessHours();
     const { isSuccess, mutate } = api.advertiser.useUpdate();
+    const [isDisabled, setIsDisabled] = useState(true);
     const [showEdit, setShowEdit] = useState(true);
     const [editedBusinessHours, setEditedBusinessHours] = useState<TData[]>(businessHours);
-    const dataRef = useRef(businessHours);
 
     const onSave = useCallback(() => {
         const filteredTimes = editedBusinessHours.filter(day => day.start_time !== null || day.end_time !== null);
@@ -38,6 +32,28 @@ const BusinessHoursModal = () => {
         mutate({ schedule: convertedResult });
     }, [editedBusinessHours, mutate]);
 
+    const onClickCancel = useCallback(() => {
+        const isEdited = isTimeEdited(businessHours, editedBusinessHours);
+
+        if (isEdited && showEdit) {
+            showModal('CancelBusinessHoursModal');
+        } else if (showEdit) {
+            setShowEdit(false);
+        } else {
+            hideModal();
+        }
+    }, [businessHours, editedBusinessHours, hideModal, showEdit, showModal]);
+
+    const onDiscard = () => {
+        setShowEdit(false);
+        setEditedBusinessHours(businessHours);
+        hideModal();
+    };
+
+    const onKeepEditing = () => {
+        hideModal();
+    };
+
     useEffect(() => {
         if (isSuccess) {
             setShowEdit(false);
@@ -46,59 +62,84 @@ const BusinessHoursModal = () => {
 
     if (isDesktop) {
         return (
-            <Modal
-                ariaHideApp={false}
-                className='business-hours-modal'
-                isOpen
-                style={{ content: { overflow: 'visible', zIndex: 'auto' } }}
-            >
-                <Modal.Header hideBorder>
-                    <BusinessHoursModalHeader showEdit={showEdit} />
-                </Modal.Header>
-                <Modal.Body className='business-hours-modal__body'>
-                    {showEdit ? (
-                        <BusinessHourModalEdit
-                            editedBusinessHours={editedBusinessHours}
-                            setEditedBusinessHours={setEditedBusinessHours}
+            <>
+                <Modal
+                    ariaHideApp={false}
+                    className={clsx('business-hours-modal', { hidden: isModalOpenFor('CancelBusinessHoursModal') })}
+                    isOpen
+                    style={{
+                        content: {
+                            overflow: 'visible',
+                            zIndex: 'auto',
+                        },
+                        overlay: {
+                            visibility: isModalOpenFor('CancelBusinessHoursModal') ? 'hidden' : 'visible',
+                            zIndex: 'auto',
+                        },
+                    }}
+                >
+                    <Modal.Header hideBorder>
+                        <BusinessHoursModalHeader showEdit={showEdit} />
+                    </Modal.Header>
+                    <Modal.Body className='business-hours-modal__body'>
+                        {showEdit ? (
+                            <BusinessHourModalEdit
+                                editedBusinessHours={editedBusinessHours}
+                                isDisabled={isDisabled}
+                                setEditedBusinessHours={setEditedBusinessHours}
+                                setIsDisabled={setIsDisabled}
+                            />
+                        ) : (
+                            <BusinessHoursModalMain />
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer hideBorder>
+                        <BusinessHoursModalFooter
+                            isSaveDisabled={isDisabled}
+                            onCancel={onClickCancel}
+                            onSave={onSave}
+                            setShowEdit={setShowEdit}
+                            showEdit={showEdit}
                         />
-                    ) : (
-                        <BusinessHoursModalMain />
-                    )}
-                </Modal.Body>
-                <Modal.Footer hideBorder>
-                    <BusinessHoursModalFooter
-                        isSaveDisabled={dataRef.current === editedBusinessHours}
-                        onSave={onSave}
-                        setShowEdit={setShowEdit}
-                        showEdit={showEdit}
-                    />
-                </Modal.Footer>
-            </Modal>
+                    </Modal.Footer>
+                </Modal>
+                {isModalOpenFor('CancelBusinessHoursModal') && (
+                    <CancelBusinessHoursModal isModalOpen onDiscard={onDiscard} onKeepEditing={onKeepEditing} />
+                )}
+            </>
         );
     }
 
     return (
-        <FullPageMobileWrapper
-            className='business-hours-modal__full-page'
-            renderFooter={() => (
-                <BusinessHoursModalFooter
-                    isSaveDisabled={dataRef.current === editedBusinessHours}
-                    onSave={onSave}
-                    setShowEdit={setShowEdit}
-                    showEdit={showEdit}
-                />
+        <>
+            <FullPageMobileWrapper
+                className='business-hours-modal__full-page'
+                renderFooter={() => (
+                    <BusinessHoursModalFooter
+                        isSaveDisabled={isDisabled}
+                        onCancel={onClickCancel}
+                        onSave={onSave}
+                        setShowEdit={setShowEdit}
+                        showEdit={showEdit}
+                    />
+                )}
+                renderHeader={() => <BusinessHoursModalHeader showEdit={showEdit} />}
+            >
+                {showEdit ? (
+                    <BusinessHourModalEdit
+                        editedBusinessHours={editedBusinessHours}
+                        isDisabled={isDisabled}
+                        setEditedBusinessHours={setEditedBusinessHours}
+                        setIsDisabled={setIsDisabled}
+                    />
+                ) : (
+                    <BusinessHoursModalMain />
+                )}
+            </FullPageMobileWrapper>
+            {isModalOpenFor('CancelBusinessHoursModal') && (
+                <CancelBusinessHoursModal isModalOpen onDiscard={onDiscard} onKeepEditing={onKeepEditing} />
             )}
-            renderHeader={() => <BusinessHoursModalHeader showEdit={showEdit} />}
-        >
-            {showEdit ? (
-                <BusinessHourModalEdit
-                    editedBusinessHours={editedBusinessHours}
-                    setEditedBusinessHours={setEditedBusinessHours}
-                />
-            ) : (
-                <BusinessHoursModalMain />
-            )}
-        </FullPageMobileWrapper>
+        </>
     );
 };
 

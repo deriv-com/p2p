@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { formatTime, getDaysOfWeek, splitTimeRange, TRange } from '@/utils/business-hours';
+import { formatBusinessHours, getDaysOfWeek, splitTimeRange, TRange } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { api } from '..';
 
@@ -34,8 +34,8 @@ const useGetBusinessHours = () => {
             let endTime: string | null = null;
 
             if (startMin !== null && endMin !== null) {
-                startTime = formatTime(startMin);
-                endTime = formatTime(endMin);
+                startTime = formatBusinessHours(startMin);
+                endTime = formatBusinessHours(endMin);
                 if (endMin - startMin === 1440) {
                     timeLabel = <Localize i18n_default_text='Open 24 hours' />;
                 } else {

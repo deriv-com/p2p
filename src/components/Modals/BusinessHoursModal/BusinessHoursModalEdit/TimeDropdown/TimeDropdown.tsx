@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Dropdown } from '@/components/Dropdown';
 import { api } from '@/hooks';
-import { getDropdownList, getHoursList } from '@/utils/business-hours';
+import { getDropdownList, getHoursList } from '@/utils';
 import { StandaloneSortDownFillIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
