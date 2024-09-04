@@ -34,7 +34,9 @@ export type TData = {
     value: string;
 };
 
+const DAYS_IN_WEEK = 7;
 const MINUTES_IN_DAY = 1440;
+const MINUTES_IN_WEEK = MINUTES_IN_DAY * DAYS_IN_WEEK;
 
 const DAYS_OF_WEEK = {
     sunday: 0,
@@ -88,40 +90,40 @@ export const getDaysOfWeek = (localize: TLocalize): TDaysOfWeek => {
 };
 
 /**
- * The below function adjusts the overflow and carry forward to the previous day or next day
+ * Constrain the time ranges to 7 entries, handling any necessary wrapping or merging.
  * @param timeRanges
  * @returns
  */
-const adjustOverflow = (timeRanges: TTimeRange[]) => {
-    const adjustedRanges = [...timeRanges];
-    const dayMinutes = 1440;
+const constrainTo7Days = (timeRanges: TTimeRange[]): TTimeRange[] => {
+    const dayRanges: TTimeRange[] = [];
 
-    for (let i = 0; i < adjustedRanges.length; i++) {
-        // Handle positive values, ie offset < 0 => ahead GMT where time overflow to the next day
-        const maxEndMin = (i + 1) * dayMinutes;
-        if (adjustedRanges[i].end_min && (adjustedRanges[i].end_min as number) > maxEndMin) {
-            const overflow = (adjustedRanges[i].end_min as number) - maxEndMin;
-            adjustedRanges[i].end_min = maxEndMin;
+    for (let i = 0; i < DAYS_IN_WEEK; i++) {
+        const dayStart = i * MINUTES_IN_DAY;
+        const dayEnd = (i + 1) * MINUTES_IN_DAY;
 
-            const nextIndex = (i + 1) % 7;
+        // Collect all ranges that fall within this day
+        const rangesForDay = timeRanges.filter(range => {
+            return (
+                (range.start_min && range.start_min >= dayStart && range.start_min < dayEnd) || // Starts within the day
+                (range.end_min && range.end_min > dayStart && range.end_min <= dayEnd) || // Ends within the day
+                (range.start_min && range.end_min && range.start_min < dayStart && range.end_min > dayEnd) // Spans across the entire day
+            );
+        });
 
-            if (adjustedRanges[nextIndex]?.start_min && adjustedRanges[nextIndex].start_min !== null) {
-                adjustedRanges[nextIndex].start_min -= overflow;
-            }
-        }
-
-        // Handle for negative values, ie offset > 0 => behind GMT where start will be negative
-        if (adjustedRanges[i]?.start_min !== null && (adjustedRanges[i]?.start_min as number) < i * dayMinutes) {
-            const underflow = i * dayMinutes - (adjustedRanges[i].start_min as number);
-            adjustedRanges[i].start_min = i * dayMinutes;
-            const prevIndex = (i - 1 + 7) % 7;
-            if (adjustedRanges[prevIndex].end_min !== null) {
-                adjustedRanges[prevIndex].end_min += underflow;
-            }
+        if (rangesForDay.length === 0) {
+            // No ranges for this day, push null placeholder
+            dayRanges.push({ start_min: null, end_min: null });
+        } else {
+            // Merge the ranges for the day
+            const mergedRange = {
+                start_min: Math.min(...rangesForDay.map(r => Math.max(r.start_min ?? 0, dayStart))),
+                end_min: Math.max(...rangesForDay.map(r => Math.min(r.end_min ?? 0, dayEnd))),
+            };
+            dayRanges.push(mergedRange);
         }
     }
 
-    return adjustedRanges;
+    return dayRanges;
 };
 
 /**
@@ -131,57 +133,34 @@ const adjustOverflow = (timeRanges: TTimeRange[]) => {
  * @returns
  */
 const adjustTimeRangesWithOffset = (timeRanges: TTimeRange[], offset: number) => {
-    // Separate null and non-null ranges
-    let nonNullRanges: TRange[] = [];
+    const adjustedRanges: TTimeRange[] = [];
 
     timeRanges.forEach(range => {
-        if (range.start_min !== null && range.end_min !== null) {
-            nonNullRanges.push(range as TRange);
-        }
-    });
-
-    // Adjust the non-null ranges
-    nonNullRanges = nonNullRanges.map(range => {
-        let adjustedStart = range.start_min;
-        let adjustedEnd = range.end_min;
-
-        if (adjustedStart !== null) {
-            adjustedStart -= offset;
+        if (range.start_min === null || range.end_min === null) {
+            adjustedRanges.push(range);
+            return;
         }
 
-        if (adjustedEnd !== null) {
-            adjustedEnd -= offset;
-        }
+        // Apply the offset to both start and end times
+        const start = (range.start_min - offset + MINUTES_IN_DAY * DAYS_IN_WEEK) % (MINUTES_IN_DAY * DAYS_IN_WEEK);
+        const end = (range.end_min - offset + MINUTES_IN_DAY * DAYS_IN_WEEK) % (MINUTES_IN_DAY * DAYS_IN_WEEK);
 
-        return { start_min: adjustedStart, end_min: adjustedEnd };
-    });
-
-    // Sort the adjusted non-null ranges
-    nonNullRanges.sort((a, b) => a.start_min - b.start_min);
-
-    // Merge back the null values into their original positions
-    let result: TTimeRange[] = [];
-    let nonNullIndex = 0;
-    timeRanges.forEach(range => {
-        if (range.start_min !== null && range.end_min !== null) {
-            result.push(nonNullRanges[nonNullIndex++]);
+        // Handle wrap-around if start is greater than end (crossing midnight)
+        if (start >= end) {
+            // Push two ranges: one from start to end of the day, and one from the beginning of the day to end
+            adjustedRanges.push({
+                start_min: start,
+                end_min: (Math.floor(start / MINUTES_IN_DAY) + 1) * MINUTES_IN_DAY,
+            });
+            adjustedRanges.push({ start_min: Math.floor(end / MINUTES_IN_DAY) * MINUTES_IN_DAY, end_min: end });
         } else {
-            result.push(range);
+            // Regular case where start is less than end
+            adjustedRanges.push({ start_min: start, end_min: end });
         }
     });
 
-    if (result.length > 7) {
-        if (offset < 0) {
-            result[0].start_min =
-                (result[0].start_min ?? 0) - ((result[7]?.end_min ?? 0) - (result[7]?.start_min ?? 0));
-            result = result.splice(0, 7);
-        } else if (offset > 0) {
-            result[7].end_min = (result[7].end_min ?? 0) + ((result[0]?.end_min ?? 0) - (result[0]?.start_min ?? 0));
-            result = result.splice(1, 8);
-        }
-    }
-
-    return adjustOverflow(result);
+    // Now constrain this to 7 days
+    return constrainTo7Days(adjustedRanges);
 };
 
 /**
@@ -190,39 +169,36 @@ const adjustTimeRangesWithOffset = (timeRanges: TTimeRange[], offset: number) =>
  * @returns
  */
 const addNullObjectsForGaps = (splitRanges: TTimeRange[]) => {
-    const finalRanges = [];
-    const MINUTES_IN_DAY = 1440;
-    const MINUTES_IN_WEEK = MINUTES_IN_DAY * 7;
+    const finalRanges: TTimeRange[] = [];
 
-    for (let i = 0; i < splitRanges.length; i++) {
+    for (let i = 0; i < splitRanges.length - 1; i++) {
         finalRanges.push(splitRanges[i]);
-        if (i < splitRanges.length - 1) {
-            const currentEnd = splitRanges[i].end_min ?? 0;
-            const nextStart = splitRanges[i + 1].start_min ?? 0;
-            const gap = nextStart - currentEnd;
 
-            // Calculate the number of null objects needed
-            if (gap >= MINUTES_IN_DAY) {
-                const nullObjectsCount = Math.floor(gap / MINUTES_IN_DAY);
-                for (let j = 0; j < nullObjectsCount; j++) {
-                    finalRanges.push({ start_min: null, end_min: null });
-                }
+        const currentEnd = splitRanges[i].end_min ?? 0;
+        const nextStart = splitRanges[i + 1].start_min ?? 0;
+        const gap = nextStart - currentEnd;
+
+        // If the gap is larger than a day, insert null objects
+        if (gap >= MINUTES_IN_DAY) {
+            const nullObjectsCount = Math.floor(gap / MINUTES_IN_DAY);
+            for (let j = 0; j < nullObjectsCount; j++) {
+                finalRanges.push({ start_min: null, end_min: null });
             }
         }
     }
 
-    // Check for wrap-around gap (last to first)
-    if (splitRanges.length > 1) {
-        const lastEnd = splitRanges[splitRanges.length - 1].end_min ?? 0;
-        const firstStart = splitRanges[0].start_min ?? 0;
-        const wrapAroundGap = MINUTES_IN_WEEK - lastEnd + firstStart;
+    // Add the last range
+    finalRanges.push(splitRanges[splitRanges.length - 1]);
 
-        if (wrapAroundGap >= MINUTES_IN_DAY) {
-            const nullObjectsCount = Math.floor(wrapAroundGap / MINUTES_IN_DAY);
-            for (let j = 0; j < nullObjectsCount; j++) {
-                // Instead of adding null objects at the end, add them at the beginning
-                finalRanges.unshift({ start_min: null, end_min: null });
-            }
+    // Handle wrap-around gap (last to first)
+    const lastEnd = splitRanges[splitRanges.length - 1].end_min ?? 0;
+    const firstStart = splitRanges[0].start_min ?? 0;
+    const wrapAroundGap = MINUTES_IN_WEEK - lastEnd + firstStart;
+
+    if (wrapAroundGap >= MINUTES_IN_DAY) {
+        const nullObjectsCount = Math.floor(wrapAroundGap / MINUTES_IN_DAY);
+        for (let j = 0; j < nullObjectsCount; j++) {
+            finalRanges.push({ start_min: null, end_min: null });
         }
     }
 
@@ -299,6 +275,7 @@ export const splitTimeRange = (timeRanges: TRange[] = [], offset = 0): TTimeRang
     const resultWithGaps = addNullObjectsForGaps(splitRanges);
 
     const resultWithOffset = adjustTimeRangesWithOffset(resultWithGaps, offset);
+
     return resultWithOffset;
 };
 
@@ -456,12 +433,8 @@ export const convertToGMTWithOverflow = (times: TTimeRange[], offsetMinutes: num
         let startGMT = ((time.start_min ?? 0) + offsetMinutes) % minutesInWeek;
         let endGMT = ((time.end_min ?? 0) + offsetMinutes) % minutesInWeek;
 
-        if (startGMT < 0) {
-            startGMT += minutesInWeek;
-        }
-        if (endGMT < 0) {
-            endGMT += minutesInWeek;
-        }
+        if (startGMT < 0) startGMT += minutesInWeek;
+        if (endGMT < 0) endGMT += minutesInWeek;
 
         if (startGMT <= endGMT) {
             convertedTimes.push({
@@ -520,7 +493,7 @@ export const getDropdownList = (hoursList: TTimeOption[], type: string, value: s
         let disabled = false;
         if (
             shouldDisable &&
-            ((type === 'start' && index > referenceIndex) || (type === 'end' && index < referenceIndex))
+            ((type === 'start' && index >= referenceIndex) || (type === 'end' && index <= referenceIndex))
         ) {
             disabled = true;
         }
