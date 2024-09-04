@@ -5,7 +5,7 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     gap: 3rem;
 
     @include mobile-or-tablet-screen {
@@ -54,8 +54,6 @@
         }
 
         &__right-content {
-            // display: flex;
-            // align-items: center;
             margin-left: 0;
         }
     }
