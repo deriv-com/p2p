@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Dropdown } from '@/components/Dropdown';
 import { api } from '@/hooks';
@@ -20,21 +19,9 @@ type TTimeDropdownProps = {
 const FULL_DAY = '12:00 am';
 
 const TimeDropdown = ({ day, endTime, index, onSelectTime, startTime, today }: TTimeDropdownProps) => {
-    const [selectedTimes, setSelectedTimes] = useState({ endTime, startTime });
     const { isMobile } = useDevice();
     const { data } = api.settings.useSettings();
     const timeList = getHoursList(data?.business_hours_minutes_interval);
-
-    useEffect(() => {
-        const { endTime, startTime } = selectedTimes;
-
-        if (startTime > endTime) {
-            const newTimeIndex = timeList.findIndex(time => time.value === startTime) + 4;
-            const newTime = timeList[newTimeIndex]?.value;
-            onSelectTime(newTime, day, false);
-            setSelectedTimes({ ...selectedTimes, endTime: newTime });
-        }
-    }, [day, onSelectTime, selectedTimes, selectedTimes.endTime, timeList]);
 
     return (
         <div
@@ -48,7 +35,7 @@ const TimeDropdown = ({ day, endTime, index, onSelectTime, startTime, today }: T
                 listHeight='sm'
                 name='start_time_dropdown'
                 onSelect={time => onSelectTime(time as string, day, true)}
-                value={selectedTimes.startTime}
+                value={startTime}
                 variant='comboBox'
             />
             <Text size={isMobile ? 'sm' : 'xs'}>
@@ -61,7 +48,7 @@ const TimeDropdown = ({ day, endTime, index, onSelectTime, startTime, today }: T
                     listHeight='sm'
                     name='end_time_dropdown'
                     onSelect={time => onSelectTime(time as string, day, false)}
-                    value={selectedTimes.endTime}
+                    value={endTime}
                     variant='comboBox'
                 />
             </div>
