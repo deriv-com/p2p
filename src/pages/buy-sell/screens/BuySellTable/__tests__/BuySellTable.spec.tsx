@@ -234,6 +234,7 @@ describe('<BuySellTable />', () => {
     });
 
     it('should call history.replace if user clicks on Buy/Sell button and POA/POI is not verified', async () => {
+        mockUseIsAdvertiser = false;
         mockUseModalManager.isModalOpenFor.mockReturnValue(false);
         mockUsePoiPoaStatus.mockReturnValueOnce({ data: { isPoaVerified: false, isPoiVerified: false } });
 
