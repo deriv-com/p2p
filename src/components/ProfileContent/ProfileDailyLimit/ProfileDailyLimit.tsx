@@ -23,10 +23,10 @@ const ProfileDailyLimit = () => {
                         values={{
                             currency: activeAccount?.currency,
                             maxDailyBuy: FormatUtils.formatMoney(
-                                advertiserStats?.upgradable_daily_limits?.max_daily_buy
+                                Number(advertiserStats?.upgradable_daily_limits?.max_daily_buy)
                             ),
                             maxDailySell: FormatUtils.formatMoney(
-                                advertiserStats?.upgradable_daily_limits?.max_daily_sell
+                                Number(advertiserStats?.upgradable_daily_limits?.max_daily_sell)
                             ),
                         }}
                     />
