@@ -31,9 +31,7 @@ const BusinessHoursTooltip = () => {
                     )}
                 </Text>
             </TooltipMenuIcon>
-            {isModalOpenFor('BusinessHoursModal') && (
-                <BusinessHoursModal hideModal={() => hideModal({ shouldHideAllModals: true })} isModalOpen />
-            )}
+            {isModalOpenFor('BusinessHoursModal') && <BusinessHoursModal hideModal={hideModal} isModalOpen />}
         </>
     );
 };

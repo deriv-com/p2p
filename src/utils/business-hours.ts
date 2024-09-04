@@ -48,7 +48,11 @@ const DAYS_OF_WEEK = {
     saturday: 6,
 };
 
-// This function returns an object with the days of the week, their labels, and their values
+/**
+ * This function returns an object with the days of the week, their labels, and their values
+ * @param localize - The localize function
+ * @returns {TDaysOfWeek}
+ * */
 export const getDaysOfWeek = (localize: TLocalize): TDaysOfWeek => {
     return {
         0: {
