@@ -3,6 +3,7 @@ import { api } from '@/hooks';
 import { useAdvertiserStats, useModalManager } from '@/hooks/custom-hooks';
 import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
+import { FormatUtils } from '@deriv-com/utils';
 import './ProfileDailyLimit.scss';
 
 const ProfileDailyLimit = () => {
@@ -21,8 +22,12 @@ const ProfileDailyLimit = () => {
                         i18n_default_text='Want to increase your daily limits to <0>{{maxDailyBuy}} {{currency}}</0> (buy) and <1>{{maxDailySell}} {{currency}}</1> (sell)?'
                         values={{
                             currency: activeAccount?.currency,
-                            maxDailyBuy: advertiserStats?.daily_buy_limit,
-                            maxDailySell: advertiserStats?.daily_sell_limit,
+                            maxDailyBuy: FormatUtils.formatMoney(
+                                advertiserStats?.upgradable_daily_limits?.max_daily_buy
+                            ),
+                            maxDailySell: FormatUtils.formatMoney(
+                                advertiserStats?.upgradable_daily_limits?.max_daily_sell
+                            ),
                         }}
                     />
                 </Text>
