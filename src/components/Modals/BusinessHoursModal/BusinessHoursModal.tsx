@@ -13,7 +13,7 @@ import { BusinessHoursModalMain } from './BusinessHoursModalMain';
 import './BusinessHoursModal.scss';
 
 type TBusinessHoursModalProps = {
-    hideModal: () => void;
+    hideModal: ReturnType<typeof useModalManager>['hideModal'];
     isModalOpen: boolean;
 };
 
@@ -43,32 +43,26 @@ const BusinessHoursModal = ({ hideModal, isModalOpen }: TBusinessHoursModalProps
 
         if (isEdited && showEdit) {
             showModal('CancelBusinessHoursModal');
-        } else if (shouldCloseModal) {
-            hideModal();
         } else if (showEdit) {
             setShowEdit(false);
         } else {
-            hideCancelModal();
+            hideModal({ shouldHideAllModals: true });
         }
-    }, [businessHours, editedBusinessHours, hideCancelModal, hideModal, shouldCloseModal, showEdit, showModal]);
+    }, [businessHours, editedBusinessHours, hideModal, showEdit, showModal]);
 
     const onCloseModal = () => {
-        setShouldCloseModal(true);
+        setShouldCloseModal(isDesktop);
         onClickCancel();
     };
 
     const onDiscard = () => {
         if (shouldCloseModal) {
-            hideModal();
+            hideModal({ shouldHideAllModals: true });
         } else {
             setShowEdit(false);
             setEditedBusinessHours(businessHours);
             hideCancelModal();
         }
-    };
-
-    const onKeepEditing = () => {
-        hideCancelModal();
     };
 
     useEffect(() => {
@@ -121,7 +115,7 @@ const BusinessHoursModal = ({ hideModal, isModalOpen }: TBusinessHoursModalProps
                     </Modal.Footer>
                 </Modal>
                 {isModalOpenFor('CancelBusinessHoursModal') && (
-                    <CancelBusinessHoursModal isModalOpen onDiscard={onDiscard} onKeepEditing={onKeepEditing} />
+                    <CancelBusinessHoursModal isModalOpen onDiscard={onDiscard} onKeepEditing={hideCancelModal} />
                 )}
             </>
         );
@@ -155,7 +149,7 @@ const BusinessHoursModal = ({ hideModal, isModalOpen }: TBusinessHoursModalProps
                 )}
             </FullPageMobileWrapper>
             {isModalOpenFor('CancelBusinessHoursModal') && (
-                <CancelBusinessHoursModal isModalOpen onDiscard={onDiscard} onKeepEditing={onKeepEditing} />
+                <CancelBusinessHoursModal isModalOpen onDiscard={onDiscard} onKeepEditing={hideCancelModal} />
             )}
         </>
     );

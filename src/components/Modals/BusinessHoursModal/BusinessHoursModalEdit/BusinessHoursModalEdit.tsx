@@ -212,6 +212,7 @@ const BusinessHoursModalEdit = ({
                                         className={clsx('rotate-45 m-[0.8rem]', {
                                             'opacity-30': isDisabled,
                                         })}
+                                        data-testid={`dt_reset_icon_${day.value}`}
                                         iconSize='xs'
                                     />
                                 </TooltipMenuIcon>
