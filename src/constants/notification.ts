@@ -5,7 +5,6 @@ export const getNotification = (localize: TLocalize, messageKey: string, payload
     const values = payload ? JSON.parse(payload) : {};
     const notification = {
         actionText: '',
-        buttonAction: () => {},
         message: '',
         title: '',
     };
