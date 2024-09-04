@@ -1,13 +1,14 @@
 import { TemporarilyBarredHint, Verification } from '@/components';
-import { useIsAdvertiserBarred, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import { useIsAdvertiser, useIsAdvertiserBarred, usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { MyAdsTable } from './MyAdsTable';
 
 const MyAds = () => {
+    const isAdvertiser = useIsAdvertiser();
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const { data } = usePoiPoaStatus();
     const { isPoaVerified, isPoiVerified } = data || {};
 
-    if (!isPoaVerified || !isPoiVerified) return <Verification />;
+    if (!isAdvertiser && (!isPoaVerified || !isPoiVerified)) return <Verification />;
 
     return (
         <div className='flex flex-col h-full'>
