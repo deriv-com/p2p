@@ -19,7 +19,6 @@ const BusinessHoursTooltip = () => {
                 <Text
                     as='button'
                     className='underline'
-                    fontStyle=''
                     onClick={() => showModal('BusinessHoursModal')}
                     size={isMobile ? 'xs' : 'sm'}
                     weight='bold'

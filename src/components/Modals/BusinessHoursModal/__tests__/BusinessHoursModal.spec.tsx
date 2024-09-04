@@ -96,8 +96,6 @@ describe('<BusinessHoursModal />', () => {
         expect(saveButton).toBeInTheDocument();
         expect(saveButton).toBeDisabled();
         expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
-
-        // screen.debug(undefined, 1000000);
     });
 
     it('should change the business hours when a change is made', async () => {
