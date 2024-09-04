@@ -49,7 +49,7 @@ const MyProfile = () => {
         return <Loader />;
     }
 
-    if (!isPoiVerified || !isPoaVerified) {
+    if (!isAdvertiser && (!isPoiVerified || !isPoaVerified)) {
         return <Verification />;
     }
 
