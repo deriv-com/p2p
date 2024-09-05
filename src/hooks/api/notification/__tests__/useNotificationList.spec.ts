@@ -7,10 +7,12 @@ const mockNotificationListData = {
             messages: [
                 {
                     category: 'see',
+                    id: 1,
                     message_key: 'p2p-limit-upgrade-available',
                 },
                 {
                     category: 'see',
+                    id: 2,
                     message_key: 'poi-verified',
                 },
             ],
@@ -29,6 +31,7 @@ describe('useNotificationList', () => {
         expect(result.current.data).toEqual([
             {
                 category: 'see',
+                id: 1,
                 message_key: 'p2p-limit-upgrade-available',
             },
         ]);
