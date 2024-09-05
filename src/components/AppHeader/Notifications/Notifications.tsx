@@ -5,7 +5,7 @@ import { getNotification, MY_PROFILE_URL } from '@/constants';
 import { api } from '@/hooks';
 import { LegacyAnnouncementIcon, LegacyNotificationIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { Badge, Notifications as UINotifications, Text, useDevice } from '@deriv-com/ui';
+import { Badge, Notifications as UINotifications, useDevice } from '@deriv-com/ui';
 
 const Notifications = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,7 @@ const Notifications = () => {
                     setIsOpen(false);
                 },
                 icon: <LegacyAnnouncementIcon height='16' width='16' />,
-                message: <Text size={isMobile ? 'sm' : 'xs'}>{message}</Text>,
+                message,
                 title,
             };
         });
