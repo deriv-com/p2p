@@ -1,6 +1,6 @@
 import { ComponentProps, ReactNode } from 'react';
 import { ACCOUNT_LIMITS, HELP_CENTRE, RESPONSIBLE } from '@/constants';
-import { useLiveChat } from '@/hooks/custom-hooks';
+import { useLiveChat, useOAuth } from '@/hooks/custom-hooks';
 import {
     BrandDerivLogoCoralIcon,
     IconTypes,
@@ -16,7 +16,6 @@ import {
     LegacyResponsibleTradingIcon,
     LegacyWhatsappIcon,
 } from '@deriv/quill-icons';
-import { useAuthData } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { URLConstants } from '@deriv-com/utils';
 
@@ -36,7 +35,7 @@ type TMenuConfig = {
 
 export const MobileMenuConfig = () => {
     const { localize } = useTranslations();
-    const { logout } = useAuthData();
+    const { oAuthLogout } = useOAuth();
     const { LiveChatWidget } = useLiveChat();
 
     const menuConfig: TMenuConfig[] = [
@@ -125,8 +124,8 @@ export const MobileMenuConfig = () => {
                 as: 'button',
                 label: localize('Log out'),
                 LeftComponent: LegacyLogout1pxIcon,
-                onClick: async () => {
-                    await logout();
+                onClick: () => {
+                    oAuthLogout();
                 },
                 removeBorderBottom: true,
             },

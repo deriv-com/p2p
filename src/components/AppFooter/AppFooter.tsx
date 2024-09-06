@@ -2,6 +2,7 @@ import { LANGUAGES } from '@/constants';
 import { useModalManager } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { DesktopLanguagesModal } from '@deriv-com/ui';
+import { LocalStorageUtils } from '@deriv-com/utils';
 import AccountLimits from './AccountLimits';
 import Deriv from './Deriv';
 import Endpoint from './Endpoint';
@@ -16,8 +17,9 @@ import WhatsApp from './WhatsApp';
 import './AppFooter.scss';
 
 const AppFooter = () => {
-    const { currentLang = 'EN', localize, switchLanguage } = useTranslations();
+    const { localize, switchLanguage } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
+    const currentLang = LocalStorageUtils.getValue<string>('i18n_language') || 'EN';
 
     const openLanguageSettingModal = () => showModal('DesktopLanguagesModal');
 

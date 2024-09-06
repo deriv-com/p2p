@@ -6,6 +6,12 @@
             cursor: pointer;
         }
 
+        & .deriv-input--label-animation-disabled {
+            &::placeholder {
+                opacity: 0;
+            }
+        }
+
         &__field {
             @include desktop {
                 height: 3.2rem;
@@ -14,8 +20,9 @@
             align-items: center;
 
             input {
+                outline: none;
                 @include desktop {
-                    padding-left: 1.5rem;
+                    padding-left: 1rem;
                 }
             }
 

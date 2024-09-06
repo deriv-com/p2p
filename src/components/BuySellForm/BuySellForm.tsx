@@ -281,7 +281,12 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 isBuy={isBuy}
                 isHidden={isHidden}
                 isModalOpen={isModalOpen}
-                isValid={isValid && (!isBuy || hasSelectedPaymentMethods || !showLowBalanceError)}
+                isValid={
+                    isValid &&
+                    (!isBuy ||
+                        hasSelectedPaymentMethods ||
+                        (isBuy && hasSelectedPaymentMethods && !showLowBalanceError))
+                }
                 onRequestClose={onCloseBuySellForm}
                 onSubmit={onSubmit}
             >

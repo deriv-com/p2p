@@ -60,24 +60,39 @@ const Endpoint = () => {
                         required: 'This field is required',
                     }}
                 />
-                <Button
-                    className='w-40'
-                    disabled={!isDirty || !isValid}
-                    onClick={handleSubmit(() => {
-                        LocalStorageUtils.setValue<string>(
-                            LocalStorageConstants.configServerURL,
-                            getValues('serverUrl')
-                        );
-                        LocalStorageUtils.setValue<string>(LocalStorageConstants.configAppId, getValues('appId'));
-                        reset({
-                            appId: getValues('appId'),
-                            serverUrl: getValues('serverUrl'),
-                        });
-                        window.location.reload();
-                    })}
-                >
-                    Submit
-                </Button>
+                <div className='flex gap-4'>
+                    <Button
+                        className='w-40'
+                        disabled={!isDirty || !isValid}
+                        onClick={handleSubmit(() => {
+                            LocalStorageUtils.setValue<string>(
+                                LocalStorageConstants.configServerURL,
+                                getValues('serverUrl')
+                            );
+                            LocalStorageUtils.setValue<string>(LocalStorageConstants.configAppId, getValues('appId'));
+                            reset({
+                                appId: getValues('appId'),
+                                serverUrl: getValues('serverUrl'),
+                            });
+                            window.location.reload();
+                        })}
+                    >
+                        Submit
+                    </Button>
+                    <Button
+                        className='border-[1px]'
+                        color='black'
+                        onClick={() => {
+                            LocalStorageUtils.setValue<string>(LocalStorageConstants.configServerURL, '');
+                            LocalStorageUtils.setValue<string>(LocalStorageConstants.configAppId, '');
+                            reset();
+                            window.location.reload();
+                        }}
+                        variant='outlined'
+                    >
+                        Reset to original settings
+                    </Button>
+                </div>
             </form>
         </div>
     );

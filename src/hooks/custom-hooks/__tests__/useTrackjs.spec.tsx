@@ -31,7 +31,7 @@ describe('useTrackjs', () => {
         result.current.init();
 
         expect(TrackJS.install).toHaveBeenCalledWith({
-            application: 'deriv-p2p',
+            application: 'p2p',
             dedupe: false,
             enabled: false,
             token: 'test-token',
