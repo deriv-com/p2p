@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import useInvalidateQuery from '../api/useInvalidateQuery';
 import { api } from '..';
 
@@ -8,16 +8,14 @@ import { api } from '..';
  */
 const useIsAdvertiserBarred = (): boolean => {
     const { data = {} } = api.advertiser.useGetInfo();
-    const [isAdvertiserBarred, setIsAdvertiserBarred] = useState(false);
     const invalidate = useInvalidateQuery();
 
-    useEffect(() => {
-        if (isAdvertiserBarred !== !!data.blocked_until) {
-            invalidate('p2p_advertiser_adverts');
-            setIsAdvertiserBarred(!!data.blocked_until);
-        }
+    const isAdvertiserBarred = useMemo(() => {
+        invalidate('p2p_advertiser_adverts');
+        return !!data.blocked_until;
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAdvertiserBarred, data.blocked_until]);
+    }, [data.blocked_until]);
 
     return isAdvertiserBarred;
 };

@@ -17,4 +17,5 @@ export const ERROR_CODES = {
     ORDER_CREATE_FAIL_RATE_SLIPPAGE: 'OrderCreateFailRateSlippage',
     ORDER_EMAIL_VERIFICATION_REQUIRED: 'OrderEmailVerificationRequired',
     PERMISSION_DENIED: 'PermissionDenied',
+    TEMPORARY_BAR: 'TemporaryBar',
 } as const;
