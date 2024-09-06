@@ -12,6 +12,10 @@
         @include mobile-or-tablet-screen {
             padding: 1.6rem;
         }
+
+        & .deriv-modal__header {
+            padding: 1.6rem 2.4rem;
+        }
     }
     &__body {
         padding: 0.8rem 2.4rem;
