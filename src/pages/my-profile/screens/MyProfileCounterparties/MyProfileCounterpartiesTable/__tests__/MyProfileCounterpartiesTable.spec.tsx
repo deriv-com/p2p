@@ -1,4 +1,5 @@
 import { api } from '@/hooks';
+import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
 import { render, screen, waitFor } from '@testing-library/react';
 import MyProfileCounterpartiesTable from '../MyProfileCounterpartiesTable';
 
@@ -15,17 +16,31 @@ const mockApiValues = {
     loadMoreAdvertisers: jest.fn(),
 };
 
+const mockStore = {
+    errorMessages: [],
+    reset: jest.fn(),
+};
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isMobile: false })),
 }));
 
 jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
     api: {
         advertiser: {
             useGetList: jest.fn(() => mockApiValues),
         },
     },
+}));
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    useIsAdvertiserBarred: jest.fn(() => false),
+}));
+
+jest.mock('@/stores', () => ({
+    useErrorStore: jest.fn(selector => (selector ? selector(mockStore) : mockStore)),
 }));
 
 const mockUseModalManager = {
@@ -45,6 +60,8 @@ jest.mock('@/components/Modals/BlockUnblockUserModal', () => ({
 }));
 
 const mockUseGetList = api.advertiser.useGetList as jest.Mock;
+const mockUseIsAdvertiserBarred = useIsAdvertiserBarred as jest.Mock;
+
 describe('MyProfileCounterpartiesTable', () => {
     it('should render the empty results when there is no data', () => {
         render(<MyProfileCounterpartiesTable {...mockProps} />);
@@ -80,5 +97,33 @@ describe('MyProfileCounterpartiesTable', () => {
         };
         render(<MyProfileCounterpartiesTable {...newProps} />);
         expect(screen.getByText('There are no matching name.')).toBeInTheDocument();
+    });
+
+    it('should show error message when error code is TEMPORARY_BAR', () => {
+        // @ts-expect-error - mock values
+        mockStore.errorMessages = [{ code: 'TemporaryBar', message: 'Temporary Bar' }];
+        mockUseIsAdvertiserBarred.mockReturnValue(true);
+        mockUseGetList.mockReturnValue({
+            ...mockApiValues,
+            data: [{ id: 'id1', is_blocked: false, name: 'name1' }],
+        });
+
+        render(<MyProfileCounterpartiesTable {...mockProps} />);
+        expect(screen.getByText('Temporary Bar')).toBeInTheDocument();
+    });
+
+    it('should call reset and setShowHeader if isAdvertiserBarred is false and error code is', () => {
+        // @ts-expect-error - mock values
+        mockStore.errorMessages = [{ code: 'TemporaryBar', message: 'Temporary Bar' }];
+        mockUseIsAdvertiserBarred.mockReturnValue(false);
+        mockUseGetList.mockReturnValue({
+            ...mockApiValues,
+            data: [{ id: 'id1', is_blocked: false, name: 'name1' }],
+        });
+
+        render(<MyProfileCounterpartiesTable {...mockProps} />);
+
+        expect(mockProps.setShowHeader).toHaveBeenCalledWith(true);
+        expect(mockStore.reset).toHaveBeenCalled();
     });
 });

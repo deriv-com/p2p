@@ -1,7 +1,13 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import { api } from '@/hooks';
-import { Localize } from '@deriv-com/translations';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
+import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
+import { api, useModalManager } from '@/hooks';
+import { useErrorStore } from '@/stores';
+import { getCurrentRoute } from '@/utils';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
+import { ErrorModal } from '../ErrorModal';
 import './BlockUnblockUserModal.scss';
 
 type TBlockUnblockUserModalProps = {
@@ -11,7 +17,6 @@ type TBlockUnblockUserModalProps = {
     isModalOpen: boolean;
     onClickBlocked?: () => void;
     onRequestClose: () => void;
-    setErrorMessage?: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const BlockUnblockUserModal = ({
@@ -21,8 +26,8 @@ const BlockUnblockUserModal = ({
     isModalOpen,
     onClickBlocked,
     onRequestClose,
-    setErrorMessage,
 }: TBlockUnblockUserModalProps) => {
+    const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const {
         mutate: blockAdvertiser,
@@ -32,17 +37,28 @@ const BlockUnblockUserModal = ({
         mutate: unblockAdvertiser,
         mutation: { error: unblockError, isSuccess: unblockIsSuccess },
     } = api.counterparty.useUnblock();
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
+    const { errorMessages, setErrorMessages } = useErrorStore(
+        useShallow(state => ({ errorMessages: state.errorMessages, setErrorMessages: state.setErrorMessages }))
+    );
+    const isAdvertiser = getCurrentRoute() === 'advertiser';
+    const history = useHistory();
 
     useEffect(() => {
         if (isSuccess || unblockIsSuccess) {
             onClickBlocked?.();
             onRequestClose();
         } else if (error || unblockError) {
-            setErrorMessage?.(error?.message || unblockError?.message);
-            onRequestClose();
+            setErrorMessages(error || unblockError);
+
+            if (error?.code === ERROR_CODES.PERMISSION_DENIED && isAdvertiser) {
+                showModal('ErrorModal');
+            } else {
+                onRequestClose();
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSuccess, onClickBlocked, unblockIsSuccess, unblockError, error, setErrorMessage]);
+    }, [isSuccess, onClickBlocked, unblockIsSuccess, unblockError, error, setErrorMessages]);
 
     const textSize = isMobile ? 'md' : 'sm';
     const getModalTitle = () => (isBlocked ? `Unblock ${advertiserName}?` : `Block ${advertiserName}?`);
@@ -67,6 +83,24 @@ const BlockUnblockUserModal = ({
             blockAdvertiser([parseInt(id)]);
         }
     };
+
+    const permissionDeniedError = errorMessages.find(error => error.code === ERROR_CODES.PERMISSION_DENIED);
+
+    if (permissionDeniedError && isModalOpenFor('ErrorModal')) {
+        return (
+            <ErrorModal
+                buttonText={localize('Got it')}
+                hideCloseIcon
+                isModalOpen
+                message={permissionDeniedError.message}
+                onRequestClose={() => {
+                    hideModal();
+                    history.push(BUY_SELL_URL);
+                }}
+                title={localize('Unable to block advertiser')}
+            />
+        );
+    }
 
     return (
         <Modal
