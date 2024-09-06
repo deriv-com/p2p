@@ -89,7 +89,7 @@ const BusinessHoursModal = ({ hideModal, isModalOpen }: TBusinessHoursModalProps
                         },
                     }}
                 >
-                    <Modal.Header hideBorder onRequestClose={onCloseModal}>
+                    <Modal.Header hideBorder hideCloseIcon={showEdit} onRequestClose={onCloseModal}>
                         <BusinessHoursModalHeader showEdit={showEdit} />
                     </Modal.Header>
                     <Modal.Body className='business-hours-modal__body'>
