@@ -35,7 +35,7 @@ const AdCancelCreateEditModal = ({ isModalOpen, onRequestClose, resetValues }: T
                 </Text>
             </Modal.Header>
             <Modal.Body className='ad-cancel-create-edit-modal__body'>
-                <Text size='sm'>
+                <Text size={textSize}>
                     {isEdit ? (
                         <Localize i18n_default_text='If you choose to cancel, the edited details will be lost.' />
                     ) : (

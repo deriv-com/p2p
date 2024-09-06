@@ -6,6 +6,9 @@
         right: 33%;
         top: 1rem;
 
+        @include tablet {
+            top: 0.75rem;
+        }
         @include mobile-or-tablet-screen {
             right: 45%;
         }
@@ -19,7 +22,12 @@
 
         &__field {
             padding-right: 3rem;
+            margin-inline-start: 24rem;
+            @include mobile {
+                margin-inline-start: 10rem;
+            }
             @include desktop {
+                margin-inline-start: unset;
                 padding-right: 40%;
             }
         }
