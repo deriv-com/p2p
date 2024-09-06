@@ -7,24 +7,22 @@
     }
 
     &__full-page {
-        @include mobile-or-tablet-screen {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            max-width: 100%;
-            height: calc(100% - 7.5rem);
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        max-width: 100%;
+        height: calc(100% - 7.5rem);
 
-            & .mobile-wrapper {
-                &__body {
-                    height: 100%;
-                }
+        & .mobile-wrapper {
+            &__body {
+                height: 100%;
+            }
 
-                &__header {
-                    padding: 1rem 1.6rem;
-                }
+            &__header {
+                padding: 1rem 1.6rem;
             }
         }
     }

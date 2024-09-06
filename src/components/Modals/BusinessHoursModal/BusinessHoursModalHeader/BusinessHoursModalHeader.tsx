@@ -1,11 +1,11 @@
 import { Localize } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
 
-type TBusinessHoursModalFooterProps = {
+type TBusinessHoursModalHeaderProps = {
     showEdit: boolean;
 };
 
-const BusinessHourModalHeader = ({ showEdit }: TBusinessHoursModalFooterProps) => {
+const BusinessHoursModalHeader = ({ showEdit }: TBusinessHoursModalHeaderProps) => {
     if (showEdit) {
         return (
             <Text weight='bold'>
@@ -21,4 +21,4 @@ const BusinessHourModalHeader = ({ showEdit }: TBusinessHoursModalFooterProps) =
     );
 };
 
-export default BusinessHourModalHeader;
+export default BusinessHoursModalHeader;

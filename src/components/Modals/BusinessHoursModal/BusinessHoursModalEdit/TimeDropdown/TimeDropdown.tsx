@@ -10,15 +10,14 @@ import './TimeDropdown.scss';
 type TTimeDropdownProps = {
     day: string;
     endTime: string;
-    index: number;
+    isToday: boolean;
     onSelectTime: (time: string, value: string, startTime: boolean) => void;
     startTime: string;
-    today: number;
 };
 
 const FULL_DAY = '12:00 am';
 
-const TimeDropdown = ({ day, endTime, index, onSelectTime, startTime, today }: TTimeDropdownProps) => {
+const TimeDropdown = ({ day, endTime, isToday, onSelectTime, startTime }: TTimeDropdownProps) => {
     const { isMobile } = useDevice();
     const { data } = api.settings.useSettings();
     const timeList = getHoursList(data?.business_hours_minutes_interval);
@@ -26,7 +25,7 @@ const TimeDropdown = ({ day, endTime, index, onSelectTime, startTime, today }: T
     return (
         <div
             className={clsx('time-dropdown', {
-                'time-dropdown--bold': index === today,
+                'time-dropdown--bold': isToday,
             })}
         >
             <Dropdown

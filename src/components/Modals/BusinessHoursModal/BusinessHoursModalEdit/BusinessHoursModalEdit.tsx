@@ -30,7 +30,7 @@ const getDropdownOpenStates = (data: TData[]): TDayState => {
 
     data.forEach(item => {
         // Check if the item contains a valid day and has non-null start_time or end_time
-        if (item.day in dayStates && (item.start_time !== null || item.end_time !== null)) {
+        if (item.value in dayStates && (item.start_time !== null || item.end_time !== null)) {
             dayStates[item.day] = true;
         }
     });
@@ -165,7 +165,8 @@ const BusinessHoursModalEdit = ({
             <LightDivider className='my-[1.6rem]' />
             <div className='flex flex-col gap-[0.8rem]'>
                 {editedBusinessHours.map((day, index) => {
-                    const textWeight = index === today ? 'bold' : 'normal';
+                    const isToday = index === today;
+                    const textWeight = isToday ? 'bold' : 'normal';
                     const includesDay = selectedDays.includes(day.value);
                     const areTimesNull = day.start_time === null && day.end_time === null;
                     const isFullDay = day.start_time === day.end_time;
@@ -181,10 +182,9 @@ const BusinessHoursModalEdit = ({
                                     <TimeDropdown
                                         day={day.value}
                                         endTime={day.end_time ?? ''}
-                                        index={index}
+                                        isToday={isToday}
                                         onSelectTime={onSelectTime}
                                         startTime={day.start_time ?? ''}
-                                        today={today}
                                     />
                                 ) : (
                                     <div
