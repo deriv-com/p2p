@@ -14,12 +14,24 @@ export const DERIV_COM = URLConstants.derivComProduction;
 export const HELP_CENTRE = `${URLConstants.derivComProduction}/help-centre/`;
 export const RESPONSIBLE = `${URLConstants.derivComProduction}/responsible/`;
 
+export const INTRODUCING_DERIV_P2P_URL =
+    'https://player.vimeo.com/video/715973569?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
+
+export const HOW_TO_USE_DERIV_P2P_URL =
+    'https://player.vimeo.com/video/715982928?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
+
+export const HOW_TO_PROTECT_YOURSELF_URL = 'https://blog.deriv.com/posts/how-to-protect-yourself-on-p2p-platforms/';
+
+export const DEFAULT_OAUTH_LOGOUT_URL = 'https://oauth.deriv.com/oauth2/sessions/logout';
+
+export const DEFAULT_OAUTH_ORIGIN_URL = 'https://oauth.deriv.com';
+
 const SocketURL = {
     [URLConstants.derivP2pProduction]: 'blue.derivws.com',
     [URLConstants.derivP2pStaging]: 'red.derivws.com',
 };
 
-export const getOauthUrl = () => {
+export const getServerInfo = () => {
     const origin = window.location.origin;
     const hostname = window.location.hostname;
 
@@ -45,6 +57,16 @@ export const getOauthUrl = () => {
     const appId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
     const lang = LocalStorageUtils.getValue<string>(LocalStorageConstants.i18nLanguage);
 
+    return {
+        appId,
+        lang,
+        serverUrl,
+    };
+};
+
+export const getOauthUrl = () => {
+    const { appId, lang, serverUrl } = getServerInfo();
+
     const oauthUrl =
         appId && serverUrl
             ? `https://${serverUrl}/oauth2/authorize?app_id=${appId}&l=${lang ?? 'EN'}&&brand=deriv`
@@ -53,10 +75,18 @@ export const getOauthUrl = () => {
     return oauthUrl;
 };
 
-export const INTRODUCING_DERIV_P2P_URL =
-    'https://player.vimeo.com/video/715973569?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
+export const getOAuthLogoutUrl = () => {
+    const { appId, serverUrl } = getServerInfo();
 
-export const HOW_TO_USE_DERIV_P2P_URL =
-    'https://player.vimeo.com/video/715982928?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
+    const oauthUrl = appId && serverUrl ? `https://${serverUrl}/oauth2/sessions/logout` : DEFAULT_OAUTH_LOGOUT_URL;
 
-export const HOW_TO_PROTECT_YOURSELF_URL = 'https://blog.deriv.com/posts/how-to-protect-yourself-on-p2p-platforms/';
+    return oauthUrl;
+};
+
+export const getOAuthOrigin = () => {
+    const { appId, serverUrl } = getServerInfo();
+
+    const oauthUrl = appId && serverUrl ? `https://${serverUrl}` : DEFAULT_OAUTH_ORIGIN_URL;
+
+    return oauthUrl;
+};
