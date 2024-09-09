@@ -1,4 +1,5 @@
 import { Controller, useForm } from 'react-hook-form';
+import { getServerInfo } from '@/constants';
 import { Button, Input, Text } from '@deriv-com/ui';
 import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import './Endpoint.scss';
@@ -86,7 +87,7 @@ const Endpoint = () => {
                             LocalStorageUtils.setValue<string>(LocalStorageConstants.configServerURL, '');
                             LocalStorageUtils.setValue<string>(LocalStorageConstants.configAppId, '');
                             reset();
-                            window.location.reload();
+                            getServerInfo();
                         }}
                         variant='outlined'
                     >
