@@ -36,7 +36,9 @@ describe('ChatMessages', () => {
     it('should render the messages as expected', () => {
         render(<ChatMessages {...mockProps} />);
         expect(
-            screen.getByText(/Hello! This is where you can chat with the counterparty to confirm the order details./)
+            screen.getByText(
+                /Deriv will never contact you via WhatsApp to ask for your personal information. Always ignore any messages from numbers claiming to be from Deriv./
+            )
         ).toBeInTheDocument();
     });
     it('should display the message sent by the user', () => {
