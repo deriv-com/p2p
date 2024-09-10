@@ -136,7 +136,7 @@ describe('BlockUnblockUserModal', () => {
         expect(mockOnRequestClose).toBeCalled();
     });
 
-    it('should call onClickBlocked and onRequestClose if isSuccess if mutation returns success', async () => {
+    it('should call onClickBlocked and onRequestClose if isSuccess or mutation returns success', async () => {
         mockBlockMutation.isSuccess = true;
         const mockOnClickBlocked = jest.fn();
         render(
