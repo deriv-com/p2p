@@ -22,17 +22,26 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
     const { data } = api.paymentMethods.useGet();
     const { localize } = useTranslations();
     const { isDesktop } = useDevice();
-    const { selectedPaymentMethods, setSelectedPaymentMethods, setShouldUseClientLimits, shouldUseClientLimits } =
-        useBuySellFiltersStore(
-            useShallow(state => ({
-                selectedPaymentMethods: state.selectedPaymentMethods,
-                setSelectedPaymentMethods: state.setSelectedPaymentMethods,
-                setShouldUseClientLimits: state.setShouldUseClientLimits,
-                shouldUseClientLimits: state.shouldUseClientLimits,
-            }))
-        );
+    const {
+        selectedPaymentMethods,
+        setSelectedPaymentMethods,
+        setShouldUseClientLimits,
+        setShowFollowedUsers,
+        shouldUseClientLimits,
+        showFollowedUsers,
+    } = useBuySellFiltersStore(
+        useShallow(state => ({
+            selectedPaymentMethods: state.selectedPaymentMethods,
+            setSelectedPaymentMethods: state.setSelectedPaymentMethods,
+            setShouldUseClientLimits: state.setShouldUseClientLimits,
+            setShowFollowedUsers: state.setShowFollowedUsers,
+            shouldUseClientLimits: state.shouldUseClientLimits,
+            showFollowedUsers: state.showFollowedUsers,
+        }))
+    );
 
     const [showPaymentMethods, setShowPaymentMethods] = useState(false);
+    const [showFollowed, setShowFollowed] = useState(showFollowedUsers);
     const [isMatching, setIsMatching] = useState(shouldUseClientLimits);
     const [paymentMethods, setPaymentMethods] = useState<string[]>(selectedPaymentMethods);
     const [paymentMethodNames, setPaymentMethodNames] = useState('');
@@ -50,13 +59,19 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
             subtext: localize('Ads that match your Deriv P2P balance and limit.'),
             text: localize('Matching ads'),
         },
+        {
+            component: <ToggleSwitch onChange={event => setShowFollowed(event.target.checked)} value={showFollowed} />,
+            subtext: localize('View ads only from advertisers you know.'),
+            text: localize('Followed advertisers only'),
+        },
     ];
 
     const sortedSelectedPaymentMethods = [...selectedPaymentMethods].sort((a, b) => a.localeCompare(b));
     const sortedPaymentMethods = [...paymentMethods].sort((a, b) => a.localeCompare(b));
     const hasSamePaymentMethods = JSON.stringify(sortedSelectedPaymentMethods) === JSON.stringify(sortedPaymentMethods);
     const hasSameMatching = shouldUseClientLimits === isMatching;
-    const hasSameFilters = hasSamePaymentMethods && hasSameMatching;
+    const hasSameFollowed = showFollowedUsers === showFollowed;
+    const hasSameFilters = hasSamePaymentMethods && hasSameMatching && hasSameFollowed;
     const headerText = showPaymentMethods ? localize('Payment methods') : localize('Filter');
 
     const onApplyConfirm = () => {
@@ -65,6 +80,7 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
         } else {
             setSelectedPaymentMethods(paymentMethods);
             setShouldUseClientLimits(isMatching);
+            setShowFollowedUsers(showFollowed);
             onRequestClose();
         }
     };
