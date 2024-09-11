@@ -5,11 +5,14 @@ import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { AppFooter, AppHeader, DerivIframe, ErrorBoundary } from '@/components';
 import { useDerivAnalytics, useOAuth, useTrackjs } from '@/hooks';
 import AppContent from '@/routes/AppContent';
+import { useAuthData } from '@deriv-com/api-hooks';
+import { OAuth2Provider } from '@deriv-com/auth-client';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
 import useGrowthbookGetFeatureValue from './hooks/custom-hooks/useGrowthbookGetFeatureValue';
 import useOAuth2Enabled from './hooks/custom-hooks/useOAuth2Enabled';
+import { getOauthUrl } from './constants';
 
 const { VITE_CROWDIN_BRANCH_NAME, VITE_PROJECT_NAME, VITE_TRANSLATIONS_CDN_URL } = process.env;
 const i18nInstance = initializeI18n({
@@ -22,9 +25,12 @@ const App = () => {
     });
     const [isOAuth2Enabled] = useOAuth2Enabled();
     const { onRenderAuthCheck } = useOAuth();
+    const { logout } = useAuthData();
+
     const { init: initTrackJS } = useTrackjs();
     const { isDesktop } = useDevice();
     const { initialise: initDerivAnalytics } = useDerivAnalytics();
+    const oauthUrl = getOauthUrl();
 
     initTrackJS();
     initDerivAnalytics();
@@ -41,16 +47,18 @@ const App = () => {
         <BrowserRouter>
             {/* TODO: Replace the fallback element with the ErrorComponent */}
             <ErrorBoundary fallback={<div>fallback component</div>}>
-                <QueryParamProvider adapter={ReactRouter5Adapter}>
-                    <TranslationProvider defaultLang='EN' i18nInstance={i18nInstance}>
-                        <Suspense fallback={<Loader isFullScreen />}>
-                            {!isOAuth2Enabled && <DerivIframe />}
-                            <AppHeader />
-                            <AppContent />
-                            {isDesktop && <AppFooter />}
-                        </Suspense>
-                    </TranslationProvider>
-                </QueryParamProvider>
+                <OAuth2Provider logout={async () => logout()} oauthUrl={oauthUrl}>
+                    <QueryParamProvider adapter={ReactRouter5Adapter}>
+                        <TranslationProvider defaultLang='EN' i18nInstance={i18nInstance}>
+                            <Suspense fallback={<Loader isFullScreen />}>
+                                {!isOAuth2Enabled && <DerivIframe />}
+                                <AppHeader />
+                                <AppContent />
+                                {isDesktop && <AppFooter />}
+                            </Suspense>
+                        </TranslationProvider>
+                    </QueryParamProvider>
+                </OAuth2Provider>
             </ErrorBoundary>
         </BrowserRouter>
     );
