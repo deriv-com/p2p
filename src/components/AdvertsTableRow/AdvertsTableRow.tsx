@@ -9,9 +9,10 @@ import { api } from '@/hooks';
 import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
-import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
+import { LabelPairedChevronRightMdRegularIcon, StandaloneUserCheckFillIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
+import { TooltipMenuIcon } from '../TooltipMenuIcon';
 import './AdvertsTableRow.scss';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
@@ -53,6 +54,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const {
         completed_orders_count: completedOrdersCount,
         id,
+        is_favourite: isFollowing,
         is_online: isOnline,
         name,
         rating_average: ratingAverage,
@@ -121,7 +123,20 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                 <Text size={size} weight={isDesktop ? 400 : 'bold'}>
                                     {name}
                                 </Text>
-                                <Badge tradeCount={completedOrdersCount} />
+                                {!!completedOrdersCount && completedOrdersCount >= 100 && (
+                                    <Badge tradeCount={completedOrdersCount} />
+                                )}
+                                {isFollowing && (
+                                    <TooltipMenuIcon
+                                        as='button'
+                                        onClick={event => event.stopPropagation()}
+                                        tooltipContent={localize('Following')}
+                                    >
+                                        <div className='bg-[#333] p-[0.2rem] rounded-lg flex'>
+                                            <StandaloneUserCheckFillIcon fill='#FFF' iconSize='xs' />
+                                        </div>
+                                    </TooltipMenuIcon>
+                                )}
                             </div>
                             <div className='flex items-center'>
                                 {hasRating ? (
