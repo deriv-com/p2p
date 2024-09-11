@@ -7,6 +7,7 @@ import AdvertiserNameBadges from './AdvertiserNameBadges';
 import AdvertiserNameStats from './AdvertiserNameStats';
 import AdvertiserNameToggle from './AdvertiserNameToggle';
 import BlockDropdown from './BlockDropdown';
+import { FollowUserButton } from './FollowUserButton';
 import './AdvertiserName.scss';
 
 type TAdvertiserNameProps = {
@@ -41,7 +42,10 @@ const AdvertiserName = ({ advertiserStats, isSameUser, onClickBlocked }: TAdvert
                 <AdvertiserNameBadges advertiserStats={advertiserStats} />
             </div>
             {isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={advertiserStats} />}
-            {isDropdownVisible && <BlockDropdown id={advertiserStats?.id} onClickBlocked={onClickBlocked} />}
+            <div className='flex relative'>
+                <FollowUserButton id={advertiserStats?.id} />
+                {isDropdownVisible && <BlockDropdown id={advertiserStats?.id} onClickBlocked={onClickBlocked} />}
+            </div>
         </div>
     );
 };
