@@ -3,10 +3,6 @@
     grid-gap: 1.6rem;
     grid-template-columns: min-content auto max-content;
 
-    @include mobile-or-tablet-screen {
-        grid-template-columns: min-content auto;
-    }
-
     &__details {
         display: flex;
         flex-direction: column;
