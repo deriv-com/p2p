@@ -6,6 +6,7 @@ import { useOAuth2 } from '@deriv-com/auth-client';
 import useOAuth2Enabled from './useOAuth2Enabled';
 
 type UseOAuthReturn = {
+    logoutWs: () => Promise<void>;
     oAuthLogout: () => void;
     onRenderAuthCheck: () => void;
 };
@@ -22,6 +23,10 @@ const useOAuth = (): UseOAuthReturn => {
     const { error, isAuthorized, isAuthorizing } = useAuthData();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
     const oauthUrl = getOauthUrl();
+
+    const logoutWs = useCallback(async () => {
+        await logout();
+    }, [logout]);
 
     const WSLogoutAndRedirect = useCallback(async () => {
         await logout();
@@ -45,7 +50,7 @@ const useOAuth = (): UseOAuthReturn => {
         }
     }, [isEndpointPage, isAuthorized, isAuthorizing, error, oAuthLogout]);
 
-    return { oAuthLogout, onRenderAuthCheck };
+    return { logoutWs, oAuthLogout, onRenderAuthCheck };
 };
 
 export default useOAuth;

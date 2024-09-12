@@ -29,7 +29,7 @@ const useOAuth2Enabled = () => {
     useEffect(() => {
         if (OAuth2EnabledAppsInitialised) {
             const FEHydraAppIds = OAuth2EnabledApps.length
-                ? OAuth2EnabledApps[OAuth2EnabledApps.length - 1]?.enabled_for ?? []
+                ? (OAuth2EnabledApps[OAuth2EnabledApps.length - 1]?.enabled_for ?? [])
                 : [];
             setIsOauth2Enabled(FEHydraAppIds.includes(+(appId as string)));
         }

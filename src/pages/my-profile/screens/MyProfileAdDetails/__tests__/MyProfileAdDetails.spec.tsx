@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyProfileAdDetails from '../MyProfileAdDetails';
 
@@ -94,6 +94,8 @@ describe('MyProfileBalance', () => {
         await user.type(contactTextBoxNode, '0');
         await user.type(descriptionTextBoxNode, ' here');
         expect(submitBtn).toBeEnabled();
+
+        await waitFor(() => expect(submitBtn).toBeEnabled());
 
         await user.click(submitBtn);
         expect(mockMutateAdvertiser).toHaveBeenCalledWith({
