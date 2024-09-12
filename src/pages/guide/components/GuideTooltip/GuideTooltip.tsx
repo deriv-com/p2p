@@ -17,9 +17,14 @@ const GuideTooltip = () => {
             description={
                 <Localize i18n_default_text='Learn how to create buy/sell ads and understand the safety guidelines on Deriv P2P.' />
             }
-            icon={<LabelPairedBookCircleQuestionLgRegularIcon data-testid='dt_guide_tooltip_icon' />}
+            icon={
+                <LabelPairedBookCircleQuestionLgRegularIcon
+                    data-testid='dt_guide_tooltip_icon'
+                    onClick={() => history.push(GUIDE_URL, { from: currentRoute || 'buy-sell' })}
+                />
+            }
             localStorageItemName='should_show_p2p_guide'
-            onClickIcon={() => history.push(GUIDE_URL, { from: currentRoute || 'buy-sell' })}
+            onClick={() => history.push(GUIDE_URL)}
             title={<Localize i18n_default_text='Deriv P2P Guide' />}
         />
     );

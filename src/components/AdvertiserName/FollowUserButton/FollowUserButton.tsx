@@ -60,23 +60,27 @@ const FollowUserButton = ({ id }: TFollowUserButtonProps) => {
         <>
             <OnboardingTooltip
                 buttonText={<Localize i18n_default_text='OK' />}
-                className='gap-[0.4rem] lg:mt-[0.6rem] mt-0 p-[0.4rem]'
+                className='absolute p-[0.2rem] lg:right-12 right-0 lg:mt-2 mt-0'
                 description={
                     <Localize i18n_default_text='Follow your favourite advertisers and set a filter to see their ads first in your Buy/Sell list.' />
                 }
+                disabledClassName='lg:mt-2 mt-0 p-[0.4rem]'
                 icon={
-                    <Button
-                        color='black'
-                        disabled={isAdvertiserBarred}
-                        icon={<StandaloneUserPlusFillIcon fill={isFollowing ? '#FFF' : '#000'} iconSize='xs' />}
-                        size='sm'
-                        variant={isFollowing ? 'contained' : 'outlined'}
-                    >
-                        {getButtonText()}
-                    </Button>
+                    <div>
+                        <Button
+                            className='gap-[0.4rem] p-[0.4rem]'
+                            color='black'
+                            disabled={isAdvertiserBarred}
+                            icon={<StandaloneUserPlusFillIcon fill={isFollowing ? '#FFF' : '#000'} iconSize='xs' />}
+                            onClick={handleFollowUnfollowUser}
+                            size='sm'
+                            variant={isFollowing ? 'contained' : 'outlined'}
+                        >
+                            {getButtonText()}
+                        </Button>
+                    </div>
                 }
                 localStorageItemName='should_show_follow_guide'
-                onClickIcon={handleFollowUnfollowUser}
                 title={<Localize i18n_default_text='Follow advertisers' />}
             />
             {isModalOpenFor('ErrorModal') && (
