@@ -40,7 +40,9 @@ const mockStore = {
     selectedPaymentMethods: [],
     setSelectedPaymentMethods: jest.fn(),
     setShouldUseClientLimits: jest.fn(),
+    setShowFollowedUsers: jest.fn(),
     shouldUseClientLimits: true,
+    showFollowedUsers: false,
 };
 
 jest.mock('@/stores', () => ({
@@ -69,7 +71,9 @@ describe('<FilterModal />', () => {
     it('should render the initial page of the FilterModal', async () => {
         render(<FilterModal {...mockProps} />);
 
-        const toggleSwitch = screen.getByRole('checkbox');
+        const toggleSwitches = screen.getAllByRole('checkbox');
+        const matchingAdToggle = toggleSwitches[0];
+        const followedToggle = toggleSwitches[1];
         const resetButton = screen.getByRole('button', { name: 'Reset' });
         const applyButton = screen.getByRole('button', { name: 'Apply' });
 
@@ -77,32 +81,36 @@ describe('<FilterModal />', () => {
         expect(screen.getByText('Payment methods')).toBeInTheDocument();
         expect(screen.getByText('Matching ads')).toBeInTheDocument();
         expect(screen.getByText('Ads that match your Deriv P2P balance and limit.')).toBeInTheDocument();
-        expect(toggleSwitch).toBeInTheDocument();
-        expect(toggleSwitch).toBeChecked();
+        expect(matchingAdToggle).toBeInTheDocument();
+        expect(matchingAdToggle).toBeChecked();
+        expect(followedToggle).toBeInTheDocument();
+        expect(followedToggle).not.toBeChecked();
         expect(resetButton).toBeInTheDocument();
         expect(applyButton).toBeInTheDocument();
         expect(applyButton).toBeDisabled();
     });
 
-    it('should enable the apply button when user toggles the ToggleSwitch', async () => {
+    it('should enable the apply button when user toggles the Matching Ads toggle', async () => {
         render(<FilterModal {...mockProps} />);
 
-        const toggleSwitch = screen.getByRole('checkbox');
+        const toggleSwitches = screen.getAllByRole('checkbox');
+        const matchingAdToggle = toggleSwitches[0];
         const applyButton = screen.getByRole('button', { name: 'Apply' });
 
-        await user.click(toggleSwitch);
+        await user.click(matchingAdToggle);
 
-        expect(toggleSwitch).not.toBeChecked();
+        expect(matchingAdToggle).not.toBeChecked();
         expect(applyButton).toBeEnabled();
     });
 
     it('should call setSelectedPaymentMethods, onToggle, and onRequestClose when user clicks the Apply button', async () => {
         render(<FilterModal {...mockProps} />);
 
-        const toggleSwitch = screen.getByRole('checkbox');
+        const toggleSwitches = screen.getAllByRole('checkbox');
+        const matchingAdToggle = toggleSwitches[0];
         const applyButton = screen.getByRole('button', { name: 'Apply' });
 
-        await user.click(toggleSwitch);
+        await user.click(matchingAdToggle);
         await user.click(applyButton);
 
         expect(mockStore.setSelectedPaymentMethods).toHaveBeenCalled();
@@ -113,16 +121,17 @@ describe('<FilterModal />', () => {
     it('should call setPaymentMethods when user clicks on Reset button', async () => {
         render(<FilterModal {...mockProps} />);
 
-        const toggleSwitch = screen.getByRole('checkbox');
+        const toggleSwitches = screen.getAllByRole('checkbox');
+        const matchingAdToggle = toggleSwitches[0];
         const resetButton = screen.getByRole('button', { name: 'Reset' });
 
-        await user.click(toggleSwitch);
-        expect(toggleSwitch).not.toBeChecked();
+        await user.click(matchingAdToggle);
+        expect(matchingAdToggle).not.toBeChecked();
 
         await user.click(resetButton);
 
         expect(mockStore.setSelectedPaymentMethods).toHaveBeenCalled();
-        expect(toggleSwitch).toBeChecked();
+        expect(matchingAdToggle).toBeChecked();
     });
 
     it('should render the payment methods page of the FilterModal', async () => {
@@ -328,8 +337,9 @@ describe('<FilterModal />', () => {
         mockModalManager.isModalOpenFor.mockImplementation(modalName => modalName === 'LeaveFilterModal');
         render(<FilterModal {...mockProps} />);
 
-        const toggleSwitch = screen.getByRole('checkbox');
-        await user.click(toggleSwitch);
+        const toggleSwitches = screen.getAllByRole('checkbox');
+        const followedToggle = toggleSwitches[0];
+        await user.click(followedToggle);
 
         const closeIcon = screen.getByTestId('dt_mobile_wrapper_button');
         await user.click(closeIcon);
@@ -342,8 +352,9 @@ describe('<FilterModal />', () => {
         mockModalManager.isModalOpenFor.mockImplementation(modalName => modalName === 'LeaveFilterModal');
         render(<FilterModal {...mockProps} />);
 
-        const toggleSwitch = screen.getByRole('checkbox');
-        await user.click(toggleSwitch);
+        const toggleSwitches = screen.getAllByRole('checkbox');
+        const followedToggle = toggleSwitches[1];
+        await user.click(followedToggle);
 
         const closeIcon = screen.getByTestId('dt_mobile_wrapper_button');
         await user.click(closeIcon);
