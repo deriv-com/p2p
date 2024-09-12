@@ -20,6 +20,8 @@
 
     &__icon {
         @include desktop {
+            position: absolute;
+
             &:hover {
                 cursor: pointer;
             }
@@ -27,6 +29,7 @@
 
         &--disabled {
             background-color: #fff;
+            border-radius: 0.5rem;
             pointer-events: none;
             z-index: 2;
         }
