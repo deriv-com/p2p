@@ -34,6 +34,7 @@ const mockModalManager = {
 };
 
 jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
     api: {
         counterparty: {
             useBlock: () => ({
@@ -53,6 +54,7 @@ jest.mock('@/hooks', () => ({
 }));
 
 jest.mock('@/hooks/custom-hooks', () => ({
+    useAdvertiserStats: jest.fn(() => ({ data: {} })),
     useIsAdvertiserBarred: () => false,
     useModalManager: () => mockModalManager,
 }));
