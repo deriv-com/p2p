@@ -4,6 +4,7 @@ import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { useActiveAccount } from '@/hooks/api/account';
 import { useAuthData } from '@deriv-com/api-hooks';
+import { OAuth2Provider } from '@deriv-com/auth-client';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AppHeader from '../AppHeader';
@@ -103,7 +104,9 @@ describe('<AppHeader/>', () => {
         render(
             <BrowserRouter>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>
-                    <AppHeader />
+                    <OAuth2Provider oauthUrl='https://oauth.deriv.com'>
+                        <AppHeader />
+                    </OAuth2Provider>
                 </QueryParamProvider>
             </BrowserRouter>
         );
@@ -136,7 +139,9 @@ describe('<AppHeader/>', () => {
         render(
             <BrowserRouter>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>
-                    <AppHeader />
+                    <OAuth2Provider oauthUrl='https://oauth.deriv.com'>
+                        <AppHeader />
+                    </OAuth2Provider>
                 </QueryParamProvider>
             </BrowserRouter>
         );
