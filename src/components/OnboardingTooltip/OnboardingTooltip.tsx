@@ -1,7 +1,5 @@
 import { cloneElement, ReactElement, ReactNode, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { useHistory } from 'react-router-dom';
-import { GUIDE_URL } from '@/constants';
 import { Portal, Tooltip } from '@chakra-ui/react';
 import { StandaloneXmarkBoldIcon } from '@deriv/quill-icons';
 import { Button, Text } from '@deriv-com/ui';
@@ -10,39 +8,40 @@ import './OnboardingTooltip.scss';
 
 type TOnboardingTooltipProps = {
     buttonText: ReactNode;
-    className: string;
+    className?: string;
     description: ReactNode;
+    disabledClassName?: string;
     icon: ReactElement;
     localStorageItemName: string;
-    onClickIcon: () => void;
+    onClick?: () => void;
     title: ReactNode;
 };
 
 const OnboardingTooltip = ({
     buttonText,
-    className,
+    className = '',
     description,
+    disabledClassName = '',
     icon,
     localStorageItemName,
-    onClickIcon,
+    onClick,
     title,
 }: TOnboardingTooltipProps) => {
-    const history = useHistory();
     const [isOnboardingTooltipVisible, setIsOnboardingTooltipVisible] = useState<boolean>(
         // @ts-expect-error - localStorageItemName is a string
         LocalStorageUtils.getValue(localStorageItemName) ?? true
     );
 
-    const onGetStarted = () => {
+    const onClickButton = () => {
         setIsOnboardingTooltipVisible(false);
-        history.push(GUIDE_URL);
+        onClick?.();
     };
 
     const modifiedIcon = cloneElement(icon, {
-        className: clsx(className, 'onboarding-tooltip__icon', {
+        className: clsx('onboarding-tooltip__icon', className, {
+            [disabledClassName]: isOnboardingTooltipVisible,
             'onboarding-tooltip__icon--disabled': isOnboardingTooltipVisible,
         }),
-        onClick: onClickIcon,
     });
 
     useEffect(() => {
@@ -65,7 +64,7 @@ const OnboardingTooltip = ({
                 label={
                     <div>
                         <div className='flex align-center justify-between'>
-                            <Text as='div' weight='bold'>
+                            <Text as='div' size='sm' weight='bold'>
                                 {title}
                             </Text>
                             <StandaloneXmarkBoldIcon
@@ -76,13 +75,13 @@ const OnboardingTooltip = ({
                                 }}
                             />
                         </div>
-                        <Text as='div' className='mt-[1rem]'>
+                        <Text as='div' className='mt-2 lg:w-11/12 w-full' size='sm'>
                             {description}
                         </Text>
                         <Button
                             className='mt-[1.6rem] onboarding-tooltip__get-started-btn'
                             color='black'
-                            onClick={onGetStarted}
+                            onClick={onClickButton}
                             rounded='md'
                         >
                             {buttonText}
