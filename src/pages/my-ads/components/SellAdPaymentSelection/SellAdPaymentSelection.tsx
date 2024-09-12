@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import { TAdvertiserPaymentMethod, TSelectedPaymentMethod } from 'types';
+import { TAdvertiserPaymentMethod, TFormState, TReducerAction, TSelectedPaymentMethod } from 'types';
 import { PaymentMethodCard, PaymentMethodForm } from '@/components';
 import { api } from '@/hooks';
 import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
 import { advertiserPaymentMethodsReducer } from '@/reducers';
 import { LabelPairedPlusLgBoldIcon } from '@deriv/quill-icons';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './SellAdPaymentSelection.scss';
 
@@ -19,7 +19,12 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
 
-    const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
+    const { localize } = useTranslations();
+    const [formState, dispatch] = useReducer(
+        (currentState: TFormState, action: TReducerAction) =>
+            advertiserPaymentMethodsReducer(currentState, action, localize),
+        {}
+    );
 
     useEffect(() => {
         if (isAdvertiser) {
