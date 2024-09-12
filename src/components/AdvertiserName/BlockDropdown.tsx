@@ -18,7 +18,7 @@ const BlockDropdown = ({ id, onClickBlocked }: TBlockDropdownProps) => {
     return (
         <div className='block-dropdown'>
             <Dropdown
-                chevronIcon={<LabelPairedEllipsisVerticalXlRegularIcon data-testid='dt_block_dropdown_icon' />}
+                dropdownIcon={<LabelPairedEllipsisVerticalXlRegularIcon data-testid='dt_block_dropdown_icon' />}
                 list={[
                     {
                         text: localize('Block'),

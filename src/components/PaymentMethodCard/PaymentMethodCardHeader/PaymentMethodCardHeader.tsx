@@ -61,8 +61,8 @@ const PaymentMethodCardHeader = ({
             />
             {isEditable && (
                 <Dropdown
-                    chevronIcon={<LabelPairedEllipsisVerticalXlRegularIcon />}
                     className='payment-method-card__header-dropdown'
+                    dropdownIcon={<LabelPairedEllipsisVerticalXlRegularIcon />}
                     list={getActions(localize)}
                     name='payment-method-actions'
                     onSelect={value => {

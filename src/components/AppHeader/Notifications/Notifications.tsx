@@ -29,7 +29,6 @@ const Notifications = () => {
                     noNotificationsMessage: localize('No notifications MESSAGE'),
                     noNotificationsTitle: localize('No notifications'),
                 }}
-                isLoading={false}
                 isOpen={isOpen}
                 notifications={[]}
                 setIsOpen={setIsOpen}

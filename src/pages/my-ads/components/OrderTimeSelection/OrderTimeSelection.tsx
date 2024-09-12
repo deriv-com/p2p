@@ -72,7 +72,7 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
                 render={({ field: { onChange, value } }) => (
                     <Dropdown
                         className='items-center h-16'
-                        icon={<LabelPairedChevronDownMdRegularIcon />}
+                        dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
                         isFullWidth={isDesktop}
                         list={getOptions().sort((a, b) => a.value - b.value)}
                         name='order-completion-time'

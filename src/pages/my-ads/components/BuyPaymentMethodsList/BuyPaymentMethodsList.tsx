@@ -14,9 +14,9 @@ const BuyPaymentMethodsList = ({ list, onSelectPaymentMethod }: TBuyPaymentMetho
     return (
         <div className='buy-payment-methods-list'>
             <Dropdown
-                chevronIcon={<div />}
                 className='buy-payment-methods-list__dropdown'
                 data-testid='dt_buy_payment_methods_list'
+                dropdownIcon={<div />}
                 emptyResultMessage={localize('No results found')}
                 icon={<LabelPairedCirclePlusCaptionRegularIcon />}
                 isFullWidth

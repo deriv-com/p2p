@@ -32,7 +32,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
     return (
         <div className='sort-dropdown' data-testid='dt_sort_dropdown'>
             <Dropdown
-                chevronIcon={<LabelPairedChevronDownMdRegularIcon />}
+                dropdownIcon={<LabelPairedChevronDownMdRegularIcon />}
                 label={localize('Sort by')}
                 list={list as unknown as MutableOption[]}
                 name='Sort by'
