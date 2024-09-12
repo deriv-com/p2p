@@ -5,6 +5,18 @@ import BlockUnblockUserModal from '../BlockUnblockUserModal';
 const mockOnRequestClose = jest.fn();
 const mockUseBlockMutate = jest.fn();
 const mockUseUnblockMutate = jest.fn();
+const mockOnClickedBlocked = jest.fn();
+
+const mockMutation = {
+    error: {},
+    isSuccess: false,
+};
+
+const mockUseAdvertiserInfo = {
+    data: {
+        is_favourite: false,
+    },
+};
 
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
@@ -12,10 +24,7 @@ jest.mock('@/hooks', () => ({
         counterparty: {
             useBlock: jest.fn(() => ({
                 mutate: mockUseBlockMutate,
-                mutation: {
-                    error: {},
-                    isSuccess: false,
-                },
+                mutation: mockMutation,
             })),
             useUnblock: jest.fn(() => ({
                 mutate: mockUseUnblockMutate,
@@ -26,6 +35,7 @@ jest.mock('@/hooks', () => ({
             })),
         },
     },
+    useAdvertiserStats: jest.fn(() => mockUseAdvertiserInfo),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -56,7 +66,7 @@ describe('BlockUnblockUserModal', () => {
         });
         await userEvent.click(blockBtn);
 
-        expect(mockUseBlockMutate).toBeCalledWith([1]);
+        expect(mockUseBlockMutate).toHaveBeenCalledWith([1], false);
     });
     it('should render the modal with correct title and behaviour for unblocking user', async () => {
         render(
@@ -80,7 +90,7 @@ describe('BlockUnblockUserModal', () => {
         });
         await userEvent.click(unblockBtn);
 
-        expect(mockUseUnblockMutate).toBeCalledWith([2]);
+        expect(mockUseUnblockMutate).toHaveBeenCalledWith([2]);
     });
     it('should hide the modal when user clicks cancel', async () => {
         render(
@@ -99,5 +109,23 @@ describe('BlockUnblockUserModal', () => {
         await userEvent.click(cancelBtn);
 
         expect(mockOnRequestClose).toBeCalled();
+    });
+
+    it('should call onClickBlocked and onRequestClose if isSuccess is true', () => {
+        mockMutation.isSuccess = true;
+
+        render(
+            <BlockUnblockUserModal
+                advertiserName='Jane Doe'
+                id='1'
+                isBlocked={false}
+                isModalOpen={true}
+                onClickBlocked={mockOnClickedBlocked}
+                onRequestClose={mockOnRequestClose}
+            />
+        );
+
+        expect(mockOnClickedBlocked).toHaveBeenCalled();
+        expect(mockOnRequestClose).toHaveBeenCalled();
     });
 });

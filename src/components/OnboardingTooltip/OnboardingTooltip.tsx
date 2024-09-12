@@ -69,6 +69,7 @@ const OnboardingTooltip = ({
                             </Text>
                             <StandaloneXmarkBoldIcon
                                 className='onboarding-tooltip__close-btn'
+                                data-testid='dt_onboarding_tooltip_close_btn'
                                 iconSize='sm'
                                 onClick={() => {
                                     setIsOnboardingTooltipVisible(false);
