@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
-import { api } from '@/hooks';
+import { api, useAdvertiserStats } from '@/hooks';
 import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './BlockUnblockUserModal.scss';
@@ -32,6 +32,7 @@ const BlockUnblockUserModal = ({
         mutate: unblockAdvertiser,
         mutation: { error: unblockError, isSuccess: unblockIsSuccess },
     } = api.counterparty.useUnblock();
+    const { data } = useAdvertiserStats(id);
 
     useEffect(() => {
         if (isSuccess || unblockIsSuccess) {
@@ -64,7 +65,7 @@ const BlockUnblockUserModal = ({
         if (isBlocked) {
             unblockAdvertiser([parseInt(id)]);
         } else {
-            blockAdvertiser([parseInt(id)]);
+            blockAdvertiser([parseInt(id)], !!data?.is_favourite);
         }
     };
 
