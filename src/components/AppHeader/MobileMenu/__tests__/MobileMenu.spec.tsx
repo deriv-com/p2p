@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { useModalManager } from '@/hooks';
+import { OAuth2Provider } from '@deriv-com/auth-client';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -39,7 +40,9 @@ jest.mock('@deriv-com/translations', () => ({
 const MobileMenuComponent = () => (
     <BrowserRouter>
         <QueryParamProvider adapter={ReactRouter5Adapter}>
-            <MobileMenu />
+            <OAuth2Provider oauthUrl='oauthUrl'>
+                <MobileMenu />
+            </OAuth2Provider>
         </QueryParamProvider>
     </BrowserRouter>
 );
