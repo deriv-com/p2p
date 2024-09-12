@@ -51,7 +51,7 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
         {
             component: <LabelPairedChevronRightLgRegularIcon />,
             onClick: () => setShowPaymentMethods(true),
-            subtext: paymentMethodNames,
+            subtext: paymentMethodNames || localize('All'),
             text: localize('Payment methods'),
         },
         {
@@ -89,6 +89,7 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
         setPaymentMethods([]);
         if (!showPaymentMethods) {
             setIsMatching(true);
+            setShowFollowed(false);
         }
     };
 
