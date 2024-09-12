@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import { TSelectedPaymentMethod } from 'types';
+import { TFormState, TReducerAction, TSelectedPaymentMethod } from 'types';
 import { PaymentMethodForm } from '@/components';
 import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
 import { advertiserPaymentMethodsReducer } from '@/reducers';
+import { useTranslations } from '@deriv-com/translations';
 import { Loader } from '@deriv-com/ui';
 import { PaymentMethodsEmpty } from './PaymentMethodsEmpty';
 import { PaymentMethodsList } from './PaymentMethodsList';
@@ -16,7 +17,12 @@ import { PaymentMethodsList } from './PaymentMethodsList';
 const PaymentMethods = () => {
     const isAdvertiser = useIsAdvertiser();
     const { data: p2pAdvertiserPaymentMethods, get, isPending: isLoading } = api.advertiserPaymentMethods.useGet();
-    const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
+    const { localize } = useTranslations();
+    const [formState, dispatch] = useReducer(
+        (currentState: TFormState, action: TReducerAction) =>
+            advertiserPaymentMethodsReducer(currentState, action, localize),
+        {}
+    );
 
     useEffect(() => {
         if (isAdvertiser) {
