@@ -10,10 +10,12 @@
     @include mobile-or-tablet-screen {
         height: 100%;
     }
+
     &__date {
         margin-top: 1.6rem;
         text-align: center;
     }
+
     &__item {
         display: flex;
         flex-direction: column;
@@ -26,6 +28,7 @@
         &__file {
             color: inherit;
         }
+
         &__image {
             width: 50%;
 
@@ -40,6 +43,7 @@
                 }
             }
         }
+
         &__pdf {
             background-color: #ffffff;
             border-radius: 0.8rem;
@@ -48,11 +52,13 @@
             align-items: center;
             gap: 1rem;
             margin-bottom: 0.4rem;
+
             a {
                 color: #999999;
                 text-decoration: none;
             }
         }
+
         &__timestamp {
             align-items: center;
             display: flex;
@@ -67,6 +73,7 @@
                 border-bottom-left-radius: 0;
             }
         }
+
         &__outgoing {
             align-items: flex-end;
 
@@ -82,6 +89,10 @@
             border: 1px solid #ffad3a;
             padding: 0.8rem 0;
             border-radius: 0.8rem;
+
+            &--text {
+                margin-bottom: 1rem;
+            }
         }
     }
 }
