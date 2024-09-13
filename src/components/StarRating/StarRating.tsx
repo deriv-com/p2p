@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import clsx from 'clsx';
 import { Rating } from 'react-simple-star-rating';
+import { useIsRtl } from '@/hooks';
 import { LabelPairedStarLgFillIcon, LabelPairedStarLgRegularIcon } from '@deriv/quill-icons';
 import './StarRating.scss';
 
@@ -23,6 +24,7 @@ const StarRating = ({
     ratingValue,
     starsScale = 1,
 }: TStarRatingProps) => {
+    const isRtl = useIsRtl();
     return (
         <Rating
             allowFraction={allowFraction}
@@ -35,7 +37,7 @@ const StarRating = ({
             onClick={onClick}
             readonly={isReadonly}
             size={12}
-            style={{ transform: `scale(${starsScale})`, transformOrigin: 'left' }}
+            style={{ transform: `scale(${starsScale})`, transformOrigin: `${isRtl ? 'right' : 'left'}` }}
         />
     );
 };

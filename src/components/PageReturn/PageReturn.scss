@@ -19,6 +19,10 @@
         cursor: pointer;
         margin-right: 0.8rem;
 
+        @include rtlDir {
+            transform: rotate(180deg);
+        }
+
         @include mobile-or-tablet-screen {
             margin-right: 1.8rem;
         }

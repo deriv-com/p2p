@@ -11,6 +11,9 @@ const mockFn = jest.fn((text, args) => {
 
 // Mock for useTranslations hook
 const useTranslations = () => ({
+    instance: {
+        dir: jest.fn().mockReturnValue('ltr'),
+    },
     localize: mockFn,
 });
 

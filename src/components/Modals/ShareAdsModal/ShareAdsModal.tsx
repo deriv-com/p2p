@@ -99,7 +99,7 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
                     onRequestClose={onRequestClose}
                     testId='dt_share_ads_modal'
                 >
-                    <Modal.Header className='px-0 py-4 lg:pb-16 h-0' hideBorder onRequestClose={onRequestClose}>
+                    <Modal.Header hideBorder onRequestClose={onRequestClose}>
                         <Text weight='bold'>
                             <Localize i18n_default_text='Share this ad' />
                         </Text>

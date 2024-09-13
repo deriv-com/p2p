@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import Calendar, { CalendarProps } from 'react-calendar';
 import { useOnClickOutside } from 'usehooks-ts';
 import { customFormatShortWeekday, unixToDateString } from '@/utils';
+import { LocalStorageUtils } from '@deriv-com/utils';
 import DateTextField from '../DateTextField/DateTextField';
 import 'react-calendar/dist/Calendar.css';
 import './DatePicker.scss';
@@ -35,6 +36,7 @@ const DatePicker = ({
     const [selectedDate, setSelectedDate] = useState<Date | null>(value ? new Date(value) : null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const datePickerRef = useRef<HTMLDivElement>(null);
+    const currentLang = LocalStorageUtils.getValue<string>('i18n_language') || 'EN';
 
     const toggleCalendar = () => {
         setIsCalendarOpen(prevState => !prevState);
@@ -87,6 +89,7 @@ const DatePicker = ({
                 >
                     <Calendar
                         formatShortWeekday={customFormatShortWeekday}
+                        locale={currentLang.toLowerCase()}
                         maxDate={maxDate}
                         minDate={minDate}
                         onChange={handleDateChange}

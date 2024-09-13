@@ -84,7 +84,7 @@ const OrderDetailsConfirmModal = ({
                 </Text>
                 <InlineMessage className='mb-4' variant='warning'>
                     <Text data-testid='dt_disclaimer_warning_text' size={isDesktop ? '2xs' : 'xs'}>
-                        <Localize i18n_default_text=' Sending forged documents will result in an immediate and permanent ban.' />
+                        <Localize i18n_default_text='Sending forged documents will result in an immediate and permanent ban.' />
                     </Text>
                 </InlineMessage>
                 <FileUploaderComponent

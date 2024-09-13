@@ -1,20 +1,15 @@
 import { MouseEventHandler } from 'react';
 import { LabelPairedStarLgFillIcon } from '@deriv/quill-icons';
+import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 
 type TOrderRatingButtonProps = {
-    buttonLabel?: string;
     isDetails?: boolean;
     isDisabled?: boolean;
     onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
-const OrderRatingButton = ({
-    buttonLabel = 'Rate',
-    isDetails = false,
-    isDisabled,
-    onClick,
-}: TOrderRatingButtonProps) => {
+const OrderRatingButton = ({ isDetails = false, isDisabled, onClick }: TOrderRatingButtonProps) => {
     const { isDesktop } = useDevice();
 
     return (
@@ -23,11 +18,12 @@ const OrderRatingButton = ({
             color='black'
             disabled={isDisabled}
             onClick={onClick}
+            type='button'
             variant='outlined'
         >
             <Text className='flex gap-2' size={isDesktop ? 'xs' : 'sm'} weight={isDetails ? 'normal' : 'bold'}>
                 <LabelPairedStarLgFillIcon fill='#FFAD3A' height={16} width={16} />
-                {buttonLabel}
+                <Localize i18n_default_text='Rate' />
             </Text>
         </Button>
     );
