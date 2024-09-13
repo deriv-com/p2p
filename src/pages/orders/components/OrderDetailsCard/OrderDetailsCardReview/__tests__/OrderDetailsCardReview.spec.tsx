@@ -21,6 +21,7 @@ jest.mock('@/hooks', () => ({
             }),
         },
     },
+    useIsRtl: () => false,
 }));
 
 const mockUseModalManager = {

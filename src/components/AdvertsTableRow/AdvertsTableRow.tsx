@@ -135,7 +135,11 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                             ratingValue={Number(ratingAverageDecimal)}
                                             starsScale={isDesktop ? 0.9 : 0.7}
                                         />
-                                        <Text className='lg:ml-[-0.5rem] ml-[-2.5rem]' color='less-prominent' size='xs'>
+                                        <Text
+                                            className='adverts-table-row__rating-count'
+                                            color='less-prominent'
+                                            size='xs'
+                                        >
                                             ({ratingCount})
                                         </Text>
                                     </>

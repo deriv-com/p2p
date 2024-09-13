@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { StarRating } from '@/components';
 import { api } from '@/hooks';
 import { StandaloneThumbsDownRegularIcon, StandaloneThumbsUpRegularIcon } from '@deriv/quill-icons';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './RatingModal.scss';
 
@@ -24,6 +24,7 @@ const RatingModal = ({
     onRequestClose,
     orderId,
 }: TRatingModalProps) => {
+    const { localize } = useTranslations();
     const [rating, setRating] = useState(0);
     const [isNoSelected, setIsNoSelected] = useState(false);
     const [isYesSelected, setIsYesSelected] = useState(false);
@@ -82,7 +83,7 @@ const RatingModal = ({
                         <Text size='sm'>
                             <Localize
                                 i18n_default_text='Would you recommend this {{value}}?'
-                                values={{ value: isBuyOrder ? 'seller' : 'buyer' }}
+                                values={{ value: isBuyOrder ? localize('seller') : localize('buyer') }}
                             />
                         </Text>
                         <div className='mt-6 flex gap-3'>

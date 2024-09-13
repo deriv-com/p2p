@@ -1,4 +1,4 @@
-import { TFormState, TReducerAction } from 'types';
+import { TFormState, TLocalize, TReducerAction } from 'types';
 
 /**
  * @name advertiserPaymentMethodsReducer
@@ -9,7 +9,7 @@ import { TFormState, TReducerAction } from 'types';
  * @returns The new state after applying the action.
  * @example const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
  */
-const advertiserPaymentMethodsReducer = (currentState: TFormState, action: TReducerAction) => {
+const advertiserPaymentMethodsReducer = (currentState: TFormState, action: TReducerAction, localize: TLocalize) => {
     // TODO: Remember to translate the strings in this reducer function
     switch (action.type) {
         case 'ADD': {
@@ -24,7 +24,7 @@ const advertiserPaymentMethodsReducer = (currentState: TFormState, action: TRedu
                           method: action.payload?.selectedPaymentMethod?.method,
                       }
                     : undefined,
-                title: 'Add payment method',
+                title: localize('Add payment method'),
             };
         }
         case 'EDIT': {
@@ -38,7 +38,7 @@ const advertiserPaymentMethodsReducer = (currentState: TFormState, action: TRedu
                     id: action.payload?.selectedPaymentMethod?.id,
                     method: action.payload?.selectedPaymentMethod?.method,
                 },
-                title: 'Edit payment method',
+                title: localize('Edit payment method'),
             };
         }
         case 'DELETE': {
