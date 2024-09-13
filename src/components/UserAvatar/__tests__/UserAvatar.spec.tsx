@@ -1,6 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import UserAvatar from '../UserAvatar';
 
+jest.mock('@/hooks', () => ({
+    useIsRtl: () => false,
+}));
+
 describe('UserAvatar', () => {
     it('should render the component correctly', () => {
         render(<UserAvatar nickname='Jane Doe' />);

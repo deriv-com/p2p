@@ -10,9 +10,11 @@ type TChatMessageTextProps = {
 
 const ChatMessageText = ({ children, color, type = '' }: PropsWithChildren<TChatMessageTextProps>) => {
     const { isDesktop } = useDevice();
+    const isAdmin = type === 'admin';
+
     return (
         <div className='chat-message-text'>
-            <Text color={color} lineHeight='xl' size={type === 'admin' && isDesktop ? 'xs' : 'sm'}>
+            <Text color={color} lineHeight={isAdmin ? 'lg' : 'xl'} size={isAdmin && isDesktop ? 'xs' : 'sm'}>
                 {children}
             </Text>
         </div>

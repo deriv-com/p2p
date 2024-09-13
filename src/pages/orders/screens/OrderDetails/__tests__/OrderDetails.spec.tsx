@@ -61,6 +61,7 @@ jest.mock('@/hooks', () => ({
             }),
         },
     },
+    useIsRtl: () => false,
 }));
 
 jest.mock('@/hooks/custom-hooks', () => ({
