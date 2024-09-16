@@ -43,7 +43,7 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
         return options;
     };
 
-    const handleDropdownMouseDown = (event: MouseEvent) => {
+    const handleDropdownClick = (event: MouseEvent) => {
         event.preventDefault();
     };
 
@@ -73,7 +73,7 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
                 name='order-completion-time'
                 render={({ field: { onChange, value } }) => (
                     <div
-                        onMouseDown={handleDropdownMouseDown} // To prevent default submission triggering from dropdown component
+                        onClickCapture={handleDropdownClick} // To prevent default submission triggering from dropdown component
                     >
                         <Dropdown
                             className='items-center h-16'
