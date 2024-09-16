@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { TFormState, THooks, TPaymentMethod, TSelectedPaymentMethod } from 'types';
 import { LabelPairedSearchMdRegularIcon, LegacyCloseCircle1pxBlackIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
@@ -52,27 +53,34 @@ const PaymentMethodFormAutocomplete = ({
         }
         return '';
     };
+
+    const handleDropdownClick = (event: MouseEvent) => {
+        event.preventDefault();
+    };
     return (
         <>
-            <Dropdown
-                chevronIcon={<LabelPairedSearchMdRegularIcon />}
-                isFullWidth
-                label={localize('Payment method')}
-                list={availablePaymentMethodsList}
-                name='Payment method'
-                onSelect={value => {
-                    const selectedPaymentMethod = availablePaymentMethods?.find(p => p.id === value);
-                    if (selectedPaymentMethod) {
-                        onAdd?.({
-                            displayName: selectedPaymentMethod?.display_name,
-                            fields: selectedPaymentMethod?.fields,
-                            method: selectedPaymentMethod?.id,
-                        });
-                    }
-                }}
-                value={getValue()}
-                variant='prompt'
-            />
+            {/* To prevent default submission */}
+            <div onClickCapture={handleDropdownClick}>
+                <Dropdown
+                    chevronIcon={<LabelPairedSearchMdRegularIcon />}
+                    isFullWidth
+                    label={localize('Payment method')}
+                    list={availablePaymentMethodsList}
+                    name='Payment method'
+                    onSelect={value => {
+                        const selectedPaymentMethod = availablePaymentMethods?.find(p => p.id === value);
+                        if (selectedPaymentMethod) {
+                            onAdd?.({
+                                displayName: selectedPaymentMethod?.display_name,
+                                fields: selectedPaymentMethod?.fields,
+                                method: selectedPaymentMethod?.id,
+                            });
+                        }
+                    }}
+                    value={getValue()}
+                    variant='prompt'
+                />
+            </div>
             <div className='mt-[0.2rem] ml-[1.6rem]'>
                 <Text color='less-prominent' size='xs'>
                     <Localize i18n_default_text='Don’t see your payment method?' />
