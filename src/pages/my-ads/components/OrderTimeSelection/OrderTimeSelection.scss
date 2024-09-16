@@ -1,8 +1,8 @@
 .order-time-selection {
     margin: 1rem 0;
-
     & .deriv-dropdown {
         &__items {
+            top: 4rem;
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.16);
         }
         & .deriv-input__container {

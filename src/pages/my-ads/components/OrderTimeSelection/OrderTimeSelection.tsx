@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TOrderExpiryOptions } from 'types';
 import { OrderTimeTooltipModal } from '@/components/Modals';
@@ -43,6 +43,10 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
         return options;
     };
 
+    const handleDropdownMouseDown = (event: MouseEvent) => {
+        event.preventDefault();
+    };
+
     return (
         <div className='order-time-selection'>
             <div className='flex items-center gap-[0.8rem]'>
@@ -68,16 +72,20 @@ const OrderTimeSelection = ({ orderExpiryOptions }: { orderExpiryOptions: TOrder
                 control={control}
                 name='order-completion-time'
                 render={({ field: { onChange, value } }) => (
-                    <Dropdown
-                        className='items-center h-16'
-                        isFullWidth={isDesktop}
-                        list={getOptions().sort((a, b) => a.value - b.value)}
-                        name='order-completion-time'
-                        onSelect={onChange}
-                        shouldClearValue
-                        value={value}
-                        variant='comboBox'
-                    />
+                    <div
+                        onMouseDown={handleDropdownMouseDown} // To prevent default submission triggering from dropdown component
+                    >
+                        <Dropdown
+                            className='items-center h-16'
+                            isFullWidth
+                            list={getOptions().sort((a, b) => a.value - b.value)}
+                            name='order-completion-time'
+                            onSelect={onChange}
+                            shouldClearValue
+                            value={value}
+                            variant='comboBox'
+                        />
+                    </div>
                 )}
             />
 
