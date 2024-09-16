@@ -5,6 +5,12 @@ import AlertComponent from '../AlertComponent';
 const mockProps = {
     onClick: jest.fn(),
 };
+
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: () => ({ isDesktop: true }),
+}));
+
 describe('AlertComponent', () => {
     it('should render the component as expected', () => {
         render(<AlertComponent {...mockProps} />);
