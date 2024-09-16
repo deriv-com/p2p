@@ -3,6 +3,7 @@ import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { LegacyNotificationIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Notifications as UINotifications, useDevice } from '@deriv-com/ui';
+import './Notifications.scss';
 
 const Notifications = () => {
     const [isOpen, setIsOpen] = useState(false);

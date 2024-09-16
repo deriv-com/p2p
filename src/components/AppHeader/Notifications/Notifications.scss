@@ -1,0 +1,5 @@
+.notifications {
+    @include mobile {
+        height: calc(100% - 7.4rem);
+    }
+}
