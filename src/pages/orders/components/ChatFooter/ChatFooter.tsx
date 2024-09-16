@@ -29,7 +29,7 @@ const ChatFooter = ({ isClosed, sendFile, sendMessage }: TChatFooterProps) => {
         return (
             <div className='flex justify-center lg:px-[2.4rem] lg:py-[1.6rem]'>
                 <Text size={isDesktop ? 'sm' : 'md'}>
-                    <Localize i18n_default_text='This conversation is closed' />
+                    <Localize i18n_default_text='This conversation is closed.' />
                 </Text>
             </div>
         );
