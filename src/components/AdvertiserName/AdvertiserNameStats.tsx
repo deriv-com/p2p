@@ -101,6 +101,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                             <Tooltip
                                 as='button'
                                 className='advertiser-name-stats__tooltip'
+                                hideTooltip={!isDesktop}
                                 onClick={() => {
                                     isDesktop ? undefined : showModal('BlockUserCountModal');
                                 }}
