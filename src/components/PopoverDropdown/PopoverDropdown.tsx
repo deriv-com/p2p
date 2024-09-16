@@ -29,6 +29,7 @@ const PopoverDropdown = ({ dropdownList, isBarred, onClick, tooltipMessage }: TP
             ) : (
                 <Tooltip
                     as='button'
+                    hideTooltip={!isDesktop}
                     onClick={() => setVisible(prevState => !prevState)}
                     tooltipContent={tooltipMessage}
                     tooltipPosition='top'
