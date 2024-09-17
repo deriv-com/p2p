@@ -1,0 +1,107 @@
+name: Build Production and Deploy to Cloudflare Pages
+
+on:
+    push:
+      tags:
+      - production_*
+
+concurrency:
+    group: cloudflare-pages-build-production
+    cancel-in-progress: true
+
+jobs:
+    build_to_cloudflare_pages:
+        timeout-minutes: 30
+        runs-on: ubuntu-latest
+        environment: Production
+        env: 
+          VERSION: ${{ github.ref_name }}
+        steps:
+            - name: Checkout to main branch
+              uses: actions/checkout@v3
+
+            - name: Setup node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20.x
+                  cache: 'npm'
+
+            - name: Get cached dependencies
+              id: cache-npm
+              uses: actions/cache/restore@e12d46a63a90f2fae62d114769bbf2a179198b5c
+              with:
+                  path: node_modules
+                  key: npm-${{ hashFiles('./package-lock.json') }}
+
+            - name: Install dependencies
+              if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+              run: npm ci
+              shell: bash
+
+            - name: Build
+              run: npm run build
+              env:
+                VITE_PROJECT_NAME: ${{ vars.VITE_PROJECT_NAME }}
+                VITE_CROWDIN_BRANCH_NAME: ${{ vars.VITE_CROWDIN_BRANCH_NAME }}
+                VITE_TRANSLATIONS_CDN_URL: ${{ vars.VITE_TRANSLATIONS_CDN_URL }}
+                VITE_TRACKJS_TOKEN: ${{ vars.VITE_TRACKJS_TOKEN }}
+                VITE_APP_VERSION: ${{ github.ref_name }}
+                VITE_GROWTHBOOK_DECRYPTION_KEY: ${{ secrets.VITE_GROWTHBOOK_DECRYPTION_KEY }}
+                VITE_GROWTHBOOK_CLIENT_KEY: ${{ vars.VITE_GROWTHBOOK_CLIENT_KEY }}
+                VITE_RUDDERSTACK_KEY: ${{ vars.VITE_RUDDERSTACK_KEY }}
+                VITE_REMOTE_CONFIG_URL: ${{ vars.VITE_REMOTE_CONFIG_URL }}
+                VITE_NODE_ENV: production
+
+            - name: Run tests for Eslint
+              run: npm run test:lint
+
+            - name: Publish to Cloudflare Pages
+              uses: "deriv-com/shared-actions/.github/actions/publish_to_pages_branch@master"
+              id: publish_to_cloudflare
+              with:
+                CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                project_name: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+                branch_name: master
+                output_dir: dist
+                cname_url: p2p.deriv.com
+
+            - name: Upload to vercel
+              uses: 'deriv-com/shared-actions/.github/actions/vercel_DR_publish@master'
+              id: dr_action
+              with:
+                VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+                VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+                VERCEL_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
+                ENVIRONMENT: Production
+                VERCEL_SCOPE: deriv
+                ALIAS_DOMAIN_URL: 'p2p-dr.binary.sx'
+            - name: Send Slack Notification on Vercel Publish failure
+              uses: "deriv-com/shared-actions/.github/actions/send_slack_notification@master"
+              if: steps.dr_action.conclusion == 'failure'
+              with:
+                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+                MESSAGE: "Vercel Publish failed for p2p.deriv.com with version $VERSION"
+
+    send_slack_notification:
+        name: Send Release Slack notification
+        environment: Production
+        runs-on: ubuntu-latest
+        env: 
+          VERSION: ${{ github.ref_name }}
+        if: always()
+        needs: [build_to_cloudflare_pages]
+        steps:
+          - name: Create Slack Message
+            id: create_slack_message
+            run: |
+                if [[ "${{ needs.build_to_cloudflare_pages.result }}" == 'success' ]]; then
+                  echo "message=Production Release succeeded for p2p.deriv.com with version $VERSION" >> $GITHUB_OUTPUT
+                else
+                  echo "message=Production Release failed for p2p.deriv.com with version $VERSION" >> $GITHUB_OUTPUT
+                fi
+          - name: Send Slack Notification
+            uses: "deriv-com/shared-actions/.github/actions/send_slack_notification@master"
+            with:
+              SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+              MESSAGE: ${{ steps.create_slack_message.outputs.message }}
