@@ -3,7 +3,7 @@
     justify-content: center;
     position: absolute;
     align-items: center;
-    right: 3.6rem;
+    right: 4.6rem;
     height: 100%;
 
     span {
@@ -12,7 +12,8 @@
     @include mobile-or-tablet-screen {
         position: unset;
         margin-top: -0.4rem;
-        margin-left: 1rem;
+        margin-left: 2.5rem;
+        margin-right: 1.5rem;
     }
 
     & .tooltip-menu-icon:hover {

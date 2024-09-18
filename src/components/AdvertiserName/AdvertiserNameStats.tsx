@@ -5,9 +5,8 @@ import { useModalManager } from '@/hooks';
 import { getCurrentRoute } from '@/utils';
 import { LabelPairedThumbsUpSmRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Text, useDevice } from '@deriv-com/ui';
+import { Text, Tooltip, useDevice } from '@deriv-com/ui';
 import { BlockUserCountModal } from '../Modals';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
 import BlockUserCount from './BlockUserCount';
 import './AdvertiserNameStats.scss';
 
@@ -99,9 +98,10 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                             </div>
                         </div>
                         <div>
-                            <TooltipMenuIcon
+                            <Tooltip
                                 as='button'
                                 className='advertiser-name-stats__tooltip'
+                                hideTooltip={!isDesktop}
                                 onClick={() => {
                                     isDesktop ? undefined : showModal('BlockUserCountModal');
                                 }}
@@ -111,7 +111,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                                 <Text color='less-prominent' size='sm'>
                                     {recommendedAverage || 0}%
                                 </Text>
-                            </TooltipMenuIcon>
+                            </Tooltip>
                         </div>
                     </>
                 )}

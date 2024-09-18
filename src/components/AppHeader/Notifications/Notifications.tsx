@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { getNotification, MY_PROFILE_URL } from '@/constants';
 import { api } from '@/hooks';
 import { LegacyAnnouncementIcon, LegacyNotificationIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { Badge, Notifications as UINotifications, useDevice } from '@deriv-com/ui';
+import { Badge, Notifications as UINotifications, Tooltip, useDevice } from '@deriv-com/ui';
 
 const Notifications = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +31,7 @@ const Notifications = () => {
                     setIsOpen(false);
                 },
                 icon: <LegacyAnnouncementIcon height='16' width='16' />,
+                id: notification.message_key,
                 message,
                 title,
             };
@@ -51,11 +51,10 @@ const Notifications = () => {
 
     return (
         <>
-            <TooltipMenuIcon
+            <Tooltip
                 as='button'
                 className={isMobile ? '' : 'mr-4 pl-2 border-l-[1px] h-[32px]'}
-                disableHover
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => setIsOpen(prev => !prev)}
                 tooltipContent={localize('View notifications')}
                 tooltipPosition='bottom'
             >
@@ -71,7 +70,7 @@ const Notifications = () => {
                         {notifications?.length}
                     </Badge>
                 )}
-            </TooltipMenuIcon>
+            </Tooltip>
             <UINotifications
                 className={isMobile ? '' : 'absolute top-20 right-80 z-10 w-[26.4rem]'}
                 clearNotificationsCallback={() => {
@@ -83,6 +82,7 @@ const Notifications = () => {
                     noNotificationsMessage: localize('You have yet to receive any notifications'),
                     noNotificationsTitle: localize('No notifications'),
                 }}
+                isLoading={false}
                 isOpen={isOpen}
                 notifications={modifiedNotifications || []}
                 setIsOpen={setIsOpen}

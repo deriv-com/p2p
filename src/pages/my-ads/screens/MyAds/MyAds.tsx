@@ -7,7 +7,12 @@ const MyAds = () => {
     const { data } = usePoiPoaStatus();
     const { isPoaVerified, isPoiVerified } = data || {};
 
-    if (!isPoaVerified || !isPoiVerified) return <Verification />;
+    if (!isPoaVerified || !isPoiVerified)
+        return (
+            <div className='overflow-y-auto h-[calc(100%-11rem)]'>
+                <Verification />;
+            </div>
+        );
 
     return (
         <div className='flex flex-col h-full'>

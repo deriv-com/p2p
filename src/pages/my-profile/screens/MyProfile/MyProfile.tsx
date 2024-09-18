@@ -50,7 +50,11 @@ const MyProfile = () => {
     }
 
     if (!isPoiVerified || !isPoaVerified) {
-        return <Verification />;
+        return (
+            <div className='overflow-y-auto h-[calc(100%-11rem)]'>
+                <Verification />
+            </div>
+        );
     }
 
     if (!isDesktop) {
