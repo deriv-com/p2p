@@ -2,6 +2,12 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Endpoint from '../Endpoint';
 
+const mockGetServerInfo = jest.fn();
+
+jest.mock('@/constants', () => ({
+    getServerInfo: jest.fn(() => mockGetServerInfo()),
+}));
+
 describe('<Endpoint />', () => {
     it('should render the endpoint component', () => {
         render(<Endpoint />);
@@ -28,7 +34,7 @@ describe('<Endpoint />', () => {
         expect(JSON.parse(localStorage.getItem('config.app_id') || '')).toBe('123');
     });
 
-    it('should reset the server_url and app_id when user clicks on the reset button', async () => {
+    it('should call getServerInfo and reset the inputs when user clicks on the reset button', async () => {
         render(<Endpoint />);
 
         const serverUrlInput = screen.getByTestId('dt_endpoint_server_url_input');
@@ -41,5 +47,6 @@ describe('<Endpoint />', () => {
 
         expect(JSON.parse(localStorage.getItem('config.server_url') || '')).toBe('');
         expect(JSON.parse(localStorage.getItem('config.app_id') || '')).toBe('');
+        expect(mockGetServerInfo).toHaveBeenCalled();
     });
 });
