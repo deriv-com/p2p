@@ -362,6 +362,9 @@ export const getHoursList = (intervalInMinutes = 15): TTimeOption[] => {
         currentTime.setTime(currentTime.getTime() + intervalInMinutes * 60000);
     }
 
+    // push the first item to the end of the array to handle the case where the end time is 12 AM
+    hoursList.push(hoursList[0]);
+
     // Return the array of time options
     return hoursList;
 };

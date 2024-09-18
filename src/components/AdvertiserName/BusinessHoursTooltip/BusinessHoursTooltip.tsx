@@ -14,7 +14,12 @@ const BusinessHoursTooltip = () => {
 
     return (
         <>
-            <TooltipMenuIcon as='button' className='business-hours-tooltip' tooltipContent={localize('Business hours')}>
+            <TooltipMenuIcon
+                as='button'
+                className='business-hours-tooltip'
+                isDisabled={!!isModalOpenFor('BusinessHoursModal')}
+                tooltipContent={localize('Business hours')}
+            >
                 <LegacyTimeIcon iconSize='xs' />
                 <Text
                     as='button'

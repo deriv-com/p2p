@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { formatBusinessHours, getDaysOfWeek, splitTimeRange, TRange } from '@/utils';
+import { formatBusinessHours, getDaysOfWeek, splitTimeRange, TBusinessDay, TRange } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { api } from '..';
 
@@ -24,7 +24,7 @@ const useGetBusinessHours = () => {
 
         const businessHours = splitTimeRange(schedule as TRange[], getTimezoneOffset());
 
-        return businessHours.map((interval, index) => {
+        const formattedBusinessHours = businessHours.map((interval, index) => {
             const dayIndex = index % 7;
             const dayInfo = daysOfWeek[dayIndex];
             const { end_min: endMin, start_min: startMin } = interval as TTimeRange;
@@ -58,6 +58,11 @@ const useGetBusinessHours = () => {
                 value: dayInfo.value,
             };
         });
+
+        const firstItem = formattedBusinessHours.shift();
+        formattedBusinessHours.push(firstItem as TBusinessDay);
+
+        return formattedBusinessHours;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [schedule]);
 

@@ -30,8 +30,12 @@ const getDropdownOpenStates = (data: TData[]): TDayState => {
 
     data.forEach(item => {
         // Check if the item contains a valid day and has non-null start_time or end_time
-        if (item.value in dayStates && (item.start_time !== null || item.end_time !== null)) {
-            dayStates[item.day] = true;
+        if (
+            item.value in dayStates &&
+            (item.start_time !== null || item.end_time !== null) &&
+            item.start_time !== item.end_time
+        ) {
+            dayStates[item.value] = true;
         }
     });
 
@@ -58,7 +62,7 @@ const BusinessHoursModalEdit = ({
     const { businessHours } = useGetBusinessHours();
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const [dropdownOpenStates, setDropdownOpenStates] = useState<TDayState>(getDropdownOpenStates(editedBusinessHours));
-    const today = new Date().getDay();
+    const today = new Date().getDay() - 1;
     const textSize = isMobile ? 'sm' : 'xs';
 
     useEffect(() => {

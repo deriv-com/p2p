@@ -7,7 +7,7 @@ const BusinessHoursModalMain = () => {
     const { businessHours } = useGetBusinessHours();
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'sm' : 'xs';
-    const today = new Date().getDay();
+    const today = new Date().getDay() - 1;
 
     return (
         <div className='lg:p-0 p-[1.6rem] h-full flex flex-col justify-between'>

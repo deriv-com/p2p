@@ -13,6 +13,7 @@ type AsElement = 'a' | 'button' | 'div';
 type TTooltipMenuIcon<T extends AsElement> = ComponentProps<T> & {
     as: T;
     disableHover?: boolean;
+    isDisabled?: boolean;
     tooltipContent: string;
     tooltipPosition?: TooltipProps['placement'];
 };
@@ -23,6 +24,7 @@ const TooltipMenuIcon = <T extends AsElement>({
     children,
     className,
     disableHover = false,
+    isDisabled,
     tooltipContent,
     tooltipPosition = 'top',
     ...rest
@@ -38,6 +40,7 @@ const TooltipMenuIcon = <T extends AsElement>({
                 fontSize={12}
                 fontWeight='normal'
                 hasArrow
+                isDisabled={isDisabled}
                 label={tooltipContent}
                 margin={2}
                 padding={4}
