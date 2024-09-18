@@ -17,14 +17,14 @@ const BuySell = () => {
 
     if (poiPoaVerified === 'false') {
         return (
-            <>
+            <div className='buy-sell--not-verified'>
                 <PageReturn
                     onClick={() => history.replace({ pathname: BUY_SELL_URL, search: '' })}
                     pageTitle={localize('Verification')}
                     weight='bold'
                 />
                 <Verification />
-            </>
+            </div>
         );
     }
 

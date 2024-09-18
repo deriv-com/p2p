@@ -1,4 +1,5 @@
 export const ERROR_CODES = {
+    ACCOUNT_DISABLED: 'AccountDisabled',
     AD_EXCEEDS_BALANCE: 'advertiser_balance',
     AD_EXCEEDS_DAILY_LIMIT: 'advertiser_daily_limit',
     ADVERT_INACTIVE: 'advert_inactive',

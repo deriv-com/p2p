@@ -5,7 +5,7 @@ import { useAccountList, useAuthData } from '@deriv-com/api-hooks';
 /** A custom hook that returns the account object for the current active account. */
 const useActiveAccount = () => {
     const { data, ...rest } = useAccountList();
-    const { activeLoginid } = useAuthData();
+    const { activeLoginid, error } = useAuthData();
     const { data: balanceData } = api.account.useBalance();
     const activeAccount = useMemo(
         () => data?.find(account => account.loginid === activeLoginid),
@@ -23,6 +23,7 @@ const useActiveAccount = () => {
 
     return {
         /** User's current active account. */
+        authError: error,
         data: modifiedAccount,
         ...rest,
     };

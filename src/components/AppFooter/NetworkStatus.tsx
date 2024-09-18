@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import clsx from 'clsx';
 import { useNetworkStatus } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
+import { Tooltip } from '@deriv-com/ui';
 
 const statusConfigs = {
     blinking: {
@@ -20,15 +20,14 @@ const NetworkStatus = () => {
     const { className, tooltip } = useMemo(() => statusConfigs[status], [status]);
 
     return (
-        <TooltipMenuIcon
+        <Tooltip
             as='div'
             className='app-footer__icon'
             data-testid='dt_network_status'
-            disableHover
             tooltipContent={localize('Network status: {{status}}', { status: tooltip })}
         >
             <div className={clsx('app-footer__network-status', className)} data-testid='dt_circle' />
-        </TooltipMenuIcon>
+        </Tooltip>
     );
 };
 

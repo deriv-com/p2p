@@ -27,7 +27,7 @@
         }
         @include desktop {
             &:nth-child(2) {
-                & div {
+                & div:not(.deriv-tooltip) {
                     padding-right: 0;
                 }
             }
