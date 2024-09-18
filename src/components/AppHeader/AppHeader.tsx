@@ -5,9 +5,8 @@ import { getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
-import { Button, Header, Text, useDevice, Wrapper } from '@deriv-com/ui';
+import { Button, Header, Text, Tooltip, useDevice, Wrapper } from '@deriv-com/ui';
 import { LocalStorageUtils } from '@deriv-com/utils';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
 import { AccountsInfoLoader } from './AccountsInfoLoader';
 import { AccountSwitcher } from './AccountSwitcher';
 import { AppLogo } from './AppLogo';
@@ -42,16 +41,15 @@ const AppHeader = () => {
                 <>
                     <Notifications />
                     {isDesktop && (
-                        <TooltipMenuIcon
+                        <Tooltip
                             as='a'
                             className='pr-3 border-r-[0.1rem] h-[3.2rem]'
-                            disableHover
                             href='https://app.deriv.com/account/personal-details'
                             tooltipContent={localize('Manage account settings')}
                             tooltipPosition='bottom'
                         >
                             <StandaloneCircleUserRegularIcon fill='#626262' />
-                        </TooltipMenuIcon>
+                        </Tooltip>
                     )}
                     <AccountSwitcher account={activeAccount!} />
                     <Button className='mr-6' onClick={oAuthLogout} size='md'>

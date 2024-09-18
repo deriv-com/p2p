@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
 import { LabelPairedEllipsisVerticalLgBoldIcon } from '@deriv/quill-icons';
-import { Button, Text, useDevice } from '@deriv-com/ui';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
+import { Button, Text, Tooltip, useDevice } from '@deriv-com/ui';
 import './PopoverDropdown.scss';
 
 type TItem = {
@@ -28,13 +27,15 @@ const PopoverDropdown = ({ dropdownList, isBarred, onClick, tooltipMessage }: TP
             {isBarred ? (
                 <LabelPairedEllipsisVerticalLgBoldIcon data-testid='dt_popover_dropdown_icon' fill='#999999' />
             ) : (
-                <TooltipMenuIcon
+                <Tooltip
                     as='button'
+                    hideTooltip={!isDesktop}
                     onClick={() => setVisible(prevState => !prevState)}
                     tooltipContent={tooltipMessage}
+                    tooltipPosition='top'
                 >
                     <LabelPairedEllipsisVerticalLgBoldIcon data-testid='dt_popover_dropdown_icon' />
-                </TooltipMenuIcon>
+                </Tooltip>
             )}
             {visible && (
                 <div className='popover-dropdown__list' data-testid='dt_popover_dropdown_list'>
