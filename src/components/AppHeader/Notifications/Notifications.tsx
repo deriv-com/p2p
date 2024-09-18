@@ -54,6 +54,7 @@ const Notifications = () => {
             <Tooltip
                 as='button'
                 className={isMobile ? '' : 'mr-4 pl-2 border-l-[1px] h-[32px]'}
+                hideTooltip={!isDesktop}
                 onClick={() => setIsOpen(prev => !prev)}
                 tooltipContent={localize('View notifications')}
                 tooltipPosition='bottom'
