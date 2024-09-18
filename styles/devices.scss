@@ -4,6 +4,8 @@
 $tablet-width: 768px;
 $desktop-width: 1024px;
 $min-desktop-width: 1280px;
+$max-mobile-width: 600px;
+$min-desktop-width: 1280px;
 
 @mixin mobile {
     @media (max-width: #{$tablet-width - 1px}) {
@@ -12,7 +14,7 @@ $min-desktop-width: 1280px;
 }
 
 @mixin tablet {
-    @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    @media (min-width: #{$max-mobile-width + 1}) and (max-width: #{$min-desktop-width - 1}) {
         @content;
     }
 }
@@ -25,6 +27,14 @@ $min-desktop-width: 1280px;
 
 @mixin desktop {
     @media (min-width: #{$min-desktop-width}) {
+        @content;
+    }
+}
+
+/*RTL Language Mixin*/
+
+@mixin rtlDir() {
+    html[dir='rtl'] & {
         @content;
     }
 }

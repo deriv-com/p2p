@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction, useCallback, useReducer } from 'react';
-import { TPaymentMethod, TSelectedPaymentMethod } from 'types';
+import { TFormState, TPaymentMethod, TReducerAction, TSelectedPaymentMethod } from 'types';
 import { LightDivider, PaymentMethodForm } from '@/components';
 import { useModalManager } from '@/hooks';
 import { advertiserPaymentMethodsReducer } from '@/reducers';
 import { sortPaymentMethodsWithAvailability } from '@/utils';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { PaymentMethodCard } from '../../PaymentMethodCard';
 
@@ -25,8 +25,13 @@ const BuySellPaymentSection = ({
 }: TBuySellPaymentSectionProps) => {
     const { isDesktop } = useDevice();
     const sortedList = sortPaymentMethodsWithAvailability(availablePaymentMethods);
+    const { localize } = useTranslations();
 
-    const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
+    const [formState, dispatch] = useReducer(
+        (currentState: TFormState, action: TReducerAction) =>
+            advertiserPaymentMethodsReducer(currentState, action, localize),
+        {}
+    );
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
 
     const handleAddPaymentMethod = (displayName: string, selectedPaymentMethod?: TSelectedPaymentMethod) => {

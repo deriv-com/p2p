@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { api, useAdvertiserStats } from '@/hooks';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './BlockUnblockUserModal.scss';
 
@@ -24,6 +24,7 @@ const BlockUnblockUserModal = ({
     setErrorMessage,
 }: TBlockUnblockUserModalProps) => {
     const { isMobile } = useDevice();
+    const { localize } = useTranslations();
     const {
         mutate: blockAdvertiser,
         mutation: { error, isSuccess },
@@ -46,17 +47,18 @@ const BlockUnblockUserModal = ({
     }, [isSuccess, onClickBlocked, unblockIsSuccess, unblockError, error, setErrorMessage]);
 
     const textSize = isMobile ? 'md' : 'sm';
-    const getModalTitle = () => (isBlocked ? `Unblock ${advertiserName}?` : `Block ${advertiserName}?`);
+    const getModalTitle = () =>
+        isBlocked ? `${localize('Unblock')} ${advertiserName}?` : `${localize('Block')} ${advertiserName}?`;
 
     const getModalContent = () =>
         isBlocked ? (
             <Localize
-                i18n_default_text={`You will be able to see {{advertiserName}}'s ads. They'll be able to place orders on your ads, too.`}
+                i18n_default_text="You will be able to see {{advertiserName}}'s ads. They'll be able to place orders on your ads, too."
                 values={{ advertiserName }}
             />
         ) : (
             <Localize
-                i18n_default_text={`You won't see {{advertiserName}}'s ads anymore and they won't be able to place orders on your ads.`}
+                i18n_default_text="You won't see {{advertiserName}}'s ads anymore and they won't be able to place orders on your ads."
                 values={{ advertiserName }}
             />
         );

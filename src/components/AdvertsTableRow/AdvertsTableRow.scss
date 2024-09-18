@@ -16,4 +16,28 @@
             grid-template-columns: repeat(2, 1fr);
         }
     }
+
+    &__chevron {
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        @include rtlDir {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__rating-count {
+        margin-left: -2.5rem;
+        @include desktop {
+            margin-left: -0.5rem;
+        }
+
+        @include rtlDir {
+            margin-left: 0.5rem;
+            @include mobile-or-tablet-screen {
+                margin-left: -2.5rem;
+            }
+        }
+    }
 }

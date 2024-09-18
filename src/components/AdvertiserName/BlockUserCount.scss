@@ -17,6 +17,12 @@
         @include mobile-or-tablet-screen {
             padding: 0.8rem 0;
         }
+
+        @include rtlDir {
+            svg {
+                transform: scaleX(-1);
+            }
+        }
     }
 
     &__button {

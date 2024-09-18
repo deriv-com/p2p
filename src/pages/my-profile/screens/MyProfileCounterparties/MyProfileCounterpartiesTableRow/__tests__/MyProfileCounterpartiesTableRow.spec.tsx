@@ -34,7 +34,6 @@ const mockModalManager = {
 };
 
 jest.mock('@/hooks', () => ({
-    ...jest.requireActual('@/hooks'),
     api: {
         counterparty: {
             useBlock: () => ({

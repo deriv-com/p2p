@@ -26,6 +26,7 @@ jest.mock('@/hooks', () => ({
             useGetList: jest.fn(() => mockApiValues),
         },
     },
+    useIsRtl: jest.fn(() => false),
 }));
 
 const mockUseModalManager = {

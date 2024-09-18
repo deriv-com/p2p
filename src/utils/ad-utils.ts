@@ -59,7 +59,7 @@ export const getValidationRules = (
     switch (fieldName) {
         case 'amount':
             return {
-                validation_1: value => requiredValidation(value, 'Amount'),
+                validation_1: value => requiredValidation(value, localize('Amount')),
                 validation_2: value => !isNaN(Number(value)) || localize('Enter a valid amount'),
                 validation_3: value => decimalPointValidation(value),
                 validation_4: value => {
@@ -107,7 +107,7 @@ export const getValidationRules = (
             };
         case 'min-order':
             return {
-                validation_1: value => requiredValidation(value, 'Min limit'),
+                validation_1: value => requiredValidation(value, localize('Min limit')),
                 validation_2: value => !isNaN(Number(value)) || localize('Only numbers are allowed'),
                 validation_3: value => decimalPointValidation(value),
                 validation_4: value => {
@@ -127,7 +127,7 @@ export const getValidationRules = (
             };
         case 'max-order':
             return {
-                validation_1: value => requiredValidation(value, 'Max limit'),
+                validation_1: value => requiredValidation(value, localize('Max limit')),
                 validation_2: value => !isNaN(Number(value)) || 'Only numbers are allowed',
                 validation_3: value => decimalPointValidation(value),
                 validation_4: value => {

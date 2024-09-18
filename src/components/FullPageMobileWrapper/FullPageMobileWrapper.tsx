@@ -36,7 +36,11 @@ const FullPageMobileWrapper = ({
             {renderHeader && (
                 <div className='mobile-wrapper__header'>
                     {shouldShowBackIcon && (
-                        <LabelPairedArrowLeftLgBoldIcon data-testid='dt_mobile_wrapper_button' onClick={onBack} />
+                        <LabelPairedArrowLeftLgBoldIcon
+                            className='mobile-wrapper__header__return'
+                            data-testid='dt_mobile_wrapper_button'
+                            onClick={onBack}
+                        />
                     )}
                     {renderHeader()}
                     {shouldShowCloseIcon && (
