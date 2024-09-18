@@ -18,7 +18,7 @@ jobs:
     steps:
     - name: Download artifact
       id: download-artifact
-      uses: actions/download-artifact@7a1cd3216ca9260cd8022db641d960b1db4d1be4
+      uses: actions/download-artifact@v4
       with:
           run-id: ${{ github.event.workflow_run.id }}
           name: 'pr-${{ github.event.workflow_run.id }}'
