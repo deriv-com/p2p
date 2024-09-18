@@ -1,9 +1,8 @@
 import { BusinessHoursModal } from '@/components/Modals';
-import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { useGetBusinessHours, useModalManager } from '@/hooks/custom-hooks';
 import { LegacyTimeIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Text, useDevice } from '@deriv-com/ui';
+import { Text, Tooltip, useDevice } from '@deriv-com/ui';
 import './BusinessHoursTooltip.scss';
 
 const BusinessHoursTooltip = () => {
@@ -14,10 +13,10 @@ const BusinessHoursTooltip = () => {
 
     return (
         <>
-            <TooltipMenuIcon
+            <Tooltip
                 as='button'
                 className='business-hours-tooltip'
-                isDisabled={!!isModalOpenFor('BusinessHoursModal')}
+                hideTooltip={!!isModalOpenFor('BusinessHoursModal')}
                 tooltipContent={localize('Business hours')}
             >
                 <LegacyTimeIcon iconSize='xs' />
@@ -34,7 +33,7 @@ const BusinessHoursTooltip = () => {
                         <Localize i18n_default_text='Closed' />
                     )}
                 </Text>
-            </TooltipMenuIcon>
+            </Tooltip>
             {isModalOpenFor('BusinessHoursModal') && <BusinessHoursModal hideModal={hideModal} isModalOpen />}
         </>
     );

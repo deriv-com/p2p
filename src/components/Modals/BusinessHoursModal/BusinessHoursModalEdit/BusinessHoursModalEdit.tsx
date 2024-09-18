@@ -2,12 +2,11 @@
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { LightDivider } from '@/components/LightDivider';
-import { TooltipMenuIcon } from '@/components/TooltipMenuIcon';
 import { useGetBusinessHours } from '@/hooks';
 import { isTimeEdited, TData } from '@/utils';
 import { StandaloneArrowRotateLeftBoldIcon, StandaloneSortDownFillIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Text, useDevice } from '@deriv-com/ui';
+import { Text, Tooltip, useDevice } from '@deriv-com/ui';
 import { TimeDropdown } from './TimeDropdown';
 import './BusinessHoursModalEdit.scss';
 
@@ -57,7 +56,7 @@ const BusinessHoursModalEdit = ({
     setEditedBusinessHours,
     setIsDisabled,
 }: TBusinessHoursModalEditProps) => {
-    const { isMobile } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const { localize } = useTranslations();
     const { businessHours } = useGetBusinessHours();
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
@@ -204,11 +203,12 @@ const BusinessHoursModalEdit = ({
                                         <StandaloneSortDownFillIcon fill='#999999' iconSize='xs' viewBox='0 5 32 32' />
                                     </div>
                                 )}
-                                <TooltipMenuIcon
+                                <Tooltip
                                     as='button'
                                     className={clsx('hover:bg-transparent', {
                                         'cursor-not-allowed': isDisabled,
                                     })}
+                                    hideTooltip={!isDesktop}
                                     onClick={() => !isDisabled && onReset(day.value)}
                                     tooltipContent={localize('Reset to default hours')}
                                 >
@@ -219,7 +219,7 @@ const BusinessHoursModalEdit = ({
                                         data-testid={`dt_reset_icon_${day.value}`}
                                         iconSize='xs'
                                     />
-                                </TooltipMenuIcon>
+                                </Tooltip>
                             </div>
                         </div>
                     );
