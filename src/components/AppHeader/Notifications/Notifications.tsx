@@ -4,14 +4,14 @@ import { getNotification, MY_PROFILE_URL } from '@/constants';
 import { api } from '@/hooks';
 import { LegacyAnnouncementIcon, LegacyNotificationIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { Badge, Notifications as UINotifications, Tooltip, useDevice } from '@deriv-com/ui';
+import { Badge, Notifications as UINotifications, Text, Tooltip, useDevice } from '@deriv-com/ui';
 
 const Notifications = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { localize } = useTranslations();
     const { isDesktop, isMobile } = useDevice();
     const { data: activeAccountData } = api.account.useActiveAccount();
-    const { data: notifications, subscribe, unsubscribe } = api.notification.useGetList();
+    const { data: notifications, isLoading, subscribe, unsubscribe } = api.notification.useGetList();
     const { mutate: updateNotification } = api.notification.useUpdate();
     const history = useHistory();
 
@@ -32,7 +32,7 @@ const Notifications = () => {
                 },
                 icon: <LegacyAnnouncementIcon height='16' width='16' />,
                 id: notification.message_key,
-                message,
+                message: <Text size={isDesktop ? 'xs' : 'sm'}>{message}</Text>,
                 title,
             };
         });
@@ -62,7 +62,11 @@ const Notifications = () => {
                 {notifications?.length > 0 && (
                     <Badge
                         badgeSize='xs'
-                        className={isDesktop ? 'absolute top-[1rem] ml-[1rem]' : 'absolute top-[0.8rem] ml-[1rem]'}
+                        className={
+                            isDesktop
+                                ? 'absolute top-[1rem] ml-[1rem] text-white'
+                                : 'absolute top-[0.8rem] ml-[1rem] text-white'
+                        }
                         color='danger'
                         isBold
                         textSize={isDesktop ? '2xs' : 'xs'}
@@ -82,7 +86,7 @@ const Notifications = () => {
                     noNotificationsMessage: localize('You have yet to receive any notifications'),
                     noNotificationsTitle: localize('No notifications'),
                 }}
-                isLoading={false}
+                isLoading={isLoading}
                 isOpen={isOpen}
                 notifications={modifiedNotifications || []}
                 setIsOpen={setIsOpen}
