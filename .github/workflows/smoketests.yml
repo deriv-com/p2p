@@ -16,11 +16,19 @@ jobs:
   trigger-workflow:
     runs-on: ubuntu-latest
     steps:
-    - name: Capture Vercel preview URL
-      id: vercel_preview_url
-      uses: binary-com/vercel-preview-url-action@v1.0.5
+    - name: Download artifact
+      id: download-artifact
+      uses: actions/download-artifact@7a1cd3216ca9260cd8022db641d960b1db4d1be4
       with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          name: 'pr-${{ github.event.workflow_run.id }}'
+          path: pr
+          github-token: ${{ secrets.GITHUB_TOKEN }} 
+          
+    - name: Retrieve pull request
+      id: pr_information
+      run: |
+          echo "preview_url=$(cat ./pr/PREVIEW_URL)" >> $GITHUB_OUTPUT
         
     - name: Trigger deriv-app smoke tests from regentmarkets
       uses: actions/github-script@v6
@@ -30,7 +38,7 @@ jobs:
           const workflowInputs = {
             environment: '${{ secrets.E2E_WORKFLOW_ENV }}',
             suite: 'P2P-V2',
-            appRegUrl: '${{ steps.vercel_preview_url.outputs.vercel_preview_url }}',
+            appRegUrl: '${{ steps.pr_information.outputs.preview_url }}',
             appid: ${{ secrets.E2E_APPID }}
             issue_number: '${{ github.event.issue.number }}',
             user_name: '${{ github.event.issue.user.login }}'
