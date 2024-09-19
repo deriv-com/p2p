@@ -6,7 +6,7 @@ import { Text, Tooltip, useDevice } from '@deriv-com/ui';
 import './BusinessHoursTooltip.scss';
 
 const BusinessHoursTooltip = () => {
-    const { isMobile } = useDevice();
+    const { isDesktop, isMobile } = useDevice();
     const { localize } = useTranslations();
     const { isScheduleAvailable } = useGetBusinessHours();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
@@ -16,7 +16,7 @@ const BusinessHoursTooltip = () => {
             <Tooltip
                 as='button'
                 className='business-hours-tooltip'
-                hideTooltip={!!isModalOpenFor('BusinessHoursModal')}
+                hideTooltip={!isDesktop}
                 tooltipContent={localize('Business hours')}
             >
                 <LegacyTimeIcon iconSize='xs' />
