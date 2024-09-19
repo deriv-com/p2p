@@ -32,7 +32,10 @@ const AdvertiserBlockOverlay = ({
                         size={isDesktop ? 'md' : 'lg'}
                         weight='bold'
                     >
-                        <Localize i18n_default_text='You have blocked {{advertiserName}}' values={{ advertiserName }} />
+                        <Localize
+                            i18n_default_text='You have blocked {{advertiserName}}.'
+                            values={{ advertiserName }}
+                        />
                     </Text>
                     <Button
                         className='border-2'

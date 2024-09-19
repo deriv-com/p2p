@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
 import { LANGUAGES } from '@/constants';
 import { useTranslations } from '@deriv-com/translations';
-import { Text } from '@deriv-com/ui';
+import { Text, Tooltip } from '@deriv-com/ui';
 import { LocalStorageUtils } from '@deriv-com/utils';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
 
 type TLanguageSettings = {
     openLanguageSettingModal: () => void;
@@ -19,7 +18,7 @@ const LanguageSettings = ({ openLanguageSettingModal }: TLanguageSettings) => {
     );
 
     return (
-        <TooltipMenuIcon
+        <Tooltip
             as='button'
             className='app-footer__language'
             onClick={openLanguageSettingModal}
@@ -29,7 +28,7 @@ const LanguageSettings = ({ openLanguageSettingModal }: TLanguageSettings) => {
             <Text size='xs' weight='bold'>
                 {currentLang}
             </Text>
-        </TooltipMenuIcon>
+        </Tooltip>
     );
 };
 

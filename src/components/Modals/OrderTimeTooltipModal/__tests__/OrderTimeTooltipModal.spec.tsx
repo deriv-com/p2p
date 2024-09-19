@@ -14,7 +14,7 @@ describe('<RatingModal />', () => {
     });
     it('should handle the onclick for ok button', async () => {
         render(<OrderTimeTooltipModal {...mockProps} />);
-        const okButton = screen.getByRole('button', { name: 'Ok' });
+        const okButton = screen.getByRole('button', { name: 'OK' });
         await userEvent.click(okButton);
         expect(mockProps.onRequestClose).toBeCalledTimes(1);
     });

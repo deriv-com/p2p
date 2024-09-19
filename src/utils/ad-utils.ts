@@ -108,7 +108,7 @@ export const getValidationRules = (
         case 'min-order':
             return {
                 validation_1: value => requiredValidation(value, localize('Min limit')),
-                validation_2: value => !isNaN(Number(value)) || localize('Only numbers are allowed'),
+                validation_2: value => !isNaN(Number(value)) || localize('Only numbers are allowed.'),
                 validation_3: value => decimalPointValidation(value),
                 validation_4: value => {
                     const amount = getValues('amount');
@@ -128,7 +128,7 @@ export const getValidationRules = (
         case 'max-order':
             return {
                 validation_1: value => requiredValidation(value, localize('Max limit')),
-                validation_2: value => !isNaN(Number(value)) || 'Only numbers are allowed',
+                validation_2: value => !isNaN(Number(value)) || 'Only numbers are allowed.',
                 validation_3: value => decimalPointValidation(value),
                 validation_4: value => {
                     const amount = getValues('amount');

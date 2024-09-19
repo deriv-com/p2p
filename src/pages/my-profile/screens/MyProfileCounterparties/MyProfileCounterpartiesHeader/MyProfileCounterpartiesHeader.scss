@@ -5,7 +5,7 @@
 
     & .deriv-dropdown__items {
         width: 20rem;
-        margin-top: 0.8rem;
+        margin-top: 0.5rem;
     }
 
     & .deriv-input {
@@ -13,6 +13,10 @@
 
         &__container {
             width: 20rem;
+
+            & .deriv-input__helper-message {
+                display: none;
+            }
 
             @include mobile-or-tablet-screen {
                 width: 100%;

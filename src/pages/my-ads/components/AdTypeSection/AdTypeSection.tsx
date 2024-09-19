@@ -112,6 +112,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                     }
                     isDisabled={isEdit}
                     label={localize('Total amount')}
+                    maxLength={15}
                     name='amount'
                     rightPlaceholder={
                         <Text color='general' size={textSize}>
@@ -142,6 +143,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                 ) : (
                     <AdFormInput
                         label={localize('Fixed rate')}
+                        maxLength={15}
                         name='rate-value'
                         rightPlaceholder={
                             <Text color='general' size={textSize}>
@@ -154,6 +156,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
             <div className='flex flex-col lg:flex-row lg:gap-[1.6rem]'>
                 <AdFormInput
                     label={localize('Min order')}
+                    maxLength={15}
                     name='min-order'
                     rightPlaceholder={
                         <Text color='general' size={textSize}>
@@ -164,6 +167,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                 />
                 <AdFormInput
                     label={localize('Max order')}
+                    maxLength={15}
                     name='max-order'
                     rightPlaceholder={
                         <Text color='general' size={textSize}>

@@ -1,21 +1,21 @@
 import { useFullScreen } from '@/hooks';
 import { LegacyFullscreen1pxIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
+import { Tooltip } from '@deriv-com/ui';
 
 const FullScreen = () => {
     const { toggleFullScreenMode } = useFullScreen();
     const { localize } = useTranslations();
 
     return (
-        <TooltipMenuIcon
+        <Tooltip
             as='button'
             className='app-footer__icon'
             onClick={toggleFullScreenMode}
             tooltipContent={localize('Full screen')}
         >
             <LegacyFullscreen1pxIcon iconSize='xs' />
-        </TooltipMenuIcon>
+        </Tooltip>
     );
 };
 
