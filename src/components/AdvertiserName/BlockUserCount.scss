@@ -1,9 +1,4 @@
 .block-user-count {
-    & .deriv-tooltip-container {
-        display: flex;
-        align-items: center;
-        gap: 0.1rem;
-    }
     &__tooltip {
         padding: 0 0.8rem;
         display: flex;
@@ -27,5 +22,13 @@
 
     &__button {
         padding: 0;
+    }
+
+    & .deriv-tooltip {
+        padding: 0.8rem;
+
+        @include mobile-or-tablet-screen {
+            display: none;
+        }
     }
 }

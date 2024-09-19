@@ -52,14 +52,14 @@ const AdCreateEditSuccessModal = ({
                 </Text>
                 <Checkbox
                     checked={isChecked}
-                    label={<Localize i18n_default_text='Don’t show this message again' />}
+                    label={<Localize i18n_default_text='Don’t show this message again.' />}
                     name='ad-create-success-message'
                     onChange={onToggleCheckbox}
                 />
             </Modal.Body>
             <Modal.Footer hideBorder>
                 <Button onClick={onClickOk} size='lg' textSize={textSize}>
-                    <Localize i18n_default_text='Ok' />
+                    <Localize i18n_default_text='OK' />
                 </Button>
             </Modal.Footer>
         </Modal>

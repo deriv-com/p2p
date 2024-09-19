@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useIsP2PBlocked, useLiveChat } from '@/hooks';
+import { api, useIsP2PBlocked, useLiveChat, useOAuth } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
@@ -17,10 +17,16 @@ const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
-    const { data: activeAccountData, isFetched, isLoading: isLoadingActiveAccount } = api.account.useActiveAccount();
+    const {
+        authError,
+        data: activeAccountData,
+        isFetched,
+        isLoading: isLoadingActiveAccount,
+    } = api.account.useActiveAccount();
     const { init: initLiveChat } = useLiveChat();
     const { isP2PBlocked, status } = useIsP2PBlocked();
     const { localize } = useTranslations();
+    const { oAuthLogout } = useOAuth();
     const routes = getRoutes(localize);
 
     const tabRoutesConfiguration = routes.filter(
@@ -78,6 +84,10 @@ const AppContent = () => {
         setActiveTab(getActiveTab(location.pathname));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
+
+    useEffect(() => {
+        if (authError?.code === ERROR_CODES.ACCOUNT_DISABLED) oAuthLogout();
+    }, [authError, oAuthLogout]);
 
     useEffect(() => {
         if (!isGtmTracking.current) {
