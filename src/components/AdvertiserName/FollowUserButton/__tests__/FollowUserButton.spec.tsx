@@ -1,4 +1,5 @@
 import { BUY_SELL_URL } from '@/constants';
+import { LocalStorageConstants } from '@deriv-com/utils';
 import { fireEvent, render, screen } from '@testing-library/react';
 import FollowUserButton from '../FollowUserButton';
 
@@ -88,11 +89,11 @@ describe('<FollowUserButton />', () => {
 
         rerender(<FollowUserButton id='1' />);
 
-        expect(localStorage.getItem('should_show_follow_guide')).toBe('false');
+        expect(localStorage.getItem(LocalStorageConstants.p2pShowFollowUserGuide)).toBe('false');
         expect(screen.queryByText('Follow advertisers')).not.toBeInTheDocument();
     });
 
-    it('should close OnboardingTooltip and should_show_follow_guide in local storage should be false when close button is clicked', () => {
+    it('should close OnboardingTooltip and should_show_follow_user_guide in local storage should be false when close button is clicked', () => {
         localStorage.clear();
         const { rerender } = render(<FollowUserButton id='1' />);
 
@@ -101,7 +102,7 @@ describe('<FollowUserButton />', () => {
 
         rerender(<FollowUserButton id='1' />);
 
-        expect(localStorage.getItem('should_show_follow_guide')).toBe('false');
+        expect(localStorage.getItem(LocalStorageConstants.p2pShowFollowUserGuide)).toBe('false');
         expect(screen.queryByText('Follow advertisers')).not.toBeInTheDocument();
     });
 
