@@ -11,7 +11,7 @@ const Notifications = () => {
     const { localize } = useTranslations();
     const { isDesktop, isMobile } = useDevice();
     const { data: activeAccountData } = api.account.useActiveAccount();
-    const { data: notifications, isLoading, subscribe, unsubscribe } = api.notification.useGetList();
+    const { data: notifications, subscribe, unsubscribe } = api.notification.useGetList();
     const { mutate: updateNotification } = api.notification.useUpdate();
     const history = useHistory();
 
@@ -87,7 +87,7 @@ const Notifications = () => {
                     noNotificationsMessage: localize('You have yet to receive any notifications'),
                     noNotificationsTitle: localize('No notifications'),
                 }}
-                isLoading={isLoading}
+                isLoading={false}
                 isOpen={isOpen}
                 notifications={modifiedNotifications || []}
                 setIsOpen={setIsOpen}
