@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { getOauthUrl } from '@/constants';
-import { api, useOAuth } from '@/hooks';
+import { api, useGrowthbookGetFeatureValue, useOAuth } from '@/hooks';
 import { getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
@@ -30,6 +30,9 @@ const AppHeader = () => {
         document.documentElement.dir = instance.dir((currentLang || 'en').toLowerCase());
     }, [currentLang, instance]);
     const { oAuthLogout } = useOAuth();
+    const [isNotificationServiceEnabled] = useGrowthbookGetFeatureValue({
+        featureFlag: 'new_notifications_service_enabled',
+    });
 
     const renderAccountSection = () => {
         if (!isEndpointPage && !activeAccount) {
@@ -39,7 +42,7 @@ const AppHeader = () => {
         if (activeLoginid) {
             return (
                 <>
-                    <Notifications />
+                    {isNotificationServiceEnabled && <Notifications />}
                     {isDesktop && (
                         <Tooltip
                             as='a'
