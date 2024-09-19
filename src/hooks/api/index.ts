@@ -4,6 +4,7 @@ export * from './advertiser';
 export * from './chat';
 export * from './counterparty';
 export * from './exchange-rates';
+export * as notification from './notification';
 export * from './order';
 export * from './order-dispute';
 export * from './order-review';
