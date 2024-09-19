@@ -9,6 +9,7 @@ import { Text, useDevice } from '@deriv-com/ui';
 import { PaymentMethodCard } from '../../PaymentMethodCard';
 
 type TBuySellPaymentSectionProps = {
+    advertiserPaymentMethods: TPaymentMethod[];
     availablePaymentMethods: (TPaymentMethod & { isAvailable?: boolean })[];
     isDisabled: boolean;
     onSelectPaymentMethodCard?: (paymentMethodId: number) => void;
@@ -17,6 +18,7 @@ type TBuySellPaymentSectionProps = {
 };
 
 const BuySellPaymentSection = ({
+    advertiserPaymentMethods,
     availablePaymentMethods,
     isDisabled = false,
     onSelectPaymentMethodCard,
@@ -58,7 +60,7 @@ const BuySellPaymentSection = ({
                     <Localize i18n_default_text='Receive payment to' />
                 </Text>
                 <Text size={isDesktop ? 'sm' : 'md'}>
-                    {sortedList && sortedList.length > 0 ? (
+                    {advertiserPaymentMethods?.length > 0 ? (
                         <Localize i18n_default_text='You may choose up to 3.' />
                     ) : (
                         <Localize i18n_default_text='To place an order, add one of the advertiser’s preferred payment methods:' />

@@ -1,13 +1,13 @@
 import { DERIV_COM } from '@/constants';
 import { LegacyDerivIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
+import { Tooltip } from '@deriv-com/ui';
 
 const Deriv = () => {
     const { localize } = useTranslations();
 
     return (
-        <TooltipMenuIcon
+        <Tooltip
             as='a'
             className='app-footer__icon'
             href={DERIV_COM}
@@ -15,7 +15,7 @@ const Deriv = () => {
             tooltipContent={localize('Go to deriv.com')}
         >
             <LegacyDerivIcon iconSize='xs' />
-        </TooltipMenuIcon>
+        </Tooltip>
     );
 };
 

@@ -9,6 +9,7 @@ jest.mock('@/components', () => ({
 }));
 
 jest.mock('@/hooks/custom-hooks', () => ({
+    useIsAdvertiser: jest.fn(() => false),
     useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
     usePoiPoaStatus: jest.fn().mockReturnValue({
         data: {

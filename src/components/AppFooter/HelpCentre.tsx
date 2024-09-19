@@ -1,13 +1,13 @@
 import { HELP_CENTRE } from '@/constants';
 import { LegacyHelpCentreIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
+import { Tooltip } from '@deriv-com/ui';
 
 const HelpCentre = () => {
     const { localize } = useTranslations();
 
     return (
-        <TooltipMenuIcon
+        <Tooltip
             as='a'
             className='app-footer__icon'
             href={HELP_CENTRE}
@@ -15,7 +15,7 @@ const HelpCentre = () => {
             tooltipContent={localize('Help centre')}
         >
             <LegacyHelpCentreIcon iconSize='xs' />
-        </TooltipMenuIcon>
+        </Tooltip>
     );
 };
 

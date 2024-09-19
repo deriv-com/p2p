@@ -218,7 +218,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     className='lg:min-w-[7.5rem]'
                                     disabled={isAdvertiserBarred}
                                     onClick={() => {
-                                        if (!isPoaVerified || !isPoiVerified) {
+                                        if (!isAdvertiser && (!isPoaVerified || !isPoiVerified)) {
                                             const searchParams = new URLSearchParams(location.search);
                                             searchParams.set('poi_poa_verified', 'false');
                                             history.replace({
@@ -226,7 +226,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                                 search: searchParams.toString(),
                                             });
                                         } else {
-                                            if (!isAdvertiser) setSelectedAdvertId(advertId);
+                                            setSelectedAdvertId(advertId);
                                             showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal');
                                         }
                                     }}

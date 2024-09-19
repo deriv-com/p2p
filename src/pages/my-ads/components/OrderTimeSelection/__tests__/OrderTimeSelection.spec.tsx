@@ -39,13 +39,13 @@ describe('OrderTimeSelection', () => {
     it('should not do anything on clicking info icon in desktop view', async () => {
         render(<OrderTimeSelection {...mockProps} />);
         await userEvent.click(screen.getByTestId('dt_order_info_icon'));
-        expect(screen.queryByRole('button', { name: 'Ok' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'OK' })).not.toBeInTheDocument();
     });
     it('should handle the modal open in mobile view', async () => {
         mockUseDevice.mockReturnValue({ isMobile: true });
         render(<OrderTimeSelection {...mockProps} />);
         await userEvent.click(screen.getByTestId('dt_order_info_icon'));
-        const okButton = screen.getByRole('button', { name: 'Ok' });
+        const okButton = screen.getByRole('button', { name: 'OK' });
         expect(okButton).toBeInTheDocument();
         await userEvent.click(okButton);
         expect(screen.queryByRole('button', { name: 'Ok' })).not.toBeInTheDocument();
