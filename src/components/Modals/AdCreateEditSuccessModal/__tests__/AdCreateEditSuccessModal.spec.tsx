@@ -46,7 +46,7 @@ describe('AdCreateEditSuccessModal', () => {
     });
     it('should handle ok button click', async () => {
         render(<AdCreateEditSuccessModal {...mockProps} />);
-        const okButton = screen.getByRole('button', { name: 'Ok' });
+        const okButton = screen.getByRole('button', { name: 'OK' });
         expect(okButton).toBeInTheDocument();
         await userEvent.click(okButton);
         expect(mockProps.onRequestClose).toBeCalledTimes(1);
