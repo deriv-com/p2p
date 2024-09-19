@@ -1,4 +1,4 @@
-import { Fragment, memo, useEffect, useState } from 'react';
+import { Fragment, memo, MouseEvent, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
 import { TAdvertsTableRowRenderer, TCurrency } from 'types';
@@ -11,8 +11,7 @@ import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider'
 import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
 import { LabelPairedChevronRightMdRegularIcon, StandaloneUserCheckFillIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Button, Text, useDevice } from '@deriv-com/ui';
-import { TooltipMenuIcon } from '../TooltipMenuIcon';
+import { Button, Text, Tooltip, useDevice } from '@deriv-com/ui';
 import './AdvertsTableRow.scss';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
@@ -127,15 +126,15 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     <Badge tradeCount={completedOrdersCount} />
                                 )}
                                 {isFollowing && (
-                                    <TooltipMenuIcon
+                                    <Tooltip
                                         as='button'
-                                        onClick={event => event.stopPropagation()}
+                                        onClick={(event: MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
                                         tooltipContent={localize('Following')}
                                     >
                                         <div className='bg-[#333] p-[0.2rem] rounded-lg flex'>
                                             <StandaloneUserCheckFillIcon fill='#FFF' iconSize='xs' />
                                         </div>
-                                    </TooltipMenuIcon>
+                                    </Tooltip>
                                 )}
                             </div>
                             <div className='flex items-center'>

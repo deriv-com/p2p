@@ -4,6 +4,7 @@ import { GUIDE_URL } from '@/constants';
 import { getCurrentRoute } from '@/utils';
 import { LabelPairedBookCircleQuestionLgRegularIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
+import { LocalStorageConstants } from '@deriv-com/utils';
 import './GuideTooltip.scss';
 
 const GuideTooltip = () => {
@@ -23,7 +24,7 @@ const GuideTooltip = () => {
                     onClick={() => history.push(GUIDE_URL, { from: currentRoute || 'buy-sell' })}
                 />
             }
-            localStorageItemName='should_show_p2p_guide'
+            localStorageItemName={LocalStorageConstants.p2pShowGuide}
             onClick={() => history.push(GUIDE_URL)}
             title={<Localize i18n_default_text='Deriv P2P Guide' />}
         />

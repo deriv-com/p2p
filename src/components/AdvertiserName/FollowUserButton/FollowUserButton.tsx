@@ -8,6 +8,7 @@ import { useAdvertiserStats, useIsAdvertiserBarred, useModalManager } from '@/ho
 import { StandaloneUserPlusFillIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
+import { LocalStorageConstants } from '@deriv-com/utils';
 
 type TFollowUserButtonProps = {
     id?: string;
@@ -68,7 +69,7 @@ const FollowUserButton = ({ id }: TFollowUserButtonProps) => {
                 icon={
                     <div>
                         <Button
-                            className='gap-[0.4rem] p-[0.4rem]'
+                            className='gap-[0.4rem] p-[0.4rem] border-[1px]'
                             color='black'
                             disabled={isAdvertiserBarred}
                             icon={<StandaloneUserPlusFillIcon fill={isFollowing ? '#FFF' : '#000'} iconSize='xs' />}
@@ -80,7 +81,7 @@ const FollowUserButton = ({ id }: TFollowUserButtonProps) => {
                         </Button>
                     </div>
                 }
-                localStorageItemName='should_show_follow_guide'
+                localStorageItemName={LocalStorageConstants.p2pShowFollowUserGuide}
                 title={<Localize i18n_default_text='Follow advertisers' />}
             />
             {isModalOpenFor('ErrorModal') && (
