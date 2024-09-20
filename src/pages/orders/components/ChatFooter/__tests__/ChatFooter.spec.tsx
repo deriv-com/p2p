@@ -19,7 +19,7 @@ describe('ChatFooter', () => {
     });
     it('should render the conversation closed message', () => {
         render(<ChatFooter {...{ ...mockProps, isClosed: true }} />);
-        expect(screen.getByText('This conversation is closed')).toBeInTheDocument();
+        expect(screen.getByText('This conversation is closed.')).toBeInTheDocument();
     });
     it('should expect value to be set on changing input', async () => {
         render(<ChatFooter {...mockProps} />);

@@ -94,7 +94,8 @@ describe('MyProfile', () => {
         render(<MyProfile />);
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });
-    it('should render the verification component if user has not completed POI ', () => {
+    it('should render the verification component if a new user has not completed POI ', () => {
+        (mockUseIsAdvertiser as jest.Mock).mockReturnValueOnce(false);
         (mockUsePoiPoaStatus as jest.Mock).mockReturnValueOnce({
             data: { isPoaVerified: true, isPoiVerified: false },
             isLoading: false,
@@ -103,7 +104,8 @@ describe('MyProfile', () => {
         render(<MyProfile />);
         expect(screen.getByText('Verification')).toBeInTheDocument();
     });
-    it('should render the verification component if user has not completed  POA', () => {
+    it('should render the verification component if a new user has not completed POA', () => {
+        (mockUseIsAdvertiser as jest.Mock).mockReturnValueOnce(false);
         (mockUsePoiPoaStatus as jest.Mock).mockReturnValueOnce({
             data: { isPoaVerified: false, isPoiVerified: true },
             isLoading: false,

@@ -341,6 +341,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 <LightDivider />
                 {isBuy && paymentMethodNames && paymentMethodNames?.length > 0 && (
                     <BuySellPaymentSection
+                        advertiserPaymentMethods={advertiserPaymentMethods as TPaymentMethod[]}
                         availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
                         isDisabled={shouldDisableField}
                         onSelectPaymentMethodCard={onSelectPaymentMethodCard}

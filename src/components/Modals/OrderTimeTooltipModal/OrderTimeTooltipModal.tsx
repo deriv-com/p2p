@@ -19,7 +19,7 @@ const OrderTimeTooltipModal = ({ isModalOpen, onRequestClose }: TOrderTimeToolti
             </Modal.Body>
             <Modal.Footer hideBorder>
                 <Button onClick={onRequestClose}>
-                    <Localize i18n_default_text='Ok' />
+                    <Localize i18n_default_text='OK' />
                 </Button>
             </Modal.Footer>
         </Modal>
