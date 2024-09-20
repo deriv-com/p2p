@@ -49,14 +49,16 @@ const AdvertiserBlockOverlay = ({
                     </Button>
                 </div>
                 {children}
-                <BlockUnblockUserModal
-                    advertiserName={advertiserName}
-                    id={id ?? ''}
-                    isBlocked
-                    isModalOpen={!!isModalOpenFor('BlockUnblockUserModal')}
-                    onClickBlocked={() => setShowOverlay(false)}
-                    onRequestClose={hideModal}
-                />
+                {isModalOpenFor('BlockUnblockUserModal') && (
+                    <BlockUnblockUserModal
+                        advertiserName={advertiserName}
+                        id={id ?? ''}
+                        isBlocked
+                        isModalOpen={!!isModalOpenFor('BlockUnblockUserModal')}
+                        onClickBlocked={() => setShowOverlay(false)}
+                        onRequestClose={hideModal}
+                    />
+                )}
             </div>
         );
     }

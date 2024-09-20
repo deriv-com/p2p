@@ -1,4 +1,4 @@
-import { Dispatch, memo, SetStateAction } from 'react';
+import { memo } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { UserAvatar } from '@/components';
@@ -13,15 +13,9 @@ type TMyProfileCounterpartiesTableRowProps = {
     id: string;
     isBlocked: boolean;
     nickname: string;
-    setErrorMessage: Dispatch<SetStateAction<string | undefined>>;
 };
 
-const MyProfileCounterpartiesTableRow = ({
-    id,
-    isBlocked,
-    nickname,
-    setErrorMessage,
-}: TMyProfileCounterpartiesTableRowProps) => {
+const MyProfileCounterpartiesTableRow = ({ id, isBlocked, nickname }: TMyProfileCounterpartiesTableRowProps) => {
     const { isDesktop } = useDevice();
     const history = useHistory();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
@@ -54,14 +48,15 @@ const MyProfileCounterpartiesTableRow = ({
                     {isBlocked ? localize('Unblock') : localize('Block')}
                 </Button>
             </div>
-            <BlockUnblockUserModal
-                advertiserName={nickname}
-                id={id}
-                isBlocked={isBlocked}
-                isModalOpen={!!isModalOpenFor('BlockUnblockUserModal')}
-                onRequestClose={hideModal}
-                setErrorMessage={setErrorMessage}
-            />
+            {isModalOpenFor('BlockUnblockUserModal') && (
+                <BlockUnblockUserModal
+                    advertiserName={nickname}
+                    id={id}
+                    isBlocked={isBlocked}
+                    isModalOpen={!!isModalOpenFor('BlockUnblockUserModal')}
+                    onRequestClose={hideModal}
+                />
+            )}
         </>
     );
 };

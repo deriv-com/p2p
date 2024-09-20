@@ -49,7 +49,7 @@ const MyProfile = () => {
         return <Loader />;
     }
 
-    if (!isPoiVerified || !isPoaVerified) {
+    if (!isAdvertiser && (!isPoiVerified || !isPoaVerified)) {
         return (
             <div className='overflow-y-auto h-[calc(100%-11rem)]'>
                 <Verification />

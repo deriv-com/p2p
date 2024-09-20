@@ -1,6 +1,10 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { Table } from '@/components';
+import { ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
+import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
+import { useErrorStore } from '@/stores';
 import { DerivLightIcBlockedAdvertisersBarredIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Loader, Text, useDevice } from '@deriv-com/ui';
@@ -18,21 +22,14 @@ type TMyProfileCounterpartiesTableRowRendererProps = {
     id?: string;
     is_blocked: boolean;
     name?: string;
-    setErrorMessage: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const MyProfileCounterpartiesTableRowRenderer = ({
     id,
     is_blocked: isBlocked,
     name,
-    setErrorMessage,
 }: TMyProfileCounterpartiesTableRowRendererProps) => (
-    <MyProfileCounterpartiesTableRow
-        id={id ?? ''}
-        isBlocked={isBlocked}
-        nickname={name ?? ''}
-        setErrorMessage={setErrorMessage}
-    />
+    <MyProfileCounterpartiesTableRow id={id ?? ''} isBlocked={isBlocked} nickname={name ?? ''} />
 );
 
 const MyProfileCounterpartiesTable = ({
@@ -50,8 +47,14 @@ const MyProfileCounterpartiesTable = ({
         is_blocked: dropdownValue === 'blocked' ? 1 : 0,
         trade_partners: 1,
     });
-    const [errorMessage, setErrorMessage] = useState<string | undefined>('');
     const { isDesktop } = useDevice();
+    const { errorMessages, reset } = useErrorStore(
+        useShallow(state => ({ errorMessages: state.errorMessages, reset: state.reset }))
+    );
+    const isAdvertiserBarred = useIsAdvertiserBarred();
+    const errorMessage = errorMessages.find(
+        error => error.code === ERROR_CODES.TEMPORARY_BAR || error.code === ERROR_CODES.PERMISSION_DENIED
+    )?.message;
 
     useEffect(() => {
         if (data.length > 0) {
@@ -61,6 +64,13 @@ const MyProfileCounterpartiesTable = ({
             setShowHeader(false);
         }
     }, [data, errorMessage, setShowHeader]);
+
+    useEffect(() => {
+        if (!isAdvertiserBarred && errorMessages.some(error => error.code === ERROR_CODES.TEMPORARY_BAR)) {
+            setShowHeader(true);
+            reset();
+        }
+    }, [errorMessage, errorMessages, isAdvertiserBarred, reset, setShowHeader]);
 
     if (isLoading) {
         return <Loader className='my-profile-counterparties-table__loader' isFullScreen={false} />;
@@ -93,7 +103,6 @@ const MyProfileCounterpartiesTable = ({
             rowRender={(rowData: unknown) => (
                 <MyProfileCounterpartiesTableRowRenderer
                     {...(rowData as TMyProfileCounterpartiesTableRowRendererProps)}
-                    setErrorMessage={setErrorMessage}
                 />
             )}
             tableClassname='my-profile-counterparties-table'
