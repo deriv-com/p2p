@@ -166,10 +166,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         )}
                     </div>
                 )}
-                <Container className='flex justify-between'>
-                    <Container
-                        {...(!isDesktop && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}
-                    >
+                <Container {...(!isDesktop && { className: 'flex justify-between' })}>
+                    <Container {...(!isDesktop && { className: 'flex flex-col' })}>
                         {!isDesktop && (
                             <Text
                                 color={isBuySellPage ? 'general' : 'less-prominent'}
