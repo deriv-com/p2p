@@ -9,7 +9,7 @@ import { api } from '@/hooks';
 import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
-import { LabelPairedChevronRightMdRegularIcon } from '@deriv/quill-icons';
+import { LabelPairedChevronRightMdBoldIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './AdvertsTableRow.scss';
@@ -102,7 +102,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
             <Container>
                 {isBuySellPage && (
                     <div
-                        className={clsx('flex gap-4 items-center', {
+                        className={clsx('flex gap-4 items-center mb-[1.6rem] lg:mb-0 relative', {
                             'cursor-pointer': !isAdvertiserBarred,
                         })}
                         onClick={redirectToAdvertiser}
@@ -152,85 +152,96 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                 )}
                             </div>
                         </div>
-                    </div>
-                )}
-                <Container {...(!isDesktop && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}>
-                    {!isDesktop && (
-                        <Text color={isBuySellPage ? 'general' : 'less-prominent'} size={isBuySellPage ? 'xs' : 'sm'}>
-                            <Localize i18n_default_text='Rate (1 USD)' />
-                        </Text>
-                    )}
-                    <Container {...(!isDesktop && { className: 'flex flex-col-reverse mb-7' })}>
-                        <Text color={textColor} size='sm'>
-                            {!isDesktop && localize('Limits:')} {minOrderAmountLimitDisplay}-
-                            {maxOrderAmountLimitDisplay} {accountCurrency}
-                        </Text>
-                        <Text className='text-wrap w-[90%]' color='success' size={size} weight='bold'>
-                            {displayEffectiveRate} {localCurrency}
-                        </Text>
-                    </Container>
-                    <div className='flex flex-wrap gap-2'>
-                        {paymentMethodNames ? (
-                            paymentMethodNames.map((method: string, idx: number) => (
-                                <PaymentMethodLabel
-                                    color='general'
-                                    key={idx}
-                                    paymentMethodName={method}
-                                    size={isDesktop ? 'sm' : 'xs'}
-                                />
-                            ))
-                        ) : (
-                            <PaymentMethodLabel color='general' paymentMethodName='-' />
+
+                        {!isDesktop && isBuySellPage && (
+                            <LabelPairedChevronRightMdBoldIcon
+                                className='absolute right-0 top-0'
+                                onClick={redirectToAdvertiser}
+                            />
                         )}
                     </div>
+                )}
+                <Container className='flex justify-between'>
+                    <Container
+                        {...(!isDesktop && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}
+                    >
+                        {!isDesktop && (
+                            <Text
+                                color={isBuySellPage ? 'general' : 'less-prominent'}
+                                size={isBuySellPage ? 'xs' : 'sm'}
+                            >
+                                <Localize i18n_default_text='Rate (1 USD)' />
+                            </Text>
+                        )}
+                        <Container {...(!isDesktop && { className: 'flex flex-col-reverse mb-7' })}>
+                            <Text color={textColor} size='sm'>
+                                {!isDesktop && localize('Limits:')} {minOrderAmountLimitDisplay}-
+                                {maxOrderAmountLimitDisplay} {accountCurrency}
+                            </Text>
+                            <Text className='text-wrap w-[90%]' color='success' size={size} weight='bold'>
+                                {displayEffectiveRate} {localCurrency}
+                            </Text>
+                        </Container>
+                        <div className='flex flex-wrap gap-2'>
+                            {paymentMethodNames ? (
+                                paymentMethodNames.map((method: string, idx: number) => (
+                                    <PaymentMethodLabel
+                                        color='general'
+                                        key={idx}
+                                        paymentMethodName={method}
+                                        size={isDesktop ? 'sm' : 'xs'}
+                                    />
+                                ))
+                            ) : (
+                                <PaymentMethodLabel color='general' paymentMethodName='-' />
+                            )}
+                        </div>
+                    </Container>
+                    {!isMyAdvert && (
+                        <div
+                            className={clsx('flex relative', {
+                                'flex-col h-full justify-center items-end': isBuySellPage,
+                                'flex-row justify-end': !isBuySellPage,
+                            })}
+                        >
+                            {isEligible === 0 ? (
+                                <Button
+                                    className='border px-[1.6rem]'
+                                    color='black'
+                                    onClick={() => showModal('ErrorModal')}
+                                    size={size}
+                                    textSize={buttonTextSize()}
+                                    variant='outlined'
+                                >
+                                    <Localize i18n_default_text='Unavailable' />
+                                </Button>
+                            ) : (
+                                <Button
+                                    className='lg:min-w-[7.5rem]'
+                                    disabled={isAdvertiserBarred}
+                                    onClick={() => {
+                                        if (!isAdvertiser && (!isPoaVerified || !isPoiVerified)) {
+                                            const searchParams = new URLSearchParams(location.search);
+                                            searchParams.set('poi_poa_verified', 'false');
+                                            history.replace({
+                                                pathname: location.pathname,
+                                                search: searchParams.toString(),
+                                            });
+                                        } else {
+                                            setSelectedAdvertId(advertId);
+                                            showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal');
+                                        }
+                                    }}
+                                    size={size}
+                                    textSize={buttonTextSize()}
+                                >
+                                    {isBuyAdvert ? localize('Buy') : localize('Sell')} {accountCurrency}
+                                </Button>
+                            )}
+                        </div>
+                    )}
                 </Container>
             </Container>
-            {!isMyAdvert && (
-                <div
-                    className={clsx('flex relative', {
-                        'flex-col h-full justify-center items-end': isBuySellPage,
-                        'flex-row justify-end': !isBuySellPage,
-                    })}
-                >
-                    {!isDesktop && isBuySellPage && (
-                        <LabelPairedChevronRightMdRegularIcon
-                            className='adverts-table-row__chevron'
-                            onClick={redirectToAdvertiser}
-                        />
-                    )}
-                    {isEligible === 0 ? (
-                        <Button
-                            className='border px-[1.6rem]'
-                            color='black'
-                            onClick={() => showModal('ErrorModal')}
-                            size={size}
-                            textSize={buttonTextSize()}
-                            variant='outlined'
-                        >
-                            <Localize i18n_default_text='Unavailable' />
-                        </Button>
-                    ) : (
-                        <Button
-                            className='lg:min-w-[7.5rem]'
-                            disabled={isAdvertiserBarred}
-                            onClick={() => {
-                                if (!isPoaVerified || !isPoiVerified) {
-                                    const searchParams = new URLSearchParams(location.search);
-                                    searchParams.set('poi_poa_verified', 'false');
-                                    history.replace({ pathname: location.pathname, search: searchParams.toString() });
-                                } else {
-                                    if (!isAdvertiser) setSelectedAdvertId(advertId);
-                                    showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal');
-                                }
-                            }}
-                            size={size}
-                            textSize={buttonTextSize()}
-                        >
-                            {isBuyAdvert ? localize('Buy') : localize('Sell')} {accountCurrency}
-                        </Button>
-                    )}
-                </div>
-            )}
             {!advertIdParam && isModalOpenFor('BuySellForm') && (
                 <BuySellForm
                     advertId={advertId}

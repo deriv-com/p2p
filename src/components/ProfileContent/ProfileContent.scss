@@ -11,5 +11,9 @@
         border-radius: 0;
         border-bottom: 0.1rem solid #e6e9e9;
         padding: 1.6rem;
+
+        @include tablet {
+            border: 0.1rem solid #e6e9e9;
+        }
     }
 }
