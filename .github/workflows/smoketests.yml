@@ -8,10 +8,13 @@ permissions:
     pull-requests: write
     statuses: write
 
-on: 
-    issue_comment:
-        types: [edited]
-
+on:
+  workflow_run:
+    workflows:
+      - "Build test link and Deploy to Cloudflare Pages"
+    types:
+      - completed
+      
 jobs:
   trigger-workflow:
     runs-on: ubuntu-latest
