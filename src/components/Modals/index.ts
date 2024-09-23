@@ -15,6 +15,7 @@ export * from './EmailLinkExpiredModal';
 export * from './EmailLinkVerifiedModal';
 export * from './EmailVerificationModal';
 export * from './ErrorModal';
+export * from './FallbackErrorModal';
 export * from './FilterModal';
 export * from './InvalidVerificationLinkModal';
 export * from './LeaveFilterModal';
