@@ -1,0 +1,174 @@
+.deriv-dropdown {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+
+    &--disabled {
+        pointer-events: none;
+
+        & label {
+            color: var(--du-system-light-5-active-background, #999);
+        }
+    }
+
+    &--full {
+        width: 100%;
+    }
+
+    &__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    &__chevron {
+        transition: all 0.2s ease-in-out;
+
+        &--open {
+            transform: rotate(180deg);
+        }
+
+        &--disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    }
+
+    &__content {
+        width: 100%;
+        background: var(--du-system-light-8-primary-background, #fff);
+        display: flex;
+        align-items: center;
+
+        .deriv-textfield__field {
+            cursor: pointer;
+        }
+    }
+
+    &__field {
+        position: absolute;
+        inset: 0;
+        min-width: 0; /* this is required to reset input's default width */
+        padding-left: 20px;
+        display: flex;
+        flex-grow: 1;
+        font-family: inherit;
+        outline: 0;
+        font-size: 14px;
+        background-color: transparent;
+        color: var(--du-system-light-2-general-text, #333);
+        transition: border-color 0.2s;
+        cursor: unset;
+        user-select: none;
+        &::selection {
+            background-color: transparent;
+        }
+
+        &::placeholder {
+            color: transparent;
+        }
+    }
+
+    &__field:placeholder-shown ~ &__label {
+        font-size: 14px;
+        cursor: text;
+        top: 30%;
+        padding: 0;
+    }
+
+    &__field:placeholder-shown ~ &__label--with-icon {
+        left: 44px;
+    }
+
+    label,
+    &__field:focus ~ &__label {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 16px;
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+        text-transform: capitalize;
+        transition: all 0.15s ease-out;
+        padding: 0;
+    }
+
+    &__field:focus ~ &__label {
+        color: var(--du-brand-blue, #85acb0);
+    }
+
+    &__items {
+        position: absolute;
+        top: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        z-index: 2;
+        border-radius: 4px;
+        background: var(--du-system-light-8-primary-background, #fff);
+        box-shadow: 0 32px 64px 0 rgba(14, 14, 14, 0.14);
+        overflow-y: auto;
+        width: 328px;
+        margin-top: 8px;
+
+        &--full {
+            width: 100%;
+        }
+
+        & > :first-child {
+            border-radius: 4px 4px 0 0;
+        }
+
+        & > :last-child {
+            border-radius: 0 0 4px 4px;
+        }
+        &--xs {
+            max-height: 125px;
+        }
+        &--sm {
+            max-height: 220px;
+        }
+
+        &--md {
+            max-height: 420px;
+        }
+
+        &--lg {
+            max-height: 660px;
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        left: 16px;
+        width: 16px;
+        height: 16px;
+    }
+
+    &__item {
+        padding: 10px 16px;
+        width: 100%;
+        z-index: 2;
+
+        &:hover:not(&--active) {
+            cursor: pointer;
+            background: var(--du-system-light-6-hover-background, #e6e9e9);
+        }
+
+        &--active {
+            background: var(--du-system-light-5-active-background, #d6dadb);
+        }
+
+        &--disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+
+            &:hover {
+                cursor: not-allowed !important;
+                background: transparent !important;
+            }
+        }
+    }
+}
