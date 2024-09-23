@@ -75,7 +75,9 @@ describe('<Verification />', () => {
 
         await userEvent.click(poiButton);
 
-        expect(window.location.href).toBe('https://app.deriv.com/account/proof-of-identity?ext_platform_url=/p2p');
+        expect(window.location.href).toBe(
+            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p'
+        );
     });
 
     it('should redirect user to proof-of-address route if user clicks on arrow button', async () => {
@@ -91,7 +93,9 @@ describe('<Verification />', () => {
 
         await userEvent.click(poaButton);
 
-        expect(window.location.href).toBe('https://app.deriv.com/account/proof-of-address?ext_platform_url=/p2p');
+        expect(window.location.href).toBe(
+            'https://app.deriv.com/account/proof-of-address?ext_platform_url=/cashier/p2p'
+        );
     });
 
     it('should update url with search params if user clicks on arrow button and url has search params', async () => {
@@ -107,7 +111,9 @@ describe('<Verification />', () => {
 
         await userEvent.click(poiButton);
 
-        expect(window.location.href).toBe('https://app.deriv.com/account/proof-of-identity?ext_platform_url=/p2p');
+        expect(window.location.href).toBe(
+            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p'
+        );
     });
 
     it('should show the pending message if poi/poa status is pending and poi/poa buttons are disabled', () => {

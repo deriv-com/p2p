@@ -26,7 +26,7 @@ const MyProfile = () => {
     const { queryString, setQueryString } = useQueryString();
     const { data } = usePoiPoaStatus();
     const { data: advertiserStats, isLoading } = useAdvertiserStats();
-    const { isP2PPoaRequired, isPoaVerified, isPoiVerified } = data || {};
+    const { isPoiPoaVerified } = data || {};
     const isAdvertiser = useIsAdvertiser();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
 
@@ -40,16 +40,15 @@ const MyProfile = () => {
     ];
 
     useEffect(() => {
-        const isPoaPoiVerified = (!isP2PPoaRequired || isPoaVerified) && isPoiVerified;
-        if (isPoaPoiVerified && !isAdvertiser) showModal('NicknameModal');
+        if (isPoiPoaVerified && !isAdvertiser) showModal('NicknameModal');
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAdvertiser, isP2PPoaRequired, isPoaVerified, isPoiVerified]);
+    }, [isAdvertiser, isPoiPoaVerified]);
 
     if (isLoading && !advertiserStats) {
         return <Loader />;
     }
 
-    if (!isAdvertiser && (!isPoiVerified || !isPoaVerified)) {
+    if (!isAdvertiser && !isPoiPoaVerified) {
         return (
             <div className='overflow-y-auto h-[calc(100%-11rem)]'>
                 <Verification />

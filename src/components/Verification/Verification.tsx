@@ -20,13 +20,18 @@ const getPoiAction = (status: string | undefined, localize: TLocalize) => {
     }
 };
 
-const getPoaAction = (status: string | undefined, localize: TLocalize) => {
+const getPoaAction = (
+    isPoaAuthenticatedWithIdv: boolean | undefined,
+    status: string | undefined,
+    localize: TLocalize
+) => {
     switch (status) {
         case 'pending':
             return localize('Address verification in progress.');
         case 'rejected':
             return localize('Address verification failed. Please try again.');
         case 'verified':
+            if (isPoaAuthenticatedWithIdv) return localize('Upload documents to verify your address.');
             return localize('Address verification complete.');
         default:
             return localize('Upload documents to verify your address.');
@@ -37,12 +42,21 @@ const Verification = () => {
     const { isMobile } = useDevice();
     const { localize } = useTranslations();
     const { data, isLoading } = usePoiPoaStatus();
-    const { isP2PPoaRequired, isPoaPending, isPoaVerified, isPoiPending, isPoiVerified, poaStatus, poiStatus } =
-        data || {};
+    const {
+        isP2PPoaRequired,
+        isPoaAuthenticatedWithIdv,
+        isPoaPending,
+        isPoaVerified,
+        isPoiPending,
+        isPoiVerified,
+        poaStatus,
+        poiStatus,
+    } = data || {};
+    const allowPoaRedirection = !isPoaVerified || isPoaAuthenticatedWithIdv;
 
     const redirectToVerification = (route: string) => {
         const search = window.location.search;
-        let updatedUrl = `${route}?ext_platform_url=/p2p`;
+        let updatedUrl = `${route}?ext_platform_url=/cashier/p2p`;
 
         if (search) {
             const urlParams = new URLSearchParams(search);
@@ -70,12 +84,12 @@ const Verification = () => {
                   {
                       isDisabled: isPoaPending,
                       onClick: () => {
-                          if (!isPoaVerified)
+                          if (allowPoaRedirection)
                               redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-address`);
                       },
-                      status: isPoaVerified ? 'done' : 'action',
+                      status: allowPoaRedirection ? 'action' : 'done',
                       testId: 'dt_verification_poa_arrow_button',
-                      text: getPoaAction(poaStatus, localize),
+                      text: getPoaAction(isPoaAuthenticatedWithIdv, poaStatus, localize),
                   },
               ]
             : []),

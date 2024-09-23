@@ -14,6 +14,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
     usePoiPoaStatus: jest.fn().mockReturnValue({
         data: {
             isPoaVerified: true,
+            isPoiPoaVerified: true,
             isPoiVerified: true,
         },
     }),
@@ -49,8 +50,7 @@ describe('MyAds', () => {
     it('should render the Verification component if POA/POI is not verified is false', () => {
         (mockUsePoiPoaStatus as jest.Mock).mockReturnValue({
             data: {
-                isPoaVerified: false,
-                isPoiVerified: false,
+                isPoiPoaVerified: false,
             },
         });
         render(<MyAds />);

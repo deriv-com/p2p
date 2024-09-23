@@ -68,6 +68,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
         data: {
             isP2PPoaRequired: false,
             isPoaVerified: true,
+            isPoiPoaVerified: true,
             isPoiVerified: true,
         },
         isLoading: false,
@@ -116,7 +117,7 @@ describe('MyProfile', () => {
     });
     it('should show the nickname modal if user has completed POI or POA for the first time', () => {
         (mockUsePoiPoaStatus as jest.Mock).mockReturnValueOnce({
-            data: { isPoaVerified: true, isPoiVerified: true },
+            data: { isPoiPoaVerified: true },
             isLoading: false,
         });
 
