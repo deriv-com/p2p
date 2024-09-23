@@ -7,9 +7,16 @@ import BlockUnblockUserModal from '../BlockUnblockUserModal';
 const mockOnRequestClose = jest.fn();
 const mockUseBlockMutate = jest.fn();
 const mockUseUnblockMutate = jest.fn();
+
 const mockBlockMutation = {
     error: {},
     isSuccess: false,
+};
+
+const mockUseAdvertiserInfo = {
+    data: {
+        is_favourite: false,
+    },
 };
 
 const mockModalManager = {
@@ -47,6 +54,7 @@ jest.mock('@/hooks', () => ({
             })),
         },
     },
+    useAdvertiserStats: jest.fn(() => mockUseAdvertiserInfo),
 }));
 
 jest.mock('@/hooks/custom-hooks', () => ({
@@ -91,7 +99,7 @@ describe('BlockUnblockUserModal', () => {
         });
         await userEvent.click(blockBtn);
 
-        expect(mockUseBlockMutate).toBeCalledWith([1]);
+        expect(mockUseBlockMutate).toHaveBeenCalledWith([1], false);
     });
     it('should render the modal with correct title and behaviour for unblocking user', async () => {
         render(
@@ -115,7 +123,7 @@ describe('BlockUnblockUserModal', () => {
         });
         await userEvent.click(unblockBtn);
 
-        expect(mockUseUnblockMutate).toBeCalledWith([2]);
+        expect(mockUseUnblockMutate).toHaveBeenCalledWith([2]);
     });
     it('should hide the modal when user clicks cancel', async () => {
         render(

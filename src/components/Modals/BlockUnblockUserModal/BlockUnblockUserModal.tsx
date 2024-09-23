@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useModalManager } from '@/hooks';
+import { api, useAdvertiserStats, useModalManager } from '@/hooks';
 import { useErrorStore } from '@/stores';
 import { getCurrentRoute } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
@@ -37,6 +37,7 @@ const BlockUnblockUserModal = ({
         mutate: unblockAdvertiser,
         mutation: { error: unblockError, isSuccess: unblockIsSuccess },
     } = api.counterparty.useUnblock();
+    const { data } = useAdvertiserStats(id);
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { errorMessages, setErrorMessages } = useErrorStore(
         useShallow(state => ({ errorMessages: state.errorMessages, setErrorMessages: state.setErrorMessages }))
@@ -81,7 +82,7 @@ const BlockUnblockUserModal = ({
         if (isBlocked) {
             unblockAdvertiser([parseInt(id)]);
         } else {
-            blockAdvertiser([parseInt(id)]);
+            blockAdvertiser([parseInt(id)], !!data?.is_favourite);
         }
     };
 
