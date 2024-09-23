@@ -18,3 +18,11 @@ body {
     min-height: 100%;
     height: 100%;
 }
+
+.table__content {
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        display: unset;
+        background-color: #d6dadb;
+    }
+}
