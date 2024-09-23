@@ -1,0 +1,61 @@
+name: Run Smoke Tests - Deriv app
+
+permissions:
+    actions: write
+    checks: write
+    contents: write
+    deployments: write
+    pull-requests: write
+    statuses: write
+
+on:
+  workflow_run:
+    workflows:
+      - "Build test link and Deploy to Cloudflare Pages"
+    types:
+      - completed
+      
+jobs:
+  trigger-workflow:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Verify user
+      uses: 'deriv-com/shared-actions/.github/actions/verify_user_in_organization@v1'
+      with:
+          username: ${{ github.event.pull_request.user.login }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+    - name: Download artifact
+      id: download-artifact
+      uses: actions/download-artifact@v4
+      with:
+          run-id: ${{ github.event.workflow_run.id }}
+          name: 'pr-${{ github.event.workflow_run.id }}'
+          path: pr
+          github-token: ${{ secrets.GITHUB_TOKEN }} 
+          
+    - name: Retrieve pull request
+      id: pr_information
+      run: |
+          echo "preview_url=$(cat ./pr/PREVIEW_URL)" >> $GITHUB_OUTPUT
+        
+    - name: Trigger deriv-app smoke tests from regentmarkets
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.E2E_WORKFLOW_TOKEN }}
+        script: |
+          const workflowInputs = {
+            environment: '${{ secrets.E2E_WORKFLOW_ENV }}',
+            suite: 'P2P-V2',
+            appRegUrl: '${{ steps.pr_information.outputs.preview_url }}',
+            appid: ${{ secrets.E2E_APPID }}
+            issue_number: '${{ github.event.issue.number }}',
+            user_name: '${{ github.event.issue.user.login }}'
+            };
+          const response = await github.rest.actions.createWorkflowDispatch({
+            owner: 'regentmarkets',
+            repo: 'e2e-deriv-app',
+            workflow_id: 'E2E_Run_PR.yml',
+            ref: 'master',
+            inputs: workflowInputs
+          });
