@@ -78,6 +78,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         else if (isTablet) return 'sm';
         return 'md';
     };
+    const params = new URLSearchParams(location.search);
+    const advertIdParam = params.get('advert_id');
 
     const redirectToAdvertiser = () => {
         isAdvertiserBarred ? undefined : history.push(`${ADVERTISER_URL}/${id}?currency=${localCurrency}`);
@@ -240,7 +242,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     )}
                 </Container>
             </Container>
-            {isModalOpenFor('BuySellForm') && (
+            {!advertIdParam && isModalOpenFor('BuySellForm') && (
                 <BuySellForm
                     advertId={advertId}
                     isModalOpen={!!isModalOpenFor('BuySellForm')}

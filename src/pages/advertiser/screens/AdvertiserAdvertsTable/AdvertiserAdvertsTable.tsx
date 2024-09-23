@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
 import { BuySellForm } from '@/components';
-import { ErrorModal, LoadingModal } from '@/components/Modals';
+import { ErrorModal } from '@/components/Modals';
 import { ADVERT_TYPE, BUY_SELL, BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, useQueryString } from '@/hooks/custom-hooks';
@@ -26,10 +26,6 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
     const location = useLocation();
     const history = useHistory();
 
-    const searchParams = new URLSearchParams(location.search);
-    const currencyParam = searchParams.get('currency');
-    const currency = currencyParam !== null && currencyParam ? currencyParam : undefined;
-
     const { queryString, setQueryString } = useQueryString();
 
     const { activeAdvertisersBuySellTab, setActiveAdvertisersBuySellTab } = useTabsStore(
@@ -38,11 +34,10 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
             setActiveAdvertisersBuySellTab: state.setActiveAdvertisersBuySellTab,
         }))
     );
-    const { data: advertInfo, error, isLoading: isLoadingAdvert } = api.advert.useGet({ id: advertId }, !!advertId);
+    const { data: advertInfo, error } = api.advert.useGet({ id: advertId }, !!advertId, false);
     const { data, isLoading, loadMoreAdverts } = api.advert.useGetList({
         advertiser_id: advertiserId,
         counterparty_type: activeAdvertisersBuySellTab === ADVERT_TYPE.BUY ? BUY_SELL.BUY : BUY_SELL.SELL,
-        local_currency: currency,
     });
     const { data: advertiserInfo } = api.advertiser.useGetInfo() || {};
     const isMyAdvert = advertiserInfo?.id === advertiserId;
@@ -65,11 +60,15 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
             }
         } else if (error) {
             showModal('ErrorModal', { shouldClearPreviousModals: true });
-        } else if (isLoadingAdvert && !advertInfo) {
-            showModal('LoadingModal');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [advertInfo, error, isLoadingAdvert]);
+    }, [advertInfo, error]);
+
+    const onHideModal = () => {
+        hideModal();
+        setAdvertId(undefined);
+        history.replace({ search: '' });
+    };
 
     useEffect(() => {
         if (queryString.tab) setActiveAdvertisersBuySellTab(queryString.tab);
@@ -103,17 +102,16 @@ const AdvertiserAdvertsTable = ({ advertiserId }: TAdvertiserAdvertsTableProps) 
             </Tabs>
             <AdvertsTableRenderer data={data} isLoading={isLoading} loadMoreAdverts={loadMoreAdverts} />
             {isModalOpenFor('BuySellForm') && (
-                <BuySellForm advertId={advertId} isModalOpen onRequestClose={hideModal} />
+                <BuySellForm advertId={advertId} isModalOpen onRequestClose={onHideModal} />
             )}
             {isModalOpenFor('ErrorModal') && (
                 <ErrorModal
                     isModalOpen
                     message={localize('It’s either deleted or no longer active.')}
-                    onRequestClose={hideModal}
+                    onRequestClose={onHideModal}
                     title={localize('This ad is unavailable')}
                 />
             )}
-            {isModalOpenFor('LoadingModal') && <LoadingModal isModalOpen />}
         </div>
     );
 };

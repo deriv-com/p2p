@@ -5,7 +5,7 @@ const LoadingModal = ({ isModalOpen }: { isModalOpen: boolean }) => {
     return (
         <Modal ariaHideApp={false} className='loading-modal' isOpen={isModalOpen}>
             <Modal.Body>
-                <Loader className='relative top-0 left-0 transform-none' />
+                <Loader />
             </Modal.Body>
         </Modal>
     );

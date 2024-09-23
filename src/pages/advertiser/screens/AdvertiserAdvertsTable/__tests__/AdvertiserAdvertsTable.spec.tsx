@@ -119,14 +119,6 @@ const mockUseGet = api.advert.useGet as jest.MockedFunction<typeof api.advert.us
 const mockUseIsAdvertiserBarred = useIsAdvertiserBarred as jest.MockedFunction<typeof useIsAdvertiserBarred>;
 
 describe('<AdvertiserAdvertsTable />', () => {
-    it('should show the Loader component if isLoading is true', () => {
-        render(<AdvertiserAdvertsTable advertiserId='123' />);
-
-        expect(screen.getByRole('button', { name: 'Buy' })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'Sell' })).toBeInTheDocument();
-        expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
-    });
-
     it('should call setQueryString if queryString is not defined', async () => {
         render(<AdvertiserAdvertsTable advertiserId='123' />);
 
@@ -212,20 +204,6 @@ describe('<AdvertiserAdvertsTable />', () => {
 
         expect(screen.getByRole('button', { name: 'Sell USD' })).toBeInTheDocument();
         expect(mockTabsStore.setActiveAdvertisersBuySellTab).toHaveBeenCalledWith('Sell');
-    });
-
-    it('should show LoadingModal if isLoading is true and advertId is present', () => {
-        (mockUseGet as jest.Mock).mockReturnValue({
-            ...mockUseGetAdvertInfo,
-            data: undefined,
-            isLoading: true,
-        });
-        mockSearch = '?advert_id=456';
-        mockUseModalManager.isModalOpenFor.mockImplementation((modal: string) => modal === 'LoadingModal');
-
-        render(<AdvertiserAdvertsTable advertiserId='222' />);
-
-        expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });
 
     it('should show BuySellForm if user is an advertiser, not barred, isLoading is false, advertId is present, advert is active and visible', () => {
