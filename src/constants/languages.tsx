@@ -53,7 +53,7 @@ const flagComponents: TFlagComponent = {
 };
 
 const createFlagData = () => {
-    return Object.entries(getAllowedLanguages(['ID'])).map(([code, displayName]) => {
+    return Object.entries(getAllowedLanguages(['ID', 'MN'])).map(([code, displayName]) => {
         const IconComponent = flagComponents[code];
         return {
             code,
