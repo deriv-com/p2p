@@ -413,6 +413,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                             error?.code === ERROR_CODES.ADVERTISER_SCHEDULE_AVAILABILITY
                         ) {
                             hideModal({ shouldHideAllModals: true });
+                            reset();
                         } else {
                             hideModal({ shouldHidePreviousModals: true });
                             reset();
