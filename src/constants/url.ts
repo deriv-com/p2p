@@ -27,7 +27,7 @@ export const DEFAULT_OAUTH_LOGOUT_URL = 'https://oauth.deriv.com/oauth2/sessions
 export const DEFAULT_OAUTH_ORIGIN_URL = 'https://oauth.deriv.com';
 
 const SocketURL = {
-    [URLConstants.derivP2pProduction]: 'blue.derivws.com',
+    [URLConstants.derivP2pProduction]: 'green.derivws.com',
     [URLConstants.derivP2pStaging]: 'red.derivws.com',
 };
 
@@ -37,10 +37,12 @@ export const getServerInfo = () => {
 
     const existingAppId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
     const existingServerUrl = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
-    // since we don't have official app_id for staging,
     // we will use the red server with app_id=62019 for the staging-p2p.deriv.com for now
-    // to fix the login issue
-    if (origin === URLConstants.derivP2pStaging && (!existingAppId || !existingServerUrl)) {
+    // for p2p.deriv.com, we will use the green server with app_id=661859
+    if (
+        (origin === URLConstants.derivP2pStaging || origin === URLConstants.derivP2pProduction) &&
+        (!existingAppId || !existingServerUrl)
+    ) {
         LocalStorageUtils.setValue<string>(
             LocalStorageConstants.configServerURL,
             SocketURL[origin as keyof typeof SocketURL]
