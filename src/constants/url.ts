@@ -38,7 +38,7 @@ export const getServerInfo = () => {
     const existingAppId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
     const existingServerUrl = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
     // we will use the red server with app_id=62019 for the staging-p2p.deriv.com for now
-    // for p2p.deriv.com, we will use the green server with app_id=661859
+    // for p2p.deriv.com, we will use the green server with app_id=61859
     if (
         (origin === URLConstants.derivP2pStaging || origin === URLConstants.derivP2pProduction) &&
         (!existingAppId || !existingServerUrl)
