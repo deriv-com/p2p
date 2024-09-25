@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { TCurrency, THooks, TPaymentMethod } from 'types';
-import { ErrorModal, RateFluctuationModal } from '@/components/Modals';
+import { ErrorModal, LoadingModal, RateFluctuationModal } from '@/components/Modals';
 import { BUY_SELL, ERROR_CODES, ORDERS_URL, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import useInvalidateQuery from '@/hooks/api/useInvalidateQuery';
@@ -50,7 +50,7 @@ const getAdvertiserMaxLimit = (
 const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProps) => {
     const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const { data: advertInfo, subscribe, unsubscribe } = api.advert.useSubscribe();
+    const { data: advertInfo, isLoading, subscribe, unsubscribe } = api.advert.useSubscribe();
     const { data: orderCreatedInfo, error, isError, isSuccess, mutate, reset } = api.order.useCreate();
     const { data: paymentMethods } = api.paymentMethods.useGet();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
@@ -273,6 +273,8 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
 
         setShowLowBalanceError(isLowBalance);
     }, [balanceData.balance, isBuy, minOrderAmountLimit]);
+
+    if (isLoading) return <LoadingModal isModalOpen />;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

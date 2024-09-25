@@ -90,6 +90,7 @@ const mockModalManager = {
 
 const mockAdvertInfo = {
     data: mockAdvertValues,
+    isLoading: true,
     subscribe: jest.fn(),
     unsubscribe: jest.fn(),
 };
@@ -201,7 +202,12 @@ describe('BuySellForm', () => {
     afterEach(() => {
         jest.clearAllMocks();
     });
+    it('should render the loading modal when isLoading is true', () => {
+        render(<BuySellForm {...mockProps} />);
+        expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
+    });
     it('should render the form as expected', () => {
+        mockAdvertInfo.isLoading = false;
         render(<BuySellForm {...mockProps} />);
         expect(screen.getByText('Buy USD')).toBeInTheDocument();
     });

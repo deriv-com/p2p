@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import clsx from 'clsx';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { PageReturn, ProfileContent } from '@/components';
 import BlockDropdown from '@/components/AdvertiserName/BlockDropdown';
@@ -29,10 +30,12 @@ const Advertiser = () => {
 
     const { data, isLoading, unsubscribe } = useAdvertiserStats(id);
 
+    const isDropdownVisible = !isSameUser && !isDesktop && !data?.isBlockedBoolean;
+
     return (
         <div className='advertiser'>
             <PageReturn
-                className='lg:mt-0'
+                className={clsx('lg:mt-0', { advertiser__return: isDropdownVisible })}
                 hasBorder={!isDesktop}
                 onClick={() => {
                     history.push(
@@ -43,17 +46,16 @@ const Advertiser = () => {
                     unsubscribe();
                 }}
                 pageTitle={localize('Advertiser’s page')}
-                {...(!isDesktop &&
-                    !isSameUser && {
-                        rightPlaceHolder: (
-                            <BlockDropdown
-                                id={advertiserId}
-                                onClickBlocked={() => {
-                                    setShowOverlay(prevState => !prevState);
-                                }}
-                            />
-                        ),
-                    })}
+                {...(isDropdownVisible && {
+                    rightPlaceHolder: (
+                        <BlockDropdown
+                            id={advertiserId}
+                            onClickBlocked={() => {
+                                setShowOverlay(prevState => !prevState);
+                            }}
+                        />
+                    ),
+                })}
                 size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />

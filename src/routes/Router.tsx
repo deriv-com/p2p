@@ -13,7 +13,7 @@ declare module 'react-router-dom' {
     export function useHistory(): {
         goBack: () => void;
         push: (path: string, state?: TState) => void;
-        replace(arg0: { pathname: string; search: string }): void;
+        replace(arg0: { pathname?: string; search: string }): void;
     };
 
     export function useRouteMatch(path: string): boolean;
