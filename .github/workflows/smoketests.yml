@@ -1,11 +1,7 @@
-name: Run Smoke Tests - Deriv app
+name: Run Smoke Tests - P2Pv2
 
 on:
-  workflow_run:
-    workflows:
-      - "Build test link and Deploy to Cloudflare Pages"
-    types:
-      - completed
+  workflow_dispatch:
       
 jobs:
   trigger-workflow:
