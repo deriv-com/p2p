@@ -43,7 +43,13 @@ const App = () => {
             <ErrorBoundary fallback={<div>fallback component</div>}>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>
                     <TranslationProvider defaultLang='EN' i18nInstance={i18nInstance}>
-                        <Suspense fallback={<Loader isFullScreen />}>
+                        <Suspense
+                            fallback={
+                                <div className='flex h-full w-full items-center justify-center'>
+                                    <Loader isFullScreen />
+                                </div>
+                            }
+                        >
                             {!isOAuth2Enabled && <DerivIframe />}
                             <AppHeader />
                             <AppContent />
