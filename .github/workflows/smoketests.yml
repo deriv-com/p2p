@@ -1,4 +1,4 @@
-name: Run Smoke Tests - P2Pv2
+name: Run Smoke Tests
 
 on:
   workflow_run:
