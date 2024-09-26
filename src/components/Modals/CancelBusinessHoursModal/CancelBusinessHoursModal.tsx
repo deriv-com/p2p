@@ -14,7 +14,7 @@ const CancelBusinessHoursModal = ({ isModalOpen, onDiscard, onKeepEditing }: TCa
 
     return (
         <Modal ariaHideApp={false} className='cancel-business-hours-modal' isOpen={isModalOpen}>
-            <Modal.Header className='lg:px-[2.4rem] px-[1.6rem]' hideBorder hideCloseIcon>
+            <Modal.Header className='lg:!px-[2.4rem] !px-[1.6rem]' hideBorder hideCloseIcon>
                 <Text weight='bold'>
                     <Localize i18n_default_text='Discard changes?' />
                 </Text>
