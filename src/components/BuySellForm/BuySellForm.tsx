@@ -103,11 +103,11 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
     const counterpartyRateRef = useRef<number | undefined>(undefined);
 
     useEffect(() => {
-        if (isAdvertiser) {
+        if (isAdvertiser || advertiserPaymentMethods === undefined) {
             get();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAdvertiser]);
+    }, [isAdvertiser, advertiserPaymentMethods]);
 
     const { displayEffectiveRate, effectiveRate } = generateEffectiveRate({
         exchangeRate,
