@@ -1,7 +1,11 @@
 name: Run Smoke Tests - P2Pv2
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Build test link and Deploy to Cloudflare Pages"
+    types:
+      - completed
       
 jobs:
   trigger-workflow:
