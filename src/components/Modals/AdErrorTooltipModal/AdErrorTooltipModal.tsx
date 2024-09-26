@@ -49,7 +49,9 @@ const getAdErrorMessage = (
         [ERROR_CODES.ADVERTISER_ADS_PAUSED]: (
             <Localize i18n_default_text='This ad is not listed on Buy/Sell because you have paused all your ads.' />
         ),
-
+        [ERROR_CODES.ADVERTISER_SCHEDULE]: (
+            <Localize i18n_default_text='This ad is not listed on Buy/Sell because it’s outside your business hours.' />
+        ),
         [ERROR_CODES.AD_EXCEEDS_BALANCE]: (
             <Localize
                 i18n_default_text='This ad is not listed on Buy/Sell because its minimum order is higher than your Deriv P2P available balance ({{balanceAvailable}} {{accountCurrency}}).'

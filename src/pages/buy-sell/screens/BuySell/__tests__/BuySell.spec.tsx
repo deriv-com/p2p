@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
+import { useGetBusinessHours, useIsAdvertiserBarred } from '@/hooks/custom-hooks';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BuySell from '../BuySell';
@@ -18,11 +18,15 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('@/components', () => ({
     ...jest.requireActual('@/components'),
+    OutsideBusinessHoursHint: () => <div>OutsideBusinessHoursHint</div>,
     TemporarilyBarredHint: () => <div>TemporarilyBarredHint</div>,
     Verification: () => <div>Verification</div>,
 }));
 
 jest.mock('@/hooks/custom-hooks', () => ({
+    useGetBusinessHours: jest.fn().mockReturnValue({
+        isScheduleAvailable: true,
+    }),
     useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
 }));
 
@@ -30,6 +34,7 @@ jest.mock('../../BuySellTable/BuySellTable', () => jest.fn(() => <div>BuySellTab
 
 const mockUseLocation = useLocation as jest.MockedFunction<typeof useLocation>;
 const mockUseIsAdvertiserBarred = useIsAdvertiserBarred as jest.MockedFunction<typeof useIsAdvertiserBarred>;
+const mockUseGetBusinessHours = useGetBusinessHours as jest.Mock;
 
 describe('<BuySell />', () => {
     it('should render the BuySell Component', () => {
@@ -37,6 +42,7 @@ describe('<BuySell />', () => {
 
         expect(screen.getByText('BuySellTable')).toBeInTheDocument();
         expect(screen.queryByText('TemporarilyBarredHint')).not.toBeInTheDocument();
+        expect(screen.queryByText('OutsideBusinessHoursHint')).not.toBeInTheDocument();
     });
 
     it('should render the TemporarilyBarredHint component if isAdvertiserBarred is true', () => {
@@ -44,7 +50,21 @@ describe('<BuySell />', () => {
 
         render(<BuySell />);
 
+        expect(screen.queryByText('OutsideBusinessHoursHint')).not.toBeInTheDocument();
         expect(screen.getByText('TemporarilyBarredHint')).toBeInTheDocument();
+        expect(screen.getByText('BuySellTable')).toBeInTheDocument();
+    });
+
+    it('should render the OutsideBusinessHoursHint component if isScheduleAvailable is false', () => {
+        mockUseIsAdvertiserBarred.mockReturnValue(false);
+        mockUseGetBusinessHours.mockReturnValue({
+            isScheduleAvailable: false,
+        });
+
+        render(<BuySell />);
+
+        expect(screen.getByText('OutsideBusinessHoursHint')).toBeInTheDocument();
+        expect(screen.queryByText('TemporarilyBarredHint')).not.toBeInTheDocument();
         expect(screen.getByText('BuySellTable')).toBeInTheDocument();
     });
 

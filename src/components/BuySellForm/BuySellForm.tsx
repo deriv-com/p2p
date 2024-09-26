@@ -205,6 +205,24 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         invalidate('p2p_advert_list');
     };
 
+    const getErrorModalTitle = () => {
+        if (error?.code === ERROR_CODES.CLIENT_SCHEDULE_AVAILABILITY) return localize('Outside business hours');
+        else if (error?.code === ERROR_CODES.ADVERTISER_SCHEDULE_AVAILABILITY) return localize('Ad not available');
+        return localize('Order unsuccessful');
+    };
+
+    const getErrorButtonText = () => {
+        if (
+            error?.code === ERROR_CODES.CLIENT_SCHEDULE_AVAILABILITY ||
+            error?.code === ERROR_CODES.ADVERTISER_SCHEDULE_AVAILABILITY
+        )
+            return undefined;
+
+        if (hasCounterpartyRateChanged) return localize('Try again');
+
+        return localize('Create new order');
+    };
+
     useEffect(() => {
         if (advertId) subscribe({ id: advertId });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -226,7 +244,11 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
 
     useEffect(() => {
         if (isError && error?.message) {
-            if (error.code === ERROR_CODES.ORDER_CREATE_FAIL_RATE_SLIPPAGE) {
+            if (
+                error.code === ERROR_CODES.ORDER_CREATE_FAIL_RATE_SLIPPAGE ||
+                error.code === ERROR_CODES.CLIENT_SCHEDULE_AVAILABILITY ||
+                error.code === ERROR_CODES.ADVERTISER_SCHEDULE_AVAILABILITY
+            ) {
                 setIsHidden(true);
                 showModal('ErrorModal', { shouldStackModals: false });
             } else {
@@ -374,7 +396,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
             {isModalOpenFor('ErrorModal') && (
                 <ErrorModal
                     bodyClassName={clsx({ 'py-0 lg:py-4': !hasCounterpartyRateChanged })}
-                    buttonText={hasCounterpartyRateChanged ? localize('Try again') : localize('Create new order')}
+                    buttonText={getErrorButtonText()}
                     buttonTextSize={!isDesktop ? 'md' : 'sm'}
                     hideCloseIcon
                     isModalOpen
@@ -388,6 +410,12 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                             hideModal();
                             setHasCounterpartyRateChanged(false);
                             counterpartyRateRef.current = undefined;
+                        } else if (
+                            error?.code === ERROR_CODES.CLIENT_SCHEDULE_AVAILABILITY ||
+                            error?.code === ERROR_CODES.ADVERTISER_SCHEDULE_AVAILABILITY
+                        ) {
+                            hideModal({ shouldHideAllModals: true });
+                            reset();
                         } else {
                             hideModal({ shouldHidePreviousModals: true });
                             reset();
@@ -397,7 +425,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                     }}
                     showTitle={!hasCounterpartyRateChanged}
                     textSize='sm'
-                    title={localize('Order unsuccessful')}
+                    title={getErrorModalTitle()}
                 />
             )}
         </form>
