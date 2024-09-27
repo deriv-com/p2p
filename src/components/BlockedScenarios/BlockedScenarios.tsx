@@ -48,7 +48,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             ),
             icon: <DerivLightIcCashierLockedIcon height={iconSize} width={iconSize} />,
             title: (
-                <Text weight='bold'>
+                <Text align='center' weight='bold'>
                     <Localize i18n_default_text='Cashier is locked' />
                 </Text>
             ),
@@ -66,7 +66,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             ),
             icon: <P2pUnavailable height={iconSize} width={iconSize} />,
             title: (
-                <Text weight='bold'>
+                <Text align='center' weight='bold'>
                     <Localize i18n_default_text='Cryptocurrencies not supported' />
                 </Text>
             ),
@@ -84,7 +84,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             ),
             icon: <P2pUnavailable height={iconSize} width={iconSize} />,
             title: (
-                <Text weight='bold'>
+                <Text align='center' weight='bold'>
                     <Localize i18n_default_text='You are using a demo account' />
                 </Text>
             ),
@@ -102,7 +102,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             ),
             icon: <P2pUnavailable height={iconSize} width={iconSize} />,
             title: (
-                <Text weight='bold'>
+                <Text align='center' weight='bold'>
                     <Localize i18n_default_text='You have no Real USD account' />
                 </Text>
             ),
@@ -120,7 +120,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             ),
             icon: <DerivLightIcCashierBlockedIcon height={iconSize} width={iconSize} />,
             title: (
-                <Text weight='bold'>
+                <Text align='center' weight='bold'>
                     <Localize i18n_default_text='Your Deriv P2P cashier is blocked' />
                 </Text>
             ),
