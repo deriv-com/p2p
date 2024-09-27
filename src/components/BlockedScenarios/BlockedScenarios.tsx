@@ -138,7 +138,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             ),
             icon: <DerivLightIcCashierBlockedIcon height={iconSize} width={iconSize} />,
             title: (
-                <Text weight='bold'>
+                <Text align='center' weight='bold'>
                     <Localize i18n_default_text='Deriv P2P unavailable' />
                 </Text>
             ),
