@@ -33,7 +33,6 @@ jobs:
             environment: '${{ secrets.E2E_WORKFLOW_ENV }}',
             suite: 'P2P-V2',
             appRegUrl: '${{ steps.pr_information.outputs.preview_url }}',
-            appid: ${{ secrets.E2E_APPID }},
             issue_number: '${{ steps.pr_information.outputs.issue_number }}',
             user_name: '${{ steps.pr_information.outputs.user_name }}'
             };
