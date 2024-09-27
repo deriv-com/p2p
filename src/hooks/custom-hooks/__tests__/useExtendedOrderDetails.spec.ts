@@ -13,9 +13,17 @@ const mockData: {
         account_currency: 'USD',
         // @ts-expect-error - Only relevant fields are included
         advertiser_details: {
+            has_not_been_recommended: true,
+            is_recommended: false,
             loginid: '',
         },
         amount_display: '100',
+        // @ts-expect-error - Only relevant fields are included
+        client_details: {
+            has_not_been_recommended: false,
+            is_recommended: true,
+            loginid: '',
+        },
         type: 'buy',
     },
     serverTime: undefined,
@@ -378,6 +386,38 @@ describe('useExtendedOrderDetails', () => {
             const { result } = renderHook(() => useExtendedOrderDetails(mockData));
 
             expect(result.current.data.isSellOrder).toBe(true);
+        });
+    });
+
+    describe('isUserRecommended', () => {
+        it('should return client_details.is_recommended if isMyAd is true', () => {
+            mockData.orderDetails.advertiser_details.loginid = '123';
+            const { result } = renderHook(() => useExtendedOrderDetails(mockData));
+
+            expect(result.current.data.isUserRecommended).toBe(true);
+        });
+
+        it('should return advertiser_details.is_recommended if isMyAd is false', () => {
+            mockData.orderDetails.advertiser_details.loginid = '456';
+            const { result } = renderHook(() => useExtendedOrderDetails(mockData));
+
+            expect(result.current.data.isUserRecommended).toBe(false);
+        });
+    });
+
+    describe('isUserRecommendedPreviously', () => {
+        it('should return client_details.has_not_been_recommended if isMyAd is true', () => {
+            mockData.orderDetails.advertiser_details.loginid = '123';
+            const { result } = renderHook(() => useExtendedOrderDetails(mockData));
+
+            expect(result.current.data.isUserRecommendedPreviously).toBe(true);
+        });
+
+        it('should return advertiser_details.has_not_been_recommended if isMyAd is false', () => {
+            mockData.orderDetails.advertiser_details.loginid = '456';
+            const { result } = renderHook(() => useExtendedOrderDetails(mockData));
+
+            expect(result.current.data.isUserRecommendedPreviously).toBe(false);
         });
     });
 
