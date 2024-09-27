@@ -35,10 +35,11 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
     const {
         account_currency: accountCurrency,
         amount_display: amountDisplay,
-        client_details: clientDetails,
         id,
         isCompletedOrder,
         isOrderReviewable,
+        isUserRecommended,
+        isUserRecommendedPreviously,
         local_currency: localCurrency,
         price_display: priceDisplay,
         purchaseTime,
@@ -114,8 +115,8 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
                     <RatingModal
                         isBuyOrder={isBuyOrderForUser}
                         isModalOpen
-                        isRecommended={clientDetails.is_recommended}
-                        isRecommendedPreviously={!clientDetails.has_not_been_recommended}
+                        isRecommended={isUserRecommended}
+                        isRecommendedPreviously={isUserRecommendedPreviously}
                         onRequestClose={hideModal}
                         orderId={id}
                     />
@@ -158,8 +159,8 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
                 <RatingModal
                     isBuyOrder={isBuyOrderForUser}
                     isModalOpen
-                    isRecommended={clientDetails.is_recommended}
-                    isRecommendedPreviously={!clientDetails.has_not_been_recommended}
+                    isRecommended={isUserRecommended}
+                    isRecommendedPreviously={isUserRecommendedPreviously}
                     onRequestClose={hideModal}
                     orderId={id}
                 />

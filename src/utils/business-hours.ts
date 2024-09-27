@@ -57,37 +57,37 @@ export const getDaysOfWeek = (localize: TLocalize): TDaysOfWeek => {
     return {
         0: {
             label: localize('Sunday'),
-            shortLabel: localize('S'),
+            shortLabel: localize('Sunday').charAt(0),
             value: 'sunday',
         },
         1: {
             label: localize('Monday'),
-            shortLabel: localize('M'),
+            shortLabel: localize('Monday').charAt(0),
             value: 'monday',
         },
         2: {
             label: localize('Tuesday'),
-            shortLabel: localize('T'),
+            shortLabel: localize('Tuesday').charAt(0),
             value: 'tuesday',
         },
         3: {
             label: localize('Wednesday'),
-            shortLabel: localize('W'),
+            shortLabel: localize('Wednesday').charAt(0),
             value: 'wednesday',
         },
         4: {
             label: localize('Thursday'),
-            shortLabel: localize('T'),
+            shortLabel: localize('Thursday').charAt(0),
             value: 'thursday',
         },
         5: {
             label: localize('Friday'),
-            shortLabel: localize('F'),
+            shortLabel: localize('Friday').charAt(0),
             value: 'friday',
         },
         6: {
             label: localize('Saturday'),
-            shortLabel: localize('S'),
+            shortLabel: localize('Saturday').charAt(0),
             value: 'saturday',
         },
     };

@@ -36,7 +36,7 @@ const MyAdsEmpty = () => {
                 }
                 icon={<DerivLightIcCashierNoAdsIcon height='128px' width='128px' />}
                 title={
-                    <Text data-testid='dt_no_ads' size={textSize} weight='bold'>
+                    <Text align='center' data-testid='dt_no_ads' size={textSize} weight='bold'>
                         <Localize i18n_default_text='You have no ads 😞' />
                     </Text>
                 }

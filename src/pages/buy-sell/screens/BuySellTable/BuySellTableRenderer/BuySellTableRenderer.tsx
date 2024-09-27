@@ -61,7 +61,7 @@ const BuySellTableRenderer = ({
                         }
                         icon={<DerivLightIcCashierNoAdsIcon height='128px' width='128px' />}
                         title={
-                            <Text weight='bold'>
+                            <Text align='center' weight='bold'>
                                 <Localize i18n_default_text='No ads for this currency 😞' />
                             </Text>
                         }

@@ -1,11 +1,7 @@
-name: Run Smoke Tests
+name: Run Smoke Tests - Manual
 
 on:
-  workflow_run:
-    workflows:
-      - "Build test link and Deploy to Cloudflare Pages"
-    types:
-      - completed
+  workflow_dispatch:
       
 jobs:
   trigger-workflow:
