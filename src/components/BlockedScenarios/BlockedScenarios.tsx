@@ -125,6 +125,24 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                 </Text>
             ),
         },
+        RestrictedCountry: {
+            actionButton: (
+                <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
+                    <Localize i18n_default_text="Go to Trader's Hub" />
+                </Button>
+            ),
+            description: (
+                <Text align='center'>
+                    <Localize i18n_default_text='This service is currently not offered in your country.' />
+                </Text>
+            ),
+            icon: <DerivLightIcCashierBlockedIcon height={iconSize} width={iconSize} />,
+            title: (
+                <Text weight='bold'>
+                    <Localize i18n_default_text='Deriv P2P unavailable' />
+                </Text>
+            ),
+        },
         systemMaintenance: {
             description: (
                 <div className='flex flex-col'>

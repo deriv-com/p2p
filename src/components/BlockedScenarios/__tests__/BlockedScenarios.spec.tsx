@@ -63,4 +63,11 @@ describe('BlockedScenarios', () => {
         expect(screen.getByText('Please check back in a few minutes.')).toBeInTheDocument();
         expect(screen.getByText('Thank you for your patience.')).toBeInTheDocument();
     });
+
+    it('should show the correct message when user logs in from restricted country', () => {
+        render(<BlockedScenarios type='RestrictedCountry' />);
+        expect(screen.getByText('Deriv P2P unavailable')).toBeInTheDocument();
+        expect(screen.getByText('This service is currently not offered in your country.')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: "Go to Trader's Hub" })).toBeInTheDocument();
+    });
 });

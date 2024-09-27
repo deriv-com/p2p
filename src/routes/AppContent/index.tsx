@@ -24,7 +24,6 @@ const AppContent = () => {
         isLoading: isLoadingActiveAccount,
     } = api.account.useActiveAccount();
     const { init: initLiveChat } = useLiveChat();
-    const { isP2PBlocked, status } = useIsP2PBlocked();
     const { localize } = useTranslations();
     const { oAuthLogout } = useOAuth();
     const routes = getRoutes(localize);
@@ -44,7 +43,13 @@ const AppContent = () => {
 
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
-    const { isActive, isLoading: isP2PSettingsLoading, subscribe: subscribeP2PSettings } = api.settings.useSettings();
+    const {
+        error: p2pSettingsError,
+        isActive,
+        isLoading: isP2PSettingsLoading,
+        subscribe: subscribeP2PSettings,
+    } = api.settings.useSettings();
+    const { isP2PBlocked, status } = useIsP2PBlocked();
     const {
         error,
         isActive: isSubscribed,
@@ -99,8 +104,8 @@ const AppContent = () => {
     const getComponent = () => {
         if ((isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
             return <Loader />;
-        } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied) {
-            return <BlockedScenarios type={status} />;
+        } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code) {
+            return <BlockedScenarios type={p2pSettingsError?.code ? p2pSettingsError?.code : status} />;
         } else if ((isFetched && activeAccountData) || isEndpointRoute) {
             return (
                 <div className='app-content__body'>
