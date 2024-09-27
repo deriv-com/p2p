@@ -105,7 +105,11 @@ const AppContent = () => {
         if ((isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
             return <Loader />;
         } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code) {
-            return <BlockedScenarios type={p2pSettingsError?.code ? p2pSettingsError?.code : status} />;
+            return (
+                <BlockedScenarios
+                    type={p2pSettingsError?.code === 'RestrictedCountry' ? p2pSettingsError?.code : status}
+                />
+            );
         } else if ((isFetched && activeAccountData) || isEndpointRoute) {
             return (
                 <div className='app-content__body'>
