@@ -1,15 +1,32 @@
+import { useRef } from 'react';
 import { useLiveChat } from '@/hooks/custom-hooks';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Accordion, Text, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
+import './FAQs.scss';
 
-const FAQs = () => {
+type TFAQsProps = {
+    guideContentRef: React.RefObject<HTMLDivElement>;
+};
+
+const FAQs = ({ guideContentRef }: TFAQsProps) => {
     const { LiveChatWidget } = useLiveChat();
     const { isDesktop } = useDevice();
     const { localize } = useTranslations();
+    const accordionRefs = useRef<HTMLDivElement[]>([]);
+
+    const handleScrollToAccordion = (index: number) => {
+        const offsetByValue = isDesktop ? 0 : 100;
+        if (accordionRefs.current[index] && guideContentRef.current) {
+            guideContentRef.current?.scrollTo({
+                behavior: 'smooth',
+                top: accordionRefs.current[index].offsetTop - offsetByValue,
+            });
+        }
+    };
 
     return (
-        <div>
+        <div className='faqs'>
             <div className='flex justify-between mb-[2.4rem]'>
                 <Text size={isDesktop ? 'lg' : 'md'} weight='bold'>
                     <Localize i18n_default_text='FAQs' />
@@ -26,7 +43,15 @@ const FAQs = () => {
                     <Localize i18n_default_text='Learn more' />
                 </Text>
             </div>
-            <Accordion defaultOpen title={localize('How to register for Deriv P2P?')} variant='underline'>
+            <Accordion
+                defaultOpen
+                onScrollToAccordion={() => handleScrollToAccordion(0)}
+                ref={(el: HTMLDivElement | null) => {
+                    if (el) accordionRefs.current[0] = el;
+                }}
+                title={localize('How to register for Deriv P2P?')}
+                variant='underline'
+            >
                 <Text as='div' className='mb-[0.5rem]' lineHeight='xl' size='sm'>
                     <Localize
                         components={[
@@ -44,6 +69,10 @@ const FAQs = () => {
                 </Text>
             </Accordion>
             <Accordion
+                onScrollToAccordion={() => handleScrollToAccordion(1)}
+                ref={(el: HTMLDivElement | null) => {
+                    if (el) accordionRefs.current[1] = el;
+                }}
                 title={localize('Why is my Deriv P2P balance different from my Deriv account balance?')}
                 variant='underline'
             >
@@ -51,7 +80,14 @@ const FAQs = () => {
                     <Localize i18n_default_text='Your Deriv P2P balance may not include all deposits made to your Deriv account. Deposits via credit and debit cards (including Maestro and Diners Club), ZingPay, Skrill, Neteller, and Direct Banking Nigeria will not be available in Deriv P2P.' />
                 </Text>
             </Accordion>
-            <Accordion title={localize('How secure is Deriv P2P?')} variant='underline'>
+            <Accordion
+                onScrollToAccordion={() => handleScrollToAccordion(2)}
+                ref={(el: HTMLDivElement | null) => {
+                    if (el) accordionRefs.current[2] = el;
+                }}
+                title={localize('How secure is Deriv P2P?')}
+                variant='underline'
+            >
                 <Text as='div' className='mb-[0.5rem]' lineHeight='xl' size='sm'>
                     <Localize i18n_default_text='Here are some of the ways we ensure that Deriv P2P is as secure as possible:' />
                 </Text>
@@ -74,7 +110,14 @@ const FAQs = () => {
                     <Localize i18n_default_text='Dual-layer verification is applied to every Deriv P2P transaction as an extra layer of security before funds are released.' />
                 </Text>
             </Accordion>
-            <Accordion title={localize('Can I increase my daily buy or sell limit on Deriv P2P?')} variant='underline'>
+            <Accordion
+                onScrollToAccordion={() => handleScrollToAccordion(3)}
+                ref={(el: HTMLDivElement | null) => {
+                    if (el) accordionRefs.current[3] = el;
+                }}
+                title={localize('Can I increase my daily buy or sell limit on Deriv P2P?')}
+                variant='underline'
+            >
                 <Text as='div' className='mb-[0.5rem]' lineHeight='xl' size='sm'>
                     <Localize i18n_default_text="Yes, as long as you pass our checks. Initially, you'll start with a 500 USD limit for buy and sell orders." />
                 </Text>
@@ -92,6 +135,10 @@ const FAQs = () => {
                 </Text>
             </Accordion>
             <Accordion
+                onScrollToAccordion={() => handleScrollToAccordion(4)}
+                ref={(el: HTMLDivElement | null) => {
+                    if (el) accordionRefs.current[4] = el;
+                }}
                 title={localize("What should I do if I have a dispute with the trader I'm dealing with?")}
                 variant='underline'
             >
