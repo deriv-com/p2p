@@ -64,6 +64,7 @@ const useOAuth = (): UseOAuthReturn => {
 
             // backend response message timeout, setting this as 10 seconds
             setTimeout(() => {
+                console.log('OAuth2 logout timeout');
                 WSLogoutAndRedirect();
             }, 10000);
         }

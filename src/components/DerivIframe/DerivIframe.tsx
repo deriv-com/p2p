@@ -1,5 +1,6 @@
 const DerivIframe = () => {
     const origin = window.location.origin;
+    console.log('iframe', origin);
 
     return (
         <iframe
