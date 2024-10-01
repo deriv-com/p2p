@@ -1,11 +1,5 @@
 .error-modal {
-    width: 44rem;
-    height: unset;
-    border-radius: 8px;
-
-    @include mobile-or-tablet-screen {
-        max-width: 34rem;
-    }
+    @include default-modal;
 
     &__body {
         padding: 2.4rem;

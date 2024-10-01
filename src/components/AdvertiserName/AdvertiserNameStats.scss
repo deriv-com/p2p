@@ -9,7 +9,7 @@
         gap: 1rem;
     }
 
-    & div:not(.deriv-tooltip) {
+    & div:not(.deriv-tooltip):not(.mobile-wrapper):not(.mobile-wrapper *) {
         display: flex;
         align-items: center;
         gap: 0.8rem;

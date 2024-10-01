@@ -6,7 +6,13 @@ import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '
 import { ErrorModal, NicknameModal } from '@/components/Modals';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
-import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import {
+    useGetBusinessHours,
+    useIsAdvertiser,
+    useIsAdvertiserBarred,
+    useModalManager,
+    usePoiPoaStatus,
+} from '@/hooks/custom-hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
 import { LabelPairedChevronRightMdBoldIcon, StandaloneUserCheckFillIcon } from '@deriv/quill-icons';
@@ -28,6 +34,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { isPoaVerified, isPoiVerified } = poiPoaData || {};
     const { localize } = useTranslations();
     const { hasCreatedAdvertiser } = useAdvertiserInfoState();
+    const { isScheduleAvailable } = useGetBusinessHours();
 
     const {
         account_currency: accountCurrency,
@@ -79,6 +86,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         else if (isTablet) return 'sm';
         return 'md';
     };
+    const params = new URLSearchParams(location.search);
+    const advertIdParam = params.get('advert_id');
 
     const redirectToAdvertiser = () => {
         isAdvertiserBarred ? undefined : history.push(`${ADVERTISER_URL}/${id}?currency=${localCurrency}`);
@@ -230,7 +239,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             ) : (
                                 <Button
                                     className='lg:min-w-[7.5rem]'
-                                    disabled={isAdvertiserBarred}
+                                    disabled={isAdvertiserBarred || !isScheduleAvailable}
                                     onClick={() => {
                                         if (!isAdvertiser && (!isPoaVerified || !isPoiVerified)) {
                                             const searchParams = new URLSearchParams(location.search);
@@ -254,7 +263,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     )}
                 </Container>
             </Container>
-            {isModalOpenFor('BuySellForm') && (
+            {!advertIdParam && isModalOpenFor('BuySellForm') && (
                 <BuySellForm
                     advertId={advertId}
                     isModalOpen={!!isModalOpenFor('BuySellForm')}
