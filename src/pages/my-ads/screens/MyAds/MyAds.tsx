@@ -7,9 +7,9 @@ const MyAds = () => {
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const { isScheduleAvailable } = useGetBusinessHours();
     const { data } = usePoiPoaStatus();
-    const { isPoaVerified, isPoiVerified } = data || {};
+    const { isPoiPoaVerified } = data || {};
 
-    if (!isAdvertiser && (!isPoaVerified || !isPoiVerified))
+    if (!isAdvertiser && !isPoiPoaVerified)
         return (
             <div className='overflow-y-auto h-[calc(100%-11rem)]'>
                 <Verification />;

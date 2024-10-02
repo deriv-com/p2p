@@ -120,6 +120,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
             statusString: 'completed',
         },
     }),
+    useIsAdvertiser: jest.fn(() => true),
     useModalManager: jest.fn().mockReturnValue({
         hideModal: jest.fn(),
         isModalOpenFor: jest.fn(),
