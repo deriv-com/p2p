@@ -75,11 +75,11 @@ jobs:
                   HEAD_REF: ${{ github.head_ref }}
                   DRAFT: ${{ github.event.pull_request.draft }}
               run: |
-                  mkdir -p .pr
-                  echo "$EVENT_NUMBER" > .pr/NR
-                  echo "$EVENT_USERNAME" > .pr/USERNAME
-                  echo "$HEAD_REF" > .pr/BRANCHNAME
-                  echo "$DRAFT" > .pr/DRAFT
+                  mkdir -p pr
+                  echo "$EVENT_NUMBER" > pr/NR
+                  echo "$EVENT_USERNAME" > pr/USERNAME
+                  echo "$HEAD_REF" > pr/BRANCHNAME
+                  echo "$DRAFT" > pr/DRAFT
 
             - name: Publish to Cloudflare Pages
               id: publish-to-pages
@@ -100,7 +100,7 @@ jobs:
                   cat log.txt
                   if grep -q "Deployment complete" log.txt; then
                     echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
-                    echo $preview_url > .pr/PREVIEW_URL
+                    echo $preview_url > pr/PREVIEW_URL
                   else
                     echo "Deployment to Cloudflare Pages failed."
                     exit 1
@@ -155,4 +155,4 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: 'pr-${{github.run_id}}'
-                  path: .pr
+                  path: 'pr/'

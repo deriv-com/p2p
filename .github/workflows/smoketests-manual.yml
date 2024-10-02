@@ -1,0 +1,45 @@
+name: Run Smoke Tests - Manual
+
+on:
+  workflow_dispatch:
+      
+jobs:
+  trigger-workflow:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifact
+      id: download-artifact
+      uses: actions/download-artifact@v4
+      with:
+          run-id: ${{ github.event.workflow_run.id }}
+          name: 'pr-${{ github.event.workflow_run.id }}'
+          path: pr
+          github-token: ${{ secrets.GITHUB_TOKEN }} 
+
+    - name: Retrieve pull request
+      id: pr_information
+      run: |
+          echo "issue_number=$(cat ./pr/NR)" >> $GITHUB_OUTPUT
+          echo "preview_url=$(cat ./pr/PREVIEW_URL)" >> $GITHUB_OUTPUT
+          echo "user_name=$(cat ./pr/USERNAME)" >> $GITHUB_OUTPUT
+          echo "draft=$(cat ./pr/DRAFT)" >> $GITHUB_OUTPUT
+        
+    - name: Trigger deriv-app smoke tests from regentmarkets
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.E2E_WORKFLOW_TOKEN }}
+        script: |
+          const workflowInputs = {
+            environment: '${{ secrets.E2E_WORKFLOW_ENV }}',
+            suite: 'P2P-V2',
+            appRegUrl: '${{ steps.pr_information.outputs.preview_url }}',
+            issue_number: '${{ steps.pr_information.outputs.issue_number }}',
+            user_name: '${{ steps.pr_information.outputs.user_name }}'
+            };
+          const response = await github.rest.actions.createWorkflowDispatch({
+            owner: 'regentmarkets',
+            repo: 'e2e-deriv-app',
+            workflow_id: 'E2E_Run_PR.yml',
+            ref: 'master',
+            inputs: workflowInputs
+          });

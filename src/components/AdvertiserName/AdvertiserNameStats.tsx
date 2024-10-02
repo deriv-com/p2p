@@ -8,6 +8,7 @@ import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, Tooltip, useDevice } from '@deriv-com/ui';
 import { BlockUserCountModal } from '../Modals';
 import BlockUserCount from './BlockUserCount';
+import { BusinessHoursTooltip } from './BusinessHoursTooltip';
 import './AdvertiserNameStats.scss';
 
 const getMessage = (localize: TLocalize, count = 0) => {
@@ -81,21 +82,16 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                 )}
                 {ratingAverage && (
                     <>
-                        <div>
-                            <div className='advertiser-name-stats__rating'>
-                                <Text size={textSize}>{ratingAverage.toFixed(1)}</Text>
-                                <StarRating allowFraction isReadonly ratingValue={ratingAverage} />
-                                <Text color='less-prominent' size={textSize}>
-                                    {ratingCount && ratingCount > 1 ? (
-                                        <Localize
-                                            i18n_default_text='{{ratingCount}} ratings'
-                                            values={{ ratingCount }}
-                                        />
-                                    ) : (
-                                        <Localize i18n_default_text='1 rating' />
-                                    )}
-                                </Text>
-                            </div>
+                        <div className='advertiser-name-stats__rating'>
+                            <Text size={textSize}>{ratingAverage.toFixed(1)}</Text>
+                            <StarRating allowFraction isReadonly ratingValue={ratingAverage} />
+                            <Text color='less-prominent' size={textSize}>
+                                {ratingCount && ratingCount > 1 ? (
+                                    <Localize i18n_default_text='{{ratingCount}} ratings' values={{ ratingCount }} />
+                                ) : (
+                                    <Localize i18n_default_text='1 rating' />
+                                )}
+                            </Text>
                         </div>
                         <div>
                             <Tooltip
@@ -116,7 +112,10 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                     </>
                 )}
             </div>
-            {isMyProfile && <BlockUserCount count={blockedByCount} />}
+            <div>
+                {isMyProfile && <BlockUserCount count={blockedByCount} />}
+                {isMyProfile && <BusinessHoursTooltip />}
+            </div>
             {!!isModalOpenFor('BlockUserCountModal') && (
                 <BlockUserCountModal
                     isModalOpen

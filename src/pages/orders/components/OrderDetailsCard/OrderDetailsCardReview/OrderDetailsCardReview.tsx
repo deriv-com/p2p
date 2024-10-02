@@ -18,13 +18,14 @@ type TOrderDetailsCardReviewProps = {
 const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderDetailsCardReviewProps) => {
     const { orderDetails } = useOrderDetails();
     const {
-        client_details: clientDetails,
         completion_time: completionTime,
         hasReviewDetails,
         id,
         is_reviewable: isReviewable,
         isBuyOrderForUser,
         isCompletedOrder,
+        isUserRecommended,
+        isUserRecommendedPreviously,
         review_details: reviewDetails,
     } = orderDetails;
     const { data: p2pSettingsData } = api.settings.useSettings();
@@ -76,8 +77,8 @@ const OrderDetailsCardReview = ({ setShowRatingModal, showRatingModal }: TOrderD
                     <RatingModal
                         isBuyOrder={isBuyOrderForUser}
                         isModalOpen
-                        isRecommended={clientDetails?.is_recommended}
-                        isRecommendedPreviously={!clientDetails?.has_not_been_recommended}
+                        isRecommended={isUserRecommended}
+                        isRecommendedPreviously={isUserRecommendedPreviously}
                         onRequestClose={() => {
                             if (showRatingModal) setShowRatingModal(false);
                             hideModal();

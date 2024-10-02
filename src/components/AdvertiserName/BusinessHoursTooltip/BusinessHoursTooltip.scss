@@ -1,0 +1,11 @@
+.business-hours-tooltip {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding-left: 1rem;
+    border-left: 1px solid #f2f3f4;
+
+    &:hover {
+        background-color: transparent;
+    }
+}

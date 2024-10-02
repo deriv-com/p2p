@@ -21,5 +21,18 @@
                 }
             }
         }
+
+        & .mobile-wrapper {
+            @media (max-width: 386px) {
+                top: -11.5rem;
+            }
+            top: -10rem;
+        }
+    }
+
+    &--outside-hours {
+        & .mobile-wrapper {
+            top: -8.5rem;
+        }
     }
 }

@@ -6,7 +6,13 @@ import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '
 import { ErrorModal, NicknameModal } from '@/components/Modals';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
-import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import {
+    useGetBusinessHours,
+    useIsAdvertiser,
+    useIsAdvertiserBarred,
+    useModalManager,
+    usePoiPoaStatus,
+} from '@/hooks/custom-hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
 import { LabelPairedChevronRightMdBoldIcon } from '@deriv/quill-icons';
@@ -28,6 +34,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { isPoiPoaVerified } = poiPoaData || {};
     const { localize } = useTranslations();
     const { hasCreatedAdvertiser } = useAdvertiserInfoState();
+    const { isScheduleAvailable } = useGetBusinessHours();
 
     const {
         account_currency: accountCurrency,
@@ -78,6 +85,8 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         else if (isTablet) return 'sm';
         return 'md';
     };
+    const params = new URLSearchParams(location.search);
+    const advertIdParam = params.get('advert_id');
 
     const redirectToVerification = () => {
         const searchParams = new URLSearchParams(location.search);
@@ -177,9 +186,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     </div>
                 )}
                 <Container {...(!isDesktop && { className: 'flex justify-between' })}>
-                    <Container
-                        {...(!isDesktop && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}
-                    >
+                    <Container {...(!isDesktop && { className: 'flex flex-col' })}>
                         {!isDesktop && (
                             <Text
                                 color={isBuySellPage ? 'general' : 'less-prominent'}
@@ -233,7 +240,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             ) : (
                                 <Button
                                     className='lg:min-w-[7.5rem]'
-                                    disabled={isAdvertiserBarred}
+                                    disabled={isAdvertiserBarred || !isScheduleAvailable}
                                     onClick={() => {
                                         if (!isAdvertiser && !isPoiPoaVerified) {
                                             redirectToVerification();
@@ -252,7 +259,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     )}
                 </Container>
             </Container>
-            {isModalOpenFor('BuySellForm') && (
+            {!advertIdParam && isModalOpenFor('BuySellForm') && (
                 <BuySellForm
                     advertId={advertId}
                     isModalOpen={!!isModalOpenFor('BuySellForm')}

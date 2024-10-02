@@ -76,7 +76,7 @@ describe('<Verification />', () => {
         await userEvent.click(poiButton);
 
         expect(window.location.href).toBe(
-            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p'
+            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p&platform=p2p-v2'
         );
     });
 
@@ -94,7 +94,7 @@ describe('<Verification />', () => {
         await userEvent.click(poaButton);
 
         expect(window.location.href).toBe(
-            'https://app.deriv.com/account/proof-of-address?ext_platform_url=/cashier/p2p'
+            'https://app.deriv.com/account/proof-of-address?ext_platform_url=/cashier/p2p&platform=p2p-v2'
         );
     });
 
@@ -112,7 +112,7 @@ describe('<Verification />', () => {
         await userEvent.click(poiButton);
 
         expect(window.location.href).toBe(
-            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p'
+            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p&platform=p2p-v2'
         );
     });
 

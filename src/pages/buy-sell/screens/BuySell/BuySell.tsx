@@ -1,14 +1,15 @@
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
-import { PageReturn, TemporarilyBarredHint, Verification } from '@/components';
+import { OutsideBusinessHoursHint, PageReturn, TemporarilyBarredHint, Verification } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
-import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
+import { useGetBusinessHours, useIsAdvertiserBarred } from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { BuySellTable } from '../BuySellTable';
 import './BuySell.scss';
 
 const BuySell = () => {
     const { localize } = useTranslations();
+    const { isScheduleAvailable } = useGetBusinessHours();
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const history = useHistory();
     const location = useLocation();
@@ -28,8 +29,14 @@ const BuySell = () => {
     }
 
     return (
-        <div className={clsx('buy-sell', { 'buy-sell--barred': isAdvertiserBarred })}>
+        <div
+            className={clsx('buy-sell relative', {
+                'buy-sell--barred': isAdvertiserBarred,
+                'buy-sell--outside-hours': !isScheduleAvailable && !isAdvertiserBarred,
+            })}
+        >
             {isAdvertiserBarred && <TemporarilyBarredHint />}
+            {!isScheduleAvailable && !isAdvertiserBarred && <OutsideBusinessHoursHint />}
             <BuySellTable />
         </div>
     );
