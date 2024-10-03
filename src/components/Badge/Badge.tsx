@@ -24,6 +24,11 @@ const Badge = ({ label, status, tradeCount, variant }: TBadgeProps) => {
                 <Text className='badge__label' color='white' weight='bold'>
                     {`${tradeCount >= 250 ? '250+' : '100+'}`}
                 </Text>
+                {status && (
+                    <Text className='badge__status' color='white'>
+                        {status}
+                    </Text>
+                )}
             </div>
         );
     }
