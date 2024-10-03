@@ -17,7 +17,7 @@ const AdvertiserNameBadges = ({ advertiserStats }: { advertiserStats: DeepPartia
 
     return (
         <div className='advertiser-name-badges' data-testid='dt_advertiser_name_badges'>
-            {(totalOrders || 0) >= 100 && <Badge label='100+' status={localize('trades')} variant='warning' />}
+            {(totalOrders || 0) >= 100 && <Badge tradeCount={totalOrders} />}
             <Badge
                 label={localize('ID')}
                 status={getStatus(isIdentityVerified)}
