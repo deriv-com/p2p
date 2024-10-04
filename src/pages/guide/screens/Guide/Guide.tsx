@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
 import { PageReturn } from '@/components';
@@ -18,12 +18,13 @@ const Guide = () => {
     const location = useLocation();
     const { localize } = useTranslations();
     const { isDesktop, isMobile } = useDevice();
+    const guideContentRef = useRef<HTMLDivElement>(null);
     const guideSections = [
         { className: 'p-[2.4rem]', component: <GettingStarted />, title: 'Getting Started' },
         { className: 'p-[2.4rem]', component: <Awareness />, title: 'Awareness' },
         { component: <Videos />, title: 'Videos' },
         { component: <Blog />, title: 'Blog' },
-        { component: <FAQs />, title: 'FAQs' },
+        { component: <FAQs guideContentRef={guideContentRef} />, title: 'FAQs' },
     ];
 
     useEffect(() => {
@@ -41,7 +42,7 @@ const Guide = () => {
                 size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />
-            <div className='guide__content'>
+            <div className='guide__content' ref={guideContentRef}>
                 <Text as='div' size={isDesktop ? 'lg' : 'md'} weight='bold'>
                     <Localize i18n_default_text='Get started with P2P' />
                 </Text>
