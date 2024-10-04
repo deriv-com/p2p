@@ -6,7 +6,13 @@ import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '
 import { ErrorModal, NicknameModal } from '@/components/Modals';
 import { ADVERTISER_URL, BUY_SELL } from '@/constants';
 import { api } from '@/hooks';
-import { useIsAdvertiser, useIsAdvertiserBarred, useModalManager, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import {
+    useGetBusinessHours,
+    useIsAdvertiser,
+    useIsAdvertiserBarred,
+    useModalManager,
+    usePoiPoaStatus,
+} from '@/hooks/custom-hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
 import { LabelPairedChevronRightMdBoldIcon } from '@deriv/quill-icons';
@@ -25,9 +31,10 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const isAdvertiser = useIsAdvertiser();
     const { data } = api.advertiser.useGetInfo() || {};
     const { data: poiPoaData } = usePoiPoaStatus();
-    const { isPoaVerified, isPoiVerified } = poiPoaData || {};
+    const { isPoiPoaVerified } = poiPoaData || {};
     const { localize } = useTranslations();
     const { hasCreatedAdvertiser } = useAdvertiserInfoState();
+    const { isScheduleAvailable } = useGetBusinessHours();
 
     const {
         account_currency: accountCurrency,
@@ -78,9 +85,28 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
         else if (isTablet) return 'sm';
         return 'md';
     };
+    const params = new URLSearchParams(location.search);
+    const advertIdParam = params.get('advert_id');
+
+    const redirectToVerification = () => {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('poi_poa_verified', 'false');
+        history.replace({
+            pathname: location.pathname,
+            search: searchParams.toString(),
+        });
+    };
 
     const redirectToAdvertiser = () => {
-        isAdvertiserBarred ? undefined : history.push(`${ADVERTISER_URL}/${id}?currency=${localCurrency}`);
+        history.push(`${ADVERTISER_URL}/${id}?currency=${localCurrency}`);
+    };
+
+    const onAdvertiserSelect = () => {
+        if ((isAdvertiser || isPoiPoaVerified) && !isAdvertiserBarred) {
+            redirectToAdvertiser();
+        } else {
+            redirectToVerification();
+        }
     };
 
     useEffect(() => {
@@ -103,7 +129,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         className={clsx('flex gap-4 items-center mb-[1.6rem] lg:mb-0 relative', {
                             'cursor-pointer': !isAdvertiserBarred,
                         })}
-                        onClick={redirectToAdvertiser}
+                        onClick={onAdvertiserSelect}
                     >
                         <UserAvatar
                             isOnline={isOnline}
@@ -154,15 +180,13 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                         {!isDesktop && isBuySellPage && (
                             <LabelPairedChevronRightMdBoldIcon
                                 className='absolute right-0 top-0'
-                                onClick={redirectToAdvertiser}
+                                onClick={onAdvertiserSelect}
                             />
                         )}
                     </div>
                 )}
-                <Container className='flex justify-between'>
-                    <Container
-                        {...(!isDesktop && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}
-                    >
+                <Container {...(!isDesktop && { className: 'flex justify-between' })}>
+                    <Container {...(!isDesktop && { className: 'flex flex-col' })}>
                         {!isDesktop && (
                             <Text
                                 color={isBuySellPage ? 'general' : 'less-prominent'}
@@ -216,15 +240,10 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             ) : (
                                 <Button
                                     className='lg:min-w-[7.5rem]'
-                                    disabled={isAdvertiserBarred}
+                                    disabled={isAdvertiserBarred || !isScheduleAvailable}
                                     onClick={() => {
-                                        if (!isAdvertiser && (!isPoaVerified || !isPoiVerified)) {
-                                            const searchParams = new URLSearchParams(location.search);
-                                            searchParams.set('poi_poa_verified', 'false');
-                                            history.replace({
-                                                pathname: location.pathname,
-                                                search: searchParams.toString(),
-                                            });
+                                        if (!isAdvertiser && !isPoiPoaVerified) {
+                                            redirectToVerification();
                                         } else {
                                             setSelectedAdvertId(advertId);
                                             showModal(isAdvertiser ? 'BuySellForm' : 'NicknameModal');
@@ -240,7 +259,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     )}
                 </Container>
             </Container>
-            {isModalOpenFor('BuySellForm') && (
+            {!advertIdParam && isModalOpenFor('BuySellForm') && (
                 <BuySellForm
                     advertId={advertId}
                     isModalOpen={!!isModalOpenFor('BuySellForm')}

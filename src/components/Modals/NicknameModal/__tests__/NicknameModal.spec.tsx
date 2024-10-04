@@ -69,7 +69,7 @@ describe('NicknameModal', () => {
     it('should render title and description correctly', () => {
         render(<NicknameModal {...mockProps} />);
         expect(screen.getByText('What’s your nickname?')).toBeVisible();
-        expect(screen.getByText('Others will see this on your profile, ads and charts.')).toBeVisible();
+        expect(screen.getByText('Others will see this on your profile, ads, and chats.')).toBeVisible();
     });
     it('should allow users to type and submit nickname', async () => {
         render(<NicknameModal {...mockProps} />);

@@ -318,3 +318,62 @@ export const mockAdvertiserCreateValues = {
     total_turnover: '0.00',
     withdrawal_limit: null,
 };
+
+export const mockBusinessHours = [
+    {
+        day: 'Sunday',
+        end_time: '12:00 am',
+        short_day: 'S',
+        start_time: '12:00 am',
+        time: '12:00 am - 12:00 am',
+        value: 'sunday',
+    },
+    {
+        day: 'Monday',
+        end_time: '12:00 am',
+        short_day: 'M',
+        start_time: '12:00 am',
+        time: '12:00 am - 12:00 am',
+        value: 'monday',
+    },
+    {
+        day: 'Tuesday',
+        end_time: '12:00 am',
+        short_day: 'T',
+        start_time: '12:00 am',
+        time: '12:00 am - 12:00 am',
+        value: 'tuesday',
+    },
+    {
+        day: 'Wednesday',
+        end_time: '12:00 am',
+        short_day: 'W',
+        start_time: '12:00 am',
+        time: '12:00 am - 12:00 am',
+        value: 'wednesday',
+    },
+    {
+        day: 'Thursday',
+        end_time: '12:00 am',
+        short_day: 'T',
+        start_time: '12:00 am',
+        time: '12:00 am - 12:00 am',
+        value: 'thursday',
+    },
+    {
+        day: 'Friday',
+        end_time: '12:00 am',
+        short_day: 'F',
+        start_time: '12:00 am',
+        time: '12:00 am - 12:00 am',
+        value: 'friday',
+    },
+    {
+        day: 'Saturday',
+        end_time: '12:00 am',
+        short_day: 'S',
+        start_time: '12:00 am',
+        time: '12:00 am - 12:00 am',
+        value: 'saturday',
+    },
+];

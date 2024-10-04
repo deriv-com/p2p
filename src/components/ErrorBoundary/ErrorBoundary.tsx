@@ -1,9 +1,9 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { TrackJS } from 'trackjs';
+import { FallbackErrorModal } from '../Modals';
 
 interface ErrorBoundaryProps {
     children: ReactNode;
-    fallback: ReactNode;
 }
 
 interface ErrorBoundaryState {
@@ -32,7 +32,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     render() {
         if (this.state.hasError) {
-            return this.props.fallback;
+            return <FallbackErrorModal errorMessage={this.state.error?.message} />;
         }
 
         return this.props.children;
