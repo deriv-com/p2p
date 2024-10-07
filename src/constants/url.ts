@@ -67,10 +67,7 @@ export const getServerInfo = () => {
 };
 
 export const getOauthUrl = () => {
-    //const { appId, lang, serverUrl } = getServerInfo();
-    const serverUrl = 'qa10.deriv.dev';
-    const appId = '1075';
-    const lang = 'EN';
+    const { appId, lang, serverUrl } = getServerInfo();
 
     const oauthUrl =
         appId && serverUrl
