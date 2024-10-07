@@ -1,4 +1,4 @@
-import { StringParam, useQueryParams } from 'use-query-params';
+import { BooleanParam, StringParam, useQueryParams } from 'use-query-params';
 
 /**
  * A hook that uses `use-query-params` to sync URL params to the React lifecycle
@@ -21,6 +21,7 @@ function useQueryString() {
     const [query, setQuery] = useQueryParams({
         advertId: StringParam,
         formAction: StringParam,
+        isOS: BooleanParam,
         modal: StringParam,
         paymentMethodId: StringParam,
         tab: StringParam,
