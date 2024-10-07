@@ -13,8 +13,8 @@ const Endpoint = () => {
         reset,
     } = useForm({
         defaultValues: {
-            appId: '1075',
-            serverUrl: 'qa10.deriv.dev',
+            appId: LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId) || '',
+            serverUrl: LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL) || '',
         },
         mode: 'onChange',
     });
