@@ -18,6 +18,7 @@ jest.mock('@deriv-com/api-hooks', () => ({
                 },
             },
             p2p_poa_required: true,
+            status: [],
         },
     }),
 }));
@@ -66,9 +67,11 @@ describe('usePoiPoaStatus', () => {
 
         expect(result.current.data).toStrictEqual({
             isP2PPoaRequired: true,
+            isPoaAuthenticatedWithIdv: false,
             isPoaPending: true,
             isPoaVerified: false,
             isPoiPending: true,
+            isPoiPoaVerified: false,
             isPoiVerified: false,
             poaStatus: 'pending',
             poiStatus: 'pending',
@@ -99,9 +102,11 @@ describe('usePoiPoaStatus', () => {
 
         expect(result.current.data).toStrictEqual({
             isP2PPoaRequired: 0,
+            isPoaAuthenticatedWithIdv: false,
             isPoaPending: false,
             isPoaVerified: true,
             isPoiPending: false,
+            isPoiPoaVerified: true,
             isPoiVerified: true,
             poaStatus: 'verified',
             poiStatus: 'verified',

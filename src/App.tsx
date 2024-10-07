@@ -39,8 +39,7 @@ const App = () => {
     }, [isGBLoaded, ShouldRedirectToDerivApp]);
     return (
         <BrowserRouter>
-            {/* TODO: Replace the fallback element with the ErrorComponent */}
-            <ErrorBoundary fallback={<div>fallback component</div>}>
+            <ErrorBoundary>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>
                     <TranslationProvider defaultLang='EN' i18nInstance={i18nInstance}>
                         <Suspense

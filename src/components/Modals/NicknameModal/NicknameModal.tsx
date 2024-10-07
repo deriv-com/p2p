@@ -62,7 +62,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                         <Localize i18n_default_text='What’s your nickname?' />
                     </Text>
                     <Text align='center' className='mt-4 mb-6' size={textSize}>
-                        <Localize i18n_default_text='Others will see this on your profile, ads and charts.' />
+                        <Localize i18n_default_text='Others will see this on your profile, ads, and chats.' />
                     </Text>
                     <Controller
                         control={control}
@@ -89,7 +89,7 @@ const NicknameModal = ({ isModalOpen, onRequestClose }: TNicknameModalProps) => 
                                 value: 2,
                             },
                             pattern: {
-                                message: localize('Can only contain letters, numbers, and special characters .-_@.'),
+                                message: localize('Can only contain letters, numbers, and special characters .- _ @.'),
                                 value: /^[a-zA-Z0-9.@_-]*$/,
                             },
                             required: localize('Nickname is required'),

@@ -2,6 +2,7 @@ import { memo } from 'react';
 import clsx from 'clsx';
 import { THooks, TLocalize } from 'types';
 import { Table } from '@/components';
+import { useIsAdvertiser } from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
 import { OrdersEmpty } from '../OrdersEmpty';
@@ -48,8 +49,9 @@ type TOrdersTableProps = {
 
 const OrdersTable = ({ data, isActive, isLoading, loadMoreOrders }: TOrdersTableProps) => {
     const { isDesktop } = useDevice();
+    const isAdvertiser = useIsAdvertiser();
     const { localize } = useTranslations();
-    if (data?.length === 0 && !isLoading) {
+    if (!isAdvertiser || (data?.length === 0 && !isLoading)) {
         return <OrdersEmpty isPast={!isActive} />;
     }
 
