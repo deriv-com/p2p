@@ -13,8 +13,8 @@ const Endpoint = () => {
         reset,
     } = useForm({
         defaultValues: {
-            appId: 'qa10.deriv.dev',
-            serverUrl: '1075',
+            appId: '1075',
+            serverUrl: 'qa10.deriv.dev',
         },
         mode: 'onChange',
     });
