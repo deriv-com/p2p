@@ -79,6 +79,7 @@ describe('useModalManager', () => {
             queryString: {
                 advertId: undefined,
                 formAction: undefined,
+                isOS: false,
                 modal: 'ModalA',
                 paymentMethodId: undefined,
                 tab: undefined,
