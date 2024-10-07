@@ -38,6 +38,7 @@ let windowLocationSpy: jest.SpyInstance<Location, []>;
 const mockQueryString = {
     advertId: undefined,
     formAction: undefined,
+    isOS: false,
     modal: undefined,
     paymentMethodId: undefined,
     tab: undefined,
