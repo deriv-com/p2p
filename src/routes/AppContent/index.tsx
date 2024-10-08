@@ -8,6 +8,7 @@ import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProv
 import { getCurrentRoute } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
+//import { useQuery } from '@deriv-com/api-hooks';
 import Router from '../Router';
 import { getRoutes } from '../routes-config';
 import './index.scss';
@@ -65,7 +66,7 @@ const AppContent = () => {
 
     useEffect(() => {
         if (isOS) {
-            history.push(`/my-ads/adForm?formAction=edit&advertId=213`);
+            //history.push(`/my-ads/adForm?formAction=edit&advertId=${advertId}`);
             setIsFromOS(!!isOS);
         }
 
