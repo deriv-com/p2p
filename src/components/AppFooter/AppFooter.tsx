@@ -22,6 +22,7 @@ const AppFooter = () => {
     const currentLang = LocalStorageUtils.getValue<string>('i18n_language') || 'EN';
 
     const openLanguageSettingModal = () => showModal('DesktopLanguagesModal');
+    const isProduction = process.env.NODE_ENV === 'production';
 
     return (
         <footer className='app-footer'>
@@ -40,7 +41,7 @@ const AppFooter = () => {
             <ServerTime />
             <div className='app-footer__vertical-line' />
             <NetworkStatus />
-            <Endpoint />
+            {!isProduction && <Endpoint />}
 
             {isModalOpenFor('DesktopLanguagesModal') && (
                 <DesktopLanguagesModal
