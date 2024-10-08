@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useIsP2PBlocked, useLiveChat, useOAuth } from '@/hooks';
+import { api, useIsP2PBlocked, useLiveChat, useOAuth, useQueryString } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
@@ -17,6 +17,8 @@ const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
+    const { queryString } = useQueryString();
+    const { isOS } = queryString;
     const {
         authError,
         data: activeAccountData,
@@ -59,8 +61,14 @@ const AppContent = () => {
     } = api.advertiser.useGetInfo();
     const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
+    const [isFromOS, setIsFromOS] = useState(false);
 
     useEffect(() => {
+        if (isOS) {
+            history.push(`/my-ads/adForm?formAction=edit&advertId=213`);
+            setIsFromOS(!!isOS);
+        }
+
         initLiveChat();
     }, []);
 
@@ -113,19 +121,21 @@ const AppContent = () => {
         } else if ((isFetched && activeAccountData) || isEndpointRoute) {
             return (
                 <div className='app-content__body'>
-                    <Tabs
-                        activeTab={localize(activeTab)}
-                        className='app-content__tabs'
-                        onChange={index => {
-                            setActiveTab(tabRoutesConfiguration[index].text || '');
-                            history.push(tabRoutesConfiguration[index].path);
-                        }}
-                        variant='secondary'
-                    >
-                        {tabRoutesConfiguration.map(route => (
-                            <Tab key={localize(route.name)} title={route.text || ''} />
-                        ))}
-                    </Tabs>
+                    {!isFromOS && (
+                        <Tabs
+                            activeTab={localize(activeTab)}
+                            className='app-content__tabs'
+                            onChange={index => {
+                                setActiveTab(tabRoutesConfiguration[index].text || '');
+                                history.push(tabRoutesConfiguration[index].path);
+                            }}
+                            variant='secondary'
+                        >
+                            {tabRoutesConfiguration.map(route => (
+                                <Tab key={localize(route.name)} title={route.text || ''} />
+                            ))}
+                        </Tabs>
+                    )}
                     {isDesktop && !isEndpointRoute && <GuideTooltip />}
                     <Router />
                 </div>
@@ -147,15 +157,17 @@ const AppContent = () => {
             }}
         >
             <div className='app-content'>
-                <Text
-                    align='center'
-                    as='div'
-                    className='app-content__title p-2'
-                    size={isDesktop ? 'xl' : 'lg'}
-                    weight='bold'
-                >
-                    Deriv P2P
-                </Text>
+                {!isFromOS && (
+                    <Text
+                        align='center'
+                        as='div'
+                        className='app-content__title p-2'
+                        size={isDesktop ? 'xl' : 'lg'}
+                        weight='bold'
+                    >
+                        Deriv P2P
+                    </Text>
+                )}
                 {getComponent()}
             </div>
         </AdvertiserInfoStateProvider>

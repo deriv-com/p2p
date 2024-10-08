@@ -21,6 +21,7 @@ function useQueryString() {
     const [query, setQuery] = useQueryParams({
         advertId: StringParam,
         formAction: StringParam,
+        isOS: StringParam,
         modal: StringParam,
         paymentMethodId: StringParam,
         tab: StringParam,

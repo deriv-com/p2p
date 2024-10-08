@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getOauthUrl } from '@/constants';
 import { api, useGrowthbookGetFeatureValue, useOAuth } from '@/hooks';
+import { useQueryString } from '@/hooks/custom-hooks';
 import { getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
@@ -19,15 +20,19 @@ import './AppHeader.scss';
 // TODO: handle local storage values not updating after changing local storage values
 const AppHeader = () => {
     const { isDesktop } = useDevice();
+    const { queryString } = useQueryString();
+    const { isOS } = queryString;
     const isEndpointPage = getCurrentRoute() === 'endpoint';
     const { activeLoginid } = useAuthData();
     const { data: activeAccount } = api.account.useActiveAccount();
     const { instance, localize } = useTranslations();
     const oauthUrl = getOauthUrl();
     const currentLang = LocalStorageUtils.getValue<string>('i18n_language');
+    const [isFromOS, setIsFromOS] = useState(false);
 
     useEffect(() => {
         document.documentElement.dir = instance.dir((currentLang || 'en').toLowerCase());
+        setIsFromOS(!!isOS);
     }, [currentLang, instance]);
     const { oAuthLogout } = useOAuth();
     const [isNotificationServiceEnabled] = useGrowthbookGetFeatureValue({
@@ -77,7 +82,7 @@ const AppHeader = () => {
     };
 
     return (
-        <Header className={!isDesktop ? 'h-[40px]' : ''}>
+        <Header className={isFromOS ? 'hidden' : !isDesktop ? 'h-[40px]' : ''}>
             <Wrapper variant='left'>
                 <AppLogo />
                 <MobileMenu />
