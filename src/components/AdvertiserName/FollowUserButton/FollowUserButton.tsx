@@ -65,7 +65,7 @@ const FollowUserButton = ({ id }: TFollowUserButtonProps) => {
                 description={
                     <Localize i18n_default_text='Follow your favourite advertisers and set a filter to see their ads first in your Buy/Sell list.' />
                 }
-                disabledClassName='lg:mt-2 mt-0 p-[0.4rem]'
+                disabledClassName='lg:top-[-0.1rem]'
                 icon={
                     <div>
                         <Button

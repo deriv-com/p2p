@@ -13,10 +13,9 @@ import './AdvertiserName.scss';
 type TAdvertiserNameProps = {
     advertiserStats: DeepPartial<TAdvertiserStats>;
     isSameUser?: boolean;
-    onClickBlocked?: () => void;
 };
 
-const AdvertiserName = ({ advertiserStats, isSameUser, onClickBlocked }: TAdvertiserNameProps) => {
+const AdvertiserName = ({ advertiserStats, isSameUser }: TAdvertiserNameProps) => {
     const { data } = useGetSettings();
     const { isDesktop } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
@@ -44,8 +43,8 @@ const AdvertiserName = ({ advertiserStats, isSameUser, onClickBlocked }: TAdvert
             {isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={advertiserStats} />}
             {!isMyProfile && (
                 <div className='flex relative'>
-                    <FollowUserButton id={advertiserStats?.id} />
-                    {isDropdownVisible && <BlockDropdown id={advertiserStats?.id} onClickBlocked={onClickBlocked} />}
+                    {!isSameUser && <FollowUserButton id={advertiserStats?.id} />}
+                    {isDropdownVisible && <BlockDropdown id={advertiserStats?.id} />}
                 </div>
             )}
         </div>

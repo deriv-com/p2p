@@ -15,7 +15,6 @@ type TBlockUnblockUserModalProps = {
     id: string;
     isBlocked: boolean;
     isModalOpen: boolean;
-    onClickBlocked?: () => void;
     onRequestClose: () => void;
 };
 
@@ -24,7 +23,6 @@ const BlockUnblockUserModal = ({
     id,
     isBlocked,
     isModalOpen,
-    onClickBlocked,
     onRequestClose,
 }: TBlockUnblockUserModalProps) => {
     const { localize } = useTranslations();
@@ -47,7 +45,6 @@ const BlockUnblockUserModal = ({
 
     useEffect(() => {
         if (isSuccess || unblockIsSuccess) {
-            onClickBlocked?.();
             onRequestClose();
         } else if (error || unblockError) {
             setErrorMessages(error || unblockError);
@@ -59,7 +56,7 @@ const BlockUnblockUserModal = ({
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSuccess, onClickBlocked, unblockIsSuccess, unblockError, error, setErrorMessages]);
+    }, [isSuccess, unblockIsSuccess, unblockError, error, setErrorMessages]);
 
     const textSize = isMobile ? 'md' : 'sm';
     const getModalTitle = () =>

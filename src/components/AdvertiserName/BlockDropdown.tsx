@@ -7,10 +7,9 @@ import './BlockDropdown.scss';
 
 type TBlockDropdownProps = {
     id?: string;
-    onClickBlocked?: () => void;
 };
 
-const BlockDropdown = ({ id, onClickBlocked }: TBlockDropdownProps) => {
+const BlockDropdown = ({ id }: TBlockDropdownProps) => {
     const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { data } = useAdvertiserStats(id);
@@ -34,7 +33,6 @@ const BlockDropdown = ({ id, onClickBlocked }: TBlockDropdownProps) => {
                     id={id ?? ''}
                     isBlocked={!!isBlocked}
                     isModalOpen
-                    onClickBlocked={onClickBlocked}
                     onRequestClose={hideModal}
                 />
             )}

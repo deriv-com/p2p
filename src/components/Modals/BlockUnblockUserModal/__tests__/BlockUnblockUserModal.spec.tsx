@@ -144,22 +144,19 @@ describe('BlockUnblockUserModal', () => {
         expect(mockOnRequestClose).toBeCalled();
     });
 
-    it('should call onClickBlocked and onRequestClose if isSuccess or mutation returns success', async () => {
+    it('should call onRequestClose if isSuccess or mutation returns success', async () => {
         mockBlockMutation.isSuccess = true;
-        const mockOnClickBlocked = jest.fn();
         render(
             <BlockUnblockUserModal
                 advertiserName='Hu Tao'
                 id='2'
                 isBlocked={true}
                 isModalOpen={true}
-                onClickBlocked={mockOnClickBlocked}
                 onRequestClose={mockOnRequestClose}
             />
         );
 
         expect(mockOnRequestClose).toHaveBeenCalled();
-        expect(mockOnClickBlocked).toHaveBeenCalled();
     });
 
     it('should show error modal when permission is denied and current route is advertiser', async () => {
