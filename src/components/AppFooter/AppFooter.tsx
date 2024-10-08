@@ -2,7 +2,7 @@ import { LANGUAGES } from '@/constants';
 import { useModalManager } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { DesktopLanguagesModal } from '@deriv-com/ui';
-import { LocalStorageUtils } from '@deriv-com/utils';
+import { LocalStorageUtils, URLConstants } from '@deriv-com/utils';
 import AccountLimits from './AccountLimits';
 import Deriv from './Deriv';
 import Endpoint from './Endpoint';
@@ -22,7 +22,8 @@ const AppFooter = () => {
     const currentLang = LocalStorageUtils.getValue<string>('i18n_language') || 'EN';
 
     const openLanguageSettingModal = () => showModal('DesktopLanguagesModal');
-    const isProduction = process.env.NODE_ENV === 'production';
+    const origin = window.location.origin;
+    const isProduction = origin === URLConstants.derivP2pProduction;
 
     return (
         <footer className='app-footer'>
