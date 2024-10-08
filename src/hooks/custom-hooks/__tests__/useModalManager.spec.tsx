@@ -38,6 +38,7 @@ let windowLocationSpy: jest.SpyInstance<Location, []>;
 const mockQueryString = {
     advertId: undefined,
     formAction: undefined,
+    isOS: undefined,
     modal: undefined,
     paymentMethodId: undefined,
     tab: undefined,
@@ -78,6 +79,7 @@ describe('useModalManager', () => {
             queryString: {
                 advertId: undefined,
                 formAction: undefined,
+                isOS: undefined,
                 modal: 'ModalA',
                 paymentMethodId: undefined,
                 tab: undefined,
