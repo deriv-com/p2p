@@ -2,7 +2,7 @@ import { LANGUAGES } from '@/constants';
 import { useModalManager } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { DesktopLanguagesModal } from '@deriv-com/ui';
-import { LocalStorageUtils, URLConstants } from '@deriv-com/utils';
+import { LocalStorageConstants, LocalStorageUtils, URLConstants } from '@deriv-com/utils';
 import AccountLimits from './AccountLimits';
 import Deriv from './Deriv';
 import Endpoint from './Endpoint';
@@ -16,6 +16,8 @@ import ServerTime from './ServerTime';
 import WhatsApp from './WhatsApp';
 import './AppFooter.scss';
 
+const prodServerUrls = ['green.derivws.com', 'blue.derivws.com', 'red.derivws.com'];
+
 const AppFooter = () => {
     const { localize, switchLanguage } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
@@ -24,6 +26,7 @@ const AppFooter = () => {
     const openLanguageSettingModal = () => showModal('DesktopLanguagesModal');
     const origin = window.location.origin;
     const isProduction = origin === URLConstants.derivP2pProduction;
+    const isProdServer = prodServerUrls.includes(localStorage.getItem(LocalStorageConstants.configServerURL) || '');
 
     return (
         <footer className='app-footer'>
@@ -42,7 +45,7 @@ const AppFooter = () => {
             <ServerTime />
             <div className='app-footer__vertical-line' />
             <NetworkStatus />
-            {!isProduction && <Endpoint />}
+            {!isProduction && !isProdServer && <Endpoint />}
 
             {isModalOpenFor('DesktopLanguagesModal') && (
                 <DesktopLanguagesModal
