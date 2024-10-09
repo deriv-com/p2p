@@ -11,7 +11,7 @@ type TError =
 
 export const getInvalidIDErrorMessage = (error: TError, localize: TLocalize) => {
     if (error?.code === ERROR_CODES.INVALID_ADVERTISER_ID) {
-        return localize("We're unable to complete this action because this user is no longer active on Deriv P2P.");
+        return localize("We can't complete the action as this user is no longer active on Deriv P2P.");
     }
 
     return error?.message;

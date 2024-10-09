@@ -7,9 +7,7 @@ describe('error-messages', () => {
         it('should return the error message for INVALID_ADVERTISER_ID', () => {
             const error = { code: 'InvalidAdvertiserID', message: 'Invalid advertiser ID' };
             const result = getInvalidIDErrorMessage(error, mockLocalize);
-            expect(result).toBe(
-                "We're unable to complete this action because this user is no longer active on Deriv P2P."
-            );
+            expect(result).toBe("We can't complete the action as this user is no longer active on Deriv P2P.");
         });
 
         it('should return the error message for other errors', () => {
