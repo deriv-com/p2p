@@ -5,8 +5,9 @@ import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useAdvertiserStats, useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
+import { getInvalidIDErrorMessage, getInvalidIDTitle } from '@/utils';
 import { StandaloneUserPlusFillIcon } from '@deriv/quill-icons';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, useDevice } from '@deriv-com/ui';
 import { LocalStorageConstants } from '@deriv-com/utils';
 
@@ -27,6 +28,7 @@ const FollowUserButton = ({ id }: TFollowUserButtonProps) => {
         mutation: { error: unfollowError, reset: resetUnfollowError },
     } = api.counterparty.useUnfollow();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
+    const { localize } = useTranslations();
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const history = useHistory();
 
@@ -87,8 +89,9 @@ const FollowUserButton = ({ id }: TFollowUserButtonProps) => {
             {isModalOpenFor('ErrorModal') && (
                 <ErrorModal
                     isModalOpen
-                    message={followError?.message || unfollowError?.message}
+                    message={getInvalidIDErrorMessage(followError || unfollowError, localize)}
                     onRequestClose={onCloseErrorModal}
+                    title={getInvalidIDTitle(followError || unfollowError, localize)}
                 />
             )}
         </>

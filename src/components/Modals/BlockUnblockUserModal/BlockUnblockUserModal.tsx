@@ -4,7 +4,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
 import { api, useAdvertiserStats, useModalManager } from '@/hooks';
 import { useErrorStore } from '@/stores';
-import { getCurrentRoute } from '@/utils';
+import { getCurrentRoute, getInvalidIDErrorMessage, getInvalidIDTitle } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import { ErrorModal } from '../ErrorModal';
@@ -29,11 +29,11 @@ const BlockUnblockUserModal = ({
     const { isMobile } = useDevice();
     const {
         mutate: blockAdvertiser,
-        mutation: { error, isSuccess },
+        mutation: { error, isSuccess, reset: blockReset },
     } = api.counterparty.useBlock();
     const {
         mutate: unblockAdvertiser,
-        mutation: { error: unblockError, isSuccess: unblockIsSuccess },
+        mutation: { error: unblockError, isSuccess: unblockIsSuccess, reset: unblockReset },
     } = api.counterparty.useUnblock();
     const { data } = useAdvertiserStats(id);
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
@@ -49,7 +49,7 @@ const BlockUnblockUserModal = ({
         } else if (error || unblockError) {
             setErrorMessages(error || unblockError);
 
-            if (error?.code === ERROR_CODES.PERMISSION_DENIED && isAdvertiser) {
+            if (isAdvertiser) {
                 showModal('ErrorModal');
             } else {
                 onRequestClose();
@@ -83,20 +83,23 @@ const BlockUnblockUserModal = ({
         }
     };
 
-    const permissionDeniedError = errorMessages.find(error => error.code === ERROR_CODES.PERMISSION_DENIED);
+    const blockUnblockError = errorMessages.find(
+        error => error.code === ERROR_CODES.PERMISSION_DENIED || error.code === ERROR_CODES.INVALID_ADVERTISER_ID
+    );
 
-    if (permissionDeniedError && isModalOpenFor('ErrorModal')) {
+    if (blockUnblockError && isModalOpenFor('ErrorModal')) {
         return (
             <ErrorModal
-                buttonText={localize('Got it')}
                 hideCloseIcon
                 isModalOpen
-                message={permissionDeniedError.message}
+                message={getInvalidIDErrorMessage(blockUnblockError, localize)}
                 onRequestClose={() => {
                     hideModal();
                     history.push(BUY_SELL_URL);
+                    if (isBlocked) unblockReset();
+                    else blockReset();
                 }}
-                title={localize('Unable to block advertiser')}
+                title={getInvalidIDTitle(blockUnblockError, localize)}
             />
         );
     }

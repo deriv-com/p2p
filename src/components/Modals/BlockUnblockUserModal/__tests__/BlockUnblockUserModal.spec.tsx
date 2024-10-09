@@ -11,6 +11,13 @@ const mockUseUnblockMutate = jest.fn();
 const mockBlockMutation = {
     error: {},
     isSuccess: false,
+    reset: jest.fn(),
+};
+
+const mockUnblockMutation = {
+    error: {},
+    isSuccess: false,
+    reset: jest.fn(),
 };
 
 const mockUseAdvertiserInfo = {
@@ -47,10 +54,7 @@ jest.mock('@/hooks', () => ({
             })),
             useUnblock: jest.fn(() => ({
                 mutate: mockUseUnblockMutate,
-                mutation: {
-                    error: {},
-                    isSuccess: false,
-                },
+                mutation: mockUnblockMutation,
             })),
         },
     },
@@ -62,6 +66,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
 }));
 
 jest.mock('@/utils', () => ({
+    ...jest.requireActual('@/utils'),
     getCurrentRoute: jest.fn().mockReturnValue('my-profile'),
 }));
 
@@ -159,7 +164,7 @@ describe('BlockUnblockUserModal', () => {
         expect(mockOnRequestClose).toHaveBeenCalled();
     });
 
-    it('should show error modal when permission is denied and current route is advertiser', async () => {
+    it('should show error modal when an error occurs and current route is advertiser', async () => {
         mockGetCurrentRoute.mockReturnValue('advertiser');
         mockModalManager.isModalOpenFor.mockImplementation((modalName: string) => modalName === 'ErrorModal');
         const error = {
@@ -180,11 +185,11 @@ describe('BlockUnblockUserModal', () => {
             />
         );
 
-        expect(screen.queryByText('Unable to block advertiser')).toBeVisible();
+        expect(screen.queryByText('Something’s not right')).toBeVisible();
         expect(screen.queryByText('You are not allowed to block this user')).toBeVisible();
     });
 
-    it('should call hideModal and history.push when user clicks on Got it button', async () => {
+    it('should call hideModal, history.push and unblockMutation.reset when user clicks on OK button if user is unblocking', async () => {
         render(
             <BlockUnblockUserModal
                 advertiserName='Hu Tao'
@@ -195,12 +200,32 @@ describe('BlockUnblockUserModal', () => {
             />
         );
 
-        const gotItBtn = screen.getByRole('button', {
-            name: 'Got it',
+        const okBtn = screen.getByRole('button', {
+            name: 'OK',
         });
-        await userEvent.click(gotItBtn);
+        await userEvent.click(okBtn);
 
         expect(mockModalManager.hideModal).toHaveBeenCalled();
         expect(mockPush).toHaveBeenCalledWith(BUY_SELL_URL);
+        expect(mockUnblockMutation.reset).toHaveBeenCalled();
+    });
+
+    it('should call blockMutation.reset when user clicks on OK button if user is blocking', async () => {
+        render(
+            <BlockUnblockUserModal
+                advertiserName='Hu Tao'
+                id='2'
+                isBlocked={false}
+                isModalOpen={true}
+                onRequestClose={mockOnRequestClose}
+            />
+        );
+
+        const okBtn = screen.getByRole('button', {
+            name: 'OK',
+        });
+        await userEvent.click(okBtn);
+
+        expect(mockBlockMutation.reset).toHaveBeenCalled();
     });
 });

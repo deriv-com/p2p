@@ -16,6 +16,7 @@ export const ERROR_CODES = {
     DUPLICATE_ADVERT: 'DuplicateAdvert',
     EXCESSIVE_VERIFICATION_FAILURES: 'ExcessiveVerificationFailures',
     EXCESSIVE_VERIFICATION_REQUESTS: 'ExcessiveVerificationRequests',
+    INVALID_ADVERTISER_ID: 'InvalidAdvertiserID',
     INVALID_VERIFICATION_TOKEN: 'InvalidVerificationToken',
     ORDER_CONFIRM_COMPLETED: 'OrderConfirmCompleted',
     ORDER_CREATE_FAIL_RATE_SLIPPAGE: 'OrderCreateFailRateSlippage',
