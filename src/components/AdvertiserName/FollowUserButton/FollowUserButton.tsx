@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { OnboardingTooltip } from '@/components';
 import { ErrorModal } from '@/components/Modals';
-import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 import { BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useAdvertiserStats, useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
