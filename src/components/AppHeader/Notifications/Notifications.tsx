@@ -44,7 +44,12 @@ const Notifications = () => {
         }
 
         return () => {
-            unsubscribe();
+            try {
+                unsubscribe();
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log('error unsubscribing from notifications', error);
+            }
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeAccountData]);
