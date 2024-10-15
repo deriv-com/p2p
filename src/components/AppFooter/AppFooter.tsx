@@ -3,7 +3,14 @@ import { useModalManager } from '@/hooks';
 import { useAPI } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { DesktopLanguagesModal } from '@deriv-com/ui';
-import { AppIDConstants, LocalStorageConstants, LocalStorageUtils, URLConstants } from '@deriv-com/utils';
+import {
+    AppIDConstants,
+    LocalStorageConstants,
+    LocalStorageUtils,
+    URLConstants,
+    URLUtils,
+    WebSocketUtils,
+} from '@deriv-com/utils';
 import AccountLimits from './AccountLimits';
 import Deriv from './Deriv';
 import Endpoint from './Endpoint';
