@@ -16,5 +16,7 @@ module.exports = {
         '^.+\\.(js|jsx)$': 'babel-jest',
         '^.+\\.tsx?$': 'ts-jest',
     },
-    transformIgnorePatterns: ['/node_modules/(?!(@deriv-com/translations|@deriv-com/ui|@sendbird/chat)).+\\.js$'],
+    transformIgnorePatterns: [
+        '/node_modules/(?!(@deriv-com/translations|@deriv-com/ui|@sendbird/chat|@deriv-com/auth-client)).+\\.js$',
+    ],
 };

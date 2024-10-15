@@ -1,5 +1,4 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Guide from '../Guide';
 
 const mockHistory = {
@@ -35,11 +34,11 @@ describe('Guide', () => {
         render(<Guide />);
         expect(screen.getByText('Get started with P2P')).toBeInTheDocument();
     });
-    it('should navigate back to Buy/Sell page on click of return', async () => {
+    it('should navigate back to Buy/Sell page on click of return', () => {
         render(<Guide />);
 
         const backButton = screen.getByTestId('dt_page_return_btn');
-        await userEvent.click(backButton);
+        fireEvent.click(backButton);
 
         expect(mockHistory.push).toHaveBeenCalled();
     });

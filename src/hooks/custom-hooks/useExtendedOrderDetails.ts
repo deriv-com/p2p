@@ -41,6 +41,8 @@ export interface ExtendedOrderDetails extends TOrder {
     isPendingOrder: boolean;
     isRefundedOrder: boolean;
     isSellOrder: boolean;
+    isUserRecommended: boolean;
+    isUserRecommendedPreviously: boolean;
     labels: TObject;
     myAdStatusString: TObject;
     orderExpiryMilliseconds: number;
@@ -183,6 +185,14 @@ const useExtendedOrderDetails = ({
 
         get isSellOrder() {
             return this.type === BUY_SELL.SELL;
+        },
+        get isUserRecommended() {
+            if (this.isMyAd) return this.client_details.is_recommended;
+            return this.advertiser_details.is_recommended;
+        },
+        get isUserRecommendedPreviously() {
+            if (this.isMyAd) return !this.client_details.has_not_been_recommended;
+            return !this.advertiser_details.has_not_been_recommended;
         },
         get labels() {
             if (this.isMyAd) {

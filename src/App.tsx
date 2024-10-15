@@ -39,11 +39,16 @@ const App = () => {
     }, [isGBLoaded, ShouldRedirectToDerivApp]);
     return (
         <BrowserRouter>
-            {/* TODO: Replace the fallback element with the ErrorComponent */}
-            <ErrorBoundary fallback={<div>fallback component</div>}>
+            <ErrorBoundary>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>
                     <TranslationProvider defaultLang='EN' i18nInstance={i18nInstance}>
-                        <Suspense fallback={<Loader isFullScreen />}>
+                        <Suspense
+                            fallback={
+                                <div className='flex h-full w-full items-center justify-center'>
+                                    <Loader isFullScreen />
+                                </div>
+                            }
+                        >
                             {!isOAuth2Enabled && <DerivIframe />}
                             <AppHeader />
                             <AppContent />
