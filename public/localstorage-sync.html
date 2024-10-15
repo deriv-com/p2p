@@ -37,8 +37,11 @@
                                     accounts[loginid] = token;
                                     tokens.push(token);
                                 });
+                                const active_loginid = localStorage.getItem('active_loginid');
+
                                 localStorage.setItem(message.data.key, JSON.stringify(accounts));
-                                localStorage.setItem('authToken', tokens[0]);
+
+                                localStorage.setItem('authToken', accounts[active_loginid]);
                             }
                             break;
                         }
