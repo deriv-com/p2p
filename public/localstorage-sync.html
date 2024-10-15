@@ -30,15 +30,16 @@
                         case 'client.accounts': {
                             if (localStorage.getItem(message.data.key) !== message.data.value) {
                                 let accounts = {};
-                                let tokens = [];
                                 const data = JSON.parse(message.data.value);
                                 Object.keys(data).map(loginid => {
                                     const token = data[loginid]['token'] ?? '';
                                     accounts[loginid] = token;
-                                    tokens.push(token);
                                 });
+                                const active_loginid = localStorage.getItem('active_loginid');
+
                                 localStorage.setItem(message.data.key, JSON.stringify(accounts));
-                                localStorage.setItem('authToken', tokens[0]);
+
+                                localStorage.setItem('authToken', accounts[active_loginid]);
                             }
                             break;
                         }
