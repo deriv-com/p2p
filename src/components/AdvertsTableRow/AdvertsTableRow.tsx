@@ -157,8 +157,13 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                         onClick={(event: MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
                                         tooltipContent={localize('Following')}
                                     >
-                                        <div className='bg-[#333] p-[0.2rem] rounded-lg flex'>
-                                            <StandaloneUserCheckFillIcon fill='#FFF' iconSize='xs' />
+                                        <div className='bg-[#333] p-[0.3rem] mr-2 rounded-lg flex'>
+                                            <StandaloneUserCheckFillIcon
+                                                data-testid='dt_follow_user_icon_buy_sell_row'
+                                                fill='#FFF'
+                                                height={12}
+                                                width={12}
+                                            />
                                         </div>
                                     </Tooltip>
                                 )}

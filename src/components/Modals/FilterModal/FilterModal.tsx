@@ -61,7 +61,7 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
         },
         {
             component: <ToggleSwitch onChange={event => setShowFollowed(event.target.checked)} value={showFollowed} />,
-            subtext: localize('View ads only from advertisers you know.'),
+            subtext: localize('View ads only from advertisers you follow.'),
             text: localize('Followed advertisers only'),
         },
     ];
