@@ -36,13 +36,13 @@ const useOAuth = (): UseOAuthReturn => {
     const { OAuth2Logout: oAuthLogout } = useOAuth2(oAuthGrowthbookConfig, WSLogoutAndRedirect);
 
     const onRenderAuthCheck = useCallback(() => {
-        if (
-            (!isEndpointPage && !isAuthorized && !isAuthorizing) ||
-            (!isEndpointPage && error?.code === 'InvalidToken')
-        ) {
+        if (!isEndpointPage && error?.code === 'InvalidToken') {
             oAuthLogout();
         }
-    }, [isEndpointPage, isAuthorized, isAuthorizing, error, oAuthLogout]);
+        if (!isEndpointPage && !isAuthorized && !isAuthorizing) {
+            window.open(oauthUrl, '_self');
+        }
+    }, [isEndpointPage, error?.code, isAuthorized, isAuthorizing, oAuthLogout, oauthUrl]);
 
     return { oAuthLogout, onRenderAuthCheck };
 };
