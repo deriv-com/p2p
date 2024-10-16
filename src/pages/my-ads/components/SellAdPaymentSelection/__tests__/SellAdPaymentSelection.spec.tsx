@@ -74,4 +74,9 @@ describe('SellAdPaymentSelection', () => {
         await userEvent.click(screen.getByRole('checkbox'));
         expect(mockProps.onSelectPaymentMethod).toHaveBeenCalledWith(1);
     });
+    it('should call showModal when add payment method button is clicked', async () => {
+        render(<SellAdPaymentSelection {...mockProps} />);
+        await userEvent.click(screen.getByRole('button'));
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('PaymentMethodForm');
+    });
 });

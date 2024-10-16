@@ -7,7 +7,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AppFooter from '../AppFooter';
 
+const mockCreateNewConnection = jest.fn();
+
 jest.mock('@deriv-com/api-hooks', () => ({
+    useAPI: jest.fn(() => ({
+        derivAPIClient: {
+            createNewConnection: mockCreateNewConnection,
+        },
+    })),
     useAuthData: jest.fn(() => ({ activeLoginid: null })),
 }));
 jest.mock('@deriv-com/translations');
@@ -83,4 +90,17 @@ describe('AppFooter', () => {
         await userEvent.click(screen.getByTestId('dt-close-icon'));
         expect(hideModal).toHaveBeenCalled();
     }, 10000);
+
+    it('should call createNewConnection and switchLanguage on language switch', async () => {
+        const { switchLanguage } = useTranslations();
+        const { isModalOpenFor } = useModalManager();
+        (isModalOpenFor as jest.Mock).mockReturnValue(true);
+
+        render(<AppFooterComponent />);
+
+        await userEvent.click(screen.getByText('English'));
+
+        expect(mockCreateNewConnection).toHaveBeenCalled();
+        expect(switchLanguage).toHaveBeenCalledWith('EN');
+    });
 });

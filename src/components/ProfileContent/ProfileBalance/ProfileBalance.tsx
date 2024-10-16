@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { AvailableP2PBalanceModal } from '@/components/Modals';
 import { api } from '@/hooks';
@@ -16,7 +16,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
     const [shouldShowAvailableBalanceModal, setShouldShowAvailableBalanceModal] = useState(false);
 
     const currency = activeAccount?.currency || 'USD';
-    const dailyLimits = useMemo(
+    const dailyLimits = useCallback(
         () => [
             {
                 available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableBuyLimit || 0)} ${currency}`,
@@ -65,7 +65,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                 </div>
                 <div className='flex flex-col gap-[1.6rem]'>
                     <div className='profile-balance__items'>
-                        {dailyLimits.map(({ available, dailyLimit, type }) => (
+                        {dailyLimits().map(({ available, dailyLimit, type }) => (
                             <div className='profile-balance__item' key={type}>
                                 <Text size={labelSize}>{type}</Text>
                                 <div className='profile-balance__item-limits'>

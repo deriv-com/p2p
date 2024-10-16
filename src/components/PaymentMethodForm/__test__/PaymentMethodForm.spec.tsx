@@ -97,7 +97,6 @@ describe('PaymentMethodForm', () => {
             <PaymentMethodForm
                 formState={{
                     actionType: 'ADD',
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -112,7 +111,6 @@ describe('PaymentMethodForm', () => {
                 formState={{
                     actionType: 'EDIT',
                     selectedPaymentMethod: otherPaymentMethod,
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -131,7 +129,6 @@ describe('PaymentMethodForm', () => {
                             account: {},
                         },
                     },
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -161,7 +158,6 @@ describe('PaymentMethodForm', () => {
                 formState={{
                     actionType: 'ADD',
                     selectedPaymentMethod: bankPaymentMethod,
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={onResetFormState}
@@ -180,7 +176,6 @@ describe('PaymentMethodForm', () => {
                 formState={{
                     actionType: 'ADD',
                     selectedPaymentMethod: otherPaymentMethod,
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -196,7 +191,6 @@ describe('PaymentMethodForm', () => {
                 formState={{
                     actionType: 'ADD',
                     selectedPaymentMethod: otherPaymentMethod,
-                    title: 'title',
                 }}
                 onAdd={onAdd}
                 onResetFormState={jest.fn()}
@@ -212,7 +206,6 @@ describe('PaymentMethodForm', () => {
             <PaymentMethodForm
                 formState={{
                     actionType: 'ADD',
-                    title: 'title',
                 }}
                 onAdd={onAdd}
                 onResetFormState={jest.fn()}
@@ -237,7 +230,6 @@ describe('PaymentMethodForm', () => {
             <PaymentMethodForm
                 formState={{
                     actionType: 'ADD',
-                    title: 'title',
                 }}
                 onAdd={onAdd}
                 onResetFormState={jest.fn()}
@@ -262,7 +254,6 @@ describe('PaymentMethodForm', () => {
             <PaymentMethodForm
                 formState={{
                     actionType: 'ADD',
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={onResetFormState}
@@ -280,7 +271,6 @@ describe('PaymentMethodForm', () => {
             <PaymentMethodForm
                 formState={{
                     actionType: 'EDIT',
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={onResetFormState}
@@ -301,7 +291,6 @@ describe('PaymentMethodForm', () => {
                 formState={{
                     actionType: 'ADD',
                     selectedPaymentMethod: otherPaymentMethod,
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -332,7 +321,6 @@ describe('PaymentMethodForm', () => {
                 formState={{
                     actionType: 'EDIT',
                     selectedPaymentMethod: otherPaymentMethod,
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -358,7 +346,6 @@ describe('PaymentMethodForm', () => {
                 formState={{
                     actionType: 'ADD',
                     selectedPaymentMethod: otherPaymentMethod,
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -388,7 +375,6 @@ describe('PaymentMethodForm', () => {
                 formState={{
                     actionType: 'EDIT',
                     selectedPaymentMethod: otherPaymentMethod,
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -419,7 +405,6 @@ describe('PaymentMethodForm', () => {
                 formState={{
                     actionType: 'EDIT',
                     selectedPaymentMethod: otherPaymentMethod,
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={mockOnResetFormState}
@@ -455,7 +440,6 @@ describe('PaymentMethodForm', () => {
             <PaymentMethodForm
                 formState={{
                     actionType: 'ADD',
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -482,7 +466,6 @@ describe('PaymentMethodForm', () => {
             <PaymentMethodForm
                 formState={{
                     actionType: 'ADD',
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -509,7 +492,6 @@ describe('PaymentMethodForm', () => {
             <PaymentMethodForm
                 formState={{
                     actionType: 'EDIT',
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -536,7 +518,6 @@ describe('PaymentMethodForm', () => {
             <PaymentMethodForm
                 formState={{
                     actionType: 'EDIT',
-                    title: 'title',
                 }}
                 onAdd={jest.fn()}
                 onResetFormState={jest.fn()}
@@ -549,5 +530,23 @@ describe('PaymentMethodForm', () => {
 
         expect(mockModalManager.hideModal).toHaveBeenCalled();
         expect(mockReset).toHaveBeenCalled();
+    });
+    it('should call onEdit if actionType is EDIT, and p2pAdvertiserPaymentMethod is provided', async () => {
+        const mockOnEdit = jest.fn();
+        const otherPaymentMethod = mockPaymentMethods.find(method => method.type === 'other');
+        render(
+            <PaymentMethodForm
+                formState={{
+                    actionType: 'EDIT',
+                    selectedPaymentMethod: otherPaymentMethod,
+                }}
+                onEdit={mockOnEdit}
+                onResetFormState={jest.fn()}
+                // @ts-expect-error - p2pAdvertiserPaymentMethods type is not defined in the props
+                p2pAdvertiserPaymentMethods={mockPaymentMethods}
+            />
+        );
+
+        expect(mockOnEdit).toHaveBeenCalled();
     });
 });

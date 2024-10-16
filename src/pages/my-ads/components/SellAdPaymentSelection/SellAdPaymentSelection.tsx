@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import { TAdvertiserPaymentMethod, TFormState, TReducerAction, TSelectedPaymentMethod } from 'types';
+import { TAdvertiserPaymentMethod, TSelectedPaymentMethod } from 'types';
 import { PaymentMethodCard, PaymentMethodForm } from '@/components';
 import { api } from '@/hooks';
 import { useIsAdvertiser, useModalManager } from '@/hooks/custom-hooks';
@@ -18,19 +18,16 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
     const isAdvertiser = useIsAdvertiser();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
+    const { currentLang } = useTranslations();
 
-    const { localize } = useTranslations();
-    const [formState, dispatch] = useReducer(
-        (currentState: TFormState, action: TReducerAction) =>
-            advertiserPaymentMethodsReducer(currentState, action, localize),
-        {}
-    );
+    const [formState, dispatch] = useReducer(advertiserPaymentMethodsReducer, {});
 
     useEffect(() => {
         if (isAdvertiser) {
             get();
         }
-    }, [isAdvertiser]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAdvertiser, currentLang]); // currentLang is used to refetch the data when the language changes
 
     const handleAddPaymentMethod = (selectedPaymentMethod?: TSelectedPaymentMethod) => {
         dispatch({
@@ -66,7 +63,10 @@ const SellAdPaymentSelection = ({ onSelectPaymentMethod, selectedPaymentMethodId
             <div className='sell-ad-payment-selection__button'>
                 <Button
                     className='flex items-center justify-center w-[3.2rem] h-[3.2rem] mb-[0.8rem] rounded-full bg-[#ff444f]'
-                    onClick={() => showModal('PaymentMethodForm')}
+                    onClick={() => {
+                        dispatch({ type: 'ADD' });
+                        showModal('PaymentMethodForm');
+                    }}
                     type='button'
                 >
                     <LabelPairedPlusLgBoldIcon fill='white' />
