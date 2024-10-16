@@ -1,4 +1,5 @@
-import { act, renderHook } from '@testing-library/react';
+import { act } from 'react';
+import { renderHook } from '@testing-library/react';
 import useBuySellFiltersStore from '../useBuySellFiltersStore';
 
 describe('useBuySellFiltersStore', () => {
@@ -9,6 +10,7 @@ describe('useBuySellFiltersStore', () => {
         expect(result.current.filteredCurrency).toBe('');
         expect(result.current.selectedPaymentMethods).toEqual([]);
         expect(result.current.shouldUseClientLimits).toBe(true);
+        expect(result.current.showFollowedUsers).toBe(false);
         expect(result.current.sortByValue).toBe('rate');
 
         // Dispatch actions to update state
@@ -16,6 +18,7 @@ describe('useBuySellFiltersStore', () => {
             result.current.setFilteredCurrency('USD');
             result.current.setSelectedPaymentMethods(['PayPal', 'Bank Transfer']);
             result.current.setShouldUseClientLimits(false);
+            result.current.setShowFollowedUsers(true);
             result.current.setSortByValue('rate');
         });
 
@@ -23,6 +26,7 @@ describe('useBuySellFiltersStore', () => {
         expect(result.current.filteredCurrency).toBe('USD');
         expect(result.current.selectedPaymentMethods).toEqual(['PayPal', 'Bank Transfer']);
         expect(result.current.shouldUseClientLimits).toBe(false);
+        expect(result.current.showFollowedUsers).toBe(true);
         expect(result.current.sortByValue).toBe('rate');
     });
 });

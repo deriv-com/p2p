@@ -17,7 +17,6 @@ const Advertiser = () => {
     const { showModal } = useModalManager();
     const { advertiserId } = useParams<{ advertiserId: string }>();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
-    const [showOverlay, setShowOverlay] = useState(false);
     const [advertiserName, setAdvertiserName] = useState('');
 
     const isSameUser = advertiserId === advertiserInfo.id;
@@ -47,14 +46,7 @@ const Advertiser = () => {
                 }}
                 pageTitle={localize('Advertiser’s page')}
                 {...(isDropdownVisible && {
-                    rightPlaceHolder: (
-                        <BlockDropdown
-                            id={advertiserId}
-                            onClickBlocked={() => {
-                                setShowOverlay(prevState => !prevState);
-                            }}
-                        />
-                    ),
+                    rightPlaceHolder: <BlockDropdown id={advertiserId} />,
                 })}
                 size={isMobile ? 'lg' : 'md'}
                 weight='bold'
@@ -65,16 +57,10 @@ const Advertiser = () => {
                 <AdvertiserBlockOverlay
                     advertiserName={advertiserName}
                     id={id}
-                    isOverlayVisible={showOverlay}
+                    isOverlayVisible={!!data?.isBlockedBoolean}
                     onClickUnblock={() => showModal('BlockUnblockUserModal')}
-                    setShowOverlay={setShowOverlay}
                 >
-                    <ProfileContent
-                        data={data}
-                        isSameUser={isSameUser}
-                        setAdvertiserName={setAdvertiserName}
-                        setShowOverlay={setShowOverlay}
-                    />
+                    <ProfileContent data={data} isSameUser={isSameUser} setAdvertiserName={setAdvertiserName} />
                     <AdvertiserAdvertsTable advertiserId={advertiserId} />
                 </AdvertiserBlockOverlay>
             )}

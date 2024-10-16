@@ -5,7 +5,13 @@ import useAdvertiserRelations from './useAdvertiserRelations';
 const useAdvertiserRelationsAddBlocked = () => {
     const { data, mutate, ...rest } = useAdvertiserRelations();
 
-    const addBlockedAdvertiser = useCallback((id: number[]) => mutate({ add_blocked: id }), [mutate]);
+    const addBlockedAdvertiser = useCallback(
+        (id: number[], shouldUnfollow = false) => {
+            if (shouldUnfollow) mutate({ add_blocked: id, remove_favourites: id });
+            else mutate({ add_blocked: id });
+        },
+        [mutate]
+    );
 
     return {
         data,

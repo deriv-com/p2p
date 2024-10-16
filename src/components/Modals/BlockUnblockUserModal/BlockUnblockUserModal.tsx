@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useModalManager } from '@/hooks';
+import { api, useAdvertiserStats, useModalManager } from '@/hooks';
 import { useErrorStore } from '@/stores';
-import { getCurrentRoute } from '@/utils';
+import { getCurrentRoute, getInvalidIDErrorMessage, getInvalidIDTitle } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import { ErrorModal } from '../ErrorModal';
@@ -15,7 +15,6 @@ type TBlockUnblockUserModalProps = {
     id: string;
     isBlocked: boolean;
     isModalOpen: boolean;
-    onClickBlocked?: () => void;
     onRequestClose: () => void;
 };
 
@@ -24,19 +23,19 @@ const BlockUnblockUserModal = ({
     id,
     isBlocked,
     isModalOpen,
-    onClickBlocked,
     onRequestClose,
 }: TBlockUnblockUserModalProps) => {
     const { localize } = useTranslations();
     const { isMobile } = useDevice();
     const {
         mutate: blockAdvertiser,
-        mutation: { error, isSuccess },
+        mutation: { error, isSuccess, reset: blockReset },
     } = api.counterparty.useBlock();
     const {
         mutate: unblockAdvertiser,
-        mutation: { error: unblockError, isSuccess: unblockIsSuccess },
+        mutation: { error: unblockError, isSuccess: unblockIsSuccess, reset: unblockReset },
     } = api.counterparty.useUnblock();
+    const { data } = useAdvertiserStats(id);
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { errorMessages, setErrorMessages } = useErrorStore(
         useShallow(state => ({ errorMessages: state.errorMessages, setErrorMessages: state.setErrorMessages }))
@@ -46,19 +45,18 @@ const BlockUnblockUserModal = ({
 
     useEffect(() => {
         if (isSuccess || unblockIsSuccess) {
-            onClickBlocked?.();
             onRequestClose();
         } else if (error || unblockError) {
             setErrorMessages(error || unblockError);
 
-            if (error?.code === ERROR_CODES.PERMISSION_DENIED && isAdvertiser) {
+            if (isAdvertiser) {
                 showModal('ErrorModal');
             } else {
                 onRequestClose();
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSuccess, onClickBlocked, unblockIsSuccess, unblockError, error, setErrorMessages]);
+    }, [isSuccess, unblockIsSuccess, unblockError, error, setErrorMessages]);
 
     const textSize = isMobile ? 'md' : 'sm';
     const getModalTitle = () =>
@@ -81,24 +79,27 @@ const BlockUnblockUserModal = ({
         if (isBlocked) {
             unblockAdvertiser([parseInt(id)]);
         } else {
-            blockAdvertiser([parseInt(id)]);
+            blockAdvertiser([parseInt(id)], !!data?.is_favourite);
         }
     };
 
-    const permissionDeniedError = errorMessages.find(error => error.code === ERROR_CODES.PERMISSION_DENIED);
+    const blockUnblockError = errorMessages.find(
+        error => error.code === ERROR_CODES.PERMISSION_DENIED || error.code === ERROR_CODES.INVALID_ADVERTISER_ID
+    );
 
-    if (permissionDeniedError && isModalOpenFor('ErrorModal')) {
+    if (blockUnblockError && isModalOpenFor('ErrorModal')) {
         return (
             <ErrorModal
-                buttonText={localize('Got it')}
                 hideCloseIcon
                 isModalOpen
-                message={permissionDeniedError.message}
+                message={getInvalidIDErrorMessage(blockUnblockError, localize)}
                 onRequestClose={() => {
                     hideModal();
                     history.push(BUY_SELL_URL);
+                    if (isBlocked) unblockReset();
+                    else blockReset();
                 }}
-                title={localize('Unable to block advertiser')}
+                title={getInvalidIDTitle(blockUnblockError, localize)}
             />
         );
     }
