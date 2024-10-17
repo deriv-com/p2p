@@ -133,7 +133,7 @@ const useSendbird = (orderId: string | undefined, isErrorOrderInfo: boolean, cha
 
             const shouldSortFromMostRecent = messages ? messages?.length > 0 : false;
             const retrievedMessages = await channel.getMessagesByTimestamp(timestamp, {
-                customTypesFilter: [''],
+                customTypesFilter: ['', `{"order_id":"${orderId}"}`],
                 isInclusive: false,
                 messageTypeFilter: MessageTypeFilter.ALL,
                 nextResultSize: 0,
@@ -146,6 +146,7 @@ const useSendbird = (orderId: string | undefined, isErrorOrderInfo: boolean, cha
                     messagesFormatted.push(createChatMessage(message));
                 }
             });
+
             return messagesFormatted;
         },
         [messages, serverTime?.server_time_utc]
@@ -249,6 +250,7 @@ const useSendbird = (orderId: string | undefined, isErrorOrderInfo: boolean, cha
                         // 3. Retrieve any existing messages in the channel
                         const retrievedMessages = await getMessages(channel);
                         setMessages(retrievedMessages);
+                        c;
                     }
                 }
             }
