@@ -133,7 +133,6 @@ const useSendbird = (orderId: string | undefined, isErrorOrderInfo: boolean, cha
 
             const shouldSortFromMostRecent = messages ? messages?.length > 0 : false;
             const retrievedMessages = await channel.getMessagesByTimestamp(timestamp, {
-                customTypesFilter: ['', `{"order_id":"${orderId}"}`],
                 isInclusive: false,
                 messageTypeFilter: MessageTypeFilter.ALL,
                 nextResultSize: 0,
