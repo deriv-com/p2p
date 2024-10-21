@@ -11,8 +11,8 @@ const Notifications = () => {
     const { localize } = useTranslations();
     const { isDesktop, isMobile } = useDevice();
     const { data: activeAccountData } = api.account.useActiveAccount();
-    const { data: notifications, subscribe } = api.notification.useGetList();
-    const { mutate: updateNotification } = api.notification.useUpdate();
+    const { data: notifications } = api.notification.useGetList();
+    const { readAllNotifications } = api.notification.useUpdate();
     const history = useHistory();
 
     const modifiedNotifications = useMemo(() => {
@@ -40,7 +40,7 @@ const Notifications = () => {
 
     useEffect(() => {
         if (activeAccountData) {
-            subscribe({});
+            console.log('>> active account data', activeAccountData);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeAccountData]);
@@ -75,7 +75,7 @@ const Notifications = () => {
             <UINotifications
                 className={isMobile ? '' : 'absolute top-20 right-80 z-10 w-[26.4rem]'}
                 clearNotificationsCallback={() => {
-                    updateNotification({ ids: [], notifications_update_status: 'remove' });
+                    readAllNotifications();
                 }}
                 componentConfig={{
                     clearButtonText: localize('Clear all'),
