@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { PaymentMethodWithIcon } from '@/components';
 import { useExtendedOrderDetails } from '@/hooks/custom-hooks';
 import { LabelPairedChevronRightSmRegularIcon } from '@deriv/quill-icons';
+import { useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './PaymentMethodAccordion.scss';
 
@@ -16,6 +17,7 @@ const PaymentMethodAccordion = ({
     paymentInfo,
     paymentMethodDetails,
 }: TPaymentMethodAccordionProps) => {
+    const { localize } = useTranslations();
     const [expandedIds, setExpandedIds] = useState<string[]>([]);
     const paymentMethodKeys = paymentMethodDetails ? Object.keys(paymentMethodDetails) : [];
     const { isDesktop } = useDevice();
@@ -38,7 +40,9 @@ const PaymentMethodAccordion = ({
                         textSize={smallTextSize}
                         variant='ghost'
                     >
-                        {expandedIds.length === paymentMethodKeys.length ? 'Collapse all' : 'Expand all'}
+                        {expandedIds.length === paymentMethodKeys.length
+                            ? localize('Collapse all')
+                            : localize('Expand all')}
                     </Button>
                 )}
             </div>

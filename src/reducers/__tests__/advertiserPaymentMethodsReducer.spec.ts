@@ -23,7 +23,6 @@ const mockPaymentMethod: Parameters<typeof advertiserPaymentMethodsReducer>[0]['
     id: 'bank_transfer',
     method: 'bank_transfer',
 };
-const localize = jest.fn(text => text);
 describe('advertiserPaymentMethodsReducer', () => {
     it('should return the correct object when the action type is add and a selected payment method is provided', () => {
         const action: Parameters<typeof advertiserPaymentMethodsReducer>[1] = {
@@ -33,11 +32,10 @@ describe('advertiserPaymentMethodsReducer', () => {
             },
             type: 'ADD',
         };
-        expect(advertiserPaymentMethodsReducer(mockInitialState, action, localize)).toEqual({
+        expect(advertiserPaymentMethodsReducer(mockInitialState, action)).toEqual({
             actionType: 'ADD',
             isVisible: true,
             selectedPaymentMethod: mockPaymentMethod,
-            title: 'Add payment method',
         });
     });
     it('should return the correct object when the action type is add and a selected payment method is not provided', () => {
@@ -45,10 +43,9 @@ describe('advertiserPaymentMethodsReducer', () => {
             payload: {},
             type: 'ADD',
         };
-        expect(advertiserPaymentMethodsReducer(mockInitialState, action, localize)).toEqual({
+        expect(advertiserPaymentMethodsReducer(mockInitialState, action)).toEqual({
             actionType: 'ADD',
             isVisible: true,
-            title: 'Add payment method',
         });
     });
     it('should return the correct object when the action type is edit', () => {
@@ -59,11 +56,11 @@ describe('advertiserPaymentMethodsReducer', () => {
             },
             type: 'EDIT',
         };
-        expect(advertiserPaymentMethodsReducer(mockInitialState, action, localize)).toEqual({
+        expect(advertiserPaymentMethodsReducer(mockInitialState, action)).toEqual({
             actionType: 'EDIT',
             isVisible: true,
             selectedPaymentMethod: { ...mockPaymentMethod, display_name: 'Bank Transfer 1' },
-            title: 'Edit payment method',
+            title: '',
         });
     });
     it('should return the correct object when the action type is delete', () => {
@@ -74,7 +71,7 @@ describe('advertiserPaymentMethodsReducer', () => {
             },
             type: 'DELETE',
         };
-        expect(advertiserPaymentMethodsReducer(mockInitialState, action, localize)).toEqual({
+        expect(advertiserPaymentMethodsReducer(mockInitialState, action)).toEqual({
             actionType: 'DELETE',
             selectedPaymentMethod: mockPaymentMethod,
         });
@@ -83,6 +80,13 @@ describe('advertiserPaymentMethodsReducer', () => {
         const action: Parameters<typeof advertiserPaymentMethodsReducer>[1] = {
             type: 'RESET',
         };
-        expect(advertiserPaymentMethodsReducer(mockInitialState, action, localize)).toEqual({});
+        expect(advertiserPaymentMethodsReducer(mockInitialState, action)).toEqual({});
+    });
+
+    it('should throw an error when the action type is undefined', () => {
+        const action: Parameters<typeof advertiserPaymentMethodsReducer>[1] = {
+            type: undefined,
+        };
+        expect(() => advertiserPaymentMethodsReducer(mockInitialState, action)).toThrow('Unknown action: undefined');
     });
 });

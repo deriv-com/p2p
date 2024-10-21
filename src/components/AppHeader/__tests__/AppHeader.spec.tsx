@@ -21,6 +21,11 @@ jest.mock('@deriv-com/api-hooks', () => ({
             },
         ],
     })),
+    useAPI: jest.fn(() => ({
+        derivAPIClient: {
+            createNewConnection: jest.fn(),
+        },
+    })),
     useAuthData: jest.fn(() => ({ activeLoginid: null, error: null, logout: jest.fn() })),
     useBalance: jest.fn(() => ({
         data: {
@@ -146,5 +151,40 @@ describe('<AppHeader/>', () => {
 
         await userEvent.click(logoutButton);
         expect(logout).toHaveBeenCalled();
+    });
+
+    it('should render the desktop header and log in button when not logged in', async () => {
+        mockUseAuthData.mockReturnValue({ activeLoginid: null, logout: jest.fn() });
+        mockUseActiveAccountValues.data = {
+            currency: 'USD',
+            is_virtual: 0,
+        } as ReturnType<typeof useActiveAccount>['data'];
+
+        Object.defineProperty(window, 'matchMedia', {
+            value: jest.fn().mockImplementation(query => ({
+                addEventListener: jest.fn(),
+                addListener: jest.fn(), // Deprecated
+                dispatchEvent: jest.fn(),
+                matches: false,
+                media: query,
+                onchange: null,
+                removeEventListener: jest.fn(),
+                removeListener: jest.fn(), // Deprecated
+            })),
+            writable: true,
+        });
+
+        render(
+            <BrowserRouter>
+                <QueryParamProvider adapter={ReactRouter5Adapter}>
+                    <AppHeader />
+                </QueryParamProvider>
+            </BrowserRouter>
+        );
+        const loginButton = await screen.findByRole('button', { name: 'Log in' });
+        await waitFor(() => expect(loginButton).toBeInTheDocument());
+
+        await userEvent.click(loginButton);
+        expect(window.open).toHaveBeenCalled();
     });
 });

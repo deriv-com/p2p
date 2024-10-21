@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
-import { TAdvertiserPaymentMethod, TFormState, TSelectedPaymentMethod } from 'types';
+import { TAdvertiserPaymentMethod, TFormState, THooks, TSelectedPaymentMethod } from 'types';
 import { PageReturn, PaymentMethodField, PaymentMethodsFormFooter } from '@/components';
 import { api } from '@/hooks';
 import { getCurrentRoute } from '@/utils';
@@ -15,8 +15,10 @@ type TPaymentMethodFormProps = {
     displayModal?: boolean;
     formState: TFormState;
     onAdd?: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
+    onEdit?: (selectedPaymentMethod?: TSelectedPaymentMethod) => void;
     onRequestClose?: () => void;
     onResetFormState: () => void;
+    p2pAdvertiserPaymentMethods?: THooks.AdvertiserPaymentMethods.Get;
 };
 
 /**
@@ -28,11 +30,13 @@ type TPaymentMethodFormProps = {
 const PaymentMethodForm = ({
     displayModal = false,
     onAdd,
+    onEdit,
     onRequestClose,
     onResetFormState,
+    p2pAdvertiserPaymentMethods,
     ...rest
 }: TPaymentMethodFormProps) => {
-    const { localize } = useTranslations();
+    const { currentLang, localize } = useTranslations();
     const {
         control,
         formState: { dirtyFields, isDirty, isSubmitting, isValid },
@@ -40,7 +44,7 @@ const PaymentMethodForm = ({
         reset,
     } = useForm({ mode: 'all' });
     const [isError, setIsError] = useState(false);
-    const { actionType, selectedPaymentMethod, title = '' } = rest.formState;
+    const { actionType, selectedPaymentMethod } = rest.formState;
     const { data: availablePaymentMethods } = api.paymentMethods.useGet();
     const {
         create,
@@ -74,6 +78,33 @@ const PaymentMethodForm = ({
             onResetFormState();
         }
     }, [isUpdateSuccessful, onResetFormState, updateError]);
+
+    // This refetches the selected payment method when the language changes
+    useEffect(() => {
+        if (selectedPaymentMethod) {
+            if (actionType === 'ADD' && availablePaymentMethods) {
+                const paymentMethod = availablePaymentMethods?.find(
+                    p => p.id === (selectedPaymentMethod as TSelectedPaymentMethod).method
+                );
+                onAdd?.({
+                    displayName: paymentMethod?.display_name,
+                    fields: paymentMethod?.fields,
+                    method: paymentMethod?.id,
+                });
+            } else if (actionType === 'EDIT' && p2pAdvertiserPaymentMethods) {
+                const paymentMethod = p2pAdvertiserPaymentMethods?.find(
+                    p => p.method === (selectedPaymentMethod as TAdvertiserPaymentMethod)?.method
+                );
+                onEdit?.({
+                    displayName: paymentMethod?.display_name,
+                    fields: paymentMethod?.fields,
+                    id: selectedPaymentMethod?.id,
+                    method: paymentMethod?.method,
+                });
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentLang, availablePaymentMethods, p2pAdvertiserPaymentMethods]);
 
     const availablePaymentMethodsList = useMemo(() => {
         const listItems = availablePaymentMethods?.map(availablePaymentMethod => ({
@@ -227,7 +258,7 @@ const PaymentMethodForm = ({
                 className='py-[1.4rem] mb-0'
                 hasBorder={!isDesktop}
                 onClick={handleGoBack}
-                pageTitle={title === '' ? localize('Add payment method') : title}
+                pageTitle={actionType === 'ADD' ? localize('Add payment method') : localize('Edit payment method')}
                 size={isMobile ? 'lg' : 'md'}
                 weight='bold'
             />

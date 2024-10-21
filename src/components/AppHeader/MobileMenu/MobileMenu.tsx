@@ -3,9 +3,10 @@ import NetworkStatus from '@/components/AppFooter/NetworkStatus';
 import ServerTime from '@/components/AppFooter/ServerTime';
 import { LANGUAGES } from '@/constants';
 import { useModalManager } from '@/hooks';
+import { useAPI } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Drawer, MobileLanguagesDrawer, useDevice } from '@deriv-com/ui';
-import { LocalStorageUtils } from '@deriv-com/utils';
+import { AppIDConstants, LocalStorageUtils, URLUtils, WebSocketUtils } from '@deriv-com/utils';
 import { BackButton } from './BackButton';
 import { MenuContent } from './MenuContent';
 import { MenuHeader } from './MenuHeader';
@@ -13,6 +14,7 @@ import { ToggleButton } from './ToggleButton';
 
 const MobileMenu = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const { derivAPIClient } = useAPI();
     const { localize, switchLanguage } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { isDesktop } = useDevice();
@@ -28,7 +30,6 @@ const MobileMenu = () => {
     return (
         <>
             <ToggleButton onClick={openDrawer} />
-
             <Drawer isOpen={isDrawerOpen} onCloseDrawer={closeDrawer} width='29.5rem'>
                 <Drawer.Header onCloseDrawer={closeDrawer}>
                     <MenuHeader
@@ -36,20 +37,20 @@ const MobileMenu = () => {
                         openLanguageSetting={openLanguageSetting}
                     />
                 </Drawer.Header>
-
                 <Drawer.Content>
                     {isLanguageSettingVisible ? (
                         <>
                             <BackButton buttonText={localize('Language')} onClick={hideModal} />
-
                             <MobileLanguagesDrawer
                                 isOpen
                                 languages={LANGUAGES}
                                 onClose={hideModal}
-                                onLanguageSwitch={code => {
+                                onLanguageSwitch={async code => {
+                                    const serverURL = `wss://${URLUtils.getServerURL()}/websockets/v3?app_id=${WebSocketUtils.getAppId()}&l=${code}&brand=${AppIDConstants.appBrand}`;
+                                    await derivAPIClient.createNewConnection(serverURL);
                                     switchLanguage(code);
+                                    closeDrawer();
                                     hideModal();
-                                    window.location.reload();
                                 }}
                                 selectedLanguage={currentLang}
                                 wrapperClassName='px-[0.8rem]'
@@ -59,7 +60,6 @@ const MobileMenu = () => {
                         <MenuContent />
                     )}
                 </Drawer.Content>
-
                 <Drawer.Footer className='justify-center h-16'>
                     <ServerTime />
                     <NetworkStatus />

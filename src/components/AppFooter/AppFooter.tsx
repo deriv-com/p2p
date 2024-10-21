@@ -1,8 +1,16 @@
 import { LANGUAGES } from '@/constants';
 import { useModalManager } from '@/hooks';
+import { useAPI } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { DesktopLanguagesModal } from '@deriv-com/ui';
-import { LocalStorageConstants, LocalStorageUtils, URLConstants } from '@deriv-com/utils';
+import {
+    AppIDConstants,
+    LocalStorageConstants,
+    LocalStorageUtils,
+    URLConstants,
+    URLUtils,
+    WebSocketUtils,
+} from '@deriv-com/utils';
 import AccountLimits from './AccountLimits';
 import Deriv from './Deriv';
 import Endpoint from './Endpoint';
@@ -21,6 +29,7 @@ const prodServerUrls = ['green.derivws.com', 'blue.derivws.com', 'red.derivws.co
 const AppFooter = () => {
     const { localize, switchLanguage } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
+    const { derivAPIClient } = useAPI();
     const currentLang = LocalStorageUtils.getValue<string>('i18n_language') || 'EN';
 
     const openLanguageSettingModal = () => showModal('DesktopLanguagesModal');
@@ -53,10 +62,11 @@ const AppFooter = () => {
                     isModalOpen
                     languages={LANGUAGES}
                     onClose={hideModal}
-                    onLanguageSwitch={code => {
+                    onLanguageSwitch={async code => {
+                        const serverURL = `wss://${URLUtils.getServerURL()}/websockets/v3?app_id=${WebSocketUtils.getAppId()}&l=${code}&brand=${AppIDConstants.appBrand}`;
+                        await derivAPIClient.createNewConnection(serverURL);
                         switchLanguage(code);
                         hideModal();
-                        window.location.reload();
                     }}
                     selectedLanguage={currentLang}
                 />
