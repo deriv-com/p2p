@@ -1,13 +1,13 @@
 import { ReactNode } from 'react';
 import { TLocalize } from 'types';
 import {
-    DerivProductDerivBotBrandLightLogoWordmarkHorizontalIcon as DerivBotLogo,
-    DerivProductDerivTraderBrandLightLogoWordmarkHorizontalIcon as DerivTraderLogo,
+    DerivProductBrandLightDerivBotLogoWordmarkIcon as DerivBotLogo,
+    DerivProductBrandLightDerivTraderLogoWordmarkIcon as DerivTraderLogo,
     LegacyCashierIcon as CashierLogo,
     LegacyHomeOldIcon as TradershubLogo,
     LegacyReportsIcon as ReportsLogo,
-    PartnersProductBinaryBotBrandLightLogoWordmarkHorizontalIcon as BinaryBotLogo,
-    PartnersProductSmarttraderBrandLightLogoWordmarkIcon as SmarttraderLogo,
+    PartnersProductBrandLightBinaryBotLogoWordmarkIcon as BinaryBotLogo,
+    PartnersProductBrandLightSmarttraderLogoWordmarkIcon as SmarttraderLogo,
 } from '@deriv/quill-icons';
 import { URLConstants } from '@deriv-com/utils';
 
