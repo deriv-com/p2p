@@ -11,14 +11,12 @@ type TAdvertiserBlockOverlayProps = {
     id?: string;
     isOverlayVisible: boolean;
     onClickUnblock: () => void;
-    setShowOverlay: (showOverlay: boolean) => void;
 };
 const AdvertiserBlockOverlay = ({
     advertiserName,
     children,
     id,
     isOverlayVisible,
-    setShowOverlay,
 }: PropsWithChildren<TAdvertiserBlockOverlayProps>) => {
     const { isDesktop } = useDevice();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
@@ -55,7 +53,6 @@ const AdvertiserBlockOverlay = ({
                         id={id ?? ''}
                         isBlocked
                         isModalOpen={!!isModalOpenFor('BlockUnblockUserModal')}
-                        onClickBlocked={() => setShowOverlay(false)}
                         onRequestClose={hideModal}
                     />
                 )}

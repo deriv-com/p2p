@@ -25,16 +25,25 @@ const BuySellHeader = ({ setIsFilterModalOpen, setSearchValue }: TBuySellHeaderP
     const { localize } = useTranslations();
     const { isDesktop, isMobile } = useDevice();
     const { queryString, setQueryString } = useQueryString();
-    const { filteredCurrency, selectedPaymentMethods, setFilteredCurrency, setSortByValue, sortByValue } =
-        useBuySellFiltersStore(
-            useShallow(state => ({
-                filteredCurrency: state.filteredCurrency,
-                selectedPaymentMethods: state.selectedPaymentMethods,
-                setFilteredCurrency: state.setFilteredCurrency,
-                setSortByValue: state.setSortByValue,
-                sortByValue: state.sortByValue,
-            }))
-        );
+    const {
+        filteredCurrency,
+        selectedPaymentMethods,
+        setFilteredCurrency,
+        setSortByValue,
+        shouldUseClientLimits,
+        showFollowedUsers,
+        sortByValue,
+    } = useBuySellFiltersStore(
+        useShallow(state => ({
+            filteredCurrency: state.filteredCurrency,
+            selectedPaymentMethods: state.selectedPaymentMethods,
+            setFilteredCurrency: state.setFilteredCurrency,
+            setSortByValue: state.setSortByValue,
+            shouldUseClientLimits: state.shouldUseClientLimits,
+            showFollowedUsers: state.showFollowedUsers,
+            sortByValue: state.sortByValue,
+        }))
+    );
 
     const { activeBuySellTab, setActiveBuySellTab } = useTabsStore(
         useShallow(state => ({
@@ -93,7 +102,7 @@ const BuySellHeader = ({ setIsFilterModalOpen, setSearchValue }: TBuySellHeaderP
                     onClick={() => showModal('FilterModal')}
                     variant='outlined'
                 >
-                    {!!selectedPaymentMethods?.length && (
+                    {(!!selectedPaymentMethods?.length || !shouldUseClientLimits || showFollowedUsers) && (
                         <div
                             className='buy-sell-header__filter-button__indication'
                             data-testid='dt_filter_button_indicator'

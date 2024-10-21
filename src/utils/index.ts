@@ -3,6 +3,7 @@ export * from './ad-utils';
 export * from './adverts';
 export * from './business-hours';
 export * from './date';
+export * from './error-messages';
 export * from './file-dropzone';
 export * from './file-uploader';
 export * from './format-value';
