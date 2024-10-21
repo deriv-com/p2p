@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { AppFooter, AppHeader, DerivIframe, ErrorBoundary } from '@/components';
-import { useDerivAnalytics, useOAuth, useTrackjs } from '@/hooks';
+import { useDatadog, useDerivAnalytics, useOAuth, useTrackjs } from '@/hooks';
 import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
@@ -23,11 +23,13 @@ const App = () => {
     const [isOAuth2Enabled] = useOAuth2Enabled();
     const { onRenderAuthCheck } = useOAuth();
     const { init: initTrackJS } = useTrackjs();
+    const { initialise: initDatadog } = useDatadog();
     const { isDesktop } = useDevice();
     const { initialise: initDerivAnalytics } = useDerivAnalytics();
 
     initTrackJS();
     initDerivAnalytics();
+    initDatadog();
     onRenderAuthCheck();
 
     useEffect(() => {

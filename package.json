@@ -17,6 +17,7 @@
     "dependencies": {
         "@babel/preset-env": "^7.24.5",
         "@chakra-ui/react": "^2.8.2",
+        "@datadog/browser-rum": "^5.11.0",
         "@deriv-com/analytics": "^1.23.2",
         "@deriv-com/api-hooks": "^1.4.9",
         "@deriv-com/auth-client": "1.0.27",
