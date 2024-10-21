@@ -23,13 +23,11 @@ const useNotificationList = () => {
 
             try {
                 const response = await fetch('https://fs191x.buildship.run/v4/notification/list', {
-                    body: JSON.stringify({
-                        authorize: localStorage.getItem('authToken'),
-                    }),
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'token': localStorage.getItem('authToken'),
                     },
-                    method: 'POST',
+                    method: 'GET',
                 });
 
                 if (response.ok) {
