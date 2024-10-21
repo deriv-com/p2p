@@ -10,8 +10,8 @@ const useDatadog = () => {
         if (environment === 'production') {
             return {
                 dataDogEnv: 'production',
-                dataDogSessionReplaySampleRate: Number(process.env.DATADOG_SESSION_REPLAY_SAMPLE_RATE ?? 1),
-                dataDogSessionSampleRate: Number(process.env.DATADOG_SESSION_SAMPLE_RATE ?? 10),
+                dataDogSessionReplaySampleRate: Number(process.env.VITE_DATADOG_SESSION_REPLAY_SAMPLE_RATE ?? 1),
+                dataDogSessionSampleRate: Number(process.env.VITE_DATADOG_SESSION_SAMPLE_RATE ?? 10),
                 dataDogVersion: `deriv-p2p-${process.env.REF_NAME}`,
                 serviceName: 'p2p.deriv.com',
             };
@@ -27,8 +27,8 @@ const useDatadog = () => {
     };
 
     const initialise = () => {
-        const DATADOG_APP_ID = process.env.DATADOG_APPLICATION_ID ?? '';
-        const DATADOG_CLIENT_TOKEN = process.env.DATADOG_CLIENT_TOKEN ?? '';
+        const DATADOG_APP_ID = process.env.VITE_DATADOG_APPLICATION_ID ?? '';
+        const DATADOG_CLIENT_TOKEN = process.env.VITE_DATADOG_CLIENT_TOKEN ?? '';
         const isProduction = process.env.NODE_ENV === 'production';
         const isStaging = process.env.NODE_ENV === 'staging';
 
