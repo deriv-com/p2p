@@ -41,6 +41,10 @@ jobs:
               env:
                 VITE_PROJECT_NAME: ${{ vars.VITE_PROJECT_NAME }}
                 VITE_CROWDIN_BRANCH_NAME: ${{ vars.VITE_CROWDIN_BRANCH_NAME }}
+                VITE_DATADOG_APPLICATION_ID: ${{ vars.VITE_DATADOG_APPLICATION_ID }}
+                VITE_DATADOG_CLIENT_TOKEN: ${{ vars.VITE_DATADOG_CLIENT_TOKEN }}
+                VITE_DATADOG_SESSION_REPLAY_SAMPLE_RATE: ${{ vars.VITE_DATADOG_SESSION_REPLAY_SAMPLE_RATE }}
+                VITE_DATADOG_SESSION_SAMPLE_RATE: ${{ vars.VITE_DATADOG_SESSION_SAMPLE_RATE }}
                 VITE_TRANSLATIONS_CDN_URL: ${{ vars.VITE_TRANSLATIONS_CDN_URL }}
                 VITE_TRACKJS_TOKEN: ${{ vars.VITE_TRACKJS_TOKEN }}
                 VITE_APP_VERSION: ${{ github.ref_name }}
