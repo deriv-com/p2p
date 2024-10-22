@@ -27,6 +27,8 @@ const useDatadog = () => {
     };
 
     const initialise = () => {
+        if (window.DD_RUM) return;
+
         const DATADOG_APP_ID = process.env.VITE_DATADOG_APPLICATION_ID ?? '';
         const DATADOG_CLIENT_TOKEN = process.env.VITE_DATADOG_CLIENT_TOKEN ?? '';
         const isProduction = process.env.NODE_ENV === 'production';
