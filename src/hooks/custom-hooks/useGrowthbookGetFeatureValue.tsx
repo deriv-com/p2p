@@ -20,6 +20,10 @@ const useGrowthbookGetFeatureValue = <T,>({
     const isGBLoaded = useIsGrowthbookIsLoaded();
 
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            window.Analytics = Analytics;
+        }
+
         if (isGBLoaded) {
             if (Analytics?.getInstances()?.ab) {
                 const setFeatureValue = () => {
