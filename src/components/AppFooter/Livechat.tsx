@@ -15,6 +15,8 @@ const Livechat = () => {
     const freshChat = useFreshChat(token);
 
     setInterval(() => {
+        /*  This is for livechat last open state, 
+            once livechat is not loaded when freshchat is enabled then we can remove this */
         if (isFreshChatEnabled) {
             LiveChatWidget?.call('destroy');
         }
