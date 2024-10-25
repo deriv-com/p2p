@@ -10,7 +10,6 @@ const useFreshChat = (token: string | null) => {
         const checkFcWidget = (intervalId: NodeJS.Timeout) => {
             if (typeof window !== 'undefined') {
                 if (window.fcWidget?.isInitialized() == true && !isReady) {
-                    // window.fcWidget?.user.setLocale(language.toLowerCase());
                     setIsReady(true);
                     clearInterval(intervalId);
                 }
@@ -24,7 +23,7 @@ const useFreshChat = (token: string | null) => {
                     token,
                 });
 
-                const intervalId = setInterval(() => checkFcWidget(intervalId), 500);
+                const intervalId: NodeJS.Timeout = setInterval(() => checkFcWidget(intervalId), 500);
 
                 return () => clearInterval(intervalId);
             }
