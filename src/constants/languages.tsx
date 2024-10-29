@@ -20,6 +20,7 @@ import {
     FlagThailandIcon,
     FlagTurkeyIcon,
     FlagUnitedKingdomIcon,
+    FlagUzbekistanIcon,
     FlagVietnamIcon,
 } from '@deriv/quill-icons';
 import { getAllowedLanguages } from '@deriv-com/translations';
@@ -47,6 +48,7 @@ const flagComponents: TFlagComponent = {
     SW: FlagTanzaniaIcon,
     TH: FlagThailandIcon,
     TR: FlagTurkeyIcon,
+    UZ: FlagUzbekistanIcon,
     VI: FlagVietnamIcon,
     ZH_CN: FlagChinaSimplifiedIcon,
     ZH_TW: FlagChinaTraditionalIcon,

@@ -11,7 +11,7 @@ const Notifications = () => {
     const { localize } = useTranslations();
     const { isDesktop, isMobile } = useDevice();
     const { data: activeAccountData } = api.account.useActiveAccount();
-    const { data: notifications, subscribe, unsubscribe } = api.notification.useGetList();
+    const { data: notifications, subscribe } = api.notification.useGetList();
     const { mutate: updateNotification } = api.notification.useUpdate();
     const history = useHistory();
 
@@ -42,10 +42,6 @@ const Notifications = () => {
         if (activeAccountData) {
             subscribe({});
         }
-
-        return () => {
-            unsubscribe();
-        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeAccountData]);
 

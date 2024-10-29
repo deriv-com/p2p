@@ -13,11 +13,11 @@ const AdvertiserNameBadges = ({ advertiserStats }: { advertiserStats: DeepPartia
     const { isAddressVerified, isIdentityVerified, totalOrders } = advertiserStats || {};
     const { localize } = useTranslations();
     const getStatus = (isVerified?: boolean) => (isVerified ? localize('verified') : localize('not verified'));
-    const getVariant = (isVerified?: boolean) => (isVerified ? localize('success') : localize('general'));
+    const getVariant = (isVerified?: boolean) => (isVerified ? 'success' : 'general');
 
     return (
         <div className='advertiser-name-badges' data-testid='dt_advertiser_name_badges'>
-            {(totalOrders || 0) >= 100 && <Badge label='100+' status={localize('trades')} variant='warning' />}
+            {(totalOrders || 0) >= 100 && <Badge status={localize('trades')} tradeCount={totalOrders} />}
             <Badge
                 label={localize('ID')}
                 status={getStatus(isIdentityVerified)}
