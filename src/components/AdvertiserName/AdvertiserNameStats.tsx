@@ -59,6 +59,7 @@ const AdvertiserNameStats = ({ advertiserStats }: { advertiserStats: DeepPartial
                     <div className='border-r-[1px] border-solid border-r-[#ededed]'>
                         <OnlineStatusIcon isOnline={!!isOnline} isRelative size='0.8em' />
                         <OnlineStatusLabel
+                            className='mr-2'
                             isOnline={!!isOnline}
                             lastOnlineTime={lastOnlineTime === null ? undefined : lastOnlineTime}
                         />

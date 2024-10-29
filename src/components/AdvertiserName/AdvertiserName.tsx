@@ -7,21 +7,21 @@ import AdvertiserNameBadges from './AdvertiserNameBadges';
 import AdvertiserNameStats from './AdvertiserNameStats';
 import AdvertiserNameToggle from './AdvertiserNameToggle';
 import BlockDropdown from './BlockDropdown';
+import { FollowUserButton } from './FollowUserButton';
 import './AdvertiserName.scss';
 
 type TAdvertiserNameProps = {
     advertiserStats: DeepPartial<TAdvertiserStats>;
     isSameUser?: boolean;
-    onClickBlocked?: () => void;
 };
 
-const AdvertiserName = ({ advertiserStats, isSameUser, onClickBlocked }: TAdvertiserNameProps) => {
+const AdvertiserName = ({ advertiserStats, isSameUser }: TAdvertiserNameProps) => {
     const { data } = useGetSettings();
     const { isDesktop } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
     const name = advertiserStats?.name || data?.email;
-    const isDropdownVisible = isDesktop && !isMyProfile && !advertiserStats?.is_blocked && !isSameUser;
+    const isDropdownVisible = isDesktop && !advertiserStats?.is_blocked && !isSameUser;
 
     return (
         <div className='advertiser-name' data-testid='dt_advertiser_name'>
@@ -41,7 +41,12 @@ const AdvertiserName = ({ advertiserStats, isSameUser, onClickBlocked }: TAdvert
                 <AdvertiserNameBadges advertiserStats={advertiserStats} />
             </div>
             {isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={advertiserStats} />}
-            {isDropdownVisible && <BlockDropdown id={advertiserStats?.id} onClickBlocked={onClickBlocked} />}
+            {!isMyProfile && (
+                <div className='flex relative'>
+                    {!isSameUser && <FollowUserButton id={advertiserStats?.id} />}
+                    {isDropdownVisible && <BlockDropdown id={advertiserStats?.id} />}
+                </div>
+            )}
         </div>
     );
 };

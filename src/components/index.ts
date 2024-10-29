@@ -16,6 +16,7 @@ export * from './FormProgress';
 export * from './FullPageMobileWrapper';
 export * from './LightDivider';
 export * from './MobileTabs';
+export * from './OnboardingTooltip';
 export * from './OnlineStatus';
 export * from './OutsideBusinessHoursHint';
 export * from './Page404';

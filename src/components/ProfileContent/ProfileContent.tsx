@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 import { TAdvertiserStats } from 'types';
 import { AdvertiserName, AdvertiserNameToggle } from '@/components';
 import { getCurrentRoute } from '@/utils';
@@ -11,30 +11,22 @@ type TProfileContentProps = {
     data: TAdvertiserStats;
     isSameUser?: boolean;
     setAdvertiserName?: (name: string) => void;
-    setShowOverlay?: Dispatch<SetStateAction<boolean>>;
 };
 
-const ProfileContent = ({ data, isSameUser, setAdvertiserName, setShowOverlay }: TProfileContentProps) => {
+const ProfileContent = ({ data, isSameUser, setAdvertiserName }: TProfileContentProps) => {
     const { isDesktop } = useDevice();
     const isMyProfile = getCurrentRoute() === 'my-profile';
 
     useEffect(() => {
-        if (data?.name && setAdvertiserName && setShowOverlay) {
-            if (data?.is_blocked) {
-                setShowOverlay(true);
-            }
+        if (data?.name && setAdvertiserName) {
             setAdvertiserName(data?.name);
         }
-    }, [data?.is_blocked, data?.name, setAdvertiserName, setShowOverlay]);
+    }, [data?.is_blocked, data?.name, setAdvertiserName]);
 
     return (
         <>
             <div className='profile-content'>
-                <AdvertiserName
-                    advertiserStats={data}
-                    isSameUser={isSameUser}
-                    onClickBlocked={() => setShowOverlay?.(true)}
-                />
+                <AdvertiserName advertiserStats={data} isSameUser={isSameUser} />
                 {isMyProfile ? <ProfileBalance advertiserStats={data} /> : <ProfileStats advertiserStats={data} />}
             </div>
             {!isDesktop && isMyProfile && <AdvertiserNameToggle advertiserInfo={data} />}

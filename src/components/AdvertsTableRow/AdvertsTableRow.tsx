@@ -1,4 +1,4 @@
-import { Fragment, memo, useEffect, useState } from 'react';
+import { Fragment, memo, MouseEvent, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
 import { TAdvertsTableRowRenderer, TCurrency } from 'types';
@@ -15,9 +15,9 @@ import {
 } from '@/hooks/custom-hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
-import { LabelPairedChevronRightMdBoldIcon } from '@deriv/quill-icons';
+import { LabelPairedChevronRightMdBoldIcon, StandaloneUserCheckFillIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Button, Text, useDevice } from '@deriv-com/ui';
+import { Button, Text, Tooltip, useDevice } from '@deriv-com/ui';
 import './AdvertsTableRow.scss';
 
 const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
@@ -60,6 +60,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const {
         completed_orders_count: completedOrdersCount,
         id,
+        is_favourite: isFollowing,
         is_online: isOnline,
         name,
         rating_average: ratingAverage,
@@ -147,7 +148,25 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                 <Text size={size} weight={isDesktop ? 400 : 'bold'}>
                                     {name}
                                 </Text>
-                                <Badge tradeCount={completedOrdersCount} />
+                                {!!completedOrdersCount && completedOrdersCount >= 100 && (
+                                    <Badge tradeCount={completedOrdersCount} />
+                                )}
+                                {isFollowing && (
+                                    <Tooltip
+                                        as='button'
+                                        onClick={(event: MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
+                                        tooltipContent={localize('Following')}
+                                    >
+                                        <div className='bg-[#333] p-[0.3rem] mr-2 rounded-lg flex'>
+                                            <StandaloneUserCheckFillIcon
+                                                data-testid='dt_follow_user_icon_buy_sell_row'
+                                                fill='#FFF'
+                                                height={12}
+                                                width={12}
+                                            />
+                                        </div>
+                                    </Tooltip>
+                                )}
                             </div>
                             <div className='flex items-center'>
                                 {hasRating ? (
@@ -186,7 +205,9 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                     </div>
                 )}
                 <Container {...(!isDesktop && { className: 'flex justify-between' })}>
-                    <Container {...(!isDesktop && { className: 'flex flex-col' })}>
+                    <Container
+                        {...(!isDesktop && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}
+                    >
                         {!isDesktop && (
                             <Text
                                 color={isBuySellPage ? 'general' : 'less-prominent'}
