@@ -38,12 +38,7 @@ const Notifications = () => {
         });
     }, [notifications]);
 
-    useEffect(() => {
-        if (activeAccountData) {
-            console.log('>> active account data', activeAccountData);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [activeAccountData]);
+
 
     return (
         <>

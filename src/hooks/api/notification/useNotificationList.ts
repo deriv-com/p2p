@@ -26,6 +26,7 @@ const useNotificationList = () => {
                     headers: {
                         'Content-Type': 'application/json',
                         'token': localStorage.getItem('authToken'),
+
                     },
                     method: 'GET',
                 });
@@ -34,9 +35,11 @@ const useNotificationList = () => {
                     const data = await response.json();
                     setMessages(data); // This is where the notifications are set directly
                 } else {
+                    //@ts-expext-error
                     console.error('Failed to fetch notifications:', response.statusText);
                 }
             } catch (error) {
+                //@ts-expext-error
                 console.error('Error while fetching notifications:', error);
             }
         };
