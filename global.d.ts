@@ -1,5 +1,6 @@
 declare global {
     interface Window {
+        DD_RUM: object | undefined;
         LC_API: {
             on_chat_ended: VoidFunction;
             open_chat_window: VoidFunction;

@@ -22,6 +22,7 @@ const BuySellTable = () => {
         setFilteredCurrency,
         setSortByValue,
         shouldUseClientLimits,
+        showFollowedUsers,
         sortByValue,
     } = useBuySellFiltersStore(
         useShallow(state => ({
@@ -30,6 +31,7 @@ const BuySellTable = () => {
             setFilteredCurrency: state.setFilteredCurrency,
             setSortByValue: state.setSortByValue,
             shouldUseClientLimits: state.shouldUseClientLimits,
+            showFollowedUsers: state.showFollowedUsers,
             sortByValue: state.sortByValue,
         }))
     );
@@ -50,6 +52,7 @@ const BuySellTable = () => {
         {
             advertiser_name: searchValue,
             counterparty_type: activeBuySellTab === ADVERT_TYPE.BUY ? BUY_SELL.BUY : BUY_SELL.SELL,
+            favourites_only: showFollowedUsers ? 1 : 0,
             local_currency: filteredCurrency,
             payment_method: selectedPaymentMethods.length > 0 ? selectedPaymentMethods : undefined,
             sort_by: sortByValue,

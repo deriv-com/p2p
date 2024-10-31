@@ -8,6 +8,7 @@
         top: -4rem;
         z-index: 1;
         height: calc(100vh - 8rem);
+        width: 100%;
     }
 
     @include rtlDir {

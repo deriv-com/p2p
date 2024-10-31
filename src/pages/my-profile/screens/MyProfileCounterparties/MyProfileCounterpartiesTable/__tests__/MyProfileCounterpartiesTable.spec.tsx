@@ -127,4 +127,20 @@ describe('MyProfileCounterpartiesTable', () => {
         expect(mockProps.setShowHeader).toHaveBeenCalledWith(true);
         expect(mockStore.reset).toHaveBeenCalled();
     });
+
+    it('should call reset and setShowHeader on unmount if error code is not TEMPORARY_BAR', () => {
+        // @ts-expect-error - mock values
+        mockStore.errorMessages = [{ code: 'SomeOtherError', message: 'Some Error' }];
+        mockUseGetList.mockReturnValue({
+            ...mockApiValues,
+            data: [{ id: 'id1', is_blocked: false, name: 'name1' }],
+        });
+
+        const { unmount } = render(<MyProfileCounterpartiesTable {...mockProps} />);
+
+        unmount();
+
+        expect(mockProps.setShowHeader).toHaveBeenCalledWith(true);
+        expect(mockStore.reset).toHaveBeenCalled();
+    });
 });
