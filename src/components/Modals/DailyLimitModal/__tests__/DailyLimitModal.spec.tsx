@@ -22,7 +22,7 @@ jest.mock('@/hooks', () => ({
             useUpdate: jest.fn(() => mockUseAdvertiserUpdate),
         },
         notification: {
-            useUpdate: jest.fn(() => ({ mutate: jest.fn() })),
+            useUpdate: jest.fn(() => ({ readAllNotifications: jest.fn() })),
         },
     },
 }));
