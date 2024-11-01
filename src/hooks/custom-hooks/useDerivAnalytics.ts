@@ -25,7 +25,9 @@ const useDerivAnalytics = () => {
                 const remoteConfigURL = process.env.VITE_REMOTE_CONFIG_URL;
                 let services = FIREBASE_INIT_DATA;
                 if (remoteConfigURL) {
-                    services = await fetch(remoteConfigURL).then(res => res.json().catch(() => FIREBASE_INIT_DATA));
+                    services = await fetch(remoteConfigURL)
+                        .then(res => res.json())
+                        .catch(() => FIREBASE_INIT_DATA);
                 }
 
                 const utmDataFromCookie = Cookies.get('utm_data');
@@ -38,7 +40,7 @@ const useDerivAnalytics = () => {
                           utm_source: 'no source',
                       };
 
-                Analytics.initialise({
+                await Analytics?.initialise({
                     growthbookDecryptionKey: services?.marketing_growthbook
                         ? process.env.VITE_GROWTHBOOK_DECRYPTION_KEY
                         : undefined,
@@ -50,7 +52,7 @@ const useDerivAnalytics = () => {
                 });
 
                 await Analytics?.getInstances()?.ab?.GrowthBook?.init();
-                Analytics.setAttributes({
+                Analytics?.setAttributes({
                     account_type: activeAccount?.account_type || 'unlogged',
                     app_id: String(WebSocketUtils.getAppId()),
                     country:
