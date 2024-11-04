@@ -5,7 +5,7 @@ import { PageReturn } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
-import { LocalStorageUtils } from '@deriv-com/utils';
+import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { Awareness } from '../Awareness';
 import { Blog } from '../Blog';
 import { FAQs } from '../FAQs';
@@ -28,7 +28,7 @@ const Guide = () => {
     ];
 
     useEffect(() => {
-        LocalStorageUtils.setValue<boolean>('should_show_p2p_guide', false);
+        LocalStorageUtils.setValue<boolean>(LocalStorageConstants.p2pShowFollowUserGuide, false);
     }, []);
 
     return (

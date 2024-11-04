@@ -5,8 +5,9 @@ import { ERROR_CODES } from '@/constants';
 import { api } from '@/hooks';
 import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
 import { useErrorStore } from '@/stores';
+import { getInvalidIDErrorMessage } from '@/utils';
 import { DerivLightIcBlockedAdvertisersBarredIcon } from '@deriv/quill-icons';
-import { Localize } from '@deriv-com/translations';
+import { Localize, useTranslations } from '@deriv-com/translations';
 import { Loader, Text, useDevice } from '@deriv-com/ui';
 import { MyProfileCounterpartiesEmpty } from '../MyProfileCounterpartiesEmpty';
 import { MyProfileCounterpartiesTableRow } from '../MyProfileCounterpartiesTableRow';
@@ -47,14 +48,19 @@ const MyProfileCounterpartiesTable = ({
         is_blocked: dropdownValue === 'blocked' ? 1 : 0,
         trade_partners: 1,
     });
+    const { localize } = useTranslations();
     const { isDesktop } = useDevice();
     const { errorMessages, reset } = useErrorStore(
         useShallow(state => ({ errorMessages: state.errorMessages, reset: state.reset }))
     );
     const isAdvertiserBarred = useIsAdvertiserBarred();
-    const errorMessage = errorMessages.find(
-        error => error.code === ERROR_CODES.TEMPORARY_BAR || error.code === ERROR_CODES.PERMISSION_DENIED
-    )?.message;
+    const error = errorMessages.find(
+        error =>
+            error.code === ERROR_CODES.TEMPORARY_BAR ||
+            error.code === ERROR_CODES.PERMISSION_DENIED ||
+            error.code === ERROR_CODES.INVALID_ADVERTISER_ID
+    );
+    const errorMessage = getInvalidIDErrorMessage(error, localize);
 
     useEffect(() => {
         if (data.length > 0) {
@@ -71,6 +77,17 @@ const MyProfileCounterpartiesTable = ({
             reset();
         }
     }, [errorMessage, errorMessages, isAdvertiserBarred, reset, setShowHeader]);
+
+    useEffect(() => {
+        // Reset error messages when the component unmounts for non-temporary bar errors
+        return () => {
+            if (errorMessages.some(error => error.code !== ERROR_CODES.TEMPORARY_BAR)) {
+                setShowHeader(true);
+                reset();
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     if (isLoading) {
         return <Loader className='my-profile-counterparties-table__loader' isFullScreen={false} />;

@@ -12,7 +12,9 @@ const usePoiPoaStatus = () => {
         const documentStatus = data?.authentication?.document?.status;
         const identityStatus = data?.authentication?.identity?.status;
         const isP2PPoaRequired = data?.p2p_poa_required;
-        const isPoaAuthenticatedWithIdv = data?.status.includes('poa_authenticated_with_idv');
+        const isPoaAuthenticatedWithIdv =
+            data?.status.includes('poa_authenticated_with_idv') ||
+            data?.status.includes('poa_authenticated_with_idv_photo');
         const isPoaPending = documentStatus === 'pending';
         const isPoaVerified = documentStatus === 'verified';
         const isPoiPending = identityStatus === 'pending';
