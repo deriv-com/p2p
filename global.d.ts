@@ -5,6 +5,7 @@ declare global {
         FreshChat: {
             initialize: (config: FreshChatConfig) => void;
         };
+        GrowthbookFeatures: { [key: string]: boolean };
         LC_API: {
             on_chat_ended: VoidFunction;
             open_chat_window: VoidFunction;
@@ -21,6 +22,7 @@ declare global {
             [key: string]: unknown;
         };
         fcWidget: {
+            close: VoidFunction;
             hide: VoidFunction;
             isInitialized: () => boolean;
             isLoaded: () => boolean;

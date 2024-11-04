@@ -1,5 +1,6 @@
 import { useGrowthbookGetFeatureValue, useLiveChat } from '@/hooks/custom-hooks';
 import useFreshChat from '@/hooks/custom-hooks/useFreshchat';
+import Chat from '@/utils/chat';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Tooltip } from '@deriv-com/ui';
@@ -27,11 +28,7 @@ const Livechat = () => {
     }
 
     const showChat = () => {
-        if (isFreshChatEnabled) {
-            window?.fcWidget?.open();
-        } else {
-            LiveChatWidget.call('maximize');
-        }
+        Chat.open();
     };
 
     return (
