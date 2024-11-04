@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 import { TCurrency } from 'types';
 import { ERROR_CODES } from '@/constants';
-import { useLiveChat } from '@/hooks';
+import Chat from '@/utils/chat';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdVisibilityErrorModal.scss';
@@ -84,12 +84,11 @@ const AdVisibilityErrorModal = ({
     onRequestClose,
 }: TAdVisibilityErrorModalProps) => {
     const { localize } = useTranslations();
-    const { LiveChatWidget } = useLiveChat();
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
 
     const onLiveChatClick = () => {
-        LiveChatWidget.call('maximize');
+        Chat.open();
     };
 
     return (

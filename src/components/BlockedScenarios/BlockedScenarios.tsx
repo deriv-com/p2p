@@ -1,4 +1,4 @@
-import { useLiveChat } from '@/hooks';
+import Chat from '@/utils/chat';
 import {
     DerivLightIcCashierBlockedIcon,
     DerivLightIcCashierLockedIcon,
@@ -20,7 +20,6 @@ type TBlockedScenariosObject = {
 
 const BlockedScenarios = ({ type }: { type: string }) => {
     const { isMobile } = useDevice();
-    const { LiveChatWidget } = useLiveChat();
 
     const buttonTextSize = isMobile ? 'md' : 'sm';
     const iconSize = isMobile ? 96 : 128;
@@ -31,7 +30,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     };
 
     const openLiveChat = () => {
-        LiveChatWidget.call('maximize');
+        Chat.open();
     };
 
     const blockedScenarios: TBlockedScenariosObject = {
