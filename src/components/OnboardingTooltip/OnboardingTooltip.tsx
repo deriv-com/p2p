@@ -28,7 +28,6 @@ const OnboardingTooltip = ({
     title,
 }: TOnboardingTooltipProps) => {
     const [isOnboardingTooltipVisible, setIsOnboardingTooltipVisible] = useState<boolean>(
-        // @ts-expect-error - localStorageItemName is a string and TLocalStorageKeys is not exported
         LocalStorageUtils.getValue(localStorageItemName) ?? true
     );
 
@@ -45,7 +44,6 @@ const OnboardingTooltip = ({
     });
 
     useEffect(() => {
-        // @ts-expect-error - localStorageItemName is a string and TLocalStorageKeys is not exported
         LocalStorageUtils.setValue<boolean>(localStorageItemName, false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
