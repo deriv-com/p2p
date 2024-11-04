@@ -1,7 +1,7 @@
 import Chat from '../chat';
 import getFeatureFlag from '../get-featureflag';
 
-jest.mock('../getFeatureFlag');
+jest.mock('../get-featureflag');
 
 describe('Chat Utility', () => {
     beforeEach(() => {
