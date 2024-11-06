@@ -1,24 +1,26 @@
-import { useMutation } from '@deriv-com/api-hooks';
-
 /**
  * Hook that updates the status of a notification. The notification can be removed or marked as read or unread.
  *
- * @example
- * const { data, mutate } = useNotificationUpdate();
- * mutate({ notifications_update_status: 'read', ids: [notification_id]});
- * mutate({ notifications_update_status: 'unread', ids: [notification_id]});
- * mutate({ notifications_update_status: 'remove', ids: []});
  */
 const useNotificationUpdate = () => {
-    const { data, ...rest } = useMutation({
-        // @ts-expect-error Type undefined. This endpoint will be added to api-hooks.
-        name: 'notifications_update_status',
-    });
-
+    const readAllNotifications = async () => {
+        try {
+            await fetch('https://fs191x.buildship.run/v4/notification/read', {
+                body: JSON.stringify({
+                    authorize: localStorage.getItem('authToken'),
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST',
+            });
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error);
+        }
+    };
     return {
-        // @ts-expect-error Type undefined.
-        data: data?.notifications_update_status,
-        ...rest,
+        readAllNotifications,
     };
 };
 
