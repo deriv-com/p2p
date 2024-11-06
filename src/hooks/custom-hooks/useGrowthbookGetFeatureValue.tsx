@@ -1,41 +1,36 @@
 import { useEffect, useState } from 'react';
+import getFeatureFlag from '@/utils/get-featureflag';
 import { Analytics } from '@deriv-com/analytics';
-import useIsGrowthbookIsLoaded from './useIsGrowthbookLoaded';
 
-type featureValueTypes = Record<string, boolean> | boolean | string | [];
-
-interface UseGrowthbookGetFeatureValueArgs {
-    defaultValue?: featureValueTypes;
+interface UseGrowthbookGetFeatureValueArgs<T> {
+    defaultValue?: T;
     featureFlag: string;
 }
 
-const useGrowthbookGetFeatureValue = <T,>({
+const useGrowthbookGetFeatureValue = <T extends boolean | string>({
     defaultValue,
     featureFlag,
-}: UseGrowthbookGetFeatureValueArgs): [T, boolean] => {
-    const resolvedDefaultValue: featureValueTypes = defaultValue !== undefined ? defaultValue : false;
-    const [featureFlagValue, setFeatureFlagValue] = useState<T>(
-        (Analytics?.getFeatureValue(featureFlag, resolvedDefaultValue) ?? resolvedDefaultValue) as T
-    );
-    const isGBLoaded = useIsGrowthbookIsLoaded();
+}: UseGrowthbookGetFeatureValueArgs<T>) => {
+    const resolvedDefaultValue: T = defaultValue !== undefined ? defaultValue : (false as T);
+    const [featureFlagValue, setFeatureFlagValue] = useState<boolean>(false);
+    const [isGBLoaded, setIsGBLoaded] = useState(false);
+
+    // Required for debugging Growthbook, this will be removed after this is added in the Analytics directly.
+    if (typeof window !== 'undefined') {
+        window.Analytics = Analytics;
+    }
 
     useEffect(() => {
-        if (isGBLoaded) {
-            if (Analytics?.getInstances()?.ab) {
-                const setFeatureValue = () => {
-                    const value = Analytics?.getFeatureValue(featureFlag, resolvedDefaultValue) as T;
-                    setFeatureFlagValue(value);
-                };
-                setFeatureValue();
-                Analytics?.getInstances()?.ab?.GrowthBook?.setRenderer(() => {
-                    // this will be called whenever the feature flag value changes and acts as a event listener
-                    setFeatureValue();
-                });
-            }
-        }
-    }, [isGBLoaded, resolvedDefaultValue, featureFlag]);
+        const fetchFeatureFlag = async () => {
+            const isEnabled = await getFeatureFlag(featureFlag, resolvedDefaultValue);
+            setFeatureFlagValue(isEnabled);
+            setIsGBLoaded(true);
+        };
 
-    return [featureFlagValue as T, isGBLoaded];
+        fetchFeatureFlag();
+    }, []);
+
+    return [featureFlagValue, isGBLoaded];
 };
 
 export default useGrowthbookGetFeatureValue;

@@ -1,6 +1,8 @@
 import { ComponentProps, ReactNode } from 'react';
 import { ACCOUNT_LIMITS, HELP_CENTRE, RESPONSIBLE } from '@/constants';
-import { useLiveChat, useOAuth } from '@/hooks/custom-hooks';
+import { useOAuth } from '@/hooks/custom-hooks';
+import useFreshChat from '@/hooks/custom-hooks/useFreshchat';
+import Chat from '@/utils/chat';
 import {
     BrandDerivLogoCoralIcon,
     IconTypes,
@@ -36,7 +38,9 @@ type TMenuConfig = {
 export const MobileMenuConfig = () => {
     const { localize } = useTranslations();
     const { oAuthLogout } = useOAuth();
-    const { LiveChatWidget } = useLiveChat();
+
+    const token = localStorage.getItem('authToken') || null;
+    useFreshChat(token);
 
     const menuConfig: TMenuConfig[] = [
         [
@@ -115,7 +119,7 @@ export const MobileMenuConfig = () => {
                 label: localize('Live chat'),
                 LeftComponent: LegacyLiveChatOutlineIcon,
                 onClick: () => {
-                    LiveChatWidget.call('maximize');
+                    Chat.open();
                 },
             },
         ],

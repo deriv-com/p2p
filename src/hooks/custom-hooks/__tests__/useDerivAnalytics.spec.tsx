@@ -14,7 +14,7 @@ jest.mock('@/hooks', () => ({
     api: {
         account: {
             useActiveAccount: jest.fn(() => ({
-                data: { currency: 'USD' },
+                data: { account_type: 'test_account_type', currency: 'USD' },
             })),
             useBalance: jest.fn().mockReturnValue({ data: {} }),
         },
@@ -39,7 +39,6 @@ jest.mock('@deriv-com/analytics', () => ({
             tracking: { has_initialized: false },
         }),
         initialise: jest.fn(),
-        setAttributes: jest.fn(),
     },
 }));
 
@@ -68,6 +67,7 @@ describe('useDerivAnalytics', () => {
         process.env.VITE_RUDDERSTACK_KEY = 'test_rudderstack_key';
         process.env.VITE_REMOTE_CONFIG_URL = 'test_remote_config_url';
     });
+
     afterEach(async () => {
         jest.resetAllMocks();
         if (await global.fetch) {
@@ -75,7 +75,7 @@ describe('useDerivAnalytics', () => {
         }
     });
 
-    it('should initialize analytics with correct attributes', async () => {
+    it('should initialize analytics with correct config', async () => {
         global.fetch = jest.fn().mockResolvedValue({
             json: jest.fn().mockResolvedValue({
                 marketing_growthbook: true,
@@ -84,14 +84,11 @@ describe('useDerivAnalytics', () => {
         } as unknown as Response);
 
         (mockUseActiveAccount as jest.Mock).mockReturnValueOnce({
-            ...mockUseActiveAccount,
+            data: { account_type: 'test_account_type' },
         });
 
         (mockedUseDevice as jest.Mock).mockImplementation(() => ({
-            isDesktop: false,
             isMobile: true,
-            isTablet: false,
-            isTabletPortrait: false,
         }));
 
         const { result } = renderHook(() => useDerivAnalytics());
@@ -100,29 +97,29 @@ describe('useDerivAnalytics', () => {
             await result.current.initialise();
         });
 
-        expect(Analytics.initialise).toHaveBeenCalledWith({
+        const expectedConfig = {
             growthbookDecryptionKey: process.env.VITE_GROWTHBOOK_DECRYPTION_KEY,
             growthbookKey: process.env.VITE_GROWTHBOOK_CLIENT_KEY,
             growthbookOptions: {
+                attributes: {
+                    account_type: 'unlogged',
+                    app_id: '36300',
+                    country: '',
+                    device_language: 'en-US',
+                    device_type: 'mobile',
+                    domain: 'production',
+                    url: undefined,
+                    user_language: 'en',
+                    utm_campaign: 'campaign',
+                    utm_content: 'content',
+                    utm_medium: 'medium',
+                    utm_source: 'source',
+                },
                 disableCache: true,
             },
             rudderstackKey: process.env.VITE_RUDDERSTACK_KEY || '',
-        });
+        };
 
-        expect(Analytics.setAttributes).toHaveBeenCalledWith({
-            account_type: 'unlogged',
-            app_id: expect.any(String),
-            country: undefined,
-            device_language: expect.any(String),
-            device_type: 'mobile',
-            domain: expect.any(String),
-            user_language: 'en',
-            utm_campaign: 'campaign',
-            utm_content: 'content',
-            utm_medium: 'medium',
-            utm_source: 'source',
-        });
-
-        expect(Analytics.getInstances().ab.GrowthBook.init).toHaveBeenCalled();
+        expect(Analytics.initialise).toHaveBeenCalledWith(expectedConfig);
     });
 });
