@@ -61,12 +61,10 @@ describe('<BuySellPaymentSection />', () => {
         render(<BuySellPaymentSection {...mockProps} />);
         expect(screen.getByText('Receive payment to')).toBeInTheDocument();
     });
-    it('should render the payment method cards when there are available payment methods', async () => {
-        render(<BuySellPaymentSection {...mockProps} availablePaymentMethods={[mockAvailablePaymentMethods]} />);
+    it('should render the payment method cards when there are advertiser payment methods', async () => {
+        render(<BuySellPaymentSection {...mockProps} advertiserPaymentMethods={[mockAvailablePaymentMethods]} />);
         expect(screen.getByText('Receive payment to')).toBeInTheDocument();
-        expect(
-            screen.getByText('To place an order, add one of the advertiser’s preferred payment methods:')
-        ).toBeInTheDocument();
+        expect(screen.getByText('You may choose up to 3.')).toBeInTheDocument();
         expect(screen.getByText('Other')).toBeInTheDocument();
         const checkbox = screen.getByRole('checkbox');
         await userEvent.click(checkbox);

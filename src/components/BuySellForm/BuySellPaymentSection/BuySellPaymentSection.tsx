@@ -26,7 +26,8 @@ const BuySellPaymentSection = ({
     setIsHidden,
 }: TBuySellPaymentSectionProps) => {
     const { isDesktop } = useDevice();
-    const sortedList = sortPaymentMethodsWithAvailability(availablePaymentMethods);
+    const sortedList = sortPaymentMethodsWithAvailability(availablePaymentMethods).filter(p => !p.isAvailable);
+    const disableAdvertiserPaymentMethods = selectedPaymentMethodIds.length === 3;
     const { localize } = useTranslations();
 
     const [formState, dispatch] = useReducer(
@@ -67,6 +68,20 @@ const BuySellPaymentSection = ({
                     )}
                 </Text>
                 <div className='flex gap-[0.8rem] flex-wrap'>
+                    {advertiserPaymentMethods?.map((paymentMethod, index) => {
+                        const isSelected = selectedPaymentMethodIds.includes(Number(paymentMethod.id));
+
+                        return (
+                            <PaymentMethodCard
+                                isDisabled={isDisabled || (disableAdvertiserPaymentMethods && !isSelected)}
+                                key={index}
+                                medium
+                                onSelectPaymentMethodCard={onSelectPaymentMethodCard}
+                                paymentMethod={paymentMethod}
+                                selectedPaymentMethodIds={selectedPaymentMethodIds}
+                            />
+                        );
+                    })}
                     {sortedList?.map((paymentMethod, index) => (
                         <PaymentMethodCard
                             isDisabled={isDisabled}
