@@ -47,7 +47,7 @@ const useDerivAnalytics = () => {
                         attributes: {
                             account_type: activeAccount?.account_type || 'unlogged',
                             app_id: String(WebSocketUtils.getAppId()),
-                            country: `${await CountryUtils.getCountry()}`,
+                            country: await CountryUtils.getCountry(),
                             device_language: navigator?.language || 'en-EN',
                             device_type: isMobile ? 'mobile' : 'desktop',
                             domain: window.location.hostname,
