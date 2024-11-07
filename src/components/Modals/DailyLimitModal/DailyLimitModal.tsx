@@ -12,7 +12,7 @@ type TDailyLimitModalProps = {
 
 const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitModalProps) => {
     const { data, error, isPending: isLoading, isSuccess, mutate } = api.advertiser.useUpdate();
-    const { readAllNotifications } = api.notification.useUpdate();
+    const { mutate: updateNotification } = api.notification.useUpdate();
     const { daily_buy_limit: dailyBuyLimit, daily_sell_limit: dailySellLimit } = data ?? {};
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
@@ -40,7 +40,7 @@ const DailyLimitModal = ({ currency, isModalOpen, onRequestClose }: TDailyLimitM
                             mutate({ upgrade_limits: 1 });
 
                             //TODO: Remove this once implemented in BE
-                            readAllNotifications();
+                            updateNotification({ ids: [], notifications_update_status: 'remove' });
                         }}
                         size='lg'
                         textSize={textSize}
