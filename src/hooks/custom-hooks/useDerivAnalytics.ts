@@ -1,10 +1,9 @@
 import Cookies from 'js-cookie';
 import { FIREBASE_INIT_DATA } from '@/constants';
-import getCountry from '@/utils/get-country';
 import { Analytics } from '@deriv-com/analytics';
 import { useWebsiteStatus } from '@deriv-com/api-hooks';
 import { useDevice } from '@deriv-com/ui';
-import { LocalStorageConstants, LocalStorageUtils, WebSocketUtils } from '@deriv-com/utils';
+import { CountryUtils, LocalStorageConstants, LocalStorageUtils, WebSocketUtils } from '@deriv-com/utils';
 import { useActiveAccount } from '../api/account';
 
 /**
@@ -48,7 +47,7 @@ const useDerivAnalytics = () => {
                         attributes: {
                             account_type: activeAccount?.account_type || 'unlogged',
                             app_id: String(WebSocketUtils.getAppId()),
-                            country: await getCountry(),
+                            country: await CountryUtils.getCountry(),
                             device_language: navigator?.language || 'en-EN',
                             device_type: isMobile ? 'mobile' : 'desktop',
                             domain: window.location.hostname,
