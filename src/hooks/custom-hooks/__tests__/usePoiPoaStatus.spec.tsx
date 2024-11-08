@@ -23,6 +23,12 @@ jest.mock('@deriv-com/api-hooks', () => ({
     }),
 }));
 
+jest.mock('../../api', () => ({
+    settings: {
+        useSettings: jest.fn(() => ({ data: { poa_required: 1 } })),
+    },
+}));
+
 const mockValues = {
     dataUpdatedAt: 0,
     error: null,
