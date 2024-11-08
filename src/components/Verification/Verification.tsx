@@ -38,6 +38,12 @@ const getPoaAction = (
     }
 };
 
+const getStatus = (status: string | undefined) => {
+    if (status === 'verified') return 'done';
+    else if (status === 'rejected') return 'rejected';
+    return 'action';
+};
+
 const Verification = () => {
     const { isMobile } = useDevice();
     const { localize } = useTranslations();
@@ -76,6 +82,7 @@ const Verification = () => {
             },
             phoneNumber: isPhoneNumberVerified ? phoneNumber : undefined,
             status: isPhoneNumberVerified ? 'done' : 'action',
+            testId: 'dt_verification_phone_number_arrow_button',
             text: isPhoneNumberVerified ? localize('Phone number verified') : localize('Your phone number'),
         },
         {
@@ -84,7 +91,7 @@ const Verification = () => {
                 if (!isPoiVerified)
                     redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-identity`);
             },
-            status: isPoiVerified ? 'done' : 'action',
+            status: getStatus(poiStatus),
             testId: 'dt_verification_poi_arrow_button',
             text: getPoiAction(poiStatus, localize),
         },
@@ -96,7 +103,7 @@ const Verification = () => {
                           if (allowPoaRedirection)
                               redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-address`);
                       },
-                      status: allowPoaRedirection ? 'action' : 'done',
+                      status: getStatus(poaStatus),
                       testId: 'dt_verification_poa_arrow_button',
                       text: getPoaAction(isPoaAuthenticatedWithIdv, poaStatus, localize),
                   },

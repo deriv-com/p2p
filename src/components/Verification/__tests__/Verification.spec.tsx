@@ -1,10 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Verification from '../Verification';
 
 let mockUsePoiPoaStatusData = {
     data: {
         isP2PPoaRequired: 1,
+        isPoaAuthenticatedWithIdv: false,
         isPoaPending: false,
         isPoaVerified: false,
         isPoiPending: false,
@@ -15,8 +15,14 @@ let mockUsePoiPoaStatusData = {
     isLoading: true,
 };
 
+let mockUseGetPhoneNumberVerificationData = {
+    isPhoneNumberVerified: false,
+    phoneNumber: '1234567890',
+};
+
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
+    useGetPhoneNumberVerification: jest.fn(() => mockUseGetPhoneNumberVerificationData),
     usePoiPoaStatus: jest.fn(() => mockUsePoiPoaStatusData),
 }));
 
@@ -49,17 +55,15 @@ describe('<Verification />', () => {
 
         render(<Verification />);
 
-        expect(screen.getByText('Verify your P2P account')).toBeInTheDocument();
-        expect(screen.getByText('Verify your identity and address to use Deriv P2P.')).toBeInTheDocument();
-        expect(screen.getByText('Upload documents to verify your identity.')).toBeInTheDocument();
-        expect(screen.getByText('Upload documents to verify your address.')).toBeInTheDocument();
+        expect(screen.getByText('Let’s get you secured')).toBeInTheDocument();
+        expect(screen.getByText('Complete your P2P profile to enjoy secure transactions.')).toBeInTheDocument();
+        expect(screen.getByText('Your phone number')).toBeInTheDocument();
+        expect(screen.getByText('Your identity')).toBeInTheDocument();
+        expect(screen.getByText('Your address')).toBeInTheDocument();
     });
 
-    it('should redirect user to proof-of-identity route if user clicks on arrow button', async () => {
-        mockUsePoiPoaStatusData = {
-            ...mockUsePoiPoaStatusData,
-            isLoading: false,
-        };
+    it('should redirect user to account/personal-details route if user clicks on phone number arrow button', () => {
+        render(<Verification />);
 
         Object.defineProperty(window, 'location', {
             value: {
@@ -68,19 +72,33 @@ describe('<Verification />', () => {
             writable: true,
         });
 
+        const phoneNumberButton = screen.getByTestId('dt_verification_phone_number_arrow_button');
+        expect(phoneNumberButton).toBeInTheDocument();
+
+        fireEvent.click(phoneNumberButton);
+
+        expect(window.location.href).toBe('https://app.deriv.com/account/personal-details');
+    });
+
+    it('should redirect user to proof-of-identity route if user clicks on arrow button', () => {
+        mockUsePoiPoaStatusData = {
+            ...mockUsePoiPoaStatusData,
+            isLoading: false,
+        };
+
         render(<Verification />);
 
         const poiButton = screen.getByTestId('dt_verification_poi_arrow_button');
         expect(poiButton).toBeInTheDocument();
 
-        await userEvent.click(poiButton);
+        fireEvent.click(poiButton);
 
         expect(window.location.href).toBe(
             'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p&platform=p2p-v2'
         );
     });
 
-    it('should redirect user to proof-of-address route if user clicks on arrow button', async () => {
+    it('should redirect user to proof-of-address route if user clicks on arrow button', () => {
         mockUsePoiPoaStatusData = {
             ...mockUsePoiPoaStatusData,
             isLoading: false,
@@ -91,7 +109,7 @@ describe('<Verification />', () => {
         const poaButton = screen.getByTestId('dt_verification_poa_arrow_button');
         expect(poaButton).toBeInTheDocument();
 
-        await userEvent.click(poaButton);
+        fireEvent.click(poaButton);
 
         expect(window.location.href).toBe(
             'https://app.deriv.com/account/proof-of-address?ext_platform_url=/cashier/p2p&platform=p2p-v2'
@@ -104,15 +122,17 @@ describe('<Verification />', () => {
             isLoading: false,
         };
 
+        window.location.search = 'param1=value1&param2=value2';
+
         render(<Verification />);
 
         const poiButton = screen.getByTestId('dt_verification_poi_arrow_button');
         expect(poiButton).toBeInTheDocument();
 
-        await userEvent.click(poiButton);
+        fireEvent.click(poiButton);
 
         expect(window.location.href).toBe(
-            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p&platform=p2p-v2'
+            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p&platform=p2p-v2&param1=value1&param2=value2'
         );
     });
 
@@ -131,8 +151,8 @@ describe('<Verification />', () => {
 
         render(<Verification />);
 
-        const poaButton = screen.getAllByRole('button')[0];
-        const poiButton = screen.getAllByRole('button')[1];
+        const poaButton = screen.getAllByRole('button')[1];
+        const poiButton = screen.getAllByRole('button')[2];
 
         expect(screen.getByText('Identity verification in progress.')).toBeInTheDocument();
         expect(screen.getByText('Address verification in progress.')).toBeInTheDocument();
@@ -145,6 +165,8 @@ describe('<Verification />', () => {
             ...mockUsePoiPoaStatusData,
             data: {
                 ...mockUsePoiPoaStatusData.data,
+                isPoaPending: false,
+                isPoiPending: false,
                 poaStatus: 'rejected',
                 poiStatus: 'rejected',
             },
@@ -155,6 +177,18 @@ describe('<Verification />', () => {
 
         expect(screen.getByText('Identity verification failed. Please try again.')).toBeInTheDocument();
         expect(screen.getByText('Address verification failed. Please try again.')).toBeInTheDocument();
+    });
+
+    it('should show verified message and phone number if phone number is verified', () => {
+        mockUseGetPhoneNumberVerificationData = {
+            ...mockUseGetPhoneNumberVerificationData,
+            isPhoneNumberVerified: true,
+        };
+
+        render(<Verification />);
+
+        expect(screen.getByText('Phone number verified')).toBeInTheDocument();
+        expect(screen.getByText('1234567890')).toBeInTheDocument();
     });
 
     it('should show verified message if poi/poa status is verified', () => {
@@ -170,7 +204,18 @@ describe('<Verification />', () => {
 
         render(<Verification />);
 
-        expect(screen.getByText('Identity verification complete.')).toBeInTheDocument();
-        expect(screen.getByText('Address verification complete.')).toBeInTheDocument();
+        expect(screen.getByText('Identity verified')).toBeInTheDocument();
+        expect(screen.getByText('Address verified')).toBeInTheDocument();
+    });
+
+    it('should should prompt user to upload documents if isPoaAuthenticatedWithIdv is true', () => {
+        mockUsePoiPoaStatusData = {
+            ...mockUsePoiPoaStatusData,
+            data: { ...mockUsePoiPoaStatusData.data, isPoaAuthenticatedWithIdv: true },
+        };
+
+        render(<Verification />);
+
+        expect(screen.getByText('Upload documents to verify your address.')).toBeInTheDocument();
     });
 });
