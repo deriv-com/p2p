@@ -16,6 +16,7 @@ let mockUsePoiPoaStatusData = {
 };
 
 let mockUseGetPhoneNumberVerificationData = {
+    isPhoneNumberVerificationEnabled: false,
     isPhoneNumberVerified: false,
     phoneNumber: '1234567890',
 };
@@ -47,10 +48,19 @@ describe('<Verification />', () => {
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });
 
-    it('should ask user to upload their documents if isLoading is false and poi/poa status is none', () => {
+    it('should not show phone number verification if isPhoneNumberVerificationEnabled is false', () => {
+        render(<Verification />);
+        expect(screen.queryByText('Your phone number')).not.toBeInTheDocument();
+    });
+
+    it('should ask user to upload their documents and add their phone number if isLoading is false and poi/poa status is none and isPhoneNumberVerificationEnabled is true', () => {
         mockUsePoiPoaStatusData = {
             ...mockUsePoiPoaStatusData,
             isLoading: false,
+        };
+        mockUseGetPhoneNumberVerificationData = {
+            ...mockUseGetPhoneNumberVerificationData,
+            isPhoneNumberVerificationEnabled: true,
         };
 
         render(<Verification />);

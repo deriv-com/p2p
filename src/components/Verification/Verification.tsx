@@ -47,7 +47,7 @@ const getStatus = (status: string | undefined) => {
 const Verification = () => {
     const { isMobile } = useDevice();
     const { localize } = useTranslations();
-    const { isPhoneNumberVerified, phoneNumber } = useGetPhoneNumberVerification();
+    const { isPhoneNumberVerificationEnabled, isPhoneNumberVerified, phoneNumber } = useGetPhoneNumberVerification();
     const { data, isLoading } = usePoiPoaStatus();
     const {
         isP2PPoaRequired,
@@ -76,15 +76,19 @@ const Verification = () => {
     };
 
     const checklistItems = [
-        {
-            onClick: () => {
-                window.location.href = `${URLConstants.derivAppProduction}/account/personal-details`;
-            },
-            phoneNumber: isPhoneNumberVerified ? phoneNumber : undefined,
-            status: isPhoneNumberVerified ? 'done' : 'action',
-            testId: 'dt_verification_phone_number_arrow_button',
-            text: isPhoneNumberVerified ? localize('Phone number verified') : localize('Your phone number'),
-        },
+        ...(isPhoneNumberVerificationEnabled
+            ? [
+                  {
+                      onClick: () => {
+                          window.location.href = `${URLConstants.derivAppProduction}/account/personal-details`;
+                      },
+                      phoneNumber: isPhoneNumberVerified ? phoneNumber : undefined,
+                      status: isPhoneNumberVerified ? 'done' : 'action',
+                      testId: 'dt_verification_phone_number_arrow_button',
+                      text: isPhoneNumberVerified ? localize('Phone number verified') : localize('Your phone number'),
+                  },
+              ]
+            : []),
         {
             isDisabled: isPoiPending,
             onClick: () => {
