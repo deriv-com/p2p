@@ -1,6 +1,6 @@
 import { TLocalize } from 'types';
 import { Checklist } from '@/components';
-import { usePoiPoaStatus } from '@/hooks/custom-hooks';
+import { useGetPhoneNumberVerification, usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { DerivLightIcCashierSendEmailIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Loader, Text, useDevice } from '@deriv-com/ui';
@@ -14,9 +14,9 @@ const getPoiAction = (status: string | undefined, localize: TLocalize) => {
         case 'rejected':
             return localize('Identity verification failed. Please try again.');
         case 'verified':
-            return localize('Identity verification complete.');
+            return localize('Identity verified');
         default:
-            return localize('Upload documents to verify your identity.');
+            return localize('Your identity');
     }
 };
 
@@ -32,15 +32,16 @@ const getPoaAction = (
             return localize('Address verification failed. Please try again.');
         case 'verified':
             if (isPoaAuthenticatedWithIdv) return localize('Upload documents to verify your address.');
-            return localize('Address verification complete.');
+            return localize('Address verified');
         default:
-            return localize('Upload documents to verify your address.');
+            return localize('Your address');
     }
 };
 
 const Verification = () => {
     const { isMobile } = useDevice();
     const { localize } = useTranslations();
+    const { isPhoneNumberVerified, phoneNumber } = useGetPhoneNumberVerification();
     const { data, isLoading } = usePoiPoaStatus();
     const {
         isP2PPoaRequired,
@@ -69,6 +70,14 @@ const Verification = () => {
     };
 
     const checklistItems = [
+        {
+            onClick: () => {
+                window.location.href = `${URLConstants.derivAppProduction}/account/personal-details`;
+            },
+            phoneNumber: isPhoneNumberVerified ? phoneNumber : undefined,
+            status: isPhoneNumberVerified ? 'done' : 'action',
+            text: isPhoneNumberVerified ? localize('Phone number verified') : localize('Your phone number'),
+        },
         {
             isDisabled: isPoiPending,
             onClick: () => {
@@ -101,10 +110,10 @@ const Verification = () => {
         <div className='verification'>
             <DerivLightIcCashierSendEmailIcon className='verification__icon' height={128} width={128} />
             <Text className='verification__text' size={isMobile ? 'lg' : 'md'} weight='bold'>
-                <Localize i18n_default_text='Verify your P2P account' />
+                <Localize i18n_default_text='Let’s get you secured' />
             </Text>
             <Text align='center' className='verification__text' size={isMobile ? 'lg' : 'sm'}>
-                <Localize i18n_default_text='Verify your identity and address to use Deriv P2P.' />
+                <Localize i18n_default_text='Complete your P2P profile to enjoy secure transactions.' />
             </Text>
             <Checklist items={checklistItems} />
         </div>

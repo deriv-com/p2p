@@ -8,6 +8,7 @@ export { default as useFetchMore } from './useFetchMore';
 export { default as useFloatingRate } from './useFloatingRate';
 export { default as useFullScreen } from './useFullScreen';
 export { default as useGetBusinessHours } from './useGetBusinessHours.tsx';
+export { default as useGetPhoneNumberVerification } from './useGetPhoneNumberVerification';
 export { default as useGrowthbookGetFeatureValue } from './useGrowthbookGetFeatureValue';
 export { default as useHandleRouteChange } from './useHandleRouteChange';
 export { default as useIsAdvertiser } from './useIsAdvertiser';

@@ -91,7 +91,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
 
     const redirectToVerification = () => {
         const searchParams = new URLSearchParams(location.search);
-        searchParams.set('poi_poa_verified', 'false');
+        searchParams.set('verified', 'false');
         history.replace({
             pathname: location.pathname,
             search: searchParams.toString(),

@@ -246,7 +246,7 @@ describe('<BuySellTable />', () => {
 
         expect(mockUseHistory.replace).toHaveBeenCalledWith({
             pathname: '/buy-sell',
-            search: 'poi_poa_verified=false',
+            search: 'verified=false',
         });
     });
 
