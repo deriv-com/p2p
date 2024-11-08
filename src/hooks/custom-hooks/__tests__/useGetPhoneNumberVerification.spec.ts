@@ -23,10 +23,11 @@ jest.mock('../../api', () => ({
 }));
 
 describe('useGetPhoneNumberVerification', () => {
-    it('should return isPhoneNumberVerificationEnabled false, the phone number and false if the phone number is not verified', () => {
+    it('should return isPhoneNumberVerificationEnabled false, shouldShowVerification false, the phone number and false if the phone number is not verified', () => {
         const { result } = renderHook(() => useGetPhoneNumberVerification());
 
         expect(result.current.isPhoneNumberVerificationEnabled).toBe(false);
+        expect(result.current.shouldShowVerification).toBe(false);
         expect(result.current.isPhoneNumberVerified).toBe(false);
         expect(result.current.phoneNumber).toBe('1234567890');
     });
@@ -39,5 +40,13 @@ describe('useGetPhoneNumberVerification', () => {
         expect(result.current.isPhoneNumberVerificationEnabled).toBe(true);
         expect(result.current.isPhoneNumberVerified).toBe(true);
         expect(result.current.phoneNumber).toBe('1234567890');
+    });
+
+    it('should return shouldShowVerification true if the phone number is not verified and pnv_required is true', () => {
+        mockSettings.phone_number_verification.verified = 0;
+        mockP2PSettings.pnv_required = 1;
+        const { result } = renderHook(() => useGetPhoneNumberVerification());
+
+        expect(result.current.shouldShowVerification).toBe(true);
     });
 });

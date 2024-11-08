@@ -107,7 +107,7 @@ describe('usePoiPoaStatus', () => {
         const { result } = renderHook(() => usePoiPoaStatus());
 
         expect(result.current.data).toStrictEqual({
-            isP2PPoaRequired: 0,
+            isP2PPoaRequired: true,
             isPoaAuthenticatedWithIdv: false,
             isPoaPending: false,
             isPoaVerified: true,

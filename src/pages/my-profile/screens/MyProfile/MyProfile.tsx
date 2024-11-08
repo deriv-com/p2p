@@ -3,6 +3,7 @@ import { ProfileContent, Verification } from '@/components';
 import { NicknameModal } from '@/components/Modals';
 import {
     useAdvertiserStats,
+    useGetPhoneNumberVerification,
     useIsAdvertiser,
     useModalManager,
     usePoiPoaStatus,
@@ -27,6 +28,7 @@ const MyProfile = () => {
     const { data } = usePoiPoaStatus();
     const { data: advertiserStats, isLoading } = useAdvertiserStats();
     const { isPoiPoaVerified } = data || {};
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
     const isAdvertiser = useIsAdvertiser();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
 
@@ -48,7 +50,7 @@ const MyProfile = () => {
         return <Loader />;
     }
 
-    if (!isAdvertiser && !isPoiPoaVerified) {
+    if (!isAdvertiser && (!isPoiPoaVerified || shouldShowVerification)) {
         return (
             <div className='overflow-y-auto h-[calc(100%-11rem)]'>
                 <Verification />

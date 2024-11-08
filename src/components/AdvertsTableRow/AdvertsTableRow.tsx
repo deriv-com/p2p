@@ -4,10 +4,11 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { TAdvertsTableRowRenderer, TCurrency } from 'types';
 import { Badge, BuySellForm, PaymentMethodLabel, StarRating, UserAvatar } from '@/components';
 import { ErrorModal, NicknameModal } from '@/components/Modals';
-import { ADVERTISER_URL, BUY_SELL } from '@/constants';
+import { ADVERTISER_URL, BUY_SELL, BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import {
     useGetBusinessHours,
+    useGetPhoneNumberVerification,
     useIsAdvertiser,
     useIsAdvertiserBarred,
     useModalManager,
@@ -29,6 +30,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const isAdvertiser = useIsAdvertiser();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
     const { data } = api.advertiser.useGetInfo() || {};
     const { data: poiPoaData } = usePoiPoaStatus();
     const { isPoiPoaVerified } = poiPoaData || {};
@@ -92,10 +94,15 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const redirectToVerification = () => {
         const searchParams = new URLSearchParams(location.search);
         searchParams.set('verified', 'false');
-        history.replace({
-            pathname: location.pathname,
-            search: searchParams.toString(),
-        });
+
+        if (!isBuySellPage) {
+            history.push(`${BUY_SELL_URL}?${searchParams.toString()}`);
+        } else {
+            history.replace({
+                pathname: location.pathname,
+                search: searchParams.toString(),
+            });
+        }
     };
 
     const redirectToAdvertiser = () => {
@@ -263,7 +270,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     className='lg:min-w-[7.5rem]'
                                     disabled={isAdvertiserBarred || !isScheduleAvailable}
                                     onClick={() => {
-                                        if (!isAdvertiser && !isPoiPoaVerified) {
+                                        if (!isAdvertiser && (!isPoiPoaVerified || shouldShowVerification)) {
                                             redirectToVerification();
                                         } else {
                                             setSelectedAdvertId(advertId);

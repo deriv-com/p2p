@@ -1,4 +1,9 @@
-import { useGetBusinessHours, useIsAdvertiserBarred, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import {
+    useGetBusinessHours,
+    useGetPhoneNumberVerification,
+    useIsAdvertiserBarred,
+    usePoiPoaStatus,
+} from '@/hooks/custom-hooks';
 import { render, screen } from '@testing-library/react';
 import MyAds from '../MyAds';
 
@@ -12,6 +17,9 @@ jest.mock('@/components', () => ({
 jest.mock('@/hooks/custom-hooks', () => ({
     useGetBusinessHours: jest.fn().mockReturnValue({
         isScheduleAvailable: true,
+    }),
+    useGetPhoneNumberVerification: jest.fn().mockReturnValue({
+        shouldShowVerification: false,
     }),
     useIsAdvertiser: jest.fn(() => false),
     useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
@@ -36,6 +44,7 @@ jest.mock('../MyAdsTable', () => ({
 }));
 
 const mockUseGetBusinessHours = useGetBusinessHours as jest.Mock;
+const mockUseGetPhoneNumberVerification = useGetPhoneNumberVerification as jest.Mock;
 const mockUseIsAdvertiserBarred = useIsAdvertiserBarred as jest.MockedFunction<typeof useIsAdvertiserBarred>;
 const mockUsePoiPoaStatus = usePoiPoaStatus as jest.MockedFunction<typeof usePoiPoaStatus>;
 
@@ -64,11 +73,14 @@ describe('MyAds', () => {
         expect(screen.queryByText('TemporarilyBarredHint')).not.toBeInTheDocument();
     });
 
-    it('should render the Verification component if POA/POI is not verified is false', () => {
+    it('should render the Verification component if POA/POI is not verified and shouldShowVerification is true', () => {
         (mockUsePoiPoaStatus as jest.Mock).mockReturnValue({
             data: {
                 isPoiPoaVerified: false,
             },
+        });
+        mockUseGetPhoneNumberVerification.mockReturnValue({
+            shouldShowVerification: true,
         });
         render(<MyAds />);
         expect(screen.getByText('Verification')).toBeInTheDocument();

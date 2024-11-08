@@ -8,9 +8,10 @@ const useGetPhoneNumberVerification = () => {
 
     const isPhoneNumberVerificationEnabled = !!p2pSettings?.pnv_required;
     const isPhoneNumberVerified = !!data?.phone_number_verification?.verified;
+    const shouldShowVerification = !isPhoneNumberVerified && isPhoneNumberVerificationEnabled;
     const phoneNumber = data?.phone;
 
-    return { isPhoneNumberVerificationEnabled, isPhoneNumberVerified, phoneNumber };
+    return { isPhoneNumberVerificationEnabled, isPhoneNumberVerified, phoneNumber, shouldShowVerification };
 };
 
 export default useGetPhoneNumberVerification;

@@ -1,5 +1,11 @@
 import { OutsideBusinessHoursHint, TemporarilyBarredHint, Verification } from '@/components';
-import { useGetBusinessHours, useIsAdvertiser, useIsAdvertiserBarred, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import {
+    useGetBusinessHours,
+    useGetPhoneNumberVerification,
+    useIsAdvertiser,
+    useIsAdvertiserBarred,
+    usePoiPoaStatus,
+} from '@/hooks/custom-hooks';
 import { MyAdsTable } from './MyAdsTable';
 
 const MyAds = () => {
@@ -7,9 +13,10 @@ const MyAds = () => {
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const { isScheduleAvailable } = useGetBusinessHours();
     const { data } = usePoiPoaStatus();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
     const { isPoiPoaVerified } = data || {};
 
-    if (!isAdvertiser && !isPoiPoaVerified)
+    if (!isAdvertiser && (!isPoiPoaVerified || shouldShowVerification))
         return (
             <div className='overflow-y-auto h-[calc(100%-11rem)]'>
                 <Verification />;
