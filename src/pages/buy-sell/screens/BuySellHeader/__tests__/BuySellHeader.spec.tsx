@@ -61,6 +61,7 @@ const mockUseQueryString = {
 
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
+    useIsAdvertiser: jest.fn().mockReturnValue(true),
     useModalManager: jest.fn(() => mockUseModalManager),
     useQueryString: jest.fn(() => mockUseQueryString),
 }));
