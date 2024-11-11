@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { FundsBanner } from '@/components';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
 import { api, useIsP2PBlocked, useLiveChat, useOAuth } from '@/hooks';
@@ -59,6 +60,8 @@ const AppContent = () => {
     } = api.advertiser.useGetInfo();
     const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
+    const isAdvertiserPage = getCurrentRoute() === 'advertiser';
+    const isP2PGuide = getCurrentRoute() === 'guide';
 
     useEffect(() => {
         initLiveChat();
@@ -113,6 +116,7 @@ const AppContent = () => {
         } else if ((isFetched && activeAccountData) || isEndpointRoute) {
             return (
                 <div className='app-content__body'>
+                    {!isEndpointRoute && !isAdvertiserPage && !isP2PGuide && <FundsBanner />}
                     <Tabs
                         activeTab={localize(activeTab)}
                         className='app-content__tabs'

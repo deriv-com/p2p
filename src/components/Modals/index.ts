@@ -19,6 +19,7 @@ export * from './EmailVerificationModal';
 export * from './ErrorModal';
 export * from './FallbackErrorModal';
 export * from './FilterModal';
+export * from './FundsModal';
 export * from './InvalidVerificationLinkModal';
 export * from './LeaveFilterModal';
 export * from './LoadingModal';
