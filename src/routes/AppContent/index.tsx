@@ -110,7 +110,11 @@ const AppContent = () => {
         if (
             isAdvertiser &&
             isBuySellPage &&
-            ((!isDesktop && (queryString.modal === 'RadioGroupFilterModal' || !queryString.modal)) || isDesktop)
+            ((!isDesktop &&
+                (queryString.modal === 'RadioGroupFilterModal' ||
+                    queryString.modal === 'FundsModal' ||
+                    !queryString.modal)) ||
+                isDesktop)
         ) {
             setShowFundsBanner(true);
         } else {
