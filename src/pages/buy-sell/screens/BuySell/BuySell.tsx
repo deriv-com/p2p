@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
 import { OutsideBusinessHoursHint, PageReturn, TemporarilyBarredHint, Verification } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
-import { useGetBusinessHours, useIsAdvertiserBarred } from '@/hooks/custom-hooks';
+import { useGetBusinessHours, useIsAdvertiser, useIsAdvertiserBarred } from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { BuySellTable } from '../BuySellTable';
 import './BuySell.scss';
@@ -14,6 +14,7 @@ const BuySell = () => {
     const history = useHistory();
     const location = useLocation();
     const poiPoaVerified = new URLSearchParams(location.search).get('poi_poa_verified');
+    const isAdvertiser = useIsAdvertiser();
 
     if (poiPoaVerified === 'false') {
         return (
@@ -32,6 +33,7 @@ const BuySell = () => {
         <div
             className={clsx('buy-sell relative', {
                 'buy-sell--barred': isAdvertiserBarred,
+                'buy-sell--not-advertiser': !isAdvertiser,
                 'buy-sell--outside-hours': !isScheduleAvailable && !isAdvertiserBarred,
             })}
         >

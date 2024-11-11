@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { FundsBanner } from '@/components';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useIsP2PBlocked, useLiveChat, useOAuth, useQueryString } from '@/hooks';
+import { api, useIsAdvertiser, useIsP2PBlocked, useLiveChat, useOAuth, useQueryString } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
@@ -62,6 +62,7 @@ const AppContent = () => {
     const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
+    const isAdvertiser = useIsAdvertiser();
     const { queryString } = useQueryString();
 
     useEffect(() => {
@@ -107,6 +108,7 @@ const AppContent = () => {
 
     useEffect(() => {
         if (
+            isAdvertiser &&
             isBuySellPage &&
             ((!isDesktop && (queryString.modal === 'RadioGroupFilterModal' || !queryString.modal)) || isDesktop)
         ) {
@@ -114,7 +116,7 @@ const AppContent = () => {
         } else {
             setShowFundsBanner(false);
         }
-    }, [isBuySellPage, isDesktop, location, queryString]);
+    }, [isAdvertiser, isBuySellPage, isDesktop, location, queryString]);
 
     const getComponent = () => {
         if ((isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {

@@ -1,6 +1,8 @@
+import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { OnboardingTooltip } from '@/components';
 import { GUIDE_URL } from '@/constants';
+import { useIsAdvertiser } from '@/hooks/custom-hooks';
 import { getCurrentRoute } from '@/utils';
 import { LabelPairedBookCircleQuestionLgRegularIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
@@ -10,11 +12,12 @@ import './GuideTooltip.scss';
 const GuideTooltip = () => {
     const history = useHistory();
     const currentRoute = getCurrentRoute();
+    const isAdvertiser = useIsAdvertiser();
 
     return (
         <OnboardingTooltip
             buttonText={<Localize i18n_default_text='Get Started' />}
-            className='guide-tooltip__icon'
+            className={clsx('guide-tooltip__icon', { 'guide-tooltip__icon--not-advertiser': !isAdvertiser })}
             description={
                 <Localize i18n_default_text='Learn how to create buy/sell ads and understand the safety guidelines on Deriv P2P.' />
             }
