@@ -1,9 +1,4 @@
-import {
-    useGetBusinessHours,
-    useGetPhoneNumberVerification,
-    useIsAdvertiserBarred,
-    usePoiPoaStatus,
-} from '@/hooks/custom-hooks';
+import { useGetBusinessHours, useIsAdvertiserBarred, useIsAdvertiserNotVerified } from '@/hooks/custom-hooks';
 import { render, screen } from '@testing-library/react';
 import MyAds from '../MyAds';
 
@@ -18,18 +13,8 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useGetBusinessHours: jest.fn().mockReturnValue({
         isScheduleAvailable: true,
     }),
-    useGetPhoneNumberVerification: jest.fn().mockReturnValue({
-        shouldShowVerification: false,
-    }),
-    useIsAdvertiser: jest.fn(() => false),
     useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
-    usePoiPoaStatus: jest.fn().mockReturnValue({
-        data: {
-            isPoaVerified: true,
-            isPoiPoaVerified: true,
-            isPoiVerified: true,
-        },
-    }),
+    useIsAdvertiserNotVerified: jest.fn(() => false),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -44,9 +29,8 @@ jest.mock('../MyAdsTable', () => ({
 }));
 
 const mockUseGetBusinessHours = useGetBusinessHours as jest.Mock;
-const mockUseGetPhoneNumberVerification = useGetPhoneNumberVerification as jest.Mock;
+const mockUseIsAdvertiserNotVerified = useIsAdvertiserNotVerified as jest.Mock;
 const mockUseIsAdvertiserBarred = useIsAdvertiserBarred as jest.MockedFunction<typeof useIsAdvertiserBarred>;
-const mockUsePoiPoaStatus = usePoiPoaStatus as jest.MockedFunction<typeof usePoiPoaStatus>;
 
 describe('MyAds', () => {
     it('should render the MyAdsTable component', () => {
@@ -73,15 +57,8 @@ describe('MyAds', () => {
         expect(screen.queryByText('TemporarilyBarredHint')).not.toBeInTheDocument();
     });
 
-    it('should render the Verification component if POA/POI is not verified and shouldShowVerification is true', () => {
-        (mockUsePoiPoaStatus as jest.Mock).mockReturnValue({
-            data: {
-                isPoiPoaVerified: false,
-            },
-        });
-        mockUseGetPhoneNumberVerification.mockReturnValue({
-            shouldShowVerification: true,
-        });
+    it('should render the Verification component if advertiser is not verified', () => {
+        mockUseIsAdvertiserNotVerified.mockReturnValue(true);
         render(<MyAds />);
         expect(screen.getByText('Verification')).toBeInTheDocument();
     });

@@ -13,6 +13,7 @@ export { default as useGrowthbookGetFeatureValue } from './useGrowthbookGetFeatu
 export { default as useHandleRouteChange } from './useHandleRouteChange';
 export { default as useIsAdvertiser } from './useIsAdvertiser';
 export { default as useIsAdvertiserBarred } from './useIsAdvertiserBarred';
+export { default as useIsAdvertiserNotVerified } from './useIsAdvertiserNotVerified.ts';
 export { default as useIsP2PBlocked } from './useIsP2PBlocked';
 export { default as useIsRtl } from './useIsRtl';
 export { default as useLiveChat } from './useLiveChat';

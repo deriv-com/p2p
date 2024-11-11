@@ -8,9 +8,9 @@ import { ADVERTISER_URL, BUY_SELL, BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import {
     useGetBusinessHours,
-    useGetPhoneNumberVerification,
     useIsAdvertiser,
     useIsAdvertiserBarred,
+    useIsAdvertiserNotVerified,
     useModalManager,
     usePoiPoaStatus,
 } from '@/hooks/custom-hooks';
@@ -30,13 +30,13 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const isBuySellPage = getCurrentRoute() === 'buy-sell';
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const isAdvertiser = useIsAdvertiser();
-    const { shouldShowVerification } = useGetPhoneNumberVerification();
     const { data } = api.advertiser.useGetInfo() || {};
     const { data: poiPoaData } = usePoiPoaStatus();
     const { isPoiPoaVerified } = poiPoaData || {};
     const { localize } = useTranslations();
     const { hasCreatedAdvertiser } = useAdvertiserInfoState();
     const { isScheduleAvailable } = useGetBusinessHours();
+    const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
 
     const {
         account_currency: accountCurrency,
@@ -270,7 +270,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     className='lg:min-w-[7.5rem]'
                                     disabled={isAdvertiserBarred || !isScheduleAvailable}
                                     onClick={() => {
-                                        if (!isAdvertiser && (!isPoiPoaVerified || shouldShowVerification)) {
+                                        if (isAdvertiserNotVerified) {
                                             redirectToVerification();
                                         } else {
                                             setSelectedAdvertId(advertId);
