@@ -45,6 +45,12 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useQueryString: jest
+        .fn()
+        .mockReturnValue({ deleteQueryString: jest.fn(), queryString: { modal: '' }, setQueryString: jest.fn() }),
+}));
 let mockIsDesktop = true;
 
 jest.mock('@deriv-com/ui', () => ({

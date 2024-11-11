@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { FundsBanner } from '@/components';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useIsP2PBlocked, useLiveChat, useOAuth } from '@/hooks';
+import { api, useIsP2PBlocked, useLiveChat, useOAuth, useQueryString } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
@@ -44,6 +44,7 @@ const AppContent = () => {
 
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
+    const [showFundsBanner, setShowFundsBanner] = useState(false);
     const {
         error: p2pSettingsError,
         isActive,
@@ -60,8 +61,8 @@ const AppContent = () => {
     } = api.advertiser.useGetInfo();
     const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
-    const isAdvertiserPage = getCurrentRoute() === 'advertiser';
-    const isP2PGuide = getCurrentRoute() === 'guide';
+    const isBuySellPage = getCurrentRoute() === 'buy-sell';
+    const { queryString } = useQueryString();
 
     useEffect(() => {
         initLiveChat();
@@ -104,6 +105,17 @@ const AppContent = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (
+            isBuySellPage &&
+            ((!isDesktop && (queryString.modal === 'RadioGroupFilterModal' || !queryString.modal)) || isDesktop)
+        ) {
+            setShowFundsBanner(true);
+        } else {
+            setShowFundsBanner(false);
+        }
+    }, [isBuySellPage, isDesktop, location, queryString]);
+
     const getComponent = () => {
         if ((isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
             return <Loader />;
@@ -116,7 +128,7 @@ const AppContent = () => {
         } else if ((isFetched && activeAccountData) || isEndpointRoute) {
             return (
                 <div className='app-content__body'>
-                    {!isEndpointRoute && !isAdvertiserPage && !isP2PGuide && <FundsBanner />}
+                    {showFundsBanner && <FundsBanner />}
                     <Tabs
                         activeTab={localize(activeTab)}
                         className='app-content__tabs'
