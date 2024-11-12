@@ -1,11 +1,10 @@
-import { useLiveChat } from '@/hooks/custom-hooks';
+import Chat from '@/utils/chat';
 import { DerivDarkScamAdvancePaymentIcon, DerivDarkScamPotIcon, DerivDarkScamSmsIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { Carousel } from '../../components';
 
 const Awareness = () => {
-    const { LiveChatWidget } = useLiveChat();
     const { isDesktop } = useDevice();
 
     return (
@@ -55,7 +54,7 @@ const Awareness = () => {
                                             className='guide__content-section--link'
                                             key={0}
                                             onClick={() => {
-                                                LiveChatWidget.call('maximize');
+                                                Chat.open();
                                             }}
                                         />,
                                     ]}

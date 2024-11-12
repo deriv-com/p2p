@@ -15,9 +15,9 @@ type UseOAuthReturn = {
  * @returns {UseOAuthReturn}
  */
 const useOAuth = (): UseOAuthReturn => {
-    const [OAuth2EnabledApps, OAuth2EnabledAppsInitialised] = useGrowthbookGetFeatureValue<TOAuth2EnabledAppList>({
+    const [OAuth2EnabledApps, OAuth2EnabledAppsInitialised] = useGrowthbookGetFeatureValue<string>({
         featureFlag: 'hydra_be',
-    });
+    }) as unknown as [TOAuth2EnabledAppList, boolean];
 
     const oAuthGrowthbookConfig = {
         OAuth2EnabledApps,

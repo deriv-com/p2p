@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useLiveChat } from '@/hooks/custom-hooks';
+import Chat from '@/utils/chat';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Accordion, Text, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
@@ -10,7 +10,6 @@ type TFAQsProps = {
 };
 
 const FAQs = ({ guideContentRef }: TFAQsProps) => {
-    const { LiveChatWidget } = useLiveChat();
     const { isDesktop } = useDevice();
     const { localize } = useTranslations();
     const accordionRefs = useRef<HTMLDivElement[]>([]);
@@ -149,7 +148,7 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
                                 className='guide__content-section--link'
                                 key={0}
                                 onClick={() => {
-                                    LiveChatWidget.call('maximize');
+                                    Chat.open();
                                 }}
                             />,
                         ]}

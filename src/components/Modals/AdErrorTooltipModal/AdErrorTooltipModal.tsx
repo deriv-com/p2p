@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { ADVERT_TYPE, ERROR_CODES } from '@/constants';
-import { useLiveChat } from '@/hooks/custom-hooks';
 import { AdRateError } from '@/pages/my-ads/components';
+import Chat from '@/utils/chat';
 import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdErrorTooltipModal.scss';
@@ -89,9 +89,8 @@ const AdErrorTooltipModal = ({
     remainingAmount,
     visibilityStatus = [],
 }: TAdErrorTooltipModal) => {
-    const { LiveChatWidget } = useLiveChat();
     const onLiveChatClick = () => {
-        LiveChatWidget.call('maximize');
+        Chat.open();
     };
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'md' : 'sm';

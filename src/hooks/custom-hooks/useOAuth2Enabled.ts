@@ -20,9 +20,9 @@ type hydraBEApps = [
  * @returns [boolean]
  */
 const useOAuth2Enabled = () => {
-    const [OAuth2EnabledApps, OAuth2EnabledAppsInitialised] = useGrowthbookGetFeatureValue<hydraBEApps>({
+    const [OAuth2EnabledApps, OAuth2EnabledAppsInitialised] = useGrowthbookGetFeatureValue<string>({
         featureFlag: 'hydra_be',
-    });
+    }) as unknown as [hydraBEApps, boolean];
     const [isOauth2Enabled, setIsOauth2Enabled] = useState<boolean>(false);
     const { appId } = getServerInfo();
 
