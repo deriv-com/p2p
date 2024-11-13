@@ -25,7 +25,9 @@ const useDerivAnalytics = () => {
                 const remoteConfigURL = process.env.VITE_REMOTE_CONFIG_URL;
                 let services = FIREBASE_INIT_DATA;
                 if (remoteConfigURL) {
-                    services = await fetch(remoteConfigURL).then(res => res.json().catch(() => FIREBASE_INIT_DATA));
+                    services = await fetch(remoteConfigURL)
+                        .then(res => res.json())
+                        .catch(() => FIREBASE_INIT_DATA);
                 }
 
                 const utmDataFromCookie = Cookies.get('utm_data');
