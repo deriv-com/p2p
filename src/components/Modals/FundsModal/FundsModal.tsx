@@ -10,7 +10,7 @@ type TFundsModalProps = {
 const FundsModal = ({ isModalOpen, onRequestClose }: TFundsModalProps) => {
     return (
         <Modal ariaHideApp={false} className='funds-modal' isOpen={isModalOpen} shouldCloseOnOverlayClick={false}>
-            <Modal.Header className='funds-modal__header' hideBorder hideCloseIcon>
+            <Modal.Header hideBorder hideCloseIcon>
                 <Text size='md' weight='bold'>
                     <Localize i18n_default_text='How to fund your trades?' />
                 </Text>

@@ -1,8 +1,7 @@
 .funds-modal {
     @include default-modal;
-
-    &__header {
-        padding-top: 1rem !important;
+    .deriv-modal__header {
+        padding-top: 1rem;
 
         @include mobile-or-tablet-screen {
             padding-top: 0 !important;
@@ -26,7 +25,7 @@
         gap: 0.8rem;
 
         @include mobile-or-tablet-screen {
-            padding-bottom: 1.6rem;
+            padding: 1.6rem;
         }
     }
 }
