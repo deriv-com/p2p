@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getNotification, MY_PROFILE_URL } from '@/constants';
 import { api } from '@/hooks';
@@ -10,8 +10,9 @@ const Notifications = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { localize } = useTranslations();
     const { isDesktop, isMobile } = useDevice();
-    const { data: notifications } = api.notification.useGetList();
-    const { readAllNotifications } = api.notification.useUpdate();
+    const { data: activeAccountData } = api.account.useActiveAccount();
+    const { data: notifications, subscribe } = api.notification.useGetList();
+    const { mutate: updateNotification } = api.notification.useUpdate();
     const history = useHistory();
 
     const modifiedNotifications = useMemo(() => {
@@ -36,6 +37,13 @@ const Notifications = () => {
             };
         });
     }, [notifications]);
+
+    useEffect(() => {
+        if (activeAccountData) {
+            subscribe({});
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeAccountData]);
 
     return (
         <>
@@ -67,7 +75,7 @@ const Notifications = () => {
             <UINotifications
                 className={isMobile ? '' : 'absolute top-20 right-80 z-10 w-[26.4rem]'}
                 clearNotificationsCallback={() => {
-                    readAllNotifications();
+                    updateNotification({ ids: [], notifications_update_status: 'remove' });
                 }}
                 componentConfig={{
                     clearButtonText: localize('Clear all'),
