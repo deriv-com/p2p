@@ -18,7 +18,7 @@ const GuideTooltip = () => {
         <OnboardingTooltip
             buttonText={<Localize i18n_default_text='Get Started' />}
             className={clsx('guide-tooltip__icon', {
-                'guide-tooltip__icon--is-buy-sell': currentRoute === 'buy-sell',
+                'guide-tooltip__icon--is-buy-sell': currentRoute === 'buy-sell' && isAdvertiser,
                 'guide-tooltip__icon--not-advertiser': !isAdvertiser,
             })}
             description={
