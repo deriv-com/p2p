@@ -17,7 +17,10 @@ const GuideTooltip = () => {
     return (
         <OnboardingTooltip
             buttonText={<Localize i18n_default_text='Get Started' />}
-            className={clsx('guide-tooltip__icon', { 'guide-tooltip__icon--not-advertiser': !isAdvertiser })}
+            className={clsx('guide-tooltip__icon', {
+                'guide-tooltip__icon--is-buy-sell': currentRoute === 'buy-sell',
+                'guide-tooltip__icon--not-advertiser': !isAdvertiser,
+            })}
             description={
                 <Localize i18n_default_text='Learn how to create buy/sell ads and understand the safety guidelines on Deriv P2P.' />
             }

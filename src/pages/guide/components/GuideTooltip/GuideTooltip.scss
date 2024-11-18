@@ -9,7 +9,6 @@
             position: absolute;
             top: 0;
             right: 0;
-            margin-top: 8.2rem;
 
             &:hover {
                 cursor: pointer;
@@ -17,6 +16,10 @@
 
             &--not-advertiser {
                 margin-top: 1rem;
+            }
+
+            &--is-buy-sell {
+                margin-top: 8.2rem;
             }
         }
 
