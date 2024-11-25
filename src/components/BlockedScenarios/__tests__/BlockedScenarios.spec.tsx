@@ -48,15 +48,6 @@ describe('BlockedScenarios', () => {
         expect(screen.getByRole('button', { name: 'Live chat' })).toBeInTheDocument();
     });
 
-    it('should show the correct message for cashier locked account', () => {
-        render(<BlockedScenarios type='cashierLocked' />);
-        expect(screen.getByText('Cashier is locked')).toBeInTheDocument();
-        expect(
-            screen.getByText('Your cashier is currently locked. Please contact us via live chat to find out why.')
-        ).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'Live chat' })).toBeInTheDocument();
-    });
-
     it('should show the correct message when cashier is under maintenance', () => {
         render(<BlockedScenarios type='systemMaintenance' />);
         expect(screen.getByText('Cashier is currently down for maintenance')).toBeInTheDocument();

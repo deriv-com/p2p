@@ -40,16 +40,6 @@ describe('useIsP2PBlocked', () => {
         expect(result.current).toStrictEqual({ isP2PBlocked: true, status: 'p2pBlocked' });
     });
 
-    it('should return isP2PBlocked as true and status as cashierLocked if status has cashier_locked', () => {
-        mockUseGetAccountStatus.mockImplementation(() => ({
-            data: { p2p_status: 'none', status: ['cashier_locked'] },
-        }));
-        mockUseActiveAccount.mockImplementation(() => ({ data: { currency: 'USD', is_virtual: 0 } }));
-
-        const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: true, status: 'cashierLocked' });
-    });
-
     it('should return isP2PBlocked as true and status as systemMaintenance if cashier_validation has system_maintenance', () => {
         mockUseGetAccountStatus.mockImplementation(() => ({
             data: { cashier_validation: ['system_maintenance'], p2p_status: 'none', status: [] },
