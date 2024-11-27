@@ -4,12 +4,36 @@
 import getFeatureFlag from './get-featureflag';
 
 const Chat = {
+    clear: async () => {
+        const { isFreshChat, isIntercom } = await Chat.getFlags();
+        if (isFreshChat) {
+            window.fcWidget?.user.clear().then(() => window.fcWidget.destroy());
+        } else if (isIntercom && window.Intercom) {
+            window.Intercom('shutdown');
+        }
+    },
+
     close: async () => {
         (await Chat.isFreshChat()) ? window.fcWidget?.close() : window.LiveChatWidget?.call('hide');
     },
+
+    getFlags: async () => {
+        const [isFreshChat, isIntercom] = await Promise.all([Chat.isFreshChat(), Chat.isIntercom()]);
+        return { isFreshChat, isIntercom };
+    },
+
     isFreshChat: async () => getFeatureFlag('enable_freshworks_live_chat_p2p'),
+    isIntercom: async () => getFeatureFlag('enable_intercom_p2p'),
+
     open: async () => {
-        (await Chat.isFreshChat()) ? window.fcWidget?.open() : window.LiveChatWidget?.call('maximize');
+        const { isFreshChat, isIntercom } = await Chat.getFlags();
+        if (isFreshChat) {
+            window.fcWidget?.open();
+        } else if (isIntercom && window.Intercom) {
+            window.Intercom('show');
+        } else {
+            window.LiveChatWidget?.call('maximize');
+        }
     },
 };
 

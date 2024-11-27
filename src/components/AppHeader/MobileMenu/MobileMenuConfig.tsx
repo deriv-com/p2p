@@ -1,7 +1,8 @@
 import { ComponentProps, ReactNode } from 'react';
 import { ACCOUNT_LIMITS, HELP_CENTRE, RESPONSIBLE } from '@/constants';
-import { useOAuth } from '@/hooks/custom-hooks';
+import { useGrowthbookGetFeatureValue, useOAuth } from '@/hooks/custom-hooks';
 import useFreshChat from '@/hooks/custom-hooks/useFreshchat';
+import useIntercom from '@/hooks/custom-hooks/useIntercom';
 import Chat from '@/utils/chat';
 import {
     BrandDerivLogoCoralIcon,
@@ -39,8 +40,16 @@ export const MobileMenuConfig = () => {
     const { localize } = useTranslations();
     const { oAuthLogout } = useOAuth();
 
+    const [isFreshChatEnabled] = useGrowthbookGetFeatureValue({
+        featureFlag: 'enable_freshworks_live_chat_p2p',
+    });
+    const [isIntercomEnabled] = useGrowthbookGetFeatureValue({
+        featureFlag: 'enable_intercom_p2p',
+    });
+
     const token = localStorage.getItem('authToken') || null;
-    useFreshChat(token);
+    useFreshChat(token, isFreshChatEnabled);
+    useIntercom(token, isIntercomEnabled);
 
     const menuConfig: TMenuConfig[] = [
         [
@@ -129,6 +138,7 @@ export const MobileMenuConfig = () => {
                 label: localize('Log out'),
                 LeftComponent: LegacyLogout1pxIcon,
                 onClick: () => {
+                    Chat.clear();
                     oAuthLogout();
                 },
                 removeBorderBottom: true,

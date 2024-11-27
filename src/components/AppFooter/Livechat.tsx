@@ -1,5 +1,6 @@
 import { useGrowthbookGetFeatureValue, useLiveChat } from '@/hooks/custom-hooks';
 import useFreshChat from '@/hooks/custom-hooks/useFreshchat';
+import useIntercom from '@/hooks/custom-hooks/useIntercom';
 import Chat from '@/utils/chat';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
@@ -11,9 +12,13 @@ const Livechat = () => {
     const [isFreshChatEnabled, isGBLoaded] = useGrowthbookGetFeatureValue({
         featureFlag: 'enable_freshworks_live_chat_p2p',
     });
+    const [isIntercomEnabled] = useGrowthbookGetFeatureValue({
+        featureFlag: 'enable_intercom_p2p',
+    });
 
     const token = localStorage.getItem('authToken') || null;
-    const freshChat = useFreshChat(token);
+    const freshChat = useFreshChat(token, isFreshChatEnabled);
+    const icChat = useIntercom(token, isIntercomEnabled);
 
     setInterval(() => {
         /*  This is for livechat last open state, 
@@ -23,7 +28,7 @@ const Livechat = () => {
         }
     }, 10);
 
-    if (!isGBLoaded || (isFreshChatEnabled && !freshChat?.isReady)) {
+    if (!isGBLoaded || (isFreshChatEnabled && !freshChat?.isReady) || (isIntercomEnabled && !icChat?.isReady)) {
         return null;
     }
 
