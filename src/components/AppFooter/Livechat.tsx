@@ -1,7 +1,5 @@
-import { useGrowthbookGetFeatureValue, useLiveChat } from '@/hooks/custom-hooks';
-import useFreshChat from '@/hooks/custom-hooks/useFreshchat';
-import useIntercom from '@/hooks/custom-hooks/useIntercom';
-import Chat from '@/utils/chat';
+import { useFreshchat, useGrowthbookGetFeatureValue, useIntercom, useLiveChat } from '@/hooks/custom-hooks';
+import { Chat } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Tooltip } from '@deriv-com/ui';
@@ -17,7 +15,7 @@ const Livechat = () => {
     });
 
     const token = localStorage.getItem('authToken') || null;
-    const freshChat = useFreshChat(token, isFreshChatEnabled);
+    const freshChat = useFreshchat(token, isFreshChatEnabled);
     const icChat = useIntercom(token, isIntercomEnabled);
 
     setInterval(() => {

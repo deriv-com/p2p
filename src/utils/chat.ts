@@ -3,7 +3,7 @@
 
 import getFeatureFlag from './get-featureflag';
 
-const Chat = {
+export const Chat = {
     clear: async () => {
         const { isFreshChat, isIntercom } = await Chat.getFlags();
         if (isFreshChat) {
@@ -36,5 +36,3 @@ const Chat = {
         }
     },
 };
-
-export default Chat;

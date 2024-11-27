@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { getOauthUrl } from '@/constants';
 import { api, useGrowthbookGetFeatureValue, useOAuth } from '@/hooks';
-import { getCurrentRoute } from '@/utils';
-import Chat from '@/utils/chat';
+import { Chat, getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';

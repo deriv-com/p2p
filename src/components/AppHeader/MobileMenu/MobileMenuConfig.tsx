@@ -3,7 +3,7 @@ import { ACCOUNT_LIMITS, HELP_CENTRE, RESPONSIBLE } from '@/constants';
 import { useGrowthbookGetFeatureValue, useOAuth } from '@/hooks/custom-hooks';
 import useFreshChat from '@/hooks/custom-hooks/useFreshchat';
 import useIntercom from '@/hooks/custom-hooks/useIntercom';
-import Chat from '@/utils/chat';
+import { Chat } from '@/utils';
 import {
     BrandDerivLogoCoralIcon,
     IconTypes,

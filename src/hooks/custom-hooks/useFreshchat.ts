@@ -38,4 +38,5 @@ const useFreshChat = (token: string | null, flag: boolean) => {
 
     return { isReady };
 };
+
 export default useFreshChat;
