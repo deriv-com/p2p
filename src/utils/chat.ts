@@ -7,7 +7,13 @@ export const Chat = {
     clear: async () => {
         const { isFreshChat, isIntercom } = await Chat.getFlags();
         if (isFreshChat) {
-            window.fcWidget?.user.clear().then(() => window.fcWidget.destroy());
+            window.fcWidget?.user
+                .clear()
+                .then(() => window.fcWidget.destroy())
+                .catch((error: Error) => {
+                    // eslint-disable-next-line no-console
+                    console.error('Failed to clear FreshChat:', error);
+                });
         } else if (isIntercom && window.Intercom) {
             window.Intercom('shutdown');
         }
@@ -18,8 +24,12 @@ export const Chat = {
     },
 
     getFlags: async () => {
-        const [isFreshChat, isIntercom] = await Promise.all([Chat.isFreshChat(), Chat.isIntercom()]);
-        return { isFreshChat, isIntercom };
+        try {
+            const [isFreshChat, isIntercom] = await Promise.all([Chat.isFreshChat(), Chat.isIntercom()]);
+            return { isFreshChat, isIntercom };
+        } catch (error) {
+            return { isFreshChat: false, isIntercom: false };
+        }
     },
 
     isFreshChat: async () => getFeatureFlag('enable_freshworks_live_chat_p2p'),
