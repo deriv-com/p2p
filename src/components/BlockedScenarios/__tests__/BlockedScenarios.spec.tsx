@@ -61,4 +61,12 @@ describe('BlockedScenarios', () => {
         expect(screen.getByText('This service is currently not offered in your country.')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: "Go to Trader's Hub" })).toBeInTheDocument();
     });
+
+    it('should show the correct message when user has p2p blocked for pa', () => {
+        render(<BlockedScenarios type='p2pBlockedForPa' />);
+        expect(screen.getByText('Your Deriv P2P cashier is blocked')).toBeInTheDocument();
+        expect(
+            screen.getByText('P2P transactions are locked. This feature is not available for payment agents.')
+        ).toBeInTheDocument();
+    });
 });

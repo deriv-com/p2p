@@ -16,6 +16,7 @@ const useIsP2PBlocked = () => {
         if (!accountStatus) return '';
 
         if (accountStatus?.cashier_validation?.includes('system_maintenance')) return 'systemMaintenance';
+        if (accountStatus.status.includes('p2p_blocked_for_pa')) return 'p2pBlockedForPa';
         if (accountStatus.p2p_status === 'perm_ban') return 'p2pBlocked';
 
         return '';
