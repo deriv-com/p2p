@@ -105,6 +105,19 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                 </Text>
             ),
         },
+        p2pBlockedForPa: {
+            description: (
+                <Text align='center'>
+                    <Localize i18n_default_text='P2P transactions are locked. This feature is not available for payment agents.' />
+                </Text>
+            ),
+            icon: <DerivLightIcCashierBlockedIcon height={iconSize} width={iconSize} />,
+            title: (
+                <Text align='center' weight='bold'>
+                    <Localize i18n_default_text='Your Deriv P2P cashier is blocked' />
+                </Text>
+            ),
+        },
         RestrictedCountry: {
             actionButton: (
                 <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
