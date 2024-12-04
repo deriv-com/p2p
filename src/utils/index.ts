@@ -2,6 +2,7 @@ export * from './account';
 export * from './ad-utils';
 export * from './adverts';
 export * from './business-hours';
+export * from './chat';
 export * from './date';
 export * from './error-messages';
 export * from './file-dropzone';

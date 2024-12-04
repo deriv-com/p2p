@@ -2,10 +2,14 @@ declare global {
     interface Window {
         Analytics: unknown;
         DD_RUM: object | undefined;
+        DerivInterCom: {
+            initialize: (config: ICConfig) => void;
+        };
         FreshChat: {
             initialize: (config: FreshChatConfig) => void;
         };
         GrowthbookFeatures: { [key: string]: boolean };
+        Intercom: ((action: IntercomAction) => void) | undefined;
         LC_API: {
             on_chat_ended: VoidFunction;
             open_chat_window: VoidFunction;
@@ -23,6 +27,7 @@ declare global {
         };
         fcWidget: {
             close: VoidFunction;
+            destroy: VoidFunction;
             hide: VoidFunction;
             isInitialized: () => boolean;
             isLoaded: () => boolean;
@@ -31,6 +36,7 @@ declare global {
             setConfig: (config: Record<string, Record<string, unknown>>) => void;
             show: VoidFunction;
             user: {
+                clear: () => Promise<void>;
                 setLocale(locale: string): void;
             };
         };

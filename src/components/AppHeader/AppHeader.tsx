@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { getOauthUrl } from '@/constants';
 import { api, useGrowthbookGetFeatureValue, useOAuth } from '@/hooks';
-import { getCurrentRoute } from '@/utils';
+import { Chat, getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { useTranslations } from '@deriv-com/translations';
@@ -55,7 +55,14 @@ const AppHeader = () => {
                         </Tooltip>
                     )}
                     <AccountSwitcher account={activeAccount!} />
-                    <Button className='mr-6' onClick={oAuthLogout} size='md'>
+                    <Button
+                        className='mr-6'
+                        onClick={() => {
+                            Chat.clear();
+                            oAuthLogout();
+                        }}
+                        size='md'
+                    >
                         <Text size='sm' weight='bold'>
                             {localize('Logout')}
                         </Text>

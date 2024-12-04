@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { THooks } from 'types';
 import { FullPageMobileWrapper } from '@/components/FullPageMobileWrapper';
 import { api } from '@/hooks';
-import Chat from '@/utils/chat';
+import { Chat } from '@/utils';
 import { Localize } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import { OrderDetailsComplainModalRadioGroup } from './OrderDetailsComplainModalRadioGroup';

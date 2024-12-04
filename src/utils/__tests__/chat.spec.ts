@@ -1,4 +1,4 @@
-import Chat from '../chat';
+import { Chat } from '../chat';
 import getFeatureFlag from '../get-featureflag';
 
 jest.mock('../get-featureflag');

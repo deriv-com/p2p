@@ -1,5 +1,5 @@
 import { TCurrency } from 'types';
-import Chat from '@/utils/chat';
+import { Chat } from '@/utils';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AdVisibilityErrorModal from '../AdVisibilityErrorModal';

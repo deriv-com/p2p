@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import Chat from '@/utils/chat';
+import { Chat } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Accordion, Text, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
