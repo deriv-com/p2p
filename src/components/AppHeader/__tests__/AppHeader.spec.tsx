@@ -133,6 +133,11 @@ describe('<AppHeader/>', () => {
             writable: true,
         });
 
+        Object.defineProperty(document, 'domain', {
+            value: 'example.com',
+            writable: true,
+        });
+
         render(
             <BrowserRouter>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>

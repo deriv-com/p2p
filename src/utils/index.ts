@@ -13,6 +13,7 @@ export * from './os';
 export * from './payment-methods';
 export * from './routes';
 export * from './setup-mocks';
+export * from './storage';
 export * from './string';
 export * from './time';
 export * from './types';
