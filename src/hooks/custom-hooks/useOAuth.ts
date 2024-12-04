@@ -31,7 +31,7 @@ const useOAuth = (): UseOAuthReturn => {
 
     const WSLogoutAndRedirect = async () => {
         await logout();
-        removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token');
+        removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
         window.open(oauthUrl, '_self');
     };
     const { OAuth2Logout: oAuthLogout } = useOAuth2(oAuthGrowthbookConfig, WSLogoutAndRedirect);
