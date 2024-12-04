@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { getOauthUrl } from '@/constants';
-import { getCurrentRoute } from '@/utils';
+import { getCurrentRoute, removeCookies } from '@/utils';
 import { useAuthData } from '@deriv-com/api-hooks';
 import { TOAuth2EnabledAppList, useOAuth2 } from '@deriv-com/auth-client';
 import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
@@ -31,6 +31,7 @@ const useOAuth = (): UseOAuthReturn => {
 
     const WSLogoutAndRedirect = async () => {
         await logout();
+        removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token');
         window.open(oauthUrl, '_self');
     };
     const { OAuth2Logout: oAuthLogout } = useOAuth2(oAuthGrowthbookConfig, WSLogoutAndRedirect);
