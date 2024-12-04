@@ -1,7 +1,8 @@
 import Cookies from 'js-cookie';
 
 export const removeCookies = (...cookieNames: string[]) => {
-    const domains = [`.${document.domain.split('.').slice(-2).join('.')}`, `.${document.domain}`];
+    const currentDomain = document.domain ?? '';
+    const domains = [`.${currentDomain.split('.').slice(-2).join('.')}`, `.${currentDomain}`];
 
     let parentPath = window.location.pathname.split('/', 2)[1];
     if (parentPath !== '') {
