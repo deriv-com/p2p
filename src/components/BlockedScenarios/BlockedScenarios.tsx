@@ -1,7 +1,6 @@
-import Chat from '@/utils/chat';
+import { Chat } from '@/utils';
 import {
     DerivLightIcCashierBlockedIcon,
-    DerivLightIcCashierLockedIcon,
     DerivLightIcCashierUnderMaintenanceIcon,
     DerivLightWalletCurrencyUnavailableIcon as P2pUnavailable,
 } from '@deriv/quill-icons';
@@ -34,24 +33,6 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     };
 
     const blockedScenarios: TBlockedScenariosObject = {
-        cashierLocked: {
-            actionButton: (
-                <Button onClick={openLiveChat} size='lg' textSize={buttonTextSize}>
-                    <Localize i18n_default_text='Live chat' />
-                </Button>
-            ),
-            description: (
-                <Text align='center'>
-                    <Localize i18n_default_text='Your cashier is currently locked. Please contact us via live chat to find out why.' />
-                </Text>
-            ),
-            icon: <DerivLightIcCashierLockedIcon height={iconSize} width={iconSize} />,
-            title: (
-                <Text align='center' weight='bold'>
-                    <Localize i18n_default_text='Cashier is locked' />
-                </Text>
-            ),
-        },
         crypto: {
             actionButton: (
                 <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
@@ -115,6 +96,19 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             description: (
                 <Text align='center'>
                     <Localize i18n_default_text='Please use live chat to contact our Customer Support team for help.' />
+                </Text>
+            ),
+            icon: <DerivLightIcCashierBlockedIcon height={iconSize} width={iconSize} />,
+            title: (
+                <Text align='center' weight='bold'>
+                    <Localize i18n_default_text='Your Deriv P2P cashier is blocked' />
+                </Text>
+            ),
+        },
+        p2pBlockedForPa: {
+            description: (
+                <Text align='center'>
+                    <Localize i18n_default_text='P2P transactions are locked. This feature is not available for payment agents.' />
                 </Text>
             ),
             icon: <DerivLightIcCashierBlockedIcon height={iconSize} width={iconSize} />,

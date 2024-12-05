@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 import { TCurrency } from 'types';
 import { ERROR_CODES } from '@/constants';
-import Chat from '@/utils/chat';
+import { Chat } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Modal, Text, useDevice } from '@deriv-com/ui';
 import './AdVisibilityErrorModal.scss';

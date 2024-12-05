@@ -1,4 +1,4 @@
-import Chat from '@/utils/chat';
+import { Chat } from '@/utils/chat';
 import {
     DerivDarkFindAdIcon,
     DerivDarkPayUserIcon,
