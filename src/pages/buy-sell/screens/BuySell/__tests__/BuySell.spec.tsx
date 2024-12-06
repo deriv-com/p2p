@@ -68,9 +68,9 @@ describe('<BuySell />', () => {
         expect(screen.getByText('BuySellTable')).toBeInTheDocument();
     });
 
-    it('should render the PageReturn and Verification components if poi_poa_verified search param is false', () => {
+    it('should render the PageReturn and Verification components if verified search param is false', () => {
         (mockUseLocation as jest.Mock).mockImplementation(() => ({
-            search: '?poi_poa_verified=false',
+            search: '?verified=false',
         }));
 
         render(<BuySell />);
@@ -81,7 +81,7 @@ describe('<BuySell />', () => {
 
     it('should call history.replace when PageReturn is clicked', async () => {
         (mockUseLocation as jest.Mock).mockImplementation(() => ({
-            search: '?poi_poa_verified=false',
+            search: '?verified=false',
         }));
 
         render(<BuySell />);

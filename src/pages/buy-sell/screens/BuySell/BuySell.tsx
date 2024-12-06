@@ -13,9 +13,9 @@ const BuySell = () => {
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const history = useHistory();
     const location = useLocation();
-    const poiPoaVerified = new URLSearchParams(location.search).get('poi_poa_verified');
+    const verified = new URLSearchParams(location.search).get('verified');
 
-    if (poiPoaVerified === 'false') {
+    if (verified === 'false') {
         return (
             <div className='buy-sell--not-verified'>
                 <PageReturn

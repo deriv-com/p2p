@@ -84,7 +84,10 @@ const BlockUnblockUserModal = ({
     };
 
     const blockUnblockError = errorMessages.find(
-        error => error.code === ERROR_CODES.PERMISSION_DENIED || error.code === ERROR_CODES.INVALID_ADVERTISER_ID
+        error =>
+            error.code === ERROR_CODES.PERMISSION_DENIED ||
+            error.code === ERROR_CODES.INVALID_ADVERTISER_ID ||
+            error.code === ERROR_CODES.ADVERTISER_NOT_REGISTERED
     );
 
     if (blockUnblockError && isModalOpenFor('ErrorModal')) {
