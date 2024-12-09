@@ -31,7 +31,7 @@ runs:
 
         # Create new configuration
         mkdir -p .vercel
-        echo "{\"version\":2,\"projectId\":\"${{ inputs.VERCEL_PROJECT_ID }}\",\"github\":{\"enabled\":false}}" > vercel.json
+        echo "{\"version\":2,\"github\":{\"enabled\":false}}" > vercel.json
         
         # Verify configuration
         cat vercel.json
