@@ -17,14 +17,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Debug Vercel setup
-      shell: bash
-      run: |
-        echo "Current directory content:"
-        ls -la
-        echo "Checking for .vercel directory:"
-        ls -la .vercel || echo ".vercel directory not found"
-
     - name: Replace the vercel.dr.json with vercel.json
       run: cp -f vercel.dr.json vercel.json
       shell: bash
@@ -44,6 +36,12 @@ runs:
           "projectId": "${{ inputs.VERCEL_PROJECT_ID }}"
         }' > .vercel/project.json
       shell: bash
+
+    - name: Debug .vercel
+      shell: bash
+      run: |
+        echo "Checking for .vercel directory:"
+        ls -la .vercel || echo ".vercel directory not found"
 
     - name: Pull Vercel project
       shell: bash
