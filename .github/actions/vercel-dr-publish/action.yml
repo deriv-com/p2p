@@ -19,6 +19,7 @@ runs:
   steps:
     - name: echo token
       run: echo "${{ inputs.VERCEL_TOKEN }}"
+      shell: bash
 
     - name: Replace the vercel.dr.json with vercel.json
       run: cp -f vercel.dr.json vercel.json
