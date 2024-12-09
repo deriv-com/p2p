@@ -57,5 +57,5 @@ jobs:
               id: dr_action
               with:
                 VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-                VERCEL_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
+                VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
                 ENVIRONMENT: Production
