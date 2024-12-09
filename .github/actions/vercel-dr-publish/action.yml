@@ -17,12 +17,20 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: echo token
-      run: echo "${{ inputs.VERCEL_TOKEN }}"
+    - name: Debug Vercel setup
       shell: bash
+      run: |
+        echo "Current directory content:"
+        ls -la
+        echo "Checking for .vercel directory:"
+        ls -la .vercel || echo ".vercel directory not found"
 
     - name: Replace the vercel.dr.json with vercel.json
       run: cp -f vercel.dr.json vercel.json
+      shell: bash
+
+    - name: Clean up Vercel directory
+      run: rm -rf .vercel
       shell: bash
 
     - name: Install Vercel CLI
