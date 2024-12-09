@@ -35,7 +35,7 @@ jobs:
               shell: bash
 
             - name: Build
-              run: echo  $VITE_PROJECT_NAME
+              run: echo "${{ vars.VITE_PROJECT_NAME }}"
               env:
                 VITE_PROJECT_NAME: ${{ vars.VITE_PROJECT_NAME }}
                 VITE_APP_VERSION: ${{ github.ref_name }}
