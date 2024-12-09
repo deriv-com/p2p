@@ -10,68 +10,67 @@ inputs:
   ENVIRONMENT:
     description: Environment
     required: true
-  ALIAS_DOMAIN_URL:
-    description: Alias domain
-    required: false
 
 runs:
   using: composite
   steps:
-    - name: Replace the vercel.dr.json with vercel.json
-      run: cp -f vercel.dr.json vercel.json
+    - name: Debug Environment
       shell: bash
+      run: |
+        echo "Working directory: $(pwd)"
+        echo "Project ID: ${{ inputs.VERCEL_PROJECT_ID }}"
+        echo "Environment: ${{ inputs.ENVIRONMENT }}"
 
-    - name: Clean up Vercel directory
-      run: rm -rf .vercel
+    - name: Clean Vercel Cache
       shell: bash
+      run: |
+        echo "Cleaning .vercel directory..."
+        rm -rf .vercel
+        echo "Creating fresh .vercel directory..."
+        mkdir -p .vercel
 
     - name: Install Vercel CLI
-      run: npm install -g vercel
       shell: bash
-
-    - name: Setup Vercel project
       run: |
-        mkdir -p .vercel
+        echo "Installing Vercel CLI..."
+        npm install -g vercel@latest
+        vercel --version
+
+    - name: Verify Vercel Authentication
+      shell: bash
+      env:
+        VERCEL_TOKEN: ${{ inputs.VERCEL_TOKEN }}
+      run: |
+        echo "Verifying Vercel authentication..."
+        vercel whoami --token $VERCEL_TOKEN
+
+    - name: Initialize Vercel Project
+      shell: bash
+      run: |
+        echo "Initializing Vercel project configuration..."
         echo '{
-          "projectId": "${{ inputs.VERCEL_PROJECT_ID }}"
+          "projectId": "${{ inputs.VERCEL_PROJECT_ID }}",
+          "orgId": null,
+          "settings": {}
         }' > .vercel/project.json
-      shell: bash
+        echo "Content of project.json:"
+        cat .vercel/project.json
 
-    - name: Debug .vercel
-      shell: bash
-      run: |
-        echo "Checking for .vercel directory:"
-        ls -la .vercel || echo ".vercel directory not found"
-
-    - name: Pull Vercel project
+    - name: Pull Vercel Project Configuration
       shell: bash
       env:
         VERCEL_TOKEN: ${{ inputs.VERCEL_TOKEN }}
       run: |
-        vercel pull --yes --token=$VERCEL_TOKEN
+        echo "Pulling Vercel project configuration..."
+        vercel pull --yes --token=$VERCEL_TOKEN --cwd .
 
-    - name: Create deployment.txt file
-      run: echo "This is being published from Vercel" > deployment.txt
+    - name: Deploy to Vercel
       shell: bash
-
-    - name: Deploy to Vercel (Staging)
       env:
         VERCEL_TOKEN: ${{ inputs.VERCEL_TOKEN }}
-        ALIAS_DOMAIN_URL: ${{ inputs.ALIAS_DOMAIN_URL }}
-      if: ${{ inputs.ENVIRONMENT == 'Staging' }} || ${{ inputs.ENVIRONMENT == 'Preview' }}
-      shell: bash
-      run: |
-        vercel build --yes --token=$VERCEL_TOKEN
-        url="$(vercel deploy --prebuilt --token=$VERCEL_TOKEN)"
-        vercel alias "$url" $ALIAS_DOMAIN_URL --token=$VERCEL_TOKEN
-
-    - name: Deploy to Vercel (Production)
-      env:
-        VERCEL_TOKEN: ${{ inputs.VERCEL_TOKEN }}
-        ALIAS_DOMAIN_URL: ${{ inputs.ALIAS_DOMAIN_URL }}
       if: ${{ inputs.ENVIRONMENT == 'Production' }}
-      shell: bash
       run: |
-        vercel build --yes --prod --token=$VERCEL_TOKEN
-        url="$(vercel deploy --prod --prebuilt --token=$VERCEL_TOKEN)"
-        vercel alias "$url" $ALIAS_DOMAIN_URL --token=$VERCEL_TOKEN
+        echo "Building project..."
+        vercel build --prod --token=$VERCEL_TOKEN
+        echo "Deploying to production..."
+        vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
