@@ -52,6 +52,12 @@ jobs:
                 branch_name: master
                 output_dir: dist
 
+            - name: Debug Vercel Configuration
+              run: |
+                echo "Checking environment..."
+                echo "Project ID exists: ${{ secrets.VERCEL_PROJECT_ID != '' }}"
+                echo "Token exists: ${{ secrets.VERCEL_TOKEN != '' }}"
+
             - name: Upload to vercel
               uses: ./.github/actions/vercel-dr-publish
               id: dr_action
