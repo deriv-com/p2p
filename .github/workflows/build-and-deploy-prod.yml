@@ -52,3 +52,10 @@ jobs:
                 branch_name: master
                 output_dir: dist
                 cname_url: p2p.deriv.com
+
+            - name: Upload to vercel
+              uses: ./.github/actions/vercel-dr-publish
+              id: dr_action
+              with:
+                VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+                VERCEL_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
