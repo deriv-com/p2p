@@ -42,3 +42,13 @@ jobs:
                 VITE_NODE_ENV: production
 
 
+            - name: Publish to Cloudflare Pages
+              uses: "deriv-com/shared-actions/.github/actions/publish_to_pages_branch@master"
+              id: publish_to_cloudflare
+              with:
+                CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                project_name: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+                branch_name: master
+                output_dir: dist
+                cname_url: p2p.deriv.com
