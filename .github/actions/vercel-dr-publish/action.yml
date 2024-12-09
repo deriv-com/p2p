@@ -14,21 +14,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Debug Environment
-      shell: bash
-      run: |
-        echo "Working directory: $(pwd)"
-        echo "Project ID: ${{ inputs.VERCEL_PROJECT_ID }}"
-        echo "Environment: ${{ inputs.ENVIRONMENT }}"
-
-    - name: Clean Vercel Cache
-      shell: bash
-      run: |
-        echo "Cleaning .vercel directory..."
-        rm -rf .vercel
-        echo "Creating fresh .vercel directory..."
-        mkdir -p .vercel
-
     - name: Install Vercel CLI
       shell: bash
       run: |
@@ -36,41 +21,24 @@ runs:
         npm install -g vercel@latest
         vercel --version
 
-    - name: Verify Vercel Authentication
+    - name: Configure Vercel
       shell: bash
       env:
         VERCEL_TOKEN: ${{ inputs.VERCEL_TOKEN }}
       run: |
-        echo "Verifying Vercel authentication..."
-        vercel whoami --token $VERCEL_TOKEN
+        # Clean up
+        rm -rf .vercel
 
-    - name: Initialize Vercel Project
-      shell: bash
-      run: |
-        echo "Initializing Vercel project configuration..."
-        echo '{
-          "projectId": "${{ inputs.VERCEL_PROJECT_ID }}",
-          "orgId": null,
-          "settings": {}
-        }' > .vercel/project.json
-        echo "Content of project.json:"
-        cat .vercel/project.json
+        # Create new configuration
+        mkdir -p .vercel
+        echo "{\"version\":2,\"projectId\":\"${{ inputs.VERCEL_PROJECT_ID }}\",\"github\":{\"enabled\":false}}" > vercel.json
+        
+        # Verify configuration
+        cat vercel.json
 
-    - name: Pull Vercel Project Configuration
+    - name: Deploy
       shell: bash
       env:
         VERCEL_TOKEN: ${{ inputs.VERCEL_TOKEN }}
       run: |
-        echo "Pulling Vercel project configuration..."
-        vercel pull --yes --token=$VERCEL_TOKEN --cwd .
-
-    - name: Deploy to Vercel
-      shell: bash
-      env:
-        VERCEL_TOKEN: ${{ inputs.VERCEL_TOKEN }}
-      if: ${{ inputs.ENVIRONMENT == 'Production' }}
-      run: |
-        echo "Building project..."
-        vercel build --prod --token=$VERCEL_TOKEN
-        echo "Deploying to production..."
-        vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+        vercel deploy --prod --token=$VERCEL_TOKEN --yes
