@@ -1,6 +1,6 @@
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { Badge } from '@/components';
-import { useGetPhoneNumberVerification } from '@/hooks';
+import { useGetPhoneNumberVerification } from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import './AdvertiserNameBadges.scss';
 

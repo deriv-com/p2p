@@ -16,6 +16,16 @@ const mockModalManager = {
     showModal: jest.fn(),
 };
 jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        settings: {
+            useSettings: jest.fn(() => ({ pnv_required: false })),
+        },
+    },
+    useGetPhoneNumberVerification: jest.fn(() => ({
+        isPhoneNumberVerificationEnabled: false,
+        isPhoneNumberVerified: false,
+    })),
     useIsRtl: jest.fn(() => false),
     useModalManager: jest.fn(() => mockModalManager),
 }));
