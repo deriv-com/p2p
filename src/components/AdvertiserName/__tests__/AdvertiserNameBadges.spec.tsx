@@ -10,9 +10,15 @@ const mockUseAdvertiserStats = {
     isLoading: false,
 };
 
+const mockUseGetPhoneNumberVerification = {
+    isPhoneNumberVerificationEnabled: false,
+    isPhoneNumberVerified: false,
+};
+
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
     useAdvertiserStats: jest.fn(() => mockUseAdvertiserStats),
+    useGetPhoneNumberVerification: jest.fn(() => mockUseGetPhoneNumberVerification),
 }));
 
 const mockProps = {
@@ -55,5 +61,17 @@ describe('AdvertiserNameBadges', () => {
         };
         render(<AdvertiserNameBadges {...mockProps} />);
         expect(screen.getByText('100+')).toBeInTheDocument();
+    });
+    it('should render mobile badge when phone number verification is enabled and not verified', () => {
+        mockUseGetPhoneNumberVerification.isPhoneNumberVerificationEnabled = true;
+        render(<AdvertiserNameBadges {...mockProps} />);
+        expect(screen.getByText('Mobile')).toBeInTheDocument();
+        expect(screen.getByText('not verified')).toBeInTheDocument();
+    });
+    it('should render mobile badge with verified status when phone number verification is enabled and verified', () => {
+        mockUseGetPhoneNumberVerification.isPhoneNumberVerified = true;
+        render(<AdvertiserNameBadges {...mockProps} />);
+        expect(screen.getByText('Mobile')).toBeInTheDocument();
+        expect(screen.getAllByText('verified')).toHaveLength(3);
     });
 });
