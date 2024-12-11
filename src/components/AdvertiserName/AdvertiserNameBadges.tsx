@@ -1,5 +1,7 @@
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { Badge } from '@/components';
+import { useGetPhoneNumberVerification } from '@/hooks/custom-hooks';
+import { getCurrentRoute } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import './AdvertiserNameBadges.scss';
 
@@ -11,9 +13,11 @@ import './AdvertiserNameBadges.scss';
  */
 const AdvertiserNameBadges = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdvertiserStats> }) => {
     const { isAddressVerified, isIdentityVerified, totalOrders } = advertiserStats || {};
+    const { isPhoneNumberVerificationEnabled, isPhoneNumberVerified } = useGetPhoneNumberVerification();
     const { localize } = useTranslations();
     const getStatus = (isVerified?: boolean) => (isVerified ? localize('verified') : localize('not verified'));
     const getVariant = (isVerified?: boolean) => (isVerified ? 'success' : 'general');
+    const isMyProfile = getCurrentRoute() === 'my-profile';
 
     return (
         <div className='advertiser-name-badges' data-testid='dt_advertiser_name_badges'>
@@ -28,6 +32,13 @@ const AdvertiserNameBadges = ({ advertiserStats }: { advertiserStats: DeepPartia
                 status={getStatus(isAddressVerified)}
                 variant={getVariant(isAddressVerified)}
             />
+            {isPhoneNumberVerificationEnabled && isMyProfile && (
+                <Badge
+                    label={localize('Mobile')}
+                    status={getStatus(isPhoneNumberVerified)}
+                    variant={getVariant(isPhoneNumberVerified)}
+                />
+            )}
         </div>
     );
 };
