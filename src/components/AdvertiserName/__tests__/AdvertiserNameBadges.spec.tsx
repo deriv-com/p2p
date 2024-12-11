@@ -21,6 +21,11 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useGetPhoneNumberVerification: jest.fn(() => mockUseGetPhoneNumberVerification),
 }));
 
+jest.mock('@/utils', () => ({
+    ...jest.requireActual('@/utils'),
+    getCurrentRoute: jest.fn(() => 'my-profile'),
+}));
+
 const mockProps = {
     advertiserStats: {
         isAddressVerified: false,
