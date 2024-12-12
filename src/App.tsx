@@ -32,7 +32,6 @@ const App = () => {
     initTrackJS();
     initDerivAnalytics();
     initDatadog();
-    // onRenderAuthCheck();
 
     useEffect(() => {
         if (isGBLoaded && ShouldRedirectToDerivApp) {

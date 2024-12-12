@@ -2,7 +2,6 @@ import { memo } from 'react';
 import { Callback } from '@deriv-com/auth-client';
 
 const CallbackPage = () => {
-    // console.log('CallbackPage');
     return (
         <Callback
             onSignInSuccess={tokens => {

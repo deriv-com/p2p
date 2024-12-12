@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import Cookies from 'js-cookie';
 import { getOauthUrl } from '@/constants';
 import { getCurrentRoute, removeCookies } from '@/utils';
 import { useAuthData } from '@deriv-com/api-hooks';
@@ -44,7 +45,6 @@ const useOAuth = (): UseOAuthReturn => {
             window.open(oauthUrl, '_self');
         }
     };
-    // const { OAuth2Logout: oAuthLogout } = useOAuth2(oAuthGrowthbookConfig, WSLogoutAndRedirect);
     const handleLogout = async () => {
         await OAuth2Logout(WSLogoutAndRedirect);
     };
@@ -59,13 +59,13 @@ const useOAuth = (): UseOAuthReturn => {
         }
     };
 
-    // console.log(isOAuth2Enabled)
+    const hasAuthToken = localStorage.getItem('authToken');
+    const loggedState = Cookies.get('logged_state');
 
     const onRenderAuthCheck = useCallback(async () => {
         if (!isEndpointPage && !isCallbackPage) {
-            if (error?.code === 'InvalidToken') {
-                // oAuthLogout();
-                handleLogout();
+            if ((hasAuthToken && loggedState === 'false' && isOAuth2Enabled) || error?.code === 'InvalidToken') {
+                await handleLogout();
             } else if (!isAuthorized && !isAuthorizing) {
                 await redirectToAuth();
             }
