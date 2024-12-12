@@ -164,8 +164,6 @@ describe('<AppHeader/>', () => {
         const { logout } = mockUseAuthData();
         await waitFor(() => expect(logoutButton).toBeInTheDocument());
 
-        screen.debug(undefined, 1000000);
-
         await userEvent.click(logoutButton);
         expect(logout).toHaveBeenCalled();
     });
