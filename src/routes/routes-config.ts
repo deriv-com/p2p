@@ -16,6 +16,7 @@ const Advertiser = lazy(() => import('@/pages/advertiser').then(module => ({ def
 const Endpoint = lazy(() => import('@/pages/endpoint').then(module => ({ default: module.Endpoint })));
 const Guide = lazy(() => import('@/pages/guide').then(module => ({ default: module.Guide })));
 const P2PRedirectHandler = lazy(() => import('./P2PRedirectHandler'));
+const CallbackPage = lazy(() => import('./CallbackPage'));
 
 export const getRoutes = (localize: TLocalize) => [
     {
@@ -73,5 +74,10 @@ export const getRoutes = (localize: TLocalize) => [
         component: P2PRedirectHandler,
         name: 'P2PRedirectHandler',
         path: '/redirect/p2p',
+    },
+    {
+        component: CallbackPage,
+        name: 'CallbackPage',
+        path: '/callback',
     },
 ];
