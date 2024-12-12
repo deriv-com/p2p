@@ -8,6 +8,7 @@ import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProv
 import { getCurrentRoute } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
+import CallbackPage from '../CallbackPage';
 import Router from '../Router';
 import { getRoutes } from '../routes-config';
 import './index.scss';
@@ -33,7 +34,8 @@ const AppContent = () => {
             route.name !== 'Advertiser' &&
             route.name !== 'Endpoint' &&
             route.name !== 'Guide' &&
-            route.name !== 'P2PRedirectHandler'
+            route.name !== 'P2PRedirectHandler' &&
+            route.name !== 'CallbackPage'
     );
 
     const getActiveTab = (pathname: string) => {
@@ -59,6 +61,7 @@ const AppContent = () => {
     } = api.advertiser.useGetInfo();
     const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
+    const isCallbackPage = getCurrentRoute() === 'callback';
 
     useEffect(() => {
         initLiveChat();
@@ -102,7 +105,11 @@ const AppContent = () => {
     }, []);
 
     const getComponent = () => {
-        if ((isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
+        if (
+            (isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData) &&
+            !isEndpointRoute &&
+            !isCallbackPage
+        ) {
             return <Loader />;
         } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code) {
             return (
@@ -130,6 +137,8 @@ const AppContent = () => {
                     <Router />
                 </div>
             );
+        } else if (isCallbackPage) {
+            return <CallbackPage />;
         }
 
         return null;
@@ -147,15 +156,17 @@ const AppContent = () => {
             }}
         >
             <div className='app-content'>
-                <Text
-                    align='center'
-                    as='div'
-                    className='app-content__title p-2'
-                    size={isDesktop ? 'xl' : 'lg'}
-                    weight='bold'
-                >
-                    Deriv P2P
-                </Text>
+                {!isCallbackPage && (
+                    <Text
+                        align='center'
+                        as='div'
+                        className='app-content__title p-2'
+                        size={isDesktop ? 'xl' : 'lg'}
+                        weight='bold'
+                    >
+                        Deriv P2P
+                    </Text>
+                )}
                 {getComponent()}
             </div>
         </AdvertiserInfoStateProvider>

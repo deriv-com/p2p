@@ -10,6 +10,7 @@ import { Loader, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
 import useGrowthbookGetFeatureValue from './hooks/custom-hooks/useGrowthbookGetFeatureValue';
 import useOAuth2Enabled from './hooks/custom-hooks/useOAuth2Enabled';
+import { getCurrentRoute } from './utils';
 
 const { VITE_CROWDIN_BRANCH_NAME, VITE_PROJECT_NAME, VITE_TRANSLATIONS_CDN_URL } = process.env;
 const i18nInstance = initializeI18n({
@@ -26,19 +27,23 @@ const App = () => {
     const { initialise: initDatadog } = useDatadog();
     const { isDesktop } = useDevice();
     const { initialise: initDerivAnalytics } = useDerivAnalytics();
+    const isCallbackPage = getCurrentRoute() === 'callback';
 
     initTrackJS();
     initDerivAnalytics();
     initDatadog();
-    onRenderAuthCheck();
+    // onRenderAuthCheck();
 
     useEffect(() => {
         if (isGBLoaded && ShouldRedirectToDerivApp) {
             const NODE_ENV = process.env.VITE_NODE_ENV;
             const APP_URL = NODE_ENV === 'production' ? URLConstants.derivAppProduction : URLConstants.derivAppStaging;
             window.location.href = `${APP_URL}/cashier/p2p`;
+        } else if (isGBLoaded) {
+            onRenderAuthCheck();
         }
-    }, [isGBLoaded, ShouldRedirectToDerivApp]);
+    }, [isGBLoaded, ShouldRedirectToDerivApp, onRenderAuthCheck]);
+
     return (
         <BrowserRouter>
             <ErrorBoundary>
@@ -52,9 +57,9 @@ const App = () => {
                             }
                         >
                             {!isOAuth2Enabled && <DerivIframe />}
-                            <AppHeader />
+                            {!isCallbackPage && <AppHeader />}
                             <AppContent />
-                            {isDesktop && <AppFooter />}
+                            {isDesktop && !isCallbackPage && <AppFooter />}
                         </Suspense>
                     </TranslationProvider>
                 </QueryParamProvider>

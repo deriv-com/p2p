@@ -2,10 +2,16 @@ import { useCallback } from 'react';
 import { getOauthUrl } from '@/constants';
 import { getCurrentRoute, removeCookies } from '@/utils';
 import { useAuthData } from '@deriv-com/api-hooks';
-import { TOAuth2EnabledAppList, useOAuth2 } from '@deriv-com/auth-client';
+import {
+    OAuth2Logout,
+    requestOidcAuthentication,
+    TOAuth2EnabledAppList,
+    useIsOAuth2Enabled,
+} from '@deriv-com/auth-client';
 import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
 
 type UseOAuthReturn = {
+    isOAuth2Enabled: boolean;
     oAuthLogout: () => void;
     onRenderAuthCheck: () => void;
 };
@@ -19,34 +25,55 @@ const useOAuth = (): UseOAuthReturn => {
         featureFlag: 'hydra_be',
     }) as unknown as [TOAuth2EnabledAppList, boolean];
 
-    const oAuthGrowthbookConfig = {
-        OAuth2EnabledApps,
-        OAuth2EnabledAppsInitialised,
-    };
+    const isOAuth2Enabled = useIsOAuth2Enabled(OAuth2EnabledApps, OAuth2EnabledAppsInitialised);
 
     const { logout } = useAuthData();
     const { error, isAuthorized, isAuthorizing } = useAuthData();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
+    const isCallbackPage = getCurrentRoute() === 'callback';
     const oauthUrl = getOauthUrl();
 
     const WSLogoutAndRedirect = async () => {
         await logout();
         removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
-        window.open(oauthUrl, '_self');
+        if (isOAuth2Enabled) {
+            await requestOidcAuthentication({
+                redirectCallbackUri: `${window.location.origin}/callback`,
+            });
+        } else {
+            window.open(oauthUrl, '_self');
+        }
     };
-    const { OAuth2Logout: oAuthLogout } = useOAuth2(oAuthGrowthbookConfig, WSLogoutAndRedirect);
+    // const { OAuth2Logout: oAuthLogout } = useOAuth2(oAuthGrowthbookConfig, WSLogoutAndRedirect);
+    const handleLogout = async () => {
+        await OAuth2Logout(WSLogoutAndRedirect);
+    };
 
-    const onRenderAuthCheck = useCallback(() => {
-        if (!isEndpointPage) {
+    const redirectToAuth = async () => {
+        if (isOAuth2Enabled) {
+            await requestOidcAuthentication({
+                redirectCallbackUri: `${window.location.origin}/callback`,
+            });
+        } else {
+            window.open(oauthUrl, '_self');
+        }
+    };
+
+    // console.log(isOAuth2Enabled)
+
+    const onRenderAuthCheck = useCallback(async () => {
+        if (!isEndpointPage && !isCallbackPage) {
             if (error?.code === 'InvalidToken') {
-                oAuthLogout();
+                // oAuthLogout();
+                handleLogout();
             } else if (!isAuthorized && !isAuthorizing) {
-                window.open(oauthUrl, '_self');
+                await redirectToAuth();
             }
         }
-    }, [isEndpointPage, error?.code, isAuthorized, isAuthorizing, oAuthLogout, oauthUrl]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isEndpointPage, isCallbackPage, error?.code, isAuthorized, isAuthorizing, isOAuth2Enabled]);
 
-    return { oAuthLogout, onRenderAuthCheck };
+    return { isOAuth2Enabled, oAuthLogout: handleLogout, onRenderAuthCheck };
 };
 
 export default useOAuth;
