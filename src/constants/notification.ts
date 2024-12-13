@@ -1,4 +1,5 @@
 import { TLocalize } from 'types';
+import { MY_PROFILE_URL, ORDERS_URL } from '@/constants';
 import { FormatUtils } from '@deriv-com/utils';
 
 export const getNotification = (localize: TLocalize, messageKey: string, payload?: string) => {
@@ -7,16 +8,18 @@ export const getNotification = (localize: TLocalize, messageKey: string, payload
         actionText: '',
         message: '',
         title: '',
+        url: '',
     };
 
     switch (messageKey) {
-        case 'p2p-order-complete':
+        case 'p2p-order-completed':
             notification.title = localize('Your order {{order_id}} is complete', values);
             notification.message = localize(
-                '{{name}} has released your funds. Would you like to give your feedback?',
+                '{{seller_name}} has released your funds. Would you like to give your feedback?',
                 values
             );
             notification.actionText = localize('Give feedback', values);
+            notification.url = `${ORDERS_URL}/${values.order_id}`;
 
             break;
         case 'p2p-limit-upgrade-available':
@@ -30,6 +33,7 @@ export const getNotification = (localize: TLocalize, messageKey: string, payload
                 }
             );
             notification.actionText = localize('Yes, increase my limits');
+            notification.url = MY_PROFILE_URL;
 
             break;
         default:

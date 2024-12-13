@@ -52,7 +52,7 @@ const useNotificationList = () => {
 
         // TODO: Remove this filter once all the notifications are implemented
         const notifications = messages.filter((notification: { message_key: string }) =>
-            ['p2p-limit-upgrade-available'].includes(notification.message_key)
+            ['p2p-limit-upgrade-available', 'p2p-order-completed'].includes(notification.message_key)
         );
 
         return notifications;
