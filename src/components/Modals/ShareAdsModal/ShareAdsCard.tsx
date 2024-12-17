@@ -61,23 +61,7 @@ const ShareMyAdsCard = forwardRef(
                 </div>
                 <div className='flex flex-col items-center justify-center share-ads-card__qr'>
                     <div className='flex items-center justify-center relative share-ads-card__qr-container'>
-                        <QRCodeSVG
-                            imageSettings={{
-                                excavate: true,
-                                height: 25,
-                                src: '',
-                                width: 25,
-                            }}
-                            size={isDesktop ? 140 : 120}
-                            value={advertUrl}
-                        />
-                        <img
-                            alt='dp2p_logo'
-                            className='absolute share-ads-card__qr-icon'
-                            height='25'
-                            src={p2pLogo.dp2p_logo}
-                            width='25'
-                        />
+                        <QRCodeSVG size={isDesktop ? 140 : 120} value={advertUrl} />
                     </div>
                     <Text className='share-ads-card__qr-text' color='less-prominent' size='xs'>
                         <Localize i18n_default_text='Scan this code to order via Deriv P2P' />
