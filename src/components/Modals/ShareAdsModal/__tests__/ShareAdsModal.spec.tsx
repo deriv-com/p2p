@@ -73,7 +73,7 @@ describe('ShareAdsModal', () => {
         render(<ShareAdsModal {...mockProps} />);
         const shareLinkButton = screen.getByRole('button', { name: 'Share link' });
         await userEvent.click(shareLinkButton);
-        expect(mockShare).toBeCalled();
+        expect(mockShare).toHaveBeenCalled();
     });
 
     it('should call onCopy function when clicking on copy icon', async () => {
@@ -102,6 +102,6 @@ describe('ShareAdsModal', () => {
         const downloadButton = screen.getByRole('button', { name: 'Download this QR code' });
         await userEvent.click(downloadButton);
 
-        await waitFor(() => expect(html2canvas).toBeCalled());
+        await waitFor(() => expect(html2canvas).toHaveBeenCalled());
     });
 });

@@ -61,17 +61,14 @@ const ShareAdsModal = ({ id, isModalOpen, onRequestClose }: TShareAdsModalProps)
 
     const handleGenerateImage = async () => {
         if (divRef.current) {
-            const p2pLogo = divRef.current.querySelector('.share-ads-card__qr-icon');
-            if (p2pLogo) {
-                const { default: html2canvas } = await import('html2canvas');
-                const canvas = await html2canvas(divRef.current, { allowTaint: true, useCORS: true });
-                const screenshot = canvas.toDataURL('image/png', 1.0);
-                const fileName = `${type}_${id}.png`;
-                const link = document.createElement('a');
-                link.download = fileName;
-                link.href = screenshot;
-                link.click();
-            }
+            const { default: html2canvas } = await import('html2canvas');
+            const canvas = await html2canvas(divRef.current, { allowTaint: true, useCORS: true });
+            const screenshot = canvas.toDataURL('image/png', 1.0);
+            const fileName = `${type}_${id}.png`;
+            const link = document.createElement('a');
+            link.download = fileName;
+            link.href = screenshot;
+            link.click();
         }
     };
 
