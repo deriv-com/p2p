@@ -14,6 +14,7 @@ export * from './FileDropzone';
 export * from './FloatingRate';
 export * from './FormProgress';
 export * from './FullPageMobileWrapper';
+export * from './FundsBanner';
 export * from './LightDivider';
 export * from './MobileTabs';
 export * from './OnboardingTooltip';

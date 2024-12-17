@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { TCurrencyListItem } from 'types';
 import { useOnClickOutside } from 'usehooks-ts';
 import { FullPageMobileWrapper } from '@/components';
-import { api } from '@/hooks';
+import { api, useQueryString } from '@/hooks';
 import { LabelPairedChevronDownMdRegularIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
@@ -19,6 +19,15 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
     const { data } = api.settings.useSettings();
     const { isDesktop, isMobile } = useDevice();
     const [showCurrencySelector, setShowCurrencySelector] = useState<boolean>(false);
+    const { deleteQueryString, setQueryString } = useQueryString();
+
+    const onToggleCurrencyDropdown = (shouldShow: boolean) => {
+        setShowCurrencySelector(shouldShow);
+        if (!isDesktop) {
+            if (shouldShow) setQueryString({ modal: 'CurrencyFilterModal' });
+            else deleteQueryString('modal');
+        }
+    };
 
     const currencySelectorRef = useRef<HTMLDivElement>(null);
     useOnClickOutside(currencySelectorRef, () => {
@@ -39,7 +48,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
         }, [data?.currencyList, selectedCurrency]) ?? [];
 
     const onSelectItem = (currency: string) => {
-        setShowCurrencySelector(false);
+        onToggleCurrencyDropdown(false);
         setSelectedCurrency(currency);
     };
 
@@ -48,7 +57,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
             <FullPageMobileWrapper
                 className='currency-dropdown__full-page-modal'
                 onBack={() => {
-                    setShowCurrencySelector(false);
+                    onToggleCurrencyDropdown(false);
                 }}
                 renderHeader={() => (
                     <Text size='lg' weight='bold'>
@@ -70,7 +79,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
                 className={clsx('currency-dropdown__dropdown', {
                     'currency-dropdown__dropdown--active': showCurrencySelector,
                 })}
-                onClick={() => setShowCurrencySelector(prev => !prev)}
+                onClick={() => onToggleCurrencyDropdown(!showCurrencySelector)}
             >
                 <Text className='currency-dropdown__dropdown-text' size={isMobile ? 'xs' : '2xs'}>
                     <Localize i18n_default_text='Currency' />
