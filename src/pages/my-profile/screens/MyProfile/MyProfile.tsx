@@ -4,6 +4,7 @@ import { NicknameModal } from '@/components/Modals';
 import {
     useAdvertiserStats,
     useIsAdvertiser,
+    useIsAdvertiserNotVerified,
     useModalManager,
     usePoiPoaStatus,
     useQueryString,
@@ -28,6 +29,7 @@ const MyProfile = () => {
     const { data: advertiserStats, isLoading } = useAdvertiserStats();
     const { isPoiPoaVerified } = data || {};
     const isAdvertiser = useIsAdvertiser();
+    const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
 
     const currentTab = queryString.tab;
@@ -48,7 +50,7 @@ const MyProfile = () => {
         return <Loader />;
     }
 
-    if (!isAdvertiser && !isPoiPoaVerified) {
+    if (isAdvertiserNotVerified) {
         return (
             <div className='overflow-y-auto h-[calc(100%-11rem)]'>
                 <Verification />

@@ -41,6 +41,11 @@
                 cursor: not-allowed;
             }
 
+            &--done {
+                cursor: default;
+                background-color: #4bb4b3 !important;
+            }
+
             &-icon {
                 fill: #fff;
             }
@@ -50,8 +55,14 @@
             @include icon-wrapper;
 
             &-icon {
-                fill: #4bb4b3;
+                fill: #fff;
             }
+        }
+
+        &-text {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
     }
 }
