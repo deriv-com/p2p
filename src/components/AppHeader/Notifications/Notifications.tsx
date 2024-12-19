@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getNotification, MY_PROFILE_URL } from '@/constants';
+import { getNotification } from '@/constants';
 import { api } from '@/hooks';
 import { LegacyAnnouncementIcon, LegacyNotificationIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
@@ -17,7 +17,7 @@ const Notifications = () => {
 
     const modifiedNotifications = useMemo(() => {
         return notifications?.map((notification: { message_key: string; payload: string }) => {
-            const { actionText, message, title } = getNotification(
+            const { actionText, message, title, url } = getNotification(
                 localize,
                 notification.message_key,
                 notification.payload
@@ -26,7 +26,7 @@ const Notifications = () => {
             return {
                 actionText,
                 buttonAction: () => {
-                    if (notification.message_key === 'p2p-limit-upgrade-available') history.push(MY_PROFILE_URL);
+                    if (url) history.push(url);
 
                     setIsOpen(false);
                 },

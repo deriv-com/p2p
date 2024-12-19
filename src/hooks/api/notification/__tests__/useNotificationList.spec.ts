@@ -12,6 +12,11 @@ const mockNotificationListData = {
                 },
                 {
                     category: 'see',
+                    id: 1,
+                    message_key: 'p2p-order-completed',
+                },
+                {
+                    category: 'see',
                     id: 2,
                     message_key: 'poi-verified',
                 },
@@ -33,6 +38,11 @@ describe('useNotificationList', () => {
                 category: 'see',
                 id: 1,
                 message_key: 'p2p-limit-upgrade-available',
+            },
+            {
+                category: 'see',
+                id: 1,
+                message_key: 'p2p-order-completed',
             },
         ]);
     });
