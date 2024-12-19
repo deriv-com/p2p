@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import Cookies from 'js-cookie';
 import { getOauthUrl } from '@/constants';
 import { getCurrentRoute, removeCookies } from '@/utils';
 import { useAuthData } from '@deriv-com/api-hooks';
@@ -27,7 +28,9 @@ const useOAuth = (): UseOAuthReturn => {
     const { logout } = useAuthData();
     const { error, isAuthorized, isAuthorizing } = useAuthData();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
+    const isRedirectPage = getCurrentRoute() === 'redirect';
     const oauthUrl = getOauthUrl();
+    const authTokenLocalStorage = localStorage.getItem('authToken');
 
     const WSLogoutAndRedirect = async () => {
         await logout();
@@ -40,11 +43,30 @@ const useOAuth = (): UseOAuthReturn => {
         if (!isEndpointPage) {
             if (error?.code === 'InvalidToken') {
                 oAuthLogout();
-            } else if (!isAuthorized && !isAuthorizing) {
+            } else if (isRedirectPage) {
+                const params = new URLSearchParams(location.search);
+                const from = params.get('from');
+                const authTokenCookie = Cookies.get('authtoken');
+
+                if (from === 'tradershub' && authTokenCookie) {
+                    localStorage.setItem('authToken', authTokenCookie);
+                    Cookies.remove('authtoken');
+                    window.location.href = window.location.origin;
+                }
+            } else if (!isAuthorized && !isAuthorizing && !authTokenLocalStorage) {
                 window.open(oauthUrl, '_self');
             }
         }
-    }, [isEndpointPage, error?.code, isAuthorized, isAuthorizing, oAuthLogout, oauthUrl]);
+    }, [
+        isEndpointPage,
+        error?.code,
+        isRedirectPage,
+        isAuthorized,
+        isAuthorizing,
+        authTokenLocalStorage,
+        oAuthLogout,
+        oauthUrl,
+    ]);
 
     return { oAuthLogout, onRenderAuthCheck };
 };
