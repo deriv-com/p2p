@@ -49,7 +49,8 @@ const useOAuth = (): UseOAuthReturn => {
                 const authTokenCookie = Cookies.get('authtoken');
 
                 if (from === 'tradershub' && authTokenCookie) {
-                    localStorage.setItem('authToken', authTokenCookie);
+                    const cleanedAuthToken = decodeURIComponent(authTokenCookie).replace(/^"|"$/g, '');
+                    localStorage.setItem('authToken', cleanedAuthToken);
                     Cookies.remove('authtoken');
                     window.location.href = window.location.origin;
                 }
