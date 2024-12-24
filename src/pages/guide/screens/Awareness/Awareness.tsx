@@ -1,4 +1,4 @@
-import Chat from '@/utils/chat';
+import { Chat } from '@/utils';
 import { DerivDarkScamAdvancePaymentIcon, DerivDarkScamPotIcon, DerivDarkScamSmsIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';

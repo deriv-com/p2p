@@ -132,6 +132,10 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
         };
     });
 
+    const filteredAdvertiserPaymentMethods = advertiserPaymentMethods?.filter(method =>
+        paymentMethodNames?.includes(method.display_name || '')
+    );
+
     const history = useHistory();
     const { isDesktop } = useDevice();
     const isBuy = type === BUY_SELL.BUY;
@@ -343,7 +347,7 @@ const BuySellForm = ({ advertId, isModalOpen, onRequestClose }: TBuySellFormProp
                 <LightDivider />
                 {isBuy && paymentMethodNames && paymentMethodNames?.length > 0 && (
                     <BuySellPaymentSection
-                        advertiserPaymentMethods={advertiserPaymentMethods as TPaymentMethod[]}
+                        advertiserPaymentMethods={filteredAdvertiserPaymentMethods as TPaymentMethod[]}
                         availablePaymentMethods={availablePaymentMethods as TPaymentMethod[]}
                         isDisabled={shouldDisableField}
                         onSelectPaymentMethodCard={onSelectPaymentMethodCard}

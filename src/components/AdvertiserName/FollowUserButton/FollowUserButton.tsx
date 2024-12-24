@@ -63,7 +63,7 @@ const FollowUserButton = ({ id }: TFollowUserButtonProps) => {
         <>
             <OnboardingTooltip
                 buttonText={<Localize i18n_default_text='OK' />}
-                className='absolute p-[0.2rem] lg:right-12 right-0 lg:mt-2 mt-0'
+                className='p-[0.2rem] relative right-0 lg:mt-2 mt-0'
                 description={
                     <Localize i18n_default_text='Follow your favourite advertisers and set a filter to see their ads first in your Buy/Sell list.' />
                 }

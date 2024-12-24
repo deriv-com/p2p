@@ -1,41 +1,42 @@
 import { useEffect, useState } from 'react';
 import { useScript } from 'usehooks-ts';
 
-const useFreshChat = (token: string | null) => {
-    const scriptStatus = useScript('https://static.deriv.com/scripts/freshchat/freshchat-1.0.1.js');
+const useFreshChat = (token: string | null, flag: boolean) => {
+    const freshchatScript = 'https://static.deriv.com/scripts/freshchat/v1.0.2.js';
+    const scriptStatus = useScript(flag ? freshchatScript : null);
     const [isReady, setIsReady] = useState(false);
-    const language = localStorage.getItem('i18n_language') || 'EN';
 
     useEffect(() => {
-        const checkFcWidget = (intervalId: NodeJS.Timeout) => {
-            if (typeof window !== 'undefined') {
-                if (window.fcWidget?.isInitialized() == true && !isReady) {
+        if (!flag || scriptStatus !== 'ready' || !window.FreshChat || !window.fcSettings) {
+            return;
+        }
+
+        let checkInterval: NodeJS.Timeout;
+
+        const initializeFreshChat = () => {
+            window.FreshChat.initialize({
+                hideButton: true,
+                token,
+            });
+
+            checkInterval = setInterval(() => {
+                if (window?.fcWidget?.isInitialized()) {
                     setIsReady(true);
-                    clearInterval(intervalId);
+                    clearInterval(checkInterval);
                 }
-            }
+            }, 500);
         };
 
-        const initFreshChat = async () => {
-            if (scriptStatus === 'ready' && window.FreshChat && window.fcSettings) {
-                window.FreshChat.initialize({
-                    hideButton: true,
-                    token,
-                });
+        initializeFreshChat();
 
-                const intervalId: NodeJS.Timeout = setInterval(() => checkFcWidget(intervalId), 500);
-
-                return () => clearInterval(intervalId);
+        return () => {
+            if (checkInterval) {
+                clearInterval(checkInterval);
             }
         };
+    }, [flag, scriptStatus, token]);
 
-        initFreshChat();
-    }, [isReady, language, scriptStatus, token]);
-
-    return {
-        isReady,
-        widget: window.fcWidget,
-    };
+    return { isReady };
 };
 
 export default useFreshChat;

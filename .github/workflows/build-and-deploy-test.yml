@@ -68,19 +68,6 @@ jobs:
             - name: Run tests for Eslint
               run: npm run test:lint
 
-            - name: Retrieve PR information
-              env:
-                  EVENT_NUMBER: ${{ github.event.number }}
-                  EVENT_USERNAME: ${{ github.event.pull_request.user.login }}
-                  HEAD_REF: ${{ github.head_ref }}
-                  DRAFT: ${{ github.event.pull_request.draft }}
-              run: |
-                  mkdir -p pr
-                  echo "$EVENT_NUMBER" > pr/NR
-                  echo "$EVENT_USERNAME" > pr/USERNAME
-                  echo "$HEAD_REF" > pr/BRANCHNAME
-                  echo "$DRAFT" > pr/DRAFT
-
             - name: Publish to Cloudflare Pages
               id: publish-to-pages
               env:
@@ -100,7 +87,6 @@ jobs:
                   cat log.txt
                   if grep -q "Deployment complete" log.txt; then
                     echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
-                    echo $preview_url > pr/PREVIEW_URL
                   else
                     echo "Deployment to Cloudflare Pages failed."
                     exit 1
@@ -151,8 +137,26 @@ jobs:
                   message: ${{steps.generate_preview_url.outputs.comment || steps.generate_failure_comment.outputs.comment }}
                   recreate: true
 
-            - name: Upload PR information to artifact
-              uses: actions/upload-artifact@v4
+            - name: Trigger deriv-app smoke tests from regentmarkets
+              env:
+                  issue_number: ${{ github.event.number }}
+                  user_name: ${{ github.event.pull_request.user.login }}
+                  preview_url: ${{ steps.publish-to-pages.outputs.preview_url }}
+              uses: actions/github-script@v6
               with:
-                  name: 'pr-${{github.run_id}}'
-                  path: 'pr/'
+                github-token: ${{ secrets.E2E_WORKFLOW_TOKEN }}
+                script: |
+                  const workflowInputs = {
+                    environment: '${{ secrets.E2E_WORKFLOW_ENV }}',
+                    suite: 'P2P-V2',
+                    appRegUrl: process.env.preview_url,
+                    issue_number: process.env.issue_number,
+                    user_name: process.env.user_name
+                    };
+                  const response = await github.rest.actions.createWorkflowDispatch({
+                    owner: 'regentmarkets',
+                    repo: 'e2e-deriv-app',
+                    workflow_id: 'E2E_Run_PR.yml',
+                    ref: 'master',
+                    inputs: workflowInputs
+                  });

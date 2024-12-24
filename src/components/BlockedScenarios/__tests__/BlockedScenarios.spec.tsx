@@ -48,15 +48,6 @@ describe('BlockedScenarios', () => {
         expect(screen.getByRole('button', { name: 'Live chat' })).toBeInTheDocument();
     });
 
-    it('should show the correct message for cashier locked account', () => {
-        render(<BlockedScenarios type='cashierLocked' />);
-        expect(screen.getByText('Cashier is locked')).toBeInTheDocument();
-        expect(
-            screen.getByText('Your cashier is currently locked. Please contact us via live chat to find out why.')
-        ).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'Live chat' })).toBeInTheDocument();
-    });
-
     it('should show the correct message when cashier is under maintenance', () => {
         render(<BlockedScenarios type='systemMaintenance' />);
         expect(screen.getByText('Cashier is currently down for maintenance')).toBeInTheDocument();
@@ -69,5 +60,13 @@ describe('BlockedScenarios', () => {
         expect(screen.getByText('Deriv P2P unavailable')).toBeInTheDocument();
         expect(screen.getByText('This service is currently not offered in your country.')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: "Go to Trader's Hub" })).toBeInTheDocument();
+    });
+
+    it('should show the correct message when user has p2p blocked for pa', () => {
+        render(<BlockedScenarios type='p2pBlockedForPa' />);
+        expect(screen.getByText('Your Deriv P2P cashier is blocked')).toBeInTheDocument();
+        expect(
+            screen.getByText('P2P transactions are locked. This feature is not available for payment agents.')
+        ).toBeInTheDocument();
     });
 });
