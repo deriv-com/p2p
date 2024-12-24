@@ -114,13 +114,14 @@ const AppContent = () => {
                 (queryString.modal === 'RadioGroupFilterModal' ||
                     queryString.modal === 'FundsModal' ||
                     !queryString.modal)) ||
-                isDesktop)
+                isDesktop) &&
+            activeAccountData?.hasMigratedToWallets
         ) {
             setShowFundsBanner(true);
         } else {
             setShowFundsBanner(false);
         }
-    }, [isAdvertiser, isBuySellPage, isDesktop, location, queryString]);
+    }, [activeAccountData?.hasMigratedToWallets, isAdvertiser, isBuySellPage, isDesktop, location, queryString]);
 
     const getComponent = () => {
         if ((isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {

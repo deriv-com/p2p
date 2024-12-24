@@ -49,6 +49,9 @@ jest.mock('@/components/Modals', () => ({
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
+        account: {
+            useActiveAccount: jest.fn().mockReturnValue({ data: { hasMigratedToWallets: false } }),
+        },
         advert: {
             useGetList: jest.fn(() => mockAdvertiserListData),
         },

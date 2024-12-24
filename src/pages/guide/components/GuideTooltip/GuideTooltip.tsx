@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { OnboardingTooltip } from '@/components';
 import { GUIDE_URL } from '@/constants';
+import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
 import { getCurrentRoute } from '@/utils';
 import { LabelPairedBookCircleQuestionLgRegularIcon } from '@deriv/quill-icons';
@@ -13,12 +14,14 @@ const GuideTooltip = () => {
     const history = useHistory();
     const currentRoute = getCurrentRoute();
     const isAdvertiser = useIsAdvertiser();
+    const { data: activeAccountData } = api.account.useActiveAccount();
 
     return (
         <OnboardingTooltip
             buttonText={<Localize i18n_default_text='Get Started' />}
             className={clsx('guide-tooltip__icon', {
-                'guide-tooltip__icon--is-buy-sell': currentRoute === 'buy-sell' && isAdvertiser,
+                'guide-tooltip__icon--is-buy-sell':
+                    currentRoute === 'buy-sell' && isAdvertiser && activeAccountData?.hasMigratedToWallets,
                 'guide-tooltip__icon--not-advertiser': !isAdvertiser,
             })}
             description={

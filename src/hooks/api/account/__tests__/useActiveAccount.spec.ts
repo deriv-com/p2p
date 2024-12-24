@@ -116,6 +116,7 @@ describe('useActiveAccount', () => {
             created_at: 1718953961,
             currency: 'USD',
             currency_type: 'fiat',
+            hasMigratedToWallets: false,
             is_disabled: 0,
             is_virtual: 0,
             landing_company_name: 'name',
@@ -139,11 +140,24 @@ describe('useActiveAccount', () => {
             created_at: 1718953961,
             currency: 'USD',
             currency_type: 'fiat',
+            hasMigratedToWallets: false,
             is_disabled: 0,
             is_virtual: 0,
             landing_company_name: 'name',
             linked_to: [],
             loginid: 'CR00001',
         });
+    });
+
+    it('should return hasMigratedToWallets as true if the account is linked to dwallet', () => {
+        // @ts-expect-error mockAccountList is not typed with platform
+        mockAccountList[0].linked_to = [{ platform: 'dwallet' }];
+        mockUseAccountList.mockReturnValue({ data: mockAccountList });
+        mockUseAuthData.mockReturnValue({ activeLoginid: 'CR00001' });
+        mockUseBalance.mockReturnValue({ data: mockBalanceData });
+
+        const { result } = renderHook(() => useActiveAccount());
+
+        expect(result.current.data?.hasMigratedToWallets).toBe(true);
     });
 });

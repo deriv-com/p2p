@@ -19,6 +19,9 @@ jest.mock('@deriv-com/ui', () => ({
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
+        account: {
+            useActiveAccount: jest.fn().mockReturnValue({ data: { hasMigratedToWallets: false } }),
+        },
         settings: {
             useGetSettings: () => ({
                 data: {},
