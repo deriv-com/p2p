@@ -1,11 +1,15 @@
 import clsx from 'clsx';
+import { api } from '@/hooks';
+import { useTranslations } from '@deriv-com/translations';
 import { MenuItem, Text, useDevice } from '@deriv-com/ui';
 import { PlatformSwitcher } from '../PlatformSwitcher';
 import { MobileMenuConfig } from './MobileMenuConfig';
 
 export const MenuContent = () => {
+    const { localize } = useTranslations();
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
+    const { data: activeAccountData } = api.account.useActiveAccount();
 
     return (
         <div className='flex flex-col h-full overflow-hidden'>
@@ -15,7 +19,6 @@ export const MenuContent = () => {
             <div className='relative h-full pt-4 overflow-scroll'>
                 {MobileMenuConfig().map((item, index) => {
                     const removeBorderBottom = item.find(({ removeBorderBottom }) => removeBorderBottom);
-
                     return (
                         <div
                             className={clsx('pl-[4.8rem] pr-[1.6rem]', {
@@ -25,6 +28,9 @@ export const MenuContent = () => {
                             key={index}
                         >
                             {item.map(({ LeftComponent, RightComponent, as, href, label, onClick, target }) => {
+                                if (activeAccountData?.hasMigratedToWallets && label === localize('Cashier')) {
+                                    return null;
+                                }
                                 if (as === 'a') {
                                     return (
                                         <MenuItem

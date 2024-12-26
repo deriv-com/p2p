@@ -8,6 +8,11 @@ import userEvent from '@testing-library/user-event';
 import MobileMenu from '../MobileMenu';
 
 jest.mock('@/hooks', () => ({
+    api: {
+        account: {
+            useActiveAccount: jest.fn().mockReturnValue({ data: { hasMigratedToWallets: false } }),
+        },
+    },
     useModalManager: jest.fn().mockReturnValue({
         hideModal: jest.fn(),
         isModalOpenFor: jest.fn().mockReturnValue(false),
