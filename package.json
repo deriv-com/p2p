@@ -15,7 +15,7 @@
         "prepare": "husky install"
     },
     "dependencies": {
-        "@babel/preset-env": "^7.24.5",
+        "@babel/preset-env": "^7.26.0",
         "@chakra-ui/react": "^2.8.2",
         "@datadog/browser-rum": "^5.11.0",
         "@deriv-com/analytics": "^1.27.0",
