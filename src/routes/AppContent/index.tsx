@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
+import { SafetyAlertModal } from '@/components/Modals';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
 import { api, useIsP2PBlocked, useLiveChat, useOAuth } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
@@ -127,6 +128,7 @@ const AppContent = () => {
                         ))}
                     </Tabs>
                     {isDesktop && !isEndpointRoute && <GuideTooltip />}
+                    <SafetyAlertModal />
                     <Router />
                 </div>
             );
