@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { ProfileContent, Verification } from '@/components';
+import { PNVBanner, ProfileContent, Verification } from '@/components';
 import { NicknameModal } from '@/components/Modals';
 import {
     useAdvertiserStats,
+    useGetPhoneNumberVerification,
     useIsAdvertiser,
     useIsAdvertiserNotVerified,
     useModalManager,
@@ -31,6 +32,7 @@ const MyProfile = () => {
     const isAdvertiser = useIsAdvertiser();
     const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
+    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
 
     const currentTab = queryString.tab;
 
@@ -61,6 +63,7 @@ const MyProfile = () => {
     if (!isDesktop) {
         return (
             <div className='my-profile'>
+                {!isPhoneNumberVerified && <PNVBanner />}
                 <MyProfileMobile data={advertiserStats} />
                 {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
             </div>
@@ -68,25 +71,28 @@ const MyProfile = () => {
     }
 
     return (
-        <div className='my-profile'>
-            <ProfileContent data={advertiserStats} />
-            <Tabs
-                activeTab={getLocalizedTabs(localize)[(currentTab !== 'default' && currentTab) || 'Stats']}
-                className='my-profile__tabs'
-                onChange={index => {
-                    setQueryString({
-                        tab: TABS[index],
-                    });
-                }}
-                variant='primary'
-            >
-                {tabs.map(tab => (
-                    <Tab className='my-profile__tabs-tab' key={tab.title} title={tab.title}>
-                        {tab.component}
-                    </Tab>
-                ))}
-            </Tabs>
-            {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
+        <div>
+            {!isPhoneNumberVerified && <PNVBanner />}
+            <div className='my-profile'>
+                <ProfileContent data={advertiserStats} />
+                <Tabs
+                    activeTab={getLocalizedTabs(localize)[(currentTab !== 'default' && currentTab) || 'Stats']}
+                    className='my-profile__tabs'
+                    onChange={index => {
+                        setQueryString({
+                            tab: TABS[index],
+                        });
+                    }}
+                    variant='primary'
+                >
+                    {tabs.map(tab => (
+                        <Tab className='my-profile__tabs-tab' key={tab.title} title={tab.title}>
+                            {tab.component}
+                        </Tab>
+                    ))}
+                </Tabs>
+                {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
+            </div>
         </div>
     );
 };

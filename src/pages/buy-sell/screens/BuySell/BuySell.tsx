@@ -1,8 +1,13 @@
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
-import { OutsideBusinessHoursHint, PageReturn, TemporarilyBarredHint, Verification } from '@/components';
+import { OutsideBusinessHoursHint, PageReturn, PNVBanner, TemporarilyBarredHint, Verification } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
-import { useGetBusinessHours, useIsAdvertiserBarred } from '@/hooks/custom-hooks';
+import {
+    useGetBusinessHours,
+    useGetPhoneNumberVerification,
+    useIsAdvertiser,
+    useIsAdvertiserBarred,
+} from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { BuySellTable } from '../BuySellTable';
 import './BuySell.scss';
@@ -14,6 +19,8 @@ const BuySell = () => {
     const history = useHistory();
     const location = useLocation();
     const verified = new URLSearchParams(location.search).get('verified');
+    const isAdvertiser = useIsAdvertiser();
+    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
 
     if (verified === 'false') {
         return (
@@ -37,6 +44,7 @@ const BuySell = () => {
         >
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             {!isScheduleAvailable && !isAdvertiserBarred && <OutsideBusinessHoursHint />}
+            {isAdvertiser && !isPhoneNumberVerified && <PNVBanner />}
             <BuySellTable />
         </div>
     );
