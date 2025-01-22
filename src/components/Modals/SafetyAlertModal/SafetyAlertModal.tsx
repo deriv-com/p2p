@@ -49,7 +49,7 @@ const SafetyAlertModal = () => {
                 <div className='flex flex-col items-center gap-[1.5rem]'>
                     <DerivLightIcWarningIcon height='64px' width='64px' />
                     <Text align='start' weight='bold'>
-                        Stay safe from phishing scams
+                        <Localize i18n_default_text='Stay safe from phishing scams' />
                     </Text>
                 </div>
                 <div className='flex flex-col gap-[1.5rem]'>
