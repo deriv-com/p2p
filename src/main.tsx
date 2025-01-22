@@ -8,7 +8,7 @@ import './main.scss';
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <QueryClientProvider client={new QueryClient()}>
-            <AppDataProvider>
+            <AppDataProvider accountType='CR' currency='USD'>
                 <App />
             </AppDataProvider>
         </QueryClientProvider>
