@@ -1,3 +1,4 @@
+import { api } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { MenuItem, Text, useDevice } from '@deriv-com/ui';
 import { getMenuItems } from '../HeaderConfig';
@@ -6,7 +7,11 @@ import './MenuItems.scss';
 const MenuItems = () => {
     const { localize } = useTranslations();
     const { isDesktop } = useDevice();
-    const items = getMenuItems(localize);
+    const { data: activeAccountData } = api.account.useActiveAccount();
+    const menuItems = getMenuItems(localize);
+    const items = activeAccountData?.hasMigratedToWallets
+        ? menuItems.filter(item => !item.label.includes(localize('Cashier')))
+        : menuItems;
 
     return (
         <>

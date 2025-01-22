@@ -1,6 +1,22 @@
 import { render, screen } from '@testing-library/react';
 import GuideTooltip from '../GuideTooltip';
 
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        ...jest.requireActual('@/hooks/api'),
+        account: {
+            ...jest.requireActual('@/hooks/api/account'),
+            useActiveAccount: jest.fn().mockReturnValue({ data: { hasMigratedToWallets: false } }),
+        },
+    },
+}));
+
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useIsAdvertiser: jest.fn().mockReturnValue(true),
+}));
+
 describe('GuideTooltip', () => {
     it('should render the GuideTooltip component', () => {
         render(<GuideTooltip />);

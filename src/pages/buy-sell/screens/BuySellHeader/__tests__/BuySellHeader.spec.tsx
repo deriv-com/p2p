@@ -19,6 +19,9 @@ jest.mock('@deriv-com/ui', () => ({
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
+        account: {
+            useActiveAccount: jest.fn().mockReturnValue({ data: { hasMigratedToWallets: false } }),
+        },
         settings: {
             useGetSettings: () => ({
                 data: {},
@@ -61,6 +64,7 @@ const mockUseQueryString = {
 
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
+    useIsAdvertiser: jest.fn().mockReturnValue(true),
     useModalManager: jest.fn(() => mockUseModalManager),
     useQueryString: jest.fn(() => mockUseQueryString),
 }));

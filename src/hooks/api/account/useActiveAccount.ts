@@ -17,6 +17,7 @@ const useActiveAccount = () => {
             ? {
                   ...activeAccount,
                   balance: balanceData?.accounts?.[activeAccount?.loginid]?.balance ?? 0,
+                  hasMigratedToWallets: activeAccount?.linked_to.some(item => item.platform === 'dwallet'),
               }
             : undefined;
     }, [activeAccount, balanceData]);

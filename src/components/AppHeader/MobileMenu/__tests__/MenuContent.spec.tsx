@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MenuContent } from '../MenuContent';
 
 const mockSettingsButtonClick = jest.fn();
+const mockActiveAccountData = { hasMigratedToWallets: false };
 
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
@@ -14,6 +15,16 @@ jest.mock('@deriv-com/api-hooks', () => ({
     useAuthData: jest.fn().mockReturnValue({
         isAuthorized: true,
     }),
+}));
+
+jest.mock('@/hooks', () => ({
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({
+                data: mockActiveAccountData,
+            })),
+        },
+    },
 }));
 
 jest.mock('../../PlatformSwitcher', () => ({
@@ -28,6 +39,13 @@ jest.mock('../MobileMenuConfig', () => ({
                 href: '/home',
                 label: 'Home',
                 LeftComponent: () => <span>Home Icon</span>,
+                removeBorderBottom: false,
+            },
+            {
+                as: 'a',
+                href: '/cashier',
+                label: 'Cashier',
+                LeftComponent: () => <span>Cashier Icon</span>,
                 removeBorderBottom: false,
             },
         ],
@@ -101,5 +119,11 @@ describe('MenuContent Component', () => {
         render(<MenuContent />);
         expect(screen.getAllByTestId('dt_menu_item')[0]).toHaveClass('border-b');
         expect(screen.getAllByTestId('dt_menu_item')[1]).not.toHaveClass('border-b');
+    });
+
+    it('does not render Cashier menu item when hasMigratedToWallets is true', () => {
+        mockActiveAccountData.hasMigratedToWallets = true;
+        render(<MenuContent />);
+        expect(screen.queryByText('Cashier')).not.toBeInTheDocument();
     });
 });

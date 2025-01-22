@@ -116,6 +116,7 @@ describe('<AppHeader/>', () => {
         mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
         mockUseActiveAccountValues.data = {
             currency: 'USD',
+            hasMigratedToWallets: false,
             is_virtual: 0,
         } as ReturnType<typeof useActiveAccount>['data'];
 
@@ -151,5 +152,22 @@ describe('<AppHeader/>', () => {
 
         await userEvent.click(logoutButton);
         expect(logout).toHaveBeenCalled();
+    });
+
+    it('should not render Cashier menu item when hasMigratedToWallets is true', () => {
+        mockUseAuthData.mockReturnValue({ activeLoginid: '12345', logout: jest.fn() });
+        mockUseActiveAccountValues.data = {
+            currency: 'USD',
+            hasMigratedToWallets: true,
+            is_virtual: 0,
+        } as ReturnType<typeof useActiveAccount>['data'];
+        render(
+            <BrowserRouter>
+                <QueryParamProvider adapter={ReactRouter5Adapter}>
+                    <AppHeader />
+                </QueryParamProvider>
+            </BrowserRouter>
+        );
+        expect(screen.queryByText('Cashier')).not.toBeInTheDocument();
     });
 });
