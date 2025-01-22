@@ -103,7 +103,10 @@ const AppContent = () => {
     }, []);
 
     const getComponent = () => {
-        if ((isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData) && !isEndpointRoute) {
+        if (
+            (isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData || isLoading) &&
+            !isEndpointRoute
+        ) {
             return <Loader />;
         } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code) {
             return (
@@ -128,7 +131,7 @@ const AppContent = () => {
                         ))}
                     </Tabs>
                     {isDesktop && !isEndpointRoute && <GuideTooltip />}
-                    <SafetyAlertModal />
+                    {!isEndpointRoute && <SafetyAlertModal />}
                     <Router />
                 </div>
             );
