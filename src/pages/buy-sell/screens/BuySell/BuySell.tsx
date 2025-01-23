@@ -14,13 +14,13 @@ import './BuySell.scss';
 
 const BuySell = () => {
     const { localize } = useTranslations();
+    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
     const { isScheduleAvailable } = useGetBusinessHours();
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const history = useHistory();
     const location = useLocation();
     const verified = new URLSearchParams(location.search).get('verified');
     const isAdvertiser = useIsAdvertiser();
-    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
 
     if (verified === 'false') {
         return (
