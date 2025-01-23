@@ -98,6 +98,7 @@ const PaymentMethodsListContent = ({
                             {groupedPaymentMethods[key].paymentMethods?.map(advertiserPaymentMethod => {
                                 return (
                                     <PaymentMethodCard
+                                        isDisabled={!isPhoneNumberVerified}
                                         isEditable
                                         key={advertiserPaymentMethod.id}
                                         onDeletePaymentMethod={() => {
