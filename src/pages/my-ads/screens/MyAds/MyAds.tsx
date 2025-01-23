@@ -2,6 +2,7 @@ import { OutsideBusinessHoursHint, PNVBanner, TemporarilyBarredHint, Verificatio
 import {
     useGetBusinessHours,
     useGetPhoneNumberVerification,
+    useIsAdvertiser,
     useIsAdvertiserBarred,
     useIsAdvertiserNotVerified,
 } from '@/hooks/custom-hooks';
@@ -12,7 +13,8 @@ const MyAds = () => {
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const { isScheduleAvailable } = useGetBusinessHours();
     const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
-    const { isGetSettingsLoading, isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const isAdvertiser = useIsAdvertiser();
+    const { isGetSettingsLoading, shouldShowVerification } = useGetPhoneNumberVerification();
 
     if (isGetSettingsLoading) {
         return <Loader />;
@@ -29,7 +31,7 @@ const MyAds = () => {
         <div className='flex flex-col h-full'>
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             {!isScheduleAvailable && !isAdvertiserBarred && <OutsideBusinessHoursHint />}
-            {!isPhoneNumberVerified && <PNVBanner />}
+            {isAdvertiser && shouldShowVerification && <PNVBanner />}
             <MyAdsTable />
         </div>
     );

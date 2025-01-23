@@ -13,7 +13,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useGetBusinessHours: jest.fn().mockReturnValue({
         isScheduleAvailable: true,
     }),
-    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ isPhoneNumberVerified: true }),
+    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ shouldShowVerification: false }),
     useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
     useIsAdvertiserNotVerified: jest.fn(() => false),
 }));

@@ -13,7 +13,7 @@ import { OrdersTableHeader } from './OrdersTableHeader';
 const Orders = () => {
     const { isDesktop } = useDevice();
     const isAdvertiser = useIsAdvertiser();
-    const { isGetSettingsLoading, isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { isGetSettingsLoading, shouldShowVerification } = useGetPhoneNumberVerification();
     const { activeOrdersTab } = useTabsStore(useShallow(state => ({ activeOrdersTab: state.activeOrdersTab })));
     const [fromDate, setFromDate] = useState<string | null>(null);
     const [toDate, setToDate] = useState<string | null>(null);
@@ -42,7 +42,7 @@ const Orders = () => {
 
     return (
         <>
-            {isAdvertiser && !isPhoneNumberVerified && <PNVBanner />}
+            {isAdvertiser && shouldShowVerification && <PNVBanner />}
             <OrdersTableHeader fromDate={fromDate} setFromDate={setFromDate} setToDate={setToDate} toDate={toDate} />
             {!isDesktop && <Divider />}
             <OrdersTable data={data} isActive={isActive} isLoading={isLoading} loadMoreOrders={loadMoreOrders} />

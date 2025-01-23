@@ -32,7 +32,7 @@ const MyProfile = () => {
     const isAdvertiser = useIsAdvertiser();
     const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
-    const { isGetSettingsLoading, isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { isGetSettingsLoading, shouldShowVerification } = useGetPhoneNumberVerification();
 
     const currentTab = queryString.tab;
 
@@ -63,7 +63,7 @@ const MyProfile = () => {
     if (!isDesktop) {
         return (
             <div className='my-profile'>
-                {!isPhoneNumberVerified && <PNVBanner />}
+                {isAdvertiser && shouldShowVerification && <PNVBanner />}
                 <MyProfileMobile data={advertiserStats} />
                 {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
             </div>
@@ -72,7 +72,7 @@ const MyProfile = () => {
 
     return (
         <div>
-            {!isPhoneNumberVerified && <PNVBanner />}
+            {isAdvertiser && shouldShowVerification && <PNVBanner />}
             <div className='my-profile'>
                 <ProfileContent data={advertiserStats} />
                 <Tabs

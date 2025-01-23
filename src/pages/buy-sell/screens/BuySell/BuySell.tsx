@@ -16,7 +16,7 @@ import './BuySell.scss';
 const BuySell = () => {
     const { localize } = useTranslations();
     const isAdvertiser = useIsAdvertiser();
-    const { isGetSettingsLoading, isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { isGetSettingsLoading, shouldShowVerification } = useGetPhoneNumberVerification();
     const { isScheduleAvailable } = useGetBusinessHours();
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const history = useHistory();
@@ -49,7 +49,7 @@ const BuySell = () => {
         >
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             {!isScheduleAvailable && !isAdvertiserBarred && <OutsideBusinessHoursHint />}
-            {isAdvertiser && !isPhoneNumberVerified && <PNVBanner />}
+            {isAdvertiser && shouldShowVerification && <PNVBanner />}
             <BuySellTable />
         </div>
     );

@@ -24,7 +24,7 @@ jest.mock('@/hooks', () => ({
 }));
 
 jest.mock('@/hooks/custom-hooks', () => ({
-    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ isPhoneNumberVerified: true }),
+    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ shouldShowVerification: false }),
     useIsAdvertiser: jest.fn().mockReturnValue(true),
     useQueryString: () => ({ queryString: { get: () => 'Active orders' } }),
 }));
