@@ -10,6 +10,7 @@ jest.mock('../PaymentMethodsListContent/PaymentMethodsListContent', () =>
 
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
+    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ isPhoneNumberVerified: true }),
     useQueryString: jest.fn().mockReturnValue({ setQueryString: jest.fn() }),
 }));
 

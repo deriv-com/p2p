@@ -1,6 +1,6 @@
 import { TFormState, THooks, TSelectedPaymentMethod } from 'types';
 import { FullPageMobileWrapper } from '@/components';
-import { useQueryString } from '@/hooks/custom-hooks';
+import { useGetPhoneNumberVerification, useQueryString } from '@/hooks/custom-hooks';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import AddNewButton from './AddNewButton';
@@ -32,6 +32,7 @@ const PaymentMethodsList = ({
 }: TPaymentMethodsListProps) => {
     const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
+    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
 
     if (!isDesktop) {
         return (
@@ -42,7 +43,7 @@ const PaymentMethodsList = ({
                         tab: 'default',
                     })
                 }
-                renderFooter={() => <AddNewButton isMobile onAdd={onAdd} />}
+                renderFooter={() => <AddNewButton isDisabled={!isPhoneNumberVerified} isMobile onAdd={onAdd} />}
                 renderHeader={() => (
                     <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
                         <Localize i18n_default_text='Payment methods' />

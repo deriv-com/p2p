@@ -4,6 +4,7 @@ import { PaymentMethodCard } from '@/components';
 import { PaymentMethodErrorModal, PaymentMethodModal } from '@/components/Modals';
 import { getPaymentMethodCategories } from '@/constants';
 import { api } from '@/hooks';
+import { useGetPhoneNumberVerification } from '@/hooks/custom-hooks';
 import { sortPaymentMethods } from '@/utils';
 import { useTranslations } from '@deriv-com/translations';
 import { Text } from '@deriv-com/ui';
@@ -47,6 +48,7 @@ const PaymentMethodsListContent = ({
 }: TPaymentMethodsListContentProps) => {
     const { localize } = useTranslations();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
     const {
         delete: deleteAdvertiserPaymentMethod,
         error: deleteError,
@@ -85,7 +87,7 @@ const PaymentMethodsListContent = ({
 
     return (
         <div className='payment-methods-list-content'>
-            {!isMobile && <AddNewButton isMobile={isMobile} onAdd={onAdd} />}
+            {!isMobile && <AddNewButton isDisabled={!isPhoneNumberVerified} isMobile={isMobile} onAdd={onAdd} />}
             {Object.keys(groupedPaymentMethods)?.map(key => {
                 return (
                     <div className='payment-methods-list-content__group' key={key}>
