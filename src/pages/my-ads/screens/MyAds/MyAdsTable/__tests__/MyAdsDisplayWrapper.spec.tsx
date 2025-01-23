@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import MyAdsDisplayWrapper from '../MyAdsDisplayWrapper';
 
 const mockProps = {
+    isDisabled: false,
     isPaused: false,
     onClickToggle: jest.fn(),
 };
@@ -45,6 +46,14 @@ describe('MyAdsDisplayWrapper', () => {
         (useIsAdvertiserBarred as jest.Mock).mockReturnValue(true);
         render(
             <MyAdsDisplayWrapper {...mockProps}>
+                <div>children</div>
+            </MyAdsDisplayWrapper>
+        );
+        expect(screen.getByRole('button', { name: 'Create new ad' })).toBeDisabled();
+    });
+    it('should render the create ad button as disabled when advertiser has not verified his phone', () => {
+        render(
+            <MyAdsDisplayWrapper {...mockProps} isDisabled>
                 <div>children</div>
             </MyAdsDisplayWrapper>
         );
