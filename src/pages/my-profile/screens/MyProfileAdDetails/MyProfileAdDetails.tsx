@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import { Control, FieldValues, useForm } from 'react-hook-form';
 import { FullPageMobileWrapper } from '@/components';
 import { api } from '@/hooks';
-import { useQueryString } from '@/hooks/custom-hooks';
+import { useGetPhoneNumberVerification, useQueryString } from '@/hooks/custom-hooks';
 import { LabelPairedCheckMdFillIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Button, Loader, Text, useDevice } from '@deriv-com/ui';
@@ -16,6 +16,7 @@ const MyProfileAdDetails = () => {
     const { isSuccess, mutate: updateAdvertiser, reset } = api.advertiser.useUpdate();
     const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
+    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
 
     const {
         control,
@@ -37,7 +38,7 @@ const MyProfileAdDetails = () => {
         resetForm(watch(), { keepDefaultValues: false, keepDirty: false, keepValues: false });
     }, 2000);
 
-    const isButtonDisabled = !isDirty || !isValid || isSuccess;
+    const isButtonDisabled = !isPhoneNumberVerified || !isDirty || !isValid || isSuccess;
     const saveButtonClass = clsx({ 'my-profile-ad-details__button--submitting': isSuccess });
     const buttonIcon = isSuccess ? <LabelPairedCheckMdFillIcon fill='#fff' /> : null;
 
@@ -82,7 +83,10 @@ const MyProfileAdDetails = () => {
                     )}
                 >
                     <div className='my-profile-ad-details'>
-                        <MyProfileAdDetailsTextArea control={control as unknown as Control<FieldValues>} />
+                        <MyProfileAdDetailsTextArea
+                            control={control as unknown as Control<FieldValues>}
+                            isDisabled={!isPhoneNumberVerified}
+                        />
                     </div>
                 </FullPageMobileWrapper>
             </form>
@@ -92,7 +96,10 @@ const MyProfileAdDetails = () => {
     return (
         <form onSubmit={handleSubmit(submitAdDetails)}>
             <div className='my-profile-ad-details'>
-                <MyProfileAdDetailsTextArea control={control as unknown as Control<FieldValues>} />
+                <MyProfileAdDetailsTextArea
+                    control={control as unknown as Control<FieldValues>}
+                    isDisabled={!isPhoneNumberVerified}
+                />
                 <div className='my-profile-ad-details__border' />
                 <Button
                     className={saveButtonClass}
