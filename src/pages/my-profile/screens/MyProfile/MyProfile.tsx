@@ -32,7 +32,7 @@ const MyProfile = () => {
     const isAdvertiser = useIsAdvertiser();
     const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
-    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { isGetSettingsLoading, isPhoneNumberVerified } = useGetPhoneNumberVerification();
 
     const currentTab = queryString.tab;
 
@@ -48,7 +48,7 @@ const MyProfile = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAdvertiser, isPoiPoaVerified]);
 
-    if (isLoading && !advertiserStats) {
+    if (isGetSettingsLoading || (isLoading && !advertiserStats)) {
         return <Loader />;
     }
 

@@ -5,13 +5,18 @@ import {
     useIsAdvertiserBarred,
     useIsAdvertiserNotVerified,
 } from '@/hooks/custom-hooks';
+import { Loader } from '@deriv-com/ui';
 import { MyAdsTable } from './MyAdsTable';
 
 const MyAds = () => {
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const { isScheduleAvailable } = useGetBusinessHours();
     const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
-    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { isGetSettingsLoading, isPhoneNumberVerified } = useGetPhoneNumberVerification();
+
+    if (isGetSettingsLoading) {
+        return <Loader />;
+    }
 
     if (isAdvertiserNotVerified)
         return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { ERROR_CODES } from '@/constants';
 import { isEmptyObject } from '@/utils';
 import { api } from '..';
@@ -9,14 +9,15 @@ import { api } from '..';
  */
 const useIsAdvertiser = (): boolean => {
     const { data, error } = api.advertiser.useGetInfo();
-    const [isAdvertiser, setIsAdvertiser] = useState(!error && !isEmptyObject(data));
 
-    useEffect(() => {
+    const isAdvertiser = useMemo(() => {
         if (error && error?.code === ERROR_CODES.ADVERTISER_NOT_FOUND) {
-            setIsAdvertiser(false);
+            return false;
         } else if (!error && !isEmptyObject(data)) {
-            setIsAdvertiser(true);
+            return true;
         }
+
+        return false;
     }, [data, error]);
 
     return isAdvertiser;

@@ -6,14 +6,14 @@ import { ORDERS_STATUS } from '@/constants';
 import { api } from '@/hooks';
 import { useGetPhoneNumberVerification, useIsAdvertiser } from '@/hooks/custom-hooks';
 import { useTabsStore } from '@/stores';
-import { Divider, useDevice } from '@deriv-com/ui';
+import { Divider, Loader, useDevice } from '@deriv-com/ui';
 import { OrdersTable } from './OrdersTable';
 import { OrdersTableHeader } from './OrdersTableHeader';
 
 const Orders = () => {
     const { isDesktop } = useDevice();
     const isAdvertiser = useIsAdvertiser();
-    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { isGetSettingsLoading, isPhoneNumberVerified } = useGetPhoneNumberVerification();
     const { activeOrdersTab } = useTabsStore(useShallow(state => ({ activeOrdersTab: state.activeOrdersTab })));
     const [fromDate, setFromDate] = useState<string | null>(null);
     const [toDate, setToDate] = useState<string | null>(null);
@@ -35,6 +35,10 @@ const Orders = () => {
             setToDate(null);
         };
     }, []);
+
+    if (isGetSettingsLoading) {
+        return <Loader />;
+    }
 
     return (
         <>
