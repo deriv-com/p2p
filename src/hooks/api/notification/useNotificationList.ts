@@ -43,7 +43,6 @@ const handleData = (incomingMessages: TNotification[], prevMessages: TNotificati
  * @example const { data: notifications } = useNotificationList();
  */
 const useNotificationList = () => {
-    // @ts-expect-error Type undefined. This endpoint will be added to api-hooks.
     const { data, ...rest } = useSubscribe('notifications_list');
     const [messages, setMessages] = useState<TNotification[]>([]);
 
@@ -59,10 +58,8 @@ const useNotificationList = () => {
     }, [messages]);
 
     useEffect(() => {
-        // @ts-expect-error Type undefined.
         if (data?.notifications_list) {
             setMessages(prevMessages => {
-                // @ts-expect-error Type undefined.
                 return handleData(data.notifications_list.messages, prevMessages);
             });
         }

@@ -11,12 +11,10 @@ import { useMutation } from '@deriv-com/api-hooks';
  */
 const useNotificationUpdate = () => {
     const { data, ...rest } = useMutation({
-        // @ts-expect-error Type undefined. This endpoint will be added to api-hooks.
         name: 'notifications_update_status',
     });
 
     return {
-        // @ts-expect-error Type undefined.
         data: data?.notifications_update_status,
         ...rest,
     };

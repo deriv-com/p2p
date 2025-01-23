@@ -32,7 +32,9 @@ const useOAuth = (): UseOAuthReturn => {
     const { error, isAuthorized, isAuthorizing } = useAuthData();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
     const isCallbackPage = getCurrentRoute() === 'callback';
+    const isRedirectPage = getCurrentRoute() === 'redirect';
     const oauthUrl = getOauthUrl();
+    const authTokenLocalStorage = localStorage.getItem('authToken');
 
     const WSLogoutAndRedirect = async () => {
         await logout();
@@ -66,12 +68,34 @@ const useOAuth = (): UseOAuthReturn => {
         if (!isEndpointPage && !isCallbackPage) {
             if ((hasAuthToken && loggedState === 'false' && isOAuth2Enabled) || error?.code === 'InvalidToken') {
                 await handleLogout();
-            } else if (!isAuthorized && !isAuthorizing) {
+            } else if (isRedirectPage) {
+                const params = new URLSearchParams(location.search);
+                const from = params.get('from');
+                const authTokenCookie = Cookies.get('authtoken');
+
+                if (from === 'tradershub' && authTokenCookie) {
+                    const cleanedAuthToken = decodeURIComponent(authTokenCookie).replace(/^"|"$/g, '');
+                    localStorage.setItem('authToken', cleanedAuthToken);
+                    Cookies.remove('authtoken');
+                    window.location.href = window.location.origin;
+                }
+            } else if (!isAuthorized && !isAuthorizing && !authTokenLocalStorage) {
                 await redirectToAuth();
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isEndpointPage, isCallbackPage, error?.code, isAuthorized, isAuthorizing, isOAuth2Enabled]);
+    }, [
+        isEndpointPage,
+        isCallbackPage,
+        hasAuthToken,
+        loggedState,
+        isOAuth2Enabled,
+        error?.code,
+        isRedirectPage,
+        isAuthorized,
+        isAuthorizing,
+        authTokenLocalStorage,
+    ]);
 
     return { isOAuth2Enabled, oAuthLogout: handleLogout, onRenderAuthCheck };
 };

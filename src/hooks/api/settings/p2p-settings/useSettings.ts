@@ -17,6 +17,8 @@ type TP2PSettings =
           isDisabled: boolean;
           isPaymentMethodsEnabled: boolean;
           localCurrency?: string;
+          pnv_required?: boolean;
+          poa_required?: boolean;
           rateType: 'fixed' | 'float';
           reachedTargetDate: boolean;
       })

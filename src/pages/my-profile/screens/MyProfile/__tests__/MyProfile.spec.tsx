@@ -1,4 +1,4 @@
-import { useAdvertiserStats, useIsAdvertiser, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import { useAdvertiserStats, useIsAdvertiser, useIsAdvertiserNotVerified, usePoiPoaStatus } from '@/hooks/custom-hooks';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -48,6 +48,7 @@ const mockUseDevice = useDevice as jest.MockedFunction<typeof useDevice>;
 const mockUsePoiPoaStatus = usePoiPoaStatus as jest.MockedFunction<typeof usePoiPoaStatus>;
 const mockUseAdvertiserStats = useAdvertiserStats as jest.MockedFunction<typeof useAdvertiserStats>;
 const mockUseIsAdvertiser = useIsAdvertiser as jest.MockedFunction<typeof useIsAdvertiser>;
+const mockUseIsAdvertiserNotVerified = useIsAdvertiserNotVerified as jest.Mock;
 const mockModalManager = {
     hideModal: jest.fn(),
     isModalOpenFor: jest.fn().mockReturnValue(false),
@@ -63,6 +64,7 @@ jest.mock('@/hooks/custom-hooks', () => ({
         isLoading: false,
     }),
     useIsAdvertiser: jest.fn().mockReturnValue(true),
+    useIsAdvertiserNotVerified: jest.fn().mockReturnValue(false),
     useModalManager: jest.fn(() => mockModalManager),
     usePoiPoaStatus: jest.fn().mockReturnValue({
         data: {
@@ -96,7 +98,7 @@ describe('MyProfile', () => {
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });
     it('should render the verification component if a new user has not completed POI ', () => {
-        (mockUseIsAdvertiser as jest.Mock).mockReturnValueOnce(false);
+        (mockUseIsAdvertiserNotVerified as jest.Mock).mockReturnValueOnce(true);
         (mockUsePoiPoaStatus as jest.Mock).mockReturnValueOnce({
             data: { isPoaVerified: true, isPoiVerified: false },
             isLoading: false,
@@ -106,7 +108,7 @@ describe('MyProfile', () => {
         expect(screen.getByText('Verification')).toBeInTheDocument();
     });
     it('should render the verification component if a new user has not completed POA', () => {
-        (mockUseIsAdvertiser as jest.Mock).mockReturnValueOnce(false);
+        (mockUseIsAdvertiserNotVerified as jest.Mock).mockReturnValueOnce(true);
         (mockUsePoiPoaStatus as jest.Mock).mockReturnValueOnce({
             data: { isPoaVerified: false, isPoiVerified: true },
             isLoading: false,
@@ -114,6 +116,11 @@ describe('MyProfile', () => {
 
         render(<MyProfile />);
         expect(screen.getByText('Verification')).toBeInTheDocument();
+    });
+    it('should not render the verification component if the user has completed POI and POA and shouldShowVerification is false', () => {
+        (mockUseIsAdvertiserNotVerified as jest.Mock).mockReturnValueOnce(false);
+        render(<MyProfile />);
+        expect(screen.queryByText('Verification')).not.toBeInTheDocument();
     });
     it('should show the nickname modal if user has completed POI or POA for the first time', () => {
         (mockUsePoiPoaStatus as jest.Mock).mockReturnValueOnce({
