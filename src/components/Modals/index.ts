@@ -33,5 +33,6 @@ export * from './PreferredCountriesModal';
 export * from './RadioGroupFilterModal';
 export * from './RateFluctuationModal';
 export * from './RatingModal';
+export * from './SafetyAlertModal';
 export * from './ShareAdsModal';
 export * from './VideoPlayerModal';
