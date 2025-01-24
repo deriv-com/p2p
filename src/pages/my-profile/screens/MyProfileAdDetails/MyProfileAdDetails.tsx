@@ -16,7 +16,7 @@ const MyProfileAdDetails = () => {
     const { isSuccess, mutate: updateAdvertiser, reset } = api.advertiser.useUpdate();
     const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
-    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
 
     const {
         control,
@@ -38,7 +38,7 @@ const MyProfileAdDetails = () => {
         resetForm(watch(), { keepDefaultValues: false, keepDirty: false, keepValues: false });
     }, 2000);
 
-    const isButtonDisabled = !isPhoneNumberVerified || !isDirty || !isValid || isSuccess;
+    const isButtonDisabled = shouldShowVerification || !isDirty || !isValid || isSuccess;
     const saveButtonClass = clsx({ 'my-profile-ad-details__button--submitting': isSuccess });
     const buttonIcon = isSuccess ? <LabelPairedCheckMdFillIcon fill='#fff' /> : null;
 
@@ -85,7 +85,7 @@ const MyProfileAdDetails = () => {
                     <div className='my-profile-ad-details'>
                         <MyProfileAdDetailsTextArea
                             control={control as unknown as Control<FieldValues>}
-                            isDisabled={!isPhoneNumberVerified}
+                            isDisabled={shouldShowVerification}
                         />
                     </div>
                 </FullPageMobileWrapper>
@@ -98,7 +98,7 @@ const MyProfileAdDetails = () => {
             <div className='my-profile-ad-details'>
                 <MyProfileAdDetailsTextArea
                     control={control as unknown as Control<FieldValues>}
-                    isDisabled={!isPhoneNumberVerified}
+                    isDisabled={shouldShowVerification}
                 />
                 <div className='my-profile-ad-details__border' />
                 <Button

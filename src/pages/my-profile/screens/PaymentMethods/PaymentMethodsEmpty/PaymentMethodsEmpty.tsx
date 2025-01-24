@@ -18,7 +18,7 @@ type TPaymentMethodsEmptyProps = {
 const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) => {
     const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
-    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
 
     if (!isDesktop) {
         return (
@@ -45,7 +45,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                     </Text>
                     <Button
                         className='payment-methods-empty__button'
-                        disabled={!isPhoneNumberVerified}
+                        disabled={shouldShowVerification}
                         isFullWidth={isMobile}
                         onClick={() => {
                             onAddPaymentMethod();
@@ -71,7 +71,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
             </Text>
             <Button
                 className='payment-methods-empty__button'
-                disabled={!isPhoneNumberVerified}
+                disabled={shouldShowVerification}
                 onClick={() => {
                     onAddPaymentMethod();
                 }}

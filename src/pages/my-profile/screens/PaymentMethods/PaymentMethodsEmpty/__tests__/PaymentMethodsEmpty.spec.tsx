@@ -6,7 +6,7 @@ import PaymentMethodsEmpty from '../PaymentMethodsEmpty';
 
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
-    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ isPhoneNumberVerified: true }),
+    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ shouldShowVerification: false }),
     useQueryString: jest.fn().mockReturnValue({ setQueryString: jest.fn() }),
 }));
 

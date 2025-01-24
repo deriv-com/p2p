@@ -32,7 +32,7 @@ const PaymentMethodsList = ({
 }: TPaymentMethodsListProps) => {
     const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
-    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
 
     if (!isDesktop) {
         return (
@@ -43,7 +43,7 @@ const PaymentMethodsList = ({
                         tab: 'default',
                     })
                 }
-                renderFooter={() => <AddNewButton isDisabled={!isPhoneNumberVerified} isMobile onAdd={onAdd} />}
+                renderFooter={() => <AddNewButton isDisabled={shouldShowVerification} isMobile onAdd={onAdd} />}
                 renderHeader={() => (
                     <Text size={isMobile ? 'lg' : 'md'} weight='bold'>
                         <Localize i18n_default_text='Payment methods' />

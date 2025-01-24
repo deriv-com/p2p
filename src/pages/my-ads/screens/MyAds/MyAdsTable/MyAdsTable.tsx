@@ -52,7 +52,7 @@ const MyAdsTable = () => {
     const { mutate: updateAds } = api.advertiser.useUpdate();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { localize } = useTranslations();
-    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
 
     useEffect(() => {
         if (isAdvertiser) {
@@ -69,7 +69,7 @@ const MyAdsTable = () => {
 
     return (
         <MyAdsDisplayWrapper
-            isDisabled={!isPhoneNumberVerified}
+            isDisabled={shouldShowVerification}
             isPaused={!!blockedUntil || !isListed}
             onClickToggle={onClickToggle}
         >

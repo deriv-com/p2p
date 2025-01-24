@@ -38,7 +38,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { hasCreatedAdvertiser } = useAdvertiserInfoState();
     const { isScheduleAvailable } = useGetBusinessHours();
     const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
-    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
 
     const {
         account_currency: accountCurrency,
@@ -271,7 +271,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                 <Button
                                     className='lg:min-w-[7.5rem]'
                                     disabled={
-                                        (isAdvertiser && !isPhoneNumberVerified) ||
+                                        (isAdvertiser && shouldShowVerification) ||
                                         isAdvertiserBarred ||
                                         !isScheduleAvailable
                                     }
