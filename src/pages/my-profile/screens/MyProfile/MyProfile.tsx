@@ -71,7 +71,7 @@ const MyProfile = () => {
     }
 
     return (
-        <div>
+        <div className='h-full'>
             {isAdvertiser && shouldShowVerification && <PNVBanner />}
             <div className='my-profile'>
                 <ProfileContent data={advertiserStats} />
