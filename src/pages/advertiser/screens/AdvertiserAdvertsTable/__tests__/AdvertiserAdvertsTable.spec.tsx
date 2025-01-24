@@ -98,6 +98,7 @@ const mockUseQueryString = {
 
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
+    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ isPhoneNumberVerified: true }),
     useIsAdvertiser: jest.fn(() => true),
     useIsAdvertiserBarred: jest.fn(() => false),
     useIsAdvertiserNotVerified: jest.fn(() => false),

@@ -7,7 +7,7 @@ import { api } from '..';
  *
  * */
 const useGetPhoneNumberVerification = () => {
-    const { data } = useGetSettings();
+    const { data, isLoading: isGetSettingsLoading } = useGetSettings();
     const { data: p2pSettings } = api.settings.useSettings();
 
     const isPhoneNumberVerificationEnabled = !!p2pSettings?.pnv_required;
@@ -15,7 +15,13 @@ const useGetPhoneNumberVerification = () => {
     const shouldShowVerification = !isPhoneNumberVerified && isPhoneNumberVerificationEnabled;
     const phoneNumber = data?.phone;
 
-    return { isPhoneNumberVerificationEnabled, isPhoneNumberVerified, phoneNumber, shouldShowVerification };
+    return {
+        isGetSettingsLoading,
+        isPhoneNumberVerificationEnabled,
+        isPhoneNumberVerified,
+        phoneNumber,
+        shouldShowVerification,
+    };
 };
 
 export default useGetPhoneNumberVerification;

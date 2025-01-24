@@ -1,11 +1,24 @@
-import { OutsideBusinessHoursHint, TemporarilyBarredHint, Verification } from '@/components';
-import { useGetBusinessHours, useIsAdvertiserBarred, useIsAdvertiserNotVerified } from '@/hooks/custom-hooks';
+import { OutsideBusinessHoursHint, PNVBanner, TemporarilyBarredHint, Verification } from '@/components';
+import {
+    useGetBusinessHours,
+    useGetPhoneNumberVerification,
+    useIsAdvertiser,
+    useIsAdvertiserBarred,
+    useIsAdvertiserNotVerified,
+} from '@/hooks/custom-hooks';
+import { Loader } from '@deriv-com/ui';
 import { MyAdsTable } from './MyAdsTable';
 
 const MyAds = () => {
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const { isScheduleAvailable } = useGetBusinessHours();
     const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
+    const isAdvertiser = useIsAdvertiser();
+    const { isGetSettingsLoading, shouldShowVerification } = useGetPhoneNumberVerification();
+
+    if (isGetSettingsLoading) {
+        return <Loader />;
+    }
 
     if (isAdvertiserNotVerified)
         return (
@@ -18,6 +31,7 @@ const MyAds = () => {
         <div className='flex flex-col h-full'>
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             {!isScheduleAvailable && !isAdvertiserBarred && <OutsideBusinessHoursHint />}
+            {isAdvertiser && shouldShowVerification && <PNVBanner />}
             <MyAdsTable />
         </div>
     );

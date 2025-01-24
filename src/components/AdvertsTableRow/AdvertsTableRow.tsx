@@ -8,6 +8,7 @@ import { ADVERTISER_URL, BUY_SELL, BUY_SELL_URL } from '@/constants';
 import { api } from '@/hooks';
 import {
     useGetBusinessHours,
+    useGetPhoneNumberVerification,
     useIsAdvertiser,
     useIsAdvertiserBarred,
     useIsAdvertiserNotVerified,
@@ -37,6 +38,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { hasCreatedAdvertiser } = useAdvertiserInfoState();
     const { isScheduleAvailable } = useGetBusinessHours();
     const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
 
     const {
         account_currency: accountCurrency,
@@ -268,7 +270,11 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                             ) : (
                                 <Button
                                     className='lg:min-w-[7.5rem]'
-                                    disabled={isAdvertiserBarred || !isScheduleAvailable}
+                                    disabled={
+                                        (isAdvertiser && shouldShowVerification) ||
+                                        isAdvertiserBarred ||
+                                        !isScheduleAvailable
+                                    }
                                     onClick={() => {
                                         if (isAdvertiserNotVerified) {
                                             redirectToVerification();

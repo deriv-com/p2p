@@ -72,6 +72,11 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ shouldShowVerification: false }),
+}));
+
 jest.mock('@/components/Modals', () => ({
     ...jest.requireActual('@/components/Modals'),
     PaymentMethodErrorModal: jest.fn(({ isModalOpen, onConfirm }: ComponentProps<typeof PaymentMethodErrorModal>) => {

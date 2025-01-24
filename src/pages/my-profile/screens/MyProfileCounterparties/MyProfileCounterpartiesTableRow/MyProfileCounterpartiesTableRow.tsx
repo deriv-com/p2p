@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { UserAvatar } from '@/components';
 import { BlockUnblockUserModal } from '@/components/Modals';
 import { ADVERTISER_URL } from '@/constants';
-import { useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
+import { useGetPhoneNumberVerification, useIsAdvertiserBarred, useModalManager } from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
 import './MyProfileCounterpartiesTableRow.scss';
@@ -21,6 +21,7 @@ const MyProfileCounterpartiesTableRow = ({ id, isBlocked, nickname }: TMyProfile
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { localize } = useTranslations();
     const isAdvertiserBarred = useIsAdvertiserBarred();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
 
     return (
         <>
@@ -40,6 +41,7 @@ const MyProfileCounterpartiesTableRow = ({ id, isBlocked, nickname }: TMyProfile
                     className='border-[1px]'
                     color={isBlocked ? 'black' : 'primary'}
                     data-testid='dt_block_unblock_button'
+                    disabled={shouldShowVerification}
                     onClick={() => {
                         showModal('BlockUnblockUserModal');
                     }}

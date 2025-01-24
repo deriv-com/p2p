@@ -1,19 +1,31 @@
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
-import { OutsideBusinessHoursHint, PageReturn, TemporarilyBarredHint, Verification } from '@/components';
+import { OutsideBusinessHoursHint, PageReturn, PNVBanner, TemporarilyBarredHint, Verification } from '@/components';
 import { BUY_SELL_URL } from '@/constants';
-import { useGetBusinessHours, useIsAdvertiserBarred } from '@/hooks/custom-hooks';
+import {
+    useGetBusinessHours,
+    useGetPhoneNumberVerification,
+    useIsAdvertiser,
+    useIsAdvertiserBarred,
+} from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
+import { Loader } from '@deriv-com/ui';
 import { BuySellTable } from '../BuySellTable';
 import './BuySell.scss';
 
 const BuySell = () => {
     const { localize } = useTranslations();
+    const isAdvertiser = useIsAdvertiser();
+    const { isGetSettingsLoading, shouldShowVerification } = useGetPhoneNumberVerification();
     const { isScheduleAvailable } = useGetBusinessHours();
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const history = useHistory();
     const location = useLocation();
     const verified = new URLSearchParams(location.search).get('verified');
+
+    if (isGetSettingsLoading) {
+        return <Loader />;
+    }
 
     if (verified === 'false') {
         return (
@@ -37,6 +49,7 @@ const BuySell = () => {
         >
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             {!isScheduleAvailable && !isAdvertiserBarred && <OutsideBusinessHoursHint />}
+            {isAdvertiser && shouldShowVerification && <PNVBanner />}
             <BuySellTable />
         </div>
     );

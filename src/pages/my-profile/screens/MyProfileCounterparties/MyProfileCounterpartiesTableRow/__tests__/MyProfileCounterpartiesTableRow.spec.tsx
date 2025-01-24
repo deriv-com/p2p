@@ -55,6 +55,7 @@ jest.mock('@/hooks', () => ({
 
 jest.mock('@/hooks/custom-hooks', () => ({
     useAdvertiserStats: jest.fn(() => ({ data: {} })),
+    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ shouldShowVerification: false }),
     useIsAdvertiserBarred: () => false,
     useModalManager: () => mockModalManager,
 }));

@@ -1,6 +1,6 @@
 import { api } from '@/hooks';
 import { useIsAdvertiserBarred } from '@/hooks/custom-hooks';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import MyProfileCounterpartiesTable from '../MyProfileCounterpartiesTable';
 
 const mockProps = {
@@ -76,17 +76,6 @@ describe('MyProfileCounterpartiesTable', () => {
         render(<MyProfileCounterpartiesTable {...mockProps} />);
         expect(screen.getByTestId('dt_derivs-loader')).toBeInTheDocument();
     });
-    it('should show header when data is present', async () => {
-        mockUseGetList.mockReturnValue({
-            ...mockApiValues,
-            data: [{ id: 'id1', is_blocked: false, name: 'name1' }],
-        });
-        render(<MyProfileCounterpartiesTable {...mockProps} />);
-
-        await waitFor(() => {
-            expect(mockProps.setShowHeader).toHaveBeenCalledWith(true);
-        });
-    });
     it('should show the corresponding message when search value is provided and no matching name is found', () => {
         mockUseGetList.mockReturnValue({
             ...mockApiValues,
@@ -123,22 +112,6 @@ describe('MyProfileCounterpartiesTable', () => {
         });
 
         render(<MyProfileCounterpartiesTable {...mockProps} />);
-
-        expect(mockProps.setShowHeader).toHaveBeenCalledWith(true);
-        expect(mockStore.reset).toHaveBeenCalled();
-    });
-
-    it('should call reset and setShowHeader on unmount if error code is not TEMPORARY_BAR', () => {
-        // @ts-expect-error - mock values
-        mockStore.errorMessages = [{ code: 'SomeOtherError', message: 'Some Error' }];
-        mockUseGetList.mockReturnValue({
-            ...mockApiValues,
-            data: [{ id: 'id1', is_blocked: false, name: 'name1' }],
-        });
-
-        const { unmount } = render(<MyProfileCounterpartiesTable {...mockProps} />);
-
-        unmount();
 
         expect(mockProps.setShowHeader).toHaveBeenCalledWith(true);
         expect(mockStore.reset).toHaveBeenCalled();

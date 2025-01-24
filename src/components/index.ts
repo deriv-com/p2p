@@ -27,6 +27,7 @@ export * from './PaymentMethodForm';
 export * from './PaymentMethodLabel';
 export * from './PaymentMethodsFormFooter';
 export * from './PaymentMethodWithIcon';
+export * from './PNVBanner';
 export * from './PopoverDropdown';
 export * from './ProfileContent';
 export * from './RadioGroup';
