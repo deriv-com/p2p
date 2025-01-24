@@ -48,7 +48,7 @@ const PaymentMethodsListContent = ({
 }: TPaymentMethodsListContentProps) => {
     const { localize } = useTranslations();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { isPhoneNumberVerified } = useGetPhoneNumberVerification();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
     const {
         delete: deleteAdvertiserPaymentMethod,
         error: deleteError,
@@ -87,7 +87,7 @@ const PaymentMethodsListContent = ({
 
     return (
         <div className='payment-methods-list-content'>
-            {!isMobile && <AddNewButton isDisabled={!isPhoneNumberVerified} isMobile={isMobile} onAdd={onAdd} />}
+            {!isMobile && <AddNewButton isDisabled={shouldShowVerification} isMobile={isMobile} onAdd={onAdd} />}
             {Object.keys(groupedPaymentMethods)?.map(key => {
                 return (
                     <div className='payment-methods-list-content__group' key={key}>
@@ -98,7 +98,7 @@ const PaymentMethodsListContent = ({
                             {groupedPaymentMethods[key].paymentMethods?.map(advertiserPaymentMethod => {
                                 return (
                                     <PaymentMethodCard
-                                        isDisabled={!isPhoneNumberVerified}
+                                        isDisabled={shouldShowVerification}
                                         isEditable
                                         key={advertiserPaymentMethod.id}
                                         onDeletePaymentMethod={() => {
