@@ -201,7 +201,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                 />
             )}
             <AdFormTextArea
-                className={clsx({
+                className={clsx('ad-type-section__textarea', {
                     'ad-type-section__instructions': isInstructionsWarningVisible,
                 })}
                 field={localize('Instructions')}
