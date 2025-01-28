@@ -24,7 +24,7 @@
         "@deriv-com/translations": "^1.3.9",
         "@deriv-com/ui": "^1.35.6",
         "@deriv-com/utils": "^0.0.39",
-        "@deriv/quill-icons": "^2.1.2",
+        "@deriv/quill-icons": "^2.3.0",
         "@sendbird/chat": "^4.11.3",
         "@tanstack/react-query": "^5.28.14",
         "@tanstack/react-table": "^8.15.0",
