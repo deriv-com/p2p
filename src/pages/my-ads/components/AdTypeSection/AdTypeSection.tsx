@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TCurrency } from 'types';
@@ -69,6 +69,20 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
             }
         });
     };
+
+    const validateInstructions = (value: string) => {
+        const regExp = /.*(\+?\d{1,4}[-.\s]?)?((\(\d{1,4}\))|\d{1,4})[-.\s]?\d{1,4}[-.\s]?\d{1,9}.*/;
+        const hasStringOfNumbers = regExp.test(value);
+        if (hasStringOfNumbers) {
+            setIsInstructionsWarningVisible(true);
+        } else {
+            setIsInstructionsWarningVisible(false);
+        }
+    };
+
+    useEffect(() => {
+        validateInstructions(getValues('instructions'));
+    }, []);
 
     return (
         <div className={clsx('ad-type-section', { 'ad-type-section--edit': isEdit })}>
@@ -193,21 +207,16 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                 field={localize('Instructions')}
                 hint={
                     isInstructionsWarningVisible
-                        ? localize("Make sure you're not sharing your personal details.")
-                        : localize('This information will be visible to everyone')
+                        ? localize('Make sure you’re not sharing your personal details.')
+                        : localize(
+                              'This information will be visible to everyone. Don’t share your phone number or personal details.'
+                          )
                 }
-                label={localize("Don't share your phone number or personal details.")}
+                label={localize('Instructions (optional)')}
                 name='instructions'
                 onFieldChange={e => {
                     const { value } = e.target;
-                    const regExp = /^(\+?\d{1,4}[-.\s]?)?((\(\d{1,4}\))|\d{1,4})[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
-                    const hasStringOfNumbers = regExp.test(value);
-
-                    if (hasStringOfNumbers) {
-                        setIsInstructionsWarningVisible(true);
-                    } else {
-                        setIsInstructionsWarningVisible(false);
-                    }
+                    validateInstructions(value);
                 }}
             />
             <AdFormController {...props} isNextButtonDisabled={!isValid} onCancel={onCancel} />

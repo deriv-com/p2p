@@ -14,4 +14,17 @@
     &--edit {
         padding-top: 2.4rem;
     }
+
+    &__instructions {
+        textarea {
+            border-color: #ffad3a !important;
+        }
+
+        textarea:focus + label span,
+        label,
+        p,
+        span {
+            color: #ffad3a;
+        }
+    }
 }
