@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import clsx from 'clsx';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TCurrency } from 'types';
@@ -27,6 +27,7 @@ type TAdTypeSectionProps = {
 };
 
 const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }: TAdTypeSectionProps) => {
+    const [isInstructionsWarningVisible, setIsInstructionsWarningVisible] = useState(false);
     const { queryString } = useQueryString();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
     const { balance_available: balanceAvailable } = advertiserInfo || {};
@@ -186,10 +187,28 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                 />
             )}
             <AdFormTextArea
+                className={clsx({
+                    'ad-type-section__instructions': isInstructionsWarningVisible,
+                })}
                 field={localize('Instructions')}
-                hint={localize('This information will be visible to everyone')}
-                label={localize('Instructions(optional)')}
+                hint={
+                    isInstructionsWarningVisible
+                        ? localize("Make sure you're not sharing your personal details.")
+                        : localize('This information will be visible to everyone')
+                }
+                label={localize("Don't share your phone number or personal details.")}
                 name='instructions'
+                onFieldChange={e => {
+                    const { value } = e.target;
+                    const regExp = /^(\+?\d{1,4}[-.\s]?)?((\(\d{1,4}\))|\d{1,4})[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+                    const hasStringOfNumbers = regExp.test(value);
+
+                    if (hasStringOfNumbers) {
+                        setIsInstructionsWarningVisible(true);
+                    } else {
+                        setIsInstructionsWarningVisible(false);
+                    }
+                }}
             />
             <AdFormController {...props} isNextButtonDisabled={!isValid} onCancel={onCancel} />
         </div>

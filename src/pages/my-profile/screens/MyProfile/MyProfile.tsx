@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { PNVBanner, ProfileContent, Verification } from '@/components';
+import { AwarenessBanner, PNVBanner, ProfileContent, Verification } from '@/components';
 import { NicknameModal } from '@/components/Modals';
 import {
     useAdvertiserStats,
@@ -73,6 +73,7 @@ const MyProfile = () => {
     return (
         <div className='h-full'>
             {isAdvertiser && shouldShowVerification && <PNVBanner />}
+            <AwarenessBanner />
             <div className='my-profile'>
                 <ProfileContent data={advertiserStats} />
                 <Tabs

@@ -5,7 +5,7 @@
 
     @include mobile-or-tablet-screen {
         position: absolute;
-        top: -4rem;
+        top: -10rem;
         z-index: 1;
         height: calc(100vh - 8rem);
         width: 100%;
@@ -16,9 +16,11 @@
             transform: rotate(180deg);
         }
     }
+
     & .mobile-wrapper {
         &__header {
             gap: 0;
+
             span {
                 margin: 0 auto;
             }
