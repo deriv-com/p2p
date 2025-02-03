@@ -29,6 +29,7 @@ const MyAds = () => {
     if (isAdvertiserNotVerified)
         return (
             <div className='overflow-y-auto h-[calc(100%-11rem)]'>
+                <AwarenessBanner />
                 <Verification />;
             </div>
         );

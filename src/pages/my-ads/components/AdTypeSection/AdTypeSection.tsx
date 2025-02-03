@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TCurrency } from 'types';
 import { FloatingRate, RadioGroup } from '@/components';
-import { BUY_SELL, RATE_TYPE } from '@/constants';
+import { BUY_SELL, RATE_TYPE, VALID_SYMBOLS_PATTERN } from '@/constants';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { getValidationRules, restrictDecimalPlace } from '@/utils';
@@ -72,9 +72,12 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
 
     const validateInstructions = (value: string) => {
         const regExp = /.*(\+?\d{1,4}[-.\s]?)?((\(\d{1,4}\))|\d{1,4})[-.\s]?\d{1,4}[-.\s]?\d{1,9}.*/;
-        const hasStringOfNumbers = regExp.test(value);
-        if (hasStringOfNumbers) {
-            setIsInstructionsWarningVisible(true);
+        const strings = value.split(' ');
+        const hasStringOfNumbers = strings.some(str => regExp.test(str));
+        const isValid = VALID_SYMBOLS_PATTERN.test(value);
+
+        if (isValid) {
+            setIsInstructionsWarningVisible(hasStringOfNumbers);
         } else {
             setIsInstructionsWarningVisible(false);
         }

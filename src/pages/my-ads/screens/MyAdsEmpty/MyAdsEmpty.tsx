@@ -14,7 +14,7 @@ const MyAdsEmpty = () => {
     const history = useHistory();
     const textSize = isMobile ? 'lg' : 'md';
     return (
-        <div className='mt-[11.8rem] mx-[1.6rem]'>
+        <div className='mt-[3.8rem] mx-[1.6rem]'>
             <ActionScreen
                 actionButtons={
                     <Button
