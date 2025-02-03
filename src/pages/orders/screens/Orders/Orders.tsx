@@ -9,6 +9,7 @@ import { useTabsStore } from '@/stores';
 import { Divider, Loader, useDevice } from '@deriv-com/ui';
 import { OrdersTable } from './OrdersTable';
 import { OrdersTableHeader } from './OrdersTableHeader';
+import './Orders.scss';
 
 const Orders = () => {
     const { isDesktop } = useDevice();
@@ -41,13 +42,13 @@ const Orders = () => {
     }
 
     return (
-        <>
+        <div className='orders'>
             {isAdvertiser && shouldShowVerification && <PNVBanner />}
             <AwarenessBanner />
             <OrdersTableHeader fromDate={fromDate} setFromDate={setFromDate} setToDate={setToDate} toDate={toDate} />
             {!isDesktop && <Divider />}
             <OrdersTable data={data} isActive={isActive} isLoading={isLoading} loadMoreOrders={loadMoreOrders} />
-        </>
+        </div>
     );
 };
 export default Orders;

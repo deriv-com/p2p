@@ -1,4 +1,4 @@
-.my-ads {
+.orders {
     @include mobile-or-tablet-screen {
         max-height: calc(100% - 8rem);
         overflow: auto;

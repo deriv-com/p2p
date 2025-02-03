@@ -72,7 +72,7 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
 
     const validateInstructions = (value: string) => {
         const regExp = /.*(\+?\d{1,4}[-.\s]?)?((\(\d{1,4}\))|\d{1,4})[-.\s]?\d{1,4}[-.\s]?\d{1,9}.*/;
-        const strings = value.split(' ');
+        const strings = typeof value === 'string' ? value.split(' ') : [];
         const hasStringOfNumbers = strings.some(str => regExp.test(str));
         const isValid = VALID_SYMBOLS_PATTERN.test(value);
 

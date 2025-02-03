@@ -18,6 +18,7 @@ const MyAdsEmpty = () => {
             <ActionScreen
                 actionButtons={
                     <Button
+                        className='mb-[8rem]'
                         disabled={isAdvertiserBarred}
                         onClick={() => {
                             if (isAdvertiser) history.push(`${MY_ADS_URL}/adForm?formAction=create`);
