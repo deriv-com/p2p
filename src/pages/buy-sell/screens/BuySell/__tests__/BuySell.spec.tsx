@@ -32,6 +32,11 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
 }));
 
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => ({ isDesktop: true })),
+}));
+
 jest.mock('../../BuySellTable/BuySellTable', () => jest.fn(() => <div>BuySellTable</div>));
 
 const mockUseLocation = useLocation as jest.MockedFunction<typeof useLocation>;

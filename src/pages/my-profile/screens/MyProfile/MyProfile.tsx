@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { PNVBanner, ProfileContent, Verification } from '@/components';
+import { AwarenessBanner, PNVBanner, ProfileContent, Verification } from '@/components';
 import { NicknameModal } from '@/components/Modals';
 import {
     useAdvertiserStats,
@@ -55,6 +55,7 @@ const MyProfile = () => {
     if (isAdvertiserNotVerified) {
         return (
             <div className='overflow-y-auto h-[calc(100%-11rem)]'>
+                <AwarenessBanner />
                 <Verification />
             </div>
         );
@@ -73,6 +74,7 @@ const MyProfile = () => {
     return (
         <div className='h-full'>
             {isAdvertiser && shouldShowVerification && <PNVBanner />}
+            <AwarenessBanner />
             <div className='my-profile'>
                 <ProfileContent data={advertiserStats} />
                 <Tabs
