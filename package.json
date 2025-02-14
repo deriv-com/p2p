@@ -99,7 +99,7 @@
         "lint-staged": "^10.4.0",
         "postcss": "^8.4.38",
         "prettier": "^3.1.0",
-        "sass": "^1.72.0",
+        "sass": "^1.85.0",
         "stylelint": "^13.13.1",
         "stylelint-config-prettier": "^8.0.2",
         "stylelint-no-unsupported-browser-features": "^4.0.0",
