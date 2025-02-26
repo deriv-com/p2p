@@ -10,11 +10,17 @@ import { MyAdsToggle } from '../MyAdsToggle';
 import './MyAdsDisplayWrapper.scss';
 
 type TMyAdsDisplayWrapperProps = {
+    isDisabled: boolean;
     isPaused: boolean;
     onClickToggle: () => void;
 };
 
-const MyAdsDisplayWrapper = ({ children, isPaused, onClickToggle }: PropsWithChildren<TMyAdsDisplayWrapperProps>) => {
+const MyAdsDisplayWrapper = ({
+    children,
+    isDisabled,
+    isPaused,
+    onClickToggle,
+}: PropsWithChildren<TMyAdsDisplayWrapperProps>) => {
     const { isDesktop } = useDevice();
     const isAdvertiserBarred = useIsAdvertiserBarred();
     const history = useHistory();
@@ -28,12 +34,22 @@ const MyAdsDisplayWrapper = ({ children, isPaused, onClickToggle }: PropsWithChi
                     'my-ads-display-wrapper--barred': isAdvertiserBarred,
                 })}
                 renderFooter={() => (
-                    <Button disabled={isAdvertiserBarred} isFullWidth onClick={goToCreateAd} size='lg' textSize='md'>
+                    <Button
+                        disabled={isDisabled || isAdvertiserBarred}
+                        isFullWidth
+                        onClick={goToCreateAd}
+                        size='lg'
+                        textSize='md'
+                    >
                         <Localize i18n_default_text='Create new ad' />
                     </Button>
                 )}
                 renderHeader={() => (
-                    <MyAdsToggle isDisabled={isAdvertiserBarred} isPaused={isPaused} onClickToggle={onClickToggle} />
+                    <MyAdsToggle
+                        isDisabled={isDisabled || isAdvertiserBarred}
+                        isPaused={isPaused}
+                        onClickToggle={onClickToggle}
+                    />
                 )}
                 shouldShowBackIcon={false}
             >
@@ -45,10 +61,14 @@ const MyAdsDisplayWrapper = ({ children, isPaused, onClickToggle }: PropsWithChi
     return (
         <>
             <div className='flex items-center justify-between my-[1.6rem]'>
-                <Button disabled={isAdvertiserBarred} onClick={goToCreateAd} size='lg' textSize='sm'>
+                <Button disabled={isDisabled || isAdvertiserBarred} onClick={goToCreateAd} size='lg' textSize='sm'>
                     <Localize i18n_default_text='Create new ad' />
                 </Button>
-                <MyAdsToggle isDisabled={isAdvertiserBarred} isPaused={isPaused} onClickToggle={onClickToggle} />
+                <MyAdsToggle
+                    isDisabled={isDisabled || isAdvertiserBarred}
+                    isPaused={isPaused}
+                    onClickToggle={onClickToggle}
+                />
             </div>
             {children}
         </>

@@ -9,7 +9,6 @@ const ActiveOrderInfo = () => {
     const { orderDetails } = useOrderDetails();
     const {
         advert_details: { description },
-        contact_info: contactInfo,
         isActiveOrder,
         labels,
         payment_info: paymentInfo,
@@ -18,10 +17,7 @@ const ActiveOrderInfo = () => {
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
 
-    const adDetails = [
-        { text: labels.contactDetails, value: contactInfo || '-' },
-        { text: labels.instructions, value: description || '-' },
-    ];
+    const adDetails = [{ text: labels.instructions, value: description || '-' }];
 
     if (isActiveOrder)
         return (

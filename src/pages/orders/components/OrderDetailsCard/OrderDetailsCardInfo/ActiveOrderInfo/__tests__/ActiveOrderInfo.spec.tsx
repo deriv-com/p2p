@@ -58,9 +58,6 @@ describe('<ActiveOrderInfo />', () => {
         expect(screen.getByText('Expand all')).toBeInTheDocument();
         expect(screen.getByText('Alipay')).toBeInTheDocument();
 
-        expect(screen.getByText('Seller’s contact details')).toBeInTheDocument();
-        expect(screen.getByText('This is my contact info')).toBeInTheDocument();
-
         expect(screen.getByText('Seller’s instructions')).toBeInTheDocument();
         expect(screen.getByText('This is my description')).toBeInTheDocument();
     });

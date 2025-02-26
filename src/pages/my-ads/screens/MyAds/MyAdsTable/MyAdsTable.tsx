@@ -3,7 +3,7 @@ import { NonUndefined } from 'react-hook-form';
 import { THooks, TLocalize } from 'types';
 import { Table } from '@/components';
 import { api } from '@/hooks';
-import { useIsAdvertiser } from '@/hooks/custom-hooks';
+import { useGetPhoneNumberVerification, useIsAdvertiser } from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader } from '@deriv-com/ui';
 import { MyAdsEmpty } from '../../MyAdsEmpty';
@@ -52,6 +52,7 @@ const MyAdsTable = () => {
     const { mutate: updateAds } = api.advertiser.useUpdate();
     const { data: advertiserPaymentMethods, get } = api.advertiserPaymentMethods.useGet();
     const { localize } = useTranslations();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
 
     useEffect(() => {
         if (isAdvertiser) {
@@ -67,7 +68,11 @@ const MyAdsTable = () => {
     const onClickToggle = () => updateAds({ is_listed: isListed ? 0 : 1 });
 
     return (
-        <MyAdsDisplayWrapper isPaused={!!blockedUntil || !isListed} onClickToggle={onClickToggle}>
+        <MyAdsDisplayWrapper
+            isDisabled={shouldShowVerification}
+            isPaused={!!blockedUntil || !isListed}
+            onClickToggle={onClickToggle}
+        >
             <div className='my-ads-table__list'>
                 <Table
                     columns={getColumns(localize)}
