@@ -6,6 +6,7 @@ import { useAuthData } from '@deriv-com/api-hooks';
 import {
     OAuth2Logout,
     requestOidcAuthentication,
+    requestOidcSilentAuthentication,
     TOAuth2EnabledAppList,
     useIsOAuth2Enabled,
 } from '@deriv-com/auth-client';
@@ -36,19 +37,22 @@ const useOAuth = (): UseOAuthReturn => {
     const oauthUrl = getOauthUrl();
     const authTokenLocalStorage = localStorage.getItem('authToken');
 
-    const WSLogoutAndRedirect = async () => {
-        await logout();
-        removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
-        if (isOAuth2Enabled) {
-            await requestOidcAuthentication({
-                redirectCallbackUri: `${window.location.origin}/callback`,
-            });
-        } else {
-            window.open(oauthUrl, '_self');
-        }
-    };
     const handleLogout = async () => {
-        await OAuth2Logout(WSLogoutAndRedirect);
+        await OAuth2Logout({
+            postLogoutRedirectUri: `${window.location.origin}/`,
+            redirectCallbackUri: `${window.location.origin}/callback`,
+            WSLogoutAndRedirect: async () => {
+                await logout();
+                removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
+                if (isOAuth2Enabled) {
+                    await requestOidcAuthentication({
+                        redirectCallbackUri: `${window.location.origin}/callback`,
+                    });
+                } else {
+                    window.open(oauthUrl, '_self');
+                }
+            },
+        });
     };
 
     const redirectToAuth = async () => {
@@ -63,11 +67,45 @@ const useOAuth = (): UseOAuthReturn => {
 
     const hasAuthToken = localStorage.getItem('authToken');
     const loggedState = Cookies.get('logged_state');
+    const isSafari = () => navigator.userAgent.indexOf('Safari') !== -1;
+
+    const onRenderSilentAuthCheck = async () => {
+        if (!hasAuthToken) {
+            window.addEventListener(
+                'message',
+                message => {
+                    if (message.data?.event === 'login_successful') {
+                        requestOidcAuthentication({
+                            redirectCallbackUri: `${window.location.origin}/callback`,
+                        });
+                    }
+                },
+                false
+            );
+
+            requestOidcSilentAuthentication({
+                redirectCallbackUri: `${window.location.origin}/callback`,
+                redirectSilentCallbackUri: `${window.location.origin}/silent-callback.html`,
+            });
+        }
+    };
+
+    const onRenderLoggedStateAuthCheck = async () => {
+        if (hasAuthToken && loggedState === 'false') {
+            await handleLogout();
+        }
+    };
 
     const onRenderAuthCheck = useCallback(async () => {
         if (!isEndpointPage && !isCallbackPage) {
-            if ((hasAuthToken && loggedState === 'false' && isOAuth2Enabled) || error?.code === 'InvalidToken') {
+            if (error?.code === 'InvalidToken') {
                 await handleLogout();
+            } else if (isOAuth2Enabled) {
+                if (!isSafari()) {
+                    await onRenderSilentAuthCheck();
+                } else {
+                    await onRenderLoggedStateAuthCheck();
+                }
             } else if (isRedirectPage) {
                 const params = new URLSearchParams(location.search);
                 const from = params.get('from');
