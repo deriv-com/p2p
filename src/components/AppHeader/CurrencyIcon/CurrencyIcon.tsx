@@ -10,7 +10,10 @@ const CurrencyIcon = ({ currency, isVirtual }: CurrencyIconProps) => {
 
     useEffect(() => {
         const currencyName = currency.charAt(0).toUpperCase() + currency.slice(1).toLowerCase();
-        const currencyIconName = isVirtual ? 'CurrencyDemoIcon' : `Currency${currencyName}Icon`;
+        // TODO: remove this after we fix quill-icons
+        const oldCurrencyName = currencyName === 'Tusdt' || currencyName === 'Eusdt' ? 'Usdt' : currencyName;
+        const currencyIconName = isVirtual ? 'CurrencyDemoIcon' : `Currency${oldCurrencyName}Icon`;
+
         const getIconComponent = async () => {
             const module = await import('@deriv/quill-icons/Currencies');
             /* eslint-disable  @typescript-eslint/no-explicit-any */

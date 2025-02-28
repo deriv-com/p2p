@@ -1,5 +1,5 @@
 import { FullPageMobileWrapper } from '@/components';
-import { useQueryString } from '@/hooks/custom-hooks';
+import { useGetPhoneNumberVerification, useQueryString } from '@/hooks/custom-hooks';
 import { DerivLightIcPaymentMethodsWalletIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
@@ -18,6 +18,7 @@ type TPaymentMethodsEmptyProps = {
 const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) => {
     const { isDesktop, isMobile } = useDevice();
     const { setQueryString } = useQueryString();
+    const { shouldShowVerification } = useGetPhoneNumberVerification();
 
     if (!isDesktop) {
         return (
@@ -44,6 +45,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                     </Text>
                     <Button
                         className='payment-methods-empty__button'
+                        disabled={shouldShowVerification}
                         isFullWidth={isMobile}
                         onClick={() => {
                             onAddPaymentMethod();
@@ -69,6 +71,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
             </Text>
             <Button
                 className='payment-methods-empty__button'
+                disabled={shouldShowVerification}
                 onClick={() => {
                     onAddPaymentMethod();
                 }}

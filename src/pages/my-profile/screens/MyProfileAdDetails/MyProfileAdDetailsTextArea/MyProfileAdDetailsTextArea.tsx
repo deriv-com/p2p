@@ -6,9 +6,10 @@ import { TextArea, useDevice } from '@deriv-com/ui';
 
 type TMyProfileAdDetailsTextAreaProps = {
     control: ReturnType<typeof useForm>['control'];
+    isDisabled: boolean;
 };
 
-const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProps) => {
+const MyProfileAdDetailsTextArea = ({ control, isDisabled }: TMyProfileAdDetailsTextAreaProps) => {
     const { localize } = useTranslations();
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
@@ -21,6 +22,7 @@ const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProp
                 render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
                     <TextArea
                         data-testid='dt_profile_ad_details_contact'
+                        disabled={isDisabled}
                         hint={error?.message}
                         isInvalid={!!error?.message}
                         label={localize('Contact details')}
@@ -45,6 +47,7 @@ const MyProfileAdDetailsTextArea = ({ control }: TMyProfileAdDetailsTextAreaProp
                 render={({ field: { onBlur, onChange, value }, fieldState: { error } }) => (
                     <TextArea
                         data-testid='dt_profile_ad_details_description'
+                        disabled={isDisabled}
                         hint={error?.message || localize('This information will be visible to everyone.')}
                         isInvalid={!!error?.message}
                         label={localize('Instructions')}

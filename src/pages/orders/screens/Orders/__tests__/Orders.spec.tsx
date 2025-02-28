@@ -24,7 +24,13 @@ jest.mock('@/hooks', () => ({
 }));
 
 jest.mock('@/hooks/custom-hooks', () => ({
+    useGetPhoneNumberVerification: jest.fn().mockReturnValue({ shouldShowVerification: false }),
+    useIsAdvertiser: jest.fn().mockReturnValue(true),
     useQueryString: () => ({ queryString: { get: () => 'Active orders' } }),
+}));
+
+jest.mock('@/components/AwarenessBanner', () => ({
+    AwarenessBanner: jest.fn(() => <div>AwarenessBanner</div>),
 }));
 
 jest.mock('../OrdersTable', () => ({
@@ -45,6 +51,7 @@ describe('Orders', () => {
 
         render(<Orders />);
 
+        expect(screen.getByText('AwarenessBanner')).toBeInTheDocument();
         expect(screen.getByText('OrdersTableHeader')).toBeInTheDocument();
         expect(screen.getByText('OrdersTable')).toBeInTheDocument();
     });

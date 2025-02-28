@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { ProfileContent, Verification } from '@/components';
+import { AwarenessBanner, PNVBanner, ProfileContent, Verification } from '@/components';
 import { NicknameModal } from '@/components/Modals';
 import {
     useAdvertiserStats,
+    useGetPhoneNumberVerification,
     useIsAdvertiser,
     useIsAdvertiserNotVerified,
     useModalManager,
@@ -31,6 +32,7 @@ const MyProfile = () => {
     const isAdvertiser = useIsAdvertiser();
     const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
+    const { isGetSettingsLoading, shouldShowVerification } = useGetPhoneNumberVerification();
 
     const currentTab = queryString.tab;
 
@@ -46,13 +48,14 @@ const MyProfile = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAdvertiser, isPoiPoaVerified]);
 
-    if (isLoading && !advertiserStats) {
+    if (isGetSettingsLoading || (isLoading && !advertiserStats)) {
         return <Loader />;
     }
 
     if (isAdvertiserNotVerified) {
         return (
             <div className='overflow-y-auto h-[calc(100%-11rem)]'>
+                <AwarenessBanner />
                 <Verification />
             </div>
         );
@@ -61,6 +64,7 @@ const MyProfile = () => {
     if (!isDesktop) {
         return (
             <div className='my-profile'>
+                {isAdvertiser && shouldShowVerification && <PNVBanner />}
                 <MyProfileMobile data={advertiserStats} />
                 {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
             </div>
@@ -68,25 +72,29 @@ const MyProfile = () => {
     }
 
     return (
-        <div className='my-profile'>
-            <ProfileContent data={advertiserStats} />
-            <Tabs
-                activeTab={getLocalizedTabs(localize)[(currentTab !== 'default' && currentTab) || 'Stats']}
-                className='my-profile__tabs'
-                onChange={index => {
-                    setQueryString({
-                        tab: TABS[index],
-                    });
-                }}
-                variant='primary'
-            >
-                {tabs.map(tab => (
-                    <Tab className='my-profile__tabs-tab' key={tab.title} title={tab.title}>
-                        {tab.component}
-                    </Tab>
-                ))}
-            </Tabs>
-            {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
+        <div className='h-full'>
+            {isAdvertiser && shouldShowVerification && <PNVBanner />}
+            <AwarenessBanner />
+            <div className='my-profile'>
+                <ProfileContent data={advertiserStats} />
+                <Tabs
+                    activeTab={getLocalizedTabs(localize)[(currentTab !== 'default' && currentTab) || 'Stats']}
+                    className='my-profile__tabs'
+                    onChange={index => {
+                        setQueryString({
+                            tab: TABS[index],
+                        });
+                    }}
+                    variant='primary'
+                >
+                    {tabs.map(tab => (
+                        <Tab className='my-profile__tabs-tab' key={tab.title} title={tab.title}>
+                            {tab.component}
+                        </Tab>
+                    ))}
+                </Tabs>
+                {!!isModalOpenFor('NicknameModal') && <NicknameModal isModalOpen onRequestClose={hideModal} />}
+            </div>
         </div>
     );
 };

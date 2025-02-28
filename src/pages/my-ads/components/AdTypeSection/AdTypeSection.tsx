@@ -1,9 +1,9 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TCurrency } from 'types';
 import { FloatingRate, RadioGroup } from '@/components';
-import { BUY_SELL, RATE_TYPE } from '@/constants';
+import { BUY_SELL, RATE_TYPE, VALID_SYMBOLS_PATTERN } from '@/constants';
 import { api } from '@/hooks';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { getValidationRules, restrictDecimalPlace } from '@/utils';
@@ -27,6 +27,7 @@ type TAdTypeSectionProps = {
 };
 
 const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }: TAdTypeSectionProps) => {
+    const [isInstructionsWarningVisible, setIsInstructionsWarningVisible] = useState(false);
     const { queryString } = useQueryString();
     const { data: advertiserInfo } = api.advertiser.useGetInfo();
     const { balance_available: balanceAvailable } = advertiserInfo || {};
@@ -68,6 +69,23 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
             }
         });
     };
+
+    const validateInstructions = (value: string) => {
+        const regExp = /.*(\+?\d{1,4}[-.\s]?)?((\(\d{1,4}\))|\d{1,4})[-.\s]?\d{1,4}[-.\s]?\d{1,9}.*/;
+        const strings = typeof value === 'string' ? value.split(' ') : [];
+        const hasStringOfNumbers = strings.some(str => regExp.test(str));
+        const isValid = VALID_SYMBOLS_PATTERN.test(value);
+
+        if (isValid) {
+            setIsInstructionsWarningVisible(hasStringOfNumbers);
+        } else {
+            setIsInstructionsWarningVisible(false);
+        }
+    };
+
+    useEffect(() => {
+        validateInstructions(getValues('instructions'));
+    }, []);
 
     return (
         <div className={clsx('ad-type-section', { 'ad-type-section--edit': isEdit })}>
@@ -186,10 +204,23 @@ const AdTypeSection = ({ currency, localCurrency, onCancel, rateType, ...props }
                 />
             )}
             <AdFormTextArea
+                className={clsx('ad-type-section__textarea', {
+                    'ad-type-section__instructions': isInstructionsWarningVisible,
+                })}
                 field={localize('Instructions')}
-                hint={localize('This information will be visible to everyone')}
-                label={localize('Instructions(optional)')}
+                hint={
+                    isInstructionsWarningVisible
+                        ? localize('Make sure you’re not sharing your personal details.')
+                        : localize(
+                              'This information will be visible to everyone. Don’t share your phone number or personal details.'
+                          )
+                }
+                label={localize('Instructions (optional)')}
                 name='instructions'
+                onFieldChange={e => {
+                    const { value } = e.target;
+                    validateInstructions(value);
+                }}
             />
             <AdFormController {...props} isNextButtonDisabled={!isValid} onCancel={onCancel} />
         </div>
