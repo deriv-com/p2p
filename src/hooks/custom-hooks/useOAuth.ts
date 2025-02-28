@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import Cookies from 'js-cookie';
 import { getOauthUrl } from '@/constants';
 import { getCurrentRoute, removeCookies } from '@/utils';
+import { isSafariBrowser } from '@/utils/browser';
 import { useAuthData } from '@deriv-com/api-hooks';
 import {
     OAuth2Logout,
@@ -48,7 +49,11 @@ const useOAuth = (): UseOAuthReturn => {
         }
     };
     const handleLogout = async () => {
-        await OAuth2Logout(WSLogoutAndRedirect);
+        await OAuth2Logout({
+            postLogoutRedirectUri: window.location.origin,
+            redirectCallbackUri: `${window.location.origin}/callback`,
+            WSLogoutAndRedirect,
+        });
     };
 
     const redirectToAuth = async () => {
@@ -66,7 +71,10 @@ const useOAuth = (): UseOAuthReturn => {
 
     const onRenderAuthCheck = useCallback(async () => {
         if (!isEndpointPage && !isCallbackPage) {
-            if ((hasAuthToken && loggedState === 'false' && isOAuth2Enabled) || error?.code === 'InvalidToken') {
+            // NOTE: we only do single logout using logged_state cookie checks only in Safari
+            // because front channels do not work in Safari, front channels (front-channel.html) would already help us automatically log out
+            const shouldSingleLogoutWithLoggedState = hasAuthToken && loggedState === 'false' && isSafariBrowser();
+            if ((shouldSingleLogoutWithLoggedState && isOAuth2Enabled) || error?.code === 'InvalidToken') {
                 await handleLogout();
             } else if (isRedirectPage) {
                 const params = new URLSearchParams(location.search);
