@@ -93,7 +93,7 @@ jest.mock('@/hooks', () => ({
 }));
 
 jest.mock('@deriv-com/auth-client', () => ({
-    OAuth2Logout: jest.fn(WSLogoutAndRedirect => {
+    OAuth2Logout: jest.fn(({ WSLogoutAndRedirect }) => {
         const mockIframe = document.createElement('iframe');
         mockIframe.id = 'logout-iframe';
         document.body.appendChild(mockIframe);
