@@ -28,12 +28,12 @@ jobs:
                   token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
             - name: Checkout to branch
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   ref: ${{ github.event.pull_request.head.sha }}
 
             - name: Setup node
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
                   node-version: 20.x
                   cache: 'npm'
@@ -42,15 +42,15 @@ jobs:
               shell: bash
               run: echo "@deriv-com:registry=https://npm.pkg.github.com" >> .npmrc
 
-            - name: Get cached dependencies
-              id: cache-npm
-              uses: actions/cache/restore@e12d46a63a90f2fae62d114769bbf2a179198b5c
-              with:
-                  path: node_modules
-                  key: npm-${{ hashFiles('./package-lock.json') }}
+            # - name: Get cached dependencies
+            #   id: cache-npm
+            #   uses: actions/cache@v4
+            #   with:
+            #       path: node_modules
+            #       key: npm-${{ hashFiles('./package-lock.json') }}
 
             - name: Install dependencies
-              if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+              # if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
               run: npm ci
               shell: bash
 
