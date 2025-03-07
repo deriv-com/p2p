@@ -40,11 +40,7 @@ const useOAuth = (): UseOAuthReturn => {
     const WSLogoutAndRedirect = async () => {
         await logout();
         removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
-        if (isOAuth2Enabled) {
-            await requestOidcAuthentication({
-                redirectCallbackUri: `${window.location.origin}/callback`,
-            });
-        } else {
+        if (!isOAuth2Enabled) {
             window.open(oauthUrl, '_self');
         }
     };
