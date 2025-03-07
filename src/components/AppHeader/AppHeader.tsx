@@ -4,6 +4,7 @@ import { api, useGrowthbookGetFeatureValue, useOAuth } from '@/hooks';
 import { Chat, getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
+import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Header, Text, Tooltip, useDevice, Wrapper } from '@deriv-com/ui';
 import { LocalStorageUtils } from '@deriv-com/utils';
@@ -29,7 +30,7 @@ const AppHeader = () => {
     useEffect(() => {
         document.documentElement.dir = instance.dir((currentLang || 'en').toLowerCase());
     }, [currentLang, instance]);
-    const { oAuthLogout } = useOAuth();
+    const { isOAuth2Enabled, oAuthLogout } = useOAuth();
     const [isNotificationServiceEnabled] = useGrowthbookGetFeatureValue({
         featureFlag: 'new_notifications_service_enabled',
     });
@@ -75,7 +76,15 @@ const AppHeader = () => {
             <Button
                 className='w-36'
                 color='primary-light'
-                onClick={() => window.open(oauthUrl, '_self')}
+                onClick={async () => {
+                    if (isOAuth2Enabled) {
+                        await requestOidcAuthentication({
+                            redirectCallbackUri: `${window.location.origin}/callback`,
+                        });
+                    } else {
+                        window.open(oauthUrl, '_self');
+                    }
+                }}
                 variant='ghost'
             >
                 <Text weight='bold'>{localize('Log in')}</Text>
