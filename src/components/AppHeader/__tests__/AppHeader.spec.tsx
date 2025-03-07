@@ -92,6 +92,21 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+jest.mock('@deriv-com/auth-client', () => ({
+    OAuth2Logout: jest.fn(({ WSLogoutAndRedirect }) => {
+        const mockIframe = document.createElement('iframe');
+        mockIframe.id = 'logout-iframe';
+        document.body.appendChild(mockIframe);
+        setTimeout(() => {
+            const event = new MessageEvent('message', { data: 'logout_complete' });
+            window.dispatchEvent(event);
+        }, 100);
+        WSLogoutAndRedirect();
+    }),
+    useIsOAuth2Enabled: jest.fn().mockReturnValue(false),
+    useOAuth2: jest.fn().mockReturnValue({ isOAuth2Enabled: false }),
+}));
+
 describe('<AppHeader/>', () => {
     window.open = jest.fn();
 
@@ -134,7 +149,7 @@ describe('<AppHeader/>', () => {
         });
 
         Object.defineProperty(document, 'domain', {
-            value: 'example.com',
+            value: 'example.com/endpoint',
             writable: true,
         });
 
