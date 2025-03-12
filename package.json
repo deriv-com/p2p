@@ -45,7 +45,7 @@
         "react-calendar": "^5.0.0",
         "react-content-loader": "^7.0.2",
         "react-dom": "^18.2.0",
-        "react-dropzone": "^14.2.3",
+        "react-dropzone": "^14.3.8",
         "react-hook-form": "^7.51.1",
         "react-router-dom": "^5.2.0",
         "react-share": "^5.1.0",
