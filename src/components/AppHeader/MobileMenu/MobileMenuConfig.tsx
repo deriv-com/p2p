@@ -1,6 +1,6 @@
 import { ComponentProps, ReactNode } from 'react';
 import { ACCOUNT_LIMITS, HELP_CENTRE, RESPONSIBLE } from '@/constants';
-import { useGrowthbookGetFeatureValue, useOAuth } from '@/hooks/custom-hooks';
+import { useGrowthbookGetFeatureValue, useOAuth, useShouldRedirectToLowCodeHub } from '@/hooks/custom-hooks';
 import useFreshChat from '@/hooks/custom-hooks/useFreshchat';
 import useIntercom from '@/hooks/custom-hooks/useIntercom';
 import { Chat } from '@/utils';
@@ -61,7 +61,7 @@ export const MobileMenuConfig = () => {
             },
             {
                 as: 'a',
-                href: URLConstants.derivAppProduction,
+                href: useShouldRedirectToLowCodeHub(),
                 label: localize("Trader's Hub"),
                 LeftComponent: LegacyHomeOldIcon,
             },
