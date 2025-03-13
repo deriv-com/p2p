@@ -21,11 +21,11 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
 
     if (shouldRedirectToLowCode) {
         if (goToCFDs) {
-            if (isProduction) return 'http://hub.deriv.com/tradershub/options';
-            if (isStaging) return 'http://staging-hub.deriv.com/tradershub/options';
-        } else {
             if (isProduction) return 'http://hub.deriv.com/tradershub/cfds';
             if (isStaging) return 'http://staging-hub.deriv.com/tradershub/cfds';
+        } else {
+            if (isProduction) return 'http://hub.deriv.com/tradershub';
+            if (isStaging) return 'http://staging-hub.deriv.com/tradershub';
         }
     }
 
