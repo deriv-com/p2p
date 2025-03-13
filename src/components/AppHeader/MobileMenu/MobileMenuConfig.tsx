@@ -48,8 +48,8 @@ export const MobileMenuConfig = () => {
     });
 
     const token = localStorage.getItem('authToken') || null;
-    useFreshChat(token, isFreshChatEnabled);
-    useIntercom(token, isIntercomEnabled);
+    useFreshChat(token, isFreshChatEnabled as boolean);
+    useIntercom(token, isIntercomEnabled as boolean);
 
     const menuConfig: TMenuConfig[] = [
         [
