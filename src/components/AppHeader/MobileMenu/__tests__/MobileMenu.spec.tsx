@@ -14,6 +14,7 @@ jest.mock('@/hooks', () => ({
         showModal: jest.fn(),
     }),
     useNetworkStatus: jest.fn().mockReturnValue('online'),
+    useShouldRedirectToLowCodeHub: jest.fn().mockReturnValue('http://hub.deriv.com/tradershub/options'),
     useSyncedTime: jest.fn(),
 }));
 
