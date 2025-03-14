@@ -20,7 +20,7 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
         : false;
 
     // eslint-disable-next-line no-console
-    console.log(countryList, isUserCountryInHubEnabledCountryList, hasWalletAccount);
+    console.log(countryList, hubEnabledCountryListP2P, isUserCountryInHubEnabledCountryList, hasWalletAccount);
 
     const shouldRedirectToLowCode = hasWalletAccount && isUserCountryInHubEnabledCountryList;
 
