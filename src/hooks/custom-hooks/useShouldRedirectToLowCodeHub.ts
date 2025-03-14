@@ -15,9 +15,7 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
     const hasWalletAccount = activeAccount?.isWalletAccount;
     // @ts-expect-error hub_enabled_country_list is not typed
     const countryList = hubEnabledCountryListP2P.hub_enabled_country_list as string[];
-    const isUserCountryInHubEnabledCountryList = Array.isArray(hubEnabledCountryListP2P)
-        ? countryList.includes(activeAccount?.country ?? '')
-        : false;
+    const isUserCountryInHubEnabledCountryList = countryList.includes(activeAccount?.country ?? '');
 
     // eslint-disable-next-line no-console
     console.log(countryList, hubEnabledCountryListP2P, isUserCountryInHubEnabledCountryList, hasWalletAccount);
