@@ -19,16 +19,20 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
         ? countryList.includes(activeAccount?.country ?? '')
         : false;
 
+    // eslint-disable-next-line no-console
+    console.log(countryList, isUserCountryInHubEnabledCountryList, hasWalletAccount);
+
     const shouldRedirectToLowCode = hasWalletAccount && isUserCountryInHubEnabledCountryList;
 
     if (shouldRedirectToLowCode) {
         if (goToCFDs) {
             if (isProduction) return 'http://hub.deriv.com/tradershub/cfds';
             if (isStaging) return 'http://staging-hub.deriv.com/tradershub/cfds';
-        } else {
-            if (isProduction) return 'http://hub.deriv.com/tradershub';
-            if (isStaging) return 'http://staging-hub.deriv.com/tradershub';
+            return 'http://staging-hub.deriv.com/tradershub/cfds';
         }
+        if (isProduction) return 'http://hub.deriv.com/tradershub';
+        if (isStaging) return 'http://staging-hub.deriv.com/tradershub';
+        return 'http://staging-hub.deriv.com/tradershub';
     }
 
     return URLConstants.derivAppProduction;
