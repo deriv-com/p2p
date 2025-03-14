@@ -15,8 +15,8 @@ const Livechat = () => {
     });
 
     const token = localStorage.getItem('authToken') || null;
-    const freshChat = useFreshchat(token, isFreshChatEnabled);
-    const icChat = useIntercom(token, isIntercomEnabled);
+    const freshChat = useFreshchat(token, isFreshChatEnabled as boolean);
+    const icChat = useIntercom(token, isIntercomEnabled as boolean);
 
     setInterval(() => {
         /*  This is for livechat last open state, 

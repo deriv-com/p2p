@@ -1,3 +1,4 @@
+import { useShouldRedirectToLowCodeHub } from '@/hooks';
 import { Chat } from '@/utils';
 import {
     DerivLightIcCashierBlockedIcon,
@@ -22,6 +23,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
 
     const buttonTextSize = isMobile ? 'md' : 'sm';
     const iconSize = isMobile ? 96 : 128;
+    const redirectLink = useShouldRedirectToLowCodeHub();
 
     // TODO: change redirection when account switcher is implemented
     const openDerivApp = () => {
@@ -120,7 +122,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         },
         RestrictedCountry: {
             actionButton: (
-                <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
+                <Button onClick={() => window.open(redirectLink)} size='lg' textSize={buttonTextSize}>
                     <Localize i18n_default_text="Go to Trader's Hub" />
                 </Button>
             ),

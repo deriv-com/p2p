@@ -25,6 +25,7 @@ export type MenuItemsConfig = {
     href: string;
     icon: ReactNode;
     label: string;
+    name: string;
 };
 
 export type TAccount = {
@@ -82,17 +83,20 @@ export const getMenuItems = (localize: TLocalize): MenuItemsConfig[] => [
         href: URLConstants.derivAppProduction,
         icon: <TradershubLogo iconSize='xs' />,
         label: localize("Trader's Hub"),
+        name: "Trader's Hub",
     },
     {
         as: 'a',
         href: `${URLConstants.derivAppProduction}/reports`,
         icon: <ReportsLogo iconSize='xs' />,
         label: localize('Reports'),
+        name: 'Reports',
     },
     {
         as: 'a',
         href: `${URLConstants.derivAppProduction}/cashier`,
         icon: <CashierLogo iconSize='xs' />,
         label: localize('Cashier'),
+        name: 'Cashier',
     },
 ];

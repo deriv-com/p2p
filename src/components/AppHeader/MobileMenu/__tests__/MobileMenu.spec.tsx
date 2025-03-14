@@ -2,18 +2,32 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { useModalManager } from '@/hooks';
+import { useActiveAccount } from '@/hooks/api/account';
 import { useDevice } from '@deriv-com/ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MobileMenu from '../MobileMenu';
 
+const mockUseActiveAccountValues = {
+    data: undefined,
+} as ReturnType<typeof useActiveAccount>;
+
 jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({
+                ...mockUseActiveAccountValues,
+            })),
+        },
+    },
     useModalManager: jest.fn().mockReturnValue({
         hideModal: jest.fn(),
         isModalOpenFor: jest.fn().mockReturnValue(false),
         showModal: jest.fn(),
     }),
     useNetworkStatus: jest.fn().mockReturnValue('online'),
+    useShouldRedirectToLowCodeHub: jest.fn().mockReturnValue('http://hub.deriv.com/tradershub'),
     useSyncedTime: jest.fn(),
 }));
 

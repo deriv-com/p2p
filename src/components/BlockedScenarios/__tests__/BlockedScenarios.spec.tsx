@@ -1,3 +1,4 @@
+import { useActiveAccount } from '@/hooks/api/account';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BlockedScenarios from '../BlockedScenarios';
@@ -8,6 +9,20 @@ jest.mock('@deriv-com/api-hooks', () => ({
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: () => ({ isDesktop: true }),
+}));
+const mockUseActiveAccountValues = {
+    data: undefined,
+} as ReturnType<typeof useActiveAccount>;
+
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({
+                ...mockUseActiveAccountValues,
+            })),
+        },
+    },
 }));
 
 Object.defineProperty(window, 'open', {
