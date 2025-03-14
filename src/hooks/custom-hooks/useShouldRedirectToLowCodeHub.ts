@@ -5,8 +5,9 @@ import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
 type TUseShouldRedirectToLowCodeHub = (goToCFDs?: boolean) => string;
 
 const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs = false) => {
-    const isProduction = process.env.VITE_NODE_ENV === 'production';
-    const isStaging = process.env.VITE_NODE_ENV === 'staging';
+    const origin = window.location.origin;
+    const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
+    const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const { data: activeAccount } = api.account.useActiveAccount();
     const [hubEnabledCountryListP2P] = useGrowthbookGetFeatureValue({
         featureFlag: 'hub_enabled_country_list_p2p',
@@ -16,9 +17,6 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
     // @ts-expect-error hub_enabled_country_list is not typed
     const countryList = (hubEnabledCountryListP2P.hub_enabled_country_list as string[]) || [];
     const isUserCountryInHubEnabledCountryList = countryList.includes(activeAccount?.country ?? '');
-
-    // eslint-disable-next-line no-console
-    console.log(isProduction, isStaging);
 
     const shouldRedirectToLowCode = hasWalletAccount && isUserCountryInHubEnabledCountryList;
 
