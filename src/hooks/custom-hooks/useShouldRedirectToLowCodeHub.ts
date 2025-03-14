@@ -26,9 +26,11 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
             if (isStaging) return 'http://staging-hub.deriv.com/tradershub/cfds';
             return 'http://staging-hub.deriv.com/tradershub/cfds';
         }
-        if (isProduction) return 'http://hub.deriv.com/tradershub';
-        if (isStaging) return 'http://staging-hub.deriv.com/tradershub';
-        return 'http://staging-hub.deriv.com/tradershub';
+        if (isProduction)
+            return `http://hub.deriv.com/tradershub/redirect?action=redirect_to&redirect_to=home&account=${activeAccount?.currency || 'USD'}`;
+        if (isStaging)
+            return `http://staging-hub.deriv.com/tradershub/redirect?action=redirect_to&redirect_to=home&account=${activeAccount?.currency || 'USD'}`;
+        return `http://staging-hub.deriv.com/tradershub/redirect?action=redirect_to&redirect_to=home&account=${activeAccount?.currency || 'USD'}`;
     }
 
     return URLConstants.derivAppProduction;
