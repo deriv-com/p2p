@@ -13,8 +13,8 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
     });
 
     const hasWalletAccount = activeAccount?.isWalletAccount;
-    // @ts-expect-error hubEnabledCountryListP2P is not typed
-    const countryList = hubEnabledCountryListP2P.hub_enabled_country_list_p2p as string[];
+    // @ts-expect-error hub_enabled_country_list is not typed
+    const countryList = hubEnabledCountryListP2P.hub_enabled_country_list as string[];
     const isUserCountryInHubEnabledCountryList = Array.isArray(hubEnabledCountryListP2P)
         ? countryList.includes(activeAccount?.country ?? '')
         : false;
