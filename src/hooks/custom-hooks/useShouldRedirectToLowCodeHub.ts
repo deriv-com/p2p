@@ -12,12 +12,11 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
         featureFlag: 'hub_enabled_country_list_p2p',
     });
 
-    // eslint-disable-next-line no-console
-    console.log('hubEnabledCountryListP2P', hubEnabledCountryListP2P, window.Analytics, window.GrowthbookFeatures);
-
     const hasWalletAccount = activeAccount?.isWalletAccount;
+    // @ts-expect-error hubEnabledCountryListP2P is not typed
+    const countryList = hubEnabledCountryListP2P.hub_enabled_country_list_p2p as string[];
     const isUserCountryInHubEnabledCountryList = Array.isArray(hubEnabledCountryListP2P)
-        ? hubEnabledCountryListP2P.includes(activeAccount?.country ?? '')
+        ? countryList.includes(activeAccount?.country ?? '')
         : false;
 
     const shouldRedirectToLowCode = hasWalletAccount && isUserCountryInHubEnabledCountryList;
