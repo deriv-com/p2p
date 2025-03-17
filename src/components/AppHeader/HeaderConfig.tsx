@@ -45,7 +45,7 @@ export const getPlatformsConfig = (localize: TLocalize): PlatformsConfig[] => [
         active: true,
         buttonIcon: <DerivTraderLogo height={25} width={114.97} />,
         description: localize('A whole new trading experience on a powerful yet easy to use platform.'),
-        href: URLConstants.derivAppProduction,
+        href: `${URLConstants.derivAppProduction}/dtrader`,
         icon: <DerivTraderLogo height={32} width={148} />,
         showInEU: true,
     },
