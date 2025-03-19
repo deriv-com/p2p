@@ -12,7 +12,7 @@ const useGrowthbookGetFeatureValue = <T extends boolean | string>({
     featureFlag,
 }: UseGrowthbookGetFeatureValueArgs<T>) => {
     const resolvedDefaultValue: T = defaultValue !== undefined ? defaultValue : (false as T);
-    const [featureFlagValue, setFeatureFlagValue] = useState<boolean>(false);
+    const [featureFlagValue, setFeatureFlagValue] = useState<string[] | boolean>(false);
     const [isGBLoaded, setIsGBLoaded] = useState(false);
 
     // Required for debugging Growthbook, this will be removed after this is added in the Analytics directly.

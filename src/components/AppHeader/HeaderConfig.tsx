@@ -25,6 +25,7 @@ export type MenuItemsConfig = {
     href: string;
     icon: ReactNode;
     label: string;
+    name: string;
 };
 
 export type TAccount = {
@@ -44,7 +45,7 @@ export const getPlatformsConfig = (localize: TLocalize): PlatformsConfig[] => [
         active: true,
         buttonIcon: <DerivTraderLogo height={25} width={114.97} />,
         description: localize('A whole new trading experience on a powerful yet easy to use platform.'),
-        href: URLConstants.derivAppProduction,
+        href: `${URLConstants.derivAppProduction}/dtrader`,
         icon: <DerivTraderLogo height={32} width={148} />,
         showInEU: true,
     },
@@ -82,17 +83,20 @@ export const getMenuItems = (localize: TLocalize): MenuItemsConfig[] => [
         href: URLConstants.derivAppProduction,
         icon: <TradershubLogo iconSize='xs' />,
         label: localize("Trader's Hub"),
+        name: "Trader's Hub",
     },
     {
         as: 'a',
         href: `${URLConstants.derivAppProduction}/reports`,
         icon: <ReportsLogo iconSize='xs' />,
         label: localize('Reports'),
+        name: 'Reports',
     },
     {
         as: 'a',
         href: `${URLConstants.derivAppProduction}/cashier`,
         icon: <CashierLogo iconSize='xs' />,
         label: localize('Cashier'),
+        name: 'Cashier',
     },
 ];

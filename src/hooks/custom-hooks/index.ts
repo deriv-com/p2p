@@ -26,5 +26,6 @@ export { default as useOAuth } from './useOAuth';
 export { default as usePoiPoaStatus } from './usePoiPoaStatus';
 export { default as useQueryString } from './useQueryString';
 export { default as useSendbird } from './useSendbird';
+export { default as useShouldRedirectToLowCodeHub } from './useShouldRedirectToLowCodeHub';
 export { default as useSyncedTime } from './useSyncedTime';
 export { default as useTrackjs } from './useTrackjs';
