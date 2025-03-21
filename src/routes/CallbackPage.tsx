@@ -7,8 +7,10 @@ type TTokens = {
 
 const groupTokens = (tokens: TTokens) => {
     const grouped: { acct?: string; cur?: string; token?: string }[] = [];
+    const totalEntries = Object.keys(tokens).length;
+    const numGroups = Math.floor(totalEntries / 3);
 
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= numGroups; i++) {
         grouped.push({
             acct: tokens[`acct${i}`],
             cur: tokens[`cur${i}`],
