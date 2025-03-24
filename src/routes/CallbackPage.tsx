@@ -27,7 +27,7 @@ const CallbackPage = () => {
             onSignInSuccess={tokens => {
                 const groupedTokens = groupTokens(tokens);
                 const selectedAuthToken =
-                    groupedTokens.find(item => item.cur === 'USD' && item.acct === 'CR')?.token || tokens.token1;
+                    groupedTokens.find(item => item.cur === 'USD' && item.acct?.includes('CR'))?.token || tokens.token1;
 
                 localStorage.setItem('authToken', selectedAuthToken);
 
