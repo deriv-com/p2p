@@ -14,7 +14,6 @@ import { AppLogo } from './AppLogo';
 import { MenuItems } from './MenuItems';
 import { MobileMenu } from './MobileMenu';
 import { Notifications } from './Notifications';
-import { PlatformSwitcher } from './PlatformSwitcher';
 import './AppHeader.scss';
 
 // TODO: handle local storage values not updating after changing local storage values
@@ -97,7 +96,6 @@ const AppHeader = () => {
             <Wrapper variant='left'>
                 <AppLogo />
                 <MobileMenu />
-                {isDesktop && <PlatformSwitcher />}
                 {isDesktop && <MenuItems />}
             </Wrapper>
             <Wrapper variant='right'>{renderAccountSection()}</Wrapper>
