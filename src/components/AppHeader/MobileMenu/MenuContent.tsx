@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useIsWalletAccount } from '@/hooks';
 import { MenuItem, Text, useDevice } from '@deriv-com/ui';
 import { PlatformSwitcher } from '../PlatformSwitcher';
 import { MobileMenuConfig } from './MobileMenuConfig';
@@ -6,6 +7,7 @@ import { MobileMenuConfig } from './MobileMenuConfig';
 export const MenuContent = () => {
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
+    const isWalletAccount = useIsWalletAccount();
 
     return (
         <div className='flex flex-col h-full overflow-hidden'>
@@ -24,7 +26,9 @@ export const MenuContent = () => {
                             data-testid='dt_menu_item'
                             key={index}
                         >
-                            {item.map(({ LeftComponent, RightComponent, as, href, label, onClick, target }) => {
+                            {item.map(({ LeftComponent, RightComponent, as, href, label, name, onClick, target }) => {
+                                if (isWalletAccount && name === 'Cashier') return null;
+
                                 if (as === 'a') {
                                     return (
                                         <MenuItem

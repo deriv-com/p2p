@@ -20,6 +20,11 @@ jest.mock('../../PlatformSwitcher', () => ({
     PlatformSwitcher: () => <div>PlatformSwitcher</div>,
 }));
 
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useIsWalletAccount: jest.fn().mockReturnValue(false),
+}));
+
 jest.mock('../MobileMenuConfig', () => ({
     MobileMenuConfig: jest.fn(() => [
         [
