@@ -3,7 +3,7 @@ name: Build test link and Deploy to Cloudflare Pages
 permissions:
     actions: write # Necessary to cancel workflow executions
     checks: write # Necessary to write reports
-    pull-requests: write # Necessary to comment on PRs
+    pull-requests: write # Necessary to comment on PRss
     contents: read
 
 on:
