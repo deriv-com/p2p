@@ -6,7 +6,6 @@ import {
     LegacyCashierIcon as CashierLogo,
     LegacyHomeOldIcon as TradershubLogo,
     LegacyReportsIcon as ReportsLogo,
-    PartnersProductBrandLightBinaryBotLogoWordmarkIcon as BinaryBotLogo,
     PartnersProductBrandLightSmarttraderLogoWordmarkIcon as SmarttraderLogo,
 } from '@deriv/quill-icons';
 import { URLConstants } from '@deriv-com/utils';
@@ -63,16 +62,6 @@ export const getPlatformsConfig = (localize: TLocalize): PlatformsConfig[] => [
         description: localize('Trade the world’s markets with our popular user-friendly platform.'),
         href: 'https://smarttrader.deriv.com/en/trading',
         icon: <SmarttraderLogo height={32} width={153} />,
-        showInEU: false,
-    },
-    {
-        active: false,
-        buttonIcon: <BinaryBotLogo height={24} width={100} />,
-        description: localize(
-            'Our classic “drag-and-drop” tool for creating trading bots, featuring pop-up trading charts, for advanced users.'
-        ),
-        href: 'https://bot.deriv.com',
-        icon: <BinaryBotLogo height={32} width={133} />,
         showInEU: false,
     },
 ];
