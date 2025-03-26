@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
-import { SafetyAlertModal } from '@/components/Modals';
+import { ErrorModal, SafetyAlertModal } from '@/components/Modals';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useIsP2PBlocked, useLiveChat, useOAuth } from '@/hooks';
+import { api, useIsP2PBlocked, useLiveChat, useModalManager, useOAuth } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { getCurrentRoute } from '@/utils';
+import { useAccountList } from '@deriv-com/api-hooks';
+import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
 import CallbackPage from '../CallbackPage';
@@ -25,9 +27,11 @@ const AppContent = () => {
         isFetched,
         isLoading: isLoadingActiveAccount,
     } = api.account.useActiveAccount();
+    const { data: accountList } = useAccountList();
     const { init: initLiveChat } = useLiveChat();
     const { localize } = useTranslations();
-    const { oAuthLogout } = useOAuth();
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
+    const { isOAuth2Enabled, oAuthLogout } = useOAuth({ showErrorModal: () => showModal('ErrorModal') });
     const routes = getRoutes(localize);
 
     const tabRoutesConfiguration = routes.filter(
@@ -74,6 +78,26 @@ const AppContent = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeAccountData]);
+
+    // Check if the account list currencies are in the client accounts currencies which is taken from OIDC tokens
+    // If not, request OIDC authentication
+    useEffect(() => {
+        if (accountList && isOAuth2Enabled) {
+            const clientAccounts = JSON.parse(localStorage.getItem('clientAccounts') || '[]');
+            const clientAccountsCurrencies = Object.keys(clientAccounts).map(account => clientAccounts[account].cur);
+            const accountListCurrencies = accountList.map(account => account.currency);
+
+            const hasMissingCurrencies = accountListCurrencies.some(
+                currency => !clientAccountsCurrencies.includes(currency)
+            );
+
+            if (hasMissingCurrencies || accountList.length !== clientAccounts.length) {
+                requestOidcAuthentication({
+                    redirectCallbackUri: `${window.location.origin}/callback`,
+                });
+            }
+        }
+    }, [accountList, isOAuth2Enabled]);
 
     useEffect(() => {
         if (isActive) subscribeAdvertiserInfo({});
@@ -170,6 +194,18 @@ const AppContent = () => {
                     </Text>
                 )}
                 {getComponent()}
+                {isModalOpenFor('ErrorModal') && (
+                    <ErrorModal
+                        buttonText='Refresh'
+                        isModalOpen
+                        message={localize('Something went wrong while logging out. Please refresh and try again.')}
+                        onRequestClose={() => {
+                            hideModal();
+                            window.location.reload();
+                        }}
+                        showTitle={false}
+                    />
+                )}
             </div>
         </AdvertiserInfoStateProvider>
     );
