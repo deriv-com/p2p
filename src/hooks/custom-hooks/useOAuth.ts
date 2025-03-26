@@ -93,7 +93,7 @@ const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn
                     Cookies.remove('authtoken');
                     window.location.href = window.location.origin;
                 }
-            } else if ((!isAuthorized && !isAuthorizing) || !authTokenLocalStorage) {
+            } else if (!isAuthorized && !isAuthorizing && !authTokenLocalStorage) {
                 await redirectToAuth();
             }
         }

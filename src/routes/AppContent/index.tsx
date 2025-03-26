@@ -27,7 +27,7 @@ const AppContent = () => {
         isFetched,
         isLoading: isLoadingActiveAccount,
     } = api.account.useActiveAccount();
-    const { data: accountList } = useAccountList();
+    const { data: accountList = [] } = useAccountList();
     const { init: initLiveChat } = useLiveChat();
     const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
@@ -83,15 +83,22 @@ const AppContent = () => {
     // If not, request OIDC authentication
     useEffect(() => {
         if (accountList && isOAuth2Enabled) {
-            const clientAccounts = JSON.parse(localStorage.getItem('clientAccounts') || '[]');
-            const clientAccountsCurrencies = Object.keys(clientAccounts).map(account => clientAccounts[account].cur);
-            const accountListCurrencies = accountList.map(account => account.currency);
+            // Filter out disabled accounts to not trigger OIDC authentication
+            const filteredAccountList = accountList.filter(account => account.is_disabled === 0);
 
-            const hasMissingCurrencies = accountListCurrencies.some(
+            const clientAccounts = JSON.parse(localStorage.getItem('clientAccounts') || '[]');
+
+            // All client accounts from OIDC tokens
+            const clientAccountsCurrencies = Object.keys(clientAccounts).map(account => clientAccounts[account].cur);
+
+            // All accounts from authorize response
+            const accountsListCurrencies = filteredAccountList.map(account => account.currency);
+
+            const hasMissingCurrencies = accountsListCurrencies.some(
                 currency => !clientAccountsCurrencies.includes(currency)
             );
 
-            if (hasMissingCurrencies || accountList.length !== clientAccounts.length) {
+            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
                 requestOidcAuthentication({
                     redirectCallbackUri: `${window.location.origin}/callback`,
                 });
