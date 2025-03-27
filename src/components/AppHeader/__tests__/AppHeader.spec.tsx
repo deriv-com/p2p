@@ -107,6 +107,15 @@ jest.mock('@deriv-com/auth-client', () => ({
     useOAuth2: jest.fn().mockReturnValue({ isOAuth2Enabled: false }),
 }));
 
+const mockStore = {
+    isCheckingOidcTokens: false,
+    setIsCheckingOidcTokens: jest.fn(),
+};
+
+jest.mock('@/stores', () => ({
+    useIsLoadingOidcStore: jest.fn(selector => (selector ? selector(mockStore) : mockStore)),
+}));
+
 describe('<AppHeader/>', () => {
     window.open = jest.fn();
 

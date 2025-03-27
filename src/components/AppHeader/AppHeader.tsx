@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { getOauthUrl } from '@/constants';
 import { api, useGrowthbookGetFeatureValue, useOAuth } from '@/hooks';
+import { useIsLoadingOidcStore } from '@/stores';
 import { Chat, getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
 import { useAuthData } from '@deriv-com/api-hooks';
@@ -34,9 +36,14 @@ const AppHeader = () => {
     const [isNotificationServiceEnabled] = useGrowthbookGetFeatureValue({
         featureFlag: 'new_notifications_service_enabled',
     });
+    const { isCheckingOidcTokens } = useIsLoadingOidcStore(
+        useShallow(state => ({
+            isCheckingOidcTokens: state.isCheckingOidcTokens,
+        }))
+    );
 
     const renderAccountSection = () => {
-        if (!isEndpointPage && !activeAccount) {
+        if ((!isEndpointPage && !activeAccount) || isCheckingOidcTokens) {
             return <AccountsInfoLoader isLoggedIn isMobile={!isDesktop} speed={3} />;
         }
 
