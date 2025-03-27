@@ -82,7 +82,7 @@ const AppContent = () => {
     // Check if the account list currencies are in the client accounts currencies which is taken from OIDC tokens
     // If not, request OIDC authentication
     useEffect(() => {
-        if (accountList && isOAuth2Enabled) {
+        if (accountList?.length > 0 && isOAuth2Enabled) {
             // Filter out disabled accounts to not trigger OIDC authentication
             const filteredAccountList = accountList.filter(account => account.is_disabled === 0);
 
