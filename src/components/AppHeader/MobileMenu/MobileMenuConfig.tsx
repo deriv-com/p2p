@@ -29,6 +29,7 @@ type TMenuConfig = {
     as: 'a' | 'button';
     href?: string;
     label: string;
+    name?: string;
     onClick?: () => void;
     removeBorderBottom?: boolean;
     submenu?: TSubmenuSection;
@@ -81,6 +82,7 @@ export const MobileMenuConfig = () => {
                 href: `${URLConstants.derivAppProduction}/cashier/deposit`,
                 label: localize('Cashier'),
                 LeftComponent: LegacyCashierIcon,
+                name: 'Cashier',
             },
             // TODO add theme logic
             // {

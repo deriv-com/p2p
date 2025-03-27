@@ -1,4 +1,4 @@
-import { useShouldRedirectToLowCodeHub } from '@/hooks';
+import { useIsWalletAccount, useShouldRedirectToLowCodeHub } from '@/hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { MenuItem, Text, useDevice } from '@deriv-com/ui';
 import { getMenuItems } from '../HeaderConfig';
@@ -9,21 +9,25 @@ const MenuItems = () => {
     const { isDesktop } = useDevice();
     const items = getMenuItems(localize);
     const redirectLink = useShouldRedirectToLowCodeHub();
+    const isWalletAccount = useIsWalletAccount();
 
     return (
         <>
             {isDesktop ? (
-                items.map(({ as, href, icon, label, name }) => (
-                    <MenuItem
-                        as={as}
-                        className='app-header__menu'
-                        href={name === "Trader's Hub" ? redirectLink : href}
-                        key={label}
-                        leftComponent={icon}
-                    >
-                        <Text>{localize(label)}</Text>
-                    </MenuItem>
-                ))
+                items.map(({ as, href, icon, label, name }) => {
+                    if (isWalletAccount && name === 'Cashier') return null;
+                    return (
+                        <MenuItem
+                            as={as}
+                            className='app-header__menu'
+                            href={name === "Trader's Hub" ? redirectLink : href}
+                            key={label}
+                            leftComponent={icon}
+                        >
+                            <Text>{localize(label)}</Text>
+                        </MenuItem>
+                    );
+                })
             ) : (
                 <MenuItem
                     as={items[1].as}

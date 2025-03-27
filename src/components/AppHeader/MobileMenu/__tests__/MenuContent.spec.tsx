@@ -16,6 +16,11 @@ jest.mock('@deriv-com/api-hooks', () => ({
     }),
 }));
 
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useIsWalletAccount: jest.fn().mockReturnValue(false),
+}));
+
 jest.mock('../MobileMenuConfig', () => ({
     MobileMenuConfig: jest.fn(() => [
         [
