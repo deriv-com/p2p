@@ -8,10 +8,13 @@ import {
     BrandDerivLogoCoralIcon,
     IconTypes,
     LegacyAccountLimitsIcon,
+    LegacyCashierIcon,
     LegacyHelpCentreIcon,
     LegacyHomeOldIcon,
     LegacyLiveChatOutlineIcon,
     LegacyLogout1pxIcon,
+    LegacyProfileSmIcon,
+    LegacyReportsIcon,
     LegacyResponsibleTradingIcon,
     LegacyWhatsappIcon,
 } from '@deriv/quill-icons';
@@ -60,6 +63,24 @@ export const MobileMenuConfig = () => {
                 href: useShouldRedirectToLowCodeHub(),
                 label: localize("Trader's Hub"),
                 LeftComponent: LegacyHomeOldIcon,
+            },
+            {
+                as: 'a',
+                href: `${URLConstants.derivAppProduction}/reports`,
+                label: localize('Reports'),
+                LeftComponent: LegacyReportsIcon,
+            },
+            {
+                as: 'a',
+                href: `${URLConstants.derivAppProduction}/account/personal-details`,
+                label: localize('Account Settings'),
+                LeftComponent: LegacyProfileSmIcon,
+            },
+            {
+                as: 'a',
+                href: `${URLConstants.derivAppProduction}/cashier/deposit`,
+                label: localize('Cashier'),
+                LeftComponent: LegacyCashierIcon,
             },
             // TODO add theme logic
             // {
