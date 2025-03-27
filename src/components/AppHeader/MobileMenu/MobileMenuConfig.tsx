@@ -9,6 +9,7 @@ import {
     IconTypes,
     LegacyAccountLimitsIcon,
     LegacyCashierIcon,
+    LegacyChartsIcon,
     LegacyHelpCentreIcon,
     LegacyHomeOldIcon,
     LegacyLiveChatOutlineIcon,
@@ -64,6 +65,13 @@ export const MobileMenuConfig = () => {
                 href: useShouldRedirectToLowCodeHub(),
                 label: localize("Trader's Hub"),
                 LeftComponent: LegacyHomeOldIcon,
+            },
+
+            {
+                as: 'a',
+                href: `${URLConstants.derivAppProduction}/dtrader`,
+                label: localize('Trade'),
+                LeftComponent: LegacyChartsIcon,
             },
             {
                 as: 'a',
