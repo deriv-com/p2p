@@ -21,7 +21,8 @@ type UseOAuthReturn = {
  * useOAuth - hooks to help with OAuth function such as logout and check auth state during render
  * @returns {UseOAuthReturn}
  */
-const useOAuth = (): UseOAuthReturn => {
+const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn => {
+    const { showErrorModal } = options;
     const [OAuth2EnabledApps, OAuth2EnabledAppsInitialised] = useGrowthbookGetFeatureValue<string>({
         featureFlag: 'hydra_be',
     }) as unknown as [TOAuth2EnabledAppList, boolean];
@@ -37,18 +38,28 @@ const useOAuth = (): UseOAuthReturn => {
     const authTokenLocalStorage = localStorage.getItem('authToken');
 
     const WSLogoutAndRedirect = async () => {
-        await logout();
-        removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
-        if (!isOAuth2Enabled) {
-            window.open(oauthUrl, '_self');
+        try {
+            await logout();
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error('Failed to logout', error);
         }
+        removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
+        redirectToAuth();
     };
+
     const handleLogout = async () => {
-        await OAuth2Logout({
-            postLogoutRedirectUri: window.location.origin,
-            redirectCallbackUri: `${window.location.origin}/callback`,
-            WSLogoutAndRedirect,
-        });
+        try {
+            await OAuth2Logout({
+                postLogoutRedirectUri: window.location.origin,
+                redirectCallbackUri: `${window.location.origin}/callback`,
+                WSLogoutAndRedirect,
+            });
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error('Failed to handle logout', error);
+            showErrorModal?.();
+        }
     };
 
     const redirectToAuth = async () => {
