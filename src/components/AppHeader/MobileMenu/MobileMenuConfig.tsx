@@ -66,7 +66,6 @@ export const MobileMenuConfig = () => {
                 label: localize("Trader's Hub"),
                 LeftComponent: LegacyHomeOldIcon,
             },
-
             {
                 as: 'a',
                 href: `${URLConstants.derivAppProduction}/dtrader`,
