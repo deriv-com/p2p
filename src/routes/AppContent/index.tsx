@@ -110,11 +110,10 @@ const AppContent = () => {
                 requestOidcAuthentication({
                     redirectCallbackUri: `${window.location.origin}/callback`,
                 });
-                setIsCheckingOidcTokens(false);
             }
-        } else {
-            setIsCheckingOidcTokens(false);
         }
+
+        setIsCheckingOidcTokens(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accountList, isOAuth2Enabled]);
 
