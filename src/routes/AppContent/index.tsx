@@ -78,6 +78,9 @@ const AppContent = () => {
 
     useEffect(() => {
         initLiveChat();
+        window.addEventListener('unhandledrejection', () => {
+            showModal('ErrorModal');
+        });
     }, []);
 
     useEffect(() => {
@@ -112,6 +115,10 @@ const AppContent = () => {
                 try {
                     requestOidcAuthentication({
                         redirectCallbackUri: `${window.location.origin}/callback`,
+                    }).catch(error => {
+                        // eslint-disable-next-line no-console
+                        console.error('Failed to refetch OIDC tokens', error);
+                        showModal('ErrorModal');
                     });
                 } catch (error) {
                     // eslint-disable-next-line no-console
@@ -145,9 +152,8 @@ const AppContent = () => {
 
     useEffect(() => {
         if (authError?.code === ERROR_CODES.ACCOUNT_DISABLED) oAuthLogout();
-        else if (authError?.code === 'InvalidToken' && !isEndpointRoute) showModal('ErrorModal');
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authError, isEndpointRoute, oAuthLogout]);
+    }, [authError, oAuthLogout]);
 
     useEffect(() => {
         if (!isGtmTracking.current) {
