@@ -33,7 +33,7 @@ const AppContent = () => {
     const { init: initLiveChat } = useLiveChat();
     const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const { isOAuth2Enabled, oAuthLogout } = useOAuth({ showErrorModal: () => showModal('ErrorModal') });
+    const { isGBLoaded, isOAuth2Enabled, oAuthLogout } = useOAuth({ showErrorModal: () => showModal('ErrorModal') });
     const routes = getRoutes(localize);
 
     const tabRoutesConfiguration = routes.filter(
@@ -90,7 +90,7 @@ const AppContent = () => {
     // Check if the account list currencies are in the client accounts currencies which is taken from OIDC tokens
     // If not, request OIDC authentication
     useEffect(() => {
-        if (accountList?.length > 0) {
+        if (accountList?.length > 0 && isGBLoaded) {
             if (isOAuth2Enabled) {
                 // Filter out disabled accounts to not trigger OIDC authentication
                 const filteredAccountList = accountList.filter(account => account.is_disabled === 0);
@@ -118,7 +118,7 @@ const AppContent = () => {
             setIsCheckingOidcTokens(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [accountList, isOAuth2Enabled]);
+    }, [accountList, isGBLoaded, isOAuth2Enabled]);
 
     useEffect(() => {
         if (isActive) subscribeAdvertiserInfo({});

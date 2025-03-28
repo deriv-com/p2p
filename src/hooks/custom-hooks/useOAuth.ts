@@ -12,6 +12,7 @@ import {
 import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
 
 type UseOAuthReturn = {
+    isGBLoaded: boolean;
     isOAuth2Enabled: boolean;
     oAuthLogout: () => void;
     onRenderAuthCheck: () => void;
@@ -111,7 +112,7 @@ const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn
         authTokenLocalStorage,
     ]);
 
-    return { isOAuth2Enabled, oAuthLogout: handleLogout, onRenderAuthCheck };
+    return { isGBLoaded: OAuth2EnabledAppsInitialised, isOAuth2Enabled, oAuthLogout: handleLogout, onRenderAuthCheck };
 };
 
 export default useOAuth;
