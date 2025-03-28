@@ -64,9 +64,15 @@ const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn
 
     const redirectToAuth = async () => {
         if (isOAuth2Enabled) {
-            await requestOidcAuthentication({
-                redirectCallbackUri: `${window.location.origin}/callback`,
-            });
+            try {
+                await requestOidcAuthentication({
+                    redirectCallbackUri: `${window.location.origin}/callback`,
+                });
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.error('Failed to redirect to auth', error);
+                showErrorModal?.();
+            }
         } else {
             window.open(oauthUrl, '_self');
         }
