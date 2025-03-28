@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { ErrorModal, SafetyAlertModal } from '@/components/Modals';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
 import { api, useIsP2PBlocked, useLiveChat, useModalManager, useOAuth } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
+import { useIsLoadingOidcStore } from '@/stores';
 import { getCurrentRoute } from '@/utils';
 import { useAccountList } from '@deriv-com/api-hooks';
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
@@ -50,6 +52,12 @@ const AppContent = () => {
 
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
+    const { isCheckingOidcTokens, setIsCheckingOidcTokens } = useIsLoadingOidcStore(
+        useShallow(state => ({
+            isCheckingOidcTokens: state.isCheckingOidcTokens,
+            setIsCheckingOidcTokens: state.setIsCheckingOidcTokens,
+        }))
+    );
     const {
         error: p2pSettingsError,
         isActive,
@@ -82,7 +90,11 @@ const AppContent = () => {
     // Check if the account list currencies are in the client accounts currencies which is taken from OIDC tokens
     // If not, request OIDC authentication
     useEffect(() => {
-        if (accountList && isOAuth2Enabled) {
+        if (!isOAuth2Enabled) {
+            setIsCheckingOidcTokens(false);
+        }
+
+        if (accountList?.length > 0 && isOAuth2Enabled) {
             // Filter out disabled accounts to not trigger OIDC authentication
             const filteredAccountList = accountList.filter(account => account.is_disabled === 0);
 
@@ -102,8 +114,11 @@ const AppContent = () => {
                 requestOidcAuthentication({
                     redirectCallbackUri: `${window.location.origin}/callback`,
                 });
+
+                setIsCheckingOidcTokens(false);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accountList, isOAuth2Enabled]);
 
     useEffect(() => {
@@ -138,7 +153,12 @@ const AppContent = () => {
 
     const getComponent = () => {
         if (
-            (isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData || isLoading) &&
+            (isP2PSettingsLoading ||
+                isLoadingActiveAccount ||
+                !isFetched ||
+                !activeAccountData ||
+                isLoading ||
+                isCheckingOidcTokens) &&
             !isEndpointRoute &&
             !isCallbackPage
         ) {
