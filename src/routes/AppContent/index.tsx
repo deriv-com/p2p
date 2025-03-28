@@ -145,6 +145,8 @@ const AppContent = () => {
 
     useEffect(() => {
         if (authError?.code === ERROR_CODES.ACCOUNT_DISABLED) oAuthLogout();
+        else if (authError?.code === 'InvalidToken') showModal('ErrorModal');
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authError, oAuthLogout]);
 
     useEffect(() => {
