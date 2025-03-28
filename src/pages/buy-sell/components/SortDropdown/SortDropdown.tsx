@@ -37,6 +37,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
                 list={list as unknown as MutableOption[]}
                 name='Sort by'
                 onSelect={value => onSelect(value as TSortByValues)}
+                shouldClearValue
                 value={value}
                 variant='comboBox'
             />
