@@ -45,7 +45,7 @@ const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn
             console.error('Failed to logout', error);
         }
         removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
-        window.location.reload();
+        redirectToAuth();
     };
 
     const handleLogout = async () => {
