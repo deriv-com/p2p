@@ -35,7 +35,15 @@ const Blog = () => {
                         ),
                         id: 0,
                         title: (
-                            <Text size='md' weight='bold'>
+                            <Text
+                                as='a'
+                                className='underline'
+                                color='red'
+                                href={HOW_TO_PROTECT_YOURSELF_URL}
+                                size='md'
+                                target='_blank'
+                                weight='bold'
+                            >
                                 <Localize i18n_default_text='How to protect yourself on P2P platforms' />
                             </Text>
                         ),
