@@ -71,7 +71,7 @@ const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn
             } catch (error) {
                 // eslint-disable-next-line no-console
                 console.error('Failed to redirect to auth', error);
-                window.open(oauthUrl, '_self');
+                showErrorModal?.();
             }
         } else {
             window.open(oauthUrl, '_self');

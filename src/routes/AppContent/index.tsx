@@ -90,29 +90,33 @@ const AppContent = () => {
     // Check if the account list currencies are in the client accounts currencies which is taken from OIDC tokens
     // If not, request OIDC authentication
     useEffect(() => {
-        if (accountList?.length > 0) {
-            if (isOAuth2Enabled) {
-                // Filter out disabled accounts to not trigger OIDC authentication
-                const filteredAccountList = accountList.filter(account => account.is_disabled === 0);
+        if (!isOAuth2Enabled) setIsCheckingOidcTokens(false);
 
-                const clientAccounts = JSON.parse(localStorage.getItem('clientAccounts') || '[]');
+        if (accountList?.length > 0 && isOAuth2Enabled) {
+            // Filter out disabled accounts to not trigger OIDC authentication
+            const filteredAccountList = accountList.filter(account => account.is_disabled === 0);
 
-                // All client accounts from OIDC tokens
-                const clientAccountsCurrencies = Object.keys(clientAccounts).map(
-                    account => clientAccounts[account].cur
-                );
+            const clientAccounts = JSON.parse(localStorage.getItem('clientAccounts') || '[]');
 
-                // All accounts from authorize response
-                const accountsListCurrencies = filteredAccountList.map(account => account.currency);
+            // All client accounts from OIDC tokens
+            const clientAccountsCurrencies = Object.keys(clientAccounts).map(account => clientAccounts[account].cur);
 
-                const hasMissingCurrencies = accountsListCurrencies.some(
-                    currency => !clientAccountsCurrencies.includes(currency)
-                );
+            // All accounts from authorize response
+            const accountsListCurrencies = filteredAccountList.map(account => account.currency);
 
-                if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
+            const hasMissingCurrencies = accountsListCurrencies.some(
+                currency => !clientAccountsCurrencies.includes(currency)
+            );
+
+            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
+                try {
                     requestOidcAuthentication({
                         redirectCallbackUri: `${window.location.origin}/callback`,
                     });
+                } catch (error) {
+                    // eslint-disable-next-line no-console
+                    console.error('Failed to refetch OIDC tokens', error);
+                    showModal('ErrorModal');
                 }
             }
             setIsCheckingOidcTokens(false);
