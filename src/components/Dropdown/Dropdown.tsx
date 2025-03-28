@@ -8,6 +8,7 @@ import './Dropdown.scss';
 
 type InputProps = React.ComponentProps<typeof Input>;
 type TProps = HtmlHTMLAttributes<HTMLInputElement> & {
+    chevronIcon?: React.ReactNode;
     disabled?: boolean;
     emptyResultMessage?: string;
     errorMessage?: InputProps['message'];
@@ -16,6 +17,7 @@ type TProps = HtmlHTMLAttributes<HTMLInputElement> & {
     isRequired?: boolean;
     label?: InputProps['label'];
     list: {
+        disabled?: boolean;
         text?: JSX.Element | string;
         value?: string;
     }[];
@@ -23,11 +25,12 @@ type TProps = HtmlHTMLAttributes<HTMLInputElement> & {
     name: InputProps['name'];
     onSearch?: (inputValue: string) => void;
     onSelect: (value: string) => void;
-    shouldClearValue?: boolean;
     value?: InputProps['value'];
     variant?: 'comboBox' | 'prompt';
 };
-const Dropdown = ({
+
+export const Dropdown = ({
+    chevronIcon,
     disabled,
     emptyResultMessage = '',
     errorMessage,
@@ -75,8 +78,9 @@ const Dropdown = ({
         setInputValue,
     } = useCombobox({
         defaultSelectedItem: items.find(item => item.value === value) ?? null,
+        isItemDisabled: item => item?.disabled ?? false,
         items,
-        itemToString(item) {
+        itemToString(item): string {
             return item ? reactNodeToString(item.text) : '';
         },
         onInputValueChange({ inputValue }) {
@@ -97,14 +101,15 @@ const Dropdown = ({
             }
         },
         onSelectedItemChange({ selectedItem }) {
-            onSelect(selectedItem?.value ?? '');
-            closeMenu();
+            if (!selectedItem.disabled) {
+                onSelect(selectedItem?.value ?? '');
+                closeMenu();
+            }
         },
     });
 
     const handleInputClick = useCallback(() => {
         variant === 'prompt' && setShouldFilterList(true);
-
         if (isOpen) {
             closeMenu();
         } else {
@@ -114,10 +119,16 @@ const Dropdown = ({
 
     useEffect(() => {
         setItems(list);
+
         const result = value ? list.find(item => item.value && item.value === value)?.text : '';
         setInputValue(reactNodeToString(result) ?? '');
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [list]);
+
+    useEffect(() => {
+        if (typeof value === 'string') setInputValue(value);
+    }, [setInputValue, value]);
 
     return (
         <div
@@ -131,6 +142,7 @@ const Dropdown = ({
                 <Input
                     disabled={disabled}
                     error={!!errorMessage}
+                    hideMessage
                     isFullWidth={isFullWidth}
                     label={reactNodeToString(label)}
                     leftPlaceholder={icon}
@@ -141,13 +153,22 @@ const Dropdown = ({
                     readOnly={variant !== 'prompt'}
                     rightPlaceholder={
                         <button aria-expanded={isOpen} className='deriv-dropdown__button'>
-                            <LegacyChevronDown2pxIcon
-                                className={clsx('deriv-dropdown__chevron', {
-                                    'deriv-dropdown__chevron--disabled': disabled,
-                                    'deriv-dropdown__chevron--open': isOpen,
-                                })}
-                                iconSize='xs'
-                            />
+                            {chevronIcon ? (
+                                React.cloneElement(chevronIcon as React.ReactElement, {
+                                    className: clsx('deriv-dropdown__chevron', {
+                                        'deriv-dropdown__chevron--disabled': disabled,
+                                        'deriv-dropdown__chevron--open': isOpen,
+                                    }),
+                                })
+                            ) : (
+                                <LegacyChevronDown2pxIcon
+                                    className={clsx('deriv-dropdown__chevron', {
+                                        'deriv-dropdown__chevron--disabled': disabled,
+                                        'deriv-dropdown__chevron--open': isOpen,
+                                    })}
+                                    iconSize='xs'
+                                />
+                            )}
                         </button>
                     }
                     type='text'
@@ -168,9 +189,10 @@ const Dropdown = ({
                               <li
                                   className={clsx('deriv-dropdown__item', {
                                       'deriv-dropdown__item--active': value === item.value,
+                                      'deriv-dropdown__item--disabled': item.disabled,
                                   })}
                                   key={item.value}
-                                  onClick={() => clearFilter()}
+                                  onClick={() => !item.disabled && clearFilter()}
                                   {...getItemProps({ index, item })}
                               >
                                   <Text size='sm' weight={value === item.value ? 'bold' : 'normal'}>
@@ -187,5 +209,4 @@ const Dropdown = ({
         </div>
     );
 };
-
 export default Dropdown;
