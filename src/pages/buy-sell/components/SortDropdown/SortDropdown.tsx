@@ -1,8 +1,9 @@
 import { MutableOption } from 'types';
+import { Dropdown } from '@/components/Dropdown';
 import { TSortByValues } from '@/utils';
-import { LabelPairedChevronDownMdRegularIcon, LabelPairedSortCaptionRegularIcon } from '@deriv/quill-icons';
+import { LabelPairedSortCaptionRegularIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { Button, Dropdown, useDevice } from '@deriv-com/ui';
+import { Button, useDevice } from '@deriv-com/ui';
 import './SortDropdown.scss';
 
 type TSortDropdownProps = {
@@ -32,7 +33,6 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
     return (
         <div className='sort-dropdown' data-testid='dt_sort_dropdown'>
             <Dropdown
-                chevronIcon={<LabelPairedChevronDownMdRegularIcon />}
                 label={localize('Sort by')}
                 list={list as unknown as MutableOption[]}
                 name='Sort by'

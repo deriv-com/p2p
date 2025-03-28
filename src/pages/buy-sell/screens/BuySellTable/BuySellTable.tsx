@@ -86,7 +86,7 @@ const BuySellTable = () => {
             {isModalOpenFor('RadioGroupFilterModal') && (
                 <RadioGroupFilterModal
                     isModalOpen
-                    list={getSortByList(localize)}
+                    list={getSortByList(localize, activeBuySellTab === ADVERT_TYPE.BUY)}
                     onRequestClose={hideModal}
                     onToggle={onToggle}
                     selected={sortByValue}

@@ -8,7 +8,6 @@ import './Dropdown.scss';
 
 type InputProps = React.ComponentProps<typeof Input>;
 type TProps = HtmlHTMLAttributes<HTMLInputElement> & {
-    chevronIcon?: React.ReactNode;
     disabled?: boolean;
     emptyResultMessage?: string;
     errorMessage?: InputProps['message'];
@@ -17,7 +16,6 @@ type TProps = HtmlHTMLAttributes<HTMLInputElement> & {
     isRequired?: boolean;
     label?: InputProps['label'];
     list: {
-        disabled?: boolean;
         text?: JSX.Element | string;
         value?: string;
     }[];
@@ -29,9 +27,7 @@ type TProps = HtmlHTMLAttributes<HTMLInputElement> & {
     value?: InputProps['value'];
     variant?: 'comboBox' | 'prompt';
 };
-
-export const Dropdown = ({
-    chevronIcon,
+const Dropdown = ({
     disabled,
     emptyResultMessage = '',
     errorMessage,
@@ -43,7 +39,6 @@ export const Dropdown = ({
     name,
     onSearch,
     onSelect,
-    shouldClearValue = false,
     value,
     variant = 'prompt',
     ...rest
@@ -80,9 +75,8 @@ export const Dropdown = ({
         setInputValue,
     } = useCombobox({
         defaultSelectedItem: items.find(item => item.value === value) ?? null,
-        isItemDisabled: item => item?.disabled ?? false,
         items,
-        itemToString(item): string {
+        itemToString(item) {
             return item ? reactNodeToString(item.text) : '';
         },
         onInputValueChange({ inputValue }) {
@@ -103,10 +97,8 @@ export const Dropdown = ({
             }
         },
         onSelectedItemChange({ selectedItem }) {
-            if (!selectedItem.disabled) {
-                onSelect(selectedItem?.value ?? '');
-                closeMenu();
-            }
+            onSelect(selectedItem?.value ?? '');
+            closeMenu();
         },
     });
 
@@ -122,16 +114,10 @@ export const Dropdown = ({
 
     useEffect(() => {
         setItems(list);
-        if (shouldClearValue && !list.some(item => item.text === getInputProps().value)) {
-            const result = value ? list.find(item => item.value && item.value === value)?.text : '';
-            setInputValue(reactNodeToString(result) ?? '');
-        }
+        const result = value ? list.find(item => item.value && item.value === value)?.text : '';
+        setInputValue(reactNodeToString(result) ?? '');
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [list]);
-
-    useEffect(() => {
-        if (typeof value === 'string') setInputValue(value);
-    }, [setInputValue, value]);
 
     return (
         <div
@@ -145,7 +131,6 @@ export const Dropdown = ({
                 <Input
                     disabled={disabled}
                     error={!!errorMessage}
-                    hideMessage
                     isFullWidth={isFullWidth}
                     label={reactNodeToString(label)}
                     leftPlaceholder={icon}
@@ -156,22 +141,13 @@ export const Dropdown = ({
                     readOnly={variant !== 'prompt'}
                     rightPlaceholder={
                         <button aria-expanded={isOpen} className='deriv-dropdown__button'>
-                            {chevronIcon ? (
-                                React.cloneElement(chevronIcon as React.ReactElement, {
-                                    className: clsx('deriv-dropdown__chevron', {
-                                        'deriv-dropdown__chevron--disabled': disabled,
-                                        'deriv-dropdown__chevron--open': isOpen,
-                                    }),
-                                })
-                            ) : (
-                                <LegacyChevronDown2pxIcon
-                                    className={clsx('deriv-dropdown__chevron', {
-                                        'deriv-dropdown__chevron--disabled': disabled,
-                                        'deriv-dropdown__chevron--open': isOpen,
-                                    })}
-                                    iconSize='xs'
-                                />
-                            )}
+                            <LegacyChevronDown2pxIcon
+                                className={clsx('deriv-dropdown__chevron', {
+                                    'deriv-dropdown__chevron--disabled': disabled,
+                                    'deriv-dropdown__chevron--open': isOpen,
+                                })}
+                                iconSize='xs'
+                            />
                         </button>
                     }
                     type='text'
@@ -192,10 +168,9 @@ export const Dropdown = ({
                               <li
                                   className={clsx('deriv-dropdown__item', {
                                       'deriv-dropdown__item--active': value === item.value,
-                                      'deriv-dropdown__item--disabled': item.disabled,
                                   })}
                                   key={item.value}
-                                  onClick={() => !item.disabled && clearFilter()}
+                                  onClick={() => clearFilter()}
                                   {...getItemProps({ index, item })}
                               >
                                   <Text size='sm' weight={value === item.value ? 'bold' : 'normal'}>
