@@ -112,7 +112,7 @@ export const Dropdown = ({
 
     const handleInputClick = useCallback(() => {
         variant === 'prompt' && setShouldFilterList(true);
-        
+
         if (isOpen) {
             closeMenu();
         } else {
