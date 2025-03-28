@@ -1,9 +1,10 @@
 import { api } from '..';
 
 const useIsWalletAccount = () => {
-    const { data: activeAccount } = api.account.useActiveAccount();
+    const { data: activeAccount, isFetchedAfterMount } = api.account.useActiveAccount();
+
     const isWalletAccount = activeAccount?.isWalletAccount;
-    return isWalletAccount;
+    return { isFetchedAfterMount, isWalletAccount };
 };
 
 export default useIsWalletAccount;

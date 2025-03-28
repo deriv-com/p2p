@@ -6,7 +6,7 @@ import { MobileMenuConfig } from './MobileMenuConfig';
 export const MenuContent = () => {
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
-    const isWalletAccount = useIsWalletAccount();
+    const { isWalletAccount } = useIsWalletAccount();
 
     return (
         <div className='flex flex-col h-full overflow-hidden'>

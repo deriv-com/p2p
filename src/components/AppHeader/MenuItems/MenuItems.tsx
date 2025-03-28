@@ -9,7 +9,9 @@ const MenuItems = () => {
     const { isDesktop } = useDevice();
     const items = getMenuItems(localize);
     const redirectLink = useShouldRedirectToLowCodeHub();
-    const isWalletAccount = useIsWalletAccount();
+    const { isFetchedAfterMount, isWalletAccount } = useIsWalletAccount();
+
+    if (!isFetchedAfterMount) return null;
 
     return (
         <>
