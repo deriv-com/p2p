@@ -90,33 +90,32 @@ const AppContent = () => {
     // Check if the account list currencies are in the client accounts currencies which is taken from OIDC tokens
     // If not, request OIDC authentication
     useEffect(() => {
-        if (!isOAuth2Enabled) {
-            setIsCheckingOidcTokens(false);
-        }
+        if (accountList?.length > 0) {
+            if (isOAuth2Enabled) {
+                // Filter out disabled accounts to not trigger OIDC authentication
+                const filteredAccountList = accountList.filter(account => account.is_disabled === 0);
 
-        if (accountList?.length > 0 && isOAuth2Enabled) {
-            // Filter out disabled accounts to not trigger OIDC authentication
-            const filteredAccountList = accountList.filter(account => account.is_disabled === 0);
+                const clientAccounts = JSON.parse(localStorage.getItem('clientAccounts') || '[]');
 
-            const clientAccounts = JSON.parse(localStorage.getItem('clientAccounts') || '[]');
+                // All client accounts from OIDC tokens
+                const clientAccountsCurrencies = Object.keys(clientAccounts).map(
+                    account => clientAccounts[account].cur
+                );
 
-            // All client accounts from OIDC tokens
-            const clientAccountsCurrencies = Object.keys(clientAccounts).map(account => clientAccounts[account].cur);
+                // All accounts from authorize response
+                const accountsListCurrencies = filteredAccountList.map(account => account.currency);
 
-            // All accounts from authorize response
-            const accountsListCurrencies = filteredAccountList.map(account => account.currency);
+                const hasMissingCurrencies = accountsListCurrencies.some(
+                    currency => !clientAccountsCurrencies.includes(currency)
+                );
 
-            const hasMissingCurrencies = accountsListCurrencies.some(
-                currency => !clientAccountsCurrencies.includes(currency)
-            );
-
-            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
-                requestOidcAuthentication({
-                    redirectCallbackUri: `${window.location.origin}/callback`,
-                });
-
-                setIsCheckingOidcTokens(false);
+                if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
+                    requestOidcAuthentication({
+                        redirectCallbackUri: `${window.location.origin}/callback`,
+                    });
+                }
             }
+            setIsCheckingOidcTokens(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accountList, isOAuth2Enabled]);
