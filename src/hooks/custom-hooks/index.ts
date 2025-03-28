@@ -18,6 +18,7 @@ export { default as useIsAdvertiserBarred } from './useIsAdvertiserBarred';
 export { default as useIsAdvertiserNotVerified } from './useIsAdvertiserNotVerified.ts';
 export { default as useIsP2PBlocked } from './useIsP2PBlocked';
 export { default as useIsRtl } from './useIsRtl';
+export { default as useIsWalletAccount } from './useIsWalletAccount';
 export { default as useLiveChat } from './useLiveChat';
 export { default as useModalManager } from './useModalManager';
 export { default as useNavigatorOnline } from './useNavigatorOnline';
