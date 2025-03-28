@@ -25,6 +25,7 @@ type TProps = HtmlHTMLAttributes<HTMLInputElement> & {
     name: InputProps['name'];
     onSearch?: (inputValue: string) => void;
     onSelect: (value: string) => void;
+    shouldClearValue?: boolean;
     value?: InputProps['value'];
     variant?: 'comboBox' | 'prompt';
 };
@@ -42,6 +43,7 @@ export const Dropdown = ({
     name,
     onSearch,
     onSelect,
+    shouldClearValue = false,
     value,
     variant = 'prompt',
     ...rest
@@ -119,10 +121,10 @@ export const Dropdown = ({
 
     useEffect(() => {
         setItems(list);
-
-        const result = value ? list.find(item => item.value && item.value === value)?.text : '';
-        setInputValue(reactNodeToString(result) ?? '');
-
+        if (shouldClearValue && !list.some(item => item.text === getInputProps().value)) {
+            const result = value ? list.find(item => item.value && item.value === value)?.text : '';
+            setInputValue(reactNodeToString(result) ?? '');
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [list]);
 
@@ -209,4 +211,5 @@ export const Dropdown = ({
         </div>
     );
 };
+
 export default Dropdown;

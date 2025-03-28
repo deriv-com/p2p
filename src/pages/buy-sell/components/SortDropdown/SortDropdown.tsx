@@ -1,9 +1,8 @@
 import { MutableOption } from 'types';
-import { Dropdown } from '@/components/Dropdown';
 import { TSortByValues } from '@/utils';
 import { LabelPairedSortCaptionRegularIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
-import { Button, useDevice } from '@deriv-com/ui';
+import { Button, Dropdown, useDevice } from '@deriv-com/ui';
 import './SortDropdown.scss';
 
 type TSortDropdownProps = {
@@ -37,6 +36,7 @@ const SortDropdown = ({ list, onSelect, setIsFilterModalOpen, value }: TSortDrop
                 list={list as unknown as MutableOption[]}
                 name='Sort by'
                 onSelect={value => onSelect(value as TSortByValues)}
+                shouldClearValue
                 value={value}
                 variant='comboBox'
             />
