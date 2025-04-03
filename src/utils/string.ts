@@ -34,3 +34,8 @@ export const getTextFieldError = (fieldName: string): string =>
  * @returns {boolean} A boolean indicating the string is a valid decimal number.
  */
 export const decimalValidator = (value: string): boolean => /^(\d+\.)?\d+$/.test(value);
+
+export const padLeft = (txt: string, len: number, char: string) => {
+    const text = String(txt || '');
+    return text.length >= len ? text : `${Array(len - text.length + 1).join(char)}${text}`;
+};

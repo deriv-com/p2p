@@ -1,0 +1,178 @@
+$BORDER_RADIUS: 4px;
+
+/* @define .composite-calendar; weak; */
+.composite-calendar {
+    display: grid;
+    grid-template-columns: minmax(max-content, 158px) minmax(min-content, 280px) minmax(min-content, 280px);
+    position: absolute;
+    top: 17rem;
+    right: 0.5rem;
+    z-index: 99;
+    border-radius: $BORDER_RADIUS;
+    background-color: #fff;
+    box-shadow: 0 2px 16px 8px transparentize(#000, 0.84);
+
+    .composite-wrapper {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        z-index: 98;
+    }
+    &__input-fields {
+        display: flex;
+        border-radius: $BORDER_RADIUS;
+        align-items: flex-end;
+        justify-content: flex-end;
+        gap: 0.8rem;
+
+        &--fill {
+            width: 100%;
+
+            & > .deriv-input__container {
+                width: 100%;
+            }
+        }
+        // & .deriv-input {
+        //     height: 3.2rem;
+        //     font-size: 12px !important;
+        // }
+        & > .deriv-input__container {
+            margin: 0;
+            width: 100%;
+
+            @include desktop {
+                width: 17.6rem;
+            }
+
+            .deriv-input__field:not(:not(:placeholder-shown)) ~ label {
+                left: 4rem;
+            }
+
+            // &:focus-within {
+            //     .deriv-input__field:not(:not(:placeholder-shown)) ~ label {
+            //         left: 1.5rem;
+            //     }
+            // }
+
+            @include mobile-or-tablet-screen {
+                .inline-icon {
+                    top: 1.2rem;
+                }
+            }
+
+            @include colorIcon(#333);
+
+            .deriv-input__left-content {
+                margin-top: 4px;
+            }
+        }
+    }
+    & > .first-month,
+    & > .second-month {
+        .dc-calendar__body {
+            border-bottom: none;
+        }
+    }
+    &__prepopulated-list {
+        padding-top: 50px;
+        @include typeface(--paragraph-center-normal-black);
+        color: #333;
+        background: #fff;
+
+        &--is-active {
+            color: #333;
+            background-color: #d6dadb;
+            font-weight: bold;
+        }
+        & li {
+            cursor: pointer;
+            padding: 6px 6px 6px 16px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+
+            &:hover:not(.composite-calendar__prepopulated-list--is-active) {
+                background: #e6e9e9;
+            }
+        }
+    }
+}
+
+/* @define composite-calendar-modal; weak; */
+.composite-calendar-modal {
+    @include mobile-or-tablet-screen {
+        &__actions {
+            display: flex;
+            padding: 16px;
+            border-top: 2px solid #eaeced;
+
+            > * {
+                flex: 1;
+                margin: 8px;
+            }
+            &-today {
+                width: 100%;
+            }
+        }
+        &__radio-group {
+            padding: 16px 16px 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 2px solid #eaeced;
+        }
+        &__radio {
+            display: flex;
+            align-items: center;
+            padding: 7px 8px;
+            border: 1px solid;
+            border-color: #d6dadb;
+            border-radius: 4px;
+            margin: 8px;
+            font-size: 1.4rem;
+
+            &-input {
+                display: none;
+            }
+            &-circle {
+                border: 2px solid #333;
+                border-radius: 50%;
+                box-shadow: 0 0 1px 0 transparentize(#000, 0.84);
+                width: 16px;
+                height: 16px;
+                transition: all 0.3s ease-in-out;
+                margin-right: 8px;
+                align-self: center;
+
+                &--selected {
+                    border-width: 4px;
+                    border-color: #ff444f;
+                    background: #fff;
+                }
+            }
+            &--selected {
+                border-color: #85acb0;
+                font-weight: bold;
+            }
+        }
+        &__custom {
+            padding: 16px;
+
+            &-radio {
+                display: inline-flex;
+            }
+            &-date-range {
+                margin: 8px;
+                display: flex;
+                flex-direction: column;
+
+                &-start-date {
+                    margin: 16px 0px;
+                }
+                &-end-date {
+                    margin-bottom: 8px;
+                }
+            }
+        }
+    }
+}
