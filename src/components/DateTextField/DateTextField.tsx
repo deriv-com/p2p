@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react';
 import clsx from 'clsx';
-import { LabelPairedCalendarRangeMdRegularIcon, LegacyCalendarDateFrom1pxIcon } from '@deriv/quill-icons';
+import { LegacyCalendar1pxIcon, LegacyCalendarDateFrom1pxIcon } from '@deriv/quill-icons';
 import { Input } from '@deriv-com/ui';
 import './DateTextField.scss';
 
@@ -23,7 +23,9 @@ const DateTextField = ({ alignedRight = false, label, value, ...rest }: TDateTex
                 }
                 readOnly
                 rightPlaceholder={
-                    alignedRight && <LabelPairedCalendarRangeMdRegularIcon data-testid='dt_calendar_icon_right' />
+                    alignedRight && (
+                        <LegacyCalendar1pxIcon data-testid='dt_calendar_icon_right' height={16} width={16} />
+                    )
                 }
                 value={value}
                 wrapperClassName='w-full'

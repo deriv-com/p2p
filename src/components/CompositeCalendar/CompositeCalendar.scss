@@ -33,10 +33,6 @@ $BORDER_RADIUS: 4px;
                 width: 100%;
             }
         }
-        // & .deriv-input {
-        //     height: 3.2rem;
-        //     font-size: 12px !important;
-        // }
         & > .deriv-input__container {
             margin: 0;
             width: 100%;
@@ -48,12 +44,6 @@ $BORDER_RADIUS: 4px;
             .deriv-input__field:not(:not(:placeholder-shown)) ~ label {
                 left: 4rem;
             }
-
-            // &:focus-within {
-            //     .deriv-input__field:not(:not(:placeholder-shown)) ~ label {
-            //         left: 1.5rem;
-            //     }
-            // }
 
             @include mobile-or-tablet-screen {
                 .inline-icon {
@@ -102,10 +92,22 @@ $BORDER_RADIUS: 4px;
 /* @define composite-calendar-modal; weak; */
 .composite-calendar-modal {
     @include mobile-or-tablet-screen {
+        &__full-page-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            height: calc(100vh - 8.5rem);
+            width: 100vw;
+
+            .mobile-wrapper__footer {
+                padding: 0;
+            }
+        }
+
         &__actions {
             display: flex;
             padding: 16px;
-            border-top: 2px solid #eaeced;
 
             > * {
                 flex: 1;
@@ -165,6 +167,7 @@ $BORDER_RADIUS: 4px;
                 margin: 8px;
                 display: flex;
                 flex-direction: column;
+                gap: 1.8rem;
 
                 &-start-date {
                     margin: 16px 0px;

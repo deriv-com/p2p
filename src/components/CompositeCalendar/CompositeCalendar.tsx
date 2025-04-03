@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, memo, useRef, useState } from 'react';
 import moment from 'moment';
 import Loadable from 'react-loadable';
 import { useOnClickOutside } from 'usehooks-ts';
@@ -7,6 +7,7 @@ import { LegacyCalendarDateFrom1pxIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Input, useDevice } from '@deriv-com/ui';
 import TwoMonthPicker from './TwoMonthPicker/TwoMonthPicker';
+import CompositeCalendarMobile from './CompositeCalendarMobile';
 import { SideList } from './SideList';
 import './CompositeCalendar.scss';
 
@@ -37,9 +38,9 @@ const CompositeCalendar = (props: TCompositeCalendar) => {
     const { from, onChange, to } = props;
     const { isDesktop } = useDevice();
     const { localize } = useTranslations();
-    const [showTo, setShowTo] = React.useState(false);
-    const [showFrom, setShowFrom] = React.useState(false);
-    const [list] = React.useState([
+    const [showTo, setShowTo] = useState(false);
+    const [showFrom, setShowFrom] = useState(false);
+    const [list] = useState([
         {
             duration: 0,
             label: localize('All time'),
@@ -72,7 +73,7 @@ const CompositeCalendar = (props: TCompositeCalendar) => {
         },
     ]);
 
-    const wrapperRef = React.useRef<HTMLInputElement>(null);
+    const wrapperRef = useRef<HTMLInputElement>(null);
 
     const selectDateRange = (newFrom?: number) => {
         hideCalendar();
@@ -130,7 +131,7 @@ const CompositeCalendar = (props: TCompositeCalendar) => {
 
     if (isDesktop) {
         return (
-            <React.Fragment>
+            <Fragment>
                 <div className='composite-calendar__input-fields' id='dt_composite_calendar_inputs'>
                     <Input
                         id='dt_calendar_input_from'
@@ -165,22 +166,13 @@ const CompositeCalendar = (props: TCompositeCalendar) => {
                         />
                     </div>
                 )}
-            </React.Fragment>
+            </Fragment>
         );
     }
 
-    return null;
-
-    // return (
-    //     <CompositeCalendarMobile
-    //         duration_list={list}
-    //         setCurrentFocus={setCurrentFocus}
-    //         current_focus={current_focus}
-    //         {...props}
-    //     />
-    // );
+    return <CompositeCalendarMobile durationList={list} {...props} />;
 };
 
 CompositeCalendar.displayName = 'CompositeCalendar';
 
-export default React.memo(CompositeCalendar);
+export default memo(CompositeCalendar);
