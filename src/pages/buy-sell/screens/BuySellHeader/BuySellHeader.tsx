@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { Search } from '@/components';
 import { FilterModal } from '@/components/Modals';
@@ -52,6 +52,13 @@ const BuySellHeader = ({ setIsFilterModalOpen, setSearchValue }: TBuySellHeaderP
         }))
     );
 
+    const [sortByList, setSortByList] = useState(getSortByList(localize, activeBuySellTab === ADVERT_TYPE.BUY));
+
+    useEffect(() => {
+        setSortByList(getSortByList(localize, activeBuySellTab === ADVERT_TYPE.BUY));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeBuySellTab]);
+
     useEffect(() => {
         if (queryString.tab) setActiveBuySellTab(queryString.tab);
         else setQueryString({ tab: activeBuySellTab });
@@ -89,7 +96,7 @@ const BuySellHeader = ({ setIsFilterModalOpen, setSearchValue }: TBuySellHeaderP
                     </div>
                 </div>
                 <SortDropdown
-                    list={getSortByList(localize)}
+                    list={sortByList}
                     onSelect={setSortByValue}
                     setIsFilterModalOpen={setIsFilterModalOpen}
                     value={sortByValue}
