@@ -59,7 +59,7 @@ const CurrencySelector = ({ localCurrencies, onSelectItem, selectedCurrency }: T
                             >
                                 <div
                                     className={clsx(
-                                        'flex justify-between rounded px-[1.6rem] py-[0.8rem] lg:hover:bg-[#d6dadb]',
+                                        'flex justify-between rounded px-[1.6rem] py-[0.8rem] gap-1 lg:hover:bg-[#d6dadb]',
                                         {
                                             'bg-[#d6dadb]': isSelectedCurrency,
                                         }

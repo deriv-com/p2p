@@ -26,9 +26,12 @@ export const ADVERT_TYPE = Object.freeze({
     SELL: 'Sell',
 });
 
-export const getSortByList = (localize: TLocalize) =>
+export const getSortByList = (localize: TLocalize, isBuyTab: boolean) =>
     [
-        { text: localize('Exchange rate'), value: 'rate' },
+        {
+            text: isBuyTab ? localize('Exchange rate (low-high)') : localize('Exchange rate (high-low)'),
+            value: 'rate',
+        },
         { text: localize('User rating'), value: 'rating' },
     ] as const;
 
