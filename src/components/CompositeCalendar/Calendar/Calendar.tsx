@@ -4,7 +4,6 @@ import { getDate } from './helpers/constants';
 import Body from './CalendarBody';
 import Footer from './CalendarFooter';
 import Header from './CalendarHeader';
-// import './Calender.scss';
 
 type TCalendarProps = {
     calendarElRef: RefObject<HTMLDivElement>;

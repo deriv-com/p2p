@@ -14,8 +14,6 @@ type TInputDateRange = {
     value?: string;
 };
 
-// type TDatePickerOnChangeParams = Parameters<ComponentProps<typeof DatePicker>['onChange']>[0];
-
 type TRadioButton = {
     className?: string;
     id: string;

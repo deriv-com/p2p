@@ -28,14 +28,13 @@ jest.mock('@/stores', () => ({
 }));
 
 const mockProps = {
-    fromDate: '2024-05-12',
-    setFromDate: jest.fn(),
-    setToDate: jest.fn(),
-    toDate: '2024-06-01',
+    fromDate: 1715366400,
+    onChange: jest.fn(),
+    toDate: 1717958400,
 };
 
-jest.mock('../../../../components/OrdersDateSelection', () => ({
-    OrdersDateSelection: () => <div>OrdersDateSelection</div>,
+jest.mock('@/components/CompositeCalendar', () => ({
+    CompositeCalendar: () => <div>CompositeCalendar</div>,
 }));
 
 describe('OrdersTableHeader', () => {
@@ -62,14 +61,14 @@ describe('OrdersTableHeader', () => {
         expect(mockTabsStore.setActiveOrdersTab).toHaveBeenCalled();
         expect(mockUseQueryString.setQueryString).toHaveBeenCalled();
     });
-    it('should render OrdersDateSelection when user is on Past orders tab', () => {
+    it('should render CompositeCalendar when user is on Past orders tab', () => {
         mockTabsStore.activeOrdersTab = 'Past orders';
         render(<OrdersTableHeader {...mockProps} />);
-        expect(screen.getByText('OrdersDateSelection')).toBeInTheDocument();
+        expect(screen.getByText('CompositeCalendar')).toBeInTheDocument();
     });
-    it('should not render OrdersDateSelection when user is on Active orders tab', () => {
+    it('should not render CompositeCalendar when user is on Active orders tab', () => {
         mockTabsStore.activeOrdersTab = 'Active orders';
         render(<OrdersTableHeader {...mockProps} />);
-        expect(screen.queryByText('OrdersDateSelection')).not.toBeInTheDocument();
+        expect(screen.queryByText('CompositeCalendar')).not.toBeInTheDocument();
     });
 });
