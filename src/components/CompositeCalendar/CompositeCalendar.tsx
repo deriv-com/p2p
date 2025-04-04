@@ -1,4 +1,5 @@
 import { Fragment, memo, useRef, useState } from 'react';
+import clsx from 'clsx';
 import moment from 'moment';
 import Loadable from 'react-loadable';
 import { useOnClickOutside } from 'usehooks-ts';
@@ -102,9 +103,11 @@ const CompositeCalendar = (props: TCompositeCalendar) => {
     const showCalendar = (e: string) => {
         if (e === 'from') {
             setShowFrom(true);
+            setShowTo(false);
         }
         if (e === 'to') {
             setShowTo(true);
+            setShowFrom(false);
         }
     };
 
@@ -134,16 +137,18 @@ const CompositeCalendar = (props: TCompositeCalendar) => {
             <Fragment>
                 <div className='composite-calendar__input-fields' id='dt_composite_calendar_inputs'>
                     <Input
+                        className={clsx({ 'composite-calendar__input-fields--selected': showFrom })}
                         id='dt_calendar_input_from'
-                        leftPlaceholder={<LegacyCalendarDateFrom1pxIcon height={14} width={14} />}
+                        leftPlaceholder={<LegacyCalendarDateFrom1pxIcon height={16} width={16} />}
                         onChange={() => {}}
                         onClick={() => showCalendar('from')}
                         readOnly
                         value={getFromDateLabel()}
                     />
                     <Input
+                        className={clsx({ 'composite-calendar__input-fields--selected': showTo })}
                         id='dt_calendar_input_to'
-                        leftPlaceholder={<LegacyCalendarDateFrom1pxIcon height={14} width={14} />}
+                        leftPlaceholder={<LegacyCalendarDateFrom1pxIcon height={16} width={16} />}
                         onChange={() => {}}
                         onClick={() => showCalendar('to')}
                         readOnly

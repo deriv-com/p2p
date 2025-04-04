@@ -10,7 +10,7 @@ $BORDER_RADIUS: 4px;
     z-index: 99;
     border-radius: $BORDER_RADIUS;
     background-color: #fff;
-    box-shadow: 0 2px 16px 8px transparentize(#000, 0.84);
+    box-shadow: 0 0px 10px 1px transparentize(#000, 0.84);
 
     .composite-wrapper {
         position: absolute;
@@ -26,6 +26,10 @@ $BORDER_RADIUS: 4px;
         justify-content: flex-end;
         gap: 0.8rem;
 
+        &--selected {
+            border-color: #85acb0 !important;
+        }
+
         &--fill {
             width: 100%;
 
@@ -33,12 +37,20 @@ $BORDER_RADIUS: 4px;
                 width: 100%;
             }
         }
+        .deriv-input {
+            padding: 6px 8px !important;
+
+            &:focus-within {
+                border-color: #d6dadb;
+            }
+        }
+
         & > .deriv-input__container {
             margin: 0;
             width: 100%;
 
             @include desktop {
-                width: 17.6rem;
+                width: 15rem;
             }
 
             .deriv-input__field:not(:not(:placeholder-shown)) ~ label {
@@ -54,7 +66,7 @@ $BORDER_RADIUS: 4px;
             @include colorIcon(#333);
 
             .deriv-input__left-content {
-                margin-top: 4px;
+                margin-top: 2px;
             }
         }
     }
