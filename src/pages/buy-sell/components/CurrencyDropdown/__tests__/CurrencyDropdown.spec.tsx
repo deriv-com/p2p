@@ -13,6 +13,9 @@ const wrapper: FC<PropsWithChildren> = ({ children }) => (
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({ data: undefined })),
+        },
         settings: {
             useSettings: () => ({
                 data: {

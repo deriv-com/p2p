@@ -7,8 +7,12 @@
         position: absolute;
         top: -10rem;
         z-index: 1;
-        height: calc(100vh - 8rem);
+        height: calc(100vh - 7.5rem);
         width: 100%;
+
+        &--has-no-banner {
+            top: -4rem;
+        }
     }
 
     @include rtlDir {

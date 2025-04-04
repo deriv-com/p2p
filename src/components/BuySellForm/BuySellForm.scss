@@ -38,7 +38,11 @@
         left: 0;
         z-index: 1;
 
-        &--is-buy {
+        &--is-buy-no-banner {
+            top: -4rem;
+        }
+
+        &--is-buy-has-banner {
             top: -10rem;
         }
 

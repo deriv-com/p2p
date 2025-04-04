@@ -107,6 +107,7 @@ jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
         account: {
+            useActiveAccount: jest.fn(() => ({ data: undefined })),
             useBalance: jest.fn(() => mockUseBalance),
         },
         advert: {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import { useShallow } from 'zustand/react/shallow';
 import { RadioGroupFilterModal } from '@/components/Modals';
 import { ADVERT_TYPE, BUY_SELL, getSortByList } from '@/constants';
@@ -15,6 +16,8 @@ const BuySellTable = () => {
     const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager({ shouldReinitializeModals: false });
     const { data: p2pSettingsData } = api.settings.useSettings();
+    const { data: accountData } = api.account.useActiveAccount();
+    const isAwarenessBannerHidden = localStorage.getItem(`p2p_${accountData?.loginid}_is_awareness_banner_hidden`);
 
     const {
         filteredCurrency,
@@ -72,7 +75,11 @@ const BuySellTable = () => {
     }, [filteredCurrency, p2pSettingsData?.localCurrency, setFilteredCurrency]);
 
     return (
-        <div className='buy-sell-table h-full w-full relative flex flex-col'>
+        <div
+            className={clsx('buy-sell-table h-full w-full relative flex flex-col', {
+                'buy-sell-table--has-no-banner': isAwarenessBannerHidden === 'true',
+            })}
+        >
             <BuySellHeader
                 setIsFilterModalOpen={() => showModal('RadioGroupFilterModal')}
                 setSearchValue={setSearchValue}
