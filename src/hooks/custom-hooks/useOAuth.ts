@@ -30,7 +30,7 @@ const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn
     const isOAuth2Enabled = useIsOAuth2Enabled(OAuth2EnabledApps, OAuth2EnabledAppsInitialised);
 
     const { logout } = useAuthData();
-    const { isAuthorized, isAuthorizing } = useAuthData();
+    const { error, isAuthorized, isAuthorizing } = useAuthData();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
     const isCallbackPage = getCurrentRoute() === 'callback';
     const isRedirectPage = getCurrentRoute() === 'redirect';
@@ -86,7 +86,7 @@ const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn
             // NOTE: we only do single logout using logged_state cookie checks only in Safari
             // because front channels do not work in Safari, front channels (front-channel.html) would already help us automatically log out
             const shouldSingleLogoutWithLoggedState = hasAuthToken && loggedState === 'false';
-            if (shouldSingleLogoutWithLoggedState && isOAuth2Enabled) {
+            if ((shouldSingleLogoutWithLoggedState && isOAuth2Enabled) || error?.code === 'InvalidToken') {
                 await handleLogout();
             } else if (isRedirectPage) {
                 const params = new URLSearchParams(location.search);
@@ -105,6 +105,7 @@ const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
+        error?.code,
         isEndpointPage,
         isCallbackPage,
         hasAuthToken,
