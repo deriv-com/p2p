@@ -116,6 +116,17 @@
             &__tile {
                 font-size: 1.2rem;
 
+                &--active {
+                    font-weight: bold;
+                }
+
+                &--now {
+                    border: 1px solid #d6dadb;
+                    font-weight: bold;
+                    border-radius: 4px;
+                    background-color: unset;
+                }
+
                 &--active,
                 &--hasActive {
                     border-radius: 0.5rem;
@@ -128,11 +139,6 @@
                     }
                 }
 
-                &--active {
-                    font-weight: bold;
-                }
-
-                &--now,
                 &:disabled {
                     background-color: unset;
                 }

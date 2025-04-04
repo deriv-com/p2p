@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
+import { CompositeCalendar } from '@/components';
 import { ORDERS_STATUS } from '@/constants/orders';
 import { useQueryString } from '@/hooks/custom-hooks';
-import { OrdersDateSelection } from '@/pages/orders/components/OrdersDateSelection';
 import { useTabsStore } from '@/stores';
 import { getLocalizedTabs } from '@/utils/tabs';
 import { useTranslations } from '@deriv-com/translations';
@@ -10,15 +10,14 @@ import { Tab, Tabs, useDevice } from '@deriv-com/ui';
 import './OrdersTableHeader.scss';
 
 type TOrdersTableHeaderProps = {
-    fromDate: string | null;
-    setFromDate: Dispatch<SetStateAction<string | null>>;
-    setToDate: Dispatch<SetStateAction<string | null>>;
-    toDate: string | null;
+    fromDate: number | null;
+    onChange: (dateValues: { from: number | null; isBatch: boolean; to: number | null }) => void;
+    toDate: number | null;
 };
 
 const ORDERS_TABS = [ORDERS_STATUS.ACTIVE_ORDERS, ORDERS_STATUS.PAST_ORDERS];
 
-const OrdersTableHeader = ({ fromDate, setFromDate, setToDate, toDate }: TOrdersTableHeaderProps) => {
+const OrdersTableHeader = ({ fromDate, onChange, toDate }: TOrdersTableHeaderProps) => {
     const { isMobile } = useDevice();
     const { queryString, setQueryString } = useQueryString();
     const { localize } = useTranslations();
@@ -49,12 +48,8 @@ const OrdersTableHeader = ({ fromDate, setFromDate, setToDate, toDate }: TOrders
                 <Tab title={localize('Past orders')} />
             </Tabs>
             {activeOrdersTab === ORDERS_STATUS.PAST_ORDERS && (
-                <OrdersDateSelection
-                    fromDate={fromDate}
-                    setFromDate={setFromDate}
-                    setToDate={setToDate}
-                    toDate={toDate}
-                />
+                // @ts-expect-error onChange is not typed properly
+                <CompositeCalendar from={fromDate} onChange={onChange} to={toDate} />
             )}
         </div>
     );
