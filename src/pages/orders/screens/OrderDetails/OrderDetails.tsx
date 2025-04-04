@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { TOrderIdsMap } from 'types';
 import { FullPageMobileWrapper, PageReturn } from '@/components';
 import { BUY_SELL_URL, ORDERS_URL } from '@/constants';
 import { api } from '@/hooks';
 import { useExtendedOrderDetails, useSendbird } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderDetailsProvider } from '@/providers/OrderDetailsProvider';
-import { isOrderSeen } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, InlineMessage, Loader, Text, useDevice } from '@deriv-com/ui';
-import { LocalStorageConstants, LocalStorageUtils } from '@deriv-com/utils';
 import { OrderDetailsCard } from '../../components/OrderDetailsCard';
 import { OrderDetailsCardFooter } from '../../components/OrderDetailsCard/OrderDetailsCardFooter';
 import { OrdersChatSection } from '../OrdersChatSection';
@@ -66,17 +63,6 @@ const OrderDetails = () => {
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeAccountData, orderId]);
-
-    useEffect(() => {
-        if (orderId && activeAccount?.loginid) {
-            const loginId = activeAccount.loginid;
-            if (!isOrderSeen(orderId, loginId)) {
-                const orderIdsMap = LocalStorageUtils.getValue<TOrderIdsMap>(LocalStorageConstants.p2pOrderIds) || {};
-                orderIdsMap[loginId] = [...(orderIdsMap[loginId] || []), orderId];
-                LocalStorageUtils.setValue<TOrderIdsMap>(LocalStorageConstants.p2pOrderIds, orderIdsMap);
-            }
-        }
-    }, [orderId, activeAccount?.loginid]);
 
     if (isLoading || (!orderInfo && !error)) return <Loader isFullScreen />;
 
