@@ -9,6 +9,10 @@
         &__content {
             overflow: auto;
             padding-bottom: 2rem;
+
+            @include mobile-or-tablet-screen {
+                height: calc(100% - 6rem) !important;
+            }
         }
     }
 

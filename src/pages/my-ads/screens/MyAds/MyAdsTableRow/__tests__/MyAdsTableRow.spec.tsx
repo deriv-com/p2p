@@ -83,6 +83,9 @@ jest.mock('@/hooks', () => ({
                 exchangeRate: 1,
             })),
         },
+        paymentMethods: {
+            useGet: jest.fn(() => ({ data: [] })),
+        },
     },
 }));
 
