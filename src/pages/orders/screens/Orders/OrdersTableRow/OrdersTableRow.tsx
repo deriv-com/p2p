@@ -9,7 +9,7 @@ import { api } from '@/hooks';
 import { useExtendedOrderDetails, useModalManager, useQueryString } from '@/hooks/custom-hooks';
 import { ExtendedOrderDetails } from '@/hooks/custom-hooks/useExtendedOrderDetails';
 import { OrderRatingButton, OrderStatusTag, OrderTimer } from '@/pages/orders/components';
-import { getDistanceToServerTime, isOrderSeen } from '@/utils';
+import { getDistanceToServerTime } from '@/utils';
 import { LegacyLiveChatOutlineIcon } from '@deriv/quill-icons';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Text, useDevice } from '@deriv-com/ui';
@@ -65,12 +65,7 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
 
     if (!isDesktop) {
         return (
-            <div
-                className={clsx('orders-table-row', {
-                    'orders-table-row--unseen': !!activeAccount?.loginid && !isOrderSeen(id, activeAccount.loginid),
-                })}
-                onClick={showOrderDetails}
-            >
+            <div className='orders-table-row' onClick={showOrderDetails}>
                 <div className='flex justify-between'>
                     <Text size='sm' weight='bold'>
                         <OrderStatusTag
@@ -129,7 +124,6 @@ const OrdersTableRow = ({ ...props }: DeepPartial<THooks.Order.GetList[number]>)
         <div
             className={clsx('orders-table-row', {
                 'orders-table-row--inactive': isPast,
-                'orders-table-row--unseen': !!activeAccount?.loginid && !isOrderSeen(id, activeAccount.loginid),
             })}
             onClick={showOrderDetails}
         >
