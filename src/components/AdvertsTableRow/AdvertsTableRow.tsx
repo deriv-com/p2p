@@ -217,7 +217,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                 <Container {...(!isDesktop && { className: 'flex justify-between' })}>
                     <Container
                         {...(!isDesktop && {
-                            className: clsx('flex flex-col max-w-[21rem]', { 'mt-3 ml-14': isBuySellPage }),
+                            className: clsx('flex flex-col max-w-[14rem]', { 'mt-3 ml-14': isBuySellPage }),
                         })}
                     >
                         {!isDesktop && (
