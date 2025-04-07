@@ -32,6 +32,15 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useIsAdvertiserBarred: jest.fn().mockReturnValue(false),
 }));
 
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({ data: undefined })),
+        },
+    },
+}));
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn(() => ({ isDesktop: true })),

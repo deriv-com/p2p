@@ -67,6 +67,7 @@ const AppHeader = () => {
                         onClick={() => {
                             Chat.clear();
                             oAuthLogout();
+                            localStorage.removeItem(`p2p_${activeAccount?.loginid}_is_awareness_banner_hidden`);
                         }}
                         size='md'
                     >
