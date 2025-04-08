@@ -8,6 +8,15 @@ jest.mock('@deriv-com/ui', () => ({
     })),
 }));
 
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({ data: undefined })),
+        },
+    },
+}));
+
 describe('PNVBanner', () => {
     it('should render the proper message', async () => {
         render(<AwarenessBanner />);

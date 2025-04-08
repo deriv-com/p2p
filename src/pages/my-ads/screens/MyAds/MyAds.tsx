@@ -1,10 +1,4 @@
-import {
-    AwarenessBanner,
-    OutsideBusinessHoursHint,
-    PNVBanner,
-    TemporarilyBarredHint,
-    Verification,
-} from '@/components';
+import { OutsideBusinessHoursHint, PNVBanner, TemporarilyBarredHint, Verification } from '@/components';
 import {
     useGetBusinessHours,
     useGetPhoneNumberVerification,
@@ -30,7 +24,6 @@ const MyAds = () => {
     if (isAdvertiserNotVerified)
         return (
             <div className='overflow-y-auto h-[calc(100%-11rem)]'>
-                <AwarenessBanner />
                 <Verification />;
             </div>
         );
@@ -40,7 +33,6 @@ const MyAds = () => {
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             {!isScheduleAvailable && !isAdvertiserBarred && <OutsideBusinessHoursHint />}
             {isAdvertiser && shouldShowVerification && <PNVBanner />}
-            <AwarenessBanner />
             <MyAdsTable />
         </div>
     );

@@ -27,6 +27,9 @@ const mockModalManager = {
 
 jest.mock('@/hooks', () => ({
     api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({ data: undefined })),
+        },
         paymentMethods: {
             useGet: jest.fn(() => ({
                 data: mockData,
