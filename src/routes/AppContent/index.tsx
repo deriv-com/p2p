@@ -13,6 +13,7 @@ import { useAccountList } from '@deriv-com/api-hooks';
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
+import { URLConstants } from '@deriv-com/utils';
 import CallbackPage from '../CallbackPage';
 import Router from '../Router';
 import { getRoutes } from '../routes-config';
@@ -33,8 +34,11 @@ const AppContent = () => {
     const { init: initLiveChat } = useLiveChat();
     const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
-    const { isOAuth2Enabled, oAuthLogout } = useOAuth({ showErrorModal: () => showModal('ErrorModal') });
+    const { oAuthLogout } = useOAuth({ showErrorModal: () => showModal('ErrorModal') });
     const routes = getRoutes(localize);
+    const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
+    const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
+    const isOAuth2Enabled = isProduction || isStaging;
 
     const tabRoutesConfiguration = routes.filter(
         route =>

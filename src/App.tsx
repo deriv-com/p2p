@@ -8,8 +8,6 @@ import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
-import useGrowthbookGetFeatureValue from './hooks/custom-hooks/useGrowthbookGetFeatureValue';
-import useOAuth2Enabled from './hooks/custom-hooks/useOAuth2Enabled';
 import { getCurrentRoute } from './utils';
 
 const { VITE_CROWDIN_BRANCH_NAME, VITE_PROJECT_NAME, VITE_TRANSLATIONS_CDN_URL } = process.env;
@@ -18,30 +16,23 @@ const i18nInstance = initializeI18n({
 });
 
 const App = () => {
-    const [ShouldRedirectToDerivApp, isGBLoaded] = useGrowthbookGetFeatureValue({
-        featureFlag: 'redirect_to_deriv_app_p2p',
-    });
-    const [isOAuth2Enabled] = useOAuth2Enabled();
     const { onRenderAuthCheck } = useOAuth();
     const { init: initTrackJS } = useTrackjs();
     const { initialise: initDatadog } = useDatadog();
     const { isDesktop } = useDevice();
     const { initialise: initDerivAnalytics } = useDerivAnalytics();
     const isCallbackPage = getCurrentRoute() === 'callback';
+    const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
+    const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
+    const isOAuth2Enabled = isProduction || isStaging;
 
     initTrackJS();
     initDerivAnalytics();
     initDatadog();
 
     useEffect(() => {
-        if (isGBLoaded && ShouldRedirectToDerivApp) {
-            const NODE_ENV = process.env.VITE_NODE_ENV;
-            const APP_URL = NODE_ENV === 'production' ? URLConstants.derivAppProduction : URLConstants.derivAppStaging;
-            window.location.href = `${APP_URL}/cashier/p2p`;
-        } else if (isGBLoaded) {
-            onRenderAuthCheck();
-        }
-    }, [isGBLoaded, ShouldRedirectToDerivApp, onRenderAuthCheck]);
+        onRenderAuthCheck();
+    }, [onRenderAuthCheck]);
 
     return (
         <BrowserRouter>

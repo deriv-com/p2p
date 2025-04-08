@@ -3,13 +3,8 @@ import Cookies from 'js-cookie';
 import { getOauthUrl } from '@/constants';
 import { getCurrentRoute, removeCookies } from '@/utils';
 import { useAuthData } from '@deriv-com/api-hooks';
-import {
-    OAuth2Logout,
-    requestOidcAuthentication,
-    TOAuth2EnabledAppList,
-    useIsOAuth2Enabled,
-} from '@deriv-com/auth-client';
-import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
+import { OAuth2Logout, requestOidcAuthentication } from '@deriv-com/auth-client';
+import { URLConstants } from '@deriv-com/utils';
 
 type UseOAuthReturn = {
     isOAuth2Enabled: boolean;
@@ -23,11 +18,10 @@ type UseOAuthReturn = {
  */
 const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn => {
     const { showErrorModal } = options;
-    const [OAuth2EnabledApps, OAuth2EnabledAppsInitialised] = useGrowthbookGetFeatureValue<string>({
-        featureFlag: 'hydra_be',
-    }) as unknown as [TOAuth2EnabledAppList, boolean];
-
-    const isOAuth2Enabled = useIsOAuth2Enabled(OAuth2EnabledApps, OAuth2EnabledAppsInitialised);
+    const origin = window.location.origin;
+    const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
+    const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
+    const isOAuth2Enabled = isProduction || isStaging;
 
     const { logout } = useAuthData();
     const { error, isAuthorized, isAuthorizing } = useAuthData();
@@ -87,7 +81,13 @@ const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn
             // because front channels do not work in Safari, front channels (front-channel.html) would already help us automatically log out
             const shouldSingleLogoutWithLoggedState = hasAuthToken && loggedState === 'false';
             if ((shouldSingleLogoutWithLoggedState && isOAuth2Enabled) || error?.code === 'InvalidToken') {
-                await handleLogout();
+                try {
+                    await handleLogout();
+                } catch (error) {
+                    // eslint-disable-next-line no-console
+                    console.error('Failed to handle logout', error);
+                    showErrorModal?.();
+                }
             } else if (isRedirectPage) {
                 const params = new URLSearchParams(location.search);
                 const from = params.get('from');
