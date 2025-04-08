@@ -22,6 +22,7 @@ const App = () => {
     const { isDesktop } = useDevice();
     const { initialise: initDerivAnalytics } = useDerivAnalytics();
     const isCallbackPage = getCurrentRoute() === 'callback';
+    const origin = window.location.origin;
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;

@@ -27,6 +27,7 @@ const AppHeader = () => {
     const { instance, localize } = useTranslations();
     const oauthUrl = getOauthUrl();
     const currentLang = LocalStorageUtils.getValue<string>('i18n_language');
+    const origin = window.location.origin;
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
