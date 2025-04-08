@@ -1,7 +1,6 @@
 import { Fragment, memo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
-import Loadable from 'react-loadable';
 import { useOnClickOutside } from 'usehooks-ts';
 import { daysFromTodayTo, toMoment } from '@/utils';
 import { LegacyCalendarDateFrom1pxIcon } from '@deriv/quill-icons';
@@ -17,23 +16,6 @@ type TCompositeCalendar = {
     onChange: (values: { from?: moment.Moment; isBatch?: boolean; to?: moment.Moment }) => void;
     to: number;
 };
-
-type TTwoMonthPickerLoadable = {
-    isPeriodDisabled: (date: moment.Moment) => boolean;
-    onChange: (date: moment.Moment) => void;
-    value: number;
-};
-
-const TwoMonthPickerLoadable = Loadable<TTwoMonthPickerLoadable, typeof TwoMonthPicker>({
-    // @ts-expect-error import is not typed
-    loader: () => import(/* webpackChunkName: "twoMonthPicker" */ './TwoMonthPicker/TwoMonthPicker'),
-    loading: () => null,
-    render(loaded, props) {
-        // @ts-expect-error default is not typed
-        const Component = loaded.default;
-        return <Component {...props} />;
-    },
-});
 
 const CompositeCalendar = (props: TCompositeCalendar) => {
     const { from, onChange, to } = props;
@@ -117,11 +99,11 @@ const CompositeCalendar = (props: TCompositeCalendar) => {
         hideCalendar();
     });
 
-    const setToDate = (date: moment.Moment) => {
+    const setToDate = (date: moment.MomentInput) => {
         onChange({ to: toMoment(date).endOf('day') });
     };
 
-    const setFromDate = (date: moment.Moment) => {
+    const setFromDate = (date: moment.MomentInput) => {
         onChange({ from: toMoment(date) });
         hideCalendar();
     };
@@ -158,16 +140,20 @@ const CompositeCalendar = (props: TCompositeCalendar) => {
                 {showTo && (
                     <div className='composite-calendar' ref={wrapperRef}>
                         <SideList from={from} items={list} to={to} />
-                        <TwoMonthPickerLoadable isPeriodDisabled={isPeriodDisabledTo} onChange={setToDate} value={to} />
+                        <TwoMonthPicker
+                            isPeriodDisabled={isPeriodDisabledTo}
+                            onChange={setToDate}
+                            value={toMoment(to)}
+                        />
                     </div>
                 )}
                 {showFrom && (
                     <div className='composite-calendar' ref={wrapperRef}>
                         <SideList from={from} items={list} to={to} />
-                        <TwoMonthPickerLoadable
+                        <TwoMonthPicker
                             isPeriodDisabled={isPeriodDisabledFrom}
                             onChange={setFromDate}
-                            value={from}
+                            value={toMoment(from)}
                         />
                     </div>
                 )}
