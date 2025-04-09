@@ -155,7 +155,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     'mb-[-0.5rem]': hasRating,
                                 })}
                             >
-                                <Text size={size} weight={isDesktop ? 400 : 'bold'}>
+                                <Text className='max-w-60 break-all' size={size} weight={isDesktop ? 400 : 'bold'}>
                                     {name}
                                 </Text>
                                 {!!completedOrdersCount && completedOrdersCount >= 100 && (
