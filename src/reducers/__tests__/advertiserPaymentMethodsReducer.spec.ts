@@ -37,7 +37,7 @@ describe('advertiserPaymentMethodsReducer', () => {
             actionType: 'ADD',
             isVisible: true,
             selectedPaymentMethod: mockPaymentMethod,
-            title: 'Add payment method',
+            title: 'Select a payment method',
         });
     });
     it('should return the correct object when the action type is add and a selected payment method is not provided', () => {
@@ -48,7 +48,7 @@ describe('advertiserPaymentMethodsReducer', () => {
         expect(advertiserPaymentMethodsReducer(mockInitialState, action, localize)).toEqual({
             actionType: 'ADD',
             isVisible: true,
-            title: 'Add payment method',
+            title: 'Select a payment method',
         });
     });
     it('should return the correct object when the action type is edit', () => {

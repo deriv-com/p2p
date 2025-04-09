@@ -24,7 +24,7 @@ const advertiserPaymentMethodsReducer = (currentState: TFormState, action: TRedu
                           method: action.payload?.selectedPaymentMethod?.method,
                       }
                     : undefined,
-                title: localize('Add payment method'),
+                title: localize('Select a payment method'),
             };
         }
         case 'EDIT': {

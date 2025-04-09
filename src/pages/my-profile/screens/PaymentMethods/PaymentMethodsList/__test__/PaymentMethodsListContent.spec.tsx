@@ -127,7 +127,7 @@ describe('PaymentMethodsListContent', () => {
                 p2pAdvertiserPaymentMethods={[]}
             />
         );
-        expect(screen.getByText('Add new')).toBeInTheDocument();
+        expect(screen.getByText('Add a payment method')).toBeInTheDocument();
     });
     it('should render the component when p2padvertiserpaymentmethods are provided', () => {
         mockUseDelete.mockReturnValueOnce(mockUseDeleteResponse);
