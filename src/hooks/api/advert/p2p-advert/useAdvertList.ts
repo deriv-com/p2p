@@ -16,12 +16,11 @@ const useAdvertList = (payload?: TPayload, enabled = true) => {
     const modified_data = useMemo(() => {
         if (!data?.length) return undefined;
 
+        const nonEligibleAdverts = data.filter(advert => advert?.is_eligible === 0);
+        const eligibleAdverts = data.filter(advert => advert?.is_eligible === 1 || advert?.is_eligible === undefined);
+
         // Sort the list by is_eligible
-        const sortedList = data.sort((a, b) => {
-            if (a?.is_eligible === b?.is_eligible) return 0;
-            if (a?.is_eligible === 0) return 1; // a goes after b
-            return -1; // a goes before b
-        });
+        const sortedList = [...eligibleAdverts, ...nonEligibleAdverts];
 
         return sortedList.map(advert => ({
             ...advert,
