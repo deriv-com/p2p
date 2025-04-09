@@ -33,14 +33,9 @@ const BusinessHoursModalMain = () => {
                     })}
                 </div>
             </div>
-            <div className='flex flex-col'>
-                <Text size={textSize}>
-                    <Localize i18n_default_text='* You can only place orders on other ads during your set business hours.' />
-                </Text>
-                <Text size={textSize}>
-                    <Localize i18n_default_text='* Some ads may have a delay before becoming visible to potential buyers.' />
-                </Text>
-            </div>
+            <Text size={textSize}>
+                <Localize i18n_default_text='* You can only place orders on other ads during your set business hours.' />
+            </Text>
         </div>
     );
 };
