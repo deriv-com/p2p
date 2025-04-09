@@ -1,6 +1,7 @@
 import { ComponentProps, ReactNode } from 'react';
 import clsx from 'clsx';
 import { Controller, useFormContext } from 'react-hook-form';
+import { api } from '@/hooks';
 import { getValidationRules } from '@/utils';
 import { Input } from '@deriv-com/ui';
 
@@ -24,6 +25,7 @@ const AdFormInput = ({
     ...props
 }: TAdFormInputProps) => {
     const { control, getValues } = useFormContext();
+    const { data: p2pSettings } = api.settings.useSettings();
     return (
         <Controller
             control={control}
@@ -49,7 +51,7 @@ const AdFormInput = ({
                 </div>
             )}
             rules={{
-                validate: getValidationRules(name, getValues),
+                validate: getValidationRules(name, getValues, p2pSettings?.maximum_advert_amount),
             }}
         />
     );

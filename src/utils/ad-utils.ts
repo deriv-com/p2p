@@ -54,7 +54,8 @@ const decimalPointValidation = (value: string) =>
     localize('Only up to 2 decimals are allowed.');
 export const getValidationRules = (
     fieldName: string,
-    getValues: (fieldName: string) => number | string
+    getValues: (fieldName: string) => number | string,
+    maximumAdvertAmount?: number
 ): ValidationRules => {
     switch (fieldName) {
         case 'amount':
@@ -73,6 +74,15 @@ export const getValidationRules = (
                     const maxOrder = getValues('max-order');
                     if (maxOrder && Number(value) < Number(maxOrder)) {
                         return localize('Amount should not be below Max limit');
+                    }
+                    return true;
+                },
+                validation_6: value => {
+                    if (maximumAdvertAmount && Number(value) > maximumAdvertAmount) {
+                        // return localize('Amount should not exceed the maximum advert amount');
+                        return localize('Maximum ad limit is {{maximumAdvertAmount}} USD. Please adjust the value', {
+                            maximumAdvertAmount,
+                        });
                     }
                     return true;
                 },

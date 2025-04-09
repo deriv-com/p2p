@@ -4,6 +4,15 @@ import { getEligibilityErrorMessage, getFilteredCountryList } from '../ad-utils'
 type TNumber = 0 | 1;
 type TStatus = 'disabled' | 'enabled';
 
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        settings: {
+            useSettings: jest.fn(() => ({ maximum_advert_amount: 1000 })),
+        },
+    },
+}));
+
 describe('ad-utils', () => {
     describe('getFilteredCountryList', () => {
         it('should return an empty object with empty country list', () => {
