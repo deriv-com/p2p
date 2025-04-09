@@ -92,6 +92,13 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+let mockCurrentRoute = '';
+
+jest.mock('@/utils', () => ({
+    ...jest.requireActual('@/utils'),
+    getCurrentRoute: jest.fn(() => mockCurrentRoute),
+}));
+
 jest.mock('@deriv-com/auth-client', () => ({
     OAuth2Logout: jest.fn(({ WSLogoutAndRedirect }) => {
         const mockIframe = document.createElement('iframe');
@@ -161,6 +168,8 @@ describe('<AppHeader/>', () => {
             value: 'example.com/endpoint',
             writable: true,
         });
+
+        mockCurrentRoute = 'endpoint';
 
         render(
             <BrowserRouter>

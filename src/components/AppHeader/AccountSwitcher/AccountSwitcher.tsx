@@ -20,7 +20,7 @@ const AccountSwitcher = ({ account }: TAccountSwitcherProps) => {
         isVirtual: Boolean(account?.is_virtual),
         loginid: account?.loginid || '',
     };
-    return account && <UIAccountSwitcher activeAccount={activeAccount} buttonClassName='mr-4' isDisabled />;
+    return account && <UIAccountSwitcher activeAccount={activeAccount} isDisabled />;
 };
 
 export default AccountSwitcher;
