@@ -46,7 +46,7 @@ const AppHeader = () => {
     );
 
     const renderAccountSection = () => {
-        if ((!isEndpointPage && !activeAccount) || isCheckingOidcTokens) {
+        if ((!isEndpointPage && !activeAccount) || (!isEndpointPage && isCheckingOidcTokens)) {
             return <AccountsInfoLoader isLoggedIn isMobile={!isDesktop} speed={3} />;
         }
 
