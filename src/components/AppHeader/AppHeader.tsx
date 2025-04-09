@@ -39,9 +39,10 @@ const AppHeader = () => {
     const [isNotificationServiceEnabled] = useGrowthbookGetFeatureValue({
         featureFlag: 'new_notifications_service_enabled',
     });
-    const { isCheckingOidcTokens } = useIsLoadingOidcStore(
+    const { isCheckingOidcTokens, setIsCheckingOidcTokens } = useIsLoadingOidcStore(
         useShallow(state => ({
             isCheckingOidcTokens: state.isCheckingOidcTokens,
+            setIsCheckingOidcTokens: state.setIsCheckingOidcTokens,
         }))
     );
 
@@ -69,6 +70,7 @@ const AppHeader = () => {
                     <Button
                         className='mr-6'
                         onClick={() => {
+                            setIsCheckingOidcTokens(true);
                             Chat.clear();
                             oAuthLogout();
                             localStorage.removeItem(`p2p_${activeAccount?.loginid}_is_awareness_banner_hidden`);
