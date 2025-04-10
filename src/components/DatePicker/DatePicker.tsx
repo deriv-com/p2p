@@ -84,13 +84,14 @@ const DatePicker = ({
             {isCalendarOpen && (
                 <div
                     className={clsx(`datepicker__container`, {
+                        'datepicker__container--left': !rightAlignment && selectedDate === null,
                         'datepicker__container--right': rightAlignment,
                     })}
                     data-testid='dt_datepicker_container'
                 >
                     <Calendar
-                        defaultActiveStartDate={today}
-                        defaultValue={today}
+                        defaultActiveStartDate={selectedDate !== null ? selectedDate : today}
+                        defaultValue={selectedDate !== null ? selectedDate : today}
                         formatShortWeekday={customFormatShortWeekday}
                         locale={currentLang.toLowerCase()}
                         maxDate={maxDate}

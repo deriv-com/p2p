@@ -23,6 +23,17 @@
             right: 0;
         }
 
+        &--left {
+            .react-calendar {
+                &__tile {
+                    &--now,
+                    &:disabled {
+                        background-color: unset !important;
+                    }
+                }
+            }
+        }
+
         top: 4rem;
 
         @include mobile-or-tablet-screen {
@@ -110,6 +121,9 @@
                     min-width: 2.4rem;
                     padding: 0.6rem;
                     border-radius: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
             }
 
