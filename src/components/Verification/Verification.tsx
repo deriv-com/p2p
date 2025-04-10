@@ -80,7 +80,7 @@ const Verification = () => {
             ? [
                   {
                       onClick: () => {
-                          window.location.href = `${URLConstants.derivAppProduction}/account/personal-details`;
+                          window.location.href = `${URLConstants.derivAppProduction}/account/personal-details?platform=p2p-v2`;
                       },
                       phoneNumber: isPhoneNumberVerified ? phoneNumber : undefined,
                       status: isPhoneNumberVerified ? 'done' : 'action',
@@ -93,7 +93,9 @@ const Verification = () => {
             isDisabled: isPoiPending,
             onClick: () => {
                 if (!isPoiVerified)
-                    redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-identity`);
+                    redirectToVerification(
+                        `${URLConstants.derivAppProduction}/account/proof-of-identity?platform=p2p-v2`
+                    );
             },
             status: getStatus(poiStatus),
             testId: 'dt_verification_poi_arrow_button',
@@ -105,7 +107,9 @@ const Verification = () => {
                       isDisabled: isPoaPending,
                       onClick: () => {
                           if (allowPoaRedirection)
-                              redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-address`);
+                              redirectToVerification(
+                                  `${URLConstants.derivAppProduction}/account/proof-of-address?platform=p2p-v2`
+                              );
                       },
                       status: getStatus(poaStatus),
                       testId: 'dt_verification_poa_arrow_button',
