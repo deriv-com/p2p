@@ -17,7 +17,7 @@ const BusinessHoursModalMain = () => {
                         <Localize i18n_default_text='Choose when you’re available to accept orders. Your ads will only be visible during these times.' />
                     </Text>
                     <Text size={textSize}>
-                        <Localize i18n_default_text='Business hours are displayed in your local time' />
+                        <Localize i18n_default_text='Business hours are displayed in your local time.' />
                     </Text>
                 </div>
                 <LightDivider className='my-[1.6rem]' />
