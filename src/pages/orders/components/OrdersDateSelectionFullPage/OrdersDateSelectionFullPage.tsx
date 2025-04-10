@@ -78,6 +78,7 @@ const OrdersDateSelectionFullPage = ({
                 minDate={startDate ? new Date(startDate) : undefined}
                 name='to-date'
                 onDateChange={setEndDate}
+                rightAlignment
                 showLabel
                 value={toDate || ''}
             />
