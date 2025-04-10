@@ -24,12 +24,12 @@ describe('PaymentMethodsEmpty', () => {
         render(<PaymentMethodsEmpty onAddPaymentMethod={onAddPaymentMethod} />);
         expect(screen.getByText('You haven’t added any payment methods yet')).toBeInTheDocument();
         expect(screen.getByText('Hit the button below to add payment methods.')).toBeInTheDocument();
-        expect(screen.getByText('Add payment methods')).toBeInTheDocument();
+        expect(screen.getByText('Add a payment method')).toBeInTheDocument();
     });
     it('should call onAddPaymentMethods when isMobile is false', async () => {
         const mockOnAddPaymentMethod = jest.fn();
         render(<PaymentMethodsEmpty onAddPaymentMethod={mockOnAddPaymentMethod} />);
-        const button = screen.getByRole('button', { name: 'Add payment methods' });
+        const button = screen.getByRole('button', { name: 'Add a payment method' });
         await userEvent.click(button);
         expect(mockOnAddPaymentMethod).toHaveBeenCalled();
     });
@@ -42,7 +42,7 @@ describe('PaymentMethodsEmpty', () => {
         });
         const onAddPaymentMethod = jest.fn();
         render(<PaymentMethodsEmpty onAddPaymentMethod={onAddPaymentMethod} />);
-        const button = screen.getByRole('button', { name: 'Add payment methods' });
+        const button = screen.getByRole('button', { name: 'Add a payment method' });
         await userEvent.click(button);
         expect(onAddPaymentMethod).toHaveBeenCalled();
     });
@@ -57,7 +57,7 @@ describe('PaymentMethodsEmpty', () => {
         render(<PaymentMethodsEmpty onAddPaymentMethod={mockOnAddPaymentMethod} />);
         expect(screen.getByText('You haven’t added any payment methods yet')).toBeInTheDocument();
         expect(screen.getByText('Hit the button below to add payment methods.')).toBeInTheDocument();
-        expect(screen.getByText('Add payment methods')).toBeInTheDocument();
+        expect(screen.getByText('Add a payment method')).toBeInTheDocument();
         expect(screen.queryByTestId('dt_mobile_wrapper_button')).not.toBeInTheDocument();
     });
     it('should render the correct content when isMobile is true', () => {
@@ -71,7 +71,7 @@ describe('PaymentMethodsEmpty', () => {
         render(<PaymentMethodsEmpty onAddPaymentMethod={onAddPaymentMethod} />);
         expect(screen.getByText('You haven’t added any payment methods yet')).toBeInTheDocument();
         expect(screen.getByText('Hit the button below to add payment methods.')).toBeInTheDocument();
-        expect(screen.getByText('Add payment methods')).toBeInTheDocument();
+        expect(screen.getByText('Add a payment method')).toBeInTheDocument();
         expect(screen.getByTestId('dt_mobile_wrapper_button')).toBeInTheDocument();
     });
     it('should call setQueryString when isMobile is true', async () => {
