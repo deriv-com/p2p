@@ -93,9 +93,7 @@ const Verification = () => {
             isDisabled: isPoiPending,
             onClick: () => {
                 if (!isPoiVerified)
-                    redirectToVerification(
-                        `${URLConstants.derivAppProduction}/account/proof-of-identity?platform=p2p-v2`
-                    );
+                    redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-identity`);
             },
             status: getStatus(poiStatus),
             testId: 'dt_verification_poi_arrow_button',
@@ -107,9 +105,7 @@ const Verification = () => {
                       isDisabled: isPoaPending,
                       onClick: () => {
                           if (allowPoaRedirection)
-                              redirectToVerification(
-                                  `${URLConstants.derivAppProduction}/account/proof-of-address?platform=p2p-v2`
-                              );
+                              redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-address`);
                       },
                       status: getStatus(poaStatus),
                       testId: 'dt_verification_poa_arrow_button',
