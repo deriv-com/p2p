@@ -80,7 +80,7 @@ const Verification = () => {
             ? [
                   {
                       onClick: () => {
-                          window.location.href = `${URLConstants.derivAppProduction}/account/personal-details`;
+                          window.location.href = `${URLConstants.derivAppProduction}/account/personal-details?platform=p2p-v2`;
                       },
                       phoneNumber: isPhoneNumberVerified ? phoneNumber : undefined,
                       status: isPhoneNumberVerified ? 'done' : 'action',
