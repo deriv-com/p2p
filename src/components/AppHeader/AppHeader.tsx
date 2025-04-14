@@ -9,7 +9,7 @@ import { useAuthData } from '@deriv-com/api-hooks';
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { useTranslations } from '@deriv-com/translations';
 import { Button, Header, Text, Tooltip, useDevice, Wrapper } from '@deriv-com/ui';
-import { LocalStorageUtils } from '@deriv-com/utils';
+import { LocalStorageUtils, URLConstants } from '@deriv-com/utils';
 import { AccountsInfoLoader } from './AccountsInfoLoader';
 import { AccountSwitcher } from './AccountSwitcher';
 import { AppLogo } from './AppLogo';
@@ -27,22 +27,27 @@ const AppHeader = () => {
     const { instance, localize } = useTranslations();
     const oauthUrl = getOauthUrl();
     const currentLang = LocalStorageUtils.getValue<string>('i18n_language');
+    const origin = window.location.origin;
+    const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
+    const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
+    const isOAuth2Enabled = isProduction || isStaging;
 
     useEffect(() => {
         document.documentElement.dir = instance.dir((currentLang || 'en').toLowerCase());
     }, [currentLang, instance]);
-    const { isOAuth2Enabled, oAuthLogout } = useOAuth();
+    const { oAuthLogout } = useOAuth();
     const [isNotificationServiceEnabled] = useGrowthbookGetFeatureValue({
         featureFlag: 'new_notifications_service_enabled',
     });
-    const { isCheckingOidcTokens } = useIsLoadingOidcStore(
+    const { isCheckingOidcTokens, setIsCheckingOidcTokens } = useIsLoadingOidcStore(
         useShallow(state => ({
             isCheckingOidcTokens: state.isCheckingOidcTokens,
+            setIsCheckingOidcTokens: state.setIsCheckingOidcTokens,
         }))
     );
 
     const renderAccountSection = () => {
-        if ((!isEndpointPage && !activeAccount) || isCheckingOidcTokens) {
+        if ((!isEndpointPage && !activeAccount) || (!isEndpointPage && isCheckingOidcTokens)) {
             return <AccountsInfoLoader isLoggedIn isMobile={!isDesktop} speed={3} />;
         }
 
@@ -66,6 +71,7 @@ const AppHeader = () => {
                         <Button
                             className='mr-6'
                             onClick={() => {
+                                setIsCheckingOidcTokens(true);
                                 Chat.clear();
                                 oAuthLogout();
                                 localStorage.removeItem(`p2p_${activeAccount?.loginid}_is_awareness_banner_hidden`);

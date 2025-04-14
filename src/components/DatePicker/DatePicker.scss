@@ -23,6 +23,17 @@
             right: 0;
         }
 
+        &--left {
+            .react-calendar {
+                &__tile {
+                    &--now,
+                    &:disabled {
+                        background-color: unset !important;
+                    }
+                }
+            }
+        }
+
         top: 4rem;
 
         @include mobile-or-tablet-screen {
@@ -110,11 +121,29 @@
                     min-width: 2.4rem;
                     padding: 0.6rem;
                     border-radius: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
             }
 
             &__tile {
                 font-size: 1.2rem;
+
+                &--active {
+                    font-weight: bold;
+                }
+
+                &--now {
+                    border: 1px solid #d6dadb;
+                    font-weight: bold;
+                    border-radius: 4px;
+                    background-color: unset;
+
+                    &:hover {
+                        background-color: #d6dadb;
+                    }
+                }
 
                 &--active,
                 &--hasActive {
@@ -128,11 +157,6 @@
                     }
                 }
 
-                &--active {
-                    font-weight: bold;
-                }
-
-                &--now,
                 &:disabled {
                     background-color: unset;
                 }

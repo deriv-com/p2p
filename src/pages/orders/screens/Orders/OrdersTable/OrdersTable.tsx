@@ -36,6 +36,7 @@ const getColumns = (isActive: boolean, localize: TLocalize) => {
         { header: localize('Status') },
         { header: localize('Send') },
         { header: localize('Receive') },
+        { header: localize('Rating') },
     ];
 
     return isActive ? columnsActive : columnsPast;
