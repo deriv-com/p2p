@@ -33,6 +33,15 @@ const mockProps = {
     triggerValidationFunction: jest.fn(),
 };
 
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        settings: {
+            useSettings: jest.fn(() => ({ maximum_advert_amount: 1000 })),
+        },
+    },
+}));
+
 describe('AdFormInput', () => {
     it('should render the form input component', () => {
         render(<AdFormInput {...mockProps} />);
