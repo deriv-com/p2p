@@ -31,7 +31,7 @@
         "@vitejs/plugin-react": "^4.2.1",
         "babel-jest": "^29.7.0",
         "clsx": "^2.1.0",
-        "downshift": "^9.0.8",
+        "downshift": "^9.0.9",
         "embla-carousel": "^8.1.8",
         "embla-carousel-react": "^8.1.8",
         "history": "^4.10.1",
