@@ -17,11 +17,12 @@
         }
 
         &--prefix {
+            margin-inline-end: 2rem;
+
             @include mobile-or-tablet-screen {
                 margin-bottom: 0.8rem;
                 margin-top: 0.8rem;
             }
-            margin-inline-end: 2rem;
         }
     }
 
@@ -32,7 +33,7 @@
         align-items: flex-start;
         padding: 0 0.6rem;
         background-color: #377cfc14;
-        border-radius: 0px 4px 4px 0px;
+        border-radius: 0 4px 4px 0;
         align-self: stretch;
         gap: 0.2rem;
         flex: none;
@@ -43,13 +44,14 @@
             flex-direction: row;
             align-items: center;
             gap: 1rem;
-            border-radius: 0px 0px 4px 4px;
+            border-radius: 0 0 4px 4px;
         }
     }
 
     &__hint {
         padding-inline-start: 4rem;
         margin-top: 0.3rem;
+
         @include mobile-or-tablet-screen {
             padding-inline-start: 1rem;
         }
@@ -57,6 +59,7 @@
 
     &__error-message {
         padding-inline-start: 4rem;
+
         @include mobile-or-tablet-screen {
             padding-inline-start: 1rem;
         }
