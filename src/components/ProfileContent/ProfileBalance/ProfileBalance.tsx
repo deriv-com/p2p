@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { DeepPartial, TAdvertiserStats } from 'types';
-import { AvailableP2PBalanceModal } from '@/components/Modals';
+import { AvailableP2PBalanceModal, RemainingBuySellLimitModal } from '@/components/Modals';
 import { api } from '@/hooks';
 import { LabelPairedCircleInfoMdRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
@@ -14,6 +14,8 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
     const { isDesktop, isMobile } = useDevice();
     const { localize } = useTranslations();
     const [shouldShowAvailableBalanceModal, setShouldShowAvailableBalanceModal] = useState(false);
+    const [shouldShowRemainingBuySellLimitModal, setShouldShowRemainingBuySellLimitModal] = useState(false);
+
 
     const currency = activeAccount?.currency || 'USD';
     const dailyLimits = useMemo(
@@ -47,6 +49,10 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                 isModalOpen={shouldShowAvailableBalanceModal}
                 onRequestClose={() => setShouldShowAvailableBalanceModal(false)}
             />
+            <RemainingBuySellLimitModal
+                isModalOpen={shouldShowRemainingBuySellLimitModal}
+                onRequestClose={() => setShouldShowRemainingBuySellLimitModal(false)}
+            />
             <div className='profile-balance'>
                 <div className='profile-balance__amount' data-testid='dt_available_balance_amount'>
                     <div>
@@ -70,7 +76,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                                 <Text size={labelSize}>{type}</Text>
                                 <div className='profile-balance__item-limits'>
                                     <div data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_limit`}>
-                                        <Text color='less-prominent' size={labelSize}>
+                                        <Text as="div" className="py-[0.2rem]" color='less-prominent' size={labelSize}>
                                             <Localize i18n_default_text='Daily limit' />
                                         </Text>
                                         <Text
@@ -83,9 +89,16 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                                         </Text>
                                     </div>
                                     <div data-testid={`dt_profile_balance_available_${type.toLowerCase()}_limit`}>
-                                        <Text color='less-prominent' size={labelSize}>
-                                            <Localize i18n_default_text='Available' />
-                                        </Text>
+                                        <div className='flex items-center gap-[0.4rem]'>
+                                            <Text color='less-prominent' size={labelSize}>
+                                                <Localize i18n_default_text='Remaining limit' />
+                                            </Text>
+                                            <LabelPairedCircleInfoMdRegularIcon
+                                                className='cursor-pointer fill-gray-400'
+                                                data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_limit_icon`}
+                                                onClick={() => setShouldShowRemainingBuySellLimitModal(true)}
+                                            />
+                                        </div>
                                         <Text
                                             className='profile-balance__label'
                                             data-testid={`dt_profile_balance_available_${type.toLowerCase()}_value`}

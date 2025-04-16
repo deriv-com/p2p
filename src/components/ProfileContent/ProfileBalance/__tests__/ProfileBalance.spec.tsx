@@ -104,4 +104,17 @@ describe('ProfileBalance', () => {
         const dailyAvailableSellLimit = screen.getByTestId('dt_profile_balance_available_sell_limit');
         expect(within(dailyAvailableSellLimit).getByText('0.00 USD')).toBeInTheDocument();
     });
+
+    it('should render the buy/sell remaining limit info', async () => {
+        render(<ProfileBalance {...mockAdvertiserStatsProp} />);
+
+        const remainingLimitInfoIcon = screen.getByTestId('dt_profile_balance_daily_buy_limit_icon');
+        await userEvent.click(remainingLimitInfoIcon);
+        expect(screen.getByTestId('dt_remaining_buy_sell_limit_modal')).toBeInTheDocument();
+        const okButton = screen.getByRole('button', {
+            name: 'OK',
+        });
+        await userEvent.click(okButton);
+        expect(screen.queryByTestId('dt_remaining_buy_sell_limit_modal')).not.toBeInTheDocument();
+    });
 });

@@ -66,13 +66,17 @@
                 gap: 0.8rem;
             }
 
-            & div {
+            >div {
                 border-left: 1px solid #f2f3f7;
                 padding: 0 3rem;
 
                 &:first-child {
                     border-left: none;
                     padding-left: 0;
+                }
+
+                &:last-child {
+                    padding-right: 0;
                 }
 
                 @include mobile-or-tablet-screen {
