@@ -57,7 +57,7 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
                             components={[
                                 <a
                                     className='guide__content-section--link'
-                                    href={`${URLConstants.derivAppProduction}/account/proof-of-identity`}
+                                    href={`${URLConstants.derivAppProduction}/account/proof-of-identity?platform=p2p-v2`}
                                     key={0}
                                 />,
                             ]}
