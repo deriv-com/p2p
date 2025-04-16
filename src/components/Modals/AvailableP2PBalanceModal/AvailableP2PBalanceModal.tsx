@@ -26,22 +26,19 @@ const AvailableP2PBalanceModal = ({ isModalOpen, onRequestClose }: TAvailableP2P
             </Modal.Header>
             <Modal.Body>
                 <Text as='p' className='available-balance-modal__text' size='sm'>
-                    <Localize i18n_default_text='Your Deriv P2P balance is made up of:' />
+                    <Localize i18n_default_text='Your Deriv P2P balance only includes:' />
                 </Text>
                 <ol className='available-balance-modal__list'>
                     <Text as='li' size='sm'>
-                        <Localize i18n_default_text='Funds you received from buying USD on Deriv P2P.' />
+                        <Localize i18n_default_text='Funds received from buying and selling USD through Deriv P2P' />
                     </Text>
                     <Text as='li' size='sm'>
-                        <Localize i18n_default_text='Profits from your trades, which you can sell to other Deriv P2P users.' />
+                        <Localize i18n_default_text='Profits from your trades, which you can sell to other Deriv P2P users' />
                     </Text>
                     <Text as='li' size='sm'>
-                        <Localize i18n_default_text='Deposits you made through non-reversible payment methods.' />
+                        <Localize i18n_default_text='Deposits via payment methods that are acceptable on Deriv P2P' />
                     </Text>
                 </ol>
-                <Text as='p' className='available-balance-modal__note' size='sm'>
-                    <Localize i18n_default_text='Note: Funds deposited using reversible payment methods, like credit cards, Maestro, Diners Club, ZingPay, Skrill, Neteller, Ozow, and UPI QR, will not appear in your P2P balance.' />
-                </Text>
             </Modal.Body>
             <Modal.Footer className='p-0 min-h-fit' hideBorder>
                 <Button onClick={onRequestClose} size='lg' textSize='sm'>
