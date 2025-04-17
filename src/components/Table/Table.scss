@@ -1,4 +1,6 @@
 .table {
+    scrollbar-width: thin; /* For Firefox */
+
     &__content {
         overflow-y: auto;
         display: flex;
@@ -16,7 +18,6 @@
         }
     }
 
-    scrollbar-width: thin; /* For Firefox */
     &::-webkit-scrollbar {
         scrollbar-width: thin;
         width: 5px;

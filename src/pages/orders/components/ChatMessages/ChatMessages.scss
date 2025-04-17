@@ -1,5 +1,5 @@
 .chat-messages {
-    background-color: #ffffff;
+    background-color: #fff;
     margin-top: auto;
     margin-right: 0.8rem;
     display: flex;
@@ -39,13 +39,13 @@
                 height: auto;
 
                 &:hover {
-                    border: 1px solid #999999;
+                    border: 1px solid #999;
                 }
             }
         }
 
         &__pdf {
-            background-color: #ffffff;
+            background-color: #fff;
             border-radius: 0.8rem;
             padding: 1rem 0.8rem 1rem 1rem;
             display: flex;
@@ -54,7 +54,7 @@
             margin-bottom: 0.4rem;
 
             a {
-                color: #999999;
+                color: #999;
                 text-decoration: none;
             }
         }
@@ -85,7 +85,7 @@
 
         &__admin {
             align-items: center;
-            background: transparentize(#ffad3a, 0.84);
+            background: color.adjust(#ffad3a, $alpha: -0.84);
             border: 1px solid #ffad3a;
             padding: 0.8rem 0;
             border-radius: 0.8rem;
