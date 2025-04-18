@@ -59,7 +59,7 @@ const AppHeader = () => {
                         <Tooltip
                             as='a'
                             className='pr-3 border-r-[0.1rem] h-[3.2rem]'
-                            href='https://app.deriv.com/account/personal-details?platform=p2p-v2'
+                            href='https://staging-app.deriv.com/account/personal-details?platform=p2p-v2'
                             tooltipContent={localize('Manage account settings')}
                             tooltipPosition='bottom'
                         >
