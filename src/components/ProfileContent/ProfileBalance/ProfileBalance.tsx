@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { AvailableP2PBalanceModal, RemainingBuySellLimitModal } from '@/components/Modals';
-import { api } from '@/hooks';
+import { api, useModalManager } from '@/hooks';
 import { LabelPairedCircleInfoMdRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
@@ -13,9 +13,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
     const { data: activeAccount } = api.account.useActiveAccount();
     const { isDesktop, isMobile } = useDevice();
     const { localize } = useTranslations();
-    const [shouldShowAvailableBalanceModal, setShouldShowAvailableBalanceModal] = useState(false);
-    const [shouldShowRemainingBuySellLimitModal, setShouldShowRemainingBuySellLimitModal] = useState(false);
-
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
 
     const currency = activeAccount?.currency || 'USD';
     const dailyLimits = useMemo(
@@ -45,14 +43,6 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
 
     return (
         <>
-            <AvailableP2PBalanceModal
-                isModalOpen={shouldShowAvailableBalanceModal}
-                onRequestClose={() => setShouldShowAvailableBalanceModal(false)}
-            />
-            <RemainingBuySellLimitModal
-                isModalOpen={shouldShowRemainingBuySellLimitModal}
-                onRequestClose={() => setShouldShowRemainingBuySellLimitModal(false)}
-            />
             <div className='profile-balance'>
                 <div className='profile-balance__amount' data-testid='dt_available_balance_amount'>
                     <div>
@@ -62,7 +52,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                         <LabelPairedCircleInfoMdRegularIcon
                             className='cursor-pointer fill-gray-400'
                             data-testid='dt_available_balance_icon'
-                            onClick={() => setShouldShowAvailableBalanceModal(true)}
+                            onClick={() => showModal('AvailableP2PBalanceModal')}
                         />
                     </div>
                     <Text data-testid='dt_available_balance_amount_value' size={isMobile ? '2xl' : 'xl'} weight='bold'>
@@ -77,7 +67,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                         <LabelPairedCircleInfoMdRegularIcon
                             className='cursor-pointer fill-gray-400'
                             data-testid='dt_profile_balance_daily_limit_icon'
-                            onClick={() => setShouldShowRemainingBuySellLimitModal(true)}
+                            onClick={() => showModal('RemainingBuySellLimitModal')}
                         />
                     </div>
                     <div className='profile-balance__items'>
@@ -111,6 +101,12 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                     )}
                 </div>
             </div>
+            {isModalOpenFor('AvailableP2PBalanceModal') && (
+                <AvailableP2PBalanceModal isModalOpen onRequestClose={hideModal} />
+            )}
+            {isModalOpenFor('RemainingBuySellLimitModal') && (
+                <RemainingBuySellLimitModal isModalOpen onRequestClose={hideModal} />
+            )}
         </>
     );
 };
