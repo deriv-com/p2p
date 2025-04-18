@@ -22,6 +22,12 @@ const mockUseActiveAccount = {
     isLoading: false,
 };
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn(),
+    showModal: jest.fn(),
+};
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn().mockReturnValue({ isDesktop: true }),
@@ -34,6 +40,7 @@ jest.mock('@/hooks', () => ({
             useActiveAccount: jest.fn(() => mockUseActiveAccount),
         },
     },
+    useModalManager: jest.fn(() => mockModalManager),
 }));
 
 jest.mock('../../ProfileDailyLimit/ProfileDailyLimit', () => jest.fn(() => <div>ProfileDailyLimit</div>));
@@ -46,12 +53,7 @@ describe('ProfileBalance', () => {
 
         const balanceInfoIcon = screen.getByTestId('dt_available_balance_icon');
         await userEvent.click(balanceInfoIcon);
-        expect(screen.getByTestId('dt_available_p2p_balance_modal')).toBeInTheDocument();
-        const okButton = screen.getByRole('button', {
-            name: 'OK',
-        });
-        await userEvent.click(okButton);
-        expect(screen.queryByTestId('dt_available_p2p_balance_modal')).not.toBeInTheDocument();
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('AvailableP2PBalanceModal');
     });
 
     it('should render the correct limits', () => {
@@ -65,15 +67,15 @@ describe('ProfileBalance', () => {
             },
         };
         render(<ProfileBalance {...mockAdvertiserStatsProp} />);
-        const dailyBuyLimitNode = screen.getByTestId('dt_profile_balance_daily_buy_limit');
-        expect(within(dailyBuyLimitNode).getByText('500 USD')).toBeInTheDocument();
-        const availableBuyLimitNode = screen.getByTestId('dt_profile_balance_available_buy_limit');
-        expect(within(availableBuyLimitNode).getByText('100.00 USD')).toBeInTheDocument();
+        const dailyBuyLimitNode = screen.getByTestId('dt_profile_balance_daily_buy_value');
+        expect(within(dailyBuyLimitNode).getByText(/500/)).toBeInTheDocument();
+        const availableBuyLimitNode = screen.getByTestId('dt_profile_balance_available_buy_value');
+        expect(within(availableBuyLimitNode).getByText(/100/)).toBeInTheDocument();
 
-        const dailySellLimitNode = screen.getByTestId('dt_profile_balance_daily_sell_limit');
-        expect(within(dailySellLimitNode).getByText('2000 USD')).toBeInTheDocument();
-        const dailyAvailableSellLimit = screen.getByTestId('dt_profile_balance_available_sell_limit');
-        expect(within(dailyAvailableSellLimit).getByText('600.00 USD')).toBeInTheDocument();
+        const dailySellLimitNode = screen.getByTestId('dt_profile_balance_daily_sell_value');
+        expect(within(dailySellLimitNode).getByText(/2000/)).toBeInTheDocument();
+        const dailyAvailableSellLimit = screen.getByTestId('dt_profile_balance_available_sell_value');
+        expect(within(dailyAvailableSellLimit).getByText(/600/)).toBeInTheDocument();
     });
     it('should render ProfileDailyLimit', () => {
         mockAdvertiserStatsProp = {
@@ -94,14 +96,23 @@ describe('ProfileBalance', () => {
         render(<ProfileBalance {...mockAdvertiserStatsProp} />);
         const availableBalanceNode = screen.getByTestId('dt_available_balance_amount');
         expect(within(availableBalanceNode).getByText('0.00 USD')).toBeInTheDocument();
-        const dailyBuyLimitNode = screen.getByTestId('dt_profile_balance_daily_buy_limit');
-        expect(within(dailyBuyLimitNode).getByText('0.00 USD')).toBeInTheDocument();
-        const availableBuyLimitNode = screen.getByTestId('dt_profile_balance_available_buy_limit');
-        expect(within(availableBuyLimitNode).getByText('0.00 USD')).toBeInTheDocument();
+        const dailyBuyLimitNode = screen.getByTestId('dt_profile_balance_daily_buy_value');
+        expect(within(dailyBuyLimitNode).getByText(/0.00/)).toBeInTheDocument();
+        const availableBuyLimitNode = screen.getByTestId('dt_profile_balance_available_buy_value');
+        expect(within(availableBuyLimitNode).getByText(/0.00/)).toBeInTheDocument();
 
-        const dailySellLimitNode = screen.getByTestId('dt_profile_balance_daily_sell_limit');
-        expect(within(dailySellLimitNode).getByText('0.00 USD')).toBeInTheDocument();
-        const dailyAvailableSellLimit = screen.getByTestId('dt_profile_balance_available_sell_limit');
-        expect(within(dailyAvailableSellLimit).getByText('0.00 USD')).toBeInTheDocument();
+        const dailySellLimitNode = screen.getByTestId('dt_profile_balance_daily_sell_value');
+        expect(within(dailySellLimitNode).getByText(/0.00/)).toBeInTheDocument();
+        const dailyAvailableSellLimit = screen.getByTestId('dt_profile_balance_available_sell_value');
+        expect(within(dailyAvailableSellLimit).getByText(/0.00/)).toBeInTheDocument();
+    });
+
+    it('should render the buy/sell remaining limit info', async () => {
+        render(<ProfileBalance {...mockAdvertiserStatsProp} />);
+
+        const remainingLimitInfoIcon = screen.getByTestId('dt_profile_balance_daily_limit_icon');
+        await userEvent.click(remainingLimitInfoIcon);
+
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('RemainingBuySellLimitModal');
     });
 });
