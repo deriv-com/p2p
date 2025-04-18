@@ -22,6 +22,12 @@ const mockUseActiveAccount = {
     isLoading: false,
 };
 
+const mockModalManager = {
+    hideModal: jest.fn(),
+    isModalOpenFor: jest.fn(),
+    showModal: jest.fn(),
+};
+
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: jest.fn().mockReturnValue({ isDesktop: true }),
@@ -34,6 +40,7 @@ jest.mock('@/hooks', () => ({
             useActiveAccount: jest.fn(() => mockUseActiveAccount),
         },
     },
+    useModalManager: jest.fn(() => mockModalManager),
 }));
 
 jest.mock('../../ProfileDailyLimit/ProfileDailyLimit', () => jest.fn(() => <div>ProfileDailyLimit</div>));
@@ -46,12 +53,7 @@ describe('ProfileBalance', () => {
 
         const balanceInfoIcon = screen.getByTestId('dt_available_balance_icon');
         await userEvent.click(balanceInfoIcon);
-        expect(screen.getByTestId('dt_available_p2p_balance_modal')).toBeInTheDocument();
-        const okButton = screen.getByRole('button', {
-            name: 'OK',
-        });
-        await userEvent.click(okButton);
-        expect(screen.queryByTestId('dt_available_p2p_balance_modal')).not.toBeInTheDocument();
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('AvailableP2PBalanceModal');
     });
 
     it('should render the correct limits', () => {
@@ -110,11 +112,7 @@ describe('ProfileBalance', () => {
 
         const remainingLimitInfoIcon = screen.getByTestId('dt_profile_balance_daily_limit_icon');
         await userEvent.click(remainingLimitInfoIcon);
-        expect(screen.getByTestId('dt_remaining_buy_sell_limit_modal')).toBeInTheDocument();
-        const okButton = screen.getByRole('button', {
-            name: 'OK',
-        });
-        await userEvent.click(okButton);
-        expect(screen.queryByTestId('dt_remaining_buy_sell_limit_modal')).not.toBeInTheDocument();
+
+        expect(mockModalManager.showModal).toHaveBeenCalledWith('RemainingBuySellLimitModal');
     });
 });
