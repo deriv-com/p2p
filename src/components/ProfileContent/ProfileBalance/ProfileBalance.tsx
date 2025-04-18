@@ -21,12 +21,12 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
     const dailyLimits = useMemo(
         () => [
             {
-                available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableBuyLimit || 0)} ${currency}`,
+                available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableBuyLimit || 0)}`,
                 dailyLimit: `${advertiserStats?.daily_buy_limit || FormatUtils.formatMoney(0)} ${currency}`,
                 type: localize('Buy'),
             },
             {
-                available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableSellLimit || 0)} ${currency}`,
+                available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableSellLimit || 0)}`,
                 dailyLimit: `${advertiserStats?.daily_sell_limit || FormatUtils.formatMoney(0)} ${currency}`,
                 type: localize('Sell'),
             },
@@ -41,7 +41,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
         ]
     );
 
-    const labelSize = isMobile ? 'md' : 'sm';
+    const labelSize = isMobile ? 'xl' : 'md';
 
     return (
         <>
@@ -69,45 +69,37 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                         {FormatUtils.formatMoney(advertiserStats?.balance_available || 0)} USD
                     </Text>
                 </div>
-                <div className='flex flex-col gap-[1.6rem]'>
+                <div className='profile-balance__container'>
+                    <div className='flex items-center gap-[0.4rem]'>
+                        <Text color='less-prominent' size={isMobile ? 'xs' : 'sm'}>
+                            <Localize i18n_default_text='Daily limit' />
+                        </Text>
+                        <LabelPairedCircleInfoMdRegularIcon
+                            className='cursor-pointer fill-gray-400'
+                            data-testid='dt_profile_balance_daily_limit_icon'
+                            onClick={() => setShouldShowRemainingBuySellLimitModal(true)}
+                        />
+                    </div>
                     <div className='profile-balance__items'>
                         {dailyLimits.map(({ available, dailyLimit, type }) => (
                             <div className='profile-balance__item' key={type}>
-                                <Text size={labelSize}>{type}</Text>
+                                <Text size={isMobile ? 'lg' : 'md'}>{type}</Text>
                                 <div className='profile-balance__item-limits'>
-                                    <div data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_limit`}>
-                                        <Text as="div" className="py-[0.2rem]" color='less-prominent' size={labelSize}>
-                                            <Localize i18n_default_text='Daily limit' />
-                                        </Text>
-                                        <Text
-                                            className='profile-balance__label'
-                                            data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_value`}
-                                            size={labelSize}
-                                            weight='bold'
-                                        >
-                                            {dailyLimit}
-                                        </Text>
-                                    </div>
-                                    <div data-testid={`dt_profile_balance_available_${type.toLowerCase()}_limit`}>
-                                        <div className='flex items-center gap-[0.4rem]'>
-                                            <Text color='less-prominent' size={labelSize}>
-                                                <Localize i18n_default_text='Remaining limit' />
-                                            </Text>
-                                            <LabelPairedCircleInfoMdRegularIcon
-                                                className='cursor-pointer fill-gray-400'
-                                                data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_limit_icon`}
-                                                onClick={() => setShouldShowRemainingBuySellLimitModal(true)}
-                                            />
-                                        </div>
-                                        <Text
-                                            className='profile-balance__label'
-                                            data-testid={`dt_profile_balance_available_${type.toLowerCase()}_value`}
-                                            size={labelSize}
-                                            weight='bold'
-                                        >
-                                            {available}
-                                        </Text>
-                                    </div>
+                                    <Text
+                                        className='profile-balance__label'
+                                        data-testid={`dt_profile_balance_available_${type.toLowerCase()}_value`}
+                                        size={labelSize}
+                                    >
+                                        {available}&nbsp;
+                                    </Text>
+                                    <Text
+                                        className='profile-balance__label'
+                                        data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_value`}
+                                        size={labelSize}
+                                        weight='bold'
+                                    >
+                                        /&nbsp;{dailyLimit}
+                                    </Text>
                                 </div>
                             </div>
                         ))}
