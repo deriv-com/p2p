@@ -63,7 +63,7 @@ const Verification = () => {
 
     const redirectToVerification = (route: string) => {
         const search = window.location.search;
-        let updatedUrl = `${route}?ext_platform_url=/cashier/p2p&platform=p2p-v2`;
+        let updatedUrl = `${route}?platform=p2p-v2&ext_platform_url=/cashier/p2p`;
 
         if (search) {
             const urlParams = new URLSearchParams(search);

@@ -104,7 +104,7 @@ describe('<Verification />', () => {
         fireEvent.click(poiButton);
 
         expect(window.location.href).toBe(
-            'https://staging-app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p&platform=p2p-v2'
+            'https://staging-app.deriv.com/account/proof-of-identity?platform=p2p-v2&ext_platform_url=/cashier/p2p'
         );
     });
 
@@ -122,7 +122,7 @@ describe('<Verification />', () => {
         fireEvent.click(poaButton);
 
         expect(window.location.href).toBe(
-            'https://staging-app.deriv.com/account/proof-of-address?ext_platform_url=/cashier/p2p&platform=p2p-v2'
+            'https://staging-app.deriv.com/account/proof-of-address?platform=p2p-v2&ext_platform_url=/cashier/p2p'
         );
     });
 
@@ -142,7 +142,7 @@ describe('<Verification />', () => {
         fireEvent.click(poiButton);
 
         expect(window.location.href).toBe(
-            'https://staging-app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p&platform=p2p-v2&param1=value1&param2=value2'
+            'https://staging-app.deriv.com/account/proof-of-identity?platform=p2p-v2&ext_platform_url=/cashier/p2p&param1=value1&param2=value2'
         );
     });
 
