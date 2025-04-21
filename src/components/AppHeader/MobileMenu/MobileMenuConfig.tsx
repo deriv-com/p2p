@@ -88,7 +88,7 @@ export const MobileMenuConfig = () => {
             },
             {
                 as: 'a',
-                href: `${URLConstants.derivAppProduction}/account/personal-details?platform=p2p-v2`,
+                href: `${URLConstants.derivAppStaging}/account/personal-details?platform=p2p-v2`,
                 label: localize('Account Settings'),
                 LeftComponent: LegacyProfileSmIcon,
             },

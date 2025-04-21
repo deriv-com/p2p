@@ -21,7 +21,7 @@ const PNVBanner = () => {
                     <Localize
                         components={[
                             <a
-                                href={`${URLConstants.derivAppProduction}/account/personal-details?platform=p2p-v2`}
+                                href={`${URLConstants.derivAppStaging}/account/personal-details?platform=p2p-v2`}
                                 key={0}
                             />,
                         ]}
