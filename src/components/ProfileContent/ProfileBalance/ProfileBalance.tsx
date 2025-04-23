@@ -110,7 +110,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                             </div>
                         ))}
                     </div>
-                    {!advertiserStats?.isEligibleForLimitUpgrade && (
+                    {advertiserStats?.isEligibleForLimitUpgrade && (
                         <div className='w-fit lg:mt-[1.6rem]'>
                             <ProfileDailyLimit />
                         </div>
