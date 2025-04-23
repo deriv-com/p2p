@@ -16,10 +16,6 @@
         display: flex;
         flex-direction: column;
 
-        @include desktop {
-            justify-content: space-between;
-        }
-
         & div {
             display: flex;
             align-items: center;
@@ -34,20 +30,33 @@
     &__container {
         display: flex;
         flex-direction: column;
+        width: 100%;
+
+        .progress-indicator {
+            &__container {
+                background-color: #999;
+                height: 8px;
+            }
+            &__bar {
+                background-color: #101213;
+                height: 8px;
+            }
+        }
 
         @include desktop {
             padding-left: 4rem;
             border-left: 1px solid #f2f3f4;
+            width: 50%;
         }
     }
 
     &__items {
         display: grid;
-        grid-auto-flow: column;
+        grid-auto-flow: row;
+        gap: 1.6rem;
 
         @include mobile-or-tablet-screen {
             grid-auto-flow: row;
-            gap: 0.8rem;
             margin-bottom: 2.4rem;
         }
     }
@@ -63,12 +72,12 @@
         display: flex;
         flex-direction: column;
 
-        @include desktop {
-            &:first-child {
-                margin-right: 2.4rem;
-                padding-right: 2.4rem;
-                border-right: 1px solid #f2f3f7;
-            }
+        &--buy {
+            color: #29823b;
+        }
+
+        &--sell {
+            color: #dc2020;
         }
 
         &-limits {

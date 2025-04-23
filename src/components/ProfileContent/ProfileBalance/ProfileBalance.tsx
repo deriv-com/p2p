@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
+import clsx from 'clsx';
 import { DeepPartial, TAdvertiserStats } from 'types';
 import { AvailableP2PBalanceModal, RemainingBuySellLimitModal } from '@/components/Modals';
+import { ProgressIndicator } from '@/components/ProgressIndicator';
 import { api, useModalManager } from '@/hooks';
 import { LabelPairedCircleInfoMdRegularIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
@@ -19,13 +21,17 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
     const dailyLimits = useMemo(
         () => [
             {
-                available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableBuyLimit || 0)}`,
-                dailyLimit: `${advertiserStats?.daily_buy_limit || FormatUtils.formatMoney(0)} ${currency}`,
+                available: advertiserStats?.dailyAvailableBuyLimit,
+                availableString: `${currency} ${FormatUtils.formatMoney(advertiserStats?.dailyAvailableBuyLimit || 0)}`,
+                dailyLimit: Number(advertiserStats?.daily_buy_limit),
+                dailyLimitString: `${advertiserStats?.daily_buy_limit || FormatUtils.formatMoney(0)}`,
                 type: localize('Buy'),
             },
             {
-                available: `${FormatUtils.formatMoney(advertiserStats?.dailyAvailableSellLimit || 0)}`,
-                dailyLimit: `${advertiserStats?.daily_sell_limit || FormatUtils.formatMoney(0)} ${currency}`,
+                available: advertiserStats?.dailyAvailableSellLimit,
+                availableString: `${currency} ${FormatUtils.formatMoney(advertiserStats?.dailyAvailableSellLimit || 0)}`,
+                dailyLimit: Number(advertiserStats?.daily_sell_limit),
+                dailyLimitString: `${advertiserStats?.daily_sell_limit || FormatUtils.formatMoney(0)}`,
                 type: localize('Sell'),
             },
         ],
@@ -39,7 +45,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
         ]
     );
 
-    const labelSize = isMobile ? 'xl' : 'md';
+    const labelSize = isMobile ? 'md' : 'sm';
 
     return (
         <>
@@ -60,7 +66,7 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                     </Text>
                 </div>
                 <div className='profile-balance__container'>
-                    <div className='flex items-center gap-[0.4rem]'>
+                    <div className='flex items-center gap-[0.4rem] mb-[1rem]'>
                         <Text color='less-prominent' size={isMobile ? 'xs' : 'sm'}>
                             <Localize i18n_default_text='Daily limit' />
                         </Text>
@@ -71,31 +77,41 @@ const ProfileBalance = ({ advertiserStats }: { advertiserStats: DeepPartial<TAdv
                         />
                     </div>
                     <div className='profile-balance__items'>
-                        {dailyLimits.map(({ available, dailyLimit, type }) => (
+                        {dailyLimits.map(({ available, availableString, dailyLimit, dailyLimitString, type }) => (
                             <div className='profile-balance__item' key={type}>
-                                <Text size={isMobile ? 'lg' : 'md'}>{type}</Text>
-                                <div className='profile-balance__item-limits'>
+                                <div className='flex justify-between items-end mb-[0.4rem]'>
                                     <Text
-                                        className='profile-balance__label'
-                                        data-testid={`dt_profile_balance_available_${type.toLowerCase()}_value`}
-                                        size={labelSize}
-                                    >
-                                        {available}&nbsp;
-                                    </Text>
-                                    <Text
-                                        className='profile-balance__label'
-                                        data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_value`}
+                                        className={clsx('profile-balance__item--buy', {
+                                            'profile-balance__item--sell': type === 'Sell',
+                                        })}
                                         size={labelSize}
                                         weight='bold'
                                     >
-                                        /&nbsp;{dailyLimit}
+                                        {type}
                                     </Text>
+                                    <div className='profile-balance__item-limits'>
+                                        <Text
+                                            className='profile-balance__label'
+                                            data-testid={`dt_profile_balance_available_${type.toLowerCase()}_value`}
+                                            size={labelSize}
+                                        >
+                                            {availableString}&nbsp;
+                                        </Text>
+                                        <Text
+                                            className='profile-balance__label'
+                                            data-testid={`dt_profile_balance_daily_${type.toLowerCase()}_value`}
+                                            size={labelSize}
+                                        >
+                                            /&nbsp;{dailyLimitString}
+                                        </Text>
+                                    </div>
                                 </div>
+                                <ProgressIndicator total={dailyLimit || 0} value={available || 0} />
                             </div>
                         ))}
                     </div>
-                    {advertiserStats?.isEligibleForLimitUpgrade && (
-                        <div className='w-fit'>
+                    {!advertiserStats?.isEligibleForLimitUpgrade && (
+                        <div className='w-fit lg:mt-[1.6rem]'>
                             <ProfileDailyLimit />
                         </div>
                     )}
