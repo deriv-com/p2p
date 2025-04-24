@@ -17,6 +17,7 @@ const RemainingBuySellLimitModal = ({ isModalOpen, onRequestClose }: TRemainingB
             onRequestClose={onRequestClose}
             shouldCloseOnOverlayClick={false}
             style={customStyles}
+            testId='dt_remaining_buy_sell_limit_modal'
         >
             <Modal.Header className='px-0 pb-9 h-auto' hideBorder hideCloseIcon>
                 <Text weight='bold'>

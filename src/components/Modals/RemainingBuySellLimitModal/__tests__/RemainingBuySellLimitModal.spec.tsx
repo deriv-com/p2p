@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RemainingBuySellLimitModal from '../RemainingBuySellLimitModal';
 
-
 describe('RemainingBuySellLimitModal', () => {
     it('should render the component', () => {
         render(<RemainingBuySellLimitModal isModalOpen={true} onRequestClose={jest.fn()} />);
