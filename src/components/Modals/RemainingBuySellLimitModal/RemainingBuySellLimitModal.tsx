@@ -12,15 +12,19 @@ const RemainingBuySellLimitModal = ({ isModalOpen, onRequestClose }: TRemainingB
     return (
         <Modal
             ariaHideApp={false}
-            className="remaining-buy-sell-limit-modal"
+            className='remaining-buy-sell-limit-modal'
             isOpen={isModalOpen}
             onRequestClose={onRequestClose}
             shouldCloseOnOverlayClick={false}
             style={customStyles}
-            testId='dt_remaining_buy_sell_limit_modal'
         >
+            <Modal.Header className='px-0 pb-9 h-auto' hideBorder hideCloseIcon>
+                <Text weight='bold'>
+                    <Localize i18n_default_text='Daily limit' />
+                </Text>
+            </Modal.Header>
             <Modal.Body>
-                <Text as='p' className="remaining-buy-sell-limit-modal__text" size='sm'>
+                <Text as='p' className='remaining-buy-sell-limit-modal__text' size='sm'>
                     <Localize i18n_default_text='Amount left to trade today. Limits reset every 24 hours.' />
                 </Text>
             </Modal.Body>
