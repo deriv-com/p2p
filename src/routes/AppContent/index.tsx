@@ -25,6 +25,7 @@ const AppContent = () => {
     const location = useLocation();
     const { isDesktop } = useDevice();
     const {
+        accountListError,
         authError,
         data: activeAccountData,
         isFetched,
@@ -156,9 +157,10 @@ const AppContent = () => {
     }, [location]);
 
     useEffect(() => {
-        if (authError?.code === ERROR_CODES.ACCOUNT_DISABLED) oAuthLogout();
+        if (authError?.code === ERROR_CODES.ACCOUNT_DISABLED || accountListError?.code === 'InvalidToken')
+            oAuthLogout();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authError, oAuthLogout]);
+    }, [authError, accountListError, oAuthLogout]);
 
     useEffect(() => {
         if (!isGtmTracking.current) {

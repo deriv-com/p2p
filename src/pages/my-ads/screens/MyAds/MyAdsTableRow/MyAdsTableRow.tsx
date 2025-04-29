@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { TCurrency, TLocalize } from 'types';
-import { PaymentMethodLabel, PopoverDropdown } from '@/components';
+import { PaymentMethodLabel, PopoverDropdown, ProgressIndicator } from '@/components';
 import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useFloatingRate } from '@/hooks/custom-hooks';
@@ -9,7 +9,7 @@ import { generateEffectiveRate, getPaymentMethodType, shouldShowTooltipIcon } fr
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
-import { AdStatus, AdType, AlertComponent, ProgressIndicator } from '../../../components';
+import { AdStatus, AdType, AlertComponent } from '../../../components';
 import { TMyAdsTableRowRendererProps } from '../MyAdsTable/MyAdsTable';
 import './MyAdsTableRow.scss';
 

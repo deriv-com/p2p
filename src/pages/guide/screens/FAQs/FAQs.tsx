@@ -51,20 +51,31 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
                 title={localize('How to register for Deriv P2P?')}
                 variant='underline'
             >
-                <Text as='div' className='mb-[0.5rem]' lineHeight='xl' size='sm'>
-                    <Localize
-                        components={[
-                            <a
-                                className='guide__content-section--link'
-                                href={`${URLConstants.derivAppProduction}/account/proof-of-identity?platform=p2p-v2`}
-                                key={0}
-                            />,
-                        ]}
-                        i18n_default_text='Age-verify your account by submitting  <0>proof of identity</0>.'
-                    />
-                </Text>
+                <ul>
+                    <Text as='li' lineHeight='xl' size='sm'>
+                        <Localize
+                            components={[
+                                <a
+                                    className='guide__content-section--link'
+                                    href={`${URLConstants.derivAppProduction}/account/proof-of-identity?platform=p2p-v2`}
+                                    key={0}
+                                />,
+                            ]}
+                            i18n_default_text='Verify your age by submitting your <0>proof of identity</0> (for example, passport, driving licence, or ID card).'
+                        />
+                    </Text>
+                    <Text as='li' lineHeight='xl' size='sm'>
+                        <Localize i18n_default_text='Verify your address by submitting your proof of address (for example, utility bill or bank statement).' />
+                    </Text>
+                    <Text as='li' lineHeight='xl' size='sm'>
+                        <Localize i18n_default_text='Verify your phone number.' />
+                    </Text>
+                    <Text as='li' lineHeight='xl' size='sm'>
+                        <Localize i18n_default_text='Set a nickname for your Deriv P2P profile.' />
+                    </Text>
+                </ul>
                 <Text as='div' lineHeight='xl' size='sm'>
-                    <Localize i18n_default_text='Once your submitted document has been approved, go to Cashier > Deriv P2P to register your Deriv P2P account.' />
+                    <Localize i18n_default_text='Once your documents are approved, go to Cashier > Deriv P2P to register your Deriv P2P account.' />
                 </Text>
             </Accordion>
             <Accordion

@@ -31,6 +31,7 @@ export * from './PaymentMethodWithIcon';
 export * from './PNVBanner';
 export * from './PopoverDropdown';
 export * from './ProfileContent';
+export * from './ProgressIndicator';
 export * from './RadioGroup';
 export * from './Search';
 export * from './StarRating';

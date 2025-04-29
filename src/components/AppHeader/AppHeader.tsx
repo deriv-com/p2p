@@ -67,20 +67,22 @@ const AppHeader = () => {
                         </Tooltip>
                     )}
                     <AccountSwitcher account={activeAccount!} />
-                    <Button
-                        className='mr-6'
-                        onClick={() => {
-                            setIsCheckingOidcTokens(true);
-                            Chat.clear();
-                            oAuthLogout();
-                            localStorage.removeItem(`p2p_${activeAccount?.loginid}_is_awareness_banner_hidden`);
-                        }}
-                        size='md'
-                    >
-                        <Text size='sm' weight='bold'>
-                            {localize('Logout')}
-                        </Text>
-                    </Button>
+                    {isEndpointPage && (
+                        <Button
+                            className='mr-6'
+                            onClick={() => {
+                                setIsCheckingOidcTokens(true);
+                                Chat.clear();
+                                oAuthLogout();
+                                localStorage.removeItem(`p2p_${activeAccount?.loginid}_is_awareness_banner_hidden`);
+                            }}
+                            size='md'
+                        >
+                            <Text size='sm' weight='bold'>
+                                {localize('Logout')}
+                            </Text>
+                        </Button>
+                    )}
                 </>
             );
         }
