@@ -20,7 +20,10 @@ const PNVBanner = () => {
                 <Text as='div' className='underline' size='xs' weight='bold'>
                     <Localize
                         components={[
-                            <a href={`${URLConstants.derivAppProduction}/account/personal-details`} key={0} />,
+                            <a
+                                href={`${URLConstants.derivAppProduction}/account/personal-details?platform=p2p-v2`}
+                                key={0}
+                            />,
                         ]}
                         i18n_default_text='<0>Verify now</0>'
                     />

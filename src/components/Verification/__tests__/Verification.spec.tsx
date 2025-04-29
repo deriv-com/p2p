@@ -87,7 +87,7 @@ describe('<Verification />', () => {
 
         fireEvent.click(phoneNumberButton);
 
-        expect(window.location.href).toBe('https://app.deriv.com/account/personal-details');
+        expect(window.location.href).toBe('https://app.deriv.com/account/personal-details?platform=p2p-v2');
     });
 
     it('should redirect user to proof-of-identity route if user clicks on arrow button', () => {
