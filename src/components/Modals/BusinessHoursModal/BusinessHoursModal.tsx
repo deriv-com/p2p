@@ -81,11 +81,9 @@ const BusinessHoursModal = ({ hideModal, isModalOpen }: TBusinessHoursModalProps
                     style={{
                         content: {
                             overflow: 'visible',
-                            zIndex: 'auto',
                         },
                         overlay: {
                             visibility: isModalOpenFor('CancelBusinessHoursModal') ? 'hidden' : 'visible',
-                            zIndex: 'auto',
                         },
                     }}
                 >
