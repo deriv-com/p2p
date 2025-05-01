@@ -33,7 +33,8 @@ const CallbackPage = () => {
 
                 localStorage.setItem('authToken', selectedAuthToken);
 
-                window.location.replace('/');
+                history.replaceState(null, '', '/');
+                window.location.href = '/';
             }}
         />
     );
