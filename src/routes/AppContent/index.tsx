@@ -85,8 +85,7 @@ const AppContent = () => {
     useEffect(() => {
         initLiveChat();
         window.addEventListener('unhandledrejection', () => {
-            const hasAuthToken = localStorage.getItem('authToken');
-            if (!hasAuthToken) showModal('ErrorModal');
+            showModal('ErrorModal');
         });
     }, []);
 
