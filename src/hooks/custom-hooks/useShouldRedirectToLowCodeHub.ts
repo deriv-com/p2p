@@ -2,9 +2,9 @@ import { URLConstants } from '@deriv-com/utils';
 import { api } from '..';
 import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
 
-type TUseShouldRedirectToLowCodeHub = (goToCFDs?: boolean) => string;
+type TUseShouldRedirectToLowCodeHub = (goToCFDs?: boolean, shouldGoToAccounts?: boolean | null) => string;
 
-const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs = false) => {
+const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs = false, shouldGoToAccounts = null) => {
     const origin = window.location.origin;
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
@@ -21,6 +21,14 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
     const shouldRedirectToLowCode = hasWalletAccount && isUserCountryInHubEnabledCountryList;
 
     if (shouldRedirectToLowCode) {
+        if (shouldGoToAccounts) {
+            if (isProduction)
+                return `http://hub.deriv.com/accounts/redirect?action=redirect_to&redirect_to=accounts&account=${activeAccount?.currency || 'USD'}`;
+            if (isStaging)
+                return `http://staging-hub.deriv.com/accounts/redirect?action=redirect_to&redirect_to=accounts&account=${activeAccount?.currency || 'USD'}`;
+            return `https://app.deriv.com/account/personal-details?platform=p2p-v2`;
+        }
+
         if (goToCFDs) {
             if (isProduction)
                 return `http://hub.deriv.com/tradershub/redirect?action=redirect_to&redirect_to=cfds&account=${activeAccount?.currency || 'USD'}`;
@@ -28,6 +36,7 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
                 return `http://staging-hub.deriv.com/tradershub/redirect?action=redirect_to&redirect_to=cfds&account=${activeAccount?.currency || 'USD'}`;
             return `http://staging-hub.deriv.com/tradershub/redirect?action=redirect_to&redirect_to=cfds&account=${activeAccount?.currency || 'USD'}`;
         }
+
         if (isProduction)
             return `http://hub.deriv.com/tradershub/redirect?action=redirect_to&redirect_to=home&account=${activeAccount?.currency || 'USD'}`;
         if (isStaging)
