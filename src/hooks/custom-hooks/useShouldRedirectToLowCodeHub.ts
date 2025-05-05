@@ -37,7 +37,10 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsS
         return `${hubOSStaging}/tradershub/redirect?action=redirect_to&redirect_to=home&account=${activeAccount?.currency || 'USD'}`;
     }
 
-    if (accountsSection) return `${URLConstants.derivAppProduction}/account/${accountsSection}?platform=p2p-v2`;
+    if (accountsSection) {
+        if (isProduction) return `${URLConstants.derivAppProduction}/account/${accountsSection}?platform=p2p-v2`;
+        return `${URLConstants.derivAppStaging}/account/${accountsSection}?platform=p2p-v2`;
+    }
 
     return URLConstants.derivAppProduction;
 };
