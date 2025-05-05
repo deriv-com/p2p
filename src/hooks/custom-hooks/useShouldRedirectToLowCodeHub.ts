@@ -2,9 +2,9 @@ import { URLConstants } from '@deriv-com/utils';
 import { api } from '..';
 import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
 
-type TUseShouldRedirectToLowCodeHub = (goToCFDs?: boolean) => string;
+type TUseShouldRedirectToLowCodeHub = (accountsSection?: string, goToCFDs?: boolean) => string;
 
-const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs = false) => {
+const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsSection = '', goToCFDs = false) => {
     const origin = window.location.origin;
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
@@ -21,6 +21,13 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (goToCFDs 
     const shouldRedirectToLowCode = hasWalletAccount && isUserCountryInHubEnabledCountryList;
 
     if (shouldRedirectToLowCode) {
+        if (accountsSection) {
+            if (isProduction)
+                return `http://hub.deriv.com/accounts/redirect?platform=p2p-v2&action=redirect_to&redirect_to=${accountsSection}&account=${activeAccount?.currency || 'USD'}`;
+            if (isStaging)
+                return `http://staging-hub.deriv.com/accounts/redirect?platform=p2p-v2&action=redirect_to&redirect_to=${accountsSection}&account=${activeAccount?.currency || 'USD'}`;
+            return `${URLConstants.derivAppProduction}/account/${accountsSection}?platform=p2p-v2`;
+        }
         if (goToCFDs) {
             if (isProduction)
                 return `http://hub.deriv.com/tradershub/redirect?action=redirect_to&redirect_to=cfds&account=${activeAccount?.currency || 'USD'}`;

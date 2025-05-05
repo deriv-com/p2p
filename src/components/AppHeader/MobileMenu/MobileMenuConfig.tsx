@@ -1,6 +1,6 @@
 import { ComponentProps, ReactNode } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { ACCOUNT_LIMITS, HELP_CENTRE, RESPONSIBLE } from '@/constants';
+import { HELP_CENTRE, RESPONSIBLE } from '@/constants';
 import { useGrowthbookGetFeatureValue, useOAuth, useShouldRedirectToLowCodeHub } from '@/hooks/custom-hooks';
 import useFreshChat from '@/hooks/custom-hooks/useFreshchat';
 import useIntercom from '@/hooks/custom-hooks/useIntercom';
@@ -88,7 +88,7 @@ export const MobileMenuConfig = () => {
             },
             {
                 as: 'a',
-                href: `${URLConstants.derivAppProduction}/account/personal-details?platform=p2p-v2`,
+                href: useShouldRedirectToLowCodeHub('personal-details'),
                 label: localize('Account Settings'),
                 LeftComponent: LegacyProfileSmIcon,
             },
@@ -116,7 +116,7 @@ export const MobileMenuConfig = () => {
             },
             {
                 as: 'a',
-                href: ACCOUNT_LIMITS,
+                href: useShouldRedirectToLowCodeHub('account-limits'),
                 label: localize('Account limits'),
                 LeftComponent: LegacyAccountLimitsIcon,
             },

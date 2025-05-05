@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { getOauthUrl } from '@/constants';
-import { api, useGrowthbookGetFeatureValue, useOAuth } from '@/hooks';
+import { api, useGrowthbookGetFeatureValue, useOAuth, useShouldRedirectToLowCodeHub } from '@/hooks';
 import { useIsLoadingOidcStore } from '@/stores';
 import { Chat, getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
@@ -31,6 +31,7 @@ const AppHeader = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
+    const redirectLink = useShouldRedirectToLowCodeHub('personal-details');
 
     useEffect(() => {
         document.documentElement.dir = instance.dir((currentLang || 'en').toLowerCase());
@@ -59,7 +60,7 @@ const AppHeader = () => {
                         <Tooltip
                             as='a'
                             className='pr-3 border-r-[0.1rem] h-[3.2rem]'
-                            href='https://app.deriv.com/account/personal-details?platform=p2p-v2'
+                            href={redirectLink}
                             tooltipContent={localize('Manage account settings')}
                             tooltipPosition='bottom'
                         >

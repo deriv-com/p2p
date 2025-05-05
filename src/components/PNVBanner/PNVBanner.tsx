@@ -1,11 +1,12 @@
 import clsx from 'clsx';
+import { useShouldRedirectToLowCodeHub } from '@/hooks/custom-hooks';
 import { Localize } from '@deriv-com/translations';
 import { InlineMessage, Text, useDevice } from '@deriv-com/ui';
-import { URLConstants } from '@deriv-com/utils';
 import './PNVBanner.scss';
 
 const PNVBanner = () => {
     const { isDesktop } = useDevice();
+    const redirectLink = useShouldRedirectToLowCodeHub('personal-details');
 
     return (
         <InlineMessage className='pnv-banner' iconPosition={isDesktop ? 'center' : 'top'} variant='warning'>
@@ -18,15 +19,7 @@ const PNVBanner = () => {
                     <Localize i18n_default_text='Verify your phone number to continue using Deriv P2P.' />
                 </Text>
                 <Text as='div' className='underline' size='xs' weight='bold'>
-                    <Localize
-                        components={[
-                            <a
-                                href={`${URLConstants.derivAppProduction}/account/personal-details?platform=p2p-v2`}
-                                key={0}
-                            />,
-                        ]}
-                        i18n_default_text='<0>Verify now</0>'
-                    />
+                    <Localize components={[<a href={redirectLink} key={0} />]} i18n_default_text='<0>Verify now</0>' />
                 </Text>
             </div>
         </InlineMessage>
