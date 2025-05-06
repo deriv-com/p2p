@@ -24,8 +24,8 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsS
     if (shouldRedirectToLowCode) {
         if (accountsSection) {
             if (isProduction)
-                return `${hubOSProduction}/accounts/redirect?platform=p2p-v2&action=redirect_to&redirect_to=${accountsSection}&account=${activeAccount?.currency || 'USD'}`;
-            return `${hubOSStaging}/accounts/redirect?platform=p2p-v2&action=redirect_to&redirect_to=${accountsSection}&account=${activeAccount?.currency || 'USD'}`;
+                return `${hubOSProduction}/accounts/redirect?action=redirect_to&redirect_to=${accountsSection}&account=${activeAccount?.currency || 'USD'}`;
+            return `${hubOSStaging}/accounts/redirect?action=redirect_to&redirect_to=${accountsSection}&account=${activeAccount?.currency || 'USD'}`;
         }
         if (goToCFDs) {
             if (isProduction)
