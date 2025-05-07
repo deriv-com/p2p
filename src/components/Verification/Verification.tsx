@@ -59,7 +59,7 @@ const Verification = () => {
         poiStatus,
     } = data || {};
     const allowPoaRedirection = !isPoaVerified || isPoaAuthenticatedWithIdv;
-    const personalDetailsRedirectLink = useShouldRedirectToLowCodeHub('personal-details');
+    const phoneNoVerificationRedirectLink = useShouldRedirectToLowCodeHub('phone-number-verification');
     const poiRedirectLink = useShouldRedirectToLowCodeHub('proof-of-identity');
     const poaRedirectLink = useShouldRedirectToLowCodeHub('proof-of-address');
 
@@ -82,7 +82,7 @@ const Verification = () => {
             ? [
                   {
                       onClick: () => {
-                          window.location.href = personalDetailsRedirectLink;
+                          window.location.href = phoneNoVerificationRedirectLink;
                       },
                       phoneNumber: isPhoneNumberVerified ? phoneNumber : undefined,
                       status: isPhoneNumberVerified ? 'done' : 'action',

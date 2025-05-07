@@ -6,7 +6,7 @@ import './PNVBanner.scss';
 
 const PNVBanner = () => {
     const { isDesktop } = useDevice();
-    const redirectLink = useShouldRedirectToLowCodeHub('personal-details');
+    const redirectLink = useShouldRedirectToLowCodeHub('phone-number-verification');
 
     return (
         <InlineMessage className='pnv-banner' iconPosition={isDesktop ? 'center' : 'top'} variant='warning'>

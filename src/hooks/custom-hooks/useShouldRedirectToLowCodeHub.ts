@@ -38,8 +38,14 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsS
     }
 
     if (accountsSection) {
-        if (isProduction) return `${URLConstants.derivAppProduction}/account/${accountsSection}?platform=p2p-v2`;
-        return `${URLConstants.derivAppStaging}/account/${accountsSection}?platform=p2p-v2`;
+        let section = accountsSection;
+
+        if (section === 'phone-number-verification') {
+            section = 'personal-details';
+        }
+
+        if (isProduction) return `${URLConstants.derivAppProduction}/account/${section}?platform=p2p-v2`;
+        return `${URLConstants.derivAppStaging}/account/${section}?platform=p2p-v2`;
     }
 
     return URLConstants.derivAppProduction;
