@@ -1,10 +1,9 @@
 import { TLocalize } from 'types';
 import { Checklist } from '@/components';
-import { useGetPhoneNumberVerification, usePoiPoaStatus } from '@/hooks/custom-hooks';
+import { useGetPhoneNumberVerification, usePoiPoaStatus, useShouldRedirectToLowCodeHub } from '@/hooks/custom-hooks';
 import { DerivLightIcCashierSendEmailIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Loader, Text, useDevice } from '@deriv-com/ui';
-import { URLConstants } from '@deriv-com/utils';
 import './Verification.scss';
 
 const getPoiAction = (status: string | undefined, localize: TLocalize) => {
@@ -60,10 +59,13 @@ const Verification = () => {
         poiStatus,
     } = data || {};
     const allowPoaRedirection = !isPoaVerified || isPoaAuthenticatedWithIdv;
+    const phoneNoVerificationRedirectLink = useShouldRedirectToLowCodeHub('phone-number-verification');
+    const poiRedirectLink = useShouldRedirectToLowCodeHub('proof-of-identity');
+    const poaRedirectLink = useShouldRedirectToLowCodeHub('proof-of-address');
 
     const redirectToVerification = (route: string) => {
         const search = window.location.search;
-        let updatedUrl = `${route}?ext_platform_url=/cashier/p2p&platform=p2p-v2`;
+        let updatedUrl = `${route}&ext_platform_url=/cashier/p2p`;
 
         if (search) {
             const urlParams = new URLSearchParams(search);
@@ -80,7 +82,7 @@ const Verification = () => {
             ? [
                   {
                       onClick: () => {
-                          window.location.href = `${URLConstants.derivAppProduction}/account/personal-details?platform=p2p-v2`;
+                          window.location.href = phoneNoVerificationRedirectLink;
                       },
                       phoneNumber: isPhoneNumberVerified ? phoneNumber : undefined,
                       status: isPhoneNumberVerified ? 'done' : 'action',
@@ -92,8 +94,9 @@ const Verification = () => {
         {
             isDisabled: isPoiPending,
             onClick: () => {
-                if (!isPoiVerified)
-                    redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-identity`);
+                if (!isPoiVerified) {
+                    redirectToVerification(poiRedirectLink);
+                }
             },
             status: getStatus(poiStatus),
             testId: 'dt_verification_poi_arrow_button',
@@ -104,8 +107,9 @@ const Verification = () => {
                   {
                       isDisabled: isPoaPending,
                       onClick: () => {
-                          if (allowPoaRedirection)
-                              redirectToVerification(`${URLConstants.derivAppProduction}/account/proof-of-address`);
+                          if (allowPoaRedirection) {
+                              redirectToVerification(poaRedirectLink);
+                          }
                       },
                       status: getStatus(poaStatus),
                       testId: 'dt_verification_poa_arrow_button',
