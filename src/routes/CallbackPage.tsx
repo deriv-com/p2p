@@ -25,13 +25,25 @@ const CallbackPage = () => {
     return (
         <Callback
             onSignInSuccess={tokens => {
-                const groupedTokens = groupTokens(tokens);
-                localStorage.setItem('clientAccounts', JSON.stringify(groupedTokens));
+                const isTMBEnabled = localStorage.getItem('is_tmb_enabled');
+                if (isTMBEnabled) {
+                    const activeTokens = JSON.parse(localStorage.getItem('clientAccounts') || '[]');
+                    const selectedAuthToken = activeTokens?.find(
+                        (item: { cur: string; loginid: string; token: string }) =>
+                            item.cur === 'USD' && item.loginid?.includes('CR')
+                    )?.token;
 
-                const selectedAuthToken =
-                    groupedTokens.find(item => item.cur === 'USD' && item.acct?.includes('CR'))?.token || tokens.token1;
+                    localStorage.setItem('authToken', selectedAuthToken);
+                } else {
+                    const groupedTokens = groupTokens(tokens);
+                    localStorage.setItem('clientAccounts', JSON.stringify(groupedTokens));
 
-                localStorage.setItem('authToken', selectedAuthToken);
+                    const selectedAuthToken =
+                        groupedTokens.find(item => item.cur === 'USD' && item.acct?.includes('CR'))?.token ||
+                        tokens.token1;
+
+                    localStorage.setItem('authToken', selectedAuthToken);
+                }
 
                 window.location.href = '/';
             }}

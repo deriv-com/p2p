@@ -86,11 +86,12 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
 
     const onRenderTMBCheck = useCallback(async () => {
         const activeSessions = await getActiveSessions();
+        localStorage.setItem('clientAccounts', JSON.stringify(activeSessions?.tokens));
 
         if (!isEndpointPage && !isCallbackPage) {
             // NOTE: we only do single logout using logged_state cookie checks only in Safari
             // because front channels do not work in Safari, front channels (front-channel.html) would already help us automatically log out
-            const shouldSingleLogoutWithLoggedState = activeSessions?.active;
+            const shouldSingleLogoutWithLoggedState = !activeSessions?.active;
             if ((shouldSingleLogoutWithLoggedState && isOAuth2Enabled) || error?.code === 'InvalidToken') {
                 try {
                     await handleLogout();
