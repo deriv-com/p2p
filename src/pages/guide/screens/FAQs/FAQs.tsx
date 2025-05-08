@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useShouldRedirectToLowCodeHub } from '@/hooks';
 import { Chat } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Accordion, Text, useDevice } from '@deriv-com/ui';
@@ -13,6 +14,7 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
     const { isDesktop } = useDevice();
     const { localize } = useTranslations();
     const accordionRefs = useRef<HTMLDivElement[]>([]);
+    const redirectLink = useShouldRedirectToLowCodeHub('proof-of-identity');
 
     const handleScrollToAccordion = (index: number) => {
         const offsetByValue = isDesktop ? 0 : 100;
@@ -54,13 +56,7 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
                 <ul>
                     <Text as='li' lineHeight='xl' size='sm'>
                         <Localize
-                            components={[
-                                <a
-                                    className='guide__content-section--link'
-                                    href={`${URLConstants.derivAppProduction}/account/proof-of-identity?platform=p2p-v2`}
-                                    key={0}
-                                />,
-                            ]}
+                            components={[<a className='guide__content-section--link' href={redirectLink} key={0} />]}
                             i18n_default_text='Verify your age by submitting your <0>proof of identity</0> (for example, passport, driving licence, or ID card).'
                         />
                     </Text>
