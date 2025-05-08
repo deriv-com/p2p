@@ -31,6 +31,7 @@ const AppHeader = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
+    const isTMBEnabled = localStorage.getItem('is_tmb_enabled');
 
     useEffect(() => {
         document.documentElement.dir = instance.dir((currentLang || 'en').toLowerCase());
@@ -93,9 +94,15 @@ const AppHeader = () => {
                 color='primary-light'
                 onClick={async () => {
                     if (isOAuth2Enabled) {
-                        await requestOidcAuthentication({
-                            redirectCallbackUri: `${window.location.origin}/callback`,
-                        });
+                        if (isTMBEnabled) {
+                            await requestOidcAuthentication({
+                                redirectCallbackUri: window.location.origin,
+                            });
+                        } else {
+                            await requestOidcAuthentication({
+                                redirectCallbackUri: `${window.location.origin}/callback`,
+                            });
+                        }
                     } else {
                         window.open(oauthUrl, '_self');
                     }

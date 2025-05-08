@@ -23,8 +23,7 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
 
-    const { logout } = useAuthData();
-    const { error, isAuthorized, isAuthorizing } = useAuthData();
+    const { error, isAuthorized, isAuthorizing, logout } = useAuthData();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
     const isCallbackPage = getCurrentRoute() === 'callback';
     const isRedirectPage = getCurrentRoute() === 'redirect';
@@ -46,7 +45,7 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
         try {
             await OAuth2Logout({
                 postLogoutRedirectUri: window.location.origin,
-                redirectCallbackUri: `${window.location.origin}/callback`,
+                redirectCallbackUri: window.location.origin,
                 WSLogoutAndRedirect,
             });
         } catch (error) {
@@ -60,7 +59,7 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
         if (isOAuth2Enabled) {
             try {
                 await requestOidcAuthentication({
-                    redirectCallbackUri: `${window.location.origin}/callback`,
+                    redirectCallbackUri: window.location.origin,
                 });
             } catch (error) {
                 // eslint-disable-next-line no-console
