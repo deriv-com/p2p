@@ -3,12 +3,12 @@ import Cookies from 'js-cookie';
 import { getOauthUrl } from '@/constants';
 import { getCurrentRoute, removeCookies } from '@/utils';
 import { useAuthData } from '@deriv-com/api-hooks';
-import { OAuth2Logout, requestOidcAuthentication, requestSessionActive } from '@deriv-com/auth-client';
+import { requestSessionActive } from '@deriv-com/auth-client';
 import { URLConstants } from '@deriv-com/utils';
 
 type UseTMBReturn = {
+    handleLogout: () => void;
     isOAuth2Enabled: boolean;
-    oAuthLogout: () => void;
     onRenderTMBCheck: () => void;
 };
 
@@ -41,34 +41,8 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
         redirectToAuth();
     };
 
-    const handleLogout = async () => {
-        try {
-            await OAuth2Logout({
-                postLogoutRedirectUri: window.location.origin,
-                redirectCallbackUri: window.location.origin,
-                WSLogoutAndRedirect,
-            });
-        } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error('Failed to handle logout', error);
-            showErrorModal?.();
-        }
-    };
-
     const redirectToAuth = async () => {
-        if (isOAuth2Enabled) {
-            try {
-                await requestOidcAuthentication({
-                    redirectCallbackUri: window.location.origin,
-                });
-            } catch (error) {
-                // eslint-disable-next-line no-console
-                console.error('Failed to redirect to auth', error);
-                showErrorModal?.();
-            }
-        } else {
-            window.open(oauthUrl, '_self');
-        }
+        window.open(oauthUrl, '_self');
     };
 
     const getActiveSessions = async () => {
@@ -85,15 +59,54 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
 
     const onRenderTMBCheck = useCallback(async () => {
         const activeSessions = await getActiveSessions();
-        localStorage.setItem('clientAccounts', JSON.stringify(activeSessions?.tokens));
 
-        if (!isEndpointPage && !isCallbackPage) {
+        if (activeSessions?.active) {
+            localStorage.setItem('clientAccounts', JSON.stringify(activeSessions?.tokens));
+            // Set find and set token to USD options account
+            let selectedAuthToken = activeSessions?.tokens?.find(
+                item => item.cur.toLocaleUpperCase() === 'USD' && !item.loginid.toLocaleUpperCase().includes('W')
+            )?.token;
+
+            /**
+             *  If there is no USD account,
+             *  fallback to the first options account regardless of the order of tokens from the API
+             * */
+            if (!selectedAuthToken) {
+                selectedAuthToken = activeSessions?.tokens?.find(item =>
+                    item.loginid.toLocaleUpperCase().includes('CR')
+                )?.token;
+            }
+
+            /**
+             *  If there is no real account available,
+             *  fallback to the virtual options account
+             * */
+            if (!selectedAuthToken) {
+                selectedAuthToken = activeSessions?.tokens?.find(item =>
+                    item.loginid.toLocaleUpperCase().includes('VRTC')
+                )?.token;
+            }
+
+            selectedAuthToken && localStorage.setItem('authToken', selectedAuthToken);
+            const domains = ['deriv.com', 'deriv.dev', 'binary.sx', 'pages.dev', 'localhost', 'deriv.be', 'deriv.me'];
+            const currentDomain = window.location.hostname.split('.').slice(-2).join('.');
+            if (domains.includes(currentDomain)) {
+                Cookies.set('logged_state', 'true', {
+                    domain: currentDomain,
+                    expires: 30,
+                    path: '/',
+                    secure: true,
+                });
+            }
+        }
+
+        if (!isEndpointPage) {
             // NOTE: we only do single logout using logged_state cookie checks only in Safari
             // because front channels do not work in Safari, front channels (front-channel.html) would already help us automatically log out
             const shouldSingleLogoutWithLoggedState = !activeSessions?.active;
             if ((shouldSingleLogoutWithLoggedState && isOAuth2Enabled) || error?.code === 'InvalidToken') {
                 try {
-                    await handleLogout();
+                    await WSLogoutAndRedirect();
                 } catch (error) {
                     // eslint-disable-next-line no-console
                     console.error('Failed to handle logout', error);
@@ -126,7 +139,7 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
         authTokenLocalStorage,
     ]);
 
-    return { isOAuth2Enabled, oAuthLogout: handleLogout, onRenderTMBCheck };
+    return { handleLogout: WSLogoutAndRedirect, isOAuth2Enabled, onRenderTMBCheck };
 };
 
 export default useTMB;
