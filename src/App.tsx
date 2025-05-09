@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { AppFooter, AppHeader, DerivIframe, ErrorBoundary } from '@/components';
-import { useDatadog, useDerivAnalytics, useOAuth, useTrackjs } from '@/hooks';
+import { useDatadog, useDerivAnalytics, useOAuth, useTMB, useTrackjs } from '@/hooks';
 import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
@@ -17,6 +17,7 @@ const i18nInstance = initializeI18n({
 
 const App = () => {
     const { onRenderAuthCheck } = useOAuth();
+    const { onRenderTMBCheck } = useTMB();
     const { init: initTrackJS } = useTrackjs();
     const { initialise: initDatadog } = useDatadog();
     const { isDesktop } = useDevice();
@@ -26,14 +27,19 @@ const App = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
+    const isTMBEnabled = localStorage.getItem('is_tmb_enabled');
 
     initTrackJS();
     initDerivAnalytics();
     initDatadog();
 
     useEffect(() => {
-        onRenderAuthCheck();
-    }, [onRenderAuthCheck]);
+        if (isTMBEnabled) {
+            onRenderTMBCheck();
+        } else {
+            onRenderAuthCheck();
+        }
+    }, [onRenderAuthCheck, onRenderTMBCheck, isTMBEnabled]);
 
     return (
         <BrowserRouter>
