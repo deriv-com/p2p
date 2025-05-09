@@ -1,6 +1,7 @@
 .date-text-field {
     &__input {
         width: 100%;
+
         @include desktop {
             width: 14.8rem;
             cursor: pointer;
@@ -17,22 +18,25 @@
         }
 
         &__field {
+            display: flex;
+            align-items: center;
+
             @include desktop {
                 height: 3.2rem;
             }
-            display: flex;
-            align-items: center;
 
             input {
                 outline: none;
             }
 
             label {
+                color: #333;
+                visibility: visible;
+
                 @include desktop {
                     padding-left: 2.5rem;
                 }
-                color: #333;
-                visibility: visible;
+
                 &:not(:placeholder-shown) {
                     visibility: visible;
                 }
