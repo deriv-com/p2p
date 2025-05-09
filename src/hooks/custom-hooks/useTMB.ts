@@ -70,7 +70,7 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
     const onRenderTMBCheck = useCallback(async () => {
         const activeSessions = await getActiveSessions();
 
-        if (!activeSessions?.active) {
+        if (!activeSessions?.active && !isEndpointPage) {
             return WSLogoutAndRedirect();
         }
 
