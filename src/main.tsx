@@ -6,7 +6,7 @@ import App from './App';
 import './main.scss';
 
 const urlParams = new URLSearchParams(location.search);
-const currency = urlParams.get('currency') || 'USD';
+const currency = urlParams.get('account') || 'USD';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
