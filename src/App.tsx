@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
@@ -27,19 +27,23 @@ const App = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
-    const isTMBEnabled = localStorage.getItem('is_tmb_enabled');
 
     initTrackJS();
     initDerivAnalytics();
     initDatadog();
 
+    const mountRef = useRef(false);
+
     useEffect(() => {
+        const isTMBEnabled = JSON.parse(localStorage.getItem('is_tmb_enabled') ?? 'false');
         if (isTMBEnabled) {
+            if (mountRef.current) return;
             onRenderTMBCheck();
         } else {
             onRenderAuthCheck();
         }
-    }, [onRenderAuthCheck, onRenderTMBCheck, isTMBEnabled]);
+        mountRef.current = true;
+    }, [onRenderAuthCheck, onRenderTMBCheck]);
 
     return (
         <BrowserRouter>

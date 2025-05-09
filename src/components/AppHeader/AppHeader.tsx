@@ -94,16 +94,10 @@ const AppHeader = () => {
                 className='w-36'
                 color='primary-light'
                 onClick={async () => {
-                    if (isOAuth2Enabled) {
-                        if (isTMBEnabled) {
-                            await requestOidcAuthentication({
-                                redirectCallbackUri: window.location.origin,
-                            });
-                        } else {
-                            await requestOidcAuthentication({
-                                redirectCallbackUri: `${window.location.origin}/callback`,
-                            });
-                        }
+                    if (isOAuth2Enabled && !isTMBEnabled) {
+                        await requestOidcAuthentication({
+                            redirectCallbackUri: `${window.location.origin}/callback`,
+                        });
                     } else {
                         window.open(oauthUrl, '_self');
                     }
