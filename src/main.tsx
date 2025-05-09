@@ -7,6 +7,7 @@ import './main.scss';
 
 const urlParams = new URLSearchParams(location.search);
 const currency = urlParams.get('account') || 'USD';
+localStorage.setItem('accountCurrency', currency);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>

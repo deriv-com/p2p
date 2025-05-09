@@ -25,10 +25,9 @@ const CallbackPage = () => {
     return (
         <Callback
             onSignInSuccess={tokens => {
+                const currency = localStorage.getItem('accountCurrency');
                 const groupedTokens = groupTokens(tokens);
                 localStorage.setItem('clientAccounts', JSON.stringify(groupedTokens));
-                const urlParams = new URLSearchParams(location.search);
-                const currency = urlParams.get('account') || 'USD';
 
                 const selectedAuthToken =
                     groupedTokens.find(item => item.cur === currency && item.acct?.includes('CR'))?.token ||
