@@ -29,15 +29,25 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
     const isRedirectPage = getCurrentRoute() === 'redirect';
     const oauthUrl = getOauthUrl();
     const authTokenLocalStorage = localStorage.getItem('authToken');
+    const domains = ['deriv.com', 'deriv.dev', 'binary.sx', 'pages.dev', 'localhost', 'deriv.be', 'deriv.me'];
+    const currentDomain = window.location.hostname.split('.').slice(-2).join('.');
 
     const WSLogoutAndRedirect = async () => {
         try {
-            await logout();
+            if (authTokenLocalStorage) await logout();
         } catch (error) {
             // eslint-disable-next-line no-console
             console.error('Failed to logout', error);
         }
         removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
+        if (domains.includes(currentDomain)) {
+            Cookies.set('logged_state', 'false', {
+                domain: currentDomain,
+                expires: 30,
+                path: '/',
+                secure: true,
+            });
+        }
         redirectToAuth();
     };
 
@@ -60,12 +70,20 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
     const onRenderTMBCheck = useCallback(async () => {
         const activeSessions = await getActiveSessions();
 
+        if (!activeSessions?.active) {
+            return WSLogoutAndRedirect();
+        }
+
         if (activeSessions?.active) {
             localStorage.setItem('clientAccounts', JSON.stringify(activeSessions?.tokens));
+
             // Set find and set token to USD options account
-            let selectedAuthToken = activeSessions?.tokens?.find(
-                item => item.cur.toLocaleUpperCase() === 'USD' && !item.loginid.toLocaleUpperCase().includes('W')
-            )?.token;
+            // only need CR options account
+            let selectedAuthToken = activeSessions?.tokens
+                ?.filter(acc => !acc.loginid.includes('VR') || !acc.loginid.includes('W'))
+                .find(
+                    item => item.cur.toLocaleUpperCase() === 'USD' && item.loginid.toLocaleUpperCase().includes('CR')
+                )?.token;
 
             /**
              *  If there is no USD account,
@@ -88,8 +106,10 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
             }
 
             selectedAuthToken && localStorage.setItem('authToken', selectedAuthToken);
-            const domains = ['deriv.com', 'deriv.dev', 'binary.sx', 'pages.dev', 'localhost', 'deriv.be', 'deriv.me'];
-            const currentDomain = window.location.hostname.split('.').slice(-2).join('.');
+
+            // TODO:
+            // For backward compatibility, we need to set logged_state cookie to tell other apps about authentication state
+            // Can be removed when all the apps are using TMB
             if (domains.includes(currentDomain)) {
                 Cookies.set('logged_state', 'true', {
                     domain: currentDomain,
@@ -101,18 +121,7 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
         }
 
         if (!isEndpointPage) {
-            // NOTE: we only do single logout using logged_state cookie checks only in Safari
-            // because front channels do not work in Safari, front channels (front-channel.html) would already help us automatically log out
-            const shouldSingleLogoutWithLoggedState = !activeSessions?.active;
-            if ((shouldSingleLogoutWithLoggedState && isOAuth2Enabled) || error?.code === 'InvalidToken') {
-                try {
-                    await WSLogoutAndRedirect();
-                } catch (error) {
-                    // eslint-disable-next-line no-console
-                    console.error('Failed to handle logout', error);
-                    showErrorModal?.();
-                }
-            } else if (isRedirectPage) {
+            if (isRedirectPage) {
                 const params = new URLSearchParams(location.search);
                 const from = params.get('from');
                 const authTokenCookie = Cookies.get('authtoken');
@@ -123,8 +132,6 @@ const useTMB = (options: { showErrorModal?: () => void } = {}): UseTMBReturn => 
                     Cookies.remove('authtoken');
                     window.location.href = window.location.origin;
                 }
-            } else if (!isAuthorized && !isAuthorizing && !authTokenLocalStorage) {
-                await redirectToAuth();
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -35,10 +35,9 @@ const App = () => {
     const mountRef = useRef(false);
 
     useEffect(() => {
-        if (mountRef.current) return;
-
-        const isTMBEnabled = localStorage.getItem('is_tmb_enabled');
+        const isTMBEnabled = JSON.parse(localStorage.getItem('is_tmb_enabled') ?? 'false');
         if (isTMBEnabled) {
+            if (mountRef.current) return;
             onRenderTMBCheck();
         } else {
             onRenderAuthCheck();
