@@ -5,10 +5,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
 import './main.scss';
 
+const urlParams = new URLSearchParams(location.search);
+const currency = urlParams.get('currency') || 'USD';
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <QueryClientProvider client={new QueryClient()}>
-            <AppDataProvider accountType='CR' currency='USD'>
+            <AppDataProvider accountType='CR' currency={currency}>
                 <App />
             </AppDataProvider>
         </QueryClientProvider>
