@@ -6,13 +6,13 @@ import App from './App';
 import './main.scss';
 
 const urlParams = new URLSearchParams(location.search);
-const currency = urlParams.get('account') || 'USD';
-localStorage.setItem('accountCurrency', currency);
+const currency = urlParams.get('account');
+if (currency) localStorage.setItem('accountCurrency', currency);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <QueryClientProvider client={new QueryClient()}>
-            <AppDataProvider accountType='CR' currency={currency}>
+            <AppDataProvider accountType='CR' currency={localStorage.getItem('accountCurrency') ?? 'USD'}>
                 <App />
             </AppDataProvider>
         </QueryClientProvider>
