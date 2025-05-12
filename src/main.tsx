@@ -5,14 +5,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
 import './main.scss';
 
-const urlParams = new URLSearchParams(location.search);
-const currency = urlParams.get('account');
-if (currency) localStorage.setItem('accountCurrency', currency);
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <QueryClientProvider client={new QueryClient()}>
-            <AppDataProvider accountType='CR' currency={localStorage.getItem('accountCurrency') ?? 'USD'}>
+            <AppDataProvider accountType='CR' currency='USD'>
                 <App />
             </AppDataProvider>
         </QueryClientProvider>
