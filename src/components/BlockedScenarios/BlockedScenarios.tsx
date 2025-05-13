@@ -7,7 +7,6 @@ import {
 } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
-import { URLConstants } from '@deriv-com/utils';
 
 type TBlockedScenariosObject = {
     [key: string]: {
@@ -27,7 +26,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
 
     // TODO: change redirection when account switcher is implemented
     const openDerivApp = () => {
-        window.open(URLConstants.derivAppProduction, '_blank')?.focus();
+        window.open(redirectLink);
     };
 
     const openLiveChat = () => {
@@ -73,13 +72,13 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         },
         nonUSD: {
             actionButton: (
-                <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
-                    <Localize i18n_default_text='Create real USD account' />
+                <Button onClick={openLiveChat} size='lg' textSize={buttonTextSize}>
+                    <Localize i18n_default_text='Live chat' />
                 </Button>
             ),
             description: (
                 <Text align='center'>
-                    <Localize i18n_default_text='Please create a Real USD account to access the Deriv P2P marketplace.' />
+                    <Localize i18n_default_text='Please use live chat to contact our Customer Support team for help.' />
                 </Text>
             ),
             icon: <P2pUnavailable height={iconSize} width={iconSize} />,

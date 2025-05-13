@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { ACCOUNT_TYPES, CURRENCIES } from '@/constants';
 import { Callback } from '@deriv-com/auth-client';
 
 type TTokens = {
@@ -29,7 +30,12 @@ const CallbackPage = () => {
                 localStorage.setItem('clientAccounts', JSON.stringify(groupedTokens));
 
                 const selectedAuthToken =
-                    groupedTokens.find(item => item.cur === 'USD' && item.acct?.includes('CR'))?.token || tokens.token1;
+                    groupedTokens.find(
+                        item =>
+                            item.cur &&
+                            CURRENCIES.includes(item.cur) &&
+                            ACCOUNT_TYPES.some(accountType => item.acct?.includes(accountType))
+                    )?.token || tokens.token1;
 
                 localStorage.setItem('authToken', selectedAuthToken);
 
