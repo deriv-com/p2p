@@ -1,9 +1,9 @@
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { AppFooter, AppHeader, DerivIframe, ErrorBoundary } from '@/components';
-import { useDatadog, useDerivAnalytics, useIsP2PBlocked, useOAuth, useTMB, useTrackjs } from '@/hooks';
+import { useDatadog, useDerivAnalytics, useIsP2PBlocked, useOAuth, useTrackjs } from '@/hooks';
 import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
@@ -17,7 +17,6 @@ const i18nInstance = initializeI18n({
 
 const App = () => {
     const { onRenderAuthCheck } = useOAuth();
-    const { onRenderTMBCheck } = useTMB();
     const { init: initTrackJS } = useTrackjs();
     const { initialise: initDatadog } = useDatadog();
     const { isDesktop } = useDevice();
@@ -33,18 +32,12 @@ const App = () => {
     initDerivAnalytics();
     initDatadog();
 
-    const mountRef = useRef(false);
-
     useEffect(() => {
         const isTMBEnabled = JSON.parse(localStorage.getItem('is_tmb_enabled') ?? 'false');
-        if (isTMBEnabled) {
-            if (mountRef.current) return;
-            onRenderTMBCheck();
-        } else {
-            onRenderAuthCheck();
-        }
-        mountRef.current = true;
-    }, [onRenderAuthCheck, onRenderTMBCheck]);
+        if (isTMBEnabled) return;
+
+        onRenderAuthCheck();
+    }, [onRenderAuthCheck]);
 
     return (
         <BrowserRouter>
