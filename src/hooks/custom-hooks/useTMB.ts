@@ -1,13 +1,11 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import Cookies from 'js-cookie';
 import { getOauthUrl } from '@/constants';
 import { getCurrentRoute, removeCookies } from '@/utils';
 import { requestSessionActive } from '@deriv-com/auth-client';
-import { URLConstants } from '@deriv-com/utils';
 
 type UseTMBReturn = {
     handleLogout: VoidFunction;
-    isOAuth2Enabled: boolean;
     onRenderTMBCheck: VoidFunction;
 };
 
@@ -17,20 +15,17 @@ type UseTMBReturn = {
  */
 const useTMB = (options: { showErrorModal?: VoidFunction } = {}): UseTMBReturn => {
     const { showErrorModal } = options;
-    const origin = window.location.origin;
-    const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
-    const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
-    const isOAuth2Enabled = isProduction || isStaging;
 
     const isEndpointPage = getCurrentRoute() === 'endpoint';
-    const isCallbackPage = getCurrentRoute() === 'callback';
     const isRedirectPage = getCurrentRoute() === 'redirect';
     const oauthUrl = getOauthUrl();
-    const authTokenLocalStorage = localStorage.getItem('authToken');
-    const domains = ['deriv.com', 'deriv.dev', 'binary.sx', 'pages.dev', 'localhost', 'deriv.be', 'deriv.me'];
+    const domains = useMemo(
+        () => ['deriv.com', 'deriv.dev', 'binary.sx', 'pages.dev', 'localhost', 'deriv.be', 'deriv.me'],
+        []
+    );
     const currentDomain = window.location.hostname.split('.').slice(-2).join('.');
 
-    const WSLogoutAndRedirect = async () => {
+    const RedirectToOAuth = useCallback(async () => {
         removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
         if (domains.includes(currentDomain)) {
             Cookies.set('logged_state', 'false', {
@@ -40,14 +35,10 @@ const useTMB = (options: { showErrorModal?: VoidFunction } = {}): UseTMBReturn =
                 secure: true,
             });
         }
-        redirectToAuth();
-    };
-
-    const redirectToAuth = async () => {
         window.open(oauthUrl, '_self');
-    };
+    }, [currentDomain, domains, oauthUrl]);
 
-    const getActiveSessions = async () => {
+    const getActiveSessions = useCallback(async () => {
         try {
             const data = await requestSessionActive();
 
@@ -57,13 +48,13 @@ const useTMB = (options: { showErrorModal?: VoidFunction } = {}): UseTMBReturn =
             console.error('Failed to get active sessions', error);
             showErrorModal?.();
         }
-    };
+    }, [showErrorModal]);
 
     const onRenderTMBCheck = useCallback(async () => {
         const activeSessions = await getActiveSessions();
 
         if (!activeSessions?.active && !isEndpointPage) {
-            return WSLogoutAndRedirect();
+            return RedirectToOAuth();
         }
 
         if (activeSessions?.active) {
@@ -112,24 +103,21 @@ const useTMB = (options: { showErrorModal?: VoidFunction } = {}): UseTMBReturn =
             }
         }
 
-        if (!isEndpointPage) {
-            if (isRedirectPage) {
-                const params = new URLSearchParams(location.search);
-                const from = params.get('from');
-                const authTokenCookie = Cookies.get('authtoken');
+        if (isRedirectPage) {
+            const params = new URLSearchParams(location.search);
+            const from = params.get('from');
+            const authTokenCookie = Cookies.get('authtoken');
 
-                if (from === 'tradershub' && authTokenCookie) {
-                    const cleanedAuthToken = decodeURIComponent(authTokenCookie).replace(/^"|"$/g, '');
-                    localStorage.setItem('authToken', cleanedAuthToken);
-                    Cookies.remove('authtoken');
-                    window.location.href = window.location.origin;
-                }
+            if (from === 'tradershub' && authTokenCookie) {
+                const cleanedAuthToken = decodeURIComponent(authTokenCookie).replace(/^"|"$/g, '');
+                localStorage.setItem('authToken', cleanedAuthToken);
+                Cookies.remove('authtoken');
+                window.location.href = window.location.origin;
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isEndpointPage, isCallbackPage, isOAuth2Enabled, isRedirectPage, authTokenLocalStorage]);
+    }, [getActiveSessions, isEndpointPage, RedirectToOAuth, domains, currentDomain, isRedirectPage]);
 
-    return { handleLogout: WSLogoutAndRedirect, isOAuth2Enabled, onRenderTMBCheck };
+    return { handleLogout: RedirectToOAuth, onRenderTMBCheck };
 };
 
 export default useTMB;
