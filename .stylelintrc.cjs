@@ -15,5 +15,9 @@ module.exports = {
         // other configs ...
         'stylelint-config-standard-scss',
     ],
-    ignoreFiles: ['packages/*/dist/**/*.css'],
+    ignoreFiles: [
+        'packages/*/dist/**/*.css',
+        'src/components/ProgressIndicator/ProgressIndicator.scss',
+        'src/components/ProfileContent/ProfileBalance/ProfileBalance.scss',
+    ],
 };

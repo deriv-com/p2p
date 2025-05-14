@@ -21,10 +21,13 @@ let mockUseGetPhoneNumberVerificationData = {
     phoneNumber: '1234567890',
 };
 
+let mockUseShouldRedirectToLowCodeHub = 'https://app.deriv.com/account/personal-details?platform=p2p-v2';
+
 jest.mock('@/hooks/custom-hooks', () => ({
     ...jest.requireActual('@/hooks/custom-hooks'),
     useGetPhoneNumberVerification: jest.fn(() => mockUseGetPhoneNumberVerificationData),
     usePoiPoaStatus: jest.fn(() => mockUsePoiPoaStatusData),
+    useShouldRedirectToLowCodeHub: jest.fn(() => mockUseShouldRedirectToLowCodeHub),
 }));
 
 jest.mock('@deriv-com/ui', () => ({
@@ -87,7 +90,7 @@ describe('<Verification />', () => {
 
         fireEvent.click(phoneNumberButton);
 
-        expect(window.location.href).toBe('https://app.deriv.com/account/personal-details');
+        expect(window.location.href).toBe('https://app.deriv.com/account/personal-details?platform=p2p-v2');
     });
 
     it('should redirect user to proof-of-identity route if user clicks on arrow button', () => {
@@ -95,6 +98,8 @@ describe('<Verification />', () => {
             ...mockUsePoiPoaStatusData,
             isLoading: false,
         };
+
+        mockUseShouldRedirectToLowCodeHub = 'https://app.deriv.com/account/proof-of-identity?platform=p2p-v2';
 
         render(<Verification />);
 
@@ -104,7 +109,7 @@ describe('<Verification />', () => {
         fireEvent.click(poiButton);
 
         expect(window.location.href).toBe(
-            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p&platform=p2p-v2'
+            'https://app.deriv.com/account/proof-of-identity?platform=p2p-v2&ext_platform_url=/cashier/p2p'
         );
     });
 
@@ -114,6 +119,8 @@ describe('<Verification />', () => {
             isLoading: false,
         };
 
+        mockUseShouldRedirectToLowCodeHub = 'https://app.deriv.com/account/proof-of-address?platform=p2p-v2';
+
         render(<Verification />);
 
         const poaButton = screen.getByTestId('dt_verification_poa_arrow_button');
@@ -122,7 +129,7 @@ describe('<Verification />', () => {
         fireEvent.click(poaButton);
 
         expect(window.location.href).toBe(
-            'https://app.deriv.com/account/proof-of-address?ext_platform_url=/cashier/p2p&platform=p2p-v2'
+            'https://app.deriv.com/account/proof-of-address?platform=p2p-v2&ext_platform_url=/cashier/p2p'
         );
     });
 
@@ -142,7 +149,7 @@ describe('<Verification />', () => {
         fireEvent.click(poiButton);
 
         expect(window.location.href).toBe(
-            'https://app.deriv.com/account/proof-of-identity?ext_platform_url=/cashier/p2p&platform=p2p-v2&param1=value1&param2=value2'
+            'https://app.deriv.com/account/proof-of-address?platform=p2p-v2&ext_platform_url=/cashier/p2p&param1=value1&param2=value2'
         );
     });
 

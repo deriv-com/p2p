@@ -1,11 +1,15 @@
 .profile-balance {
-    display: grid;
-    grid-template-columns: 1.5fr 3fr;
-    grid-gap: 2.4rem;
+    display: flex;
+    justify-content: space-between;
+
+    @include desktop {
+        margin-left: 8rem;
+        gap: 2.4rem;
+    }
 
     @include mobile-or-tablet-screen {
-        grid-template-columns: 1fr;
-        grid-auto-flow: row;
+        flex-direction: column;
+        gap: 1.6rem;
     }
 
     &__amount {
@@ -23,12 +27,37 @@
         display: block;
     }
 
+    &__container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .progress-indicator {
+            &__container {
+                background-color: #999;
+                height: 8px;
+            }
+            &__bar {
+                background-color: #101213;
+                height: 8px;
+            }
+        }
+
+        @include desktop {
+            padding-left: 4rem;
+            border-left: 1px solid #f2f3f4;
+            width: 50%;
+        }
+    }
+
     &__items {
         display: grid;
-        grid-auto-flow: column;
+        grid-auto-flow: row;
+        gap: 1.6rem;
 
         @include mobile-or-tablet-screen {
-            grid-template-columns: 1fr 1fr;
+            grid-auto-flow: row;
+            margin-bottom: 2.4rem;
         }
     }
 
@@ -42,44 +71,17 @@
     &__item {
         display: flex;
         flex-direction: column;
-        gap: 1.6rem;
 
-        @include mobile-or-tablet-screen {
-            gap: 1rem;
+        &--buy {
+            color: #29823b;
+        }
 
-            &:last-child {
-                border-right: none;
-                padding: 0 1.6rem;
-            }
+        &--sell {
+            color: #dc2020;
         }
 
         &-limits {
-            @include desktop {
-                display: flex;
-                margin-bottom: 2.8rem;
-            }
-
-            @include mobile-or-tablet-screen {
-                display: grid;
-                grid-template-columns: 1fr;
-                grid-template-rows: 1fr 1fr;
-                gap: 0.8rem;
-            }
-
-            & div {
-                border-left: 1px solid #f2f3f7;
-                padding: 0 3rem;
-
-                &:first-child {
-                    border-left: none;
-                    padding-left: 0;
-                }
-
-                @include mobile-or-tablet-screen {
-                    border-left: none;
-                    padding: 0;
-                }
-            }
+            display: flex;
         }
     }
 }

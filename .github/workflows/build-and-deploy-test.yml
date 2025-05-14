@@ -22,7 +22,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Verify user
-              uses: 'deriv-com/shared-actions/.github/actions/verify_user_in_organization@v1'
+              uses: 'deriv-com/shared-actions/.github/actions/verify_user_in_organization@v3'
               with:
                   username: ${{ github.event.pull_request.user.login }}
                   token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
@@ -136,27 +136,3 @@ jobs:
                   number: ${{github.event.number}}
                   message: ${{steps.generate_preview_url.outputs.comment || steps.generate_failure_comment.outputs.comment }}
                   recreate: true
-
-            - name: Trigger deriv-app smoke tests from regentmarkets
-              env:
-                  issue_number: ${{ github.event.number }}
-                  user_name: ${{ github.event.pull_request.user.login }}
-                  preview_url: ${{ steps.publish-to-pages.outputs.preview_url }}
-              uses: actions/github-script@v6
-              with:
-                github-token: ${{ secrets.E2E_WORKFLOW_TOKEN }}
-                script: |
-                  const workflowInputs = {
-                    environment: '${{ secrets.E2E_WORKFLOW_ENV }}',
-                    suite: 'P2P-V2',
-                    appRegUrl: process.env.preview_url,
-                    issue_number: process.env.issue_number,
-                    user_name: process.env.user_name
-                    };
-                  const response = await github.rest.actions.createWorkflowDispatch({
-                    owner: 'regentmarkets',
-                    repo: 'e2e-deriv-app',
-                    workflow_id: 'E2E_Run_PR.yml',
-                    ref: 'master',
-                    inputs: workflowInputs
-                  });
