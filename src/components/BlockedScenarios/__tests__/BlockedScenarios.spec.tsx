@@ -35,23 +35,21 @@ describe('BlockedScenarios', () => {
         expect(screen.getByText('You are using a demo account')).toBeInTheDocument();
         const button = screen.getByRole('button', { name: 'Switch to real USD account' });
         await userEvent.click(button);
-        expect(window.open).toHaveBeenCalledWith('https://app.deriv.com', '_blank');
+        expect(window.open).toHaveBeenCalledWith('https://app.deriv.com');
     });
 
     it('should render the correct message for non-USD account', async () => {
         render(<BlockedScenarios type='nonUSD' />);
         expect(screen.getByText('You have no Real USD account')).toBeInTheDocument();
-        const button = screen.getByRole('button', { name: 'Create real USD account' });
-        await userEvent.click(button);
-        expect(window.open).toHaveBeenCalledWith('https://app.deriv.com', '_blank');
+        expect(screen.getByRole('button', { name: 'Live chat' })).toBeInTheDocument();
     });
 
     it('should render the correct message for crypto account', async () => {
         render(<BlockedScenarios type='crypto' />);
         expect(screen.getByText('Cryptocurrencies not supported')).toBeInTheDocument();
-        const button = screen.getByRole('button', { name: 'Switch to real USD account' });
+        const button = screen.getByRole('button', { name: 'Create real USD account' });
         await userEvent.click(button);
-        expect(window.open).toHaveBeenCalledWith('https://app.deriv.com', '_blank');
+        expect(window.open).toHaveBeenCalledWith('https://app.deriv.com');
     });
 
     it('should show the correct message for p2p is blocked for user', () => {

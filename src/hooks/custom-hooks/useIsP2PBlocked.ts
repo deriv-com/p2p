@@ -28,9 +28,10 @@ const useIsP2PBlocked = () => {
     );
 
     const isP2PBlocked = Boolean(accountBlockStatus || blockedType);
+    const isP2PCurrencyBlocked = Boolean(blockedType);
     const status = blockedType ?? accountBlockStatus;
 
-    return { isP2PBlocked, status: status || 'p2pBlocked' };
+    return { isP2PBlocked, isP2PCurrencyBlocked, status: status || 'p2pBlocked' };
 };
 
 export default useIsP2PBlocked;

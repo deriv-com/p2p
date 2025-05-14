@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { ACCOUNT_TYPES, CURRENCIES } from '@/constants';
 import { AppDataProvider } from '@deriv-com/api-hooks';
 import { Loader } from '@deriv-com/ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -7,8 +8,6 @@ import App from './App';
 import { useTMB } from './hooks';
 import './main.scss';
 
-const urlParams = new URLSearchParams(location.search);
-const currency = urlParams.get('currency') || 'USD';
 const isTMBEnabled = JSON.parse(localStorage.getItem('is_tmb_enabled') ?? 'false');
 
 const CustomAppDataProvider = memo(() => {
@@ -40,7 +39,7 @@ const CustomAppDataProvider = memo(() => {
     }
 
     return (
-        <AppDataProvider accountType='CR' currency={currency}>
+        <AppDataProvider accountTypes={ACCOUNT_TYPES} currencies={CURRENCIES}>
             <App />
         </AppDataProvider>
     );
@@ -53,7 +52,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <QueryClientProvider client={new QueryClient()}>
             {isTMBEnabled && <CustomAppDataProvider />}
             {!isTMBEnabled && (
-                <AppDataProvider accountType='CR' currency={currency}>
+                <AppDataProvider accountTypes={ACCOUNT_TYPES} currencies={CURRENCIES}>
                     <App />
                 </AppDataProvider>
             )}
