@@ -25,7 +25,7 @@ const useTMB = (options: { showErrorModal?: VoidFunction } = {}): UseTMBReturn =
     );
     const currentDomain = window.location.hostname.split('.').slice(-2).join('.');
 
-    const RedirectToOAuth = useCallback(async () => {
+    const redirectToOAuth = useCallback(async () => {
         removeCookies('affiliate_token', 'affiliate_tracking', 'utm_data', 'onfido_token', 'gclid');
         if (domains.includes(currentDomain)) {
             Cookies.set('logged_state', 'false', {
@@ -54,7 +54,7 @@ const useTMB = (options: { showErrorModal?: VoidFunction } = {}): UseTMBReturn =
         const activeSessions = await getActiveSessions();
 
         if (!activeSessions?.active && !isEndpointPage) {
-            return RedirectToOAuth();
+            return redirectToOAuth();
         }
 
         if (activeSessions?.active) {
@@ -115,9 +115,9 @@ const useTMB = (options: { showErrorModal?: VoidFunction } = {}): UseTMBReturn =
                 window.location.href = window.location.origin;
             }
         }
-    }, [getActiveSessions, isEndpointPage, RedirectToOAuth, domains, currentDomain, isRedirectPage]);
+    }, [getActiveSessions, isEndpointPage, redirectToOAuth, domains, currentDomain, isRedirectPage]);
 
-    return { handleLogout: RedirectToOAuth, onRenderTMBCheck };
+    return { handleLogout: redirectToOAuth, onRenderTMBCheck };
 };
 
 export default useTMB;
