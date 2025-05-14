@@ -21,7 +21,11 @@ const mockUseActiveAccount = api.account.useActiveAccount as jest.Mock;
 describe('useIsP2PBlocked', () => {
     it('should return isP2PBlocked as undefined and status as empty string when accountStatus is not defined', () => {
         const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: false, status: 'p2pBlocked' });
+        expect(result.current).toStrictEqual({
+            isP2PBlocked: false,
+            isP2PCurrencyBlocked: false,
+            status: 'p2pBlocked',
+        });
     });
 
     it('should return isP2PBlocked as false and status as empty string if user can use p2p', () => {
@@ -29,7 +33,11 @@ describe('useIsP2PBlocked', () => {
         mockUseActiveAccount.mockImplementation(() => ({ data: { currency: 'USD', is_virtual: 0 } }));
 
         const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: false, status: 'p2pBlocked' });
+        expect(result.current).toStrictEqual({
+            isP2PBlocked: false,
+            isP2PCurrencyBlocked: false,
+            status: 'p2pBlocked',
+        });
     });
 
     it('should return isP2PBlocked as true and status as p2pBlocked if p2p_status is perm banned', () => {
@@ -37,7 +45,7 @@ describe('useIsP2PBlocked', () => {
         mockUseActiveAccount.mockImplementation(() => ({ data: { currency: 'USD', is_virtual: 0 } }));
 
         const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: true, status: 'p2pBlocked' });
+        expect(result.current).toStrictEqual({ isP2PBlocked: true, isP2PCurrencyBlocked: false, status: 'p2pBlocked' });
     });
 
     it('should return isP2PBlocked as true and status as systemMaintenance if cashier_validation has system_maintenance', () => {
@@ -47,7 +55,11 @@ describe('useIsP2PBlocked', () => {
         mockUseActiveAccount.mockImplementation(() => ({ data: { currency: 'USD', is_virtual: 0 } }));
 
         const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: true, status: 'systemMaintenance' });
+        expect(result.current).toStrictEqual({
+            isP2PBlocked: true,
+            isP2PCurrencyBlocked: false,
+            status: 'systemMaintenance',
+        });
     });
 
     it('should return isP2PBlocked as true and status as crypto if currency_type is crypto', () => {
@@ -55,7 +67,7 @@ describe('useIsP2PBlocked', () => {
         mockUseActiveAccount.mockImplementation(() => ({ data: { currency_type: 'crypto', is_virtual: 0 } }));
 
         const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: true, status: 'crypto' });
+        expect(result.current).toStrictEqual({ isP2PBlocked: true, isP2PCurrencyBlocked: true, status: 'crypto' });
     });
 
     it('should return isP2PBlocked as true and status as demo if account is virtual', () => {
@@ -63,7 +75,7 @@ describe('useIsP2PBlocked', () => {
         mockUseActiveAccount.mockImplementation(() => ({ data: { currency: 'USD', is_virtual: 1 } }));
 
         const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: true, status: 'demo' });
+        expect(result.current).toStrictEqual({ isP2PBlocked: true, isP2PCurrencyBlocked: true, status: 'demo' });
     });
 
     it('should return isP2PBlocked as true and status as nonUSD if currency is not USD', () => {
@@ -71,7 +83,7 @@ describe('useIsP2PBlocked', () => {
         mockUseActiveAccount.mockImplementation(() => ({ data: { currency: 'EUR', is_virtual: 0 } }));
 
         const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: true, status: 'nonUSD' });
+        expect(result.current).toStrictEqual({ isP2PBlocked: true, isP2PCurrencyBlocked: true, status: 'nonUSD' });
     });
 
     it('should return isP2PBlocked as true and status as p2pBlockedForPa if status includes p2p_blocked_for_pa', () => {
@@ -81,6 +93,10 @@ describe('useIsP2PBlocked', () => {
         mockUseActiveAccount.mockImplementation(() => ({ data: { currency: 'USD', is_virtual: 0 } }));
 
         const { result } = renderHook(() => useIsP2PBlocked());
-        expect(result.current).toStrictEqual({ isP2PBlocked: true, status: 'p2pBlockedForPa' });
+        expect(result.current).toStrictEqual({
+            isP2PBlocked: true,
+            isP2PCurrencyBlocked: false,
+            status: 'p2pBlockedForPa',
+        });
     });
 });
