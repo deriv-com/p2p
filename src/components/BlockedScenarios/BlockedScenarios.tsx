@@ -37,12 +37,12 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         crypto: {
             actionButton: (
                 <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
-                    <Localize i18n_default_text='Create real USD account' />
+                    <Localize i18n_default_text='Add real USD account' />
                 </Button>
             ),
             description: (
                 <Text align='center'>
-                    <Localize i18n_default_text='To use Deriv P2P, create your real USD account.' />
+                    <Localize i18n_default_text='To use Deriv P2P, add your real USD account.' />
                 </Text>
             ),
             icon: <P2pUnavailable height={iconSize} width={iconSize} />,
