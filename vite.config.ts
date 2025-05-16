@@ -7,6 +7,7 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), '');
+
     return {
         build: {
             rollupOptions: {
@@ -24,7 +25,8 @@ export default defineConfig(({ mode }) => {
         css: {
             preprocessorOptions: {
                 scss: {
-                    additionalData: `@import "./styles/devices.scss"; @import "./styles/modals.scss";`, // Import mixins globally
+                    additionalData: `@use "sass:color"; @use "styles/global_styles.scss" as *;`,
+                    includePaths: [path.resolve(__dirname, './'), path.resolve(__dirname, './styles')],
                 },
             },
         },
@@ -48,6 +50,7 @@ export default defineConfig(({ mode }) => {
         resolve: {
             alias: {
                 '@': path.resolve(__dirname, './src'),
+                styles: path.resolve(__dirname, './styles'),
             },
         },
     };
