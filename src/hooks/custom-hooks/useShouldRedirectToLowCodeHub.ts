@@ -48,7 +48,8 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsS
         return `${URLConstants.derivAppStaging}/account/${section}?platform=p2p-v2`;
     }
 
-    return URLConstants.derivAppProduction;
+    if (isProduction) return URLConstants.derivAppProduction;
+    return URLConstants.derivAppStaging;
 };
 
 export default useShouldRedirectToLowCodeHub;
