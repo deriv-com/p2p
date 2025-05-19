@@ -17,12 +17,16 @@ const MenuItems = () => {
         <>
             {isDesktop ? (
                 items.map(({ as, href, icon, label, name }) => {
-                    if (isWalletAccount && name === 'Cashier') return null;
+                    if (isWalletAccount && (name === 'Cashier' || name === 'Reports')) return null;
                     return (
                         <MenuItem
                             as={as}
                             className='app-header__menu'
-                            href={name === "Trader's Hub" ? redirectLink : href}
+                            href={
+                                name === "Trader's Hub" || name === 'Reports' || name === 'Cashier'
+                                    ? redirectLink
+                                    : href
+                            }
                             key={label}
                             leftComponent={icon}
                         >

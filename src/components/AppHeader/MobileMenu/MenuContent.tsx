@@ -23,7 +23,7 @@ export const MenuContent = () => {
                             key={index}
                         >
                             {item.map(({ LeftComponent, RightComponent, as, href, label, name, onClick, target }) => {
-                                if (isWalletAccount && name === 'Cashier') return null;
+                                if (isWalletAccount && (name === 'Cashier' || name === 'Reports')) return null;
 
                                 if (as === 'a') {
                                     return (
