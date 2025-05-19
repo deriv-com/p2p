@@ -87,14 +87,6 @@ const AppContent = () => {
         window.addEventListener('unhandledrejection', () => {
             showModal('ErrorModal');
         });
-
-        window.addEventListener('popstate', () => {
-            // If the user navigates back to the root route, we need to go back more steps to ensure
-            // the user is redirected to the previous app such as deriv app
-            if (window.location.pathname === '/') {
-                window.history.go(-1); // Loops back to the previous page until it reaches a non-root route
-            }
-        });
     }, []);
 
     useEffect(() => {
