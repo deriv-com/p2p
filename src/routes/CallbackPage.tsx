@@ -44,10 +44,10 @@ const CallbackPage = () => {
                             ACCOUNT_TYPES.some(accountType => item.acct?.includes(accountType))
                     )?.token || tokens.token1;
 
-                setIsCheckingOidcTokens(false);
                 localStorage.setItem('authToken', selectedAuthToken);
 
                 window.location.replace('/');
+                setIsCheckingOidcTokens(false);
             }}
         />
     );
