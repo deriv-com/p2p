@@ -1,9 +1,0 @@
-@mixin default-modal {
-    height: fit-content;
-    width: 44rem;
-    border-radius: 8px;
-
-    @include mobile-or-tablet-screen {
-        max-width: calc(100vw - 3.2rem);
-    }
-}

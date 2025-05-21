@@ -1,6 +1,7 @@
 .remaining-buy-sell-limit-modal {
-    @include default-modal;
     padding: 2.4rem;
+
+    @include default-modal;
 
     @include mobile-or-tablet-screen {
         padding: 1.6rem;

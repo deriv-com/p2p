@@ -22,6 +22,7 @@ const Orders = () => {
 
     const {
         data = [],
+        isFetching,
         isLoading,
         loadMoreOrders,
     } = api.order.useGetList({
@@ -47,7 +48,12 @@ const Orders = () => {
             <AwarenessBanner />
             <OrdersTableHeader fromDate={fromDate} setFromDate={setFromDate} setToDate={setToDate} toDate={toDate} />
             {!isDesktop && <Divider />}
-            <OrdersTable data={data} isActive={isActive} isLoading={isLoading} loadMoreOrders={loadMoreOrders} />
+            <OrdersTable
+                data={data}
+                isActive={isActive}
+                isLoading={isLoading || (isFetching && isActive)}
+                loadMoreOrders={loadMoreOrders}
+            />
         </div>
     );
 };
