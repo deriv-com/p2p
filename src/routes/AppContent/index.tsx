@@ -117,23 +117,22 @@ const AppContent = () => {
                 currency => !clientAccountsCurrencies.includes(currency)
             );
 
-            const requestAuthentication = async () => {
+            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
                 try {
-                    await requestOidcAuthentication({
+                    requestOidcAuthentication({
                         redirectCallbackUri: `${window.location.origin}/callback`,
+                    }).catch(error => {
+                        // eslint-disable-next-line no-console
+                        console.error('Failed to refetch OIDC tokens', error);
+                        showModal('ErrorModal');
                     });
-
-                    setIsCheckingOidcTokens(false);
                 } catch (error) {
                     // eslint-disable-next-line no-console
                     console.error('Failed to refetch OIDC tokens', error);
                     showModal('ErrorModal');
                 }
-            };
-
-            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
-                requestAuthentication();
             }
+            setIsCheckingOidcTokens(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accountList, isOAuth2Enabled]);
