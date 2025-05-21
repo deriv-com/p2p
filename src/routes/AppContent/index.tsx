@@ -134,8 +134,6 @@ const AppContent = () => {
 
                 setIsCheckingOidcTokens(false);
                 setHasMissingCurrencies(false);
-            } else {
-                setHasMissingCurrencies(false);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -180,19 +178,21 @@ const AppContent = () => {
                 !isFetched ||
                 !activeAccountData ||
                 isLoading ||
-                isCheckingOidcTokens ||
-                hasMissingCurrencies) &&
+                isCheckingOidcTokens) &&
             !isEndpointRoute &&
             !isCallbackPage
         ) {
             return <Loader />;
-        } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code) {
+        } else if (
+            !hasMissingCurrencies &&
+            ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code)
+        ) {
             return (
                 <BlockedScenarios
                     type={p2pSettingsError?.code === 'RestrictedCountry' ? p2pSettingsError?.code : status}
                 />
             );
-        } else if (((isFetched && activeAccountData) || isEndpointRoute) && !isCallbackPage) {
+        } else if (!hasMissingCurrencies && ((isFetched && activeAccountData) || isEndpointRoute) && !isCallbackPage) {
             return (
                 <div className='app-content__body'>
                     <Tabs
