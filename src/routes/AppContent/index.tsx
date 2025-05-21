@@ -124,6 +124,7 @@ const AppContent = () => {
                     await requestOidcAuthentication({
                         redirectCallbackUri: `${window.location.origin}/callback`,
                     });
+                    setIsCheckingOidcTokens(false);
                 } catch (error) {
                     // eslint-disable-next-line no-console
                     console.error('Failed to refetch OIDC tokens', error);
@@ -133,9 +134,9 @@ const AppContent = () => {
 
             if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
                 requestAuthentication();
+            } else {
+                setIsCheckingOidcTokens(false);
             }
-
-            setIsCheckingOidcTokens(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accountList, isOAuth2Enabled]);
