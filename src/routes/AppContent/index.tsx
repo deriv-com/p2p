@@ -81,7 +81,7 @@ const AppContent = () => {
     const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
     const isCallbackPage = getCurrentRoute() === 'callback';
-    const [hasMissingCurrencies, setHasMissingCurrencies] = useState(false);
+    const [hasMissingCurrencies, setHasMissingCurrencies] = useState(true);
 
     useEffect(() => {
         initLiveChat();
@@ -100,7 +100,10 @@ const AppContent = () => {
     // Check if the account list currencies are in the client accounts currencies which is taken from OIDC tokens
     // If not, request OIDC authentication
     useEffect(() => {
-        if (!isOAuth2Enabled) setIsCheckingOidcTokens(false);
+        if (!isOAuth2Enabled) {
+            setIsCheckingOidcTokens(false);
+            setHasMissingCurrencies(false);
+        }
 
         if (accountList?.length > 0 && isOAuth2Enabled) {
             // Filter out disabled accounts to not trigger OIDC authentication
@@ -119,7 +122,6 @@ const AppContent = () => {
             );
 
             if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
-                setHasMissingCurrencies(true);
                 try {
                     requestOidcAuthentication({
                         redirectCallbackUri: `${window.location.origin}/callback`,
@@ -131,6 +133,7 @@ const AppContent = () => {
                 }
 
                 setIsCheckingOidcTokens(false);
+                setHasMissingCurrencies(false);
             } else {
                 setHasMissingCurrencies(false);
             }
