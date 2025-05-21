@@ -99,7 +99,9 @@ const AppContent = () => {
     // Check if the account list currencies are in the client accounts currencies which is taken from OIDC tokens
     // If not, request OIDC authentication
     useEffect(() => {
-        if (!isOAuth2Enabled) setIsCheckingOidcTokens(false);
+        if (!isOAuth2Enabled) {
+            setIsCheckingOidcTokens(false);
+        }
 
         if (accountList?.length > 0 && isOAuth2Enabled) {
             // Filter out disabled accounts to not trigger OIDC authentication
@@ -117,22 +119,24 @@ const AppContent = () => {
                 currency => !clientAccountsCurrencies.includes(currency)
             );
 
-            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
+            const requestAuthentication = async () => {
                 try {
-                    requestOidcAuthentication({
+                    await requestOidcAuthentication({
                         redirectCallbackUri: `${window.location.origin}/callback`,
-                    }).catch(error => {
-                        // eslint-disable-next-line no-console
-                        console.error('Failed to refetch OIDC tokens', error);
-                        showModal('ErrorModal');
                     });
+                    setIsCheckingOidcTokens(false);
                 } catch (error) {
                     // eslint-disable-next-line no-console
                     console.error('Failed to refetch OIDC tokens', error);
                     showModal('ErrorModal');
                 }
+            };
+
+            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
+                requestAuthentication();
+            } else {
+                setIsCheckingOidcTokens(false);
             }
-            setIsCheckingOidcTokens(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accountList, isOAuth2Enabled]);
@@ -181,7 +185,12 @@ const AppContent = () => {
             !isCallbackPage
         ) {
             return <Loader />;
-        } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code) {
+        } else if (
+            isFetched &&
+            activeAccountData &&
+            !isCallbackPage &&
+            ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code)
+        ) {
             return (
                 <BlockedScenarios
                     type={p2pSettingsError?.code === 'RestrictedCountry' ? p2pSettingsError?.code : status}
