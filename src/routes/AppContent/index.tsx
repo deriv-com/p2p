@@ -182,8 +182,7 @@ const AppContent = () => {
         ) {
             return <Loader />;
         } else if (
-            isFetched &&
-            activeAccountData &&
+            !isCheckingOidcTokens &&
             ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code)
         ) {
             return (
