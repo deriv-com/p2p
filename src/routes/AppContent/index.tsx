@@ -41,6 +41,7 @@ const AppContent = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
+    const [hasMissingCurrencies, setHasMissingCurrencies] = useState(true);
 
     const tabRoutesConfiguration = routes.filter(
         route =>
@@ -101,6 +102,7 @@ const AppContent = () => {
     useEffect(() => {
         if (!isOAuth2Enabled) {
             setIsCheckingOidcTokens(false);
+            setHasMissingCurrencies(false);
         }
 
         if (accountList?.length > 0 && isOAuth2Enabled) {
@@ -119,9 +121,9 @@ const AppContent = () => {
                 currency => !clientAccountsCurrencies.includes(currency)
             );
 
-            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
+            const requestAuthentication = async () => {
                 try {
-                    requestOidcAuthentication({
+                    await requestOidcAuthentication({
                         redirectCallbackUri: `${window.location.origin}/callback`,
                     });
                 } catch (error) {
@@ -129,9 +131,14 @@ const AppContent = () => {
                     console.error('Failed to refetch OIDC tokens', error);
                     showModal('ErrorModal');
                 }
+            };
 
-                setIsCheckingOidcTokens(false);
+            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
+                requestAuthentication();
+                setHasMissingCurrencies(false);
             }
+
+            setIsCheckingOidcTokens(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accountList, isOAuth2Enabled]);
@@ -180,7 +187,10 @@ const AppContent = () => {
             !isCallbackPage
         ) {
             return <Loader />;
-        } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code) {
+        } else if (
+            !hasMissingCurrencies &&
+            ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code)
+        ) {
             return (
                 <BlockedScenarios
                     type={p2pSettingsError?.code === 'RestrictedCountry' ? p2pSettingsError?.code : status}
