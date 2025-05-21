@@ -196,7 +196,7 @@ const AppContent = () => {
                     type={p2pSettingsError?.code === 'RestrictedCountry' ? p2pSettingsError?.code : status}
                 />
             );
-        } else if (((isFetched && activeAccountData) || isEndpointRoute) && !isCallbackPage) {
+        } else if (((!hasMissingCurrencies && isFetched && activeAccountData) || isEndpointRoute) && !isCallbackPage) {
             return (
                 <div className='app-content__body'>
                     <Tabs
