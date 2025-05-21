@@ -125,14 +125,15 @@ const AppContent = () => {
                         // eslint-disable-next-line no-console
                         console.error('Failed to refetch OIDC tokens', error);
                         showModal('ErrorModal');
+                        setIsCheckingOidcTokens(false);
                     });
                 } catch (error) {
                     // eslint-disable-next-line no-console
                     console.error('Failed to refetch OIDC tokens', error);
                     showModal('ErrorModal');
+                    setIsCheckingOidcTokens(false);
                 }
             }
-            setIsCheckingOidcTokens(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accountList, isOAuth2Enabled]);
