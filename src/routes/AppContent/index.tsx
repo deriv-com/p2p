@@ -41,7 +41,6 @@ const AppContent = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
-    const [hasMissingCurrencies, setHasMissingCurrencies] = useState(true);
 
     const tabRoutesConfiguration = routes.filter(
         route =>
@@ -102,7 +101,6 @@ const AppContent = () => {
     useEffect(() => {
         if (!isOAuth2Enabled) {
             setIsCheckingOidcTokens(false);
-            setHasMissingCurrencies(false);
         }
 
         if (accountList?.length > 0 && isOAuth2Enabled) {
@@ -135,7 +133,6 @@ const AppContent = () => {
 
             if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
                 requestAuthentication();
-                setHasMissingCurrencies(false);
             }
 
             setIsCheckingOidcTokens(false);
@@ -187,16 +184,13 @@ const AppContent = () => {
             !isCallbackPage
         ) {
             return <Loader />;
-        } else if (
-            !hasMissingCurrencies &&
-            ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code)
-        ) {
+        } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code) {
             return (
                 <BlockedScenarios
                     type={p2pSettingsError?.code === 'RestrictedCountry' ? p2pSettingsError?.code : status}
                 />
             );
-        } else if (((!hasMissingCurrencies && isFetched && activeAccountData) || isEndpointRoute) && !isCallbackPage) {
+        } else if (((isFetched && activeAccountData) || isEndpointRoute) && !isCallbackPage) {
             return (
                 <div className='app-content__body'>
                     <Tabs
