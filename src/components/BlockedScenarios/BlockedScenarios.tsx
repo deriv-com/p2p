@@ -24,9 +24,8 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     const iconSize = isMobile ? 96 : 128;
     const redirectLink = useShouldRedirectToLowCodeHub();
 
-    // TODO: change redirection when account switcher is implemented
     const openDerivApp = () => {
-        window.open(redirectLink);
+        window.open(redirectLink, '_self');
     };
 
     const openLiveChat = () => {
