@@ -1,5 +1,7 @@
 import { memo } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { ACCOUNT_TYPES, CURRENCIES } from '@/constants';
+import { useIsLoadingOidcStore } from '@/stores';
 import { Callback } from '@deriv-com/auth-client';
 
 type TTokens = {
@@ -23,6 +25,11 @@ const groupTokens = (tokens: TTokens) => {
 };
 
 const CallbackPage = () => {
+    const { setIsCheckingOidcTokens } = useIsLoadingOidcStore(
+        useShallow(state => ({
+            setIsCheckingOidcTokens: state.setIsCheckingOidcTokens,
+        }))
+    );
     return (
         <Callback
             onSignInSuccess={tokens => {
@@ -37,6 +44,7 @@ const CallbackPage = () => {
                             ACCOUNT_TYPES.some(accountType => item.acct?.includes(accountType))
                     )?.token || tokens.token1;
 
+                setIsCheckingOidcTokens(false);
                 localStorage.setItem('authToken', selectedAuthToken);
 
                 window.location.replace('/');
