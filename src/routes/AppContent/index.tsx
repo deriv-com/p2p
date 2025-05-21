@@ -188,6 +188,7 @@ const AppContent = () => {
         } else if (
             isFetched &&
             activeAccountData &&
+            !isCallbackPage &&
             ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code)
         ) {
             return (
