@@ -14,6 +14,12 @@ const mockUseActiveAccountValues = {
     data: undefined,
 } as ReturnType<typeof useActiveAccount>;
 
+const mockUseShouldRedirectToLowCodeHub = 'https://app.deriv.com';
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useShouldRedirectToLowCodeHub: jest.fn(() => mockUseShouldRedirectToLowCodeHub),
+}));
+
 jest.mock('@/hooks', () => ({
     ...jest.requireActual('@/hooks'),
     api: {
@@ -35,7 +41,7 @@ describe('BlockedScenarios', () => {
         expect(screen.getByText('You are using a demo account')).toBeInTheDocument();
         const button = screen.getByRole('button', { name: 'Switch to real USD account' });
         await userEvent.click(button);
-        expect(window.open).toHaveBeenCalledWith('https://app.deriv.com', '_self');
+        expect(window.open).toHaveBeenCalledWith(mockUseShouldRedirectToLowCodeHub, '_self');
     });
 
     it('should render the correct message for non-USD account', async () => {
@@ -49,7 +55,7 @@ describe('BlockedScenarios', () => {
         expect(screen.getByText('Cryptocurrencies not supported')).toBeInTheDocument();
         const button = screen.getByRole('button', { name: 'Add real USD account' });
         await userEvent.click(button);
-        expect(window.open).toHaveBeenCalledWith('https://app.deriv.com', '_self');
+        expect(window.open).toHaveBeenCalledWith(mockUseShouldRedirectToLowCodeHub, '_self');
     });
 
     it('should show the correct message for p2p is blocked for user', () => {

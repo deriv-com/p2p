@@ -13,16 +13,32 @@ const MenuItems = () => {
 
     if (!isFetchedAfterMount) return null;
 
+    const getRedirectLink = (href: string, name: string) => {
+        if (name === "Trader's Hub") {
+            return redirectLink;
+        }
+
+        if (name === 'Reports') {
+            return `${redirectLink}/reports`;
+        }
+
+        if (name === 'Cashier') {
+            return `${redirectLink}/cashier`;
+        }
+
+        return href;
+    };
+
     return (
         <>
             {isDesktop ? (
                 items.map(({ as, href, icon, label, name }) => {
-                    if (isWalletAccount && name === 'Cashier') return null;
+                    if (isWalletAccount && (name === 'Cashier' || name === 'Reports')) return null;
                     return (
                         <MenuItem
                             as={as}
                             className='app-header__menu'
-                            href={name === "Trader's Hub" ? redirectLink : href}
+                            href={getRedirectLink(href, name)}
                             key={label}
                             leftComponent={icon}
                         >

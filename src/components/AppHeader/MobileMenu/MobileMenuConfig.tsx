@@ -76,15 +76,16 @@ export const MobileMenuConfig = () => {
             },
             {
                 as: 'a',
-                href: `${URLConstants.derivAppProduction}/dtrader`,
+                href: `${useShouldRedirectToLowCodeHub()}/dtrader`,
                 label: localize('Trade'),
                 LeftComponent: LegacyChartsIcon,
             },
             {
                 as: 'a',
-                href: `${URLConstants.derivAppProduction}/reports`,
+                href: `${useShouldRedirectToLowCodeHub()}/reports`,
                 label: localize('Reports'),
                 LeftComponent: LegacyReportsIcon,
+                name: 'Reports',
             },
             {
                 as: 'a',
@@ -94,7 +95,7 @@ export const MobileMenuConfig = () => {
             },
             {
                 as: 'a',
-                href: `${URLConstants.derivAppProduction}/cashier/deposit`,
+                href: `${useShouldRedirectToLowCodeHub()}/cashier/deposit`,
                 label: localize('Cashier'),
                 LeftComponent: LegacyCashierIcon,
                 name: 'Cashier',
