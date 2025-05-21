@@ -182,10 +182,7 @@ const AppContent = () => {
             !isCallbackPage
         ) {
             return <Loader />;
-        } else if (
-            !isCheckingOidcTokens &&
-            ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code)
-        ) {
+        } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code) {
             return (
                 <BlockedScenarios
                     type={p2pSettingsError?.code === 'RestrictedCountry' ? p2pSettingsError?.code : status}
