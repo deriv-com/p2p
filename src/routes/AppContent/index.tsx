@@ -81,6 +81,7 @@ const AppContent = () => {
     const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
     const isCallbackPage = getCurrentRoute() === 'callback';
+    const [hasMissingCurrencies, setHasMissingCurrencies] = useState(false);
 
     useEffect(() => {
         initLiveChat();
@@ -117,9 +118,10 @@ const AppContent = () => {
                 currency => !clientAccountsCurrencies.includes(currency)
             );
 
-            const requestAuthentication = async () => {
+            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
+                setHasMissingCurrencies(true);
                 try {
-                    await requestOidcAuthentication({
+                    requestOidcAuthentication({
                         redirectCallbackUri: `${window.location.origin}/callback`,
                     });
                 } catch (error) {
@@ -127,11 +129,10 @@ const AppContent = () => {
                     console.error('Failed to refetch OIDC tokens', error);
                     showModal('ErrorModal');
                 }
-            };
 
-            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
-                requestAuthentication();
                 setIsCheckingOidcTokens(false);
+            } else {
+                setHasMissingCurrencies(false);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -176,7 +177,8 @@ const AppContent = () => {
                 !isFetched ||
                 !activeAccountData ||
                 isLoading ||
-                isCheckingOidcTokens) &&
+                isCheckingOidcTokens ||
+                hasMissingCurrencies) &&
             !isEndpointRoute &&
             !isCallbackPage
         ) {
