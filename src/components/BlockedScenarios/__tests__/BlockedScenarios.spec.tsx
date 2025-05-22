@@ -1,4 +1,4 @@
-import { useActiveAccount } from '@/hooks/api/account';
+import { useActiveAccount, useCreateRealAccount, useCreateWalletAccount } from '@/hooks/api/account';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BlockedScenarios from '../BlockedScenarios';
@@ -13,6 +13,12 @@ jest.mock('@deriv-com/ui', () => ({
 const mockUseActiveAccountValues = {
     data: undefined,
 } as ReturnType<typeof useActiveAccount>;
+const mockUseWalletAccountValues = {
+    data: undefined,
+} as ReturnType<typeof useCreateWalletAccount>;
+const mockUseRealAccountValues = {
+    data: undefined,
+} as ReturnType<typeof useCreateRealAccount>;
 
 const mockUseShouldRedirectToLowCodeHub = 'https://app.deriv.com';
 jest.mock('@/hooks/custom-hooks', () => ({
@@ -26,6 +32,12 @@ jest.mock('@/hooks', () => ({
         account: {
             useActiveAccount: jest.fn(() => ({
                 ...mockUseActiveAccountValues,
+            })),
+            useCreateRealAccount: jest.fn(() => ({
+                ...mockUseRealAccountValues,
+            })),
+            useCreateWalletAccount: jest.fn(() => ({
+                ...mockUseWalletAccountValues,
             })),
         },
     },
