@@ -83,7 +83,16 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
                 variant='underline'
             >
                 <Text size='sm'>
-                    <Localize i18n_default_text='Your Deriv P2P balance may not include all deposits made to your Deriv account. Deposits via credit and debit cards (including Maestro and Diners Club), ZingPay, Skrill, Neteller, and Direct Banking Nigeria will not be available in Deriv P2P.' />
+                    <Localize
+                        components={[
+                            <a
+                                className='guide__content-section--link'
+                                href={`${URLConstants.derivComProduction}/payment-methods`}
+                                key={0}
+                            />,
+                        ]}
+                        i18n_default_text='Your Deriv P2P balance is different from your Deriv account balance because it only includes deposits made through <0>supported payment methods</0>. Methods such as credit cards, Maestro, Diners Club, ZingPay, Skrill, Neteller, Ozow, and UPI QR are not supported and are therefore not included in your P2P balance.'
+                    />
                 </Text>
             </Accordion>
             <Accordion
