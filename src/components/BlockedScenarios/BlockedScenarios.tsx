@@ -36,6 +36,14 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         window.open(redirectLink, '_self');
     };
 
+    const createAccount = () => {
+        if (data?.isWalletAccount) {
+            createWalletAccount();
+        } else {
+            setIsLoading(true);
+            mutateRealAccount?.({ currency: 'USD' });
+        }
+    };
     const createWalletAccount = () => {
         setIsLoading(true);
         mutateAsync({ account_type: 'doughflow', currency: 'USD', loginid: data?.loginid });
@@ -67,7 +75,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     const blockedScenarios: TBlockedScenariosObject = {
         crypto: {
             actionButton: (
-                <Button onClick={createWalletAccount} size='lg' textSize={buttonTextSize}>
+                <Button onClick={createAccount} size='lg' textSize={buttonTextSize}>
                     <Localize i18n_default_text='Add real USD account' />
                 </Button>
             ),
