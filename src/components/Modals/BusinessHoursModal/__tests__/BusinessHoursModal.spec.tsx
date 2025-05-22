@@ -17,7 +17,7 @@ const mockModalManager = {
 
 const mockUseUpdate = {
     isSuccess: true,
-    mutate: jest.fn(),
+    mutateAsync: jest.fn(),
 };
 
 jest.mock('@deriv-com/ui', () => ({
@@ -117,7 +117,7 @@ describe('<BusinessHoursModal />', () => {
         expect(saveButton).toBeEnabled();
         await user.click(saveButton);
 
-        expect(mockUseUpdate.mutate).toHaveBeenCalled();
+        expect(mockUseUpdate.mutateAsync).toHaveBeenCalled();
     });
 
     it('should reset the dropdown values when Reset icon is clicked', async () => {
