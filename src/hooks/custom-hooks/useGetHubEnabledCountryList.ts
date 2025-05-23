@@ -4,19 +4,21 @@ import { HUB_ENABLED_COUNTRY_LIST } from '@/constants';
 const useGetHubEnabledCountryList = () => {
     const HUB_REMOTE_CONFIG_URL = process.env.HUB_REMOTE_CONFIG_URL || '';
 
-    const getRemoteConfig = async () => {
-        const response = await fetch(HUB_REMOTE_CONFIG_URL)
-            .then(res => res.json())
-            .catch(() => {
-                return HUB_ENABLED_COUNTRY_LIST;
-            });
+    if (HUB_REMOTE_CONFIG_URL) {
+        const getRemoteConfig = async () => {
+            const response = await fetch(HUB_REMOTE_CONFIG_URL)
+                .then(res => res.json())
+                .catch(() => {
+                    return HUB_ENABLED_COUNTRY_LIST;
+                });
 
-        return {
-            data: response,
+            return {
+                data: response,
+            };
         };
-    };
 
-    getRemoteConfig();
+        getRemoteConfig();
+    }
 
     return {
         data: HUB_ENABLED_COUNTRY_LIST,
