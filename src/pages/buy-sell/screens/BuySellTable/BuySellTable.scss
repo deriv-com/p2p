@@ -16,16 +16,6 @@
         }
     }
 
-    &--has-no-banner {
-        @include mobile-or-tablet-screen {
-            & .table {
-                &__content {
-                    height: 100% !important;
-                }
-            }
-        }
-    }
-
     &__tabs {
         & .derivs-primary-tabs {
             height: 4rem;

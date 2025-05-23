@@ -35,25 +35,5 @@
                 }
             }
         }
-
-        &--has-no-banner {
-            @include mobile-or-tablet-screen {
-                & .table {
-                    &__content {
-                        height: calc(100vh - 25.5rem) !important;
-                    }
-                }
-            }
-        }
-    }
-
-    &--has-no-banner {
-        @include mobile-or-tablet-screen {
-            & .table {
-                &__content {
-                    height: calc(100vh - 19.5rem) !important;
-                }
-            }
-        }
     }
 }

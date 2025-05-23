@@ -29,10 +29,6 @@ jest.mock('@/hooks/custom-hooks', () => ({
     useQueryString: () => ({ queryString: { get: () => 'Active orders' } }),
 }));
 
-jest.mock('@/components/AwarenessBanner', () => ({
-    AwarenessBanner: jest.fn(() => <div>AwarenessBanner</div>),
-}));
-
 jest.mock('../OrdersTable', () => ({
     OrdersTable: () => <div>OrdersTable</div>,
 }));
@@ -51,7 +47,6 @@ describe('Orders', () => {
 
         render(<Orders />);
 
-        expect(screen.getByText('AwarenessBanner')).toBeInTheDocument();
         expect(screen.getByText('OrdersTableHeader')).toBeInTheDocument();
         expect(screen.getByText('OrdersTable')).toBeInTheDocument();
     });
