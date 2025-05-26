@@ -5,13 +5,12 @@ import { AppDataProvider } from '@deriv-com/api-hooks';
 import { Loader } from '@deriv-com/ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
-import { useTMB } from './hooks';
+import { useTMB, useTMBFeatureFlag } from './hooks';
 import './main.scss';
 
-const isTMBEnabled = JSON.parse(localStorage.getItem('is_tmb_enabled') ?? 'false');
-
 const CustomAppDataProvider = memo(() => {
-    const [isSessionActive, setIsSessionActive] = useState(false);
+    const { data: isTMBEnabled } = useTMBFeatureFlag();
+    const [isSessionActive, setIsSessionActive] = useState(!isTMBEnabled);
     const { onRenderTMBCheck } = useTMB();
     const initRef = useRef(false);
 
@@ -27,7 +26,7 @@ const CustomAppDataProvider = memo(() => {
     }, [onRenderTMBCheck]);
 
     useEffect(() => {
-        initSession();
+        if (isTMBEnabled) initSession();
     }, [initSession]);
 
     if (!isSessionActive) {
@@ -50,12 +49,7 @@ CustomAppDataProvider.displayName = 'CustomAppDataProvider';
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <QueryClientProvider client={new QueryClient()}>
-            {isTMBEnabled && <CustomAppDataProvider />}
-            {!isTMBEnabled && (
-                <AppDataProvider accountTypes={ACCOUNT_TYPES} currencies={CURRENCIES}>
-                    <App />
-                </AppDataProvider>
-            )}
+            <CustomAppDataProvider />
         </QueryClientProvider>
     </React.StrictMode>
 );
