@@ -4,7 +4,11 @@ import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
 
 type TUseShouldRedirectToLowCodeHub = (accountsSection?: string, goToCFDs?: boolean) => string;
 
-const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsSection = '', goToCFDs = false) => {
+const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (
+    accountsSection = '',
+    goToCFDs = false,
+    goToWallets = false
+) => {
     const origin = window.location.origin;
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const hubOSProduction = 'http://hub.deriv.com';
@@ -31,6 +35,11 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsS
             if (isProduction)
                 return `${hubOSProduction}/tradershub/redirect?action=redirect_to&redirect_to=cfds&account=${activeAccount?.currency || 'USD'}`;
             return `${hubOSStaging}/tradershub/redirect?action=redirect_to&redirect_to=cfds&account=${activeAccount?.currency || 'USD'}`;
+        }
+        if (goToWallets) {
+            if (isProduction)
+                return `${hubOSProduction}/tradershub/redirect?action=redirect_to&redirect_to=wallet_home`;
+            return `${hubOSStaging}/tradershub/redirect?action=redirect_to&redirect_to=wallet_home`;
         }
         if (isProduction)
             return `${hubOSProduction}/tradershub/redirect?action=redirect_to&redirect_to=home&account=${activeAccount?.currency || 'USD'}`;
