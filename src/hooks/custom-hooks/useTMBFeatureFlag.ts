@@ -1,6 +1,7 @@
-/** A custom hook that returns the remote configuration to get the tmb feature flag. */
+/** A custom hook that returns the value for the tmb feature flag. */
 const useTMBFeatureFlag = () => {
     const TMB_REMOTE_CONFIG_URL = process.env.VITE_TMB_REMOTE_CONFIG_URL || '';
+    const isTMBEnabled = JSON.parse(localStorage.getItem('is_tmb_enabled') ?? '');
 
     if (TMB_REMOTE_CONFIG_URL) {
         const getRemoteConfig = async () => {
@@ -11,7 +12,7 @@ const useTMBFeatureFlag = () => {
                 });
 
             return {
-                data: response.p2p ?? false,
+                data: response.p2p ?? isTMBEnabled,
             };
         };
 
@@ -19,7 +20,7 @@ const useTMBFeatureFlag = () => {
     }
 
     return {
-        data: false,
+        data: isTMBEnabled,
     };
 };
 
