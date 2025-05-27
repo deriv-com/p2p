@@ -11,9 +11,6 @@ import {
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { Localize } from '@deriv-com/translations';
 import { ActionScreen, Button, Loader, Text, useDevice } from '@deriv-com/ui';
-import { ReactComponent as IcWalletAccountBlocked } from '../../public/ic-wallet-account-blocked.svg';
-import { ReactComponent as IcWalletAccountCreated } from '../../public/ic-wallet-account-created.svg';
-import './BlockedScenarios.scss';
 
 type TBlockedScenariosObject = {
     [key: string]: {
@@ -30,27 +27,21 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     const buttonTextSize = isMobile ? 'md' : 'sm';
     const iconSize = isMobile ? 96 : 128;
     const redirectLink = useShouldRedirectToLowCodeHub();
-    const redirectToWalletsLink = useShouldRedirectToLowCodeHub('', false, true);
     const { data: walletAccount, isAuthorized, mutateAsync } = api.account.useCreateWalletAccount();
     const { isSuccess: isMutateRealAccountSuccess, mutate: mutateRealAccount } = api.account.useCreateRealAccount();
     const { data } = api.account.useActiveAccount();
-    const hasWalletAccount = data?.isWalletAccount;
     const [isLoading, setIsLoading] = useState(false);
-    const [isWalletCreatedVisible, setIsWalletCreatedVisible] = useState(false);
 
     const openDerivApp = () => {
         window.open(redirectLink, '_self');
     };
 
-    const redirectToWallets = () => {
-        window.open(redirectToWalletsLink, '_self');
-    };
-
     const createAccount = () => {
-        if (hasWalletAccount) {
+        if (data?.isWalletAccount) {
             createWalletAccount();
         } else {
-            openDerivApp();
+            setIsLoading(true);
+            mutateRealAccount?.({ currency: 'USD' });
         }
     };
     const createWalletAccount = () => {
@@ -65,25 +56,17 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     }, [isAuthorized]);
 
     useEffect(() => {
-        setIsLoading(false);
         if (isMutateRealAccountSuccess) {
-            setIsWalletCreatedVisible(true);
-        } else {
-            setIsWalletCreatedVisible(false);
+            try {
+                requestOidcAuthentication({
+                    redirectCallbackUri: `${window.location.origin}/callback`,
+                });
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.error('Failed to refetch OIDC tokens', error);
+            }
         }
     }, [isMutateRealAccountSuccess]);
-
-    const redirectToHome = () => {
-        setIsLoading(true);
-        try {
-            requestOidcAuthentication({
-                redirectCallbackUri: `${window.location.origin}/callback`,
-            });
-        } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error('Failed to refetch OIDC tokens', error);
-        }
-    };
 
     const openLiveChat = () => {
         Chat.open();
@@ -92,38 +75,16 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     const blockedScenarios: TBlockedScenariosObject = {
         crypto: {
             actionButton: (
-                <div className='blocked-scenarios__wallet--action'>
-                    <Button onClick={createAccount} rounded='lg' size='lg' textSize={buttonTextSize}>
-                        {hasWalletAccount ? (
-                            <Localize i18n_default_text='Add USD wallet' />
-                        ) : (
-                            <Localize i18n_default_text='Add real USD account' />
-                        )}
-                    </Button>
-                    {hasWalletAccount && (
-                        <Button
-                            borderWidth='sm'
-                            onClick={redirectToWallets}
-                            rounded='lg'
-                            size='lg'
-                            textSize={buttonTextSize}
-                            variant='outlined'
-                        >
-                            <Localize i18n_default_text='Maybe Later' />
-                        </Button>
-                    )}
-                </div>
+                <Button onClick={createAccount} size='lg' textSize={buttonTextSize}>
+                    <Localize i18n_default_text='Add real USD account' />
+                </Button>
             ),
             description: (
                 <Text align='center'>
-                    {hasWalletAccount ? (
-                        <Localize i18n_default_text='To use Deriv P2P, add a USD wallet.' />
-                    ) : (
-                        <Localize i18n_default_text='To use Deriv P2P, add your real USD account.' />
-                    )}
+                    <Localize i18n_default_text='To use Deriv P2P, add your real USD account.' />
                 </Text>
             ),
-            icon: <IcWalletAccountBlocked />,
+            icon: <P2pUnavailable height={iconSize} width={iconSize} />,
             title: (
                 <Text align='center' weight='bold'>
                     <Localize i18n_default_text='Cryptocurrencies not supported' />
@@ -150,7 +111,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
         },
         nonUSD: {
             actionButton: (
-                <Button onClick={openLiveChat} rounded='lg' size='lg' textSize={buttonTextSize}>
+                <Button onClick={openLiveChat} size='lg' textSize={buttonTextSize}>
                     <Localize i18n_default_text='Live chat' />
                 </Button>
             ),
@@ -233,49 +194,12 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                 </Text>
             ),
         },
-        walletCreated: {
-            actionButton: (
-                <div className='blocked-scenarios__wallet--action'>
-                    <Button onClick={redirectToHome} rounded='lg' size='lg' textSize={buttonTextSize}>
-                        <Localize i18n_default_text='Start using Deriv P2P' />
-                    </Button>
-                </div>
-            ),
-            description: (
-                <div className='flex flex-col w-[32rem]'>
-                    <Text align='center'>
-                        <Localize i18n_default_text='You can now use Deriv P2P with your new USD Wallet and USD Deriv account.' />
-                    </Text>
-                </div>
-            ),
-            icon: <IcWalletAccountCreated />,
-            title: (
-                <Text weight='bold'>
-                    <Localize i18n_default_text='Your USD Wallet is ready' />
-                </Text>
-            ),
-        },
     };
 
     if (isLoading) return <Loader />;
 
-    if (isWalletCreatedVisible || type === 'crypto') {
-        const updatedType = isWalletCreatedVisible ? 'walletCreated' : type;
-
-        return (
-            <div className='pt-[2.4rem] mt-[10rem] blocked-scenarios__wallet'>
-                <ActionScreen
-                    actionButtons={blockedScenarios[updatedType].actionButton}
-                    description={blockedScenarios[updatedType].description}
-                    icon={blockedScenarios[updatedType].icon}
-                    title={blockedScenarios[updatedType].title}
-                />
-            </div>
-        );
-    }
-
     return (
-        <div className='pt-[2.4rem] mx-[2.4rem] mt-[10rem]'>
+        <div className='pt-[2.4rem] m-[2.4rem]'>
             {type && (
                 <ActionScreen
                     actionButtons={blockedScenarios[type].actionButton}
