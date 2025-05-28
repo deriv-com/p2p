@@ -21,13 +21,13 @@ const BusinessHoursModal = ({ hideModal, isModalOpen }: TBusinessHoursModalProps
     const { hideModal: hideCancelModal, isModalOpenFor, showModal } = useModalManager();
     const { isDesktop } = useDevice();
     const { businessHours } = useGetBusinessHours();
-    const { isSuccess, mutateAsync } = api.advertiser.useUpdate();
+    const { isSuccess, mutate } = api.advertiser.useUpdate();
     const [isDisabled, setIsDisabled] = useState(true);
     const [showEdit, setShowEdit] = useState(false);
     const [editedBusinessHours, setEditedBusinessHours] = useState<TData[]>(businessHours);
     const [shouldCloseModal, setShouldCloseModal] = useState(false);
 
-    const onSave = useCallback(async () => {
+    const onSave = useCallback(() => {
         const filteredTimes = editedBusinessHours.filter(day => day.start_time !== null || day.end_time !== null);
         const result = convertToMinutesRange(filteredTimes as TBusinessDay[]);
         const offset = new Date().getTimezoneOffset();
@@ -35,9 +35,8 @@ const BusinessHoursModal = ({ hideModal, isModalOpen }: TBusinessHoursModalProps
             day => day.start_min !== null || day.end_min !== null
         );
 
-        await mutateAsync({ schedule: convertedResult });
-        setShowEdit(false);
-    }, [editedBusinessHours, mutateAsync]);
+        mutate({ schedule: convertedResult });
+    }, [editedBusinessHours, mutate]);
 
     const onClickCancel = useCallback(() => {
         const isEdited = isTimeEdited(businessHours, editedBusinessHours);
