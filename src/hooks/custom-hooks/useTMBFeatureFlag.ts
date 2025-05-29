@@ -4,19 +4,24 @@ const useTMBFeatureFlag = () => {
     const isTMBEnabled = JSON.parse(localStorage.getItem('is_tmb_enabled') as string);
 
     if (TMB_REMOTE_CONFIG_URL) {
-        const getRemoteConfig = async () => {
-            const response = await fetch(TMB_REMOTE_CONFIG_URL)
-                .then(res => res.json())
-                .catch(() => {
-                    return true;
-                });
+        if (isTMBEnabled) return { data: isTMBEnabled };
 
-            return {
-                data: isTMBEnabled ?? response.p2p,
-            };
+        const getRemoteConfig = async () => {
+            try {
+                const response = await fetch(TMB_REMOTE_CONFIG_URL);
+                const data = await response.json();
+
+                return data.p2p;
+            } catch (error) {
+                return true;
+            }
         };
 
-        getRemoteConfig();
+        const isP2PEnabled = getRemoteConfig();
+
+        return {
+            data: isP2PEnabled,
+        };
     }
 
     return {
