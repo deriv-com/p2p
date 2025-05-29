@@ -4,7 +4,7 @@ const useTMBFeatureFlag = () => {
     const isTMBEnabled = JSON.parse(localStorage.getItem('is_tmb_enabled') as string);
 
     if (TMB_REMOTE_CONFIG_URL) {
-        if (isTMBEnabled) return { data: isTMBEnabled };
+        if (isTMBEnabled !== null && isTMBEnabled !== undefined) return { data: isTMBEnabled };
 
         const getRemoteConfig = async () => {
             try {
