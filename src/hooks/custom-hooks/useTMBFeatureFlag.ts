@@ -8,7 +8,12 @@ const useTMBFeatureFlag = () => {
 
     useEffect(() => {
         if (TMB_REMOTE_CONFIG_URL) {
-            if (isTMBEnabled !== null && isTMBEnabled !== undefined) return;
+            if (isTMBEnabled !== null && isTMBEnabled !== undefined) {
+                setIsTMBEnabledValue(isTMBEnabled);
+                setIsInitialized(true);
+
+                return;
+            }
 
             const getRemoteConfig = async () => {
                 try {

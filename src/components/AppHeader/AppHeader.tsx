@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { getOauthUrl } from '@/constants';
-import { api, useGrowthbookGetFeatureValue, useOAuth, useShouldRedirectToLowCodeHub, useTMBFeatureFlag } from '@/hooks';
+import { api, useGrowthbookGetFeatureValue, useOAuth, useShouldRedirectToLowCodeHub } from '@/hooks';
 import { useIsLoadingOidcStore } from '@/stores';
 import { Chat, getCurrentRoute } from '@/utils';
 import { StandaloneCircleUserRegularIcon } from '@deriv/quill-icons';
@@ -18,8 +18,11 @@ import { MobileMenu } from './MobileMenu';
 import { Notifications } from './Notifications';
 import './AppHeader.scss';
 
+type TAppHeaderProps = {
+    isTMBEnabled: boolean;
+};
 // TODO: handle local storage values not updating after changing local storage values
-const AppHeader = () => {
+const AppHeader = ({ isTMBEnabled }: TAppHeaderProps) => {
     const { isDesktop } = useDevice();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
     const { activeLoginid } = useAuthData();
@@ -31,7 +34,6 @@ const AppHeader = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
-    const { data: isTMBEnabled, isInitialized } = useTMBFeatureFlag();
     const redirectLink = useShouldRedirectToLowCodeHub('personal-details');
 
     useEffect(() => {
@@ -94,7 +96,7 @@ const AppHeader = () => {
                 className='w-36'
                 color='primary-light'
                 onClick={async () => {
-                    if (isOAuth2Enabled && isInitialized && !isTMBEnabled) {
+                    if (isOAuth2Enabled && !isTMBEnabled) {
                         await requestOidcAuthentication({
                             redirectCallbackUri: `${window.location.origin}/callback`,
                         });

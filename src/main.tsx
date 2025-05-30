@@ -29,7 +29,7 @@ const CustomAppDataProvider = memo(() => {
         if (isInitialized && isTMBEnabled) {
             initSession();
         }
-    }, [isInitialized, isTMBEnabled, initSession]);
+    }, [isInitialized, initSession]);
 
     if (!isInitialized || !isSessionActive) {
         return (
