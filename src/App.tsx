@@ -17,9 +17,10 @@ const i18nInstance = initializeI18n({
 
 type TAppProps = {
     isTMBEnabled: boolean;
+    isTMBInitialized: boolean;
 };
 
-const App = ({ isTMBEnabled }: TAppProps) => {
+const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const { onRenderAuthCheck } = useOAuth();
     const { init: initTrackJS } = useTrackjs();
     const { initialise: initDatadog } = useDatadog();
@@ -38,7 +39,7 @@ const App = ({ isTMBEnabled }: TAppProps) => {
     initDatadog();
 
     useEffect(() => {
-        if (isTMBEnabled) return;
+        if (isTMBInitialized && isTMBEnabled) return;
 
         onRenderAuthCheck();
     }, [isTMBEnabled, onRenderAuthCheck]);
