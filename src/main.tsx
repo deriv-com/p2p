@@ -41,7 +41,7 @@ const CustomAppDataProvider = memo(() => {
 
     return (
         <AppDataProvider accountTypes={ACCOUNT_TYPES} currencies={CURRENCIES}>
-            <App />
+            <App isTMBEnabled={isTMBEnabled} />
         </AppDataProvider>
     );
 });
