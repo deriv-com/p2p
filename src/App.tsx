@@ -42,7 +42,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
         if (isTMBInitialized && isTMBEnabled) return;
 
         onRenderAuthCheck();
-    }, [isTMBEnabled, onRenderAuthCheck]);
+    }, [onRenderAuthCheck]);
 
     return (
         <BrowserRouter>
