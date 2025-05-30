@@ -31,7 +31,7 @@ const CustomAppDataProvider = memo(() => {
         }
     }, [isInitialized, isTMBEnabled, initSession]);
 
-    if (!isSessionActive) {
+    if (!isInitialized || !isSessionActive) {
         return (
             <div className='flex h-full w-full items-center justify-center'>
                 <Loader isFullScreen />
@@ -41,7 +41,7 @@ const CustomAppDataProvider = memo(() => {
 
     return (
         <AppDataProvider accountTypes={ACCOUNT_TYPES} currencies={CURRENCIES}>
-            <App isTMBEnabled={isTMBEnabled} />
+            <App isTMBEnabled={isTMBEnabled} isTMBInitialized={isInitialized} />
         </AppDataProvider>
     );
 });
