@@ -38,7 +38,7 @@ const App = () => {
         if (isTMBEnabled) return;
 
         onRenderAuthCheck();
-    }, [onRenderAuthCheck]);
+    }, [isTMBEnabled, onRenderAuthCheck]);
 
     return (
         <BrowserRouter>
