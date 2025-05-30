@@ -2,7 +2,6 @@ export * from './AdvertiserName';
 export * from './AdvertsTableRow';
 export * from './AppFooter';
 export * from './AppHeader';
-export * from './AwarenessBanner';
 export * from './Badge';
 export * from './BuySellForm';
 export * from './Checklist';

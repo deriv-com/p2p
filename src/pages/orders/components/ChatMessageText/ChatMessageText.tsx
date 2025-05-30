@@ -14,7 +14,7 @@ const ChatMessageText = ({ children, color, type = '' }: PropsWithChildren<TChat
 
     return (
         <div className='chat-message-text'>
-            <Text color={color} lineHeight={isAdmin ? 'lg' : 'xl'} size={isAdmin && isDesktop ? 'xs' : 'sm'}>
+            <Text color={color} size={isAdmin && isDesktop ? 'xs' : 'sm'}>
                 {children}
             </Text>
         </div>
