@@ -10,7 +10,7 @@ import './main.scss';
 
 const CustomAppDataProvider = memo(() => {
     const { data: isTMBEnabled, isInitialized } = useTMBFeatureFlag();
-    const [isSessionActive, setIsSessionActive] = useState(!isTMBEnabled);
+    const [isSessionActive, setIsSessionActive] = useState(false);
     const { onRenderTMBCheck } = useTMB();
     const initRef = useRef(false);
 
