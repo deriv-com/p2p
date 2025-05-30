@@ -31,7 +31,7 @@ const CustomAppDataProvider = memo(() => {
         }
     }, [isInitialized, initSession]);
 
-    if (!isInitialized || !isSessionActive) {
+    if (!isInitialized || (isTMBEnabled && !isSessionActive)) {
         return (
             <div className='flex h-full w-full items-center justify-center'>
                 <Loader isFullScreen />
