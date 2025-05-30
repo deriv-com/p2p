@@ -9,7 +9,7 @@ import { useTMB, useTMBFeatureFlag } from './hooks';
 import './main.scss';
 
 const CustomAppDataProvider = memo(() => {
-    const { data: isTMBEnabled } = useTMBFeatureFlag();
+    const { data: isTMBEnabled, isInitialized } = useTMBFeatureFlag();
     const [isSessionActive, setIsSessionActive] = useState(!isTMBEnabled);
     const { onRenderTMBCheck } = useTMB();
     const initRef = useRef(false);
@@ -26,8 +26,10 @@ const CustomAppDataProvider = memo(() => {
     }, [onRenderTMBCheck]);
 
     useEffect(() => {
-        if (isTMBEnabled) initSession();
-    }, [isTMBEnabled, initSession]);
+        if (isInitialized && isTMBEnabled) {
+            initSession();
+        }
+    }, [isInitialized, isTMBEnabled, initSession]);
 
     if (!isSessionActive) {
         return (

@@ -27,7 +27,7 @@ const App = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
-    const { data: isTMBEnabled } = useTMBFeatureFlag();
+    const { data: isTMBEnabled, isInitialized } = useTMBFeatureFlag();
     const { isP2PCurrencyBlocked } = useIsP2PBlocked();
 
     initTrackJS();
@@ -35,10 +35,12 @@ const App = () => {
     initDatadog();
 
     useEffect(() => {
-        if (isTMBEnabled) return;
+        if (isInitialized) {
+            if (isTMBEnabled) return;
 
-        onRenderAuthCheck();
-    }, [isTMBEnabled, onRenderAuthCheck]);
+            onRenderAuthCheck();
+        }
+    }, [isInitialized, isTMBEnabled, onRenderAuthCheck]);
 
     return (
         <BrowserRouter>

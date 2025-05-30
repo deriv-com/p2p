@@ -31,7 +31,7 @@ const AppHeader = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
-    const { data: isTMBEnabled } = useTMBFeatureFlag();
+    const { data: isTMBEnabled, isInitialized } = useTMBFeatureFlag();
     const redirectLink = useShouldRedirectToLowCodeHub('personal-details');
 
     useEffect(() => {
@@ -94,7 +94,7 @@ const AppHeader = () => {
                 className='w-36'
                 color='primary-light'
                 onClick={async () => {
-                    if (isOAuth2Enabled && !isTMBEnabled) {
+                    if (isOAuth2Enabled && isInitialized && !isTMBEnabled) {
                         await requestOidcAuthentication({
                             redirectCallbackUri: `${window.location.origin}/callback`,
                         });
