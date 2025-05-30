@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { AppFooter, AppHeader, DerivIframe, ErrorBoundary } from '@/components';
-import { useDatadog, useDerivAnalytics, useIsP2PBlocked, useOAuth, useTMBFeatureFlag, useTrackjs } from '@/hooks';
+import { useDatadog, useDerivAnalytics, useIsP2PBlocked, useOAuth, useTrackjs } from '@/hooks';
 import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
@@ -15,7 +15,11 @@ const i18nInstance = initializeI18n({
     cdnUrl: `${VITE_TRANSLATIONS_CDN_URL}/${VITE_PROJECT_NAME}/${VITE_CROWDIN_BRANCH_NAME}`,
 });
 
-const App = () => {
+type TAppProps = {
+    isTMBEnabled: boolean;
+};
+
+const App = ({ isTMBEnabled }: TAppProps) => {
     const { onRenderAuthCheck } = useOAuth();
     const { init: initTrackJS } = useTrackjs();
     const { initialise: initDatadog } = useDatadog();
@@ -27,7 +31,6 @@ const App = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
-    const { data: isTMBEnabled, isInitialized } = useTMBFeatureFlag();
     const { isP2PCurrencyBlocked } = useIsP2PBlocked();
 
     initTrackJS();
@@ -35,12 +38,10 @@ const App = () => {
     initDatadog();
 
     useEffect(() => {
-        if (isInitialized) {
-            if (isTMBEnabled) return;
+        if (isTMBEnabled) return;
 
-            onRenderAuthCheck();
-        }
-    }, [isInitialized, isTMBEnabled, onRenderAuthCheck]);
+        onRenderAuthCheck();
+    }, [isTMBEnabled, onRenderAuthCheck]);
 
     return (
         <BrowserRouter>
