@@ -26,7 +26,7 @@ const useTMBFeatureFlag = () => {
         } else {
             setIsInitialized(true);
         }
-    }, []);
+    }, [isTMBEnabled, TMB_REMOTE_CONFIG_URL]);
 
     return {
         data: isTMBEnabledValue,
