@@ -27,7 +27,7 @@ const CustomAppDataProvider = memo(() => {
 
     useEffect(() => {
         if (isTMBEnabled) initSession();
-    }, [initSession]);
+    }, [isTMBEnabled, initSession]);
 
     if (!isSessionActive) {
         return (
