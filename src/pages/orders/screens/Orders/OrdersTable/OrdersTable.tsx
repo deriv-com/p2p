@@ -2,7 +2,6 @@ import { memo } from 'react';
 import clsx from 'clsx';
 import { THooks, TLocalize } from 'types';
 import { Table } from '@/components';
-import { api } from '@/hooks';
 import { useIsAdvertiser } from '@/hooks/custom-hooks';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
@@ -54,9 +53,6 @@ const OrdersTable = ({ data, isActive, isLoading, loadMoreOrders }: TOrdersTable
     const isAdvertiser = useIsAdvertiser();
     const { localize } = useTranslations();
 
-    const { data: accountData } = api.account.useActiveAccount();
-    const isAwarenessBannerHidden = localStorage.getItem(`p2p_${accountData?.loginid}_is_awareness_banner_hidden`);
-
     if (!isAdvertiser || (data?.length === 0 && !isLoading)) {
         return <OrdersEmpty isPast={!isActive} />;
     }
@@ -64,9 +60,7 @@ const OrdersTable = ({ data, isActive, isLoading, loadMoreOrders }: TOrdersTable
     return (
         <div
             className={clsx('orders-table', {
-                'orders-table--has-no-banner': isActive && isAwarenessBannerHidden === 'true',
                 'orders-table--inactive': !isActive,
-                'orders-table--inactive--has-no-banner': !isActive && isAwarenessBannerHidden === 'true',
             })}
         >
             {isLoading ? (

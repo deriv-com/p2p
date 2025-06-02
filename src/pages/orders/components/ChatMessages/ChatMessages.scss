@@ -91,7 +91,10 @@
             border-radius: 0.8rem;
 
             &--text {
-                margin-bottom: 1rem;
+                a {
+                    font-weight: bold;
+                    text-decoration: underline;
+                }
             }
         }
     }
