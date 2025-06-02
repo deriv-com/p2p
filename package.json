@@ -55,7 +55,7 @@
         "use-query-params": "^2.2.1",
         "usehooks-ts": "^2.16.0",
         "vite": "^6.3.5",
-        "zustand": "^4.5.2"
+        "zustand": "^5.0.5"
     },
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.18.6",
