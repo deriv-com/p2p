@@ -1,6 +1,13 @@
 import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
-import { OutsideBusinessHoursHint, PageReturn, PNVBanner, TemporarilyBarredHint, Verification } from '@/components';
+import {
+    AwarenessBanner,
+    OutsideBusinessHoursHint,
+    PageReturn,
+    PNVBanner,
+    TemporarilyBarredHint,
+    Verification,
+} from '@/components';
 import { BUY_SELL_URL } from '@/constants';
 import {
     useGetBusinessHours,
@@ -50,6 +57,7 @@ const BuySell = () => {
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             {!isScheduleAvailable && !isAdvertiserBarred && <OutsideBusinessHoursHint />}
             {isAdvertiser && shouldShowVerification && <PNVBanner />}
+            <AwarenessBanner />
             <BuySellTable />
         </div>
     );
