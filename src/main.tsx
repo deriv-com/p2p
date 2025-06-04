@@ -5,12 +5,11 @@ import { AppDataProvider } from '@deriv-com/api-hooks';
 import { Loader } from '@deriv-com/ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
-import { useTMB } from './hooks';
+import { useTMB, useTMBFeatureFlag } from './hooks';
 import './main.scss';
 
-const isTMBEnabled = JSON.parse(localStorage.getItem('is_tmb_enabled') ?? 'false');
-
 const CustomAppDataProvider = memo(() => {
+    const { data: isTMBEnabled, isInitialized } = useTMBFeatureFlag();
     const [isSessionActive, setIsSessionActive] = useState(false);
     const { onRenderTMBCheck } = useTMB();
     const initRef = useRef(false);
@@ -27,10 +26,12 @@ const CustomAppDataProvider = memo(() => {
     }, [onRenderTMBCheck]);
 
     useEffect(() => {
-        initSession();
-    }, [initSession]);
+        if (isInitialized && isTMBEnabled) {
+            initSession();
+        }
+    }, [isInitialized, initSession]);
 
-    if (!isSessionActive) {
+    if (!isInitialized || (isTMBEnabled && !isSessionActive)) {
         return (
             <div className='flex h-full w-full items-center justify-center'>
                 <Loader isFullScreen />
@@ -40,7 +41,7 @@ const CustomAppDataProvider = memo(() => {
 
     return (
         <AppDataProvider accountTypes={ACCOUNT_TYPES} currencies={CURRENCIES}>
-            <App />
+            <App isTMBEnabled={isTMBEnabled} isTMBInitialized={isInitialized} />
         </AppDataProvider>
     );
 });
@@ -50,12 +51,7 @@ CustomAppDataProvider.displayName = 'CustomAppDataProvider';
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <QueryClientProvider client={new QueryClient()}>
-            {isTMBEnabled && <CustomAppDataProvider />}
-            {!isTMBEnabled && (
-                <AppDataProvider accountTypes={ACCOUNT_TYPES} currencies={CURRENCIES}>
-                    <App />
-                </AppDataProvider>
-            )}
+            <CustomAppDataProvider />
         </QueryClientProvider>
     </React.StrictMode>
 );

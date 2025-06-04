@@ -15,7 +15,12 @@ const i18nInstance = initializeI18n({
     cdnUrl: `${VITE_TRANSLATIONS_CDN_URL}/${VITE_PROJECT_NAME}/${VITE_CROWDIN_BRANCH_NAME}`,
 });
 
-const App = () => {
+type TAppProps = {
+    isTMBEnabled: boolean;
+    isTMBInitialized: boolean;
+};
+
+const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const { onRenderAuthCheck } = useOAuth();
     const { init: initTrackJS } = useTrackjs();
     const { initialise: initDatadog } = useDatadog();
@@ -34,8 +39,7 @@ const App = () => {
     initDatadog();
 
     useEffect(() => {
-        const isTMBEnabled = JSON.parse(localStorage.getItem('is_tmb_enabled') ?? 'false');
-        if (isTMBEnabled) return;
+        if (isTMBInitialized && isTMBEnabled) return;
 
         onRenderAuthCheck();
     }, [onRenderAuthCheck]);
@@ -53,7 +57,9 @@ const App = () => {
                             }
                         >
                             {!isOAuth2Enabled && <DerivIframe />}
-                            {(isEndpointPage || (!isCallbackPage && !isP2PCurrencyBlocked)) && <AppHeader />}
+                            {(isEndpointPage || (!isCallbackPage && !isP2PCurrencyBlocked)) && (
+                                <AppHeader isTMBEnabled={isTMBEnabled} />
+                            )}
                             <AppContent />
                             {isDesktop && !isCallbackPage && !isP2PCurrencyBlocked && <AppFooter />}
                         </Suspense>

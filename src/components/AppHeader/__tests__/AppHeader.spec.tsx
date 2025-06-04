@@ -134,7 +134,7 @@ describe('<AppHeader/>', () => {
         render(
             <BrowserRouter>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>
-                    <AppHeader />
+                    <AppHeader isTMBEnabled={false} />
                 </QueryParamProvider>
             </BrowserRouter>
         );
@@ -174,7 +174,7 @@ describe('<AppHeader/>', () => {
         render(
             <BrowserRouter>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>
-                    <AppHeader />
+                    <AppHeader isTMBEnabled={false} />
                 </QueryParamProvider>
             </BrowserRouter>
         );

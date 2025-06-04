@@ -18,8 +18,11 @@ import { MobileMenu } from './MobileMenu';
 import { Notifications } from './Notifications';
 import './AppHeader.scss';
 
+type TAppHeaderProps = {
+    isTMBEnabled: boolean;
+};
 // TODO: handle local storage values not updating after changing local storage values
-const AppHeader = () => {
+const AppHeader = ({ isTMBEnabled }: TAppHeaderProps) => {
     const { isDesktop } = useDevice();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
     const { activeLoginid } = useAuthData();
@@ -31,7 +34,6 @@ const AppHeader = () => {
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
-    const isTMBEnabled = localStorage.getItem('is_tmb_enabled');
     const redirectLink = useShouldRedirectToLowCodeHub('personal-details');
 
     useEffect(() => {

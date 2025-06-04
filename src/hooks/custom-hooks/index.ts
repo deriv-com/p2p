@@ -31,4 +31,5 @@ export { default as useSendbird } from './useSendbird';
 export { default as useShouldRedirectToLowCodeHub } from './useShouldRedirectToLowCodeHub';
 export { default as useSyncedTime } from './useSyncedTime';
 export { default as useTMB } from './useTMB';
+export { default as useTMBFeatureFlag } from './useTMBFeatureFlag';
 export { default as useTrackjs } from './useTrackjs';

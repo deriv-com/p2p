@@ -1,16 +1,12 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-import { useEffect, useState } from 'react';
-import { api, useShouldRedirectToLowCodeHub } from '@/hooks';
+import { useShouldRedirectToLowCodeHub } from '@/hooks';
 import { Chat } from '@/utils';
 import {
     DerivLightIcCashierBlockedIcon,
     DerivLightIcCashierUnderMaintenanceIcon,
     DerivLightWalletCurrencyUnavailableIcon as P2pUnavailable,
 } from '@deriv/quill-icons';
-import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { Localize } from '@deriv-com/translations';
-import { ActionScreen, Button, Loader, Text, useDevice } from '@deriv-com/ui';
+import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
 
 type TBlockedScenariosObject = {
     [key: string]: {
@@ -27,46 +23,10 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     const buttonTextSize = isMobile ? 'md' : 'sm';
     const iconSize = isMobile ? 96 : 128;
     const redirectLink = useShouldRedirectToLowCodeHub();
-    const { data: walletAccount, isAuthorized, mutateAsync } = api.account.useCreateWalletAccount();
-    const { isSuccess: isMutateRealAccountSuccess, mutate: mutateRealAccount } = api.account.useCreateRealAccount();
-    const { data } = api.account.useActiveAccount();
-    const [isLoading, setIsLoading] = useState(false);
 
     const openDerivApp = () => {
         window.open(redirectLink, '_self');
     };
-
-    const createAccount = () => {
-        if (data?.isWalletAccount) {
-            createWalletAccount();
-        } else {
-            setIsLoading(true);
-            mutateRealAccount?.({ currency: 'USD' });
-        }
-    };
-    const createWalletAccount = () => {
-        setIsLoading(true);
-        mutateAsync({ account_type: 'doughflow', currency: 'USD', loginid: data?.loginid });
-    };
-
-    useEffect(() => {
-        if (isAuthorized) {
-            mutateRealAccount({ currency: walletAccount?.currency, loginid: walletAccount?.client_id });
-        }
-    }, [isAuthorized]);
-
-    useEffect(() => {
-        if (isMutateRealAccountSuccess) {
-            try {
-                requestOidcAuthentication({
-                    redirectCallbackUri: `${window.location.origin}/callback`,
-                });
-            } catch (error) {
-                // eslint-disable-next-line no-console
-                console.error('Failed to refetch OIDC tokens', error);
-            }
-        }
-    }, [isMutateRealAccountSuccess]);
 
     const openLiveChat = () => {
         Chat.open();
@@ -75,7 +35,7 @@ const BlockedScenarios = ({ type }: { type: string }) => {
     const blockedScenarios: TBlockedScenariosObject = {
         crypto: {
             actionButton: (
-                <Button onClick={createAccount} size='lg' textSize={buttonTextSize}>
+                <Button onClick={openDerivApp} size='lg' textSize={buttonTextSize}>
                     <Localize i18n_default_text='Add real USD account' />
                 </Button>
             ),
@@ -195,8 +155,6 @@ const BlockedScenarios = ({ type }: { type: string }) => {
             ),
         },
     };
-
-    if (isLoading) return <Loader />;
 
     return (
         <div className='pt-[2.4rem] m-[2.4rem]'>
