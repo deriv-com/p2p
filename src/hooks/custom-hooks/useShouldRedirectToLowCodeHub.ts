@@ -1,6 +1,6 @@
 import { URLConstants } from '@deriv-com/utils';
 import { api } from '..';
-import useGrowthbookGetFeatureValue from './useGrowthbookGetFeatureValue';
+import useGetHubEnabledCountryList from './useGetHubEnabledCountryList';
 
 type TUseShouldRedirectToLowCodeHub = (accountsSection?: string, goToCFDs?: boolean) => string;
 
@@ -10,14 +10,10 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsS
     const hubOSProduction = 'http://hub.deriv.com';
     const hubOSStaging = 'http://staging-hub.deriv.com';
     const { data: activeAccount } = api.account.useActiveAccount();
-    const [hubEnabledCountryListP2P] = useGrowthbookGetFeatureValue({
-        featureFlag: 'hub_enabled_country_list_p2p',
-    });
+    const { data: hubEnabledCountryListP2P } = useGetHubEnabledCountryList();
 
     const hasWalletAccount = activeAccount?.isWalletAccount;
-    // @ts-expect-error hub_enabled_country_list is not typed
-    const countryList = (hubEnabledCountryListP2P.hub_enabled_country_list as string[]) || [];
-    const isUserCountryInHubEnabledCountryList = countryList.includes(activeAccount?.country ?? '');
+    const isUserCountryInHubEnabledCountryList = hubEnabledCountryListP2P.includes(activeAccount?.country ?? '');
 
     const shouldRedirectToLowCode = hasWalletAccount && isUserCountryInHubEnabledCountryList;
 
