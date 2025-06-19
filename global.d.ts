@@ -5,15 +5,8 @@ declare global {
         DerivInterCom: {
             initialize: (config: ICConfig) => void;
         };
-        FreshChat: {
-            initialize: (config: FreshChatConfig) => void;
-        };
         GrowthbookFeatures: { [key: string]: string[] | boolean };
         Intercom: ((action: IntercomAction) => void) | undefined;
-        LC_API: {
-            on_chat_ended: VoidFunction;
-            open_chat_window: VoidFunction;
-        };
         LiveChatWidget: {
             call: (key: string, value?: object | string) => void;
             init: () => void;
