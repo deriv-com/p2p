@@ -6,7 +6,6 @@ export { default as useDotButton } from './useDotButton';
 export { default as useExtendedOrderDetails } from './useExtendedOrderDetails';
 export { default as useFetchMore } from './useFetchMore';
 export { default as useFloatingRate } from './useFloatingRate';
-export { default as useFreshchat } from './useFreshchat';
 export { default as useFullScreen } from './useFullScreen';
 export { default as useGetBusinessHours } from './useGetBusinessHours.tsx';
 export { default as useGetHubEnabledCountryList } from './useGetHubEnabledCountryList';
@@ -20,7 +19,6 @@ export { default as useIsAdvertiserNotVerified } from './useIsAdvertiserNotVerif
 export { default as useIsP2PBlocked } from './useIsP2PBlocked';
 export { default as useIsRtl } from './useIsRtl';
 export { default as useIsWalletAccount } from './useIsWalletAccount';
-export { default as useLiveChat } from './useLiveChat';
 export { default as useModalManager } from './useModalManager';
 export { default as useNavigatorOnline } from './useNavigatorOnline';
 export { default as useNetworkStatus } from './useNetworkStatus';

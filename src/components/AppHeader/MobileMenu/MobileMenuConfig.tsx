@@ -1,9 +1,7 @@
 import { ComponentProps, ReactNode } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { HELP_CENTRE, RESPONSIBLE } from '@/constants';
-import { useGrowthbookGetFeatureValue, useOAuth, useShouldRedirectToLowCodeHub } from '@/hooks/custom-hooks';
-import useFreshChat from '@/hooks/custom-hooks/useFreshchat';
-import useIntercom from '@/hooks/custom-hooks/useIntercom';
+import { useOAuth, useShouldRedirectToLowCodeHub } from '@/hooks/custom-hooks';
 import { useIsLoadingOidcStore } from '@/stores';
 import { Chat } from '@/utils';
 import {
@@ -43,22 +41,11 @@ export const MobileMenuConfig = () => {
     const { localize } = useTranslations();
     const { oAuthLogout } = useOAuth();
 
-    const [isFreshChatEnabled] = useGrowthbookGetFeatureValue({
-        featureFlag: 'enable_freshworks_live_chat_p2p',
-    });
-    const [isIntercomEnabled] = useGrowthbookGetFeatureValue({
-        featureFlag: 'enable_intercom_p2p',
-    });
-
     const { setIsCheckingOidcTokens } = useIsLoadingOidcStore(
         useShallow(state => ({
             setIsCheckingOidcTokens: state.setIsCheckingOidcTokens,
         }))
     );
-
-    const token = localStorage.getItem('authToken') || null;
-    useFreshChat(token, isFreshChatEnabled as boolean);
-    useIntercom(token, isIntercomEnabled as boolean);
 
     const menuConfig: TMenuConfig[] = [
         [

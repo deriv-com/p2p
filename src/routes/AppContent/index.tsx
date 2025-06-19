@@ -4,7 +4,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { ErrorModal, SafetyAlertModal } from '@/components/Modals';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useIsP2PBlocked, useLiveChat, useModalManager, useOAuth } from '@/hooks';
+import { api, useIntercom, useIsP2PBlocked, useModalManager, useOAuth } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { useIsLoadingOidcStore } from '@/stores';
@@ -20,6 +20,9 @@ import { getRoutes } from '../routes-config';
 import './index.scss';
 
 const AppContent = () => {
+    const token = localStorage.getItem('authToken') || null;
+    useIntercom(token);
+
     const isGtmTracking = useRef(false);
     const history = useHistory();
     const location = useLocation();
@@ -32,7 +35,6 @@ const AppContent = () => {
         isLoading: isLoadingActiveAccount,
     } = api.account.useActiveAccount();
     const { data: accountList = [] } = useAccountList();
-    const { init: initLiveChat } = useLiveChat();
     const { localize } = useTranslations();
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { oAuthLogout } = useOAuth({ showErrorModal: () => showModal('ErrorModal') });
@@ -83,7 +85,6 @@ const AppContent = () => {
     const isCallbackPage = getCurrentRoute() === 'callback';
 
     useEffect(() => {
-        initLiveChat();
         window.addEventListener('unhandledrejection', () => {
             showModal('ErrorModal');
         });
