@@ -115,11 +115,14 @@ jest.mock('@deriv-com/auth-client', () => ({
 }));
 
 const mockStore = {
+    hubEnabledCountryList: [],
     isCheckingOidcTokens: false,
+    setHubEnabledCountryList: jest.fn(),
     setIsCheckingOidcTokens: jest.fn(),
 };
 
 jest.mock('@/stores', () => ({
+    useHubEnabledCountryListStore: jest.fn(selector => (selector ? selector(mockStore) : mockStore)),
     useIsLoadingOidcStore: jest.fn(selector => (selector ? selector(mockStore) : mockStore)),
 }));
 
