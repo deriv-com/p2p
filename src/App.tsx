@@ -3,7 +3,14 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { AppFooter, AppHeader, DerivIframe, ErrorBoundary } from '@/components';
-import { useDatadog, useDerivAnalytics, useIsP2PBlocked, useOAuth, useTrackjs } from '@/hooks';
+import {
+    useDatadog,
+    useDerivAnalytics,
+    useGetHubEnabledCountryList,
+    useIsP2PBlocked,
+    useOAuth,
+    useTrackjs,
+} from '@/hooks';
 import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
@@ -34,6 +41,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const isOAuth2Enabled = isProduction || isStaging;
     const { isP2PCurrencyBlocked } = useIsP2PBlocked();
 
+    useGetHubEnabledCountryList();
     initTrackJS();
     initDerivAnalytics();
     initDatadog();

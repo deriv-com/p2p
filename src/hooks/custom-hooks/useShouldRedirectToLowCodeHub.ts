@@ -1,6 +1,7 @@
+import { useShallow } from 'zustand/react/shallow';
+import { useHubEnabledCountryListStore } from '@/stores';
 import { URLConstants } from '@deriv-com/utils';
 import { api } from '..';
-import useGetHubEnabledCountryList from './useGetHubEnabledCountryList';
 
 type TUseShouldRedirectToLowCodeHub = (accountsSection?: string, goToCFDs?: boolean) => string;
 
@@ -10,10 +11,14 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsS
     const hubOSProduction = 'http://hub.deriv.com';
     const hubOSStaging = 'http://staging-hub.deriv.com';
     const { data: activeAccount } = api.account.useActiveAccount();
-    const { data: hubEnabledCountryListP2P } = useGetHubEnabledCountryList();
+    const { hubEnabledCountryList } = useHubEnabledCountryListStore(
+        useShallow(state => ({
+            hubEnabledCountryList: state.hubEnabledCountryList,
+        }))
+    );
 
     const hasWalletAccount = activeAccount?.isWalletAccount;
-    const isUserCountryInHubEnabledCountryList = hubEnabledCountryListP2P.includes(activeAccount?.country ?? '');
+    const isUserCountryInHubEnabledCountryList = hubEnabledCountryList.includes(activeAccount?.country ?? '');
 
     const shouldRedirectToLowCode = hasWalletAccount && isUserCountryInHubEnabledCountryList;
 
