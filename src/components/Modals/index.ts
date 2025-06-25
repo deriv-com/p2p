@@ -34,6 +34,5 @@ export * from './RadioGroupFilterModal';
 export * from './RateFluctuationModal';
 export * from './RatingModal';
 export * from './RemainingBuySellLimitModal';
-export * from './SafetyAlertModal';
 export * from './ShareAdsModal';
 export * from './VideoPlayerModal';

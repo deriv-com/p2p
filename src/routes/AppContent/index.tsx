@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
-import { ErrorModal, SafetyAlertModal } from '@/components/Modals';
+import { ErrorModal } from '@/components/Modals';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
 import { api, useIntercom, useIsP2PBlocked, useModalManager, useOAuth } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
@@ -214,7 +214,6 @@ const AppContent = () => {
                         ))}
                     </Tabs>
                     {isDesktop && !isEndpointRoute && <GuideTooltip />}
-                    {!isEndpointRoute && <SafetyAlertModal />}
                     <Router />
                 </div>
             );
