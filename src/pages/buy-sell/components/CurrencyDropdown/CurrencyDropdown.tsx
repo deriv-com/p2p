@@ -17,8 +17,6 @@ type TCurrencyDropdownProps = {
 
 const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDropdownProps) => {
     const { data } = api.settings.useSettings();
-    const { data: accountData } = api.account.useActiveAccount();
-    const isAwarenessBannerHidden = localStorage.getItem(`p2p_${accountData?.loginid}_is_awareness_banner_hidden`);
     const { isDesktop, isMobile } = useDevice();
     const [showCurrencySelector, setShowCurrencySelector] = useState<boolean>(false);
 
@@ -48,9 +46,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
     if (showCurrencySelector && !isDesktop)
         return (
             <FullPageMobileWrapper
-                className={clsx('currency-dropdown__full-page-modal', {
-                    'currency-dropdown__full-page-modal--has-no-banner': isAwarenessBannerHidden === 'true',
-                })}
+                className='currency-dropdown__full-page-modal currency-dropdown__full-page-modal--has-no-banner'
                 onBack={() => {
                     setShowCurrencySelector(false);
                 }}
