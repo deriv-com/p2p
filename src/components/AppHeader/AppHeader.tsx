@@ -78,7 +78,6 @@ const AppHeader = ({ isTMBEnabled }: TAppHeaderProps) => {
                                 setIsCheckingOidcTokens(true);
                                 Chat.clear();
                                 oAuthLogout();
-                                localStorage.removeItem(`p2p_${activeAccount?.loginid}_is_awareness_banner_hidden`);
                             }}
                             size='md'
                         >
