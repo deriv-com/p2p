@@ -20,7 +20,6 @@ type TFilterModalProps = {
 const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
     const { hideModal, isModalOpenFor, showModal } = useModalManager();
     const { data } = api.paymentMethods.useGet();
-    const { data: accountData } = api.account.useActiveAccount();
     const { localize } = useTranslations();
     const { isDesktop } = useDevice();
     const {
@@ -74,7 +73,6 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
     const hasSameFollowed = showFollowedUsers === showFollowed;
     const hasSameFilters = hasSamePaymentMethods && hasSameMatching && hasSameFollowed;
     const headerText = showPaymentMethods ? localize('Payment methods') : localize('Filter');
-    const isAwarenessBannerHidden = localStorage.getItem(`p2p_${accountData?.loginid}_is_awareness_banner_hidden`);
 
     const onApplyConfirm = () => {
         if (showPaymentMethods) {
@@ -130,9 +128,7 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
     if (!isDesktop && isModalOpen) {
         return (
             <FullPageMobileWrapper
-                className={clsx('filter-modal', {
-                    'filter-modal--has-no-banner': isAwarenessBannerHidden === 'true',
-                })}
+                className='filter-modal filter-modal--has-no-banner'
                 onBack={showPaymentMethods ? () => setShowPaymentMethods(false) : onClickClose}
                 renderFooter={() => (
                     <FilterModalFooter
