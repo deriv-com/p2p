@@ -8,8 +8,16 @@ type TUseShouldRedirectToLowCodeHub = (accountsSection?: string, goToCFDs?: bool
 const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsSection = '', goToCFDs = false) => {
     const origin = window.location.origin;
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
-    const hubOSProduction = 'http://hub.deriv.com';
-    const hubOSStaging = 'http://staging-hub.deriv.com';
+    const hubOSProduction = origin.includes('deriv.me')
+        ? 'http://hub.deriv.me'
+        : origin.includes('deriv.be')
+          ? 'http://hub.deriv.be'
+          : 'http://hub.deriv.com';
+    const hubOSStaging = origin.includes('deriv.me')
+        ? 'http://staging-hub.deriv.me'
+        : origin.includes('deriv.be')
+          ? 'http://staging-hub.deriv.be'
+          : 'http://staging-hub.deriv.com';
     const { data: activeAccount } = api.account.useActiveAccount();
     const { hubEnabledCountryList } = useHubEnabledCountryListStore(
         useShallow(state => ({
