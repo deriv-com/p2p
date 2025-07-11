@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useScript } from 'usehooks-ts';
 
 const useIntercom = (token: string | null) => {
-    const intercomScript = 'https://static.deriv.com/scripts/intercom/v1.0.1.js';
+    const intercomScript = 'https://cdn.jsdelivr.net/npm/@deriv-com/cs-utils@1.0.14/dist/intercom.js';
     const scriptStatus = useScript(intercomScript);
     const [isReady, setIsReady] = useState(false);
 
