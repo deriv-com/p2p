@@ -1,17 +1,15 @@
 import clsx from 'clsx';
+import { useIsWalletAccount } from '@/hooks';
 import { MenuItem, Text, useDevice } from '@deriv-com/ui';
-import { PlatformSwitcher } from '../PlatformSwitcher';
 import { MobileMenuConfig } from './MobileMenuConfig';
 
 export const MenuContent = () => {
     const { isDesktop } = useDevice();
     const textSize = isDesktop ? 'sm' : 'md';
+    const { isWalletAccount } = useIsWalletAccount();
 
     return (
         <div className='flex flex-col h-full overflow-hidden'>
-            <div className='flex items-center justify-center h-28 p-14 border-b border-[#f2f3f4] w-full'>
-                <PlatformSwitcher />
-            </div>
             <div className='relative h-full pt-4 overflow-scroll'>
                 {MobileMenuConfig().map((item, index) => {
                     const removeBorderBottom = item.find(({ removeBorderBottom }) => removeBorderBottom);
@@ -24,7 +22,9 @@ export const MenuContent = () => {
                             data-testid='dt_menu_item'
                             key={index}
                         >
-                            {item.map(({ LeftComponent, RightComponent, as, href, label, onClick, target }) => {
+                            {item.map(({ LeftComponent, RightComponent, as, href, label, name, onClick, target }) => {
+                                if (isWalletAccount && (name === 'Cashier' || name === 'Reports')) return null;
+
                                 if (as === 'a') {
                                     return (
                                         <MenuItem

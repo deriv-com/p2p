@@ -3,42 +3,55 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { AppFooter, AppHeader, DerivIframe, ErrorBoundary } from '@/components';
-import { useDatadog, useDerivAnalytics, useOAuth, useTrackjs } from '@/hooks';
+import {
+    useDatadog,
+    useDerivAnalytics,
+    useGetHubEnabledCountryList,
+    useIsP2PBlocked,
+    useOAuth,
+    useTrackjs,
+} from '@/hooks';
 import AppContent from '@/routes/AppContent';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
-import useGrowthbookGetFeatureValue from './hooks/custom-hooks/useGrowthbookGetFeatureValue';
-import useOAuth2Enabled from './hooks/custom-hooks/useOAuth2Enabled';
+import { getCurrentRoute } from './utils';
 
 const { VITE_CROWDIN_BRANCH_NAME, VITE_PROJECT_NAME, VITE_TRANSLATIONS_CDN_URL } = process.env;
 const i18nInstance = initializeI18n({
     cdnUrl: `${VITE_TRANSLATIONS_CDN_URL}/${VITE_PROJECT_NAME}/${VITE_CROWDIN_BRANCH_NAME}`,
 });
 
-const App = () => {
-    const [ShouldRedirectToDerivApp, isGBLoaded] = useGrowthbookGetFeatureValue({
-        featureFlag: 'redirect_to_deriv_app_p2p',
-    });
-    const [isOAuth2Enabled] = useOAuth2Enabled();
+type TAppProps = {
+    isTMBEnabled: boolean;
+    isTMBInitialized: boolean;
+};
+
+const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const { onRenderAuthCheck } = useOAuth();
     const { init: initTrackJS } = useTrackjs();
     const { initialise: initDatadog } = useDatadog();
     const { isDesktop } = useDevice();
     const { initialise: initDerivAnalytics } = useDerivAnalytics();
+    const isCallbackPage = getCurrentRoute() === 'callback';
+    const isEndpointPage = getCurrentRoute() === 'endpoint';
+    const origin = window.location.origin;
+    const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
+    const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
+    const isOAuth2Enabled = isProduction || isStaging;
+    const { isP2PCurrencyBlocked } = useIsP2PBlocked();
 
+    useGetHubEnabledCountryList();
     initTrackJS();
     initDerivAnalytics();
     initDatadog();
-    onRenderAuthCheck();
 
     useEffect(() => {
-        if (isGBLoaded && ShouldRedirectToDerivApp) {
-            const NODE_ENV = process.env.VITE_NODE_ENV;
-            const APP_URL = NODE_ENV === 'production' ? URLConstants.derivAppProduction : URLConstants.derivAppStaging;
-            window.location.href = `${APP_URL}/cashier/p2p`;
-        }
-    }, [isGBLoaded, ShouldRedirectToDerivApp]);
+        if (isTMBInitialized && isTMBEnabled) return;
+
+        onRenderAuthCheck();
+    }, [onRenderAuthCheck]);
+
     return (
         <BrowserRouter>
             <ErrorBoundary>
@@ -52,9 +65,11 @@ const App = () => {
                             }
                         >
                             {!isOAuth2Enabled && <DerivIframe />}
-                            <AppHeader />
+                            {(isEndpointPage || (!isCallbackPage && !isP2PCurrencyBlocked)) && (
+                                <AppHeader isTMBEnabled={isTMBEnabled} />
+                            )}
                             <AppContent />
-                            {isDesktop && <AppFooter />}
+                            {isDesktop && !isCallbackPage && !isP2PCurrencyBlocked && <AppFooter />}
                         </Suspense>
                     </TranslationProvider>
                 </QueryParamProvider>

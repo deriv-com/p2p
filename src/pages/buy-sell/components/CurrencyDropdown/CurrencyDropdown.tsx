@@ -46,7 +46,7 @@ const CurrencyDropdown = ({ selectedCurrency, setSelectedCurrency }: TCurrencyDr
     if (showCurrencySelector && !isDesktop)
         return (
             <FullPageMobileWrapper
-                className='currency-dropdown__full-page-modal'
+                className='currency-dropdown__full-page-modal currency-dropdown__full-page-modal--has-no-banner'
                 onBack={() => {
                     setShowCurrencySelector(false);
                 }}

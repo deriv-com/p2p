@@ -9,6 +9,20 @@
         &__content {
             overflow: auto;
             padding-bottom: 2rem;
+
+            @include mobile-or-tablet-screen {
+                height: calc(100% - 6rem) !important;
+            }
+        }
+    }
+
+    &--has-no-banner {
+        @include mobile-or-tablet-screen {
+            & .table {
+                &__content {
+                    height: 100% !important;
+                }
+            }
         }
     }
 

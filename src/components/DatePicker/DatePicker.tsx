@@ -37,6 +37,7 @@ const DatePicker = ({
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const datePickerRef = useRef<HTMLDivElement>(null);
     const currentLang = LocalStorageUtils.getValue<string>('i18n_language') || 'EN';
+    const today = new Date();
 
     const toggleCalendar = () => {
         setIsCalendarOpen(prevState => !prevState);
@@ -83,17 +84,20 @@ const DatePicker = ({
             {isCalendarOpen && (
                 <div
                     className={clsx(`datepicker__container`, {
+                        'datepicker__container--left': !rightAlignment && selectedDate === null,
                         'datepicker__container--right': rightAlignment,
                     })}
                     data-testid='dt_datepicker_container'
                 >
                     <Calendar
+                        defaultActiveStartDate={selectedDate !== null ? selectedDate : today}
+                        defaultValue={selectedDate !== null ? selectedDate : today}
                         formatShortWeekday={customFormatShortWeekday}
                         locale={currentLang.toLowerCase()}
                         maxDate={maxDate}
                         minDate={minDate}
                         onChange={handleDateChange}
-                        value={selectedDate !== null ? selectedDate : ''}
+                        value={selectedDate !== null ? selectedDate : today}
                     />
                 </div>
             )}

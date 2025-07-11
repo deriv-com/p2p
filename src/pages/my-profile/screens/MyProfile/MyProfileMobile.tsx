@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import { TAdvertiserStats } from 'types';
-import { AwarenessBanner, MobileTabs, ProfileContent } from '@/components';
+import { MobileTabs, ProfileContent } from '@/components';
 import { GUIDE_URL } from '@/constants';
 import { useQueryString } from '@/hooks/custom-hooks';
 import { MyProfileAdDetails } from '../MyProfileAdDetails';
@@ -32,7 +32,6 @@ const MyProfileMobile = ({ data }: TMyProfileMobileProps) => {
 
     return (
         <>
-            <AwarenessBanner />
             <ProfileContent data={data} />
             <MobileTabs
                 onChangeTab={clickedTab => {

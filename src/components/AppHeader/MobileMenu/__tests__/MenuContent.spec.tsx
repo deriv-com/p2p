@@ -16,8 +16,9 @@ jest.mock('@deriv-com/api-hooks', () => ({
     }),
 }));
 
-jest.mock('../../PlatformSwitcher', () => ({
-    PlatformSwitcher: () => <div>PlatformSwitcher</div>,
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useIsWalletAccount: jest.fn().mockReturnValue({ isFetchedAfterMount: true, isWalletAccount: false }),
 }));
 
 jest.mock('../MobileMenuConfig', () => ({
@@ -49,13 +50,6 @@ describe('MenuContent Component', () => {
             value: jest.fn(),
             writable: true,
         });
-    });
-
-    it('renders PlatformSwitcher and MenuItem components correctly', () => {
-        render(<MenuContent />);
-        expect(screen.getByText('PlatformSwitcher')).toBeInTheDocument();
-        expect(screen.getByText('Home')).toBeInTheDocument();
-        expect(screen.getByText('Settings')).toBeInTheDocument();
     });
 
     it('renders MenuItem as an anchor when `as` prop is "a"', () => {

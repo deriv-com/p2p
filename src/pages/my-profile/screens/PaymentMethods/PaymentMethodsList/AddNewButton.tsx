@@ -23,7 +23,7 @@ const AddNewButton = ({ isDisabled, isMobile, onAdd }: TAddNewButtonProps) => (
         size='lg'
         textSize={isMobile ? 'md' : 'sm'}
     >
-        <Localize i18n_default_text='Add new' />
+        <Localize i18n_default_text='Add a payment method' />
     </Button>
 );
 

@@ -53,7 +53,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                         size='lg'
                         textSize={isMobile ? 'md' : 'sm'}
                     >
-                        <Localize i18n_default_text='Add payment methods' />
+                        <Localize i18n_default_text='Add a payment method' />
                     </Button>
                 </div>
             </FullPageMobileWrapper>
@@ -76,7 +76,7 @@ const PaymentMethodsEmpty = ({ onAddPaymentMethod }: TPaymentMethodsEmptyProps) 
                     onAddPaymentMethod();
                 }}
             >
-                <Localize i18n_default_text='Add payment methods' />
+                <Localize i18n_default_text='Add a payment method' />
             </Button>
         </div>
     );

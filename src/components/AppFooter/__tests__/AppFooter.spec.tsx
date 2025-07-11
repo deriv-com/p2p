@@ -62,8 +62,8 @@ describe('AppFooter', () => {
 
     it('renders the footer elements', () => {
         render(<AppFooterComponent />);
-        expect(screen.getAllByRole('button')).toHaveLength(2);
-        expect(screen.getAllByRole('link')).toHaveLength(5);
+        expect(screen.getAllByRole('button')).toHaveLength(3);
+        expect(screen.getAllByRole('link')).toHaveLength(4);
     });
 
     it('opens and closes the language settings modal', async () => {

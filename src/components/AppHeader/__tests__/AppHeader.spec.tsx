@@ -92,6 +92,40 @@ jest.mock('@/hooks', () => ({
     },
 }));
 
+let mockCurrentRoute = '';
+
+jest.mock('@/utils', () => ({
+    ...jest.requireActual('@/utils'),
+    getCurrentRoute: jest.fn(() => mockCurrentRoute),
+}));
+
+jest.mock('@deriv-com/auth-client', () => ({
+    OAuth2Logout: jest.fn(({ WSLogoutAndRedirect }) => {
+        const mockIframe = document.createElement('iframe');
+        mockIframe.id = 'logout-iframe';
+        document.body.appendChild(mockIframe);
+        setTimeout(() => {
+            const event = new MessageEvent('message', { data: 'logout_complete' });
+            window.dispatchEvent(event);
+        }, 100);
+        WSLogoutAndRedirect();
+    }),
+    useIsOAuth2Enabled: jest.fn().mockReturnValue(false),
+    useOAuth2: jest.fn().mockReturnValue({ isOAuth2Enabled: false }),
+}));
+
+const mockStore = {
+    hubEnabledCountryList: [],
+    isCheckingOidcTokens: false,
+    setHubEnabledCountryList: jest.fn(),
+    setIsCheckingOidcTokens: jest.fn(),
+};
+
+jest.mock('@/stores', () => ({
+    useHubEnabledCountryListStore: jest.fn(selector => (selector ? selector(mockStore) : mockStore)),
+    useIsLoadingOidcStore: jest.fn(selector => (selector ? selector(mockStore) : mockStore)),
+}));
+
 describe('<AppHeader/>', () => {
     window.open = jest.fn();
 
@@ -103,7 +137,7 @@ describe('<AppHeader/>', () => {
         render(
             <BrowserRouter>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>
-                    <AppHeader />
+                    <AppHeader isTMBEnabled={false} />
                 </QueryParamProvider>
             </BrowserRouter>
         );
@@ -134,14 +168,16 @@ describe('<AppHeader/>', () => {
         });
 
         Object.defineProperty(document, 'domain', {
-            value: 'example.com',
+            value: 'example.com/endpoint',
             writable: true,
         });
+
+        mockCurrentRoute = 'endpoint';
 
         render(
             <BrowserRouter>
                 <QueryParamProvider adapter={ReactRouter5Adapter}>
-                    <AppHeader />
+                    <AppHeader isTMBEnabled={false} />
                 </QueryParamProvider>
             </BrowserRouter>
         );

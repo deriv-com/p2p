@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useShouldRedirectToLowCodeHub } from '@/hooks';
 import { Chat } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Accordion, Text, useDevice } from '@deriv-com/ui';
@@ -13,6 +14,7 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
     const { isDesktop } = useDevice();
     const { localize } = useTranslations();
     const accordionRefs = useRef<HTMLDivElement[]>([]);
+    const redirectLink = useShouldRedirectToLowCodeHub('proof-of-identity');
 
     const handleScrollToAccordion = (index: number) => {
         const offsetByValue = isDesktop ? 0 : 100;
@@ -51,20 +53,25 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
                 title={localize('How to register for Deriv P2P?')}
                 variant='underline'
             >
-                <Text as='div' className='mb-[0.5rem]' lineHeight='xl' size='sm'>
-                    <Localize
-                        components={[
-                            <a
-                                className='guide__content-section--link'
-                                href={`${URLConstants.derivAppProduction}/account/proof-of-identity`}
-                                key={0}
-                            />,
-                        ]}
-                        i18n_default_text='Age-verify your account by submitting  <0>proof of identity</0>.'
-                    />
-                </Text>
+                <ul>
+                    <Text as='li' lineHeight='xl' size='sm'>
+                        <Localize
+                            components={[<a className='guide__content-section--link' href={redirectLink} key={0} />]}
+                            i18n_default_text='Verify your age by submitting your <0>proof of identity</0> (for example, passport, driving licence, or ID card).'
+                        />
+                    </Text>
+                    <Text as='li' lineHeight='xl' size='sm'>
+                        <Localize i18n_default_text='Verify your address by submitting your proof of address (for example, utility bill or bank statement).' />
+                    </Text>
+                    <Text as='li' lineHeight='xl' size='sm'>
+                        <Localize i18n_default_text='Verify your phone number.' />
+                    </Text>
+                    <Text as='li' lineHeight='xl' size='sm'>
+                        <Localize i18n_default_text='Set a nickname for your Deriv P2P profile.' />
+                    </Text>
+                </ul>
                 <Text as='div' lineHeight='xl' size='sm'>
-                    <Localize i18n_default_text='Once your submitted document has been approved, go to Cashier > Deriv P2P to register your Deriv P2P account.' />
+                    <Localize i18n_default_text='Once your documents are approved, go to Cashier > Deriv P2P to register your Deriv P2P account.' />
                 </Text>
             </Accordion>
             <Accordion
@@ -76,7 +83,16 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
                 variant='underline'
             >
                 <Text size='sm'>
-                    <Localize i18n_default_text='Your Deriv P2P balance may not include all deposits made to your Deriv account. Deposits via credit and debit cards (including Maestro and Diners Club), ZingPay, Skrill, Neteller, and Direct Banking Nigeria will not be available in Deriv P2P.' />
+                    <Localize
+                        components={[
+                            <a
+                                className='guide__content-section--link'
+                                href={`${URLConstants.derivComProduction}/payment-methods`}
+                                key={0}
+                            />,
+                        ]}
+                        i18n_default_text='Your Deriv P2P balance is different from your Deriv account balance because it only includes deposits made through <0>supported payment methods</0>. Methods such as credit cards, Maestro, Diners Club, ZingPay, Skrill, Neteller, Ozow, and UPI QR are not supported and are therefore not included in your P2P balance.'
+                    />
                 </Text>
             </Accordion>
             <Accordion

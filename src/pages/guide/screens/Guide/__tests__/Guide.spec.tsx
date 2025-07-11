@@ -9,6 +9,10 @@ const mockLocation = {
     pathname: '/buy-sell',
 };
 
+const mockUseBalance = {
+    data: { balance: 100 },
+};
+
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useHistory: () => mockHistory,
@@ -21,7 +25,19 @@ jest.mock('use-query-params', () => ({
 }));
 
 jest.mock('@deriv-com/api-hooks', () => ({
+    useAccountList: jest.fn(() => ({
+        data: [
+            {
+                account_category: 'trading',
+                account_type: 'binary',
+                broker: 'CR',
+                currency: 'USD',
+                loginid: 'CR90000383',
+            },
+        ],
+    })),
     useAuthData: jest.fn(() => ({ activeLoginid: null })),
+    useBalance: jest.fn(() => mockUseBalance),
 }));
 
 jest.mock('@deriv-com/ui', () => ({

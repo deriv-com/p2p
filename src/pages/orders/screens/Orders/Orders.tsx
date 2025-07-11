@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useShallow } from 'zustand/react/shallow';
-import { AwarenessBanner, PNVBanner } from '@/components';
+import { PNVBanner } from '@/components';
 import { ORDERS_STATUS } from '@/constants';
 import { api } from '@/hooks';
 import { useGetPhoneNumberVerification, useIsAdvertiser } from '@/hooks/custom-hooks';
@@ -22,6 +22,7 @@ const Orders = () => {
 
     const {
         data = [],
+        isFetching,
         isLoading,
         loadMoreOrders,
     } = api.order.useGetList({
@@ -44,10 +45,14 @@ const Orders = () => {
     return (
         <div className='orders'>
             {isAdvertiser && shouldShowVerification && <PNVBanner />}
-            <AwarenessBanner />
             <OrdersTableHeader fromDate={fromDate} setFromDate={setFromDate} setToDate={setToDate} toDate={toDate} />
             {!isDesktop && <Divider />}
-            <OrdersTable data={data} isActive={isActive} isLoading={isLoading} loadMoreOrders={loadMoreOrders} />
+            <OrdersTable
+                data={data}
+                isActive={isActive}
+                isLoading={isLoading || (isFetching && isActive)}
+                loadMoreOrders={loadMoreOrders}
+            />
         </div>
     );
 };

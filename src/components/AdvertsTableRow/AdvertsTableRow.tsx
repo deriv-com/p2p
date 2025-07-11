@@ -16,7 +16,7 @@ import {
     usePoiPoaStatus,
 } from '@/hooks/custom-hooks';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
-import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage } from '@/utils';
+import { generateEffectiveRate, getCurrentRoute, getEligibilityErrorMessage, getPaymentMethodType } from '@/utils';
 import { LabelPairedChevronRightMdBoldIcon, StandaloneUserCheckFillIcon } from '@deriv/quill-icons';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Button, Text, Tooltip, useDevice } from '@deriv-com/ui';
@@ -39,6 +39,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
     const { isScheduleAvailable } = useGetBusinessHours();
     const isAdvertiserNotVerified = useIsAdvertiserNotVerified();
     const { shouldShowVerification } = useGetPhoneNumberVerification();
+    const { data: paymentMethods } = api.paymentMethods.useGet();
 
     const {
         account_currency: accountCurrency,
@@ -154,7 +155,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                     'mb-[-0.5rem]': hasRating,
                                 })}
                             >
-                                <Text size={size} weight={isDesktop ? 400 : 'bold'}>
+                                <Text className='max-w-60 break-all' size={size} weight={isDesktop ? 400 : 'bold'}>
                                     {name}
                                 </Text>
                                 {!!completedOrdersCount && completedOrdersCount >= 100 && (
@@ -215,7 +216,9 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                 )}
                 <Container {...(!isDesktop && { className: 'flex justify-between' })}>
                     <Container
-                        {...(!isDesktop && { className: clsx('flex flex-col', { 'mt-3 ml-14': isBuySellPage }) })}
+                        {...(!isDesktop && {
+                            className: clsx('flex flex-col max-w-[14rem]', { 'mt-3 ml-14': isBuySellPage }),
+                        })}
                     >
                         {!isDesktop && (
                             <Text
@@ -234,7 +237,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                 {displayEffectiveRate} {localCurrency}
                             </Text>
                         </Container>
-                        <div className='flex flex-wrap gap-2'>
+                        <div className='flex flex-wrap gap-4'>
                             {paymentMethodNames ? (
                                 paymentMethodNames.map((method: string, idx: number) => (
                                     <PaymentMethodLabel
@@ -242,6 +245,7 @@ const AdvertsTableRow = memo((props: TAdvertsTableRowRenderer) => {
                                         key={idx}
                                         paymentMethodName={method}
                                         size={isDesktop ? 'sm' : 'xs'}
+                                        type={getPaymentMethodType(method, paymentMethods)}
                                     />
                                 ))
                             ) : (

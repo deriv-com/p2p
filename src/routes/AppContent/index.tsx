@@ -1,40 +1,56 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
-import { SafetyAlertModal } from '@/components/Modals';
+import { ErrorModal } from '@/components/Modals';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useIsP2PBlocked, useLiveChat, useOAuth } from '@/hooks';
+import { api, useIntercom, useIsP2PBlocked, useModalManager, useOAuth } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
+import { useIsLoadingOidcStore } from '@/stores';
 import { getCurrentRoute } from '@/utils';
+import { useAccountList } from '@deriv-com/api-hooks';
+import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { useTranslations } from '@deriv-com/translations';
 import { Loader, Tab, Tabs, Text, useDevice } from '@deriv-com/ui';
+import { URLConstants } from '@deriv-com/utils';
+import CallbackPage from '../CallbackPage';
 import Router from '../Router';
 import { getRoutes } from '../routes-config';
 import './index.scss';
 
 const AppContent = () => {
+    const token = localStorage.getItem('authToken') || null;
+    useIntercom(token);
+
     const isGtmTracking = useRef(false);
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
     const {
+        accountListError,
         authError,
         data: activeAccountData,
         isFetched,
         isLoading: isLoadingActiveAccount,
     } = api.account.useActiveAccount();
-    const { init: initLiveChat } = useLiveChat();
+    const { data: accountList = [] } = useAccountList();
     const { localize } = useTranslations();
-    const { oAuthLogout } = useOAuth();
+    const { hideModal, isModalOpenFor, showModal } = useModalManager();
+    const { oAuthLogout } = useOAuth({ showErrorModal: () => showModal('ErrorModal') });
     const routes = getRoutes(localize);
+    const origin = window.location.origin;
+    const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
+    const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
+    const isOAuth2Enabled = isProduction || isStaging;
 
     const tabRoutesConfiguration = routes.filter(
         route =>
             route.name !== 'Advertiser' &&
             route.name !== 'Endpoint' &&
             route.name !== 'Guide' &&
-            route.name !== 'P2PRedirectHandler'
+            route.name !== 'P2PRedirectHandler' &&
+            route.name !== 'CallbackPage'
     );
 
     const getActiveTab = (pathname: string) => {
@@ -44,6 +60,12 @@ const AppContent = () => {
 
     const [activeTab, setActiveTab] = useState(() => getActiveTab(location.pathname));
     const [hasCreatedAdvertiser, setHasCreatedAdvertiser] = useState(false);
+    const { isCheckingOidcTokens, setIsCheckingOidcTokens } = useIsLoadingOidcStore(
+        useShallow(state => ({
+            isCheckingOidcTokens: state.isCheckingOidcTokens,
+            setIsCheckingOidcTokens: state.setIsCheckingOidcTokens,
+        }))
+    );
     const {
         error: p2pSettingsError,
         isActive,
@@ -60,9 +82,12 @@ const AppContent = () => {
     } = api.advertiser.useGetInfo();
     const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
+    const isCallbackPage = getCurrentRoute() === 'callback';
 
     useEffect(() => {
-        initLiveChat();
+        window.addEventListener('unhandledrejection', () => {
+            showModal('ErrorModal');
+        });
     }, []);
 
     useEffect(() => {
@@ -71,6 +96,51 @@ const AppContent = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeAccountData]);
+
+    // Check if the account list currencies are in the client accounts currencies which is taken from OIDC tokens
+    // If not, request OIDC authentication
+    useEffect(() => {
+        if (!isOAuth2Enabled) {
+            setIsCheckingOidcTokens(false);
+        }
+
+        if (accountList?.length > 0 && isOAuth2Enabled) {
+            // Filter out disabled accounts to not trigger OIDC authentication
+            const filteredAccountList = accountList.filter(account => account.is_disabled === 0);
+
+            const clientAccounts = JSON.parse(localStorage.getItem('clientAccounts') || '[]');
+
+            // All client accounts from OIDC tokens
+            const clientAccountsCurrencies = Object.keys(clientAccounts).map(account => clientAccounts[account].cur);
+
+            // All accounts from authorize response
+            const accountsListCurrencies = filteredAccountList.map(account => account.currency);
+
+            const hasMissingCurrencies = accountsListCurrencies.some(
+                currency => !clientAccountsCurrencies.includes(currency)
+            );
+
+            const requestAuthentication = async () => {
+                try {
+                    await requestOidcAuthentication({
+                        redirectCallbackUri: `${window.location.origin}/callback`,
+                    });
+                    setIsCheckingOidcTokens(false);
+                } catch (error) {
+                    // eslint-disable-next-line no-console
+                    console.error('Failed to refetch OIDC tokens', error);
+                    showModal('ErrorModal');
+                }
+            };
+
+            if (hasMissingCurrencies || clientAccountsCurrencies.length !== accountsListCurrencies.length) {
+                requestAuthentication();
+            } else {
+                setIsCheckingOidcTokens(false);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [accountList, isOAuth2Enabled]);
 
     useEffect(() => {
         if (isActive) subscribeAdvertiserInfo({});
@@ -92,8 +162,10 @@ const AppContent = () => {
     }, [location]);
 
     useEffect(() => {
-        if (authError?.code === ERROR_CODES.ACCOUNT_DISABLED) oAuthLogout();
-    }, [authError, oAuthLogout]);
+        if (authError?.code === ERROR_CODES.ACCOUNT_DISABLED || accountListError?.code === 'InvalidToken')
+            oAuthLogout();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authError, accountListError, oAuthLogout]);
 
     useEffect(() => {
         if (!isGtmTracking.current) {
@@ -104,17 +176,28 @@ const AppContent = () => {
 
     const getComponent = () => {
         if (
-            (isP2PSettingsLoading || isLoadingActiveAccount || !isFetched || !activeAccountData || isLoading) &&
-            !isEndpointRoute
+            (isP2PSettingsLoading ||
+                isLoadingActiveAccount ||
+                !isFetched ||
+                !activeAccountData ||
+                isLoading ||
+                isCheckingOidcTokens) &&
+            !isEndpointRoute &&
+            !isCallbackPage
         ) {
             return <Loader />;
-        } else if ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code) {
+        } else if (
+            isFetched &&
+            activeAccountData &&
+            !isCallbackPage &&
+            ((isP2PBlocked && !isEndpointRoute) || isPermissionDenied || p2pSettingsError?.code)
+        ) {
             return (
                 <BlockedScenarios
                     type={p2pSettingsError?.code === 'RestrictedCountry' ? p2pSettingsError?.code : status}
                 />
             );
-        } else if ((isFetched && activeAccountData) || isEndpointRoute) {
+        } else if (((isFetched && activeAccountData) || isEndpointRoute) && !isCallbackPage) {
             return (
                 <div className='app-content__body'>
                     <Tabs
@@ -131,10 +214,11 @@ const AppContent = () => {
                         ))}
                     </Tabs>
                     {isDesktop && !isEndpointRoute && <GuideTooltip />}
-                    {!isEndpointRoute && <SafetyAlertModal />}
                     <Router />
                 </div>
             );
+        } else if (isCallbackPage) {
+            return <CallbackPage />;
         }
 
         return null;
@@ -152,16 +236,30 @@ const AppContent = () => {
             }}
         >
             <div className='app-content'>
-                <Text
-                    align='center'
-                    as='div'
-                    className='app-content__title p-2'
-                    size={isDesktop ? 'xl' : 'lg'}
-                    weight='bold'
-                >
-                    Deriv P2P
-                </Text>
+                {!isCallbackPage && (
+                    <Text
+                        align='center'
+                        as='div'
+                        className='app-content__title p-2'
+                        size={isDesktop ? 'xl' : 'lg'}
+                        weight='bold'
+                    >
+                        Deriv P2P
+                    </Text>
+                )}
                 {getComponent()}
+                {isModalOpenFor('ErrorModal') && (
+                    <ErrorModal
+                        buttonText='Refresh'
+                        isModalOpen
+                        message={localize('Something went wrong while logging out. Please refresh and try again.')}
+                        onRequestClose={() => {
+                            hideModal();
+                            window.location.reload();
+                        }}
+                        showTitle={false}
+                    />
+                )}
             </div>
         </AdvertiserInfoStateProvider>
     );

@@ -32,7 +32,7 @@ const BuySellFormDisplayWrapper = ({
         return (
             <FullPageMobileWrapper
                 className={clsx('buy-sell-form__full-page-modal', {
-                    'buy-sell-form__full-page-modal--is-buy': currentRoute === 'buy-sell',
+                    'buy-sell-form__full-page-modal--is-buy-no-banner': currentRoute === 'buy-sell',
                 })}
                 onBack={onRequestClose}
                 renderHeader={() => <BuySellFormHeader currency={accountCurrency} isBuy={isBuy} />}

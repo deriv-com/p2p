@@ -79,9 +79,6 @@ describe('<BusinessHoursModal />', () => {
         expect(
             screen.getByText('* You can only place orders on other ads during your set business hours.')
         ).toBeInTheDocument();
-        expect(
-            screen.getByText('* Some ads may have a delay before becoming visible to potential buyers.')
-        ).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Edit business hours' })).toBeInTheDocument();
     });
 

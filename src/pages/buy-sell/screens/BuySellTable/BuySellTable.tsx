@@ -72,7 +72,7 @@ const BuySellTable = () => {
     }, [filteredCurrency, p2pSettingsData?.localCurrency, setFilteredCurrency]);
 
     return (
-        <div className='buy-sell-table h-full w-full relative flex flex-col'>
+        <div className='buy-sell-table h-full w-full relative flex flex-col buy-sell-table--has-no-banner'>
             <BuySellHeader
                 setIsFilterModalOpen={() => showModal('RadioGroupFilterModal')}
                 setSearchValue={setSearchValue}
@@ -86,7 +86,7 @@ const BuySellTable = () => {
             {isModalOpenFor('RadioGroupFilterModal') && (
                 <RadioGroupFilterModal
                     isModalOpen
-                    list={getSortByList(localize)}
+                    list={getSortByList(localize, activeBuySellTab === ADVERT_TYPE.BUY)}
                     onRequestClose={hideModal}
                     onToggle={onToggle}
                     selected={sortByValue}

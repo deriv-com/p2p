@@ -1,3 +1,4 @@
+import { useActiveAccount } from '@/hooks/api/account';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BlockedScenarios from '../BlockedScenarios';
@@ -8,6 +9,26 @@ jest.mock('@deriv-com/api-hooks', () => ({
 jest.mock('@deriv-com/ui', () => ({
     ...jest.requireActual('@deriv-com/ui'),
     useDevice: () => ({ isDesktop: true }),
+}));
+const mockUseActiveAccountValues = {
+    data: undefined,
+} as ReturnType<typeof useActiveAccount>;
+
+const mockUseShouldRedirectToLowCodeHub = 'https://app.deriv.com';
+jest.mock('@/hooks/custom-hooks', () => ({
+    ...jest.requireActual('@/hooks/custom-hooks'),
+    useShouldRedirectToLowCodeHub: jest.fn(() => mockUseShouldRedirectToLowCodeHub),
+}));
+
+jest.mock('@/hooks', () => ({
+    ...jest.requireActual('@/hooks'),
+    api: {
+        account: {
+            useActiveAccount: jest.fn(() => ({
+                ...mockUseActiveAccountValues,
+            })),
+        },
+    },
 }));
 
 Object.defineProperty(window, 'open', {
@@ -20,23 +41,21 @@ describe('BlockedScenarios', () => {
         expect(screen.getByText('You are using a demo account')).toBeInTheDocument();
         const button = screen.getByRole('button', { name: 'Switch to real USD account' });
         await userEvent.click(button);
-        expect(window.open).toHaveBeenCalledWith('https://app.deriv.com', '_blank');
+        expect(window.open).toHaveBeenCalledWith(mockUseShouldRedirectToLowCodeHub, '_self');
     });
 
     it('should render the correct message for non-USD account', async () => {
         render(<BlockedScenarios type='nonUSD' />);
         expect(screen.getByText('You have no Real USD account')).toBeInTheDocument();
-        const button = screen.getByRole('button', { name: 'Create real USD account' });
-        await userEvent.click(button);
-        expect(window.open).toHaveBeenCalledWith('https://app.deriv.com', '_blank');
+        expect(screen.getByRole('button', { name: 'Live chat' })).toBeInTheDocument();
     });
 
     it('should render the correct message for crypto account', async () => {
         render(<BlockedScenarios type='crypto' />);
         expect(screen.getByText('Cryptocurrencies not supported')).toBeInTheDocument();
-        const button = screen.getByRole('button', { name: 'Switch to real USD account' });
+        const button = screen.getByRole('button', { name: 'Add real USD account' });
         await userEvent.click(button);
-        expect(window.open).toHaveBeenCalledWith('https://app.deriv.com', '_blank');
+        expect(window.open).toHaveBeenCalledWith(mockUseShouldRedirectToLowCodeHub, '_self');
     });
 
     it('should show the correct message for p2p is blocked for user', () => {

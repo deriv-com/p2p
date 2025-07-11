@@ -23,11 +23,35 @@
             &__header {
                 grid-template-columns: 2fr 1fr 1.5fr 2fr 3fr 1.5fr 1.5fr 2fr;
                 gap: 1rem;
+
+                & > *:last-child {
+                    margin-left: 2rem;
+                }
             }
 
             &__content {
                 @include mobile-or-tablet-screen {
-                    height: calc(100vh - 25rem) !important;
+                    height: calc(100vh - 31.5rem) !important;
+                }
+            }
+        }
+
+        &--has-no-banner {
+            @include mobile-or-tablet-screen {
+                & .table {
+                    &__content {
+                        height: calc(100vh - 25.5rem) !important;
+                    }
+                }
+            }
+        }
+    }
+
+    &--has-no-banner {
+        @include mobile-or-tablet-screen {
+            & .table {
+                &__content {
+                    height: calc(100vh - 19.5rem) !important;
                 }
             }
         }

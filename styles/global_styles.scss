@@ -31,10 +31,38 @@ $min-desktop-width: 1280px;
     }
 }
 
-/*RTL Language Mixin*/
+/* RTL Language Mixin */
 
 @mixin rtlDir() {
     html[dir='rtl'] & {
         @content;
+    }
+}
+
+@mixin default-modal {
+    height: fit-content;
+    width: 44rem;
+    border-radius: 8px;
+
+    @include mobile-or-tablet-screen {
+        max-width: calc(100vw - 3.2rem);
+    }
+}
+
+@mixin file-dropzone-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 16.8rem;
+    opacity: 1;
+    pointer-events: none;
+    position: absolute;
+    transform: translate3d(0, 0, 0);
+    transition:
+        transform 0.25s ease,
+        opacity 0.15s linear;
+
+    @include mobile-or-tablet-screen {
+        max-width: 26rem;
     }
 }

@@ -128,7 +128,7 @@ const FilterModal = ({ isModalOpen, onRequestClose }: TFilterModalProps) => {
     if (!isDesktop && isModalOpen) {
         return (
             <FullPageMobileWrapper
-                className='filter-modal'
+                className='filter-modal filter-modal--has-no-banner'
                 onBack={showPaymentMethods ? () => setShowPaymentMethods(false) : onClickClose}
                 renderFooter={() => (
                     <FilterModalFooter

@@ -50,3 +50,14 @@ export const getPaymentMethodObjects = (paymentMethodsList: TGetPaymentMethodObj
 export const sortPaymentMethodsWithAvailability = (
     paymentMethodsList: (TPaymentMethod & { isAvailable?: boolean })[]
 ) => paymentMethodsList.sort((a, b) => Number(b.isAvailable) - Number(a.isAvailable));
+
+/**
+ *
+ * @param paymentMethodName - Name of payment method
+ * @param paymentMethods - List of PaymentMethods
+ * @returns payment method type eg bank, ewallet, other
+ */
+export const getPaymentMethodType = (paymentMethodName: string, paymentMethods?: THooks.PaymentMethods.Get) => {
+    const paymentMethod = paymentMethods?.find((method: TPaymentMethod) => method.display_name === paymentMethodName);
+    return paymentMethod?.type;
+};

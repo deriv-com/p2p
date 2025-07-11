@@ -1,8 +1,8 @@
 import { ComponentProps, ReactNode } from 'react';
-import { ACCOUNT_LIMITS, HELP_CENTRE, RESPONSIBLE } from '@/constants';
-import { useGrowthbookGetFeatureValue, useOAuth } from '@/hooks/custom-hooks';
-import useFreshChat from '@/hooks/custom-hooks/useFreshchat';
-import useIntercom from '@/hooks/custom-hooks/useIntercom';
+import { useShallow } from 'zustand/react/shallow';
+import { HELP_CENTRE, RESPONSIBLE } from '@/constants';
+import { useOAuth, useShouldRedirectToLowCodeHub } from '@/hooks/custom-hooks';
+import { useIsLoadingOidcStore } from '@/stores';
 import { Chat } from '@/utils';
 import {
     BrandDerivLogoCoralIcon,
@@ -30,6 +30,7 @@ type TMenuConfig = {
     as: 'a' | 'button';
     href?: string;
     label: string;
+    name?: string;
     onClick?: () => void;
     removeBorderBottom?: boolean;
     submenu?: TSubmenuSection;
@@ -40,16 +41,11 @@ export const MobileMenuConfig = () => {
     const { localize } = useTranslations();
     const { oAuthLogout } = useOAuth();
 
-    const [isFreshChatEnabled] = useGrowthbookGetFeatureValue({
-        featureFlag: 'enable_freshworks_live_chat_p2p',
-    });
-    const [isIntercomEnabled] = useGrowthbookGetFeatureValue({
-        featureFlag: 'enable_intercom_p2p',
-    });
-
-    const token = localStorage.getItem('authToken') || null;
-    useFreshChat(token, isFreshChatEnabled);
-    useIntercom(token, isIntercomEnabled);
+    const { setIsCheckingOidcTokens } = useIsLoadingOidcStore(
+        useShallow(state => ({
+            setIsCheckingOidcTokens: state.setIsCheckingOidcTokens,
+        }))
+    );
 
     const menuConfig: TMenuConfig[] = [
         [
@@ -61,33 +57,35 @@ export const MobileMenuConfig = () => {
             },
             {
                 as: 'a',
-                href: URLConstants.derivAppProduction,
+                href: useShouldRedirectToLowCodeHub(),
                 label: localize("Trader's Hub"),
                 LeftComponent: LegacyHomeOldIcon,
             },
             {
                 as: 'a',
-                href: `${URLConstants.derivAppProduction}/dtrader`,
+                href: `${useShouldRedirectToLowCodeHub()}/dtrader`,
                 label: localize('Trade'),
                 LeftComponent: LegacyChartsIcon,
             },
             {
                 as: 'a',
-                href: `${URLConstants.derivAppProduction}/reports`,
+                href: `${useShouldRedirectToLowCodeHub()}/reports`,
                 label: localize('Reports'),
                 LeftComponent: LegacyReportsIcon,
+                name: 'Reports',
             },
             {
                 as: 'a',
-                href: `${URLConstants.derivAppProduction}/account/personal-details`,
+                href: useShouldRedirectToLowCodeHub('personal-details'),
                 label: localize('Account Settings'),
                 LeftComponent: LegacyProfileSmIcon,
             },
             {
                 as: 'a',
-                href: `${URLConstants.derivAppProduction}/cashier/deposit`,
+                href: `${useShouldRedirectToLowCodeHub()}/cashier/deposit`,
                 label: localize('Cashier'),
                 LeftComponent: LegacyCashierIcon,
+                name: 'Cashier',
             },
             // TODO add theme logic
             // {
@@ -106,7 +104,7 @@ export const MobileMenuConfig = () => {
             },
             {
                 as: 'a',
-                href: ACCOUNT_LIMITS,
+                href: useShouldRedirectToLowCodeHub('account-limits'),
                 label: localize('Account limits'),
                 LeftComponent: LegacyAccountLimitsIcon,
             },
@@ -138,6 +136,7 @@ export const MobileMenuConfig = () => {
                 label: localize('Log out'),
                 LeftComponent: LegacyLogout1pxIcon,
                 onClick: () => {
+                    setIsCheckingOidcTokens(true);
                     Chat.clear();
                     oAuthLogout();
                 },

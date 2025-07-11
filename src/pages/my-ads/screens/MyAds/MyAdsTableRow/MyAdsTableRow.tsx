@@ -1,15 +1,15 @@
 import { memo, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { TCurrency, TLocalize } from 'types';
-import { PaymentMethodLabel, PopoverDropdown } from '@/components';
+import { PaymentMethodLabel, PopoverDropdown, ProgressIndicator } from '@/components';
 import { AD_ACTION, ADVERT_TYPE, RATE_TYPE } from '@/constants';
 import { api } from '@/hooks';
 import { useFloatingRate } from '@/hooks/custom-hooks';
-import { generateEffectiveRate, shouldShowTooltipIcon } from '@/utils';
+import { generateEffectiveRate, getPaymentMethodType, shouldShowTooltipIcon } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
 import { FormatUtils } from '@deriv-com/utils';
-import { AdStatus, AdType, AlertComponent, ProgressIndicator } from '../../../components';
+import { AdStatus, AdType, AlertComponent } from '../../../components';
 import { TMyAdsTableRowRendererProps } from '../MyAdsTable/MyAdsTable';
 import './MyAdsTableRow.scss';
 
@@ -64,6 +64,7 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
     } = rest;
 
     const { exchangeRate } = api.exchangeRates.useGet(localCurrency);
+    const { data: paymentMethods } = api.paymentMethods.useGet();
 
     const isFloatingRate = rateType === RATE_TYPE.FLOAT;
 
@@ -163,13 +164,14 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                         </div>
                     </Text>
                 </div>
-                <div className='gap-2 my-ads-table-row__line-methods'>
+                <div className='gap-4 mt-4 my-ads-table-row__line-methods'>
                     {paymentMethodNames?.map(paymentMethod => (
                         <PaymentMethodLabel
                             color={adPauseColor}
                             key={paymentMethod}
                             paymentMethodName={paymentMethod}
                             size='xs'
+                            type={getPaymentMethodType(paymentMethod, paymentMethods)}
                         />
                     ))}
                 </div>
@@ -201,9 +203,14 @@ const MyAdsTableRow = ({ currentRateType, showModal, ...rest }: TMyAdsTableProps
                 />
                 {remainingAmountDisplay}/{amountDisplay} {accountCurrency}
             </Text>
-            <div className='flex flex-wrap gap-2'>
+            <div className='flex flex-wrap gap-4 max-w-80'>
                 {paymentMethodNames?.map(paymentMethod => (
-                    <PaymentMethodLabel color={adPauseColor} key={paymentMethod} paymentMethodName={paymentMethod} />
+                    <PaymentMethodLabel
+                        color={adPauseColor}
+                        key={paymentMethod}
+                        paymentMethodName={paymentMethod}
+                        type={getPaymentMethodType(paymentMethod, paymentMethods)}
+                    />
                 ))}
             </div>
             <div className='my-ads-table-row__actions'>

@@ -35,6 +35,7 @@ const getColumns = (isActive: boolean, localize: TLocalize) => {
         { header: localize('Status') },
         { header: localize('Send') },
         { header: localize('Receive') },
+        { header: localize('Rating') },
     ];
 
     return isActive ? columnsActive : columnsPast;
@@ -51,12 +52,19 @@ const OrdersTable = ({ data, isActive, isLoading, loadMoreOrders }: TOrdersTable
     const { isDesktop } = useDevice();
     const isAdvertiser = useIsAdvertiser();
     const { localize } = useTranslations();
+
     if (!isAdvertiser || (data?.length === 0 && !isLoading)) {
         return <OrdersEmpty isPast={!isActive} />;
     }
 
     return (
-        <div className={clsx('orders-table', { 'orders-table--inactive': !isActive })}>
+        <div
+            className={clsx('orders-table', {
+                'orders-table--has-no-banner': isActive,
+                'orders-table--inactive': !isActive,
+                'orders-table--inactive--has-no-banner': !isActive,
+            })}
+        >
             {isLoading ? (
                 <Loader />
             ) : (
