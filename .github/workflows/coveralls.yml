@@ -6,6 +6,8 @@ on:
         types: [opened, synchronize, edited]
 
 name: Coveralls
+permissions:
+  contents: read
 jobs:
     build:
         name: Reporter
