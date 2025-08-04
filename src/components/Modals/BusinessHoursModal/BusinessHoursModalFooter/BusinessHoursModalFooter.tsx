@@ -23,6 +23,15 @@ const BusinessHoursModalFooter = ({
         return (
             <div className='flex gap-[0.8rem]'>
                 <Button
+                    disabled={isSaveDisabled}
+                    isFullWidth={!isDesktop}
+                    onClick={onSave}
+                    size='lg'
+                    textSize={textSize}
+                >
+                    <Localize i18n_default_text='Save' />
+                </Button>
+                <Button
                     className='border-2'
                     color='black'
                     isFullWidth={!isDesktop}
@@ -32,15 +41,6 @@ const BusinessHoursModalFooter = ({
                     variant='outlined'
                 >
                     <Localize i18n_default_text='Cancel' />
-                </Button>
-                <Button
-                    disabled={isSaveDisabled}
-                    isFullWidth={!isDesktop}
-                    onClick={onSave}
-                    size='lg'
-                    textSize={textSize}
-                >
-                    <Localize i18n_default_text='Save' />
                 </Button>
             </div>
         );
