@@ -1,24 +1,27 @@
-import { useGetAccountStatus } from '@deriv-com/api-hooks';
+import { useGetAccountStatus, useKycAuthStatus } from '@deriv-com/api-hooks';
 import { QueryObserverResult } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import usePoiPoaStatus from '../usePoiPoaStatus';
 
 const mockUseGetAccountStatus = useGetAccountStatus as jest.MockedFunction<typeof useGetAccountStatus>;
+const mockUseKycAuthStatus = useKycAuthStatus as jest.MockedFunction<typeof useKycAuthStatus>;
 
 jest.mock('@deriv-com/api-hooks', () => ({
     ...jest.requireActual('@deriv-com/api-hooks'),
     useGetAccountStatus: jest.fn().mockReturnValue({
         data: {
-            authentication: {
-                document: {
-                    status: 'pending',
-                },
-                identity: {
-                    status: 'pending',
-                },
-            },
-            p2p_poa_required: true,
+            poa_required: true,
             status: [],
+        },
+    }),
+    useKycAuthStatus: jest.fn().mockReturnValue({
+        data: {
+            address: {
+                status: 'pending',
+            },
+            identity: {
+                status: 'pending',
+            },
         },
     }),
 }));
@@ -87,15 +90,6 @@ describe('usePoiPoaStatus', () => {
         mockUseGetAccountStatus.mockReturnValueOnce({
             ...mockValues,
             data: {
-                authentication: {
-                    document: {
-                        status: 'verified',
-                    },
-                    identity: {
-                        status: 'verified',
-                    },
-                    needs_verification: [],
-                },
                 currency_config: {},
                 p2p_poa_required: 0,
                 p2p_status: 'active',
@@ -104,6 +98,18 @@ describe('usePoiPoaStatus', () => {
                 status: ['pending'],
             },
         } as ReturnType<typeof useGetAccountStatus>);
+
+        mockUseKycAuthStatus.mockReturnValueOnce({
+            ...mockValues,
+            data: {
+                address: {
+                    status: 'verified',
+                },
+                identity: {
+                    status: 'verified',
+                },
+            },
+        } as ReturnType<typeof useKycAuthStatus>);
         const { result } = renderHook(() => usePoiPoaStatus());
 
         expect(result.current.data).toStrictEqual({
@@ -123,6 +129,10 @@ describe('usePoiPoaStatus', () => {
             ...mockValues,
             data: undefined,
         } as ReturnType<typeof useGetAccountStatus>);
+        mockUseKycAuthStatus.mockReturnValueOnce({
+            ...mockValues,
+            data: undefined,
+        } as ReturnType<typeof useKycAuthStatus>);
         const { result } = renderHook(() => usePoiPoaStatus());
 
         expect(result.current.data).toBeUndefined();

@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useAdvertiserInfoState } from '@/providers/AdvertiserInfoStateProvider';
 import { daysSince, isEmptyObject } from '@/utils';
-import { useGetSettings } from '@deriv-com/api-hooks';
+import { useGetSettings, useKycAuthStatus } from '@deriv-com/api-hooks';
 import { api } from '..';
 
 /**
@@ -24,7 +24,7 @@ const toAdvertiserMinutes = (duration?: number | null) => {
 const useAdvertiserStats = (advertiserId?: string) => {
     const { data, isLoading: isLoadingInfo, subscribe, unsubscribe } = api.advertiser.useGetInfo(advertiserId);
     const { data: settings, isSuccess: isSuccessSettings } = useGetSettings();
-    const { data: authenticationStatus, isSuccess: isSuccessAuthenticationStatus } = api.account.useAuthentication();
+    const { data: authenticationStatus, isSuccess: isSuccessAuthenticationStatus } = useKycAuthStatus();
     const { data: activeAccountData } = api.account.useActiveAccount();
     const { error, isIdle, isLoading, isSubscribed } = useAdvertiserInfoState();
 
@@ -81,7 +81,9 @@ const useAdvertiserStats = (advertiserId?: string) => {
             /** Checks if the advertiser has completed proof of address verification */
             isAddressVerified: isAdvertiser
                 ? data.hasFullVerification
-                : authenticationStatus?.document?.status === 'verified',
+                : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error
+                  authenticationStatus?.address?.status === 'verified',
 
             /** Checks if the user is already an advertiser */
             isAdvertiser,
@@ -92,7 +94,9 @@ const useAdvertiserStats = (advertiserId?: string) => {
             /** Checks if the advertiser has completed proof of identity verification */
             isIdentityVerified: isAdvertiser
                 ? data.hasBasicVerification
-                : authenticationStatus?.identity?.status === 'verified',
+                : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error
+                  authenticationStatus?.identity?.status === 'verified',
 
             /** The percentage of completed orders out of total orders as a seller within the past 30 days. */
             sellCompletionRate: data?.sell_completion_rate || 0,
@@ -122,7 +126,11 @@ const useAdvertiserStats = (advertiserId?: string) => {
         isSuccessAuthenticationStatus,
         settings?.first_name,
         settings?.last_name,
-        authenticationStatus?.document?.status,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        authenticationStatus?.address?.status,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         authenticationStatus?.identity?.status,
     ]);
 
