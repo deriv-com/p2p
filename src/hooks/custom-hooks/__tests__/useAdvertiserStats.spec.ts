@@ -7,9 +7,9 @@ const mockUseGetInfo = {
     unsubscribe: jest.fn(),
 };
 
-const mockUseAuthentication = {
+const mockUseKycAuthStatus = {
     data: {
-        document: {
+        address: {
             status: 'none',
         },
         identity: {
@@ -33,6 +33,7 @@ const mockUseAdvertiserInfoState = {
 
 jest.mock('@deriv-com/api-hooks', () => ({
     useGetSettings: jest.fn(() => mockUseGetSettings),
+    useKycAuthStatus: jest.fn(() => mockUseKycAuthStatus),
 }));
 
 jest.mock('@/hooks', () => ({
@@ -41,7 +42,6 @@ jest.mock('@/hooks', () => ({
             useActiveAccount: jest.fn(() => ({
                 data: { currency: 'USD' },
             })),
-            useAuthentication: jest.fn(() => mockUseAuthentication),
         },
         advertiser: {
             useGetInfo: jest.fn(() => mockUseGetInfo),
@@ -65,7 +65,7 @@ describe('useAdvertiserStats', () => {
         };
         mockUseAdvertiserInfoState.isSubscribed = true;
         mockUseGetSettings.isSuccess = true;
-        mockUseAuthentication.isSuccess = true;
+        mockUseKycAuthStatus.isSuccess = true;
 
         const { result } = renderHook(() => useAdvertiserStats());
         expect(result.current.data).toEqual({
@@ -146,15 +146,15 @@ describe('useAdvertiserStats', () => {
         };
         mockUseGetSettings.isSuccess = true;
 
-        mockUseAuthentication.data = {
-            document: {
+        mockUseKycAuthStatus.data = {
+            address: {
                 status: 'none',
             },
             identity: {
                 status: 'none',
             },
         };
-        mockUseAuthentication.isSuccess = true;
+        mockUseKycAuthStatus.isSuccess = true;
 
         const { result } = renderHook(() => useAdvertiserStats());
         expect(result.current.data).toEqual({

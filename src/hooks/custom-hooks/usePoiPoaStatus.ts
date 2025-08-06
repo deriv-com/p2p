@@ -1,22 +1,27 @@
 import { useMemo } from 'react';
-import { useGetAccountStatus } from '@deriv-com/api-hooks';
+import { useGetAccountStatus, useKycAuthStatus } from '@deriv-com/api-hooks';
 import { api } from '..';
 
 /** A custom hook that returns the POA, POI status and if POA is required for P2P */
 const usePoiPoaStatus = () => {
-    const { data, ...rest } = useGetAccountStatus();
+    const { data: accountStatus, ...rest } = useGetAccountStatus();
+    const { data: kycStatus } = useKycAuthStatus();
     const { data: p2pSettings } = api.settings.useSettings();
 
     // create new response for poi/poa statuses
     const modifiedAccountStatus = useMemo(() => {
-        if (!data) return undefined;
+        if (!accountStatus && !kycStatus) return undefined;
 
-        const documentStatus = data?.authentication?.document?.status;
-        const identityStatus = data?.authentication?.identity?.status;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const documentStatus = kycStatus?.address?.status;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const identityStatus = kycStatus?.identity?.status;
         const isP2PPoaRequired = !!p2pSettings?.poa_required;
         const isPoaAuthenticatedWithIdv =
-            data?.status.includes('poa_authenticated_with_idv') ||
-            data?.status.includes('poa_authenticated_with_idv_photo');
+            accountStatus?.status.includes('poa_authenticated_with_idv') ||
+            accountStatus?.status.includes('poa_authenticated_with_idv_photo');
         const isPoaPending = documentStatus === 'pending';
         const isPoaVerified = documentStatus === 'verified';
         const isPoiPending = identityStatus === 'pending';
@@ -33,7 +38,7 @@ const usePoiPoaStatus = () => {
             poaStatus: documentStatus,
             poiStatus: identityStatus,
         };
-    }, [data, p2pSettings?.poa_required]);
+    }, [accountStatus, kycStatus, p2pSettings?.poa_required]);
 
     return {
         /** The POI & POA status. */
