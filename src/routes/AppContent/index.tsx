@@ -81,6 +81,7 @@ const AppContent = () => {
         subscribe: subscribeAdvertiserInfo,
     } = api.advertiser.useGetInfo();
     const isPermissionDenied = error?.code === ERROR_CODES.PERMISSION_DENIED;
+    const hasEmailChanged = error?.code === ERROR_CODES.TEMP_LOCKED_AFTER_EMAIL_CHANGE;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
     const isCallbackPage = getCurrentRoute() === 'callback';
 
@@ -186,6 +187,8 @@ const AppContent = () => {
             !isCallbackPage
         ) {
             return <Loader />;
+        } else if (hasEmailChanged && !isEndpointRoute) {
+            return <BlockedScenarios type='emailChanged' />;
         } else if (
             isFetched &&
             activeAccountData &&

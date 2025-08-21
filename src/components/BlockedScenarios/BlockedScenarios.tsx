@@ -69,6 +69,24 @@ const BlockedScenarios = ({ type }: { type: string }) => {
                 </Text>
             ),
         },
+        emailChanged: {
+            actionButton: (
+                <Button onClick={openLiveChat} size='lg' textSize={buttonTextSize}>
+                    <Localize i18n_default_text='Open live chat' />
+                </Button>
+            ),
+            description: (
+                <Text align='center'>
+                    <Localize i18n_default_text='You’ve recently changed your email address. To keep your account secure, Deriv P2P is locked for 24 hours. <br/> Need help? Contact us via live chat.' />
+                </Text>
+            ),
+            icon: <DerivLightIcCashierBlockedIcon height={iconSize} width={iconSize} />,
+            title: (
+                <Text align='center' weight='bold'>
+                    <Localize i18n_default_text='Deriv P2P temporarily locked' />
+                </Text>
+            ),
+        },
         nonUSD: {
             actionButton: (
                 <Button onClick={openLiveChat} size='lg' textSize={buttonTextSize}>
