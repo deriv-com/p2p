@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { getOauthUrl } from '@/constants';
 import { getCurrentRoute, removeCookies } from '@/utils';
 import { useAuthData } from '@deriv-com/api-hooks';
-import { OAuth2Logout, requestOidcAuthentication } from '@deriv-com/auth-client';
+import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { URLConstants } from '@deriv-com/utils';
 
 type UseOAuthReturn = {
@@ -44,11 +44,7 @@ const useOAuth = (options: { showErrorModal?: () => void } = {}): UseOAuthReturn
 
     const handleLogout = async () => {
         try {
-            await OAuth2Logout({
-                postLogoutRedirectUri: window.location.origin,
-                redirectCallbackUri: `${window.location.origin}/callback`,
-                WSLogoutAndRedirect,
-            });
+            WSLogoutAndRedirect();
         } catch (error) {
             // eslint-disable-next-line no-console
             console.error('Failed to handle logout', error);
