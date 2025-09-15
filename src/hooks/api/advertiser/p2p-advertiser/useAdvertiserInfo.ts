@@ -10,6 +10,7 @@ type TP2PAdvertiserInfo = ReturnType<typeof useP2PAdvertiserInfo>['data'] & {
     isBlockedBoolean: boolean;
     isFavouriteBoolean: boolean;
     isListedBoolean: boolean;
+    isMigrated: boolean;
     isOnlineBoolean: boolean;
     shouldShowName: boolean;
 };
@@ -62,6 +63,7 @@ const useAdvertiserInfo = (id?: string) => {
                 isFavouriteBoolean: Boolean(is_favourite),
                 /** Indicates if the advertiser's active adverts are listed. When false, adverts won't be listed regardless if they are active or not. */
                 isListedBoolean: Boolean(is_listed),
+                isMigrated: true,
                 /** Indicates if the advertiser is currently online. */
                 isOnlineBoolean: Boolean(is_online),
                 /** When true, the advertiser's real name will be displayed on to other users on adverts and orders. */
