@@ -45,6 +45,7 @@ const useAdvertiserInfo = (id?: string) => {
                 is_blocked,
                 is_favourite,
                 is_listed,
+                // @ts-expect-error - is_migrated is not defined
                 is_migrated,
                 is_online,
                 show_name,
