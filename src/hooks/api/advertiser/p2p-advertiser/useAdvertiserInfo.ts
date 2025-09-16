@@ -45,6 +45,7 @@ const useAdvertiserInfo = (id?: string) => {
                 is_blocked,
                 is_favourite,
                 is_listed,
+                is_migrated,
                 is_online,
                 show_name,
             } = advertiser_info;
@@ -63,7 +64,8 @@ const useAdvertiserInfo = (id?: string) => {
                 isFavouriteBoolean: Boolean(is_favourite),
                 /** Indicates if the advertiser's active adverts are listed. When false, adverts won't be listed regardless if they are active or not. */
                 isListedBoolean: Boolean(is_listed),
-                isMigrated: true,
+                /** Indicates if the user has migrated to v2. */
+                isMigrated: Boolean(is_migrated),
                 /** Indicates if the advertiser is currently online. */
                 isOnlineBoolean: Boolean(is_online),
                 /** When true, the advertiser's real name will be displayed on to other users on adverts and orders. */
