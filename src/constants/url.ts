@@ -30,6 +30,18 @@ const SocketURL = {
     [URLConstants.derivP2pStaging]: 'red.derivws.com',
 };
 
+const getDomainUrl = () => {
+    const hostname = window.location.hostname;
+
+    if (hostname.includes(URLConstants.derivBe)) {
+        return URLConstants.derivBe;
+    }
+    if (hostname.includes(URLConstants.derivMe)) {
+        return URLConstants.derivMe;
+    }
+    return URLConstants.deriv;
+};
+
 export const getServerInfo = () => {
     const origin = window.location.origin;
     const hostname = window.location.hostname;
@@ -53,7 +65,7 @@ export const getServerInfo = () => {
     }
 
     const storedServerUrl = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
-    const serverUrl = /qa/.test(String(storedServerUrl)) ? storedServerUrl : 'oauth.deriv.com';
+    const serverUrl = /qa/.test(String(storedServerUrl)) ? storedServerUrl : `oauth.${getDomainUrl()}`;
 
     const appId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
     const lang = LocalStorageUtils.getValue<string>(LocalStorageConstants.i18nLanguage);
