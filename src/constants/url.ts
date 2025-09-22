@@ -19,7 +19,7 @@ export const INTRODUCING_DERIV_P2P_URL =
 export const HOW_TO_USE_DERIV_P2P_URL =
     'https://player.vimeo.com/video/715982928?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
 
-export const HOW_TO_PROTECT_YOURSELF_URL = 'https://deriv.com/blog/posts/how-to-protect-yourself-on-p2p-platforms/';
+export const HOW_TO_PROTECT_YOURSELF_URL = `${DERIV_COM}/blog/posts/how-to-protect-yourself-on-p2p-platforms/`;
 
 export const DEFAULT_OAUTH_LOGOUT_URL = 'https://oauth.deriv.com/oauth2/sessions/logout';
 
@@ -28,6 +28,18 @@ export const DEFAULT_OAUTH_ORIGIN_URL = 'https://oauth.deriv.com';
 const SocketURL = {
     [URLConstants.derivP2pProduction]: 'green.derivws.com',
     [URLConstants.derivP2pStaging]: 'red.derivws.com',
+};
+
+const getDomainUrl = () => {
+    const hostname = window.location.hostname;
+
+    if (hostname.includes(URLConstants.derivBe)) {
+        return URLConstants.derivBe;
+    }
+    if (hostname.includes(URLConstants.derivMe)) {
+        return URLConstants.derivMe;
+    }
+    return URLConstants.deriv;
 };
 
 export const getServerInfo = () => {
@@ -53,7 +65,7 @@ export const getServerInfo = () => {
     }
 
     const storedServerUrl = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
-    const serverUrl = /qa/.test(String(storedServerUrl)) ? storedServerUrl : 'oauth.deriv.com';
+    const serverUrl = /qa/.test(String(storedServerUrl)) ? storedServerUrl : `oauth.${getDomainUrl()}`;
 
     const appId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
     const lang = LocalStorageUtils.getValue<string>(LocalStorageConstants.i18nLanguage);
