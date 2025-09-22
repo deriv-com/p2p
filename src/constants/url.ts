@@ -19,7 +19,7 @@ export const INTRODUCING_DERIV_P2P_URL =
 export const HOW_TO_USE_DERIV_P2P_URL =
     'https://player.vimeo.com/video/715982928?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
 
-export const HOW_TO_PROTECT_YOURSELF_URL = 'https://deriv.com/blog/posts/how-to-protect-yourself-on-p2p-platforms/';
+export const HOW_TO_PROTECT_YOURSELF_URL = `${DERIV_COM}/blog/posts/how-to-protect-yourself-on-p2p-platforms/`;
 
 export const DEFAULT_OAUTH_LOGOUT_URL = 'https://oauth.deriv.com/oauth2/sessions/logout';
 
