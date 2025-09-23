@@ -27,6 +27,8 @@ export const DEFAULT_OAUTH_ORIGIN_URL = 'https://oauth.deriv.com';
 
 const SocketURL = {
     [URLConstants.derivP2pProduction]: 'green.derivws.com',
+    'https://p2p.deriv.be': 'green.derivws.com',
+    'https://p2p.deriv.me': 'green.derivws.com',
     [URLConstants.derivP2pStaging]: 'red.derivws.com',
 };
 
@@ -51,7 +53,10 @@ export const getServerInfo = () => {
     // we will use the red server with app_id=62019 for the staging-p2p.deriv.com for now
     // for p2p.deriv.com, we will use the green server with app_id=61859
     if (
-        (origin === URLConstants.derivP2pStaging || origin === URLConstants.derivP2pProduction) &&
+        (origin === URLConstants.derivP2pStaging ||
+            origin === URLConstants.derivP2pProduction ||
+            origin.includes(URLConstants.derivMe) ||
+            origin.includes(URLConstants.derivBe)) &&
         (!existingAppId || !existingServerUrl)
     ) {
         LocalStorageUtils.setValue<string>(
