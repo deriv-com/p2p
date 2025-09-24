@@ -1,6 +1,6 @@
 import { ComponentProps, ReactNode } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { HELP_CENTRE, RESPONSIBLE } from '@/constants';
+import { DERIV_COM, HELP_CENTRE, RESPONSIBLE } from '@/constants';
 import { useOAuth, useShouldRedirectToLowCodeHub } from '@/hooks/custom-hooks';
 import { useIsLoadingOidcStore } from '@/stores';
 import { Chat } from '@/utils';
@@ -47,12 +47,18 @@ export const MobileMenuConfig = () => {
         }))
     );
 
+    const derivComLabel = DERIV_COM.includes('deriv.me')
+        ? localize('Deriv.me')
+        : DERIV_COM.includes('deriv.be')
+          ? localize('Deriv.be')
+          : localize('Deriv.com');
+
     const menuConfig: TMenuConfig[] = [
         [
             {
                 as: 'a',
-                href: URLConstants.derivComProduction,
-                label: localize('Deriv.com'),
+                href: DERIV_COM,
+                label: derivComLabel,
                 LeftComponent: BrandDerivLogoCoralIcon,
             },
             {

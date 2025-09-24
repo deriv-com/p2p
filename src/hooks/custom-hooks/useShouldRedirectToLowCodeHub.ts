@@ -1,4 +1,5 @@
 import { useShallow } from 'zustand/react/shallow';
+import { DERIV_APP } from '@/constants';
 import { useHubEnabledCountryListStore } from '@/stores';
 import { URLConstants } from '@deriv-com/utils';
 import { api } from '..';
@@ -53,11 +54,11 @@ const useShouldRedirectToLowCodeHub: TUseShouldRedirectToLowCodeHub = (accountsS
             section = 'personal-details';
         }
 
-        if (isProduction) return `${URLConstants.derivAppProduction}/account/${section}?platform=p2p-v2`;
+        if (isProduction) return `${DERIV_APP}/account/${section}?platform=p2p-v2`;
         return `${URLConstants.derivAppStaging}/account/${section}?platform=p2p-v2`;
     }
 
-    if (isProduction) return URLConstants.derivAppProduction;
+    if (isProduction) return DERIV_APP;
     return URLConstants.derivAppStaging;
 };
 
