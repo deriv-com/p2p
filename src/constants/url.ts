@@ -8,10 +8,23 @@ export const ADVERTISER_URL = '/advertiser';
 export const ENDPOINT = '/endpoint';
 export const GUIDE_URL = '/guide';
 
+export const getDomainUrl = () => {
+    const hostname = window.location.hostname;
+
+    if (hostname.includes(URLConstants.derivBe)) {
+        return URLConstants.derivBe;
+    }
+    if (hostname.includes(URLConstants.derivMe)) {
+        return URLConstants.derivMe;
+    }
+    return URLConstants.deriv;
+};
+
 // TODO move these to deriv-utils library
-export const DERIV_COM = URLConstants.derivComProduction;
-export const HELP_CENTRE = `${URLConstants.derivComProduction}/help-centre/`;
-export const RESPONSIBLE = `${URLConstants.derivComProduction}/responsible/`;
+export const DERIV_APP = `https://app.${getDomainUrl()}`;
+export const DERIV_COM = `https://${getDomainUrl()}`;
+export const HELP_CENTRE = `${DERIV_COM}/help-centre/`;
+export const RESPONSIBLE = `${DERIV_COM}/responsible/`;
 
 export const INTRODUCING_DERIV_P2P_URL =
     'https://player.vimeo.com/video/1102080462?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
@@ -30,18 +43,6 @@ const SocketURL = {
     'https://p2p.deriv.be': 'green.derivws.com',
     'https://p2p.deriv.me': 'green.derivws.com',
     [URLConstants.derivP2pStaging]: 'red.derivws.com',
-};
-
-const getDomainUrl = () => {
-    const hostname = window.location.hostname;
-
-    if (hostname.includes(URLConstants.derivBe)) {
-        return URLConstants.derivBe;
-    }
-    if (hostname.includes(URLConstants.derivMe)) {
-        return URLConstants.derivMe;
-    }
-    return URLConstants.deriv;
 };
 
 export const getServerInfo = () => {
