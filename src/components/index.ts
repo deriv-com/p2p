@@ -37,5 +37,6 @@ export * from './StarRating';
 export * from './Table';
 export * from './TemporarilyBarredHint';
 export * from './UserAvatar';
+export * from './V2Banner';
 export * from './Verification';
 export * from './Wizard';
