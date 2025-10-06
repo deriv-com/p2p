@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
@@ -75,7 +74,6 @@ const AppContent = () => {
     } = api.settings.useSettings();
     const { isP2PBlocked, status } = useIsP2PBlocked();
     const {
-        data: advertiserInfo,
         error,
         isActive: isSubscribed,
         isIdle,
@@ -215,16 +213,10 @@ const AppContent = () => {
                         variant='secondary'
                     >
                         {tabRoutesConfiguration.map(route => (
-                            <Tab
-                                className={clsx({
-                                    hidden: advertiserInfo.isMigrated,
-                                })}
-                                key={localize(route.name)}
-                                title={route.text || ''}
-                            />
+                            <Tab key={localize(route.name)} title={route.text || ''} />
                         ))}
                     </Tabs>
-                    {isDesktop && !isEndpointRoute && !advertiserInfo.isMigrated && <GuideTooltip />}
+                    {isDesktop && !isEndpointRoute && <GuideTooltip />}
                     <Router />
                 </div>
             );
@@ -247,7 +239,7 @@ const AppContent = () => {
             }}
         >
             <div className='app-content'>
-                {!isCallbackPage && !advertiserInfo.isMigrated && (
+                {!isCallbackPage && (
                     <Text
                         align='center'
                         as='div'
