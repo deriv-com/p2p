@@ -55,7 +55,7 @@ const BuySell = () => {
                 'buy-sell--outside-hours': !isScheduleAvailable && !isAdvertiserBarred,
             })}
         >
-            {!isDesktop && <V2Banner />}
+            {isAdvertiser && !isDesktop && <V2Banner />}
             {isAdvertiserBarred && <TemporarilyBarredHint />}
             {!isScheduleAvailable && !isAdvertiserBarred && <OutsideBusinessHoursHint />}
             {isAdvertiser && shouldShowVerification && <PNVBanner />}

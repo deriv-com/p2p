@@ -6,7 +6,7 @@ import { V2Banner } from '@/components';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { ErrorModal } from '@/components/Modals';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useIntercom, useIsP2PBlocked, useModalManager, useOAuth } from '@/hooks';
+import { api, useIntercom, useIsAdvertiser, useIsP2PBlocked, useModalManager, useOAuth } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { useIsLoadingOidcStore } from '@/stores';
@@ -29,6 +29,7 @@ const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
+    const isAdvertiser = useIsAdvertiser();
     const {
         accountListError,
         authError,
@@ -207,7 +208,7 @@ const AppContent = () => {
         } else if (((isFetched && activeAccountData) || isEndpointRoute) && !isCallbackPage) {
             return (
                 <>
-                    {isDesktop && isBuySellPage && <V2Banner />}
+                    {isAdvertiser && isDesktop && isBuySellPage && <V2Banner />}
                     <div className='app-content__body'>
                         <Tabs
                             activeTab={localize(activeTab)}
