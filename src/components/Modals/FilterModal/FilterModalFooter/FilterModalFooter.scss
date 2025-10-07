@@ -7,8 +7,9 @@
     padding: 1.5rem;
 
     @include mobile-or-tablet-screen {
-        position: relative;
-        padding: 0;
+        position: fixed;
+        left: 0;
+        padding: 2rem 0;
         border: none;
     }
 }
