@@ -7,9 +7,14 @@
     padding: 1.5rem;
 
     @include mobile-or-tablet-screen {
-        position: fixed;
-        padding: 2rem;
-        left: 0;
+        position: absolute;
+        padding: 0;
         border: none;
+
+        @include mobile {
+            position: fixed;
+            padding: 2rem;
+            left: 0;
+        }
     }
 }
