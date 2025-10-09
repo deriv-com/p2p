@@ -1,18 +1,16 @@
-import { DERIV_COM } from '@/constants';
+import { DERIV_COM, getDomainUrl } from '@/constants';
 import { LegacyDerivIcon } from '@deriv/quill-icons';
-import { useTranslations } from '@deriv-com/translations';
+import { Localize } from '@deriv-com/translations';
 import { Tooltip } from '@deriv-com/ui';
 
 const Deriv = () => {
-    const { localize } = useTranslations();
-
     return (
         <Tooltip
             as='a'
             className='app-footer__icon'
             href={DERIV_COM}
             target='_blank'
-            tooltipContent={localize('Go to deriv.com')}
+            tooltipContent={<Localize i18n_default_text='Go to {{url}}' values={{ url: getDomainUrl() }} />}
         >
             <LegacyDerivIcon iconSize='xs' />
         </Tooltip>

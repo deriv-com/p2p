@@ -1,11 +1,10 @@
 import { Fragment, SyntheticEvent, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { TActiveChannel, TChatMessages, TTextColors } from 'types';
-import { CHAT_FILE_TYPE, CHAT_MESSAGE_TYPE } from '@/constants';
+import { CHAT_FILE_TYPE, CHAT_MESSAGE_TYPE, DERIV_COM, getDomainUrl } from '@/constants';
 import { convertToMB, formatMilliseconds } from '@/utils';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
-import { URLConstants } from '@deriv-com/utils';
 import { ReactComponent as PDFIcon } from '../../../../public/ic-pdf.svg';
 import { ChatMessageReceipt } from '../ChatMessageReceipt';
 import { ChatMessageText } from '../ChatMessageText';
@@ -22,11 +21,9 @@ const AdminMessage = () => (
         <ChatMessageText color='general' type='admin'>
             <div className='chat-messages__item__admin--text'>
                 <Localize
-                    components={[
-                        <strong key={0} />,
-                        <a href={URLConstants.derivComProduction} key={0} rel='noreferrer' target='_blank' />,
-                    ]}
-                    i18n_default_text='<0>Important:</0>  Deriv will never contact you via WhatsApp or ask for login info or codes. Use only <1>deriv.com</1> links and live chat for support.'
+                    components={[<strong key={0} />, <a href={DERIV_COM} key={0} rel='noreferrer' target='_blank' />]}
+                    i18n_default_text='<0>Important:</0>  Deriv will never contact you via WhatsApp or ask for login info or codes. Use only <1>{{url}}</1> links and live chat for support.'
+                    values={{ url: getDomainUrl() }}
                 />
             </div>
         </ChatMessageText>

@@ -1,9 +1,9 @@
 import { useRef } from 'react';
+import { DERIV_COM } from '@/constants';
 import { useShouldRedirectToLowCodeHub } from '@/hooks';
 import { Chat } from '@/utils';
 import { Localize, useTranslations } from '@deriv-com/translations';
 import { Accordion, Text, useDevice } from '@deriv-com/ui';
-import { URLConstants } from '@deriv-com/utils';
 import './FAQs.scss';
 
 type TFAQsProps = {
@@ -37,7 +37,7 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
                     className='underline mr-2'
                     color='red'
                     data-testid='dt_learn_more_hyperlink'
-                    href={`${URLConstants.derivComProduction}/help-centre/deriv-p2p`}
+                    href={`${DERIV_COM}/help-centre/deriv-p2p`}
                     size='sm'
                     weight='bold'
                 >
@@ -87,7 +87,7 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
                         components={[
                             <a
                                 className='guide__content-section--link'
-                                href={`${URLConstants.derivComProduction}/payment-methods`}
+                                href={`${DERIV_COM}/payment-methods`}
                                 key={0}
                             />,
                         ]}
@@ -194,7 +194,7 @@ const FAQs = ({ guideContentRef }: TFAQsProps) => {
                         components={[
                             <a
                                 className='guide__content-section--link'
-                                href={`${URLConstants.derivComProduction}/tnc/funds-and-transfers.pdf`}
+                                href={`${DERIV_COM}/tnc/funds-and-transfers.pdf`}
                                 key={0}
                             />,
                         ]}

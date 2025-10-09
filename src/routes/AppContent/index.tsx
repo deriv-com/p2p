@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import clsx from 'clsx';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
+import { V2Banner } from '@/components';
 import { BlockedScenarios } from '@/components/BlockedScenarios';
 import { ErrorModal } from '@/components/Modals';
 import { BUY_SELL_URL, ERROR_CODES } from '@/constants';
-import { api, useIntercom, useIsP2PBlocked, useModalManager, useOAuth } from '@/hooks';
+import { api, useIntercom, useIsAdvertiser, useIsP2PBlocked, useModalManager, useOAuth } from '@/hooks';
 import { GuideTooltip } from '@/pages/guide/components';
 import { AdvertiserInfoStateProvider } from '@/providers/AdvertiserInfoStateProvider';
 import { useIsLoadingOidcStore } from '@/stores';
@@ -28,6 +28,7 @@ const AppContent = () => {
     const history = useHistory();
     const location = useLocation();
     const { isDesktop } = useDevice();
+    const isAdvertiser = useIsAdvertiser();
     const {
         accountListError,
         authError,
@@ -75,7 +76,6 @@ const AppContent = () => {
     } = api.settings.useSettings();
     const { isP2PBlocked, status } = useIsP2PBlocked();
     const {
-        data: advertiserInfo,
         error,
         isActive: isSubscribed,
         isIdle,
@@ -86,6 +86,7 @@ const AppContent = () => {
     const hasEmailChanged = error?.code === ERROR_CODES.TEMP_LOCKED_AFTER_EMAIL_CHANGE;
     const isEndpointRoute = getCurrentRoute() === 'endpoint';
     const isCallbackPage = getCurrentRoute() === 'callback';
+    const isBuySellPage = getCurrentRoute() === 'buy-sell';
 
     useEffect(() => {
         window.addEventListener('unhandledrejection', () => {
@@ -204,29 +205,26 @@ const AppContent = () => {
             );
         } else if (((isFetched && activeAccountData) || isEndpointRoute) && !isCallbackPage) {
             return (
-                <div className='app-content__body'>
-                    <Tabs
-                        activeTab={localize(activeTab)}
-                        className='app-content__tabs'
-                        onChange={index => {
-                            setActiveTab(tabRoutesConfiguration[index].text || '');
-                            history.push(tabRoutesConfiguration[index].path);
-                        }}
-                        variant='secondary'
-                    >
-                        {tabRoutesConfiguration.map(route => (
-                            <Tab
-                                className={clsx({
-                                    hidden: advertiserInfo.isMigrated,
-                                })}
-                                key={localize(route.name)}
-                                title={route.text || ''}
-                            />
-                        ))}
-                    </Tabs>
-                    {isDesktop && !isEndpointRoute && !advertiserInfo.isMigrated && <GuideTooltip />}
-                    <Router />
-                </div>
+                <>
+                    {isAdvertiser && isDesktop && isBuySellPage && <V2Banner />}
+                    <div className='app-content__body'>
+                        <Tabs
+                            activeTab={localize(activeTab)}
+                            className='app-content__tabs'
+                            onChange={index => {
+                                setActiveTab(tabRoutesConfiguration[index].text || '');
+                                history.push(tabRoutesConfiguration[index].path);
+                            }}
+                            variant='secondary'
+                        >
+                            {tabRoutesConfiguration.map(route => (
+                                <Tab key={localize(route.name)} title={route.text || ''} />
+                            ))}
+                        </Tabs>
+                        {isDesktop && !isEndpointRoute && <GuideTooltip />}
+                        <Router />
+                    </div>
+                </>
             );
         } else if (isCallbackPage) {
             return <CallbackPage />;
@@ -247,7 +245,7 @@ const AppContent = () => {
             }}
         >
             <div className='app-content'>
-                {!isCallbackPage && !advertiserInfo.isMigrated && (
+                {!isCallbackPage && (
                     <Text
                         align='center'
                         as='div'

@@ -1,0 +1,45 @@
+.v2-banner {
+    align-items: center;
+    background-color: #181c25;
+    border-radius: 24px;
+    display: flex;
+    gap: 1.6rem;
+    justify-content: space-between;
+    padding: 1.6rem;
+    margin: 1.6rem;
+    margin-bottom: 0;
+    background-image: url('../../public/v2-mobile-screen.svg');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 1.6rem) 100%;
+    background-size: auto;
+    height: 127px;
+
+    @include desktop {
+        max-width: 952px;
+        min-width: 672px;
+        margin: 2rem auto 0;
+    }
+
+    & > div {
+        width: calc(100% - 155px);
+    }
+
+    &__description {
+        font-size: 1.2rem;
+        opacity: 0.72;
+
+        @include desktop {
+            font-size: 1.6rem;
+        }
+    }
+
+    &__title {
+        font-weight: bold;
+        font-size: 1.4rem;
+        margin: 8px 0;
+
+        @include desktop {
+            font-size: 2.4rem;
+        }
+    }
+}

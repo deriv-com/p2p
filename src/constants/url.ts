@@ -8,10 +8,23 @@ export const ADVERTISER_URL = '/advertiser';
 export const ENDPOINT = '/endpoint';
 export const GUIDE_URL = '/guide';
 
+export const getDomainUrl = () => {
+    const hostname = window.location.hostname;
+
+    if (hostname.includes(URLConstants.derivBe)) {
+        return URLConstants.derivBe;
+    }
+    if (hostname.includes(URLConstants.derivMe)) {
+        return URLConstants.derivMe;
+    }
+    return URLConstants.deriv;
+};
+
 // TODO move these to deriv-utils library
-export const DERIV_COM = URLConstants.derivComProduction;
-export const HELP_CENTRE = `${URLConstants.derivComProduction}/help-centre/`;
-export const RESPONSIBLE = `${URLConstants.derivComProduction}/responsible/`;
+export const DERIV_APP = `https://app.${getDomainUrl()}`;
+export const DERIV_COM = `https://${getDomainUrl()}`;
+export const HELP_CENTRE = `${DERIV_COM}/help-centre/`;
+export const RESPONSIBLE = `${DERIV_COM}/responsible/`;
 
 export const INTRODUCING_DERIV_P2P_URL =
     'https://player.vimeo.com/video/1102080462?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
@@ -19,7 +32,7 @@ export const INTRODUCING_DERIV_P2P_URL =
 export const HOW_TO_USE_DERIV_P2P_URL =
     'https://player.vimeo.com/video/715982928?color&autopause=0&loop=0&muted=0&title=0&portrait=0&autoplay=1&byline=0#t=';
 
-export const HOW_TO_PROTECT_YOURSELF_URL = 'https://blog.deriv.com/posts/how-to-protect-yourself-on-p2p-platforms/';
+export const HOW_TO_PROTECT_YOURSELF_URL = `${DERIV_COM}/blog/posts/how-to-protect-yourself-on-p2p-platforms/`;
 
 export const DEFAULT_OAUTH_LOGOUT_URL = 'https://oauth.deriv.com/oauth2/sessions/logout';
 
@@ -27,6 +40,8 @@ export const DEFAULT_OAUTH_ORIGIN_URL = 'https://oauth.deriv.com';
 
 const SocketURL = {
     [URLConstants.derivP2pProduction]: 'green.derivws.com',
+    'https://p2p.deriv.be': 'green.derivws.com',
+    'https://p2p.deriv.me': 'green.derivws.com',
     [URLConstants.derivP2pStaging]: 'red.derivws.com',
 };
 
@@ -39,7 +54,10 @@ export const getServerInfo = () => {
     // we will use the red server with app_id=62019 for the staging-p2p.deriv.com for now
     // for p2p.deriv.com, we will use the green server with app_id=61859
     if (
-        (origin === URLConstants.derivP2pStaging || origin === URLConstants.derivP2pProduction) &&
+        (origin === URLConstants.derivP2pStaging ||
+            origin === URLConstants.derivP2pProduction ||
+            origin.includes(URLConstants.derivMe) ||
+            origin.includes(URLConstants.derivBe)) &&
         (!existingAppId || !existingServerUrl)
     ) {
         LocalStorageUtils.setValue<string>(
@@ -53,7 +71,7 @@ export const getServerInfo = () => {
     }
 
     const storedServerUrl = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
-    const serverUrl = /qa/.test(String(storedServerUrl)) ? storedServerUrl : 'oauth.deriv.com';
+    const serverUrl = /qa/.test(String(storedServerUrl)) ? storedServerUrl : `oauth.${getDomainUrl()}`;
 
     const appId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
     const lang = LocalStorageUtils.getValue<string>(LocalStorageConstants.i18nLanguage);

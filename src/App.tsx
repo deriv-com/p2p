@@ -75,10 +75,10 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
                         >
                             {!isOAuth2Enabled && <DerivIframe />}
                             {(isEndpointPage || (!isCallbackPage && !isP2PCurrencyBlocked)) && (
-                                <AppHeader isMigrated={isMigrated} isTMBEnabled={isTMBEnabled} />
+                                <AppHeader isTMBEnabled={isTMBEnabled} />
                             )}
                             <AppContent />
-                            {isDesktop && !isCallbackPage && !isP2PCurrencyBlocked && !isMigrated && <AppFooter />}
+                            {isDesktop && !isCallbackPage && !isP2PCurrencyBlocked && <AppFooter />}
                         </Suspense>
                     </TranslationProvider>
                 </QueryParamProvider>
