@@ -43,6 +43,7 @@ describe('useAdvertiserInfo', () => {
                 is_blocked: 0,
                 is_favourite: 0,
                 is_listed: 1,
+                is_migrated: 0,
                 is_online: 1,
                 show_name: 1,
             },
@@ -61,6 +62,7 @@ describe('useAdvertiserInfo', () => {
             isBlockedBoolean: false,
             isFavouriteBoolean: false,
             isListedBoolean: true,
+            isMigrated: false,
             isOnlineBoolean: true,
             shouldShowName: true,
         });
