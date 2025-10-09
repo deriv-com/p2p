@@ -43,6 +43,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const { isP2PCurrencyBlocked } = useIsP2PBlocked();
     const { data } = api.advertiser.useGetInfo() || {};
     const isMigrated = data.isMigrated ?? false;
+    const { data: serviceToken } = api.account.useUserServiceToken();
 
     useGetHubEnabledCountryList();
     initTrackJS();
@@ -50,6 +51,11 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     initDatadog();
 
     useEffect(() => {
+        if (isMigrated) {
+            window.location.href = `https://staging-dp2p.deriv.com?token=${serviceToken?.token}`;
+            return;
+        }
+
         if (isTMBInitialized && isTMBEnabled) return;
 
         onRenderAuthCheck();
