@@ -5,11 +5,13 @@ const useUserServiceToken = () => {
     const { data, ...rest } = useServiceToken({
         enabled: isSuccess,
         payload: {
+            // @ts-expect-error - connect is not defined
             service: 'connect',
         },
     });
 
     return {
+        // @ts-expect-error - connect is not defined
         data: data?.connect,
         ...rest,
     };
