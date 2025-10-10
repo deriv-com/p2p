@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import clsx from 'clsx';
 import { useShallow } from 'zustand/react/shallow';
 import { getOauthUrl } from '@/constants';
 import { api, useGrowthbookGetFeatureValue, useOAuth, useShouldRedirectToLowCodeHub } from '@/hooks';
@@ -20,11 +19,10 @@ import { Notifications } from './Notifications';
 import './AppHeader.scss';
 
 type TAppHeaderProps = {
-    isMigrated: boolean;
     isTMBEnabled: boolean;
 };
 // TODO: handle local storage values not updating after changing local storage values
-const AppHeader = ({ isMigrated, isTMBEnabled }: TAppHeaderProps) => {
+const AppHeader = ({ isTMBEnabled }: TAppHeaderProps) => {
     const { isDesktop } = useDevice();
     const isEndpointPage = getCurrentRoute() === 'endpoint';
     const { activeLoginid } = useAuthData();
@@ -113,12 +111,7 @@ const AppHeader = ({ isMigrated, isTMBEnabled }: TAppHeaderProps) => {
     };
 
     return (
-        <Header
-            className={clsx({
-                'h- [40px]': !isDesktop,
-                hidden: isMigrated,
-            })}
-        >
+        <Header className={!isDesktop ? 'h-[40px]' : ''}>
             <Wrapper variant='left'>
                 <AppLogo />
                 <MobileMenu />
