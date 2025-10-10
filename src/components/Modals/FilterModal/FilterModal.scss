@@ -11,7 +11,7 @@
         width: 100%;
 
         &--has-no-banner {
-            top: -4rem;
+            top: calc(-4rem - 143px);
         }
     }
 
