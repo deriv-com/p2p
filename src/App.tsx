@@ -4,6 +4,7 @@ import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
 import { AppFooter, AppHeader, DerivIframe, ErrorBoundary } from '@/components';
 import {
+    api,
     useDatadog,
     useDerivAnalytics,
     useGetHubEnabledCountryList,
@@ -40,6 +41,9 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
     const { isP2PCurrencyBlocked } = useIsP2PBlocked();
+    const { data } = api.advertiser.useGetInfo() || {};
+    const isMigrated = data.isMigrated ?? false;
+    const { data: serviceToken } = api.account.useUserServiceToken();
 
     useGetHubEnabledCountryList();
     initTrackJS();
@@ -47,6 +51,11 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     initDatadog();
 
     useEffect(() => {
+        if (isMigrated) {
+            window.location.href = `https://staging-dp2p.deriv.com?token=${serviceToken?.token}`;
+            return;
+        }
+
         if (isTMBInitialized && isTMBEnabled) return;
 
         onRenderAuthCheck();
@@ -66,10 +75,10 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
                         >
                             {!isOAuth2Enabled && <DerivIframe />}
                             {(isEndpointPage || (!isCallbackPage && !isP2PCurrencyBlocked)) && (
-                                <AppHeader isTMBEnabled={isTMBEnabled} />
+                                <AppHeader isMigrated={isMigrated} isTMBEnabled={isTMBEnabled} />
                             )}
                             <AppContent />
-                            {isDesktop && !isCallbackPage && !isP2PCurrencyBlocked && <AppFooter />}
+                            {isDesktop && !isCallbackPage && !isP2PCurrencyBlocked && !isMigrated && <AppFooter />}
                         </Suspense>
                     </TranslationProvider>
                 </QueryParamProvider>
