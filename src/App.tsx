@@ -64,7 +64,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
         );
     }
 
-    if (isSuccess) {
+    if (isMigrated && isSuccess) {
         window.location.href = isProduction
             ? `https://dp2p.deriv.com?token=${serviceToken?.token}`
             : `https://staging-dp2p.deriv.com?token=${serviceToken?.token}`;
@@ -83,10 +83,10 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
                             }
                         >
                             {!isOAuth2Enabled && <DerivIframe />}
-                            {(isEndpointPage || (!isCallbackPage && !isP2PCurrencyBlocked)) && (
+                            {(isEndpointPage || (!isCallbackPage && !isP2PCurrencyBlocked && !isMigrated)) && (
                                 <AppHeader isMigrated={isMigrated} isTMBEnabled={isTMBEnabled} />
                             )}
-                            <AppContent />
+                            {!isMigrated && <AppContent />}
                             {isDesktop && !isCallbackPage && !isP2PCurrencyBlocked && !isMigrated && <AppFooter />}
                         </Suspense>
                     </TranslationProvider>
