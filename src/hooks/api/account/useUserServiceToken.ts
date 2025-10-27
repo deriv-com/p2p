@@ -1,9 +1,13 @@
 import { useGetSettings, useServiceToken } from '@deriv-com/api-hooks';
 
-const useUserServiceToken = () => {
+type TUseUserServiceToken = {
+    isMigrated: boolean;
+};
+
+const useUserServiceToken = ({ isMigrated }: TUseUserServiceToken) => {
     const { isSuccess } = useGetSettings();
     const { data, ...rest } = useServiceToken({
-        enabled: isSuccess,
+        enabled: isSuccess && isMigrated,
         payload: {
             // @ts-expect-error - connect is not defined
             service: 'connect',
