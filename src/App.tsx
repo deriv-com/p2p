@@ -30,7 +30,7 @@ type TAppProps = {
 
 const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const params = new URLSearchParams(location.search);
-    const from = params.get('from');
+    const from = params.get('from') ?? '';
     const { onRenderAuthCheck } = useOAuth();
     const { init: initTrackJS } = useTrackjs();
     const { initialise: initDatadog } = useDatadog();
@@ -45,11 +45,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const { isP2PCurrencyBlocked } = useIsP2PBlocked();
     const { data } = api.advertiser.useGetInfo() || {};
     const isMigrated = data.isMigrated ?? false;
-    const {
-        data: serviceToken,
-        isLoading,
-        isSuccess,
-    } = isMigrated ? api.account.useUserServiceToken() : { data: {}, isLoading: false, isSuccess: true };
+    const { data: serviceToken, isLoading, isSuccess } = api.account.useUserServiceToken({ from, isMigrated });
 
     useGetHubEnabledCountryList();
     initTrackJS();
@@ -92,7 +88,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
                             {(isEndpointPage || (!isCallbackPage && !isP2PCurrencyBlocked && !isMigrated)) && (
                                 <AppHeader isMigrated={isMigrated} isTMBEnabled={isTMBEnabled} />
                             )}
-                            {!isMigrated && <AppContent />}
+                            {(!isMigrated || from == 'p2p-v2') && <AppContent />}
                             {isDesktop && !isCallbackPage && !isP2PCurrencyBlocked && !isMigrated && <AppFooter />}
                         </Suspense>
                     </TranslationProvider>
