@@ -29,6 +29,8 @@ type TAppProps = {
 };
 
 const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
+    const params = new URLSearchParams(location.search);
+    const from = params.get('from');
     const { onRenderAuthCheck } = useOAuth();
     const { init: initTrackJS } = useTrackjs();
     const { initialise: initDatadog } = useDatadog();
@@ -43,7 +45,11 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const { isP2PCurrencyBlocked } = useIsP2PBlocked();
     const { data } = api.advertiser.useGetInfo() || {};
     const isMigrated = data.isMigrated ?? false;
-    const { data: serviceToken, isLoading, isSuccess } = api.account.useUserServiceToken({ isMigrated });
+    const {
+        data: serviceToken,
+        isLoading,
+        isSuccess,
+    } = isMigrated ? api.account.useUserServiceToken() : { data: {}, isLoading: false, isSuccess: true };
 
     useGetHubEnabledCountryList();
     initTrackJS();
@@ -64,7 +70,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
         );
     }
 
-    if (isMigrated && isSuccess) {
+    if (isMigrated && isSuccess && from != 'p2p-v2') {
         window.location.href = isProduction
             ? `https://dp2p.deriv.com?token=${serviceToken?.token}`
             : `https://staging-dp2p.deriv.com?token=${serviceToken?.token}`;
