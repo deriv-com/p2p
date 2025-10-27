@@ -43,7 +43,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const { isP2PCurrencyBlocked } = useIsP2PBlocked();
     const { data } = api.advertiser.useGetInfo() || {};
     const isMigrated = data.isMigrated ?? false;
-    const { data: serviceToken, isLoading, isSuccess } = api.account.useUserServiceToken();
+    const { data: serviceToken, isLoading, isSuccess } = api.account.useUserServiceToken({ isMigrated });
 
     useGetHubEnabledCountryList();
     initTrackJS();
