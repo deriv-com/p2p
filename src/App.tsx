@@ -38,6 +38,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const { initialise: initDerivAnalytics } = useDerivAnalytics();
     const isCallbackPage = getCurrentRoute() === 'callback';
     const isEndpointPage = getCurrentRoute() === 'endpoint';
+    const isOrdersPage = getCurrentRoute() === 'orders';
     const origin = window.location.origin;
     const isProduction = process.env.VITE_NODE_ENV === 'production' || origin === URLConstants.derivP2pProduction;
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
@@ -66,7 +67,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
         );
     }
 
-    if (isMigrated && isSuccess && from != 'p2p-v2') {
+    if (isMigrated && isSuccess && (from != 'p2p-v2' || !isOrdersPage)) {
         window.location.href = isProduction
             ? `https://dp2p.deriv.com?token=${serviceToken?.token}`
             : `https://staging-dp2p.deriv.com?token=${serviceToken?.token}`;
