@@ -15,6 +15,18 @@ jest.mock('react-router-dom', () => ({
     }),
 }));
 
+jest.mock('@/hooks', () => ({
+    api: {
+        advertiser: {
+            useGetInfo: jest.fn().mockReturnValue({
+                data: {
+                    isMigrated: false,
+                },
+            }),
+        },
+    },
+}));
+
 describe('OrdersEmpty', () => {
     it('should render OrdersEmpty', () => {
         render(<OrdersEmpty />);
