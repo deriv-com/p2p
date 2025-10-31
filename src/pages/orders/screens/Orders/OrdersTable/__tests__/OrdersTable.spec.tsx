@@ -94,6 +94,13 @@ jest.mock('@/hooks', () => ({
                 },
             }),
         },
+        advertiser: {
+            useGetInfo: jest.fn().mockReturnValue({
+                data: {
+                    isMigrated: false,
+                },
+            }),
+        },
     },
 }));
 
