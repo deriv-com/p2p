@@ -1,5 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import { BUY_SELL_URL } from '@/constants';
+import { api } from '@/hooks';
 import { DerivLightOrderIcon } from '@deriv/quill-icons';
 import { Localize } from '@deriv-com/translations';
 import { ActionScreen, Button, Text, useDevice } from '@deriv-com/ui';
@@ -12,11 +13,12 @@ const OrdersEmpty = ({ isPast = false }: TOrdersEmptyProps) => {
     const { isMobile } = useDevice();
     const textSize = isMobile ? 'lg' : 'md';
     const history = useHistory();
+    const { data: advertiserInfo } = api.advertiser.useGetInfo();
     return (
         <div className='lg:p-0 py-16 px-[1.6rem]'>
             <ActionScreen
                 actionButtons={
-                    isPast ? undefined : (
+                    isPast || advertiserInfo.isMigrated ? undefined : (
                         <Button onClick={() => history.push(BUY_SELL_URL)} size='lg' textSize={isMobile ? 'md' : 'sm'}>
                             <Localize i18n_default_text='Buy/Sell' />
                         </Button>
