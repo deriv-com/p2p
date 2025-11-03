@@ -68,6 +68,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     }
 
     if (isMigrated && isSuccess && !isOrdersPage) {
+        localStorage.removeItem('p2p_advertiser_info');
         unsubscribe();
         window.location.href = isProduction
             ? `https://dp2p.deriv.com?token=${serviceToken?.token}`
