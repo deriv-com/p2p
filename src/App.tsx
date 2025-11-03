@@ -44,7 +44,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
     const { isP2PCurrencyBlocked } = useIsP2PBlocked();
-    const { data } = api.advertiser.useGetInfo() || {};
+    const { data, unsubscribe } = api.advertiser.useGetInfo() || {};
     const isMigrated = data.isMigrated ?? false;
     const { data: serviceToken, isLoading, isSuccess } = api.account.useUserServiceToken({ from, isMigrated });
 
@@ -68,6 +68,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     }
 
     if (isMigrated && isSuccess && !isOrdersPage) {
+        unsubscribe();
         window.location.href = isProduction
             ? `https://dp2p.deriv.com?token=${serviceToken?.token}`
             : `https://staging-dp2p.deriv.com?token=${serviceToken?.token}`;
