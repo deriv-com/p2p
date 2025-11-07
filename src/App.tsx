@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
+import { useShallow } from 'zustand/react/shallow';
 import { AppFooter, AppHeader, DerivIframe, ErrorBoundary } from '@/components';
 import {
     api,
@@ -13,6 +14,7 @@ import {
     useTrackjs,
 } from '@/hooks';
 import AppContent from '@/routes/AppContent';
+import { useHubEnabledCountryListStore } from '@/stores';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import { Loader, useDevice } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
@@ -44,6 +46,14 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     const isStaging = process.env.VITE_NODE_ENV === 'staging' || origin === URLConstants.derivP2pStaging;
     const isOAuth2Enabled = isProduction || isStaging;
     const { isP2PCurrencyBlocked } = useIsP2PBlocked();
+    const { data: activeAccount } = api.account.useActiveAccount();
+    const { hubEnabledCountryList } = useHubEnabledCountryListStore(
+        useShallow(state => ({
+            hubEnabledCountryList: state.hubEnabledCountryList,
+        }))
+    );
+    const hasWalletAccount = activeAccount?.isWalletAccount;
+    const isUserCountryInHubEnabledCountryList = hubEnabledCountryList.includes(activeAccount?.country ?? '');
     const { data, unsubscribe } = api.advertiser.useGetInfo() || {};
     const isMigrated = data.isMigrated ?? false;
     const { data: serviceToken, isLoading, isSuccess } = api.account.useUserServiceToken({ from, isMigrated });
@@ -70,9 +80,11 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
     if (isMigrated && isSuccess && !isOrdersPage) {
         localStorage.removeItem('p2p_advertiser_info');
         unsubscribe();
+
+        const isWalletAccount = hasWalletAccount && isUserCountryInHubEnabledCountryList;
         window.location.href = isProduction
-            ? `https://dp2p.deriv.com?token=${serviceToken?.token}`
-            : `https://staging-dp2p.deriv.com?token=${serviceToken?.token}`;
+            ? `https://dp2p.deriv.com?token=${serviceToken?.token}&wallet=${isWalletAccount}`
+            : `https://staging-dp2p.deriv.com?token=${serviceToken?.token}&wallet=${isWalletAccount}`;
     }
 
     return (
