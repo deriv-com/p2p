@@ -12,6 +12,13 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('@/hooks', () => ({
     api: {
+        advertiser: {
+            useGetInfo: jest.fn().mockReturnValue({
+                data: {
+                    isMigrated: false,
+                },
+            }),
+        },
         order: {
             useGetList: () => ({
                 data: [],
