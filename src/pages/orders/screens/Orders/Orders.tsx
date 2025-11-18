@@ -15,6 +15,7 @@ const Orders = () => {
     const { isDesktop } = useDevice();
     const isAdvertiser = useIsAdvertiser();
     const { isGetSettingsLoading, shouldShowVerification } = useGetPhoneNumberVerification();
+    const { data: advertiserInfo } = api.advertiser.useGetInfo();
     const { activeOrdersTab } = useTabsStore(useShallow(state => ({ activeOrdersTab: state.activeOrdersTab })));
     const [fromDate, setFromDate] = useState<string | null>(null);
     const [toDate, setToDate] = useState<string | null>(null);
@@ -44,7 +45,7 @@ const Orders = () => {
 
     return (
         <div className='orders'>
-            {isAdvertiser && shouldShowVerification && <PNVBanner />}
+            {isAdvertiser && shouldShowVerification && !advertiserInfo.isMigrated && <PNVBanner />}
             <OrdersTableHeader fromDate={fromDate} setFromDate={setFromDate} setToDate={setToDate} toDate={toDate} />
             {!isDesktop && <Divider />}
             <OrdersTable
