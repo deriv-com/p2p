@@ -21,8 +21,17 @@ const AdminMessage = () => (
         <ChatMessageText color='general' type='admin'>
             <div className='chat-messages__item__admin--text'>
                 <Localize
-                    components={[<strong key={0} />, <a href={DERIV_COM} key={0} rel='noreferrer' target='_blank' />]}
-                    i18n_default_text='<0>Important:</0>  Deriv will never contact you via WhatsApp or ask for login info or codes. Use only <1>{{url}}</1> links and live chat for support.'
+                    components={[
+                        <strong key={0} />,
+                        <a
+                            href='https://api.whatsapp.com/send/?phone=35699578341&text&type=phone_number&app_absent=0'
+                            key={1}
+                            rel='noreferrer'
+                            target='_blank'
+                        />,
+                        <a href={DERIV_COM} key={2} rel='noreferrer' target='_blank' />,
+                    ]}
+                    i18n_default_text="<0>Important:</0> Deriv will never ask for your login details or codes on WhatsApp. You'll only hear from us if you start the chat. Verify our <1>official WhatsApp number</1> on <2>{{url}}</2> before replying."
                     values={{ url: getDomainUrl() }}
                 />
             </div>

@@ -36,7 +36,7 @@ describe('ChatMessages', () => {
     it('should render the messages as expected', () => {
         render(<ChatMessages {...mockProps} />);
         expect(
-            screen.getByText(/Deriv will never contact you via WhatsApp or ask for login info or codes./)
+            screen.getByText(/Deriv will never ask for your login details or codes on WhatsApp./)
         ).toBeInTheDocument();
     });
     it('should display the message sent by the user', () => {
