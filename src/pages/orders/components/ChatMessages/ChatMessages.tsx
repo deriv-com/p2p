@@ -5,6 +5,7 @@ import { CHAT_FILE_TYPE, CHAT_MESSAGE_TYPE, DERIV_COM, getDomainUrl } from '@/co
 import { convertToMB, formatMilliseconds } from '@/utils';
 import { Localize } from '@deriv-com/translations';
 import { Text, useDevice } from '@deriv-com/ui';
+import { URLConstants } from '@deriv-com/utils';
 import { ReactComponent as PDFIcon } from '../../../../public/ic-pdf.svg';
 import { ChatMessageReceipt } from '../ChatMessageReceipt';
 import { ChatMessageText } from '../ChatMessageText';
@@ -23,12 +24,7 @@ const AdminMessage = () => (
                 <Localize
                     components={[
                         <strong key={0} />,
-                        <a
-                            href='https://api.whatsapp.com/send/?phone=35699578341&text&type=phone_number&app_absent=0'
-                            key={1}
-                            rel='noreferrer'
-                            target='_blank'
-                        />,
+                        <a href={URLConstants.whatsApp} key={1} rel='noreferrer' target='_blank' />,
                         <a href={DERIV_COM} key={2} rel='noreferrer' target='_blank' />,
                     ]}
                     i18n_default_text="<0>Important:</0> Deriv will never ask for your login details or codes on WhatsApp. You'll only hear from us if you start the chat. Verify our <1>official WhatsApp number</1> on <2>{{url}}</2> before replying."
