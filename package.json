@@ -97,7 +97,7 @@
         "jest-environment-jsdom": "^29.7.0",
         "jest-transformer-svg": "^2.0.2",
         "lint-staged": "^10.4.0",
-        "postcss": "^8.4.38",
+        "postcss": "^8.5.6",
         "prettier": "^3.1.0",
         "sass": "^1.86.3",
         "stylelint": "^16.13.2",
