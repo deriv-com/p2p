@@ -84,7 +84,7 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
         const isWalletAccount = hasWalletAccount && isUserCountryInHubEnabledCountryList;
         window.location.href = isProduction
             ? `https://dp2p.deriv.com?token=${serviceToken?.token}&wallet=${isWalletAccount}`
-            : `https://p2p-dev1.deriv.com?token=${serviceToken?.token}&wallet=${isWalletAccount}`;
+            : `https://staging-dp2p.deriv.com?token=${serviceToken?.token}&wallet=${isWalletAccount}`;
     }
 
     return (
