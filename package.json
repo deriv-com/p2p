@@ -16,7 +16,7 @@
     },
     "dependencies": {
         "@babel/preset-env": "^7.24.5",
-        "@chakra-ui/react": "^2.8.2",
+        "@chakra-ui/react": "^3.30.0",
         "@datadog/browser-rum": "^5.11.0",
         "@deriv-com/analytics": "^1.27.0",
         "@deriv-com/api-hooks": "^1.7.2",
