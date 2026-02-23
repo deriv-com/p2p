@@ -82,9 +82,21 @@ const App = ({ isTMBEnabled, isTMBInitialized }: TAppProps) => {
         unsubscribe();
 
         const isWalletAccount = hasWalletAccount && isUserCountryInHubEnabledCountryList;
-        window.location.href = isProduction
-            ? `https://dp2p.deriv.com?token=${serviceToken?.token}&wallet=${isWalletAccount}`
-            : `https://staging-dp2p.deriv.com?token=${serviceToken?.token}&wallet=${isWalletAccount}`;
+        if (isProduction) {
+            if (origin.includes(URLConstants.derivMe)) {
+                window.location.href = `https://dp2p.deriv.me?token=${serviceToken?.token}&wallet=${isWalletAccount}`;
+            } else if (origin.includes(URLConstants.derivBe)) {
+                window.location.href = `https://dp2p.deriv.be?token=${serviceToken?.token}&wallet=${isWalletAccount}`;
+            } else {
+                window.location.href = `https://dp2p.deriv.com?token=${serviceToken?.token}&wallet=${isWalletAccount}`;
+            }
+        } else if (origin.includes(URLConstants.derivMe)) {
+            window.location.href = `https://staging-dp2p.deriv.me?token=${serviceToken?.token}&wallet=${isWalletAccount}`;
+        } else if (origin.includes(URLConstants.derivBe)) {
+            window.location.href = `https://staging-dp2p.deriv.be?token=${serviceToken?.token}&wallet=${isWalletAccount}`;
+        } else {
+            window.location.href = `https://staging-dp2p.deriv.com?token=${serviceToken?.token}&wallet=${isWalletAccount}`;
+        }
     }
 
     return (
