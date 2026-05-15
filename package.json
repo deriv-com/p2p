@@ -53,7 +53,7 @@
         "react-transition-group": "^4.4.5",
         "trackjs": "^3.10.4",
         "use-query-params": "^2.2.1",
-        "usehooks-ts": "^2.16.0",
+        "usehooks-ts": "^3.1.1",
         "vite": "^6.4.2",
         "zustand": "^4.5.2"
     },
