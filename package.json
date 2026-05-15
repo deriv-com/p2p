@@ -47,7 +47,7 @@
         "react-dom": "^18.2.0",
         "react-dropzone": "^14.3.8",
         "react-hook-form": "^7.51.1",
-        "react-router-dom": "^5.2.0",
+        "react-router-dom": "^7.15.0",
         "react-share": "^5.1.0",
         "react-simple-star-rating": "^5.1.7",
         "react-transition-group": "^4.4.5",
