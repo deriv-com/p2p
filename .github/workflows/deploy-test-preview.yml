@@ -1,0 +1,126 @@
+name: Deploy Preview to Cloudflare Pages
+
+permissions:
+    actions: read   # Required to download artifacts from the triggering workflow
+    checks: write   # Necessary to write reports
+    pull-requests: write # Necessary to comment on PRs
+    contents: read
+
+on:
+    workflow_run:
+        workflows: ['Build and Test PR']
+        types: [completed]
+
+concurrency:
+    group: cloudflare-pages-deploy-${{ github.event.workflow_run.head_branch }}
+    cancel-in-progress: true
+
+jobs:
+    deploy:
+        timeout-minutes: 15
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        steps:
+            - name: Verify user
+              uses: 'deriv-com/shared-actions/.github/actions/verify_user_in_organization@v3'
+              with:
+                  username: ${{ github.event.workflow_run.actor.login }}
+                  token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+            - name: Download PR metadata
+              uses: actions/download-artifact@v4
+              with:
+                  name: pr-metadata
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  run-id: ${{ github.event.workflow_run.id }}
+
+            # Artifacts from the untrusted build workflow must be validated before use.
+            - name: Validate PR metadata
+              id: pr-metadata
+              run: |
+                  pr_number=$(cat pr_number.txt)
+                  head_ref=$(cat pr_head_ref.txt)
+                  if ! [[ "$pr_number" =~ ^[0-9]+$ ]]; then
+                    echo "Invalid PR number in artifact: $pr_number"
+                    exit 1
+                  fi
+                  echo "pr_number=$pr_number" >> $GITHUB_OUTPUT
+                  echo "head_ref=$head_ref" >> $GITHUB_OUTPUT
+
+            - name: Download build artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: build-dist
+                  path: dist/
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  run-id: ${{ github.event.workflow_run.id }}
+
+            - name: Publish to Cloudflare Pages
+              id: publish-to-pages
+              env:
+                  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_TEST_LINK_TOKEN }}
+                  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_TEST_LINK_ACCOUNT_ID }}
+                  HEAD_BRANCH: ${{ steps.pr-metadata.outputs.head_ref }}
+              run: |
+                  echo "Installing Wrangler CLI"
+                  npm i -g wrangler
+                  echo "Deploying build to Cloudflare Pages"
+                  directory='dist'
+                  projectName=${{ secrets.CLOUDFLARE_TEST_LINK_PROJECT_NAME }}
+                  branch=$(echo "$HEAD_BRANCH" | head -c 20 | sed 's/[\/_\.]/-/g; s/[^a-zA-Z0-9]$/1/')
+                  cf_preview_url=$(wrangler pages deploy $directory --project-name=$projectName --branch=$branch > log.txt 2>&1; echo $?)
+                  echo "------"
+                  preview_url=https://$branch.$projectName.pages.dev
+                  cat log.txt
+                  if grep -q "Deployment complete" log.txt; then
+                    echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "Deployment to Cloudflare Pages failed."
+                    exit 1
+                  fi
+
+            - name: 'Generate preview link comment'
+              if: success()
+              id: generate_preview_url
+              uses: actions/github-script@ffc2c79a5b2490bd33e0a41c1de74b877714d736
+              with:
+                  github-token: ${{ github.token }}
+                  script: |
+                      const action_url = "${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}"
+                      const preview_url = "${{steps.publish-to-pages.outputs.preview_url}}"
+                      const comment = [
+                          `**Preview Link**: ${preview_url}`,
+                          '| Name | Result |',
+                          '| :--- | :------ |',
+                          `| **Build status**  | Completed ✅ |`,
+                          `| **Preview URL**  | [Visit Preview](${preview_url}) |`,
+                          `| **Action URL**  | [Visit Action](${action_url}) |`,
+                          ''
+                        ].join('\n')
+                      core.setOutput("comment", comment);
+
+            - name: 'Generate failure comment'
+              if: failure()
+              id: generate_failure_comment
+              uses: actions/github-script@ffc2c79a5b2490bd33e0a41c1de74b877714d736
+              with:
+                  github-token: ${{ github.token }}
+                  script: |
+                      const action_url = "${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}"
+                      const comment = [
+                        '| Name | Result |',
+                        '| :--- | :------ |',
+                        `| **Build status**  | Failed ❌ |`,
+                        `| **Action URL**  | [Visit Action](${action_url}) |`,
+                        ''
+                      ].join('\n')
+                      core.setOutput("comment", comment);
+
+            - name: Post Cloudflare Pages Preview comment
+              if: success() || failure()
+              uses: marocchino/sticky-pull-request-comment@331f8f5b4215f0445d3c07b4967662a32a2d3e31
+              with:
+                  header: Cloudflare Pages Preview Comment
+                  number: ${{ steps.pr-metadata.outputs.pr_number }}
+                  message: ${{ steps.generate_preview_url.outputs.comment || steps.generate_failure_comment.outputs.comment }}
+                  recreate: true
