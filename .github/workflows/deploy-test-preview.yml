@@ -55,9 +55,24 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                   name: build-dist
-                  path: dist/
+                  path: ${{ runner.temp }}/build-dist/
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   run-id: ${{ github.event.workflow_run.id }}
+
+            - name: Validate and stage build artifact
+              run: |
+                  ARTIFACT_DIR="${{ runner.temp }}/build-dist"
+                  if [ ! -d "$ARTIFACT_DIR" ]; then
+                    echo "Artifact directory does not exist: $ARTIFACT_DIR"
+                    exit 1
+                  fi
+                  if [ ! -f "$ARTIFACT_DIR/index.html" ]; then
+                    echo "Expected build output missing: $ARTIFACT_DIR/index.html"
+                    exit 1
+                  fi
+                  rm -rf dist
+                  mkdir -p dist
+                  cp -R "$ARTIFACT_DIR"/. dist/
 
             - name: Publish to Cloudflare Pages
               id: publish-to-pages
