@@ -31,6 +31,7 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                   name: pr-metadata
+                  path: ${{ runner.temp }}/pr-metadata
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   run-id: ${{ github.event.workflow_run.id }}
 
@@ -38,8 +39,11 @@ jobs:
             - name: Validate PR metadata
               id: pr-metadata
               run: |
-                  pr_number=$(cat pr_number.txt)
-                  head_ref=$(cat pr_head_ref.txt)
+                  metadata_dir="${{ runner.temp }}/pr-metadata"
+                  test -f "$metadata_dir/pr_number.txt"
+                  test -f "$metadata_dir/pr_head_ref.txt"
+                  pr_number=$(cat "$metadata_dir/pr_number.txt")
+                  head_ref=$(cat "$metadata_dir/pr_head_ref.txt")
                   if ! [[ "$pr_number" =~ ^[0-9]+$ ]]; then
                     echo "Invalid PR number in artifact: $pr_number"
                     exit 1
