@@ -123,7 +123,7 @@
         "immutable": ">=5.1.5",
         "@tootallnate/once": ">=3.0.1",
         "tmp": ">=0.2.6",
-        "brace-expansion": ">=5.0.6",
+        "brace-expansion": ">=5.0.7",
         "protobufjs": ">=7.6.3",
         "form-data": ">=4.0.6",
         "js-yaml": ">=4.2.0",
